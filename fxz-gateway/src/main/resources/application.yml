@@ -1,0 +1,43 @@
+server:
+  port: 8301
+
+spring:
+  application:
+    name: fxz-gateway
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 20
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    instance-info-replication-interval-seconds: 30
+    registry-fetch-interval-seconds: 3
+    serviceUrl:
+      defaultZone: http://fxz:123456@localhost:8001/register/eureka/
+
+zuul:
+  SendErrorFilter:
+    error:
+      disable: true
+  routes:
+    auth:
+      path: /auth/**
+      serviceId: fxz-auth
+      sensitiveHeaders: "*"
+    system:
+      path: /system/**
+      serviceId: fxz-server-system
+      sensitiveHeaders: "*"
+    test:
+      path: /test/**
+      serviceId: fxz-server-system-test
+      sensitiveHeaders: "*"
+  retryable: true
+  ignored-services: "*"
+  ribbon:
+    eager-load:
+      enabled: true
+
+ribbon:
+  ReadTimeout: 3000
