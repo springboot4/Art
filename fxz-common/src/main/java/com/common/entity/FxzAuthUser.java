@@ -1,8 +1,12 @@
 package com.common.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
-import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  * @author Fxz
@@ -10,17 +14,38 @@ import java.io.Serializable;
  * @date 2021-11-27 16:23
  */
 @Data
-public class FxzAuthUser implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class FxzAuthUser extends User {
 
-    private String username;
+    private Long userId;
 
-    private String password;
+    private String avatar;
 
-    private boolean accountNonExpired = true;
+    private String email;
 
-    private boolean accountNonLocked = true;
+    private String mobile;
 
-    private boolean credentialsNonExpired = true;
+    private String sex;
 
-    private boolean enabled = true;
+    private Long deptId;
+
+    private String deptName;
+
+    private String roleId;
+
+    private String roleName;
+
+    private Date lastLoginTime;
+
+    private String description;
+
+    private String status;
+
+    public FxzAuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, authorities);
+    }
+
+    public FxzAuthUser(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+    }
 }

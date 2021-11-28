@@ -9,13 +9,22 @@
         <relativePath>../fxz-cloud/pom.xml</relativePath>
     </parent>
 
-    <groupId>com.fxz</groupId>
     <artifactId>fxz-auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>fxz-auth</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>2.5.4</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.fxz</groupId>
             <artifactId>fxz-common</artifactId>
