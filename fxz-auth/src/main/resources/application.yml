@@ -21,9 +21,10 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql:///fxz_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
   redis:
+    database: 0
     host: 127.0.0.1
     port: 6379
-    jedis:
+    lettuce:
       pool:
         min-idle: 8
         max-idle: 500
