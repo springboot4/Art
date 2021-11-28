@@ -1,9 +1,9 @@
 server:
-  port: 8201
+  port: 8202
 
 spring:
   application:
-    name: fxz-server-system
+    name: fxz-server-system-test
   datasource:
     dynamic:
       p6spy: true
@@ -38,10 +38,8 @@ security:
       id: ${spring.application.name}
       user-info-uri: http://localhost:8301/auth/user
 
-mybatis-plus:
-  type-aliases-package: com.common.entity.system
-  mapper-locations: classpath:mapper/*/*.xml
-  configuration:
-    jdbc-type-for-null: null
-  global-config:
-    banner: false
+  feign:
+    hystrix:
+      enabled: true
+  hystrix:
+    shareSecurityContext: true

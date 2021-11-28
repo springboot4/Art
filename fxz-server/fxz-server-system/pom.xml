@@ -9,7 +9,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.fxz</groupId>
     <artifactId>fxz-server-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>fxz-server-system</name>

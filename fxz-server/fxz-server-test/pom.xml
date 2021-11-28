@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>fxz-server-system-test</artifactId>
+    <artifactId>fxz-server-test</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>fxz-server-system</name>
 
