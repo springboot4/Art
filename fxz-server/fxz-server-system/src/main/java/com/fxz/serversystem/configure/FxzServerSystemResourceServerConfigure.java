@@ -2,7 +2,9 @@ package com.fxz.serversystem.configure;
 
 import com.common.handler.FxzAccessDeniedHandler;
 import com.common.handler.FxzAuthExceptionEntryPoint;
+import com.fxz.serversystem.properties.FxzServerSystemProperties;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -23,12 +25,16 @@ public class FxzServerSystemResourceServerConfigure extends ResourceServerConfig
 
     private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
 
+    private final FxzServerSystemProperties properties;
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
+
         http.csrf().disable()
                 .requestMatchers().antMatchers("/**")
                 .and()
                 .authorizeRequests()
+                .antMatchers(anonUrls).permitAll()
                 .antMatchers("/**").authenticated();
     }
 

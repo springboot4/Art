@@ -18,6 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * 验证码过滤器
@@ -39,9 +41,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     @SneakyThrows
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) {
+        String header = httpServletRequest.getHeader("Authorization");
+        String clientId = getClientId(header, httpServletRequest);
+
         RequestMatcher matcher = new AntPathRequestMatcher("/oauth/token", HttpMethod.POST.toString());
         if (matcher.matches(httpServletRequest)
-                && StringUtils.equalsIgnoreCase(httpServletRequest.getParameter("grant_type"), "password")) {
+                && StringUtils.equalsIgnoreCase(httpServletRequest.getParameter("grant_type"), "password")
+                && !StringUtils.equalsAnyIgnoreCase(clientId, "swagger")) {
             try {
                 validateCode(httpServletRequest);
                 filterChain.doFilter(httpServletRequest, httpServletResponse);
@@ -60,5 +66,22 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         String code = httpServletRequest.getParameter("code");
         String key = httpServletRequest.getParameter("key");
         validateCodeService.check(key, code);
+    }
+
+    private String getClientId(String header, HttpServletRequest request) {
+        String clientId = "";
+        try {
+            byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
+            byte[] decoded;
+            decoded = Base64.getDecoder().decode(base64Token);
+
+            String token = new String(decoded, StandardCharsets.UTF_8);
+            int delim = token.indexOf(":");
+            if (delim != -1) {
+                clientId = new String[]{token.substring(0, delim), token.substring(delim + 1)}[0];
+            }
+        } catch (Exception ignore) {
+        }
+        return clientId;
     }
 }
