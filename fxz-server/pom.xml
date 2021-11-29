@@ -16,7 +16,7 @@
         <module>fxz-server-system</module>
         <module>fxz-server-test</module>
     </modules>
-
+    
     <dependencies>
         <dependency>
             <groupId>net.logstash.logback</groupId>
