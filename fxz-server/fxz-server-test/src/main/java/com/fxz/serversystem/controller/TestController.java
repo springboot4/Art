@@ -2,6 +2,7 @@ package com.fxz.serversystem.controller;
 
 import com.fxz.serversystem.service.IHelloService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import java.security.Principal;
 /**
  * @author fxz
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class TestController {
@@ -19,6 +21,7 @@ public class TestController {
 
     @GetMapping("/hello")
     public String hello(String name){
+        log.info("Feign调用fxz-server-system的/hello服务");
         return this.helloService.hello(name);
     }
 

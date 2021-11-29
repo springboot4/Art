@@ -10,6 +10,17 @@ spring:
         url: http://localhost:8401
         username: fxz
         password: 123456
+  zipkin:
+    sender:
+      type: rabbit
+  sleuth:
+    sampler:
+      probability: 1
+  rabbitmq:
+    host: 47.94.42.44
+    port: 5672
+    username: fxz
+    password: 123456
 
   datasource:
     dynamic:
