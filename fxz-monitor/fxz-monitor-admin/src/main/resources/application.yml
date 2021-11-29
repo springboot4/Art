@@ -1,0 +1,14 @@
+server:
+  port: 8401
+
+spring:
+  application:
+    name: fxz-monitor-admin
+  boot:
+    admin:
+      ui:
+        title: ${spring.application.name}
+  security:
+    user:
+      name: fxz
+      password: 123456
