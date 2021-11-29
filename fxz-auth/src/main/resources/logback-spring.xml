@@ -9,6 +9,12 @@
     <property name="log.pattern"
               value="%d{yyyy-MM-dd HH:mm:ss} %-5level [${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] %thread %logger %msg%n"/>
 
+    <!--输出到 logstash的 appender-->
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>192.168.33.10:4560</destination>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
     <!--输出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -51,6 +57,7 @@
     </root>
 
     <root level="info">
+        <appender-ref ref="logstash" />
         <appender-ref ref="file_info"/>
         <appender-ref ref="file_error"/>
     </root>
