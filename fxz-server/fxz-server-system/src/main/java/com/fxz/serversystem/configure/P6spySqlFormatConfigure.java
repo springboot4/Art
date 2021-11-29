@@ -1,12 +1,14 @@
 package com.fxz.serversystem.configure;
 
-  import com.common.utils.DateUtil;
-  import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
+import com.common.utils.DateUtil;
+import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 
 /**
+ * 自定义日志打印
+ *
  * @author Fxz
  * @version 1.0
  * @date 2021-11-28 18:17

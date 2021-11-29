@@ -10,6 +10,13 @@ spring:
     user:
       name: fxz
       password: 123456
+  boot:
+    admin:
+      client:
+        url: http://localhost:8401 #SBA服务端地址
+        username: fxz #SBA服务端的用户名
+        password: 123456 #SBA服务端的密码
+
 
 eureka:
   instance:
@@ -22,3 +29,17 @@ eureka:
       defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}${server.servlet.context-path}/eureka/ #指定Eureka服务端的地址
 
 
+info: #配置了SBA客户端的名称，描述和版本信息
+  app:
+    name: ${spring.application.name}
+    description: "@project.description@"
+    version: "@project.version@"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' #将SBA客户端的所有监控端点都暴露给SBA服务端
+  endpoint:
+    health:
+      show-details: ALWAYS #总是展示详细的健康信息

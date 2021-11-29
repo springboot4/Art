@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: fxz-server-system
+  boot:
+    admin:
+      client:
+        url: http://localhost:8401
+        username: fxz
+        password: 123456
   datasource:
     dynamic:
       p6spy: true
@@ -45,3 +51,18 @@ mybatis-plus:
     jdbc-type-for-null: null
   global-config:
     banner: false
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: "@project.description@"
+    version: "@project.version@"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS

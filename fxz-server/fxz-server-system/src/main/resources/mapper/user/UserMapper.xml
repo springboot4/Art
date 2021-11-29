@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fxz.serversystem.mapper.UserMapper">
 
+    
     <!--分页查找用户详细信息-->
     <select id="findUserDetailPage" parameterType="systemUser" resultType="systemUser">
         SELECT

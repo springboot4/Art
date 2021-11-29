@@ -13,6 +13,7 @@
         <module>../fxz-auth</module>
         <module>../fxz-gateway</module>
         <module>../fxz-server</module>
+        <module>../fxz-monitor</module>
     </modules>
     <packaging>pom</packaging>
 

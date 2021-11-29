@@ -4,6 +4,13 @@ server:
 spring:
   application:
     name: fxz-server-system-test
+  boot:
+    admin:
+      client:
+        url: http://localhost:8401
+        username: fxz
+        password: 123456
+
   datasource:
     dynamic:
       p6spy: true
@@ -43,3 +50,18 @@ security:
       enabled: true
   hystrix:
     shareSecurityContext: true
+
+  info:
+    app:
+      name: ${spring.application.name}
+      description: "@project.description@"
+      version: "@project.version@"
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: '*'
+    endpoint:
+      health:
+        show-details: ALWAYS

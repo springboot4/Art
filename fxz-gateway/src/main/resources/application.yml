@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: fxz-gateway
+  boot:
+    admin:
+      client:
+        url: http://localhost:8401
+        username: fxz
+        password: 123456
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration #排除自动装配的数据源配置
 eureka:
@@ -42,3 +48,18 @@ zuul:
 
 ribbon:
   ReadTimeout: 3000
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: "@project.description@"
+    version: "@project.version@"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS

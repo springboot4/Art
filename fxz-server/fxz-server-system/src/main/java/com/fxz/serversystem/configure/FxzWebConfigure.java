@@ -78,6 +78,9 @@ public class FxzWebConfigure {
         };
     }
 
+    /**
+     * mybatis-plus分页插件
+     */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
