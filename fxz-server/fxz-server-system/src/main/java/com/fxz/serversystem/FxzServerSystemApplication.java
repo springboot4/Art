@@ -17,8 +17,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @SpringBootApplication
 public class FxzServerSystemApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(FxzServerSystemApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(FxzServerSystemApplication.class, args);
+	}
 
 }

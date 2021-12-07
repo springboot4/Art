@@ -5,12 +5,12 @@ package com.common.exception;
  * @version 1.0
  * @date 2021-11-28 19:27
  */
-public class FxzException extends Exception{
+public class FxzException extends Exception {
 
-    private static final long serialVersionUID = -6916154462432027437L;
+	private static final long serialVersionUID = -6916154462432027437L;
 
-    public FxzException(String message){
-        super(message);
-    }
+	public FxzException(String message) {
+		super(message);
+	}
 
 }

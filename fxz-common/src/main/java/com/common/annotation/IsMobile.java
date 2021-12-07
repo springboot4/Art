@@ -12,14 +12,15 @@ import java.lang.annotation.Target;
 /**
  * @author fxz
  */
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = MobileValidator.class)
 public @interface IsMobile {
 
-    String message();
+	String message();
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
+
 }

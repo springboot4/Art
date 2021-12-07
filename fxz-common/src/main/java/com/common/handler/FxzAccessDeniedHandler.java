@@ -19,12 +19,12 @@ import java.io.IOException;
  */
 public class FxzAccessDeniedHandler implements AccessDeniedHandler {
 
-    @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
-        FxzResponse fxzResponse = new FxzResponse();
-        FxzUtil.makeResponse(
-                response, MediaType.APPLICATION_JSON_UTF8_VALUE,
-                HttpServletResponse.SC_FORBIDDEN, fxzResponse.message("没有权限访问该资源"));
-    }
+	@Override
+	public void handle(HttpServletRequest request, HttpServletResponse response,
+			AccessDeniedException accessDeniedException) throws IOException {
+		FxzResponse fxzResponse = new FxzResponse();
+		FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_UTF8_VALUE, HttpServletResponse.SC_FORBIDDEN,
+				fxzResponse.message("没有权限访问该资源"));
+	}
 
 }

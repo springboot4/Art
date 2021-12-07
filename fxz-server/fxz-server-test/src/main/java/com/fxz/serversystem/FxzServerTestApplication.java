@@ -17,11 +17,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableFeignClients
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableDiscoveryClient
-@SpringBootApplication(exclude ={DataSourceAutoConfiguration.class} )
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class FxzServerTestApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(FxzServerTestApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(FxzServerTestApplication.class, args);
+	}
 
 }

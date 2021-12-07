@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @version 1.0
  * @date 2021-11-28 12:23
  */
-@FeignClient(value = FxzServerConstant.FXZ_SERVER_SYSTEM, contextId = "helloServiceClient", fallbackFactory = HelloServiceFallback.class)
+@FeignClient(value = FxzServerConstant.FXZ_SERVER_SYSTEM, contextId = "helloServiceClient",
+		fallbackFactory = HelloServiceFallback.class)
 public interface IHelloService {
 
-    @GetMapping("/hello")
-    String hello(@RequestParam("name") String name);
+	@GetMapping("/hello")
+	String hello(@RequestParam("name") String name);
 
 }

@@ -27,49 +27,53 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
 
-     private final IUserService userService;
+	private final IUserService userService;
 
-    @GetMapping
-    @PreAuthorize("hasAnyAuthority('user:view')")
-    public FxzResponse userList(QueryRequest queryRequest, SystemUser user) {
-        Map<String, Object> dataTable = FxzUtil.getDataTable(userService.findUserDetail(user, queryRequest));
-        return new FxzResponse().data(dataTable);
-    }
+	@GetMapping
+	@PreAuthorize("hasAnyAuthority('user:view')")
+	public FxzResponse userList(QueryRequest queryRequest, SystemUser user) {
+		Map<String, Object> dataTable = FxzUtil.getDataTable(userService.findUserDetail(user, queryRequest));
+		return new FxzResponse().data(dataTable);
+	}
 
-    @PostMapping
-    @PreAuthorize("hasAnyAuthority('user:add')")
-    public void addUser(@Valid SystemUser user) throws FxzException {
-        try {
-            this.userService.createUser(user);
-        } catch (Exception e) {
-            String message = "新增用户失败";
-            log.error(message, e);
-            throw new FxzException(message);
-        }
-    }
+	@PostMapping
+	@PreAuthorize("hasAnyAuthority('user:add')")
+	public void addUser(@Valid SystemUser user) throws FxzException {
+		try {
+			this.userService.createUser(user);
+		}
+		catch (Exception e) {
+			String message = "新增用户失败";
+			log.error(message, e);
+			throw new FxzException(message);
+		}
+	}
 
-    @PutMapping
-    @PreAuthorize("hasAnyAuthority('user:update')")
-    public void updateUser(@Valid SystemUser user) throws FxzException {
-        try {
-            this.userService.updateUser(user);
-        } catch (Exception e) {
-            String message = "修改用户失败";
-            log.error(message, e);
-            throw new FxzException(message);
-        }
-    }
+	@PutMapping
+	@PreAuthorize("hasAnyAuthority('user:update')")
+	public void updateUser(@Valid SystemUser user) throws FxzException {
+		try {
+			this.userService.updateUser(user);
+		}
+		catch (Exception e) {
+			String message = "修改用户失败";
+			log.error(message, e);
+			throw new FxzException(message);
+		}
+	}
 
-    @DeleteMapping("/{userIds}")
-    @PreAuthorize("hasAnyAuthority('user:delete')")
-    public void deleteUsers(@NotBlank(message = "{required}") @PathVariable String userIds) throws FxzException {
-        try {
-            String[] ids = userIds.split(StringPool.COMMA);
-            this.userService.deleteUsers(ids);
-        } catch (Exception e) {
-            String message = "删除用户失败";
-            log.error(message, e);
-            throw new FxzException(message);
-        }
-    }
+	@DeleteMapping("/{userIds}")
+	@PreAuthorize("hasAnyAuthority('user:delete')")
+	public void deleteUsers(@NotBlank(message = "{required}") @PathVariable String userIds) throws FxzException {
+		try {
+			String[] ids = userIds.split(StringPool.COMMA);
+			this.userService.deleteUsers(ids);
+		}
+		catch (Exception e) {
+			String message = "删除用户失败";
+			log.error(message, e);
+			throw new FxzException(message);
+		}
+	}
+
 }

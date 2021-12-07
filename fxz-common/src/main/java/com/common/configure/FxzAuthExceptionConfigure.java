@@ -15,16 +15,16 @@ import org.springframework.context.annotation.Bean;
  */
 public class FxzAuthExceptionConfigure {
 
-    @Bean
-    @ConditionalOnMissingBean(name = "accessDeniedHandler")
-    public FxzAccessDeniedHandler accessDeniedHandler() {
-        return new FxzAccessDeniedHandler();
-    }
+	@Bean
+	@ConditionalOnMissingBean(name = "accessDeniedHandler")
+	public FxzAccessDeniedHandler accessDeniedHandler() {
+		return new FxzAccessDeniedHandler();
+	}
 
-    @Bean
-    @ConditionalOnMissingBean(name = "authenticationEntryPoint")
-    public FxzAuthExceptionEntryPoint authenticationEntryPoint() {
-        return new FxzAuthExceptionEntryPoint();
-    }
+	@Bean
+	@ConditionalOnMissingBean(name = "authenticationEntryPoint")
+	public FxzAuthExceptionEntryPoint authenticationEntryPoint() {
+		return new FxzAuthExceptionEntryPoint();
+	}
 
 }

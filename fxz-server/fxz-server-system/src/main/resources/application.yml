@@ -4,10 +4,12 @@ server:
 spring:
   application:
     name: fxz-server-system
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
   boot:
     admin:
       client:
-        url: http://localhost:8401
+        url: http://${fxz-monitor-admin}:8401
         username: fxz
         password: 123456
   zipkin:
@@ -17,7 +19,7 @@ spring:
     sampler:
       probability: 1
   rabbitmq:
-    host: 47.94.42.44
+    host: ${rabbitmq.url}
     port: 5672
     username: fxz
     password: 123456
@@ -37,7 +39,7 @@ spring:
           username: root
           password: 127255
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql:///fxz_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+          url: jdbc:mysql://${mysql.url}:3306/fxz_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
 
 eureka:
   instance:
@@ -47,13 +49,13 @@ eureka:
     fetch-registry: true
     instance-info-replication-interval-seconds: 30
     serviceUrl:
-      defaultZone: http://fxz:123456@localhost:8001/register/eureka/
+      defaultZone: http://fxz:123456@${fxz-register}:8001/register/eureka/
 
 security:
   oauth2:
     resource:
       id: ${spring.application.name}
-      user-info-uri: http://localhost:8301/auth/user
+      user-info-uri: http://${fxz-gateway}:8301/auth/user
 
 mybatis-plus:
   type-aliases-package: com.common.entity.system

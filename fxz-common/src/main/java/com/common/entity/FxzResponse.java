@@ -9,27 +9,28 @@ import java.util.HashMap;
  */
 public class FxzResponse extends HashMap<String, Object> {
 
-    public FxzResponse message(String message) {
-        this.put("message", message);
-        return this;
-    }
+	public FxzResponse message(String message) {
+		this.put("message", message);
+		return this;
+	}
 
-    public FxzResponse data(Object data) {
-        this.put("data", data);
-        return this;
-    }
+	public FxzResponse data(Object data) {
+		this.put("data", data);
+		return this;
+	}
 
-    @Override
-    public FxzResponse put(String key, Object value) {
-        super.put(key, value);
-        return this;
-    }
+	@Override
+	public FxzResponse put(String key, Object value) {
+		super.put(key, value);
+		return this;
+	}
 
-    public String getMessage() {
-        return String.valueOf(get("message"));
-    }
+	public String getMessage() {
+		return String.valueOf(get("message"));
+	}
 
-    public Object getData() {
-        return get("data");
-    }
+	public Object getData() {
+		return get("data");
+	}
+
 }

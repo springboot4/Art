@@ -1,17 +1,55 @@
 server:
   port: 8301
-
 spring:
   application:
     name: fxz-gateway
   boot:
     admin:
       client:
-        url: http://localhost:8401
+        url: http://${fxz-monitor-admin}:8401
         username: fxz
         password: 123456
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration #排除自动装配的数据源配置
+  cloud:
+    gateway:
+      routes:
+        - id: fxz-auth
+          uri: lb://fxz-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: Hystrix
+              args:
+                name: authfallback
+                fallbackUri: forward:/fallback/fxz-auth
+        - id: fxz-server-system
+          uri: lb://fxz-server-system
+          predicates:
+            - Path=/system/**
+          filters:
+            - name: Hystrix
+              args:
+                name: systemfallback
+                fallbackUri: forward:/fallback/fxz-server-system
+        - id: fxz-server-test
+          uri: lb://fxz-server-test
+          predicates:
+            - Path=/test/**
+          filters:
+            - name: Hystrix
+              args:
+                name: testfallback
+                fallbackUri: forward:/fallback/fxz-server-test
+      default-filters:
+        - StripPrefix=1
+
+  hystrix:
+    command:
+      default:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 3000
+
 eureka:
   instance:
     lease-renewal-interval-in-seconds: 20
@@ -21,45 +59,13 @@ eureka:
     instance-info-replication-interval-seconds: 30
     registry-fetch-interval-seconds: 3
     serviceUrl:
-      defaultZone: http://fxz:123456@localhost:8001/register/eureka/
-
-zuul:
-  SendErrorFilter:
-    error:
-      disable: true
-  routes:
-    auth:
-      path: /auth/**
-      serviceId: fxz-auth
-      sensitiveHeaders: "*"
-    system:
-      path: /system/**
-      serviceId: fxz-server-system
-      sensitiveHeaders: "*"
-    test:
-      path: /test/**
-      serviceId: fxz-server-system-test
-      sensitiveHeaders: "*"
-  retryable: true
-  ignored-services: "*"
-  ribbon:
-    eager-load:
-      enabled: true
-
-ribbon:
-  ReadTimeout: 3000
-
-info:
-  app:
-    name: ${spring.application.name}
-    description: "@project.description@"
-    version: "@project.version@"
+      defaultZone: http://FXZ:123456@${fxz-register}:8001/register/eureka/
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
   endpoint:
     health:
       show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway

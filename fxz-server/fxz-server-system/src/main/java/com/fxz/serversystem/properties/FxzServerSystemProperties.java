@@ -12,15 +12,15 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Data
 @SpringBootConfiguration
-@PropertySource(value = {"classpath:fxz-server-system.properties"})
+@PropertySource(value = { "classpath:fxz-server-system.properties" })
 @ConfigurationProperties(prefix = "fxz.server.system")
 public class FxzServerSystemProperties {
 
-    /**
-     * 免认证 URI，多个值的话以逗号分隔
-     */
-    private String anonUrl;
+	/**
+	 * 免认证 URI，多个值的话以逗号分隔
+	 */
+	private String anonUrl;
 
-    private FxzSwaggerProperties swagger = new FxzSwaggerProperties();
+	private FxzSwaggerProperties swagger = new FxzSwaggerProperties();
 
 }

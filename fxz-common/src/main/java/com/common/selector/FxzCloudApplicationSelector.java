@@ -13,14 +13,11 @@ import org.springframework.core.type.AnnotationMetadata;
  */
 public class FxzCloudApplicationSelector implements ImportSelector {
 
-    @SuppressWarnings("all")
-    @Override
-    public String[] selectImports(AnnotationMetadata annotationMetadata) {
-        return new String[]{
-                FxzAuthExceptionConfigure.class.getName(),
-                FxzOAuth2FeignConfigure.class.getName(),
-                FxzServerProtectConfigure.class.getName()
-        };
-    }
+	@SuppressWarnings("all")
+	@Override
+	public String[] selectImports(AnnotationMetadata annotationMetadata) {
+		return new String[] { FxzAuthExceptionConfigure.class.getName(), FxzOAuth2FeignConfigure.class.getName(),
+				FxzServerProtectConfigure.class.getName() };
+	}
 
 }

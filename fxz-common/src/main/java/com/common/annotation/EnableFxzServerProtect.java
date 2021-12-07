@@ -12,9 +12,10 @@ import java.lang.annotation.*;
  * @version 1.0
  * @date 2021-11-28 13:26
  */
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(FxzServerProtectConfigure.class)
 public @interface EnableFxzServerProtect {
+
 }

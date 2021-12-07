@@ -6,14 +6,15 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 /**
  * 开启Eureka服务
+ *
  * @author fxz
  */
 @EnableEurekaServer
 @SpringBootApplication
 public class FxzRegisterApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(FxzRegisterApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(FxzRegisterApplication.class, args);
+	}
 
 }

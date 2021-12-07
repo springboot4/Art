@@ -19,8 +19,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 public class FxzAuthApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(FxzAuthApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(FxzAuthApplication.class, args);
+	}
 
 }

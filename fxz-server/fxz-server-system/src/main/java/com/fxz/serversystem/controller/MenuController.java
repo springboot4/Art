@@ -30,19 +30,19 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class MenuController {
 
-    private final IMenuService menuService;
+	private final IMenuService menuService;
 
-    @GetMapping("/{username}")
-    public FxzResponse getUserRouters(@NotBlank(message = "{required}") @PathVariable String username) {
-        Map<String, Object> result = new HashMap<>();
-        // 构建用户路由对象
-        List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(username);
-        // 获取用户权限信息
-        Set<String> userPermissions = this.menuService.findUserPermissions(username);
-        // 组装数据
-        result.put("routes", userRouters);
-        result.put("permissions", userPermissions);
-        return new FxzResponse().data(result);
-    }
+	@GetMapping("/{username}")
+	public FxzResponse getUserRouters(@NotBlank(message = "{required}") @PathVariable String username) {
+		Map<String, Object> result = new HashMap<>();
+		// 构建用户路由对象
+		List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(username);
+		// 获取用户权限信息
+		Set<String> userPermissions = this.menuService.findUserPermissions(username);
+		// 组装数据
+		result.put("routes", userRouters);
+		result.put("permissions", userPermissions);
+		return new FxzResponse().data(result);
+	}
 
 }

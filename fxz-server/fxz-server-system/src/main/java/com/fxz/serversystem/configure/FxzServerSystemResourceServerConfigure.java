@@ -21,27 +21,23 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @RequiredArgsConstructor
 public class FxzServerSystemResourceServerConfigure extends ResourceServerConfigurerAdapter {
 
-    private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
+	private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
 
-    private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
+	private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
 
-    private final FxzServerSystemProperties properties;
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
+	private final FxzServerSystemProperties properties;
 
-        http.csrf().disable()
-                .requestMatchers().antMatchers("/**")
-                .and()
-                .authorizeRequests()
-                .antMatchers(anonUrls).permitAll()
-                .antMatchers("/**").authenticated();
-    }
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) {
-        resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint)
-                .accessDeniedHandler(fxzAccessDeniedHandler);
-    }
+		http.csrf().disable().requestMatchers().antMatchers("/**").and().authorizeRequests().antMatchers(anonUrls)
+				.permitAll().antMatchers("/**").authenticated();
+	}
+
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) {
+		resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint).accessDeniedHandler(fxzAccessDeniedHandler);
+	}
 
 }

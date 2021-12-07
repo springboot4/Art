@@ -7,7 +7,7 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:8401
+        url: ${fxz-monitor-admin}:8401
         username: fxz
         password: 123456
   datasource:
@@ -18,17 +18,17 @@ spring:
         max-pool-size: 15
         min-idle: 5
         connection-test-query: select 1
-        pool-name: FebsHikariCP
+        pool-name: FxzHikariCP
       primary: base
       datasource:
         base:
           username: root
           password: 127255
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql:///fxz_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+          url: jdbc:mysql://${mysql.url}:3306/fxz_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
   redis:
     database: 0
-    host: 127.0.0.1
+    host: ${redis.url}
     port: 6379
     lettuce:
       pool:
@@ -47,7 +47,7 @@ eureka:
     instance-info-replication-interval-seconds: 30
     registry-fetch-interval-seconds: 3
     serviceUrl:
-      defaultZone: http://fxz:123456@localhost:8001/register/eureka/
+      defaultZone: http://fxz:123456@${fxz-register}:8001/register/eureka/
 
 mybatis-plus:
   type-aliases-package: com.common.entity.system

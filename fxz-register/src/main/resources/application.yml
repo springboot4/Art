@@ -13,14 +13,14 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:8401 #SBA服务端地址
+        url: http://${fxz-monitor-admin}:8401 #SBA服务端地址
         username: fxz #SBA服务端的用户名
         password: 123456 #SBA服务端的密码
 
 
 eureka:
   instance:
-    hostname: localhost #Eureka服务端的地址
+    hostname: ${fxz-register} #Eureka服务端的地址
   client:
     register-with-eureka: false #是否将服务注册到Eureka服务端，由于我们这里是单节点的Eureka服务端，所以这里指定false
     fetch-registry: false #是否从Eureka服务端获取服务信息，因为这里是单节点的Eureka服务端，并不需要从别的Eureka服务端同步服务信息，所以这里设置为false

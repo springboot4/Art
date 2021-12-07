@@ -18,18 +18,19 @@ import org.springframework.util.Base64Utils;
 @SuppressWarnings("all")
 public class FxzOAuth2FeignConfigure {
 
-    @Bean
-    public RequestInterceptor oauth2FeignRequestInterceptor() {
-        return requestTemplate -> {
-            // 添加 Zuul Token
-            String zuulToken = new String(Base64Utils.encode(FxzConstant.ZUUL_TOKEN_VALUE.getBytes()));
-            requestTemplate.header(FxzConstant.ZUUL_TOKEN_HEADER, zuulToken);
+	@Bean
+	public RequestInterceptor oauth2FeignRequestInterceptor() {
+		return requestTemplate -> {
+			// 添加 Zuul Token
+			String zuulToken = new String(Base64Utils.encode(FxzConstant.ZUUL_TOKEN_VALUE.getBytes()));
+			requestTemplate.header(FxzConstant.ZUUL_TOKEN_HEADER, zuulToken);
 
-            Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
-            if (details instanceof OAuth2AuthenticationDetails) {
-                String authorizationToken = ((OAuth2AuthenticationDetails) details).getTokenValue();
-                requestTemplate.header(HttpHeaders.AUTHORIZATION, "bearer " + authorizationToken);
-            }
-        };
-    }
+			Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
+			if (details instanceof OAuth2AuthenticationDetails) {
+				String authorizationToken = ((OAuth2AuthenticationDetails) details).getTokenValue();
+				requestTemplate.header(HttpHeaders.AUTHORIZATION, "bearer " + authorizationToken);
+			}
+		};
+	}
+
 }

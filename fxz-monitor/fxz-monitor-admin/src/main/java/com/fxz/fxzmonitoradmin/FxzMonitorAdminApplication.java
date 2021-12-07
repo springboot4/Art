@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FxzMonitorAdminApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(FxzMonitorAdminApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(FxzMonitorAdminApplication.class, args);
+	}
 
 }

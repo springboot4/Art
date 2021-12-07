@@ -19,24 +19,19 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @RequiredArgsConstructor
 public class FebsServerSystemResourceServerConfigure extends ResourceServerConfigurerAdapter {
 
-    private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
+	private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
 
-    private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
+	private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .requestMatchers().antMatchers("/**")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/**").authenticated();
-    }
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable().requestMatchers().antMatchers("/**").and().authorizeRequests().antMatchers("/actuator/**")
+				.permitAll().antMatchers("/**").authenticated();
+	}
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) {
-        resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint)
-                .accessDeniedHandler(fxzAccessDeniedHandler);
-    }
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) {
+		resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint).accessDeniedHandler(fxzAccessDeniedHandler);
+	}
 
 }

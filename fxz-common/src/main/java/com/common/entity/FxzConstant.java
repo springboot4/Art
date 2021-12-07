@@ -7,27 +7,29 @@ package com.common.entity;
  */
 public class FxzConstant {
 
-    /**
-     * Zuul请求头TOKEN名称（不要有空格）
-     */
-    public static final String ZUUL_TOKEN_HEADER = "ZuulToken";
-    /**
-     * Zuul请求头TOKEN值
-     */
-    public static final String ZUUL_TOKEN_VALUE = "fxz:zuul:$**$";
+	/**
+	 * Zuul请求头TOKEN名称（不要有空格）
+	 */
+	public static final String ZUUL_TOKEN_HEADER = "ZuulToken";
 
-    /**
-     * gif类型
-     */
-    public static final String GIF = "gif";
-    /**
-     * png类型
-     */
-    public static final String PNG = "png";
+	/**
+	 * Zuul请求头TOKEN值
+	 */
+	public static final String ZUUL_TOKEN_VALUE = "fxz:zuul:$**$";
 
-    /**
-     * 验证码 key前缀
-     */
-    public static final String CODE_PREFIX = "fxz.captcha.";
+	/**
+	 * gif类型
+	 */
+	public static final String GIF = "gif";
+
+	/**
+	 * png类型
+	 */
+	public static final String PNG = "png";
+
+	/**
+	 * 验证码 key前缀
+	 */
+	public static final String CODE_PREFIX = "fxz.captcha.";
 
 }

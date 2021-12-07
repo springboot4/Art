@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 资源服务器异常主要有两种：令牌不正确返回401和用户无权限返回403。
- * 因为资源服务器有多个，所以相关的异常处理类可以定义在fxz-common通用模块里。
+ * 资源服务器异常主要有两种：令牌不正确返回401和用户无权限返回403。 因为资源服务器有多个，所以相关的异常处理类可以定义在fxz-common通用模块里。
  * <p>
  * 用于处理401类型异常
  *
@@ -22,14 +21,13 @@ import java.io.IOException;
  */
 public class FxzAuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException) throws IOException {
-        FxzResponse fxzResponse = new FxzResponse();
+	@Override
+	public void commence(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException authException) throws IOException {
+		FxzResponse fxzResponse = new FxzResponse();
 
-        FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_UTF8_VALUE,
-                HttpServletResponse.SC_UNAUTHORIZED, fxzResponse.message("token无效")
-        );
-    }
+		FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_UTF8_VALUE, HttpServletResponse.SC_UNAUTHORIZED,
+				fxzResponse.message("token无效"));
+	}
 
 }

@@ -7,13 +7,20 @@ package com.common.entity;
  */
 public class FxzServerConstant {
 
-    public static final String FXZ_AUTH = "fxz-auth";
-    public static final String FXZ_CLOUD = "fxz-cloud";
-    public static final String FXZ_COMMON = "fxz-common";
-    public static final String FXZ_GATEWAY = "fxz-gateway";
-    public static final String FXZ_REGISTER = "fxz-register";
-    public static final String FXZ_SERVER = "fxz-server";
-    public static final String FXZ_SERVER_SYSTEM= "fxz-server-system";
-    public static final String FXZ_SERVER_TEST= "fxz-server-system-test";
-    
+	public static final String FXZ_AUTH = "fxz-auth";
+
+	public static final String FXZ_CLOUD = "fxz-cloud";
+
+	public static final String FXZ_COMMON = "fxz-common";
+
+	public static final String FXZ_GATEWAY = "fxz-gateway";
+
+	public static final String FXZ_REGISTER = "fxz-register";
+
+	public static final String FXZ_SERVER = "fxz-server";
+
+	public static final String FXZ_SERVER_SYSTEM = "fxz-server-system";
+
+	public static final String FXZ_SERVER_TEST = "fxz-server-system-test";
+
 }

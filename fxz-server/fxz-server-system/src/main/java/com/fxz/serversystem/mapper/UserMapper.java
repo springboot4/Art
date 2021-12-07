@@ -15,14 +15,13 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper extends BaseMapper<SystemUser> {
 
-    /**
-     * 分页查找用户详细信息
-     *
-     * @param page 分页对象
-     * @param user 用户对象，用于传递查询条件
-     * @return Ipage
-     */
-    @SuppressWarnings("all")
-    IPage<SystemUser> findUserDetailPage(Page page, @Param("user") SystemUser user);
+	/**
+	 * 分页查找用户详细信息
+	 * @param page 分页对象
+	 * @param user 用户对象，用于传递查询条件
+	 * @return Ipage
+	 */
+	@SuppressWarnings("all")
+	IPage<SystemUser> findUserDetailPage(Page page, @Param("user") SystemUser user);
 
 }
