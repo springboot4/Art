@@ -12,6 +12,10 @@ spring:
         url: http://${fxz-monitor-admin}:8401
         username: fxz
         password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.url}:8001
   zipkin:
     sender:
       type: rabbit
@@ -41,15 +45,6 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://${mysql.url}:3306/fxz_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 20
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    instance-info-replication-interval-seconds: 30
-    serviceUrl:
-      defaultZone: http://fxz:123456@${fxz-register}:8001/register/eureka/
 
 security:
   oauth2:

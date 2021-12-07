@@ -10,6 +10,9 @@ spring:
         username: fxz
         password: 123456
   cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.url}:8001
     gateway:
       routes:
         - id: fxz-auth
@@ -50,16 +53,6 @@ spring:
             thread:
               timeoutInMilliseconds: 3000
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 20
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    instance-info-replication-interval-seconds: 30
-    registry-fetch-interval-seconds: 3
-    serviceUrl:
-      defaultZone: http://FXZ:123456@${fxz-register}:8001/register/eureka/
 
 management:
   endpoint:

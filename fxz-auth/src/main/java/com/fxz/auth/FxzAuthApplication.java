@@ -15,7 +15,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @MapperScan("com.fxz.auth.mapper")
 @EnableFxzServerProtect
 @EnableFxzAuthExceptionHandler
-@EnableDiscoveryClient
 @SpringBootApplication
 public class FxzAuthApplication {
 

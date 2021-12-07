@@ -10,6 +10,10 @@ spring:
         url: ${fxz-monitor-admin}:8401
         username: fxz
         password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.url}:8001
   datasource:
     dynamic:
       hikari:
@@ -38,16 +42,7 @@ spring:
         max-wait: 10000
     timeout: 5000
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 20
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    instance-info-replication-interval-seconds: 30
-    registry-fetch-interval-seconds: 3
-    serviceUrl:
-      defaultZone: http://fxz:123456@${fxz-register}:8001/register/eureka/
+
 
 mybatis-plus:
   type-aliases-package: com.common.entity.system
