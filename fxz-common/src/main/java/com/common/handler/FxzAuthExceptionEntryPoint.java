@@ -26,7 +26,7 @@ public class FxzAuthExceptionEntryPoint implements AuthenticationEntryPoint {
 			AuthenticationException authException) throws IOException {
 		FxzResponse fxzResponse = new FxzResponse();
 
-		FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_UTF8_VALUE, HttpServletResponse.SC_UNAUTHORIZED,
+		FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_UNAUTHORIZED,
 				fxzResponse.message("token无效"));
 	}
 

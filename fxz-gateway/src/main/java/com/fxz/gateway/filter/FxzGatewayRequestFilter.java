@@ -84,7 +84,7 @@ public class FxzGatewayRequestFilter implements GlobalFilter {
 
 	private Mono<Void> makeResponse(ServerHttpResponse response, FxzResponse fxzResponse) {
 		response.setStatusCode(HttpStatus.FORBIDDEN);
-		response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+		response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 		DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(fxzResponse).getBytes());
 		return response.writeWith(Mono.just(dataBuffer));
 	}

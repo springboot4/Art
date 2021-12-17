@@ -55,7 +55,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 			}
 			catch (ValidateCodeException e) {
 				FxzResponse febsResponse = new FxzResponse();
-				FxzUtil.makeResponse(httpServletResponse, MediaType.APPLICATION_JSON_UTF8_VALUE,
+				FxzUtil.makeResponse(httpServletResponse, MediaType.APPLICATION_JSON_VALUE,
 						HttpServletResponse.SC_INTERNAL_SERVER_ERROR, febsResponse.message(e.getMessage()));
 				log.error(e.getMessage(), e);
 			}
