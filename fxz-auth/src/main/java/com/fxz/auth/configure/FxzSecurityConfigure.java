@@ -34,7 +34,7 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class).requestMatchers()
 				// 安全配置类只对/oauth/开头的请求有效。
-				.antMatchers("/oauth/**").and().authorizeRequests().antMatchers("/oauth/**").authenticated().and()
+				.antMatchers("/token/**","/oauth/**").and().authorizeRequests().antMatchers("/token/**","/oauth/**").permitAll().and()
 				.csrf().disable();
 	}
 

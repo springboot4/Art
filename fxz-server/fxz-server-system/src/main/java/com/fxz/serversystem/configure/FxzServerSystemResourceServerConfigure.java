@@ -1,15 +1,25 @@
 package com.fxz.serversystem.configure;
 
+import com.common.component.FxzUserAuthenticationConverter;
 import com.common.handler.FxzAccessDeniedHandler;
 import com.common.handler.FxzAuthExceptionEntryPoint;
+import com.fxz.serversystem.properties.FxzAuthProperties;
+import com.fxz.serversystem.properties.FxzClientsProperties;
 import com.fxz.serversystem.properties.FxzServerSystemProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 
 /**
  * @author Fxz
@@ -21,23 +31,33 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @RequiredArgsConstructor
 public class FxzServerSystemResourceServerConfigure extends ResourceServerConfigurerAdapter {
 
-	private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
+    private final PasswordEncoder passwordEncoder;
 
-	private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
+    private final FxzAuthProperties authProperties;
 
-	private final FxzServerSystemProperties properties;
+    private final RemoteTokenServices remoteTokenServices;
 
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
+    private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
 
-		http.csrf().disable().requestMatchers().antMatchers("/**").and().authorizeRequests().antMatchers(anonUrls)
-				.permitAll().antMatchers("/**").authenticated();
-	}
+    private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
 
-	@Override
-	public void configure(ResourceServerSecurityConfigurer resources) {
-		resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint).accessDeniedHandler(fxzAccessDeniedHandler);
-	}
+    private final FxzServerSystemProperties properties;
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
+
+        http.csrf().disable().requestMatchers().antMatchers("/**").and().authorizeRequests().antMatchers(anonUrls)
+                .permitAll().antMatchers("/**").authenticated();
+    }
+
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) {
+        FxzClientsProperties client = authProperties.getClients()[0];
+        remoteTokenServices.setClientId(client.getClient());
+        remoteTokenServices.setClientSecret(passwordEncoder.encode(client.getSecret()));
+        resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint).accessDeniedHandler(fxzAccessDeniedHandler).tokenServices(remoteTokenServices);
+    }
+
 
 }
