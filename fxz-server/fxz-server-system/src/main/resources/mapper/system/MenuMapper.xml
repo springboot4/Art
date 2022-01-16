@@ -3,24 +3,24 @@
 <mapper namespace="com.fxz.serversystem.mapper.MenuMapper">
 
     <!--通过用户名查询权限信息-->
-    <select id="findUserPermissions" resultType="menu">
+    <select id="findUserPermissions" resultType="com.common.entity.system.Menu">
         select distinct m.perms
         from t_role r
                  left join t_user_role ur on (r.role_id = ur.role_id)
                  left join t_user u on (u.user_id = ur.user_id)
                  left join t_role_menu rm on (rm.role_id = r.role_id)
-                 left join t_menu m on (m.menu_id = rm.menu_id)
+                 left join t_menu m on (m.id = rm.menu_id)
         where u.username = #{userName}
           and m.perms is not null
           and m.perms &lt;&gt; ''
     </select>
 
     <!--通过用户名查询菜单信息-->
-    <select id="findUserMenus" resultType="menu">
+    <select id="findUserMenus" resultType="com.common.entity.system.Menu">
         select m.*
         from t_menu m
         where m.type &lt;&gt; 1
-          and m.MENU_ID in
+          and m.id in
               (select distinct rm.menu_id
                from t_role_menu rm
                         left join t_role r on (rm.role_id = r.role_id)

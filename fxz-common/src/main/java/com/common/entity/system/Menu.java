@@ -1,7 +1,6 @@
 package com.common.entity.system;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -18,80 +17,94 @@ import java.util.Date;
 @TableName("t_menu")
 public class Menu implements Serializable {
 
-	// 菜单
-	public static final String TYPE_MENU = "0";
+    /**
+     * 一级菜单id
+     */
+    public static final long LEVEL_ONE_MENU = 0L;
 
-	// 按钮
-	public static final String TYPE_BUTTON = "1";
+    /**
+     * 菜单
+     */
+    public static final String TYPE_MENU = "0";
 
-	/**
-	 * 菜单/按钮ID
-	 */
-	@TableId(value = "MENU_ID", type = IdType.AUTO)
-	private Long menuId;
+    /**
+     * 按钮
+     */
+    public static final String TYPE_BUTTON = "1";
 
-	/**
-	 * 上级菜单ID
-	 */
-	@TableField("PARENT_ID")
-	private Long parentId;
+    /**
+     * 菜单/按钮ID
+     */
+    @TableId(type = IdType.AUTO)
+    private Long id;
 
-	/**
-	 * 菜单/按钮名称
-	 */
-	@TableField("MENU_NAME")
-	private String menuName;
+    /**
+     * 上级菜单ID
+     */
+    private Long parentId;
 
-	/**
-	 * 菜单URL
-	 */
-	@TableField("PATH")
-	private String path;
+    /**
+     * 菜单/按钮名称
+     */
+    private String menuName;
 
-	/**
-	 * 对应 Vue组件
-	 */
-	@TableField("COMPONENT")
-	private String component;
+    /**
+     * 菜单URL
+     */
+    private String path;
 
-	/**
-	 * 权限标识
-	 */
-	@TableField("PERMS")
-	private String perms;
+    /**
+     * 对应 Vue组件
+     */
+    private String component;
 
-	/**
-	 * 图标
-	 */
-	@TableField("ICON")
-	private String icon;
+    /**
+     * 权限标识
+     */
+    private String perms;
 
-	/**
-	 * 类型 0菜单 1按钮
-	 */
-	@TableField("TYPE")
-	private String type;
+    /**
+     * 图标
+     */
+    private String icon;
 
-	/**
-	 * 排序
-	 */
-	@TableField("ORDER_NUM")
-	private Integer orderNum;
+    /**
+     * 类型 0菜单 1按钮
+     */
+    private String type;
 
-	/**
-	 * 创建时间
-	 */
-	@TableField("CREATE_TIME")
-	private Date createTime;
+    /**
+     * 是否缓存
+     */
+    private Integer keepAlive;
 
-	/**
-	 * 修改时间
-	 */
-	@TableField("MODIFY_TIME")
-	private Date modifyTime;
+    /**
+     * 排序
+     */
+    private Integer orderNum;
 
-	private transient String createTimeFrom;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
-	private transient String createTimeTo;
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
+
+    /**
+     * 创建人
+     */
+    private Long createBy;
+
+    /**
+     * 更新人
+     */
+    private Long updateBy;
+
+    private transient String createTimeFrom;
+
+    private transient String createTimeTo;
 
 }

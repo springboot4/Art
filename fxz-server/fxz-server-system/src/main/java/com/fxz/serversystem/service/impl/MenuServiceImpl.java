@@ -27,27 +27,27 @@ import java.util.stream.Collectors;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
 
-	@Override
-	public Set<String> findUserPermissions(String username) {
-		List<Menu> userPermissions = this.baseMapper.findUserPermissions(username);
-		return userPermissions.stream().map(Menu::getPerms).collect(Collectors.toSet());
-	}
+    @Override
+    public Set<String> findUserPermissions(String username) {
+        List<Menu> userPermissions = this.baseMapper.findUserPermissions(username);
+        return userPermissions.stream().map(Menu::getPerms).collect(Collectors.toSet());
+    }
 
-	@Override
-	public List<VueRouter<Menu>> getUserRouters(String username) {
-		List<VueRouter<Menu>> routes = new ArrayList<>();
-		List<Menu> menus = this.baseMapper.findUserMenus(username);
-		menus.forEach(menu -> {
-			VueRouter<Menu> route = new VueRouter<>();
-			route.setId(menu.getMenuId().toString());
-			route.setParentId(menu.getParentId().toString());
-			route.setPath(menu.getPath());
-			route.setComponent(menu.getComponent());
-			route.setName(menu.getMenuName());
-			route.setMeta(new RouterMeta(menu.getMenuName(), menu.getIcon()));
-			routes.add(route);
-		});
-		return TreeUtil.buildVueRouter(routes);
-	}
+    @Override
+    public List<VueRouter<Menu>> getUserRouters(String username) {
+        List<VueRouter<Menu>> routes = new ArrayList<>();
+        List<Menu> menus = this.baseMapper.findUserMenus(username);
+        menus.forEach(menu -> {
+            VueRouter<Menu> route = new VueRouter<>();
+            route.setId(menu.getId().toString());
+            route.setParentId(menu.getParentId().toString());
+            route.setPath(menu.getPath());
+            route.setComponent(menu.getComponent());
+            route.setName(menu.getMenuName());
+            route.setMeta(new RouterMeta(menu.getMenuName(), menu.getIcon()));
+            routes.add(route);
+        });
+        return TreeUtil.buildVueRouter(routes);
+    }
 
 }
