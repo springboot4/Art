@@ -1,6 +1,6 @@
 package com.fxz.serversystem.service;
 
-import com.common.entity.FxzServerConstant;
+import com.fxz.common.core.entity.FxzServerConstant;
 import com.fxz.serversystem.service.fallback.HelloServiceFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

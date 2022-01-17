@@ -1,6 +1,6 @@
 package com.fxz.auth.handler;
 
-import com.common.handler.BaseExceptionHandler;
+import com.fxz.common.core.handler.BaseExceptionHandler;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

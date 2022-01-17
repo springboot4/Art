@@ -22,20 +22,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
-	private final ValidateCodeFilter validateCodeFilter;
+    private final ValidateCodeFilter validateCodeFilter;
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class).requestMatchers()
-				// 安全配置类只对/oauth/开头的请求有效。
-				.antMatchers("/token/**","/oauth/**").and().authorizeRequests().antMatchers("/token/**","/oauth/**").permitAll().and()
-				.csrf().disable();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class).requestMatchers()
+                // 安全配置类只对/oauth/开头的请求有效。
+                .antMatchers("/token/**", "/oauth/**").and().authorizeRequests().antMatchers("/token/**", "/oauth/**").permitAll().and()
+                .csrf().disable();
+    }
 
 }

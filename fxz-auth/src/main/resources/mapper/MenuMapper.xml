@@ -3,7 +3,7 @@
 <mapper namespace="com.fxz.auth.mapper.MenuMapper">
 
     <!--通过用户名查找用户权限集合-->
-    <select id="findUserPermissions" resultType="com.common.entity.system.Menu">
+    <select id="findUserPermissions" resultType="com.fxz.common.core.entity.system.Menu">
         select distinct m.perms
         from t_role r
                  left join t_user_role ur on (r.role_id = ur.role_id)

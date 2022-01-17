@@ -1,7 +1,7 @@
 package com.fxz.auth.manager;
 
-import com.common.entity.system.Menu;
-import com.common.entity.system.SystemUser;
+import com.fxz.common.core.entity.system.Menu;
+import com.fxz.common.core.entity.system.SystemUser;
 import com.fxz.auth.mapper.MenuMapper;
 import com.fxz.auth.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +19,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserManager {
 
-	private final UserMapper userMapper;
+    private final UserMapper userMapper;
 
-	private final MenuMapper menuMapper;
+    private final MenuMapper menuMapper;
 
-	public SystemUser findByName(String username) {
-		return userMapper.findByName(username);
-	}
+    public SystemUser findByName(String username) {
+        return userMapper.findByName(username);
+    }
 
-	public String findUserPermissions(String username) {
-		List<Menu> userPermissions = menuMapper.findUserPermissions(username);
+    public String findUserPermissions(String username) {
+        List<Menu> userPermissions = menuMapper.findUserPermissions(username);
 
-		return userPermissions.stream().map(Menu::getPerms).collect(Collectors.joining(","));
-	}
+        return userPermissions.stream().map(Menu::getPerms).collect(Collectors.joining(","));
+    }
 
 }

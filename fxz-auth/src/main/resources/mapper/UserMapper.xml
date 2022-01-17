@@ -3,7 +3,7 @@
 <mapper namespace="com.fxz.auth.mapper.UserMapper">
 
     <!--通过用户名查找用户信息-->
-    <select id="findByName" parameterType="string" resultType="com.common.entity.system.SystemUser">
+    <select id="findByName" parameterType="string" resultType="com.fxz.common.core.entity.system.SystemUser">
         SELECT u.user_id                 userId,
                u.username,
                u.email,

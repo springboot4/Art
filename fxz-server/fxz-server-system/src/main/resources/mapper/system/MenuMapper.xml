@@ -3,7 +3,7 @@
 <mapper namespace="com.fxz.serversystem.mapper.MenuMapper">
 
     <!--通过用户名查询权限信息-->
-    <select id="findUserPermissions" resultType="com.common.entity.system.Menu">
+    <select id="findUserPermissions" resultType="com.fxz.common.core.entity.system.Menu">
         select distinct m.perms
         from t_role r
                  left join t_user_role ur on (r.role_id = ur.role_id)
@@ -16,7 +16,7 @@
     </select>
 
     <!--通过用户名查询菜单信息-->
-    <select id="findUserMenus" resultType="com.common.entity.system.Menu">
+    <select id="findUserMenus" resultType="com.fxz.common.core.entity.system.Menu">
         select m.*
         from t_menu m
         where m.type &lt;&gt; 1

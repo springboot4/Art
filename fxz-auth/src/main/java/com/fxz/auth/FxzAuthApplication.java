@@ -1,12 +1,11 @@
 package com.fxz.auth;
 
-import com.common.annotation.EnableFxzAuthExceptionHandler;
-import com.common.annotation.EnableFxzServerProtect;
-import com.common.annotation.EnableLettuceRedis;
+import com.fxz.common.security.annotation.EnableFxzAuthExceptionHandler;
+import com.fxz.common.security.annotation.EnableFxzServerProtect;
+import com.fxz.common.core.annotation.EnableLettuceRedis;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @author fxz
@@ -18,8 +17,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 public class FxzAuthApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FxzAuthApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FxzAuthApplication.class, args);
+    }
 
 }
