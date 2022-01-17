@@ -84,10 +84,11 @@ public class BaseExceptionHandler {
 		return new FxzResponse().message(e.getMessage());
 	}
 
-/*	@ExceptionHandler(value = AccessDeniedException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public FxzResponse handleAccessDeniedException() {
-		return new FxzResponse().message("没有权限访问该资源");
-	}*/
+	/*
+	 * @ExceptionHandler(value = AccessDeniedException.class)
+	 *
+	 * @ResponseStatus(HttpStatus.FORBIDDEN) public FxzResponse
+	 * handleAccessDeniedException() { return new FxzResponse().message("没有权限访问该资源"); }
+	 */
 
 }

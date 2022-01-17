@@ -12,10 +12,10 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Data
 @SpringBootConfiguration
-@PropertySource(value = {"classpath:fxz-auth.properties"})
+@PropertySource(value = { "classpath:fxz-auth.properties" })
 @ConfigurationProperties(prefix = "fxz.auth")
 public class FxzAuthProperties {
 
-    private FxzClientsProperties[] clients = {};
+	private FxzClientsProperties[] clients = {};
 
 }

@@ -8,8 +8,8 @@ import com.fxz.common.core.entity.system.UserRole;
  */
 public interface IUserRoleService extends IService<UserRole> {
 
-    void deleteUserRolesByRoleId(String[] roleIds);
+	void deleteUserRolesByRoleId(String[] roleIds);
 
-    void deleteUserRolesByUserId(String[] userIds);
+	void deleteUserRolesByUserId(String[] userIds);
 
 }
