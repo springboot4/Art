@@ -1,11 +1,11 @@
 package com.fxz.serversystem.controller;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.common.entity.FxzAuthUser;
-import com.common.entity.FxzResponse;
-import com.common.entity.router.VueRouter;
-import com.common.entity.system.Menu;
-import com.common.utils.SecurityUtil;
+import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.entity.router.VueRouter;
+import com.fxz.common.core.entity.system.Menu;
+import com.fxz.common.security.entity.FxzAuthUser;
+import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.serversystem.service.IMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

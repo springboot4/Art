@@ -1,8 +1,8 @@
 package com.fxz.auth.controller;
 
-import com.common.entity.FxzResponse;
-import com.common.exception.FxzAuthException;
-import com.common.exception.ValidateCodeException;
+import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.exception.FxzAuthException;
+import com.fxz.common.core.exception.ValidateCodeException;
 import com.fxz.auth.service.ValidateCodeService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;

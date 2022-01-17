@@ -12,24 +12,24 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Data
 @SpringBootConfiguration
-@PropertySource(value = { "classpath:fxz-auth.properties" })
+@PropertySource(value = {"classpath:fxz-auth.properties"})
 @ConfigurationProperties(prefix = "fxz.auth")
 public class FxzAuthProperties {
 
-	private FxzClientsProperties[] clients = {};
+    private FxzClientsProperties[] clients = {};
 
-	private int accessTokenValiditySeconds = 60 * 60 * 24;
+    private int accessTokenValiditySeconds = 60 * 60 * 24;
 
-	private int refreshTokenValiditySeconds = 60 * 60 * 24 * 7;
+    private int refreshTokenValiditySeconds = 60 * 60 * 24 * 7;
 
-	/**
-	 * 免认证路径
-	 */
-	private String anonUrl;
+    /**
+     * 免认证路径
+     */
+    private String anonUrl;
 
-	/**
-	 * 验证码配置类
-	 */
-	private FxzValidateCodeProperties code = new FxzValidateCodeProperties();
+    /**
+     * 验证码配置类
+     */
+    private FxzValidateCodeProperties code = new FxzValidateCodeProperties();
 
 }

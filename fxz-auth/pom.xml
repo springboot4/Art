@@ -17,8 +17,8 @@
     <dependencies>
         <dependency>
             <groupId>org.fxz</groupId>
-            <artifactId>fxz-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>fxz-common-security</artifactId>
+            <version>0.0.1</version>
         </dependency>
         <!-- 升级 -->
         <dependency>

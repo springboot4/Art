@@ -1,10 +1,10 @@
 package com.fxz.serversystem.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.common.entity.router.RouterMeta;
-import com.common.entity.router.VueRouter;
-import com.common.entity.system.Menu;
-import com.common.utils.TreeUtil;
+import com.fxz.common.core.entity.router.RouterMeta;
+import com.fxz.common.core.entity.router.VueRouter;
+import com.fxz.common.core.entity.system.Menu;
+import com.fxz.common.core.utils.TreeUtil;
 import com.fxz.serversystem.mapper.MenuMapper;
 import com.fxz.serversystem.service.IMenuService;
 import lombok.extern.slf4j.Slf4j;

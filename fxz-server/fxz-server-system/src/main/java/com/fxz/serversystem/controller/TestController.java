@@ -13,20 +13,20 @@ import java.security.Principal;
 @RestController
 public class TestController {
 
-	@GetMapping("/info")
-	public String test() {
-		return "fxz-server-system";
-	}
+    @GetMapping("/info")
+    public String test() {
+        return "fxz-server-system";
+    }
 
-	@GetMapping("/currentUser")
-	public Principal currentUser(Principal principal) {
-		return principal;
-	}
+    @GetMapping("/currentUser")
+    public Principal currentUser(Principal principal) {
+        return principal;
+    }
 
-	@GetMapping("/hello")
-	public String hello(String name) {
-		log.info("/hello服务被调用");
-		return "hello" + name;
-	}
+    @GetMapping("/hello")
+    public String hello(String name) {
+        log.info("/hello服务被调用");
+        return "hello" + name;
+    }
 
 }

@@ -1,6 +1,6 @@
 package com.fxz.auth.translator;
 
-import com.common.entity.FxzResponse;
+import com.fxz.common.core.entity.FxzResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -23,29 +23,29 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("all")
 public class FxzWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
 
-	@Override
-	public ResponseEntity translate(Exception e) {
-		ResponseEntity.BodyBuilder status = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
-		FxzResponse response = new FxzResponse();
-		String message = "认证失败";
-		log.error(message, e);
-		if (e instanceof UnsupportedGrantTypeException) {
-			message = "不支持该认证类型";
-			return status.body(response.message(message));
-		}
-		if (e instanceof InvalidGrantException) {
-			if (StringUtils.containsIgnoreCase(e.getMessage(), "Invalid refresh token")) {
-				message = "refresh token无效";
-				return status.body(response.message(message));
-			}
-			if (StringUtils.containsIgnoreCase(e.getMessage(), "locked")) {
-				message = "用户已被锁定，请联系管理员";
-				return status.body(response.message(message));
-			}
-			message = "用户名或密码错误";
-			return status.body(response.message(message));
-		}
-		return status.body(response.message(message));
-	}
+    @Override
+    public ResponseEntity translate(Exception e) {
+        ResponseEntity.BodyBuilder status = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        FxzResponse response = new FxzResponse();
+        String message = "认证失败";
+        log.error(message, e);
+        if (e instanceof UnsupportedGrantTypeException) {
+            message = "不支持该认证类型";
+            return status.body(response.message(message));
+        }
+        if (e instanceof InvalidGrantException) {
+            if (StringUtils.containsIgnoreCase(e.getMessage(), "Invalid refresh token")) {
+                message = "refresh token无效";
+                return status.body(response.message(message));
+            }
+            if (StringUtils.containsIgnoreCase(e.getMessage(), "locked")) {
+                message = "用户已被锁定，请联系管理员";
+                return status.body(response.message(message));
+            }
+            message = "用户名或密码错误";
+            return status.body(response.message(message));
+        }
+        return status.body(response.message(message));
+    }
 
 }
