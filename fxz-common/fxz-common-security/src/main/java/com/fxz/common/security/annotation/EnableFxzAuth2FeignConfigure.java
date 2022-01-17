@@ -12,7 +12,7 @@ import java.lang.annotation.*;
  * @version 1.0
  * @date 2021-11-28 12:47
  */
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(FxzOAuth2FeignConfigure.class)

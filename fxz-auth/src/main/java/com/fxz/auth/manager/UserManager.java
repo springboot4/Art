@@ -19,18 +19,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserManager {
 
-    private final UserMapper userMapper;
+	private final UserMapper userMapper;
 
-    private final MenuMapper menuMapper;
+	private final MenuMapper menuMapper;
 
-    public SystemUser findByName(String username) {
-        return userMapper.findByName(username);
-    }
+	public SystemUser findByName(String username) {
+		return userMapper.findByName(username);
+	}
 
-    public String findUserPermissions(String username) {
-        List<Menu> userPermissions = menuMapper.findUserPermissions(username);
+	public String findUserPermissions(String username) {
+		List<Menu> userPermissions = menuMapper.findUserPermissions(username);
 
-        return userPermissions.stream().map(Menu::getPerms).collect(Collectors.joining(","));
-    }
+		return userPermissions.stream().map(Menu::getPerms).collect(Collectors.joining(","));
+	}
 
 }

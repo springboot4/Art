@@ -24,33 +24,33 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @RequiredArgsConstructor
 public class FxzResourceServerConfigure extends ResourceServerConfigurerAdapter {
 
-    private final ResourceServerProperties sso;
+	private final ResourceServerProperties sso;
 
-    private final FxzAuthProperties properties;
+	private final FxzAuthProperties properties;
 
-    private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
+	private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
 
-    private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
+	private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
 
-    @Bean
-    public FxzUserInfoTokenServices fxzUserInfoTokenServices() {
-        return new FxzUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
-    }
+	@Bean
+	public FxzUserInfoTokenServices fxzUserInfoTokenServices() {
+		return new FxzUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
+	}
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
 
-        http.csrf().disable()
-                // 该安全配置对所有请求都生效
-                .requestMatchers().antMatchers("/**").and().authorizeRequests().antMatchers(anonUrls).permitAll()
-                .antMatchers("/**").authenticated().and().httpBasic();
-    }
+		http.csrf().disable()
+				// 该安全配置对所有请求都生效
+				.requestMatchers().antMatchers("/**").and().authorizeRequests().antMatchers(anonUrls).permitAll()
+				.antMatchers("/**").authenticated().and().httpBasic();
+	}
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) {
-        //TODO 配置userInfoTokenService鉴权会失败
-        resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint).accessDeniedHandler(fxzAccessDeniedHandler);
-    }
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) {
+		// TODO 配置userInfoTokenService鉴权会失败
+		resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint).accessDeniedHandler(fxzAccessDeniedHandler);
+	}
 
 }

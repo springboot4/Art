@@ -25,40 +25,40 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class SecurityController {
 
-    private final ConsumerTokenServices consumerTokenServices;
+	private final ConsumerTokenServices consumerTokenServices;
 
-    private final ValidateCodeService validateCodeService;
+	private final ValidateCodeService validateCodeService;
 
-    @GetMapping("/captcha")
-    public void captcha(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ValidateCodeException {
-        validateCodeService.create(request, response);
-    }
+	@GetMapping("/captcha")
+	public void captcha(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ValidateCodeException {
+		validateCodeService.create(request, response);
+	}
 
-    @GetMapping("/oauth/test")
-    public String testOauth() {
-        return "oauth";
-    }
+	@GetMapping("/oauth/test")
+	public String testOauth() {
+		return "oauth";
+	}
 
-    @GetMapping("/user/info")
-    public Principal currentUser(Principal principal) {
-        return principal;
-    }
+	@GetMapping("/user/info")
+	public Principal currentUser(Principal principal) {
+		return principal;
+	}
 
-    @GetMapping("/user")
-    public Principal user(Principal principal) {
-        return principal;
-    }
+	@GetMapping("/user")
+	public Principal user(Principal principal) {
+		return principal;
+	}
 
-    @DeleteMapping("/signout")
-    public FxzResponse signout(HttpServletRequest request) throws FxzAuthException {
-        String authorization = request.getHeader("Authorization");
-        String token = StringUtils.replace(authorization, "bearer ", "");
-        FxzResponse fxzResponse = new FxzResponse();
-        if (!consumerTokenServices.revokeToken(token)) {
-            throw new FxzAuthException("退出登录失败");
-        }
-        return fxzResponse.message("退出登录成功");
-    }
+	@DeleteMapping("/signout")
+	public FxzResponse signout(HttpServletRequest request) throws FxzAuthException {
+		String authorization = request.getHeader("Authorization");
+		String token = StringUtils.replace(authorization, "bearer ", "");
+		FxzResponse fxzResponse = new FxzResponse();
+		if (!consumerTokenServices.revokeToken(token)) {
+			throw new FxzAuthException("退出登录失败");
+		}
+		return fxzResponse.message("退出登录成功");
+	}
 
 }

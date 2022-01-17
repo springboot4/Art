@@ -31,28 +31,28 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class MenuController {
 
-    private final IMenuService menuService;
+	private final IMenuService menuService;
 
-    /**
-     * 获取用户路由
-     */
-    @GetMapping("/nav")
-    public FxzResponse getUserRouters() {
-        //获取当前用户
-        FxzAuthUser user = SecurityUtil.getUser();
-        if (ObjectUtil.isEmpty(user)) {
-            return null;
-        }
+	/**
+	 * 获取用户路由
+	 */
+	@GetMapping("/nav")
+	public FxzResponse getUserRouters() {
+		// 获取当前用户
+		FxzAuthUser user = SecurityUtil.getUser();
+		if (ObjectUtil.isEmpty(user)) {
+			return null;
+		}
 
-        Map<String, Object> result = new HashMap<>();
-        // 构建用户路由对象
-        List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(user.getUsername());
-        // 获取用户权限信息
-        Set<String> userPermissions = this.menuService.findUserPermissions(user.getUsername());
-        // 组装数据
-        result.put("routes", userRouters);
-        result.put("permissions", userPermissions);
-        return new FxzResponse().data(result);
-    }
+		Map<String, Object> result = new HashMap<>();
+		// 构建用户路由对象
+		List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(user.getUsername());
+		// 获取用户权限信息
+		Set<String> userPermissions = this.menuService.findUserPermissions(user.getUsername());
+		// 组装数据
+		result.put("routes", userRouters);
+		result.put("permissions", userPermissions);
+		return new FxzResponse().data(result);
+	}
 
 }

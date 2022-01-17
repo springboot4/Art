@@ -35,78 +35,73 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @RequiredArgsConstructor
 public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigurerAdapter {
 
-    private final AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
 
-    private final RedisConnectionFactory redisConnectionFactory;
+	private final RedisConnectionFactory redisConnectionFactory;
 
-    private final FxzUserDetailServiceImpl userDetailService;
+	private final FxzUserDetailServiceImpl userDetailService;
 
-    private final PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
-    private final FxzAuthProperties authProperties;
+	private final FxzAuthProperties authProperties;
 
-    private final FxzWebResponseExceptionTranslator fxzWebResponseExceptionTranslator;
+	private final FxzWebResponseExceptionTranslator fxzWebResponseExceptionTranslator;
 
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        //允许表单认证
-        security
-                .allowFormAuthenticationForClients()
-                .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("permitAll()");
-    }
+	@Override
+	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+		// 允许表单认证
+		security.allowFormAuthenticationForClients().tokenKeyAccess("permitAll()").checkTokenAccess("permitAll()");
+	}
 
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        FxzClientsProperties[] clientsArray = authProperties.getClients();
-        InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
+	@Override
+	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+		FxzClientsProperties[] clientsArray = authProperties.getClients();
+		InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
 
-        if (ArrayUtils.isNotEmpty(clientsArray)) {
-            for (FxzClientsProperties client : clientsArray) {
-                if (StringUtils.isBlank(client.getClient())) {
-                    throw new Exception("client不能为空");
-                }
-                if (StringUtils.isBlank(client.getSecret())) {
-                    throw new Exception("secret不能为空");
-                }
-                String[] grantTypes = StringUtils.splitByWholeSeparatorPreserveAllTokens(client.getGrantType(), ",");
-                builder.withClient(client.getClient()).secret(passwordEncoder.encode(client.getSecret()))
-                        .authorizedGrantTypes(grantTypes).scopes(client.getScope());
-            }
-        }
-    }
+		if (ArrayUtils.isNotEmpty(clientsArray)) {
+			for (FxzClientsProperties client : clientsArray) {
+				if (StringUtils.isBlank(client.getClient())) {
+					throw new Exception("client不能为空");
+				}
+				if (StringUtils.isBlank(client.getSecret())) {
+					throw new Exception("secret不能为空");
+				}
+				String[] grantTypes = StringUtils.splitByWholeSeparatorPreserveAllTokens(client.getGrantType(), ",");
+				builder.withClient(client.getClient()).secret(passwordEncoder.encode(client.getSecret()))
+						.authorizedGrantTypes(grantTypes).scopes(client.getScope());
+			}
+		}
+	}
 
-    @Override
-    @SuppressWarnings("all")
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.tokenStore(tokenStore())
-                .userDetailsService(userDetailService)
-                .authenticationManager(authenticationManager).tokenServices(defaultTokenServices())
-                .exceptionTranslator(fxzWebResponseExceptionTranslator);
-    }
+	@Override
+	@SuppressWarnings("all")
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+		endpoints.tokenStore(tokenStore()).userDetailsService(userDetailService)
+				.authenticationManager(authenticationManager).tokenServices(defaultTokenServices())
+				.exceptionTranslator(fxzWebResponseExceptionTranslator);
+	}
 
+	@Bean
+	public TokenStore tokenStore() {
+		return new RedisTokenStore(redisConnectionFactory);
+	}
 
-    @Bean
-    public TokenStore tokenStore() {
-        return new RedisTokenStore(redisConnectionFactory);
-    }
+	@Bean
+	public UserAuthenticationConverter userAuthenticationConverter() {
+		DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
+		defaultUserAuthenticationConverter.setUserDetailsService(userDetailService);
+		return defaultUserAuthenticationConverter;
+	}
 
-    @Bean
-    public UserAuthenticationConverter userAuthenticationConverter() {
-        DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
-        defaultUserAuthenticationConverter.setUserDetailsService(userDetailService);
-        return defaultUserAuthenticationConverter;
-    }
-
-    @Primary
-    @Bean
-    public DefaultTokenServices defaultTokenServices() {
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(tokenStore());
-        tokenServices.setSupportRefreshToken(true);
-        tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
-        tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds());
-        return tokenServices;
-    }
+	@Primary
+	@Bean
+	public DefaultTokenServices defaultTokenServices() {
+		DefaultTokenServices tokenServices = new DefaultTokenServices();
+		tokenServices.setTokenStore(tokenStore());
+		tokenServices.setSupportRefreshToken(true);
+		tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
+		tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds());
+		return tokenServices;
+	}
 
 }

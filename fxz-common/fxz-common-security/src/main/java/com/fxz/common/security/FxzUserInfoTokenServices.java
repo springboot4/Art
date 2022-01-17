@@ -45,123 +45,117 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@SuppressWarnings({"all"})
+@SuppressWarnings({ "all" })
 public class FxzUserInfoTokenServices implements ResourceServerTokenServices {
-    protected final Log logger = LogFactory.getLog(getClass());
 
-    private String userInfoEndpointUrl;
+	protected final Log logger = LogFactory.getLog(getClass());
 
-    private String clientId;
+	private String userInfoEndpointUrl;
 
-    private OAuth2RestOperations restTemplate;
+	private String clientId;
 
-    private String tokenType = DefaultOAuth2AccessToken.BEARER_TYPE;
+	private OAuth2RestOperations restTemplate;
 
-    private AuthoritiesExtractor authoritiesExtractor = new FixedAuthoritiesExtractor();
+	private String tokenType = DefaultOAuth2AccessToken.BEARER_TYPE;
 
-    private PrincipalExtractor principalExtractor = new FixedPrincipalExtractor();
+	private AuthoritiesExtractor authoritiesExtractor = new FixedAuthoritiesExtractor();
 
-    public FxzUserInfoTokenServices(String userInfoEndpointUrl, String clientId) {
-        this.userInfoEndpointUrl = userInfoEndpointUrl;
-        this.clientId = clientId;
-    }
+	private PrincipalExtractor principalExtractor = new FixedPrincipalExtractor();
 
-    public void setTokenType(String tokenType) {
-        this.tokenType = tokenType;
-    }
+	public FxzUserInfoTokenServices(String userInfoEndpointUrl, String clientId) {
+		this.userInfoEndpointUrl = userInfoEndpointUrl;
+		this.clientId = clientId;
+	}
 
-    public void setRestTemplate(OAuth2RestOperations restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+	public void setTokenType(String tokenType) {
+		this.tokenType = tokenType;
+	}
 
-    public void setAuthoritiesExtractor(AuthoritiesExtractor authoritiesExtractor) {
-        Assert.notNull(authoritiesExtractor, "AuthoritiesExtractor must not be null");
-        this.authoritiesExtractor = authoritiesExtractor;
-    }
+	public void setRestTemplate(OAuth2RestOperations restTemplate) {
+		this.restTemplate = restTemplate;
+	}
 
-    public void setPrincipalExtractor(PrincipalExtractor principalExtractor) {
-        Assert.notNull(principalExtractor, "PrincipalExtractor must not be null");
-        this.principalExtractor = principalExtractor;
-    }
+	public void setAuthoritiesExtractor(AuthoritiesExtractor authoritiesExtractor) {
+		Assert.notNull(authoritiesExtractor, "AuthoritiesExtractor must not be null");
+		this.authoritiesExtractor = authoritiesExtractor;
+	}
 
-    @Override
-    public OAuth2Authentication loadAuthentication(String accessToken)
-            throws AuthenticationException, InvalidTokenException {
-        Map<String, Object> map = getMap(this.userInfoEndpointUrl, accessToken);
-        if (map.containsKey("error")) {
-            if (this.logger.isDebugEnabled()) {
-                this.logger.debug("userinfo returned error: " + map.get("error"));
-            }
-            throw new InvalidTokenException(accessToken);
-        }
-        return extractAuthentication(map);
-    }
+	public void setPrincipalExtractor(PrincipalExtractor principalExtractor) {
+		Assert.notNull(principalExtractor, "PrincipalExtractor must not be null");
+		this.principalExtractor = principalExtractor;
+	}
 
-    private OAuth2Authentication extractAuthentication(Map<String, Object> map) {
-        Object principal = getPrincipal(map);
-        List<GrantedAuthority> authorities = this.authoritiesExtractor
-                .extractAuthorities(map);
-        OAuth2Request request = new OAuth2Request(null, this.clientId, null, true, null,
-                null, null, null, null);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                principal, "N/A", authorities);
-        token.setDetails(map);
-        return new OAuth2Authentication(request, token);
-    }
+	@Override
+	public OAuth2Authentication loadAuthentication(String accessToken)
+			throws AuthenticationException, InvalidTokenException {
+		Map<String, Object> map = getMap(this.userInfoEndpointUrl, accessToken);
+		if (map.containsKey("error")) {
+			if (this.logger.isDebugEnabled()) {
+				this.logger.debug("userinfo returned error: " + map.get("error"));
+			}
+			throw new InvalidTokenException(accessToken);
+		}
+		return extractAuthentication(map);
+	}
 
-    /**
-     * Return the principal that should be used for the token. The default implementation
-     * delegates to the {@link PrincipalExtractor}.
-     *
-     * @param map the source map
-     * @return the principal or {@literal "unknown"}
-     */
-    protected Object getPrincipal(Map<String, Object> map) {
+	private OAuth2Authentication extractAuthentication(Map<String, Object> map) {
+		Object principal = getPrincipal(map);
+		List<GrantedAuthority> authorities = this.authoritiesExtractor.extractAuthorities(map);
+		OAuth2Request request = new OAuth2Request(null, this.clientId, null, true, null, null, null, null, null);
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, "N/A",
+				authorities);
+		token.setDetails(map);
+		return new OAuth2Authentication(request, token);
+	}
 
-        Map str = (Map) map.get("principal");
-        List<String> authorities = JSONUtil.toList(JSONUtil.parseArray(str.get("authorities")), String.class);
-        String collect = authorities.stream().map(s -> s.substring(14, s.length() - 2)).collect(Collectors.joining(","));
-        FxzAuthUser fxzAuthUser = new FxzAuthUser(
-                Convert.toStr(str.get("username")),
-                "",
-                AuthorityUtils.commaSeparatedStringToAuthorityList(collect))
-                .setUserId(Convert.toLong(str.get("userId")))
-                .setAvatar(Convert.toStr(str.get("avatar")))
-                .setDeptId(Convert.toLong(str.get("deptId")));
-        return fxzAuthUser;
-    }
+	/**
+	 * Return the principal that should be used for the token. The default implementation
+	 * delegates to the {@link PrincipalExtractor}.
+	 * @param map the source map
+	 * @return the principal or {@literal "unknown"}
+	 */
+	protected Object getPrincipal(Map<String, Object> map) {
 
-    @Override
-    public OAuth2AccessToken readAccessToken(String accessToken) {
-        throw new UnsupportedOperationException("Not supported: read access token");
-    }
+		Map str = (Map) map.get("principal");
+		List<String> authorities = JSONUtil.toList(JSONUtil.parseArray(str.get("authorities")), String.class);
+		String collect = authorities.stream().map(s -> s.substring(14, s.length() - 2))
+				.collect(Collectors.joining(","));
+		FxzAuthUser fxzAuthUser = new FxzAuthUser(Convert.toStr(str.get("username")), "",
+				AuthorityUtils.commaSeparatedStringToAuthorityList(collect))
+						.setUserId(Convert.toLong(str.get("userId"))).setAvatar(Convert.toStr(str.get("avatar")))
+						.setDeptId(Convert.toLong(str.get("deptId")));
+		return fxzAuthUser;
+	}
 
-    @SuppressWarnings({"unchecked"})
-    private Map<String, Object> getMap(String path, String accessToken) {
-        if (this.logger.isDebugEnabled()) {
-            this.logger.debug("Getting user info from: " + path);
-        }
-        try {
-            OAuth2RestOperations restTemplate = this.restTemplate;
-            if (restTemplate == null) {
-                BaseOAuth2ProtectedResourceDetails resource = new BaseOAuth2ProtectedResourceDetails();
-                resource.setClientId(this.clientId);
-                restTemplate = new OAuth2RestTemplate(resource);
-            }
-            OAuth2AccessToken existingToken = restTemplate.getOAuth2ClientContext()
-                    .getAccessToken();
-            if (existingToken == null || !accessToken.equals(existingToken.getValue())) {
-                DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(
-                        accessToken);
-                token.setTokenType(this.tokenType);
-                restTemplate.getOAuth2ClientContext().setAccessToken(token);
-            }
-            return restTemplate.getForEntity(path, Map.class).getBody();
-        } catch (Exception ex) {
-            this.logger.warn("Could not fetch user details: " + ex.getClass() + ", "
-                    + ex.getMessage());
-            return Collections.<String, Object>singletonMap("error",
-                    "Could not fetch user details");
-        }
-    }
+	@Override
+	public OAuth2AccessToken readAccessToken(String accessToken) {
+		throw new UnsupportedOperationException("Not supported: read access token");
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private Map<String, Object> getMap(String path, String accessToken) {
+		if (this.logger.isDebugEnabled()) {
+			this.logger.debug("Getting user info from: " + path);
+		}
+		try {
+			OAuth2RestOperations restTemplate = this.restTemplate;
+			if (restTemplate == null) {
+				BaseOAuth2ProtectedResourceDetails resource = new BaseOAuth2ProtectedResourceDetails();
+				resource.setClientId(this.clientId);
+				restTemplate = new OAuth2RestTemplate(resource);
+			}
+			OAuth2AccessToken existingToken = restTemplate.getOAuth2ClientContext().getAccessToken();
+			if (existingToken == null || !accessToken.equals(existingToken.getValue())) {
+				DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(accessToken);
+				token.setTokenType(this.tokenType);
+				restTemplate.getOAuth2ClientContext().setAccessToken(token);
+			}
+			return restTemplate.getForEntity(path, Map.class).getBody();
+		}
+		catch (Exception ex) {
+			this.logger.warn("Could not fetch user details: " + ex.getClass() + ", " + ex.getMessage());
+			return Collections.<String, Object>singletonMap("error", "Could not fetch user details");
+		}
+	}
+
 }

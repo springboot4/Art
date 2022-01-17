@@ -17,94 +17,94 @@ import java.util.Date;
 @TableName("t_menu")
 public class Menu implements Serializable {
 
-    /**
-     * 一级菜单id
-     */
-    public static final long LEVEL_ONE_MENU = 0L;
+	/**
+	 * 一级菜单id
+	 */
+	public static final long LEVEL_ONE_MENU = 0L;
 
-    /**
-     * 菜单
-     */
-    public static final String TYPE_MENU = "0";
+	/**
+	 * 菜单
+	 */
+	public static final String TYPE_MENU = "0";
 
-    /**
-     * 按钮
-     */
-    public static final String TYPE_BUTTON = "1";
+	/**
+	 * 按钮
+	 */
+	public static final String TYPE_BUTTON = "1";
 
-    /**
-     * 菜单/按钮ID
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
+	/**
+	 * 菜单/按钮ID
+	 */
+	@TableId(type = IdType.AUTO)
+	private Long id;
 
-    /**
-     * 上级菜单ID
-     */
-    private Long parentId;
+	/**
+	 * 上级菜单ID
+	 */
+	private Long parentId;
 
-    /**
-     * 菜单/按钮名称
-     */
-    private String menuName;
+	/**
+	 * 菜单/按钮名称
+	 */
+	private String menuName;
 
-    /**
-     * 菜单URL
-     */
-    private String path;
+	/**
+	 * 菜单URL
+	 */
+	private String path;
 
-    /**
-     * 对应 Vue组件
-     */
-    private String component;
+	/**
+	 * 对应 Vue组件
+	 */
+	private String component;
 
-    /**
-     * 权限标识
-     */
-    private String perms;
+	/**
+	 * 权限标识
+	 */
+	private String perms;
 
-    /**
-     * 图标
-     */
-    private String icon;
+	/**
+	 * 图标
+	 */
+	private String icon;
 
-    /**
-     * 类型 0菜单 1按钮
-     */
-    private String type;
+	/**
+	 * 类型 0菜单 1按钮
+	 */
+	private String type;
 
-    /**
-     * 是否缓存
-     */
-    private Integer keepAlive;
+	/**
+	 * 是否缓存
+	 */
+	private Integer keepAlive;
 
-    /**
-     * 排序
-     */
-    private Integer orderNum;
+	/**
+	 * 排序
+	 */
+	private Integer orderNum;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
 
-    /**
-     * 修改时间
-     */
-    private Date modifyTime;
+	/**
+	 * 修改时间
+	 */
+	private Date modifyTime;
 
-    /**
-     * 创建人
-     */
-    private Long createBy;
+	/**
+	 * 创建人
+	 */
+	private Long createBy;
 
-    /**
-     * 更新人
-     */
-    private Long updateBy;
+	/**
+	 * 更新人
+	 */
+	private Long updateBy;
 
-    private transient String createTimeFrom;
+	private transient String createTimeFrom;
 
-    private transient String createTimeTo;
+	private transient String createTimeTo;
 
 }

@@ -5,17 +5,18 @@ package com.fxz.common.security;
  */
 public class CustomPrincipal {
 
-    public CustomPrincipal(){};
+	public CustomPrincipal() {
+	};
 
-    private String email;
+	private String email;
 
-    //Getters and Setters
-    public String getEmail() {
-        return email;
-    }
+	// Getters and Setters
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 }

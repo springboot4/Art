@@ -24,31 +24,31 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @RequiredArgsConstructor
 public class FxzServerSystemResourceServerConfigure extends ResourceServerConfigurerAdapter {
 
-    private final ResourceServerProperties sso;
+	private final ResourceServerProperties sso;
 
-    private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
+	private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
 
-    private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
+	private final FxzAuthExceptionEntryPoint fxzAuthExceptionEntryPoint;
 
-    private final FxzServerSystemProperties properties;
+	private final FxzServerSystemProperties properties;
 
-    @Bean
-    public FxzUserInfoTokenServices fxzUserInfoTokenServices() {
-        return new FxzUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
-    }
+	@Bean
+	public FxzUserInfoTokenServices fxzUserInfoTokenServices() {
+		return new FxzUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
+	}
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUrl(), ",");
 
-        http.csrf().disable().requestMatchers().antMatchers("/**").and().authorizeRequests().antMatchers(anonUrls)
-                .permitAll().antMatchers("/**").authenticated();
-    }
+		http.csrf().disable().requestMatchers().antMatchers("/**").and().authorizeRequests().antMatchers(anonUrls)
+				.permitAll().antMatchers("/**").authenticated();
+	}
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) {
-        resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint).accessDeniedHandler(fxzAccessDeniedHandler)
-                .tokenServices(fxzUserInfoTokenServices());
-    }
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) {
+		resources.authenticationEntryPoint(fxzAuthExceptionEntryPoint).accessDeniedHandler(fxzAccessDeniedHandler)
+				.tokenServices(fxzUserInfoTokenServices());
+	}
 
 }
