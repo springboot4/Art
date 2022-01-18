@@ -43,8 +43,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 			route.setParentId(menu.getParentId().toString());
 			route.setPath(menu.getPath());
 			route.setComponent(menu.getComponent());
-			route.setName(menu.getMenuName());
-			route.setMeta(new RouterMeta(menu.getMenuName(), menu.getIcon()));
+			route.setName(menu.getName());
+			route.setTitle(menu.getTitle());
+			// route.setMeta(new RouterMeta(menu.getName(), menu.getIcon()));
 			routes.add(route);
 		});
 		return TreeUtil.buildVueRouter(routes);

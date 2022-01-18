@@ -59,6 +59,11 @@ public class VueRouter<T> implements Serializable {
 	private Boolean alwaysShow = false;
 
 	/**
+	 * title
+	 */
+	private String title;
+
+	/**
 	 * 子路由
 	 */
 	private List<VueRouter<T>> children;

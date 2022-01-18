@@ -46,7 +46,7 @@ public class Menu implements Serializable {
 	/**
 	 * 菜单/按钮名称
 	 */
-	private String menuName;
+	private String name;
 
 	/**
 	 * 菜单URL
@@ -102,6 +102,16 @@ public class Menu implements Serializable {
 	 * 更新人
 	 */
 	private Long updateBy;
+
+	/**
+	 * 是否隐藏(1 隐藏 0 不隐藏)
+	 */
+	private String hidden;
+
+	/**
+	 * title
+	 */
+	private String title;
 
 	private transient String createTimeFrom;
 

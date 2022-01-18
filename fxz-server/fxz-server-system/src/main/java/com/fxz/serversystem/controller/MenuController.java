@@ -48,10 +48,11 @@ public class MenuController {
 		// 构建用户路由对象
 		List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(user.getUsername());
 		// 获取用户权限信息
-		Set<String> userPermissions = this.menuService.findUserPermissions(user.getUsername());
+		// Set<String> userPermissions =
+		// this.menuService.findUserPermissions(user.getUsername());
 		// 组装数据
 		result.put("routes", userRouters);
-		result.put("permissions", userPermissions);
+		result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray());
 		return new FxzResponse().data(result);
 	}
 
