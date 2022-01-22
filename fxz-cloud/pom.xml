@@ -9,7 +9,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>../fxz-common</module>
-        <module>../fxz-register</module>
         <module>../fxz-auth</module>
         <module>../fxz-gateway</module>
         <module>../fxz-server</module>

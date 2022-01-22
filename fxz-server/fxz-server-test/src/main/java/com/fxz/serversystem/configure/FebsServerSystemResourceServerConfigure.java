@@ -1,7 +1,7 @@
 package com.fxz.serversystem.configure;
 
-import com.common.handler.FxzAccessDeniedHandler;
-import com.common.handler.FxzAuthExceptionEntryPoint;
+import com.fxz.common.security.handler.FxzAccessDeniedHandler;
+import com.fxz.common.security.handler.FxzAuthExceptionEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

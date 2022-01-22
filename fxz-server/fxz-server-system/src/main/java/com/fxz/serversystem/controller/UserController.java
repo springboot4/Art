@@ -1,11 +1,11 @@
 package com.fxz.serversystem.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.common.entity.FxzResponse;
-import com.common.entity.QueryRequest;
-import com.common.entity.system.SystemUser;
-import com.common.exception.FxzException;
-import com.common.utils.FxzUtil;
+import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.entity.QueryRequest;
+import com.fxz.common.core.entity.system.SystemUser;
+import com.fxz.common.core.exception.FxzException;
+import com.fxz.common.core.utils.FxzUtil;
 import com.fxz.serversystem.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

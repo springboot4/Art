@@ -1,7 +1,7 @@
 package com.fxz.serversystem.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.common.entity.system.UserRole;
+import com.fxz.common.core.entity.system.UserRole;
 
 /**
  * @author fxz

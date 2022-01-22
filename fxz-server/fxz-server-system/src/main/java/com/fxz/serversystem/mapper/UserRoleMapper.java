@@ -1,7 +1,7 @@
 package com.fxz.serversystem.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.common.entity.system.UserRole;
+import com.fxz.common.core.entity.system.UserRole;
 import org.apache.ibatis.annotations.Param;
 
 /**

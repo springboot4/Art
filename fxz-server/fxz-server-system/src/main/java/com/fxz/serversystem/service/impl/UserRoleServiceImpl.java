@@ -1,7 +1,7 @@
 package com.fxz.serversystem.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.common.entity.system.UserRole;
+import com.fxz.common.core.entity.system.UserRole;
 import com.fxz.serversystem.mapper.UserRoleMapper;
 import com.fxz.serversystem.service.IUserRoleService;
 import org.springframework.stereotype.Service;

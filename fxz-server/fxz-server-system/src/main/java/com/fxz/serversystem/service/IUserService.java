@@ -2,8 +2,8 @@ package com.fxz.serversystem.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.common.entity.QueryRequest;
-import com.common.entity.system.SystemUser;
+import com.fxz.common.core.entity.QueryRequest;
+import com.fxz.common.core.entity.system.SystemUser;
 
 /**
  * @author Fxz

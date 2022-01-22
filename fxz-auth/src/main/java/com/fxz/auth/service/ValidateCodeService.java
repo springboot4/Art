@@ -1,8 +1,8 @@
 package com.fxz.auth.service;
 
-import com.common.entity.FxzConstant;
-import com.common.exception.ValidateCodeException;
-import com.common.service.RedisService;
+import com.fxz.common.core.entity.FxzConstant;
+import com.fxz.common.core.exception.ValidateCodeException;
+import com.fxz.common.core.service.RedisService;
 import com.fxz.auth.properties.FxzAuthProperties;
 import com.fxz.auth.properties.FxzValidateCodeProperties;
 import com.wf.captcha.GifCaptcha;
@@ -25,6 +25,7 @@ import java.io.IOException;
  * @version 1.0
  * @date 2021-11-28 16:50
  */
+
 @Service
 @RequiredArgsConstructor
 public class ValidateCodeService {
@@ -58,16 +59,20 @@ public class ValidateCodeService {
 	 * @param value 前端上送待校验值
 	 */
 	public void check(String key, String value) throws ValidateCodeException {
-		Object codeInRedis = redisService.get(FxzConstant.CODE_PREFIX + key);
+
 		if (StringUtils.isBlank(value)) {
 			throw new ValidateCodeException("请输入验证码");
 		}
+
+		Object codeInRedis = redisService.get(FxzConstant.CODE_PREFIX + key);
+
 		if (codeInRedis == null) {
 			throw new ValidateCodeException("验证码已过期");
 		}
 		if (!StringUtils.equalsIgnoreCase(value, String.valueOf(codeInRedis))) {
 			throw new ValidateCodeException("验证码不正确");
 		}
+
 	}
 
 	private Captcha createCaptcha(FxzValidateCodeProperties code) {

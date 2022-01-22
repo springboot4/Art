@@ -1,8 +1,8 @@
 package com.fxz.serversystem.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.common.entity.router.VueRouter;
-import com.common.entity.system.Menu;
+import com.fxz.common.core.entity.router.VueRouter;
+import com.fxz.common.core.entity.system.Menu;
 
 import java.util.List;
 import java.util.Set;

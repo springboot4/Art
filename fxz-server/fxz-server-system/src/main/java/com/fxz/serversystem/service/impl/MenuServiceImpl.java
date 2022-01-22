@@ -1,10 +1,10 @@
 package com.fxz.serversystem.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.common.entity.router.RouterMeta;
-import com.common.entity.router.VueRouter;
-import com.common.entity.system.Menu;
-import com.common.utils.TreeUtil;
+import com.fxz.common.core.entity.router.RouterMeta;
+import com.fxz.common.core.entity.router.VueRouter;
+import com.fxz.common.core.entity.system.Menu;
+import com.fxz.common.core.utils.TreeUtil;
 import com.fxz.serversystem.mapper.MenuMapper;
 import com.fxz.serversystem.service.IMenuService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,12 +39,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		List<Menu> menus = this.baseMapper.findUserMenus(username);
 		menus.forEach(menu -> {
 			VueRouter<Menu> route = new VueRouter<>();
-			route.setId(menu.getMenuId().toString());
+			route.setId(menu.getId().toString());
 			route.setParentId(menu.getParentId().toString());
 			route.setPath(menu.getPath());
 			route.setComponent(menu.getComponent());
-			route.setName(menu.getMenuName());
-			route.setMeta(new RouterMeta(menu.getMenuName(), menu.getIcon()));
+			route.setName(menu.getName());
+			route.setTitle(menu.getTitle());
+			// route.setMeta(new RouterMeta(menu.getName(), menu.getIcon()));
 			routes.add(route);
 		});
 		return TreeUtil.buildVueRouter(routes);

@@ -9,10 +9,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <packaging>jar</packaging>
     <artifactId>fxz-server-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>fxz-server-system</name>
-
 
     <dependencies>
         <dependency>
