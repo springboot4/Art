@@ -1,6 +1,6 @@
 package com.fxz.serversystem.configure;
 
-import com.common.utils.DateUtil;
+import com.fxz.common.core.utils.DateUtil;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,7 +1,7 @@
 package com.fxz.auth.manager;
 
-import com.common.entity.system.Menu;
-import com.common.entity.system.SystemUser;
+import com.fxz.common.core.entity.system.Menu;
+import com.fxz.common.core.entity.system.SystemUser;
 import com.fxz.auth.mapper.MenuMapper;
 import com.fxz.auth.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;

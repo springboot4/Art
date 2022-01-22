@@ -1,8 +1,8 @@
 package com.fxz.auth.service;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.common.entity.FxzAuthUser;
-import com.common.entity.system.SystemUser;
+import com.fxz.common.security.entity.FxzAuthUser;
+import com.fxz.common.core.entity.system.SystemUser;
 import com.fxz.auth.manager.UserManager;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**

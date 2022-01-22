@@ -1,7 +1,7 @@
 package com.fxz.auth.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.common.entity.system.Menu;
+import com.fxz.common.core.entity.system.Menu;
 
 import java.util.List;
 

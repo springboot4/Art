@@ -1,6 +1,6 @@
 package com.fxz.auth.translator;
 
-import com.common.entity.FxzResponse;
+import com.fxz.common.core.entity.FxzResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;

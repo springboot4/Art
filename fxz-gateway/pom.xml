@@ -31,8 +31,8 @@
         </dependency>
         <dependency>
             <groupId>org.fxz</groupId>
-            <artifactId>fxz-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>fxz-common-core</artifactId>
+            <version>0.0.1</version>
             <exclusions>
                 <!--：因为Spring Cloud Gateway不是基于Servlet编程模型，而是基于webflux。
                 如果非要web支持的话需要导入spring-boot-starter-webflux而不是spring-boot-start-web；-->
@@ -48,14 +48,14 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-data-redis</artifactId>
                 </exclusion>
-                <exclusion>
+         <!--       <exclusion>
                     <groupId>org.springframework.cloud</groupId>
                     <artifactId>spring-cloud-starter-oauth2</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.cloud</groupId>
                     <artifactId>spring-cloud-starter-security</artifactId>
-                </exclusion>
+                </exclusion>-->
             </exclusions>
         </dependency>
         <dependency>
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>6.1</version>
+            <version>5.3</version>
         </dependency>
     </dependencies>
 

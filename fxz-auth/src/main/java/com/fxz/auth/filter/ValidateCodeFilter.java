@@ -1,8 +1,8 @@
 package com.fxz.auth.filter;
 
-import com.common.entity.FxzResponse;
-import com.common.exception.ValidateCodeException;
-import com.common.utils.FxzUtil;
+import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.exception.ValidateCodeException;
+import com.fxz.common.core.utils.FxzUtil;
 import com.fxz.auth.service.ValidateCodeService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
