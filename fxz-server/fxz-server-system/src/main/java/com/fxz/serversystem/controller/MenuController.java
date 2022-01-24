@@ -1,6 +1,5 @@
 package com.fxz.serversystem.controller;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.core.entity.system.Menu;
@@ -9,15 +8,14 @@ import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.serversystem.service.IMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 
 /**
  * @author Fxz
@@ -31,29 +29,83 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class MenuController {
 
-	private final IMenuService menuService;
+    private final IMenuService menuService;
 
-	/**
-	 * 获取用户路由
-	 */
-	@GetMapping("/nav")
-	public FxzResponse getUserRouters() {
-		// 获取当前用户
-		FxzAuthUser user = SecurityUtil.getUser();
-		if (ObjectUtil.isEmpty(user)) {
-			return null;
-		}
+    /**
+     * 获取用户路由信息和用户权限信息
+     */
+    @GetMapping("/nav")
+    public FxzResponse getUserRouters() {
+        Map<String, Object> result = new HashMap<>();
+        Optional.ofNullable(SecurityUtil.getUser())
+                .map(FxzAuthUser::getUsername)
+                .ifPresent(userName -> {
+                    // 构建用户路由对象
+                    List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(userName);
+                    // 封装用户路由信息
+                    result.put("routes", userRouters);
+                    // 封装用户权限信息
+                    result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray());
+                });
+        return new FxzResponse().data(result);
+    }
 
-		Map<String, Object> result = new HashMap<>();
-		// 构建用户路由对象
-		List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(user.getUsername());
-		// 获取用户权限信息
-		// Set<String> userPermissions =
-		// this.menuService.findUserPermissions(user.getUsername());
-		// 组装数据
-		result.put("routes", userRouters);
-		result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray());
-		return new FxzResponse().data(result);
-	}
+    /**
+     * 获取全部的树形菜单信息(包括按钮)
+     *
+     * @return 树形菜单信息
+     */
+    @GetMapping("/getAllMenuTree")
+    public FxzResponse getAllMenuTree() {
+        return new FxzResponse().data(this.menuService.getAllMenuTree());
+    }
 
+    /**
+     * 获取菜单下拉框
+     *
+     * @return 树形菜单下拉框
+     */
+    @GetMapping("/getTreeSelect")
+    public FxzResponse getTreeSelect() {
+        return new FxzResponse().data(this.menuService.getTreeSelect());
+    }
+
+    /**
+     * 保存路由信息
+     *
+     * @param vueRouter
+     */
+    @PostMapping("/save")
+    public void saveMenu(@RequestBody VueRouter vueRouter) {
+        this.menuService.saveMenu(vueRouter);
+    }
+
+    /**
+     * 根据id删除路由信息
+     *
+     * @param id
+     */
+    @DeleteMapping("/delete/{id}")
+    public void deleteMenu(@PathVariable("id") Long id) {
+        this.menuService.removeById(id);
+    }
+
+    /**
+     * 根据id查询路由信息
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/getMenuById/{id}")
+    public FxzResponse getMenuById(@PathVariable("id") Long id) {
+        return new FxzResponse().data(this.menuService.getMenuById(id));
+    }
+
+    /**
+     * 更新路由
+     */
+    @PostMapping("/update")
+    public void updateMenu(@RequestBody VueRouter vueRouter) {
+        this.menuService.updateMenu(vueRouter);
+    }
 }

@@ -1,6 +1,6 @@
 package com.fxz.serversystem;
 
-import com.fxz.common.core.annotation.FxzCloudApplication;
+import com.fxz.common.security.annotation.FxzCloudApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
