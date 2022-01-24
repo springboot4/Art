@@ -29,4 +29,56 @@
                where u.username = #{userName})
         order by m.order_num
     </select>
+
+    <resultMap id="vueRouter" type="com.fxz.common.core.entity.router.VueRouter">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="component" property="component"/>
+        <result column="keep_alive" property="keepAlive"/>
+        <result column="hidden" property="hidden"/>
+        <result column="title" property="title"/>
+        <result column="perms" property="perms"/>
+        <result column="type" property="type"/>
+        <result column="path" property="path"/>
+        <collection property="children" column="{id = id}" select="getMenuByPid"/>
+    </resultMap>
+
+    <!--获取全部的树形菜单信息(包括按钮)-->
+    <select id="getAllMenuTree" resultMap="vueRouter">
+        SELECT
+            m.id,
+            m.parent_id,
+            m.`name`,
+            m.component,
+            m.keep_alive,
+            m.hidden,
+            m.title,
+            m.perms,
+            m.type,
+            m.path
+        FROM
+            t_menu m
+        where m.parent_id = 0
+        ORDER BY order_num
+    </select>
+
+    <!--根据父节点id查询路由信息-->
+    <select id="getMenuByPid" resultMap="vueRouter">
+        SELECT
+            m.id,
+            m.parent_id,
+            m.`name`,
+            m.component,
+            m.keep_alive,
+            m.hidden,
+            m.title,
+            m.perms,
+            m.type,
+            m.path
+        FROM
+            t_menu m
+        WHERE
+            parent_id = #{id}
+    </select>
 </mapper>

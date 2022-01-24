@@ -1,6 +1,7 @@
 package com.fxz.serversystem.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.core.entity.system.Menu;
 
 import java.util.List;
@@ -26,4 +27,10 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	 */
 	List<Menu> findUserMenus(String username);
 
+	/**
+	 * 获取全部的树形菜单信息(包括按钮)
+	 *
+	 * @return 树形菜单信息
+	 */
+	List<VueRouter<Object>> getAllMenuTree();
 }
