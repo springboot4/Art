@@ -29,8 +29,8 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
 	/**
 	 * 获取全部的树形菜单信息(包括按钮)
-	 *
 	 * @return 树形菜单信息
 	 */
 	List<VueRouter<Object>> getAllMenuTree();
+
 }
