@@ -17,7 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @Configuration
 @EnableResourceServer
 @RequiredArgsConstructor
-public class FebsServerSystemResourceServerConfigure extends ResourceServerConfigurerAdapter {
+public class FxzServerSystemResourceServerConfigure extends ResourceServerConfigurerAdapter {
 
 	private final FxzAccessDeniedHandler fxzAccessDeniedHandler;
 
