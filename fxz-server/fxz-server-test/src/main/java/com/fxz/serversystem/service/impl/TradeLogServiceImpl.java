@@ -34,7 +34,6 @@ public class TradeLogServiceImpl extends ServiceImpl<TestTradeLogMapper, TradeLo
 		log.info("商品ID为{}，名称为{}的商品打包完毕，开始物流配送", tradeLog.getGoodsId(), tradeLog.getGoodsName());
 
 		hashMap.put(TracingContext.tracing().groupId(), tradeLog.getId());
-
 	}
 
 }

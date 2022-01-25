@@ -34,7 +34,6 @@ public class TradeLogServiceImpl extends ServiceImpl<TradeLogMapper, TradeLog> i
 
 		// 调用远程方法，打包并配送商品
 		remoteTradeLogService.packageAndSend(tradeLog);
-		throw new RuntimeException("抛个异常~");
 	}
 
 }
