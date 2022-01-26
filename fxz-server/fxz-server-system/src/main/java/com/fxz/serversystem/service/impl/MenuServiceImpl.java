@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -37,9 +38,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
 	@Override
 	public List<VueRouter<Menu>> getUserRouters(String username) {
-		List<VueRouter<Menu>> routes = new ArrayList<>();
 		List<Menu> menus = this.baseMapper.findUserMenus(username);
-		menus.forEach(menu -> {
+		List<VueRouter<Menu>> routes = menus.stream().map(menu -> CompletableFuture.supplyAsync(() -> {
 			VueRouter<Menu> route = new VueRouter<>();
 			route.setId(menu.getId().toString());
 			route.setParentId(menu.getParentId().toString());
@@ -48,8 +48,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 			route.setName(menu.getName());
 			route.setTitle(menu.getTitle());
 			route.setPerms(menu.getPerms());
-			routes.add(route);
-		});
+			return route;
+		})).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
 		return TreeUtil.buildVueRouter(routes);
 	}
 
