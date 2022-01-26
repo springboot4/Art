@@ -11,7 +11,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 /**
  * env
- * mysql.url=127.0.0.1;redis.url=127.0.0.1;rabbitmq.url=47.94.42.44;fxz-gateway=127.0.0.1;fxz-monitor-admin=127.0.0.1;fxz-register=127.0.0.1;nacos.url=127.0.0.1;fxz-tx-manager=127.0.0.1
+ * mysql.url=127.0.0.1;redis.url=127.0.0.1;fxz-gateway=127.0.0.1;fxz-monitor-admin=127.0.0.1;fxz-register=127.0.0.1;nacos.url=127.0.0.1;fxz-tx-manager=127.0.0.1
+ * vm
+ * -javaagent:C:\Users\fxz\Downloads\apache-skywalking-apm-6.4.0\apache-skywalking-apm-bin\agent\skywalking-agent.jar
+ * -Dskywalking.agent.service_name=fxz-server
+ * -Dskywalking.collector.backend_service=47.94.42.44:11800
  *
  * @author fxz
  */
