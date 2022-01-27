@@ -29,83 +29,83 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MenuController {
 
-    private final IMenuService menuService;
+	private final IMenuService menuService;
 
-    /**
-     * 获取用户路由信息和用户权限信息
-     */
-    @GetMapping("/nav")
-    public FxzResponse getUserRouters() {
-        Map<String, Object> result = new HashMap<>();
-        Optional.ofNullable(SecurityUtil.getUser())
-                .map(FxzAuthUser::getUsername)
-                .ifPresent(userName -> {
-                    // 构建用户路由对象
-                    List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(userName);
-                    // 封装用户路由信息
-                    result.put("routes", userRouters);
-                    // 封装用户权限信息
-                    result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray());
-                });
-        return new FxzResponse().data(result);
-    }
+	/**
+	 * 获取用户路由信息和用户权限信息
+	 */
+	@GetMapping("/nav")
+	public FxzResponse getUserRouters() {
+		long start = System.currentTimeMillis();
 
-    /**
-     * 获取全部的树形菜单信息(包括按钮)
-     *
-     * @return 树形菜单信息
-     */
-    @GetMapping("/getAllMenuTree")
-    public FxzResponse getAllMenuTree() {
-        return new FxzResponse().data(this.menuService.getAllMenuTree());
-    }
+		Map<String, Object> result = new HashMap<>();
+		Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
+			// 构建用户路由对象
+			List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(userName);
+			// 封装用户路由信息
+			result.put("routes", userRouters);
+			// 封装用户权限信息
+			result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray());
+		});
 
-    /**
-     * 获取菜单下拉框
-     *
-     * @return 树形菜单下拉框
-     */
-    @GetMapping("/getTreeSelect")
-    public FxzResponse getTreeSelect() {
-        return new FxzResponse().data(this.menuService.getTreeSelect());
-    }
+		long end = System.currentTimeMillis();
+		log.info("方法耗时:{}", end - start);
 
-    /**
-     * 保存路由信息
-     *
-     * @param vueRouter
-     */
-    @PostMapping("/save")
-    public void saveMenu(@RequestBody VueRouter vueRouter) {
-        this.menuService.saveMenu(vueRouter);
-    }
+		return new FxzResponse().data(result);
+	}
 
-    /**
-     * 根据id删除路由信息
-     *
-     * @param id
-     */
-    @DeleteMapping("/delete/{id}")
-    public void deleteMenu(@PathVariable("id") Long id) {
-        this.menuService.removeById(id);
-    }
+	/**
+	 * 获取全部的树形菜单信息(包括按钮)
+	 * @return 树形菜单信息
+	 */
+	@GetMapping("/getAllMenuTree")
+	public FxzResponse getAllMenuTree() {
+		return new FxzResponse().data(this.menuService.getAllMenuTree());
+	}
 
-    /**
-     * 根据id查询路由信息
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping("/getMenuById/{id}")
-    public FxzResponse getMenuById(@PathVariable("id") Long id) {
-        return new FxzResponse().data(this.menuService.getMenuById(id));
-    }
+	/**
+	 * 获取菜单下拉框
+	 * @return 树形菜单下拉框
+	 */
+	@GetMapping("/getTreeSelect")
+	public FxzResponse getTreeSelect() {
+		return new FxzResponse().data(this.menuService.getTreeSelect());
+	}
 
-    /**
-     * 更新路由
-     */
-    @PostMapping("/update")
-    public void updateMenu(@RequestBody VueRouter vueRouter) {
-        this.menuService.updateMenu(vueRouter);
-    }
+	/**
+	 * 保存路由信息
+	 * @param vueRouter
+	 */
+	@PostMapping("/save")
+	public void saveMenu(@RequestBody VueRouter vueRouter) {
+		this.menuService.saveMenu(vueRouter);
+	}
+
+	/**
+	 * 根据id删除路由信息
+	 * @param id
+	 */
+	@DeleteMapping("/delete/{id}")
+	public void deleteMenu(@PathVariable("id") Long id) {
+		this.menuService.removeById(id);
+	}
+
+	/**
+	 * 根据id查询路由信息
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/getMenuById/{id}")
+	public FxzResponse getMenuById(@PathVariable("id") Long id) {
+		return new FxzResponse().data(this.menuService.getMenuById(id));
+	}
+
+	/**
+	 * 更新路由
+	 */
+	@PostMapping("/update")
+	public void updateMenu(@RequestBody VueRouter vueRouter) {
+		this.menuService.updateMenu(vueRouter);
+	}
+
 }
