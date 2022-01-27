@@ -10,3 +10,5 @@ spring:
         group: DEFAULT_GROUP
         prefix: ${spring.application.name}
         file-extension: yaml
+  main:
+    allow-bean-definition-overriding: true
