@@ -36,6 +36,8 @@ public class MenuController {
 	 */
 	@GetMapping("/nav")
 	public FxzResponse getUserRouters() {
+		long start = System.currentTimeMillis();
+
 		Map<String, Object> result = new HashMap<>();
 		Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
 			// 构建用户路由对象
@@ -45,6 +47,10 @@ public class MenuController {
 			// 封装用户权限信息
 			result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray());
 		});
+
+		long end = System.currentTimeMillis();
+		log.info("方法耗时:{}", end - start);
+
 		return new FxzResponse().data(result);
 	}
 

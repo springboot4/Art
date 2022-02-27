@@ -35,8 +35,10 @@ public class TreeUtil {
 			for (VueRouter<T> parent : routes) {
 				String id = parent.getId();
 				if (id != null && id.equals(parentId)) {
-					if (parent.getChildren() == null)
+					if (parent.getChildren() == null) {
 						parent.initChildren();
+					}
+
 					parent.getChildren().add(route);
 					parent.setAlwaysShow(true);
 					parent.setHasChildren(true);
@@ -46,12 +48,7 @@ public class TreeUtil {
 				}
 			}
 		});
-		VueRouter<T> router404 = new VueRouter<>();
-		router404.setName("404");
-		router404.setComponent("error-page/404");
-		router404.setPath("*");
 
-		topRoutes.add(router404);
 		return topRoutes;
 	}
 
