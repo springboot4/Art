@@ -114,6 +114,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		vueRouter.setName(menu.getName());
 		vueRouter.setComponent(menu.getComponent());
 		vueRouter.setPath(menu.getPath());
+		vueRouter.setOrderNum(Double.valueOf(menu.getOrderNum()));
 		return vueRouter;
 	}
 

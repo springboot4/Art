@@ -76,6 +76,11 @@ public class VueRouter<T> implements Serializable {
 	private String keepAlive;
 
 	/**
+	 * 排序
+	 */
+	private Double orderNum;
+
+	/**
 	 * 是否一直显示根路由
 	 */
 	private Boolean alwaysShow = false;

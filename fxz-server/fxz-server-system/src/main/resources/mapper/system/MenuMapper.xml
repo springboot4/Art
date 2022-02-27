@@ -41,6 +41,7 @@
         <result column="perms" property="perms"/>
         <result column="type" property="type"/>
         <result column="path" property="path"/>
+        <result column="order_num" property="orderNum"/>
         <collection property="children" column="{id = id}" select="getMenuByPid"/>
     </resultMap>
 
