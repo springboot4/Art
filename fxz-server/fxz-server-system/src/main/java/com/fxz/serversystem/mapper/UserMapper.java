@@ -25,4 +25,9 @@ public interface UserMapper extends BaseMapper<SystemUser> {
 	@SuppressWarnings("all")
 	IPage<SystemUser> findUserDetailPage(Page page, @Param("user") UserInfoParam user);
 
+	/**
+	 * 根据用户id获取用户信息
+	 */
+	SystemUser getUserById(Long id);
+
 }
