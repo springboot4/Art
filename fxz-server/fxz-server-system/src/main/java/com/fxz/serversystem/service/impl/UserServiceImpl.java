@@ -3,12 +3,14 @@ package com.fxz.serversystem.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fxz.common.core.entity.QueryRequest;
+import com.fxz.common.core.entity.PageParam;
 import com.fxz.common.core.entity.system.SystemUser;
 import com.fxz.common.core.entity.system.UserRole;
 import com.fxz.serversystem.mapper.UserMapper;
+import com.fxz.serversystem.param.UserInfoParam;
 import com.fxz.serversystem.service.IUserRoleService;
 import com.fxz.serversystem.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +36,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	private final PasswordEncoder passwordEncoder;
 
 	@Override
-	public IPage<SystemUser> findUserDetail(SystemUser user, QueryRequest request) {
-		Page<SystemUser> page = new Page<>(request.getPageNum(), request.getPageSize());
+	public IPage<SystemUser> findUserDetail(UserInfoParam user, PageParam pageParam) {
+		Page<SystemUser> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
 		return this.baseMapper.findUserDetailPage(page, user);
 	}
 
@@ -63,8 +65,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		updateById(user);
 
 		userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
-		String[] roles = user.getRoleId().split(StringPool.COMMA);
-		setUserRoles(user, roles);
+		if (StringUtils.isNotEmpty(user.getRoleId())) {
+			String[] roles = user.getRoleId().split(StringPool.COMMA);
+			setUserRoles(user, roles);
+		}
 	}
 
 	@Override

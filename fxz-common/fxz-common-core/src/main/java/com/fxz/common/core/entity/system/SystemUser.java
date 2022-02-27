@@ -22,6 +22,8 @@ import java.util.Date;
 @TableName("t_user")
 public class SystemUser implements Serializable {
 
+	private static final long serialVersionUID = 3803544824764133607L;
+
 	/**
 	 * 用户状态：有效
 	 */
