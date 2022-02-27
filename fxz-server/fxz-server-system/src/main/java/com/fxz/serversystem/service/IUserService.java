@@ -40,4 +40,9 @@ public interface IUserService extends IService<SystemUser> {
 	 */
 	void deleteUsers(String[] userIds);
 
+	/**
+	 * 根据用户id获取用户信息
+	 */
+	SystemUser getUserById(Long id);
+
 }

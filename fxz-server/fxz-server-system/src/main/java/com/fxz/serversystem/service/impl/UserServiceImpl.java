@@ -80,6 +80,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		this.userRoleService.deleteUserRolesByUserId(userIds);
 	}
 
+	/**
+	 * 根据用户id获取用户信息
+	 */
+	@Override
+	public SystemUser getUserById(Long id) {
+		return this.baseMapper.getUserById(id);
+	}
+
 	private void setUserRoles(SystemUser user, String[] roles) {
 		Arrays.stream(roles).forEach(roleId -> {
 			UserRole ur = new UserRole();

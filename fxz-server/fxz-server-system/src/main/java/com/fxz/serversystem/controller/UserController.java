@@ -32,7 +32,7 @@ public class UserController {
 
 	@GetMapping("/getUserById/{id}")
 	public FxzResponse getUserById(@PathVariable("id") Long id) {
-		return new FxzResponse().data(userService.getById(id));
+		return new FxzResponse().data(userService.getUserById(id));
 	}
 
 	@GetMapping
@@ -44,7 +44,7 @@ public class UserController {
 
 	@PostMapping
 	@PreAuthorize("hasAnyAuthority('sys:user:add')")
-	public void addUser(@Valid SystemUser user) throws FxzException {
+	public void addUser(@RequestBody SystemUser user) throws FxzException {
 		try {
 			this.userService.createUser(user);
 		}

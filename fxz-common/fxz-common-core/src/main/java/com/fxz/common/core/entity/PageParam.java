@@ -19,11 +19,11 @@ public class PageParam implements Serializable {
 	/**
 	 * 当前页
 	 */
-	private final int current = 1;
+	private int current = 1;
 
 	/**
 	 * 每页记录数
 	 */
-	private final int size = 10;
+	private int size = 10;
 
 }
