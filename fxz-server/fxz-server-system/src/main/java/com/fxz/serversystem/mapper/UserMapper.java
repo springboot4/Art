@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.common.core.entity.system.SystemUser;
+import com.fxz.serversystem.param.UserInfoParam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,6 +23,6 @@ public interface UserMapper extends BaseMapper<SystemUser> {
 	 * @return Ipage
 	 */
 	@SuppressWarnings("all")
-	IPage<SystemUser> findUserDetailPage(Page page, @Param("user") SystemUser user);
+	IPage<SystemUser> findUserDetailPage(Page page, @Param("user") UserInfoParam user);
 
 }

@@ -53,8 +53,9 @@ public class FxzUtil {
 	 */
 	public static Map<String, Object> getDataTable(IPage<?> pageInfo) {
 		Map<String, Object> data = new HashMap<>();
-		data.put("rows", pageInfo.getRecords());
+		data.put("records", pageInfo.getRecords());
 		data.put("total", pageInfo.getTotal());
+		data.put("current", pageInfo.getCurrent());
 		return data;
 	}
 

@@ -2,10 +2,11 @@ package com.fxz.serversystem.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.common.core.entity.FxzResponse;
-import com.fxz.common.core.entity.QueryRequest;
+import com.fxz.common.core.entity.PageParam;
 import com.fxz.common.core.entity.system.SystemUser;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.core.utils.FxzUtil;
+import com.fxz.serversystem.param.UserInfoParam;
 import com.fxz.serversystem.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,15 +30,20 @@ public class UserController {
 
 	private final IUserService userService;
 
+	@GetMapping("/getUserById/{id}")
+	public FxzResponse getUserById(@PathVariable("id") Long id) {
+		return new FxzResponse().data(userService.getById(id));
+	}
+
 	@GetMapping
-	@PreAuthorize("hasAnyAuthority('user:view')")
-	public FxzResponse userList(QueryRequest queryRequest, SystemUser user) {
-		Map<String, Object> dataTable = FxzUtil.getDataTable(userService.findUserDetail(user, queryRequest));
+	@PreAuthorize("hasAnyAuthority('sys:user:view')")
+	public FxzResponse userList(PageParam pageParam, UserInfoParam userInfoParam) {
+		Map<String, Object> dataTable = FxzUtil.getDataTable(userService.findUserDetail(userInfoParam, pageParam));
 		return new FxzResponse().data(dataTable);
 	}
 
 	@PostMapping
-	@PreAuthorize("hasAnyAuthority('user:add')")
+	@PreAuthorize("hasAnyAuthority('sys:user:add')")
 	public void addUser(@Valid SystemUser user) throws FxzException {
 		try {
 			this.userService.createUser(user);
@@ -50,8 +56,8 @@ public class UserController {
 	}
 
 	@PutMapping
-	@PreAuthorize("hasAnyAuthority('user:update')")
-	public void updateUser(@Valid SystemUser user) throws FxzException {
+	@PreAuthorize("hasAnyAuthority('sys:user:update')")
+	public void updateUser(@RequestBody SystemUser user) throws FxzException {
 		try {
 			this.userService.updateUser(user);
 		}
@@ -63,7 +69,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/{userIds}")
-	@PreAuthorize("hasAnyAuthority('user:delete')")
+	@PreAuthorize("hasAnyAuthority('sys:user:delete')")
 	public void deleteUsers(@NotBlank(message = "{required}") @PathVariable String userIds) throws FxzException {
 		try {
 			String[] ids = userIds.split(StringPool.COMMA);

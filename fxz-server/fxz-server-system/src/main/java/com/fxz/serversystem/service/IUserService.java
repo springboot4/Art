@@ -2,8 +2,10 @@ package com.fxz.serversystem.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fxz.common.core.entity.PageParam;
 import com.fxz.common.core.entity.QueryRequest;
 import com.fxz.common.core.entity.system.SystemUser;
+import com.fxz.serversystem.param.UserInfoParam;
 
 /**
  * @author Fxz
@@ -14,11 +16,11 @@ public interface IUserService extends IService<SystemUser> {
 
 	/**
 	 * 查找用户详细信息
-	 * @param request request
-	 * @param user 用户对象，用于传递查询条件
+	 * @param page request
+	 * @param user 用户查询对象，用于传递查询条件
 	 * @return IPage
 	 */
-	IPage<SystemUser> findUserDetail(SystemUser user, QueryRequest request);
+	IPage<SystemUser> findUserDetail(UserInfoParam user, PageParam page);
 
 	/**
 	 * 新增用户
