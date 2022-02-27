@@ -10,12 +10,12 @@ public class FxzConstant {
 	/**
 	 * Zuul请求头TOKEN名称（不要有空格）
 	 */
-	public static final String ZUUL_TOKEN_HEADER = "ZuulToken";
+	public static final String GATEWAY_TOKEN_HEADER = "GatewayToken";
 
 	/**
 	 * Zuul请求头TOKEN值
 	 */
-	public static final String ZUUL_TOKEN_VALUE = "fxz:zuul:$**$";
+	public static final String  GATEWAY_TOKEN_VALUE = "fxz:gateway:$**$";
 
 	/**
 	 * gif类型
