@@ -46,6 +46,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 			route.setPath(menu.getPath());
 			route.setComponent(menu.getComponent());
 			route.setName(menu.getName());
+			route.setHidden(menu.getHidden());
 			route.setTitle(menu.getTitle());
 			route.setPerms(menu.getPerms());
 			return route;
