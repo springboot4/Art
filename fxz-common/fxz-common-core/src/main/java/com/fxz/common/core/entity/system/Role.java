@@ -2,6 +2,7 @@ package com.fxz.common.core.entity.system;
 
 import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -51,5 +52,11 @@ public class Role implements Serializable {
 	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
 	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private Date modifyTime;
+
+	/**
+	 * 角色拥有的菜单id
+	 */
+	@TableField(exist = false)
+	private String menuId;
 
 }

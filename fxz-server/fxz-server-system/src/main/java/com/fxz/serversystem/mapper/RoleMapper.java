@@ -12,4 +12,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
+	/**
+	 * 根据id获取角色信息
+	 */
+	Role getRoleById(Long id);
+
 }

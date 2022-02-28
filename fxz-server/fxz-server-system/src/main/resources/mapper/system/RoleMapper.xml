@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxz.serversystem.mapper.RoleMapper">
+
+    <!--根据id获取角色信息-->
+    <select id="getRoleById" resultType="com.fxz.common.core.entity.system.Role">
+        SELECT
+            r.ROLE_ID,
+            r.ROLE_NAME,
+            r.REMARK,
+            r.CREATE_TIME,
+            r.MODIFY_TIME,
+            GROUP_CONCAT( rm.MENU_ID ) menuId
+        FROM
+            t_role r
+                LEFT JOIN t_role_menu rm ON rm.ROLE_ID = r.ROLE_ID
+        WHERE
+            r.ROLE_ID = #{id}
+        GROUP BY
+            r.ROLE_ID
+    </select>
+
+</mapper>

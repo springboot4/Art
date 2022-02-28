@@ -111,6 +111,8 @@ public class SystemUser implements Serializable {
 	/**
 	 * 创建时间
 	 */
+	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	@TableField("CREATE_TIME")
 	private Date createTime;
 
