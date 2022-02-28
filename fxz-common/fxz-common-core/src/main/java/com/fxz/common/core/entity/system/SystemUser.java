@@ -37,7 +37,7 @@ public class SystemUser implements Serializable {
 	/**
 	 * 默认头像
 	 */
-	public static final String DEFAULT_AVATAR = "default.jpg";
+	public static final String DEFAULT_AVATAR = "https://preview.pro.antdv.com/avatar2.jpg";
 
 	/**
 	 * 默认密码
