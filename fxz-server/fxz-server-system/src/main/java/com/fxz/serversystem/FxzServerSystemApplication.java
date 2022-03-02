@@ -1,6 +1,5 @@
 package com.fxz.serversystem;
 
-import com.codingapi.txlcn.tc.config.EnableDistributedTransaction;
 import com.fxz.common.security.annotation.FxzCloudApplication;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +19,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * @author fxz
  */
 @EnableFeignClients
-@EnableDistributedTransaction
+//@EnableDistributedTransaction
 @MapperScan("com.fxz.serversystem.mapper")
 @FxzCloudApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)

@@ -1,7 +1,6 @@
 package com.fxz.serversystem.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.codingapi.txlcn.tc.annotation.LcnTransaction;
 import com.fxz.common.core.entity.system.TradeLog;
 import com.fxz.serversystem.mapper.TradeLogMapper;
 import com.fxz.serversystem.service.IRemoteTradeLogService;
@@ -23,7 +22,7 @@ public class TradeLogServiceImpl extends ServiceImpl<TradeLogMapper, TradeLog> i
 	private final IRemoteTradeLogService remoteTradeLogService;
 
 	@Override
-	@LcnTransaction
+	//@LcnTransaction
 	public void orderAndPay(TradeLog tradeLog) {
 		tradeLog.setCreateTime(new Date());
 		tradeLog.setStatus("下单并支付成功");
