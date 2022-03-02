@@ -18,16 +18,16 @@
     </modules>
 
     <dependencies>
-        <!-- TC依赖 -->
+      <!--  &lt;!&ndash; TC依赖 &ndash;&gt;
         <dependency>
             <groupId>com.codingapi.txlcn</groupId>
             <artifactId>txlcn-tc</artifactId>
         </dependency>
-        <!-- TC和TM通信依赖于Netty -->
+        &lt;!&ndash; TC和TM通信依赖于Netty &ndash;&gt;
         <dependency>
             <groupId>com.codingapi.txlcn</groupId>
             <artifactId>txlcn-txmsg-netty</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
