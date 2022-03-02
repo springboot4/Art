@@ -10,5 +10,3 @@ spring:
         group: DEFAULT_GROUP
         prefix: ${spring.application.name}
         file-extension: yaml
-nacos:
-  url: 47.94.42.44
