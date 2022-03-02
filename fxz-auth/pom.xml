@@ -48,6 +48,7 @@
     </dependencies>
 
     <build>
+        <finalName>fxz-auth</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
