@@ -4,9 +4,9 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8001
+        server-addr: ${nacos.url}:8001
       config:
-        server-addr: 127.0.0.1:8001
+        server-addr: ${nacos.url}:8001
         group: DEFAULT_GROUP
         prefix: ${spring.application.name}
         file-extension: yaml
