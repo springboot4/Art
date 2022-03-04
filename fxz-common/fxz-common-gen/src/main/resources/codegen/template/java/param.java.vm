@@ -1,0 +1,29 @@
+package cn.bootx.${module}.param.${method};
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@Schema(title = "${comments}")
+@Accessors(chain = true)
+public class ${className}Param {
+
+    @Schema(description= "主键")
+    private Long id;
+
+#foreach ($column in $columns)
+    @Schema(description = "$column.comments")
+    private $column.attrType $column.name;
+#end
+
+}
