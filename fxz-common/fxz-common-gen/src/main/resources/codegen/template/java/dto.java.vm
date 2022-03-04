@@ -1,11 +1,10 @@
-package com.fxz.${module}.dto;
+package com.fxz.common.core.${module}.mapper;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -15,7 +14,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class ${className}Dto {
+public class ${className}Mapper<${className}> {
 
 #foreach ($column in $columns)
     private $column.attrType $column.name;
