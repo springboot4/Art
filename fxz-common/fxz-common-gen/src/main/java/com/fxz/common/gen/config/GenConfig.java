@@ -23,40 +23,13 @@ public class GenConfig {
 	public static String author;
 
 	/**
-	 * 生成包路径
+	 * 模块名
 	 */
-	public static String packageName;
-
-	/**
-	 * 自动去除表前缀，默认是false
-	 */
-	public static boolean autoRemovePre;
-
 	public static String module;
-
-	/**
-	 * 表前缀(类名不会包含表前缀)
-	 */
-	public static String tablePrefix;
 
 	@Value("${author}")
 	public void setAuthor(String author) {
 		GenConfig.author = author;
-	}
-
-	@Value("${packageName}")
-	public void setPackageName(String packageName) {
-		GenConfig.packageName = packageName;
-	}
-
-	@Value("${autoRemovePre}")
-	public void setAutoRemovePre(boolean autoRemovePre) {
-		GenConfig.autoRemovePre = autoRemovePre;
-	}
-
-	@Value("${tablePrefix}")
-	public void setTablePrefix(String tablePrefix) {
-		GenConfig.tablePrefix = tablePrefix;
 	}
 
 	@Value("${module}")

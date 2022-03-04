@@ -1,4 +1,4 @@
-package com.fxz.${module}.core.dao;
+package com.fxz.${module}.dao;
 
 import com.fxz.${module}.core.entity.${className};
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
