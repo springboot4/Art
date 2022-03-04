@@ -1,0 +1,16 @@
+export const tableObj = {
+    columns: [
+        #foreach ($column in $columns)
+            {
+                title: '$column.comments',
+                field: '$column.name'
+            },
+        #end
+            {
+                title: '操作',
+                width: '200px',
+                field: 'action',
+                slot: true
+            }
+    ]
+}

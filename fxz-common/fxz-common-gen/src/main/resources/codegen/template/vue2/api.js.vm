@@ -1,0 +1,56 @@
+import { axios } from '@/utils/request'
+
+/**
+ * 分页
+ */
+export function page (params) {
+  return axios({
+    url: '/${classname}/page',
+    method: 'GET',
+    params: params
+  })
+}
+
+/**
+ * 获取单条
+ */
+export function get (id) {
+  return axios({
+    url: '/${classname}/findById',
+    method: 'GET',
+    params: { id }
+  })
+}
+
+/**
+ * 添加
+ */
+export function add (obj) {
+  return axios({
+    url: '/${classname}/add',
+    method: 'POST',
+    data: obj
+  })
+}
+
+/**
+ * 更新
+ */
+export function update (obj) {
+  return axios({
+    url: '/${classname}/update',
+    method: 'POST',
+    data: obj
+  })
+}
+
+/**
+ * 删除
+ */
+export function del (id) {
+  return axios({
+    url: '/${classname}/delete',
+    params: { id },
+    method: 'DELETE'
+  })
+}

@@ -1,0 +1,56 @@
+package com.fxz.${module}.controller;
+
+import com.fxz.common.core.entity.${module}.UserRole;
+import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.entity.PageParam;
+import com.fxz.common.core.utils.FxzUtil;
+import com.fxz.${module}.service.${className}Service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("/${classname}")
+@RequiredArgsConstructor
+public class ${className}Controller {
+
+    private final ${className}Service ${classname}Service;
+
+    @PostMapping(value = "/add")
+    public FxzResponse add(@RequestBody ${className} param) {
+        return new FxzResponse().data(${classname}Service.add(param));
+    }
+
+    @PostMapping(value = "/update")
+    public FxzResponse update(@RequestBody ${className} param) {
+        return new FxzResponse().data(${classname}Service.update(param));
+    }
+
+    @DeleteMapping(value = "/delete")
+    public FxzResponse delete(Long id) {
+        ${classname}Service.delete(id);
+        return new FxzResponse().data();
+    }
+
+    @GetMapping(value = "/findById")
+    public FxzResponse findById(Long id) {
+        return new FxzResponse().data(${classname}Service.findById(id));
+    }
+
+    @GetMapping(value = "/findAll")
+    public FxzResponse findAll() {
+        return new FxzResponse().data(${classname}Service.findAll());
+    }
+
+    @GetMapping(value = "/page")
+    public FxzResponse page(PageParam pageParam, ${className} ${classname}) {
+        return new FxzResponse().data(FxzUtil.getDataTable(${classname}Service.page(pageParam, ${classname}Param)));
+    }
+}
