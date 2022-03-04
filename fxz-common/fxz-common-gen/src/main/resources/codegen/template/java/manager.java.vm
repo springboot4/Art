@@ -1,11 +1,11 @@
-package cn.bootx.${module}.core.${method}.dao;
+package com.fxz.${module}.core.dao;
 
-import cn.bootx.common.mybatisplus.impl.BaseManager;
-import cn.bootx.${module}.core.${method}.entity.${className};
-import cn.bootx.common.core.rest.param.PageParam;
-import cn.bootx.common.mybatisplus.base.MpBaseEntity;
-import cn.bootx.common.mybatisplus.impl.BaseManager;
-import cn.bootx.common.mybatisplus.util.MpUtil;
+import com.fxz.common.mybatisplus.impl.BaseManager;
+import com.fxz.${module}.core.entity.${className};
+import com.fxz.common.core.rest.param.PageParam;
+import com.fxz.common.mybatisplus.base.MpBaseEntity;
+import com.fxz.common.mybatisplus.impl.BaseManager;
+import com.fxz.common.mybatisplus.util.MpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import lombok.RequiredArgsConstructor;

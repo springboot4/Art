@@ -1,8 +1,8 @@
-package cn.bootx.${module}.core.${method}.convert;
+package com.fxz.${module}.core.convert;
 
-import cn.bootx.${module}.core.${method}.entity.${className};
-import cn.bootx.${module}.dto.${method}.${className}Dto;
-import cn.bootx.${module}.param.${method}.${className}Param;
+import com.fxz.${module}.core.entity.${className};
+import com.fxz.${module}.dto.${className}Dto;
+import com.fxz.${module}.param.${className}Param;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

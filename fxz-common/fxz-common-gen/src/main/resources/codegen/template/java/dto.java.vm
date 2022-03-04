@@ -1,10 +1,10 @@
-package cn.bootx.${module}.dto.${method};
+package com.fxz.${module}.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 
-import cn.bootx.common.core.rest.dto.BaseDto;
+import com.fxz.common.core.rest.dto.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +17,6 @@ import lombok.experimental.Accessors;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Schema(title = "${comments}")
 @Accessors(chain = true)
 public class ${className}Dto extends BaseDto {
 

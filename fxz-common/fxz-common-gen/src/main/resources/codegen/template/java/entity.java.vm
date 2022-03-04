@@ -1,16 +1,14 @@
-package cn.bootx.${module}.core.${method}.entity;
+package com.fxz.${module}.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import cn.bootx.common.core.function.EntityBaseFunction;
-import cn.bootx.common.mybatisplus.base.MpBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import cn.bootx.${module}.dto.${method}.${className}Dto;
-import cn.bootx.${module}.param.${method}.${className}Param;
-import cn.bootx.${module}.core.${method}.convert.${className}Convert;
+import com.fxz.${module}.dto.${className}Dto;
+import com.fxz.${module}.param.${className}Param;
+import com.fxz.${module}.core.convert.${className}Convert;
 
 
 import lombok.Data;
@@ -26,7 +24,7 @@ import lombok.experimental.Accessors;
 @Data
 @TableName("${tableName}")
 @Accessors(chain = true)
-public class ${className} extends MpBaseEntity implements EntityBaseFunction<${className}Dto>{
+public class ${className} {
 
 #foreach ($column in $columns)
     /** $column.comments */

@@ -1,6 +1,6 @@
-package cn.bootx.${module}.core.${method}.dao;
+package com.fxz.${module}.core.dao;
 
-import cn.bootx.${module}.core.${method}.entity.${className};
+import com.fxz.${module}.core.entity.${className};
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
