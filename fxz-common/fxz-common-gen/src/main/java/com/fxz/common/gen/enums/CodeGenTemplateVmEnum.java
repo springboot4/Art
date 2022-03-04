@@ -50,6 +50,10 @@ public enum CodeGenTemplateVmEnum {
 	 */
 	LIST_V2("list_v2", "codegen/template/vue2/list.vue.vm", "List.vue"),
 	/**
+	 * template_vue2
+	 */
+	TEMPLATE_V2("template_v2","codegen/template/vue2/template.js.vm",".js"),
+	/**
 	 * edit_vue3
 	 */
 	EDIT_V2("edit_v2", "codegen/template/vue2/edit.vue.vm", "Edit.vue");
