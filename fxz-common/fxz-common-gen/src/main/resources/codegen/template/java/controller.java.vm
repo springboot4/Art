@@ -1,10 +1,13 @@
 package com.fxz.${module}.controller;
 
+import com.fxz.common.core.entity.${module}.UserRole;
 import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.common.core.entity.PageParam;
 import com.fxz.common.core.utils.FxzUtil;
-import com.fxz.${module}.core.service.${className}Service;
-import com.fxz.${module}.param.${className}Param;
+import com.fxz.${module}.service.${className}Service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,12 +24,12 @@ public class ${className}Controller {
     private final ${className}Service ${classname}Service;
 
     @PostMapping(value = "/add")
-    public FxzResponse add(@RequestBody ${className}) {
+    public FxzResponse add(@RequestBody ${className} param) {
         return new FxzResponse().data(${classname}Service.add(param));
     }
 
     @PostMapping(value = "/update")
-    public FxzResponse update(@RequestBody ${className}) {
+    public FxzResponse update(@RequestBody ${className} param) {
         return new FxzResponse().data(${classname}Service.update(param));
     }
 

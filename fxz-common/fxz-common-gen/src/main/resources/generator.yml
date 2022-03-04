@@ -3,4 +3,4 @@ gen:
   # 作者
   author: fxz
   #模块名
-  module: system
+  module: serversystem
