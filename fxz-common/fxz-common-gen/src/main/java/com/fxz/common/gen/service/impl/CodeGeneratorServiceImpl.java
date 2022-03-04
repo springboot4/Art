@@ -1,6 +1,7 @@
 package com.fxz.common.gen.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
@@ -14,15 +15,25 @@ import com.fxz.common.gen.enums.CodeGenTemplateVmEnum;
 import com.fxz.common.gen.service.CodeGeneratorService;
 import com.fxz.common.gen.util.VelocityInitializer;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author Fxz
@@ -90,6 +101,36 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 		map.put("author", GenConfig.author);
 
 		return map;
+	}
+
+	/**
+	 * 生成代码
+	 * @param tableName 表名
+	 */
+	@SneakyThrows
+	public ResponseEntity<byte[]> genCodeZip(String tableName) {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		ZipOutputStream zip = new ZipOutputStream(outputStream);
+		// 将代码放入压缩包内
+		for (CodeGenPreview codeGenPreview : this.codeGenPreview(tableName)) {
+			// 添加到zip
+			CodeGenTemplateVmEnum vmEnum = CodeGenTemplateVmEnum.findByName(codeGenPreview.getName());
+			String fileName = tableToJava(tableName) + vmEnum.getFileSuffixName();
+			// js后缀特殊处理
+			if (vmEnum.getFileSuffixName().equals(".js") || vmEnum.getFileSuffixName().equals(".ts")) {
+				fileName = StrUtil.lowerFirst(tableToJava(fileName));
+			}
+			zip.putNextEntry(new ZipEntry(fileName));
+			IOUtils.write(codeGenPreview.getContent(), zip, CharsetUtil.UTF_8);
+			zip.flush();
+			zip.closeEntry();
+		}
+		IoUtil.close(zip);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.setContentDispositionFormData("attachment",
+				new String((tableName + ".zip").getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+		return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
 	}
 
 	/**
