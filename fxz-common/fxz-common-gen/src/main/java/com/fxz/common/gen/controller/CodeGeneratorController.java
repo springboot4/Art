@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,9 +28,8 @@ public class CodeGeneratorController {
 	 * @return 预览代码
 	 */
 	@GetMapping("/codeGenPreview")
-	public FxzResponse codeGenPreview() {
-		log.info("code预览...");
-		return new FxzResponse().data(codeGeneratorService.codeGenPreview("t_user"));
+	public FxzResponse codeGenPreview(@RequestParam String tableName) {
+		return new FxzResponse().data(codeGeneratorService.codeGenPreview(tableName));
 	}
 
 }

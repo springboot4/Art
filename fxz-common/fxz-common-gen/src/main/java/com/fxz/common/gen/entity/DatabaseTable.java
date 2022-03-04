@@ -1,8 +1,10 @@
 package com.fxz.common.gen.entity;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import lombok.experimental.FieldNameConstants;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +17,6 @@ import java.time.LocalDateTime;
  */
 @Data
 @Accessors(chain = true)
-@FieldNameConstants
 public class DatabaseTable {
 
 	/**
@@ -36,6 +37,8 @@ public class DatabaseTable {
 	/**
 	 * 创建时间
 	 */
+	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
 	private LocalDateTime createTime;
 
 }

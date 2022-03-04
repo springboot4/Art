@@ -1,15 +1,15 @@
-package cn.bootx.${module}.core.${method}.service;
+package com.fxz.${module}.core.service;
 
-import cn.bootx.common.core.exception.DataNotExistException;
-import cn.bootx.common.core.rest.PageResult;
-import cn.bootx.common.core.rest.param.PageParam;
-import cn.bootx.common.core.util.ResultConvertUtil;
-import cn.bootx.common.mybatisplus.util.MpUtil;
-    ${module}.dto.${method}.${className}Dto;
-    ${module}.param.${method}.${className}Param;
-    ${module}.core.${method}.convert.${className}Convert;
-    ${module}.core.${method}.entity.${className};
-    ${module}.core.${method}.dao.${className}Manager;
+import com.fxzcommon.core.exception.DataNotExistException;
+import com.fxzcommon.core.rest.PageResult;
+import com.fxzcommon.core.rest.param.PageParam;
+import com.fxzcommon.core.util.ResultConvertUtil;
+import com.fxzcommon.mybatisplus.util.MpUtil;
+    ${module}.dto.${className}Dto;
+    ${module}.param.${className}Param;
+    ${module}.core.convert.${className}Convert;
+    ${module}.core.entity.${className};
+    ${module}.core.dao.${className}Manager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

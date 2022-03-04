@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
+import com.fxz.common.gen.config.GenConfig;
 import com.fxz.common.gen.dto.CodeGenPreview;
 import com.fxz.common.gen.entity.CodeGenColumn;
 import com.fxz.common.gen.entity.DatabaseColumn;
@@ -85,6 +86,8 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 		map.put("classNameKebab", NamingCase.toKebabCase(tableToJava(databaseTable.getTableName())));
 		map.put("tableName", databaseTable.getTableName());
 		map.put("columns", columns);
+		map.put("module", GenConfig.module);
+		map.put("author", GenConfig.author);
 
 		return map;
 	}
