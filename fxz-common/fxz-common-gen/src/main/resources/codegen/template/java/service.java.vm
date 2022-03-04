@@ -1,0 +1,61 @@
+package com.fxz.${module}.service;
+
+import com.fxz.common.core.rest.param.PageParam;
+import com.fxz.common.core.entity.${module}.${className};
+import com.fxz.${module}.dao.${className}Mapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class ${className}Service {
+
+    private final ${className}Mapper ${classname}Mapper;
+
+    /**
+     * 添加
+     */
+    public ${className} add(${className} param) {
+            ${classname}Mapper.insert(param);
+        return param;
+    }
+
+    /**
+     * 修改
+     */
+    public ${className} update(${className} param) {
+            ${classname}Mapper.updateById(param);
+        return param;
+    }
+
+    /**
+     * 分页
+     */
+    public PageResult<${className}Dto> page(PageParam pageParam, ${className}Param ${classname}Param) {
+    }
+
+    /**
+     * 获取单条
+     */
+    public ${className} findById(Long id) {
+        return ${classname}Mapper.selectById(id);
+    }
+
+    /**
+     * 获取全部
+     */
+    public List<${className}> findAll() {
+        return ${classname}Mapper.selectList();
+    }
+
+
+}

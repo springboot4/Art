@@ -93,6 +93,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		menu.setComponent(vueRouter.getComponent());
 		menu.setPath(vueRouter.getPath());
 		menu.setCreateTime(new Date());
+		menu.setOrderNum(Convert.toInt(vueRouter.getOrderNum()));
 		this.baseMapper.insert(menu);
 	}
 

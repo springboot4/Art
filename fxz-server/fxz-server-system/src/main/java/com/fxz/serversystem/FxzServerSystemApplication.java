@@ -19,7 +19,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * @author fxz
  */
 @EnableFeignClients
-//@EnableDistributedTransaction
+// @EnableDistributedTransaction
 @MapperScan("com.fxz.serversystem.mapper")
 @FxzCloudApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)

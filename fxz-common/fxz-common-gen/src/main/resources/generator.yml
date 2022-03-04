@@ -1,0 +1,6 @@
+# 代码生成
+gen: 
+  # 作者
+  author: fxz
+  #模块名
+  module: serversystem

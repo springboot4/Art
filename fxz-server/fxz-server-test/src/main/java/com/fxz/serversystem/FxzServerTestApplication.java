@@ -1,6 +1,5 @@
 package com.fxz.serversystem;
 
-import com.codingapi.txlcn.tc.config.EnableDistributedTransaction;
 import com.fxz.common.security.annotation.FxzCloudApplication;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -17,16 +16,16 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * @author fxz
  */
 @MapperScan("com.fxz.serversystem.mapper")
-@EnableDistributedTransaction
+//@EnableDistributedTransaction
 @FxzCloudApplication
 @EnableFeignClients
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class FxzServerTestApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FxzServerTestApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FxzServerTestApplication.class, args);
+    }
 
 }
