@@ -8,8 +8,6 @@ import java.time.LocalTime;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.${module}.dto.${className}Dto;
 import com.fxz.${module}.param.${className}Param;
-import com.fxz.${module}.core.convert.${className}Convert;
-
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,14 +29,4 @@ public class ${className} {
     private $column.attrType $column.name;
 #end
 
-    /** 创建对象 */
-    public static ${className} init(${className}Param in) {
-            return ${className}Convert.CONVERT.convert(in);
-    }
-
-    /** 转换成dto */
-    @Override
-    public ${className}Dto toDto() {
-        return ${className}Convert.CONVERT.convert(this);
-    }
 }

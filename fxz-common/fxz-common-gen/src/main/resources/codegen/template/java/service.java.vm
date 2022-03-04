@@ -1,15 +1,12 @@
-package com.fxz.${module}.core.service;
+package com.fxz.${module}.service;
 
-import com.fxzcommon.core.exception.DataNotExistException;
-import com.fxzcommon.core.rest.PageResult;
-import com.fxzcommon.core.rest.param.PageParam;
-import com.fxzcommon.core.util.ResultConvertUtil;
-import com.fxzcommon.mybatisplus.util.MpUtil;
-    ${module}.dto.${className}Dto;
-    ${module}.param.${className}Param;
-    ${module}.core.convert.${className}Convert;
-    ${module}.core.entity.${className};
-    ${module}.core.dao.${className}Manager;
+import com.fxz.common.core.rest.PageResult;
+import com.fxz.common.core.rest.param.PageParam;
+import com.fxz.common.core.util.ResultConvertUtil;
+import com.fxz.common.mybatisplus.util.MpUtil;
+import com.fxz.${module}.param.${className}Param;
+import com.fxz.${module}.entity.${className};
+import com.fxz.${module}.dao.${className}Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,45 +21,43 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ${className}Service {
-    private final ${className}Manager ${classname}Manager;
+
+    private final ${className}Mapper ${classname}Mapper;
 
     /**
      * 添加
      */
-    public ${className}Dto add(${className}Param param){
-        ${className} ${classname} = ${className}.init(param);
-        return ${classname}Manager.save(${classname}).toDto();
+    public ${className} add(${className} param) {
+            ${classname}Mapper.insert(param);
+        return param;
     }
 
     /**
      * 修改
      */
-    public ${className}Dto update(${className}Param param){
-        ${className} ${classname} = ${classname}Manager.findById(param.getId()).orElseThrow(DataNotExistException::new);
-
-        BeanUtil.copyProperties(param,${classname}, CopyOptions.create().ignoreNullValue());
-        return ${classname}Manager.updateById(${classname}).toDto();
+    public ${className} update(${className} param) {
+            ${classname}Mapper.updateById(param);
+        return param;
     }
 
     /**
      * 分页
      */
-    public PageResult<${className}Dto> page(PageParam pageParam,${className}Param ${classname}Param){
-        return MpUtil.convert2DtoPageResult(${classname}Manager.page(pageParam,${classname}Param));
+    public PageResult<${className}Dto> page(PageParam pageParam, ${className}Param ${classname}Param) {
     }
 
     /**
      * 获取单条
      */
-    public ${className}Dto findById(Long id){
-        return ${classname}Manager.findById(id).map(${className}::toDto).orElseThrow(DataNotExistException::new);
+    public ${className} findById(Long id) {
+        return ${classname}Mapper.selectById(id);
     }
 
     /**
      * 获取全部
      */
-    public List<${className}Dto> findAll(){
-        return ResultConvertUtil.dtoListConvert(${classname}Manager.findAll());
+    public List<${className}> findAll() {
+        return ${classname}Mapper.selectList();
     }
 
 

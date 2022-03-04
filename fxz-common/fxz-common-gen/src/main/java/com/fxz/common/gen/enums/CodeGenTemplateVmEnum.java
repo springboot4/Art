@@ -18,26 +18,41 @@ import java.util.Objects;
 public enum CodeGenTemplateVmEnum {
 
 	/**
-	 * 代码生成模板枚举
+	 * 实体类
 	 */
-	ENTITY("entity", "codegen/template/java/entity.java.vm", ".java"), MAPPER("mapper",
-			"codegen/template/java/mapper.java.vm",
-			"Mapper.java"), MANAGER("manager", "codegen/template/java/manager.java.vm", "Manager.java"), SERVICE(
-					"service", "codegen/template/java/service.java.vm", "Service.java"), CONTROLLER("controller",
-							"codegen/template/java/controller.java.vm",
-							"Controller.java"), DTO("dto", "codegen/template/java/dto.java.vm", "Dto.java"), PARAM(
-									"param", "codegen/template/java/param.java.vm", "Param.java"), CONVERT("convert",
-											"codegen/template/java/convert.java.vm", "Convert.java"), API_V2("api_v2",
-													"codegen/template/vue2/api.js.vm", ".js"), LIST_V2("list_v2",
-															"codegen/template/vue2/list.vue.vm", "List.vue"), EDIT_V2(
-																	"edit_v2", "codegen/template/vue2/edit.vue.vm",
-																	"Edit.vue"), API_V3("api_v3",
-																			"codegen/template/vue3/api.js.vm",
-																			"V3.js"), LIST_V3("list_v3",
-																					"codegen/template/vue3/list.vue.vm",
-																					"ListV3.vue"), EDIT_V3("edit_v3",
-																							"codegen/template/vue3/edit.vue.vm",
-																							"EditV3.vue");
+	ENTITY("entity", "codegen/template/java/entity.java.vm", ".java"),
+	/**
+	 * mapper
+	 */
+	MAPPER("mapper", "codegen/template/java/mapper.java.vm", "Mapper.java"),
+	/**
+	 * service
+	 */
+	SERVICE("service", "codegen/template/java/service.java.vm", "Service.java"),
+	/**
+	 * controller
+	 */
+	CONTROLLER("controller", "codegen/template/java/controller.java.vm", "Controller.java"),
+	/**
+	 * dto
+	 */
+	DTO("dto", "codegen/template/java/dto.java.vm", "Dto.java"),
+	/**
+	 * param
+	 */
+	PARAM("param", "codegen/template/java/param.java.vm", "Param.java"),
+	/**
+	 * api_vue2
+	 */
+	API_V2("api_v2", "codegen/template/vue2/api.js.vm", ".js"),
+	/**
+	 * list_vue2
+	 */
+	LIST_V2("list_v2", "codegen/template/vue2/list.vue.vm", "List.vue"),
+	/**
+	 * edit_vue3
+	 */
+	EDIT_V2("edit_v2", "codegen/template/vue2/edit.vue.vm", "Edit.vue");
 
 	/**
 	 * 名称
