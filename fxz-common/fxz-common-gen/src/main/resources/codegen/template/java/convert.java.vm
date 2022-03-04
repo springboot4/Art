@@ -1,0 +1,22 @@
+package cn.bootx.${module}.core.${method}.convert;
+
+import cn.bootx.${module}.core.${method}.entity.${className};
+import cn.bootx.${module}.dto.${method}.${className}Dto;
+import cn.bootx.${module}.param.${method}.${className}Param;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Mapper
+public interface ${className}Convert {
+    ${className}Convert CONVERT = Mappers.getMapper(${className}Convert.class);
+
+    ${className} convert(${className}Param in);
+
+    ${className}Dto convert(${className} in);
+
+}

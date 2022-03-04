@@ -18,6 +18,7 @@
     <modules>
         <module>fxz-common-security</module>
         <module>fxz-common-core</module>
+        <module>fxz-common-gen</module>
     </modules>
 
     <properties>

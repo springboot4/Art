@@ -1,0 +1,33 @@
+package cn.bootx.${module}.core.${method}.dao;
+
+import cn.bootx.common.mybatisplus.impl.BaseManager;
+import cn.bootx.${module}.core.${method}.entity.${className};
+import cn.bootx.common.core.rest.param.PageParam;
+import cn.bootx.common.mybatisplus.base.MpBaseEntity;
+import cn.bootx.common.mybatisplus.impl.BaseManager;
+import cn.bootx.common.mybatisplus.util.MpUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Repository
+@RequiredArgsConstructor
+public class ${className}Manager extends BaseManager<${className}Mapper, ${className}> {
+    private final ${className}Mapper mapper;
+
+    /**
+    * 分页
+    */
+    public Page<${className}> page(PageParam pageParam, ${className}Param param) {
+        Page<${className}> mpPage = MpUtil.getMpPage(pageParam, ${className}.class);
+        return lambdaQuery().orderByDesc(MpBaseEntity::getCreateTime).page(mpPage);
+    }
+}

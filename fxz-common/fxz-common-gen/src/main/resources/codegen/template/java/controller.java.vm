@@ -1,0 +1,66 @@
+package cn.bootx.${module}.core.controller;
+
+import cn.bootx.common.core.rest.PageResult;
+import cn.bootx.common.core.rest.Res;
+import cn.bootx.common.core.rest.ResResult;
+import cn.bootx.common.core.rest.param.PageParam;
+import cn.bootx.${module}.core.${method}.service.${className}Service;
+import cn.bootx.${module}.dto.${method}.${className}Dto;
+import cn.bootx.${module}.param.${method}.${className}Param;
+import QueryParams;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Tag(name ="${comments}")
+@RestController
+@RequestMapping("/${classname}")
+@RequiredArgsConstructor
+public class ${className}Controller {
+    private final ${className}Service ${classname}Service;
+
+    @Operation( summary = "添加")
+    @PostMapping(value = "/add")
+    public ResResult<${className}Dto> add(@RequestBody ${className}Param param){
+        return Res.ok(${classname}Service.add(param));
+    }
+
+    @Operation( summary = "修改")
+    @PostMapping(value = "/update")
+    public ResResult<${className}Dto> update(@RequestBody ${className}Param param){
+        return Res.ok(${classname}Service.update(param));
+    }
+
+    @Operation( summary = "删除")
+    @DeleteMapping(value = "/delete")
+    public ResResult<Void> delete(Long id){
+        ${classname}Service.delete(id);
+        return Res.ok();
+    }
+
+    @Operation( summary = "通过ID查询")
+    @GetMapping(value = "/findById")
+    public ResResult<${className}Dto> findById(Long id){
+        return Res.ok(${classname}Service.findById(id));
+    }
+
+    @Operation( summary = "查询所有")
+    @GetMapping(value = "/findAll")
+    public ResResult<List<${className}Dto>> findAll(){
+        return Res.ok(${classname}Service.findAll());
+    }
+
+    @Operation( summary = "分页查询")
+    @GetMapping(value = "/page")
+    public ResResult<PageResult<${className}Dto>> page(PageParam pageParam, ${className}Param ${classname}Param){
+        return Res.ok(${classname}Service.page(pageParam,${classname}Param));
+    }
+}

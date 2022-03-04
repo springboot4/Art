@@ -1,8 +1,6 @@
 package com.fxz.serversystem.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.codingapi.txlcn.tc.annotation.LcnTransaction;
-import com.codingapi.txlcn.tracing.TracingContext;
 import com.fxz.common.core.entity.system.TradeLog;
 import com.fxz.serversystem.mapper.TestTradeLogMapper;
 import com.fxz.serversystem.service.ITestTradeLogService;
@@ -22,7 +20,7 @@ public class TradeLogServiceImpl extends ServiceImpl<TestTradeLogMapper, TradeLo
 	ConcurrentHashMap<String, Long> hashMap = new ConcurrentHashMap<>();
 
 	@Override
-	@LcnTransaction
+	// @LcnTransaction
 	public void packageAndSend(TradeLog tradeLog) {
 		TradeLog tl = new TradeLog();
 		tl.setGoodsId(tradeLog.getGoodsId());
@@ -33,7 +31,7 @@ public class TradeLogServiceImpl extends ServiceImpl<TestTradeLogMapper, TradeLo
 		this.save(tl);
 		log.info("商品ID为{}，名称为{}的商品打包完毕，开始物流配送", tradeLog.getGoodsId(), tradeLog.getGoodsName());
 
-		hashMap.put(TracingContext.tracing().groupId(), tradeLog.getId());
+		// hashMap.put(TracingContext.tracing().groupId(), tradeLog.getId());
 	}
 
 }

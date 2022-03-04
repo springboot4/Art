@@ -22,7 +22,7 @@ public class TradeLogServiceImpl extends ServiceImpl<TradeLogMapper, TradeLog> i
 	private final IRemoteTradeLogService remoteTradeLogService;
 
 	@Override
-	//@LcnTransaction
+	// @LcnTransaction
 	public void orderAndPay(TradeLog tradeLog) {
 		tradeLog.setCreateTime(new Date());
 		tradeLog.setStatus("下单并支付成功");
