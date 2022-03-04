@@ -4,10 +4,8 @@ import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.common.gen.service.impl.CodeGeneratorServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Fxz
@@ -30,6 +28,15 @@ public class CodeGeneratorController {
 	@GetMapping("/codeGenPreview")
 	public FxzResponse codeGenPreview(@RequestParam String tableName) {
 		return new FxzResponse().data(codeGeneratorService.codeGenPreview(tableName));
+	}
+
+	/**
+	 * 生成代码
+	 * @param tableName 表名
+	 */
+	@GetMapping("/genCodeZip")
+	public ResponseEntity<byte[]> genCodeZip(@RequestParam String tableName) {
+		return codeGeneratorService.genCodeZip(tableName);
 	}
 
 }
