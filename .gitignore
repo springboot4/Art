@@ -12,6 +12,7 @@
 .project
 .settings
 .springBeans
+.db
 bin/
 
 ### IntelliJ IDEA ###
