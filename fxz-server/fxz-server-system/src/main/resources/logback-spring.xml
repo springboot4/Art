@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <contextName>fxz</contextName>
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
-    <property name="log.path" value="log/fxz-server-system"/>
+    <property name="log.path" value="_log/fxz-server-system"/>
     <property name="log.maxHistory" value="15"/>
     <property name="log.colorPattern"
               value="%magenta(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %boldCyan([${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]) %yellow(%thread) %green(%logger) %msg%n"/>
