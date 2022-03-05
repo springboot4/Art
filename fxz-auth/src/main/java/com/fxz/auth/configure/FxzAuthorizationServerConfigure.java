@@ -55,6 +55,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+		//todo ClientDetailsService
 		FxzClientsProperties[] clientsArray = authProperties.getClients();
 		InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
 
