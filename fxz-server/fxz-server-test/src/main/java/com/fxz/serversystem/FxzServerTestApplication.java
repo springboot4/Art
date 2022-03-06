@@ -1,6 +1,5 @@
 package com.fxz.serversystem;
 
-import com.fxz.common.security.annotation.FxzCloudApplication;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +16,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  */
 @MapperScan("com.fxz.serversystem.mapper")
 // @EnableDistributedTransaction
-@FxzCloudApplication
 @EnableFeignClients
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableDiscoveryClient

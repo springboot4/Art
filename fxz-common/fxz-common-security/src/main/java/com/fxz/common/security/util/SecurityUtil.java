@@ -6,7 +6,6 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
 /**
@@ -20,8 +19,8 @@ public class SecurityUtil {
 	/**
 	 * 获取Authentication
 	 */
-	public OAuth2Authentication getAuthentication() {
-		return (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+	public Authentication getAuthentication() {
+		return SecurityContextHolder.getContext().getAuthentication();
 	}
 
 	/**
@@ -53,8 +52,11 @@ public class SecurityUtil {
 	 * @return String 令牌内容
 	 */
 	public static String getCurrentTokenValue() {
-		OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) getAuthentication().getDetails();
-		return details.getTokenValue();
+		Object details = getAuthentication().getDetails();
+		if (details instanceof OAuth2AuthenticationDetails) {
+			return ((OAuth2AuthenticationDetails) details).getTokenValue();
+		}
+		return null;
 	}
 
 }
