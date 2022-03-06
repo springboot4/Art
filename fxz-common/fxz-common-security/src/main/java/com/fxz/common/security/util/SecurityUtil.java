@@ -53,13 +53,8 @@ public class SecurityUtil {
 	 * @return String 令牌内容
 	 */
 	public static String getCurrentTokenValue() {
-		try {
-			OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) getAuthentication().getDetails();
-			return details.getTokenValue();
-		}
-		catch (Exception ignore) {
-			return null;
-		}
+		OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) getAuthentication().getDetails();
+		return details.getTokenValue();
 	}
 
 }

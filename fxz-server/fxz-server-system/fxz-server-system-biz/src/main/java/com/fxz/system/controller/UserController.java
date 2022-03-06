@@ -44,41 +44,20 @@ public class UserController {
 	@PostMapping
 	@PreAuthorize("hasAnyAuthority('sys:user:add')")
 	public void addUser(@RequestBody SystemUser user) throws FxzException {
-		try {
-			this.userService.createUser(user);
-		}
-		catch (Exception e) {
-			String message = "新增用户失败";
-			log.error(message, e);
-			throw new FxzException(message);
-		}
+		this.userService.createUser(user);
 	}
 
 	@PutMapping
 	@PreAuthorize("hasAnyAuthority('sys:user:update')")
 	public void updateUser(@RequestBody SystemUser user) throws FxzException {
-		try {
-			this.userService.updateUser(user);
-		}
-		catch (Exception e) {
-			String message = "修改用户失败";
-			log.error(message, e);
-			throw new FxzException(message);
-		}
+		this.userService.updateUser(user);
 	}
 
 	@DeleteMapping("/{userIds}")
 	@PreAuthorize("hasAnyAuthority('sys:user:delete')")
 	public void deleteUsers(@NotBlank(message = "{required}") @PathVariable String userIds) throws FxzException {
-		try {
-			String[] ids = userIds.split(StringPool.COMMA);
-			this.userService.deleteUsers(ids);
-		}
-		catch (Exception e) {
-			String message = "删除用户失败";
-			log.error(message, e);
-			throw new FxzException(message);
-		}
+		String[] ids = userIds.split(StringPool.COMMA);
+		this.userService.deleteUsers(ids);
 	}
 
 	/**
