@@ -52,7 +52,7 @@ public enum CodeGenTemplateVmEnum {
 	/**
 	 * template_vue2
 	 */
-	TEMPLATE_V2("template_v2","codegen/template/vue2/template.js.vm",".js"),
+	TEMPLATE_V2("template_v2", "codegen/template/vue2/template.js.vm", ".js"),
 	/**
 	 * edit_vue3
 	 */
