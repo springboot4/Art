@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxz.system.mapper.UserMapper">
+
+    <!--分页查找用户详细信息-->
+    <select id="findUserDetailPage"  resultType="com.fxz.system.entity.SystemUser">
+        SELECT
+        u.user_id userId,
+        u.username,
+        u.email,
+        u.mobile,
+        u.status,
+        u.create_time createTime,
+        u.ssex sex,
+        u.dept_id deptId,
+        u.last_login_time lastLoginTime,
+        u.modify_time modifyTime,
+        u.description,
+        u.avatar,
+        d.dept_name deptName,
+        GROUP_CONCAT(r.role_id) roleId,
+        GROUP_CONCAT(r.ROLE_NAME) roleName
+        FROM
+        t_user u
+        LEFT JOIN t_dept d ON (u.dept_id = d.dept_id)
+        LEFT JOIN t_user_role ur ON (u.user_id = ur.user_id)
+        LEFT JOIN t_role r ON r.role_id = ur.role_id
+        WHERE u.STATUS = 1
+        <if test="user.username != null and user.username != ''">
+            AND u.username like concat('%',#{user.username},'%')
+        </if>
+        <if test="user.sex != null and user.sex != ''">
+            AND u.ssex = #{user.sex}
+        </if>
+        <if test="user.status != null and user.status != ''">
+            AND u.status = #{user.status}
+        </if>
+        <if test="user.mobile != null and user.mobile != ''">
+            AND u.mobile like concat('%',#{user.mobile},'%')
+        </if>
+        group by u.username,u.user_id,u.email,u.mobile,u.status,u.create_time,u.ssex,
+        u.dept_id,u.last_login_time,u.modify_time,u.description,u.avatar
+        order by createTime
+    </select>
+
+    <!--根据用户id获取用户信息-->
+    <select id="getUserById" resultType="com.fxz.system.entity.SystemUser">
+        SELECT
+        u.user_id userId,
+        u.username,
+        u.email,
+        u.mobile,
+        u.status,
+        u.create_time createTime,
+        u.ssex sex,
+        u.dept_id deptId,
+        u.last_login_time lastLoginTime,
+        u.modify_time modifyTime,
+        u.description,
+        u.avatar,
+        d.dept_name deptName,
+        GROUP_CONCAT(r.role_id) roleId,
+        GROUP_CONCAT(r.ROLE_NAME) roleName
+        FROM
+        t_user u
+        LEFT JOIN t_dept d ON (u.dept_id = d.dept_id)
+        LEFT JOIN t_user_role ur ON (u.user_id = ur.user_id)
+        LEFT JOIN t_role r ON r.role_id = ur.role_id
+        WHERE u.STATUS = 1 AND u.user_id = #{id}
+        group by u.username,u.user_id,u.email,u.mobile,u.status,u.create_time,u.ssex,
+        u.dept_id,u.last_login_time,u.modify_time,u.description,u.avatar
+    </select>
+
+    <!--通过用户名查找用户信息-->
+    <select id="findByName" parameterType="string" resultType="com.fxz.system.entity.SystemUser">
+        SELECT u.user_id                 userId,
+               u.username,
+               u.email,
+               u.mobile,
+               u.password,
+               u.status,
+               u.create_time             createTime,
+               u.ssex                    sex,
+               u.dept_id                 deptId,
+               u.last_login_time         lastLoginTime,
+               u.modify_time             modifyTime,
+               u.description,
+               u.avatar,
+               d.dept_name               deptName,
+               GROUP_CONCAT(r.role_id)   roleId,
+               GROUP_CONCAT(r.ROLE_NAME) roleName
+        FROM t_user u
+                 LEFT JOIN t_dept d ON (u.dept_id = d.dept_id)
+                 LEFT JOIN t_user_role ur ON (u.user_id = ur.user_id)
+                 LEFT JOIN t_role r ON r.role_id = ur.role_id
+        WHERE u.username = #{username}
+        group by u.username, u.user_id, u.email, u.mobile, u.password, u.status, u.create_time, u.ssex, u.dept_id
+               , u.last_login_time, u.modify_time, u.description, u.avatar
+    </select>
+
+</mapper>

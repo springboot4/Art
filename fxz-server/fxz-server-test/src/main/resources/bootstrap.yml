@@ -1,6 +1,6 @@
 spring:
   application:
-    name: fxz-server-system-test
+    name: @artifactId@
   cloud:
     nacos:
       discovery:

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxz.system.mapper.MenuMapper">
+
+    <resultMap id="vueRouter" type="com.fxz.common.core.entity.router.VueRouter">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="component" property="component"/>
+        <result column="keep_alive" property="keepAlive"/>
+        <result column="hidden" property="hidden"/>
+        <result column="title" property="title"/>
+        <result column="perms" property="perms"/>
+        <result column="type" property="type"/>
+        <result column="path" property="path"/>
+        <result column="order_num" property="orderNum"/>
+        <collection property="children" column="{id = id}" select="getMenuByPid"/>
+    </resultMap>
+
+    <!--通过用户名查询权限信息-->
+    <select id="findUserPermissions" resultType="com.fxz.system.entity.Menu">
+        select distinct m.perms
+        from t_role r
+                 left join t_user_role ur on (r.role_id = ur.role_id)
+                 left join t_user u on (u.user_id = ur.user_id)
+                 left join t_role_menu rm on (rm.role_id = r.role_id)
+                 left join t_menu m on (m.id = rm.menu_id)
+        where u.username = #{userName}
+          and m.perms is not null
+          and m.perms &lt;&gt; ''
+    </select>
+
+    <!--通过用户名查询菜单信息-->
+    <select id="findUserMenus" resultType="com.fxz.system.entity.Menu">
+        select m.*
+        from t_menu m
+        where m.type &lt;&gt; 1
+          and m.id in
+              (select distinct rm.menu_id
+               from t_role_menu rm
+                        left join t_role r on (rm.role_id = r.role_id)
+                        left join t_user_role ur on (ur.role_id = r.role_id)
+                        left join t_user u on (u.user_id = ur.user_id)
+               where u.username = #{userName})
+        order by m.order_num
+    </select>
+
+    <!--获取全部的树形菜单信息(包括按钮)-->
+    <select id="getAllMenuTree" resultMap="vueRouter">
+        SELECT
+            m.id,
+            m.parent_id,
+            m.`name`,
+            m.component,
+            m.keep_alive,
+            m.hidden,
+            m.title,
+            m.perms,
+            m.type,
+            m.path
+        FROM
+            t_menu m
+        where m.parent_id = 0
+        ORDER BY order_num
+    </select>
+
+    <!--根据父节点id查询路由信息-->
+    <select id="getMenuByPid" resultMap="vueRouter">
+        SELECT
+            m.id,
+            m.parent_id,
+            m.`name`,
+            m.component,
+            m.keep_alive,
+            m.hidden,
+            m.title,
+            m.perms,
+            m.type,
+            m.path
+        FROM
+            t_menu m
+        WHERE
+            parent_id = #{id}
+    </select>
+</mapper>

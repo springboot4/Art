@@ -1,13 +1,14 @@
 package com.fxz.auth.manager;
 
-import com.fxz.common.core.entity.system.Menu;
-import com.fxz.common.core.entity.system.SystemUser;
-import com.fxz.auth.mapper.MenuMapper;
-import com.fxz.auth.mapper.UserMapper;
+import com.fxz.system.entity.Menu;
+import com.fxz.system.entity.SystemUser;
+import com.fxz.system.feign.RemoteMenuService;
+import com.fxz.system.feign.RemoteUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -15,22 +16,22 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2021-11-28 15:53
  */
+@SuppressWarnings("unchecked")
 @Service
 @RequiredArgsConstructor
 public class UserManager {
 
-	private final UserMapper userMapper;
+	private final RemoteUserService userService;
 
-	private final MenuMapper menuMapper;
+	private final RemoteMenuService menuService;
 
 	public SystemUser findByName(String username) {
-		return userMapper.findByName(username);
+		return userService.findByName(username);
 	}
 
 	public String findUserPermissions(String username) {
-		List<Menu> userPermissions = menuMapper.findUserPermissions(username);
-
-		return userPermissions.stream().map(Menu::getPerms).collect(Collectors.joining(","));
+		Set<String> userPermissions = menuService.findUserPermissions(username);
+		return String.join(",", userPermissions);
 	}
 
 }

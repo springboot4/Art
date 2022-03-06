@@ -6,6 +6,8 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
 /**
  * Spring security 工具类
@@ -18,8 +20,8 @@ public class SecurityUtil {
 	/**
 	 * 获取Authentication
 	 */
-	public Authentication getAuthentication() {
-		return SecurityContextHolder.getContext().getAuthentication();
+	public OAuth2Authentication getAuthentication() {
+		return (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
 	}
 
 	/**
@@ -44,6 +46,20 @@ public class SecurityUtil {
 			throw new FxzException("获取用户信息失败");
 		}
 		return userDetail;
+	}
+
+	/**
+	 * 获取当前令牌内容
+	 * @return String 令牌内容
+	 */
+	public static String getCurrentTokenValue() {
+		try {
+			OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) getAuthentication().getDetails();
+			return details.getTokenValue();
+		}
+		catch (Exception ignore) {
+			return null;
+		}
 	}
 
 }

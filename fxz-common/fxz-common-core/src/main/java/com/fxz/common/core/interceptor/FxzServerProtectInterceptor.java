@@ -33,7 +33,8 @@ public class FxzServerProtectInterceptor implements HandlerInterceptor {
 			FxzResponse fxzResponse = new FxzResponse();
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			response.getWriter().write(JSONObject.toJSONString(fxzResponse.message("请通过网关获取资源")));
+			response.getWriter()
+					.write(JSONObject.toJSONString(fxzResponse.message("Obtain resources through the gateway!")));
 			return false;
 		}
 	}

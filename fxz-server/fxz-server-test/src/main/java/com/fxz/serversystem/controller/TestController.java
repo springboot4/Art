@@ -1,8 +1,8 @@
 package com.fxz.serversystem.controller;
 
-import com.fxz.common.core.entity.system.TradeLog;
 import com.fxz.serversystem.service.IHelloService;
 import com.fxz.serversystem.service.ITestTradeLogService;
+import com.fxz.system.entity.TradeLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;

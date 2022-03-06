@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: fxz-monitor-admin
+    name: @artifactId@
   boot:
     admin:
       ui:

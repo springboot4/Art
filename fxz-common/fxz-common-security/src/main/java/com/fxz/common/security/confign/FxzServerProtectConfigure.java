@@ -18,12 +18,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class FxzServerProtectConfigure implements WebMvcConfigurer {
 
 	@Bean
-	@ConditionalOnMissingBean(value = PasswordEncoder.class)
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
 	public HandlerInterceptor fxzServerProtectInterceptor() {
 		return new FxzServerProtectInterceptor();
 	}
