@@ -10,6 +10,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -25,6 +26,7 @@ import java.util.Set;
  * @date 2021-11-28 11:42
  */
 @Slf4j
+@RestControllerAdvice
 public class BaseExceptionHandler {
 
 	/**
@@ -70,13 +72,6 @@ public class BaseExceptionHandler {
 		return new FxzResponse().message(e.getMessage());
 	}
 
-	@ExceptionHandler(value = Exception.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public FxzResponse handleException(Exception e) {
-		log.error("系统内部异常，异常信息", e);
-		return new FxzResponse().message("系统内部异常");
-	}
-
 	@ExceptionHandler(value = FxzAuthException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public FxzResponse handleFxzAuthException(FxzAuthException e) {
@@ -84,11 +79,11 @@ public class BaseExceptionHandler {
 		return new FxzResponse().message(e.getMessage());
 	}
 
-	/*
-	 * @ExceptionHandler(value = AccessDeniedException.class)
-	 *
-	 * @ResponseStatus(HttpStatus.FORBIDDEN) public FxzResponse
-	 * handleAccessDeniedException() { return new FxzResponse().message("没有权限访问该资源"); }
-	 */
+	@ExceptionHandler(value = Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public FxzResponse handleException(Exception e) {
+		log.error("系统内部异常，异常信息", e);
+		return new FxzResponse().message("系统内部异常");
+	}
 
 }

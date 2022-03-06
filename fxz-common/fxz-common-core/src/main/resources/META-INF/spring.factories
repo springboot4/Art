@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.fxz.common.security.confign.FxzCloudSecurityAutoConfigure
+  com.fxz.common.core.handler.BaseExceptionHandler
