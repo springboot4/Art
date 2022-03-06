@@ -1,9 +1,9 @@
 package com.fxz.auth.service;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.fxz.common.security.entity.FxzAuthUser;
-import com.fxz.common.core.entity.system.SystemUser;
 import com.fxz.auth.manager.UserManager;
+import com.fxz.common.security.entity.FxzAuthUser;
+import com.fxz.system.entity.SystemUser;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;

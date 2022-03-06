@@ -1,6 +1,5 @@
 package com.fxz.common.security.selector;
 
-import com.fxz.common.security.confign.FxzAuthExceptionConfigure;
 import com.fxz.common.security.confign.FxzOAuth2FeignConfigure;
 import com.fxz.common.security.confign.FxzServerProtectConfigure;
 import org.springframework.context.annotation.ImportSelector;
@@ -16,8 +15,7 @@ public class FxzCloudApplicationSelector implements ImportSelector {
 	@SuppressWarnings("all")
 	@Override
 	public String[] selectImports(AnnotationMetadata annotationMetadata) {
-		return new String[] { FxzAuthExceptionConfigure.class.getName(), FxzOAuth2FeignConfigure.class.getName(),
-				FxzServerProtectConfigure.class.getName() };
+		return new String[] { FxzOAuth2FeignConfigure.class.getName(), FxzServerProtectConfigure.class.getName() };
 	}
 
 }
