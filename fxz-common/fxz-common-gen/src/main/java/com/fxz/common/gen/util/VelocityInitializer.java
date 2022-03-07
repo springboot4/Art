@@ -20,7 +20,7 @@ public class VelocityInitializer {
 		try {
 			// 加载classpath目录下的vm文件
 			Properties prop = new Properties();
-			prop.put("file.resource.loader.class",
+			prop.put("resource.loader.file.class",
 					"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 			// 初始化Velocity引擎，指定配置Properties
 			Velocity.init(prop);
