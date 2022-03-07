@@ -1,10 +1,12 @@
 package com.fxz.auth.controller;
 
+import com.fxz.auth.service.ValidateCodeService;
+import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.common.core.exception.FxzAuthException;
 import com.fxz.common.core.exception.ValidateCodeException;
-import com.fxz.auth.service.ValidateCodeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +23,7 @@ import java.security.Principal;
  * @version 1.0
  * @date 2021-11-27 16:28
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class SecurityController {
@@ -50,11 +53,15 @@ public class SecurityController {
 		return principal;
 	}
 
-	@DeleteMapping("/signout")
-	public FxzResponse signout(HttpServletRequest request) throws FxzAuthException {
+	@DeleteMapping("/myLogout")
+	public FxzResponse logout(HttpServletRequest request) throws FxzAuthException {
+		// 获取请求头信息
 		String authorization = request.getHeader("Authorization");
-		String token = StringUtils.replace(authorization, "bearer ", "");
+		// 提取token
+		String token = StringUtils.replace(authorization, FxzConstant.OAUTH2_TOKEN_TYPE, "");
+		log.info("token:{}", token);
 		FxzResponse fxzResponse = new FxzResponse();
+		// 此处调用了redis删除缓存的登录信息
 		if (!consumerTokenServices.revokeToken(token)) {
 			throw new FxzAuthException("退出登录失败");
 		}

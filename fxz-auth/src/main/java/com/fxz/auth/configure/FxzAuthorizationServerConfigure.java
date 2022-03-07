@@ -4,6 +4,7 @@ import com.fxz.auth.properties.FxzAuthProperties;
 import com.fxz.auth.properties.FxzClientsProperties;
 import com.fxz.auth.service.FxzUserDetailServiceImpl;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
+import com.fxz.common.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +29,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 /**
  * @author Fxz
  * @version 1.0
+ * @Description 认证服务器配置
  * @date 2021-11-27 16:10
  */
 @Configuration
@@ -84,7 +86,9 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 	@Bean
 	public TokenStore tokenStore() {
-		return new RedisTokenStore(redisConnectionFactory);
+		RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+		redisTokenStore.setPrefix(SecurityConstants.TOKEN_PREFIX);
+		return redisTokenStore;
 	}
 
 	@Bean

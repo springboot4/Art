@@ -1,6 +1,6 @@
 package com.fxz.auth.service;
 
-import com.fxz.common.core.entity.FxzConstant;
+import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.core.exception.ValidateCodeException;
 import com.fxz.common.core.service.RedisService;
 import com.fxz.auth.properties.FxzAuthProperties;

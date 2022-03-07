@@ -24,7 +24,7 @@ public interface SecurityConstants {
 	/**
 	 * token 相关前缀
 	 */
-	String TOKEN_PREFIX = "token:";
+	String TOKEN_PREFIX = "fxz_cloud:oauth:";
 
 	/**
 	 * oauth 相关前缀

@@ -1,7 +1,7 @@
 package com.fxz.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fxz.common.core.entity.FxzConstant;
+import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.gateway.properties.FxzGatewayProperties;
 import lombok.RequiredArgsConstructor;
