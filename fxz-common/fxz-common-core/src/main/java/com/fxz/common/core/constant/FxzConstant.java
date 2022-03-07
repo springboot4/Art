@@ -1,4 +1,4 @@
-package com.fxz.common.core.entity;
+package com.fxz.common.core.constant;
 
 /**
  * @author Fxz
@@ -32,6 +32,6 @@ public class FxzConstant {
 	 */
 	public static final String CODE_PREFIX = "fxz.captcha.";
 
-	public static final String OAUTH2_TOKEN_TYPE = "bearer ";
+	public static final String OAUTH2_TOKEN_TYPE = "Bearer ";
 
 }

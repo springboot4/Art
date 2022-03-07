@@ -1,6 +1,6 @@
 package com.fxz.common.security.confign;
 
-import com.fxz.common.core.entity.FxzConstant;
+import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.security.FxzUserInfoTokenServices;
 import com.fxz.common.security.handler.FxzAccessDeniedHandler;
 import com.fxz.common.security.handler.FxzAuthExceptionEntryPoint;

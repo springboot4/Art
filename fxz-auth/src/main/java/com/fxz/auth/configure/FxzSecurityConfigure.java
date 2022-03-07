@@ -11,10 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * 开启和Web相关的安全配置
- *
  * @author Fxz
  * @version 1.0
+ * @Description 开启和Web相关的安全配置
  * @date 2021-11-27 16:00
  */
 @Order(2)
