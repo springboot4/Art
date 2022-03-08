@@ -6,7 +6,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 /**
- * 验证码文本生成器
+ * 验证码文本生成器 配置在
+ *
+ * @see com.fxz.gateway.kaptcha.config.CaptchaConfig
  */
 public class KaptchaTextCreator extends DefaultTextCreator {
 
@@ -17,7 +19,8 @@ public class KaptchaTextCreator extends DefaultTextCreator {
 	// 作为熵池，熵越大随机性越好，熵池数量不足就会阻塞线程，适用随机数比较高的请求。
 
 	private SecureRandom random = new SecureRandom(); // /dev/urandom
-														// 作为熵池，非阻塞的随机数生成器，重复使用熵池中的数据以产生伪随机数据，不会产生阻塞，适用生成较低强度的伪随机数。
+
+	// 作为熵池，非阻塞的随机数生成器，重复使用熵池中的数据以产生伪随机数据，不会产生阻塞，适用生成较低强度的伪随机数。
 
 	public KaptchaTextCreator() throws NoSuchAlgorithmException {
 	}

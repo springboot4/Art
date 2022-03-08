@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
+ * 生成验证码缓存并返回前端
+ *
  * @author fxz
  */
 @SuppressWarnings("all")
