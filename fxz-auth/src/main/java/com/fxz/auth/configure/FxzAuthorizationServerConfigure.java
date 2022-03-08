@@ -1,10 +1,12 @@
 package com.fxz.auth.configure;
 
+import com.fxz.auth.extension.captcha.CaptchaTokenGranter;
 import com.fxz.auth.properties.FxzAuthProperties;
 import com.fxz.auth.properties.FxzClientsProperties;
 import com.fxz.auth.service.FxzUserDetailServiceImpl;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
+import com.fxz.common.core.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -20,11 +22,17 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Fxz
@@ -36,6 +44,8 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @EnableAuthorizationServer
 @RequiredArgsConstructor
 public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigurerAdapter {
+
+	private final RedisService redisService;
 
 	private final AuthenticationManager authenticationManager;
 
@@ -79,9 +89,18 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 	@Override
 	@SuppressWarnings("all")
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+		// 获取原有默认的授权者(授权码模式、密码模式、客户端模式、简化模式)
+		List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
+
+		// 添加验证码授权模式授权者
+		granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+				endpoints.getOAuth2RequestFactory(), authenticationManager, redisService));
+
+		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
+
 		endpoints.tokenStore(tokenStore()).userDetailsService(userDetailService)
 				.authenticationManager(authenticationManager).tokenServices(defaultTokenServices())
-				.exceptionTranslator(fxzWebResponseExceptionTranslator);
+				.tokenGranter(compositeTokenGranter).exceptionTranslator(fxzWebResponseExceptionTranslator);
 	}
 
 	@Bean
