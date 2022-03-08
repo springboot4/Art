@@ -70,7 +70,7 @@ public class MenuController {
 
 	/**
 	 * 保存路由信息
-	 * @param vueRouter
+	 * @param vueRouter 路由信息
 	 */
 	@PostMapping("/save")
 	public void saveMenu(@RequestBody VueRouter vueRouter) {

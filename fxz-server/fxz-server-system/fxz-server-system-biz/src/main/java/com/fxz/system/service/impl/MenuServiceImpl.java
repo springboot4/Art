@@ -44,6 +44,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 			route.setId(menu.getId().toString());
 			route.setParentId(menu.getParentId().toString());
 			route.setPath(menu.getPath());
+			route.setRedirect(menu.getRedirect());
 			route.setComponent(menu.getComponent());
 			route.setName(menu.getName());
 			route.setHidden(menu.getHidden());
@@ -92,6 +93,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		menu.setName(vueRouter.getName());
 		menu.setComponent(vueRouter.getComponent());
 		menu.setPath(vueRouter.getPath());
+		menu.setRedirect(vueRouter.getRedirect());
 		menu.setCreateTime(new Date());
 		menu.setOrderNum(Convert.toInt(vueRouter.getOrderNum()));
 		this.baseMapper.insert(menu);
@@ -116,6 +118,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		vueRouter.setName(menu.getName());
 		vueRouter.setComponent(menu.getComponent());
 		vueRouter.setPath(menu.getPath());
+		vueRouter.setRedirect(menu.getRedirect());
 		vueRouter.setOrderNum(Double.valueOf(menu.getOrderNum()));
 		return vueRouter;
 	}

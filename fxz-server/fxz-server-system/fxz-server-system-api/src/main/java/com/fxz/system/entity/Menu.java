@@ -57,6 +57,11 @@ public class Menu implements Serializable {
 	private String path;
 
 	/**
+	 * 重定向地址
+	 */
+	private String redirect;
+
+	/**
 	 * 对应 Vue组件
 	 */
 	private String component;
