@@ -1,9 +1,9 @@
 package com.fxz.auth.filter;
 
+import com.fxz.auth.service.ValidateCodeService;
 import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.common.core.exception.ValidateCodeException;
 import com.fxz.common.core.utils.FxzUtil;
-import com.fxz.auth.service.ValidateCodeService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,13 +21,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
- * 验证码过滤器
+ * @author Fxz
+ * @version 1.0
+ * @Deprecated 我们不再使用添加过滤器在UsernamePasswordAuthenticationFilter前来达到校验验证码的效果
+ * 而是拓展了Oauth的Granter来实现验证码授权模式 验证码过滤器
  * <p>
  * ValidateCodeFilter继承Spring Boot提供的OncePerRequestFilter，该过滤器实现了javax.servlet.filter接口，
  * 顾名思义，它可以确保我们的逻辑只被执行一次：
- *
- * @author Fxz
- * @version 1.0
  * @date 2021-11-28 17:11
  */
 @Slf4j
@@ -54,9 +53,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 			}
 			catch (ValidateCodeException e) {
-				FxzResponse febsResponse = new FxzResponse();
+				FxzResponse fxzResponse = new FxzResponse();
 				FxzUtil.makeResponse(httpServletResponse, MediaType.APPLICATION_JSON_VALUE,
-						HttpServletResponse.SC_INTERNAL_SERVER_ERROR, febsResponse.message(e.getMessage()));
+						HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fxzResponse.message(e.getMessage()));
 				log.error(e.getMessage(), e);
 			}
 		}
