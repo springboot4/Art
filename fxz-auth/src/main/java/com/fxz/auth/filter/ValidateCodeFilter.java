@@ -32,7 +32,7 @@ import java.util.Base64;
  * @date 2021-11-28 17:11
  */
 @Slf4j
-@Component
+// @Component
 @RequiredArgsConstructor
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
