@@ -1,8 +1,24 @@
 package com.fxz.common.security.properties;
 
+import cn.hutool.core.util.ReUtil;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.fxz.common.security.annotation.Ojbk;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * 资源服务器属性配置
@@ -11,8 +27,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ToString
 @Data
+@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "fxz.cloud.security")
-public class FxzCloudSecurityProperties {
+public class FxzCloudSecurityProperties implements InitializingBean {
+
+	private final WebApplicationContext webApplicationContext;
+
+	private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 
 	/**
 	 * 是否开启安全配置
@@ -33,5 +54,36 @@ public class FxzCloudSecurityProperties {
 	 * 是否只能通过网关获取资源
 	 */
 	private Boolean onlyFetchByGateway = Boolean.TRUE;
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		List<String> list = new ArrayList<>();
+
+		RequestMappingHandlerMapping mapping = webApplicationContext.getBean(RequestMappingHandlerMapping.class);
+		Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
+
+		map.keySet().forEach(info -> {
+			HandlerMethod handlerMethod = map.get(info);
+
+			// 获取方法上边的注解 替代path variable 为 *
+			Ojbk method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Ojbk.class);
+			Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
+					.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+
+			// 获取类上边的注解, 替代path variable 为 *
+			Ojbk controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Ojbk.class);
+			Optional.ofNullable(controller).ifPresent(inner -> info.getPatternsCondition().getPatterns()
+					.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+
+		});
+
+		if (CollectionUtils.isNotEmpty(list)) {
+			if (StringUtils.isNotEmpty(anonUris)) {
+				List<String> anonUrisList = Arrays.asList(anonUris.split(StringPool.COMMA));
+				list.addAll(anonUrisList);
+			}
+			anonUris = String.join(StringPool.COMMA, list);
+		}
+	}
 
 }
