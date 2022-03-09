@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fxz.common.core.entity.PageParam;
+import com.fxz.common.core.param.PageParam;
 import com.fxz.system.entity.SystemUser;
 import com.fxz.system.entity.UserRole;
 import com.fxz.system.mapper.UserMapper;
@@ -50,8 +50,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		user.setPassword(passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD));
 		save(user);
 		// 保存用户角色
-		String[] roles = user.getRoleId().split(StringPool.COMMA);
-		setUserRoles(user, roles);
+		if (StringUtils.isNotEmpty(user.getRoleId())) {
+			String[] roles = user.getRoleId().split(StringPool.COMMA);
+			setUserRoles(user, roles);
+		}
 	}
 
 	@Override

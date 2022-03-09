@@ -1,9 +1,10 @@
 package com.fxz.system.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.fxz.common.core.entity.FxzResponse;
-import com.fxz.common.core.entity.PageParam;
+import com.fxz.common.core.param.PageParam;
 import com.fxz.common.core.exception.FxzException;
+import com.fxz.common.core.result.PageResult;
+import com.fxz.common.core.result.Result;
 import com.fxz.common.core.utils.FxzUtil;
 import com.fxz.system.entity.SystemUser;
 import com.fxz.system.param.UserInfoParam;
@@ -30,15 +31,14 @@ public class UserController {
 	private final IUserService userService;
 
 	@GetMapping("/getUserById/{id}")
-	public FxzResponse getUserById(@PathVariable("id") Long id) {
-		return new FxzResponse().data(userService.getUserById(id));
+	public Result<SystemUser> getUserById(@PathVariable("id") Long id) {
+		return Result.success(userService.getUserById(id));
 	}
 
 	@GetMapping
 	@PreAuthorize("hasAnyAuthority('sys:user:view')")
-	public FxzResponse userList(PageParam pageParam, UserInfoParam userInfoParam) {
-		Map<String, Object> dataTable = FxzUtil.getDataTable(userService.findUserDetail(userInfoParam, pageParam));
-		return new FxzResponse().data(dataTable);
+	public Result<PageResult<SystemUser>> userList(PageParam pageParam, UserInfoParam userInfoParam) {
+		return Result.success(PageResult.success(userService.findUserDetail(userInfoParam, pageParam)));
 	}
 
 	@PostMapping

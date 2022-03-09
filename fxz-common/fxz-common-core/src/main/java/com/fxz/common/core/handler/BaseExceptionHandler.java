@@ -1,8 +1,8 @@
 package com.fxz.common.core.handler;
 
-import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.common.core.exception.FxzAuthException;
 import com.fxz.common.core.exception.FxzException;
+import com.fxz.common.core.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -32,28 +32,28 @@ public class BaseExceptionHandler {
 	/**
 	 * 统一处理请求参数校验(实体对象传参)
 	 * @param e BindException
-	 * @return FxzResponse
+	 * @return Result
 	 */
 	@ExceptionHandler(BindException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public FxzResponse handleBindException(BindException e) {
+	public Result<Void> handleBindException(BindException e) {
 		StringBuilder message = new StringBuilder();
 		List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
 		for (FieldError error : fieldErrors) {
 			message.append(error.getField()).append(error.getDefaultMessage()).append(",");
 		}
 		message = new StringBuilder(message.substring(0, message.length() - 1));
-		return new FxzResponse().message(message.toString());
+		return Result.failed(message.toString());
 	}
 
 	/**
 	 * 统一处理请求参数校验(普通传参)
 	 * @param e ConstraintViolationException
-	 * @return FxzResponse
+	 * @return Result
 	 */
 	@ExceptionHandler(value = ConstraintViolationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public FxzResponse handleConstraintViolationException(ConstraintViolationException e) {
+	public Result<Void> handleConstraintViolationException(ConstraintViolationException e) {
 		StringBuilder message = new StringBuilder();
 		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
 		for (ConstraintViolation<?> violation : violations) {
@@ -62,28 +62,28 @@ public class BaseExceptionHandler {
 			message.append(pathArr[1]).append(violation.getMessage()).append(",");
 		}
 		message = new StringBuilder(message.substring(0, message.length() - 1));
-		return new FxzResponse().message(message.toString());
+		return Result.failed(message.toString());
 	}
 
 	@ExceptionHandler(value = FxzException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public FxzResponse handleFxzException(FxzException e) {
+	public Result<Void> handleFxzException(FxzException e) {
 		log.error("系统错误", e);
-		return new FxzResponse().message(e.getMessage());
+		return Result.failed("系统错误");
 	}
 
 	@ExceptionHandler(value = FxzAuthException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public FxzResponse handleFxzAuthException(FxzAuthException e) {
-		log.error("系统错误", e);
-		return new FxzResponse().message(e.getMessage());
+	public Result<Void> handleFxzAuthException(FxzAuthException e) {
+		log.error("认证错误", e);
+		return Result.failed("认证错误");
 	}
 
 	@ExceptionHandler(value = Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public FxzResponse handleException(Exception e) {
+	public Result<Void> handleException(Exception e) {
 		log.error("系统内部异常，异常信息", e);
-		return new FxzResponse().message("系统内部异常");
+		return Result.failed("系统内部异常");
 	}
 
 }

@@ -1,8 +1,7 @@
 package com.fxz.system.controller;
 
-import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.common.core.entity.router.VueRouter;
-import com.fxz.common.security.annotation.Ojbk;
+import com.fxz.common.core.result.Result;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.Menu;
@@ -32,7 +31,7 @@ public class MenuController {
 	 * 获取用户路由信息和用户权限信息
 	 */
 	@GetMapping("/nav")
-	public FxzResponse getUserRouters() {
+	public Result<Map<String, Object>> getUserRouters() {
 		long start = System.currentTimeMillis();
 
 		Map<String, Object> result = new HashMap<>();
@@ -48,7 +47,7 @@ public class MenuController {
 		long end = System.currentTimeMillis();
 		log.info("方法耗时:{}", end - start);
 
-		return new FxzResponse().data(result);
+		return Result.success(result);
 	}
 
 	/**
@@ -56,8 +55,8 @@ public class MenuController {
 	 * @return 树形菜单信息
 	 */
 	@GetMapping("/getAllMenuTree")
-	public FxzResponse getAllMenuTree() {
-		return new FxzResponse().data(this.menuService.getAllMenuTree());
+	public Result<List<VueRouter<Object>>> getAllMenuTree() {
+		return Result.success(this.menuService.getAllMenuTree());
 	}
 
 	/**
@@ -65,8 +64,8 @@ public class MenuController {
 	 * @return 树形菜单下拉框
 	 */
 	@GetMapping("/getTreeSelect")
-	public FxzResponse getTreeSelect() {
-		return new FxzResponse().data(this.menuService.getTreeSelect());
+	public Result<List<VueRouter<Object>>> getTreeSelect() {
+		return Result.success(this.menuService.getTreeSelect());
 	}
 
 	/**
@@ -93,8 +92,8 @@ public class MenuController {
 	 * @return
 	 */
 	@GetMapping("/getMenuById/{id}")
-	public FxzResponse getMenuById(@PathVariable("id") Long id) {
-		return new FxzResponse().data(this.menuService.getMenuById(id));
+	public Result<VueRouter> getMenuById(@PathVariable("id") Long id) {
+		return Result.success(this.menuService.getMenuById(id));
 	}
 
 	/**

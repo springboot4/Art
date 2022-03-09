@@ -1,7 +1,6 @@
 package com.fxz.system.controller;
 
-import com.fxz.common.core.entity.FxzResponse;
-import com.fxz.common.security.annotation.Ojbk;
+import com.fxz.common.core.result.Result;
 import com.fxz.system.entity.Dept;
 import com.fxz.system.service.IDeptService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +23,8 @@ public class DeptController {
 	 * 获取部门树
 	 */
 	@GetMapping("/getDeptTree")
-	public FxzResponse getDeptTree() {
-		return new FxzResponse().data(deptService.getDeptTree());
+	public Result<Dept> getDeptTree() {
+		return Result.success(deptService.getDeptTree());
 	}
 
 	/**
@@ -33,32 +32,32 @@ public class DeptController {
 	 */
 	@SneakyThrows
 	@DeleteMapping("/deleteById/{id}")
-	public FxzResponse deleteById(@PathVariable("id") Long id) {
-		return new FxzResponse().data(deptService.delete(id));
+	public Result<Void> deleteById(@PathVariable("id") Long id) {
+		return Result.judge(deptService.delete(id));
 	}
 
 	/**
 	 * 保存部门信息
 	 */
 	@PostMapping("/addDept")
-	public FxzResponse addDept(@RequestBody Dept dept) {
-		return new FxzResponse().data(deptService.addDept(dept));
+	public Result<Void> addDept(@RequestBody Dept dept) {
+		return Result.judge(deptService.addDept(dept));
 	}
 
 	/**
 	 * 根据id获取部门数据
 	 */
 	@GetMapping("/getDeptById/{id}")
-	public FxzResponse getDeptById(@PathVariable("id") Long id) {
-		return new FxzResponse().data(deptService.getById(id));
+	public Result<Dept> getDeptById(@PathVariable("id") Long id) {
+		return Result.success(deptService.getById(id));
 	}
 
 	/**
 	 * 更新部门信息(父机构ID 不能修改)
 	 */
 	@PutMapping("/updateDept")
-	public FxzResponse updateDept(@RequestBody Dept dept) {
-		return new FxzResponse().data(deptService.updateById(dept));
+	public Result<Void> updateDept(@RequestBody Dept dept) {
+		return Result.judge(deptService.updateById(dept));
 	}
 
 }

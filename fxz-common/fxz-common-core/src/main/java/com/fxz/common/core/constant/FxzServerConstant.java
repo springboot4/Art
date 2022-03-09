@@ -1,4 +1,4 @@
-package com.fxz.common.core.entity;
+package com.fxz.common.core.constant;
 
 /**
  * @author Fxz
