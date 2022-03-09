@@ -1,6 +1,7 @@
 package com.fxz.system.controller;
 
 import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.system.entity.Dept;
 import com.fxz.system.service.IDeptService;
 import lombok.RequiredArgsConstructor;
