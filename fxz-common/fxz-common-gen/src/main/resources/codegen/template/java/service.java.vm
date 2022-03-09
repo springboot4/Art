@@ -1,11 +1,11 @@
 package com.fxz.${module}.service;
 
+import com.fxz.common.core.param.PageParam;
 import com.fxz.common.core.rest.param.PageParam;
-import com.fxz.common.core.entity.${module}.${className};
-import com.fxz.${module}.dao.${className}Mapper;
+    ${module}.${className};
+    ${module}.dao.${className}Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

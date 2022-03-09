@@ -1,7 +1,7 @@
 package com.fxz.common.core.validator;
 
 import com.fxz.common.core.annotation.IsMobile;
-import com.fxz.common.core.entity.RegexpConstant;
+import com.fxz.common.core.constant.RegexpConstant;
 import com.fxz.common.core.utils.FxzUtil;
 import org.apache.commons.lang3.StringUtils;
 

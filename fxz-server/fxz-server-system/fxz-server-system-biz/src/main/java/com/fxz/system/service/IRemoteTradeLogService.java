@@ -1,6 +1,6 @@
 package com.fxz.system.service;
 
-import com.fxz.common.core.entity.FxzServerConstant;
+import com.fxz.common.core.constant.FxzServerConstant;
 import com.fxz.system.entity.TradeLog;
 import com.fxz.system.service.fallback.RemoteTradeLogServiceFallback;
 import org.springframework.cloud.openfeign.FeignClient;
