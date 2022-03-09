@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,6 +17,7 @@ import java.util.Date;
  * @version 1.0
  * @date 2021-11-28 15:24
  */
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 @Data
 @TableName("t_menu")
 public class Menu implements Serializable {

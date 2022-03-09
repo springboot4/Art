@@ -24,7 +24,7 @@ import java.util.Base64;
  * @author Fxz
  * @version 1.0
  * @Deprecated 我们不再使用添加过滤器在UsernamePasswordAuthenticationFilter前来达到校验验证码的效果
- * 而是拓展了Oauth的Granter来实现验证码授权模式 验证码过滤器
+ * 而是拓展了Oauth的Granter来实现验证码授权模式
  * <p>
  * ValidateCodeFilter继承Spring Boot提供的OncePerRequestFilter，该过滤器实现了javax.servlet.filter接口，
  * 顾名思义，它可以确保我们的逻辑只被执行一次：

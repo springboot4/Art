@@ -43,7 +43,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	public IPage<?> PageRole(PageParam pageParam, String roleName) {
 		Page<Role> rolePage = new Page<>(pageParam.getCurrent(), pageParam.getSize());
 		return this.getBaseMapper().selectPage(rolePage,
-				Wrappers.<Role>lambdaQuery().eq(StringUtils.isNotEmpty(roleName), Role::getRoleName, roleName));
+				Wrappers.<Role>lambdaQuery().like(StringUtils.isNotEmpty(roleName), Role::getRoleName, roleName));
 	}
 
 	/**
