@@ -2,7 +2,7 @@ package com.fxz.common.core.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fxz.common.core.constant.FxzConstant;
-import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.result.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.util.Base64Utils;
@@ -30,11 +30,9 @@ public class FxzServerProtectInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		else {
-			FxzResponse fxzResponse = new FxzResponse();
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			response.getWriter()
-					.write(JSONObject.toJSONString(fxzResponse.message("Obtain resources through the gateway!")));
+			response.getWriter().write(JSONObject.toJSONString(Result.failed("Obtain resources through the gateway!")));
 			return false;
 		}
 	}

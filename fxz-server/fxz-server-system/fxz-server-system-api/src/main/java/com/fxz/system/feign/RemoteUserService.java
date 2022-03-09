@@ -1,7 +1,6 @@
 package com.fxz.system.feign;
 
-import com.fxz.common.core.entity.FxzResponse;
-import com.fxz.common.core.entity.FxzServerConstant;
+import com.fxz.common.core.constant.FxzServerConstant;
 import com.fxz.system.entity.SystemUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

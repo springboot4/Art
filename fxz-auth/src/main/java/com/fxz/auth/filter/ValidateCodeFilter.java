@@ -1,8 +1,8 @@
 package com.fxz.auth.filter;
 
 import com.fxz.auth.service.ValidateCodeService;
-import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.common.core.exception.ValidateCodeException;
+import com.fxz.common.core.result.Result;
 import com.fxz.common.core.utils.FxzUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -53,9 +53,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 			}
 			catch (ValidateCodeException e) {
-				FxzResponse fxzResponse = new FxzResponse();
 				FxzUtil.makeResponse(httpServletResponse, MediaType.APPLICATION_JSON_VALUE,
-						HttpServletResponse.SC_INTERNAL_SERVER_ERROR, fxzResponse.message(e.getMessage()));
+						HttpServletResponse.SC_INTERNAL_SERVER_ERROR, Result.failed(e.getMessage()));
 				log.error(e.getMessage(), e);
 			}
 		}

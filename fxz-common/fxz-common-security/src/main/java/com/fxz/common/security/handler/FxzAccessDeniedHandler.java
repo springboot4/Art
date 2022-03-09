@@ -1,6 +1,6 @@
 package com.fxz.common.security.handler;
 
-import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.result.Result;
 import com.fxz.common.core.utils.FxzUtil;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
@@ -22,9 +22,8 @@ public class FxzAccessDeniedHandler implements AccessDeniedHandler {
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException {
-		FxzResponse fxzResponse = new FxzResponse();
 		FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
-				fxzResponse.message("没有权限访问该资源"));
+				Result.failed("没有权限访问该资源"));
 	}
 
 }

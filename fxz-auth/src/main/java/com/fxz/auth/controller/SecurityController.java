@@ -2,9 +2,10 @@ package com.fxz.auth.controller;
 
 import com.fxz.auth.service.ValidateCodeService;
 import com.fxz.common.core.constant.FxzConstant;
-import com.fxz.common.core.entity.FxzResponse;
 import com.fxz.common.core.exception.FxzAuthException;
 import com.fxz.common.core.exception.ValidateCodeException;
+import com.fxz.common.core.result.Result;
+import com.fxz.common.core.result.ResultCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -54,18 +55,17 @@ public class SecurityController {
 	}
 
 	@DeleteMapping("/myLogout")
-	public FxzResponse logout(HttpServletRequest request) throws FxzAuthException {
+	public Result<Void> logout(HttpServletRequest request) throws FxzAuthException {
 		// 获取请求头信息
 		String authorization = request.getHeader("Authorization");
 		// 提取token
 		String token = StringUtils.replace(authorization, FxzConstant.OAUTH2_TOKEN_TYPE, "");
 		log.info("token:{}", token);
-		FxzResponse fxzResponse = new FxzResponse();
 		// 此处调用了redis删除缓存的登录信息
 		if (!consumerTokenServices.revokeToken(token)) {
 			throw new FxzAuthException("退出登录失败");
 		}
-		return fxzResponse.message("退出登录成功");
+		return Result.success();
 	}
 
 }
