@@ -2,7 +2,7 @@ package com.fxz.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fxz.common.core.constant.FxzConstant;
-import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.result.Result;
 import com.fxz.gateway.properties.FxzGatewayProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,16 +76,15 @@ public class FxzGatewayRequestFilter implements GlobalFilter {
 			}
 		}
 		if (!shouldForward) {
-			FxzResponse fxzResponse = new FxzResponse().message("该URI不允许外部访问");
-			return makeResponse(response, fxzResponse);
+			return makeResponse(response, Result.failed("该URI不允许外部访问"));
 		}
 		return null;
 	}
 
-	private Mono<Void> makeResponse(ServerHttpResponse response, FxzResponse fxzResponse) {
+	private Mono<Void> makeResponse(ServerHttpResponse response, Result<Void> result) {
 		response.setStatusCode(HttpStatus.FORBIDDEN);
 		response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-		DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(fxzResponse).getBytes());
+		DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(result).getBytes());
 		return response.writeWith(Mono.just(dataBuffer));
 	}
 

@@ -3,7 +3,7 @@ package com.fxz.gateway.kaptcha.handler;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.IdUtil;
 import com.fxz.common.core.constant.FxzConstant;
-import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.result.Result;
 import com.fxz.common.core.service.RedisService;
 import com.google.code.kaptcha.Producer;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +58,7 @@ public class CaptchaHandler implements HandlerFunction<ServerResponse> {
 		resultMap.put("uuid", uuid);
 		resultMap.put("img", Base64.encode(os.toByteArray()));
 
-		return ServerResponse.status(HttpStatus.OK).body(BodyInserters.fromValue(new FxzResponse().data(resultMap)));
+		return ServerResponse.status(HttpStatus.OK).body(BodyInserters.fromValue(Result.success(resultMap)));
 	}
 
 }

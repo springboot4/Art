@@ -2,7 +2,7 @@ package com.fxz.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fxz.common.core.entity.PageParam;
+import com.fxz.common.core.param.PageParam;
 import com.fxz.system.entity.Role;
 
 /**

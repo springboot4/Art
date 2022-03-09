@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fxz.common.core.entity.PageParam;
+import com.fxz.common.core.param.PageParam;
 import com.fxz.system.entity.Role;
 import com.fxz.system.entity.RoleMenu;
 import com.fxz.system.entity.UserRole;

@@ -69,10 +69,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	 * @return 树形菜单下拉框
 	 */
 	@Override
-	public List<VueRouter> getTreeSelect() {
+	public List<VueRouter<Object>> getTreeSelect() {
 		List<VueRouter<Object>> allMenuTree = this.getAllMenuTree();
 		VueRouter<Object> router = new VueRouter<>().setId("0").setTitle("顶级菜单").setChildren(allMenuTree);
-		List<VueRouter> result = new ArrayList<>();
+		List<VueRouter<Object>> result = new ArrayList<>();
 		result.add(router);
 		return result;
 	}

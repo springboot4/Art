@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fxz.common.core.entity.PageParam;
+import com.fxz.common.core.param.PageParam;
 import com.fxz.common.gen.entity.DatabaseColumn;
 import com.fxz.common.gen.entity.DatabaseTable;
 import com.fxz.common.gen.mapper.DatabaseTableMapper;

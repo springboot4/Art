@@ -1,11 +1,17 @@
 package com.fxz.common.gen.controller;
 
-import com.fxz.common.core.entity.FxzResponse;
+import com.fxz.common.core.result.Result;
+import com.fxz.common.gen.dto.CodeGenPreview;
 import com.fxz.common.gen.service.impl.CodeGeneratorServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author Fxz
@@ -26,8 +32,8 @@ public class CodeGeneratorController {
 	 * @return 预览代码
 	 */
 	@GetMapping("/codeGenPreview")
-	public FxzResponse codeGenPreview(@RequestParam String tableName) {
-		return new FxzResponse().data(codeGeneratorService.codeGenPreview(tableName));
+	public Result<List<CodeGenPreview>> codeGenPreview(@RequestParam String tableName) {
+		return Result.success(codeGeneratorService.codeGenPreview(tableName));
 	}
 
 	/**

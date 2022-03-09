@@ -1,8 +1,9 @@
 package com.fxz.common.gen.controller;
 
-import com.fxz.common.core.entity.FxzResponse;
-import com.fxz.common.core.entity.PageParam;
-import com.fxz.common.core.utils.FxzUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fxz.common.core.param.PageParam;
+import com.fxz.common.core.result.PageResult;
+import com.fxz.common.core.result.Result;
 import com.fxz.common.gen.entity.DatabaseTable;
 import com.fxz.common.gen.service.impl.DatabaseTableServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,8 @@ public class DatabaseTableController {
 	 * @return 分页信息
 	 */
 	@GetMapping("/page")
-	public FxzResponse page(PageParam pageParam, DatabaseTable param) {
-		return new FxzResponse().data(FxzUtil.getDataTable(databaseTableService.page(pageParam, param)));
+	public Result<PageResult<DatabaseTable>> page(PageParam pageParam, DatabaseTable param) {
+		return Result.success(PageResult.success(databaseTableService.page(pageParam, param)));
 	}
 
 }
