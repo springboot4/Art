@@ -11,6 +11,14 @@
     <artifactId>fxz-server-system-biz</artifactId>
 
     <dependencies>
+
+        <!--反爬虫-->
+        <dependency>
+            <groupId>cn.keking.project</groupId>
+            <artifactId>kk-anti-reptile</artifactId>
+            <version>1.0.0-RELEASE</version>
+        </dependency>
+
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-server-system-api</artifactId>

@@ -10,3 +10,12 @@ spring:
         group: DEFAULT_GROUP
         prefix: ${spring.application.name}
         file-extension: yaml
+  redisson:
+    address: redis://127.0.0.1:6379
+
+anti:
+  reptile:
+    manager:
+      enabled: true
+      ip-rule:
+        request-max-size: 2

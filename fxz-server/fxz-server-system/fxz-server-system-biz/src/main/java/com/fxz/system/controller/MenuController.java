@@ -1,7 +1,9 @@
 package com.fxz.system.controller;
 
+import cn.keking.anti_reptile.annotation.AntiReptile;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.core.result.Result;
+import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.Menu;
@@ -54,6 +56,7 @@ public class MenuController {
 	 * 获取全部的树形菜单信息(包括按钮)
 	 * @return 树形菜单信息
 	 */
+	@AntiReptile
 	@GetMapping("/getAllMenuTree")
 	public Result<List<VueRouter<Object>>> getAllMenuTree() {
 		return Result.success(this.menuService.getAllMenuTree());
