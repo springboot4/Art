@@ -1,6 +1,8 @@
 package com.fxz.system;
 
 import com.fxz.common.security.annotation.EnableFxzCloudResourceServer;
+import com.github.jaemon.dinger.core.annatations.DingerScan;
+import com.github.jaemon.dinger.multi.annotations.EnableMultiDinger;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +19,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  *
  * @author fxz
  */
+@EnableMultiDinger
+@DingerScan(basePackages = "com.fxz.system.dinger")
 @EnableFxzCloudResourceServer
 @EnableFeignClients
 // @EnableDistributedTransaction
