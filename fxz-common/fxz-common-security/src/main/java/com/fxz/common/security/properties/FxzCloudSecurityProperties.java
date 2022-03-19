@@ -56,7 +56,7 @@ public class FxzCloudSecurityProperties implements InitializingBean {
 	private Boolean onlyFetchByGateway = Boolean.TRUE;
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		List<String> list = new ArrayList<>();
 
 		RequestMappingHandlerMapping mapping = webApplicationContext.getBean(RequestMappingHandlerMapping.class);

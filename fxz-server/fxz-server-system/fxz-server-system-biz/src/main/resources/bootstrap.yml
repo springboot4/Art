@@ -10,12 +10,9 @@ spring:
         group: DEFAULT_GROUP
         prefix: ${spring.application.name}
         file-extension: yaml
-  redisson:
-    address: redis://127.0.0.1:6379
-
-anti:
-  reptile:
-    manager:
-      enabled: true
-      ip-rule:
-        request-max-size: 2
+  dinger:
+    project-id:  ${spring.application.name}
+    dingers:
+      dingtalk:
+        tokenId: 8e9510e7333358f24f2103bf2b26c0ffe4e02f5f1c1d83ed28fc3557c168a835
+        secret: SECbba87cd724ccb61a6d8ed47d58a1dd10ddd5dbb5fa5a97219b1d26d6aa871dea
