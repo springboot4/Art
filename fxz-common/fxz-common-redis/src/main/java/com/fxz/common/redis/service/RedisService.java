@@ -1,7 +1,5 @@
-package com.fxz.common.core.service;
+package com.fxz.common.redis.service;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -17,8 +15,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2021-11-28 16:23
  */
 @SuppressWarnings("all")
-@NoArgsConstructor
-@AllArgsConstructor
 public class RedisService {
 
 	@Autowired

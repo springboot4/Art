@@ -1,9 +1,13 @@
 package com.fxz.system.dinger;
 
+import com.fxz.system.dinger.handler.DingTalkMultiHandler;
 import com.github.jaemon.dinger.core.annatations.*;
 import com.github.jaemon.dinger.core.entity.DingerResponse;
 import com.github.jaemon.dinger.core.entity.ImageTextDeo;
 import com.github.jaemon.dinger.core.entity.LinkDeo;
+import com.github.jaemon.dinger.core.entity.enums.DingerType;
+import com.github.jaemon.dinger.multi.annotations.MultiDinger;
+import com.github.jaemon.dinger.multi.annotations.MultiHandler;
 
 import java.util.List;
 
@@ -29,7 +33,7 @@ public interface UserDinger {
 	/**
 	 * `@`群里指定成员
 	 */
-	@DingerText(value = "恭喜用户${username}登录成功!", phones = "${phones}")
+	@DingerText(value = "---${username}", phones = "17861275882")
 	DingerResponse success(String username, String phones);
 
 	@DingerMarkdown(value = "#### 用户登录通知\n - 用户Id： ${userId}\n - 用户名： ${userName}", title = "用户登录反馈")
