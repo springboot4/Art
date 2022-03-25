@@ -1,6 +1,6 @@
 package com.fxz.gateway.controller;
 
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

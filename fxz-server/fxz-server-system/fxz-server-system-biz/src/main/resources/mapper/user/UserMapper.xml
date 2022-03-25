@@ -14,7 +14,7 @@
         u.ssex sex,
         u.dept_id deptId,
         u.last_login_time lastLoginTime,
-        u.modify_time modifyTime,
+        u.update_time updateTime,
         u.description,
         u.avatar,
         d.dept_name deptName,
@@ -39,7 +39,7 @@
             AND u.mobile like concat('%',#{user.mobile},'%')
         </if>
         group by u.username,u.user_id,u.email,u.mobile,u.status,u.create_time,u.ssex,
-        u.dept_id,u.last_login_time,u.modify_time,u.description,u.avatar
+        u.dept_id,u.last_login_time,u.update_time,u.description,u.avatar
         order by createTime
     </select>
 
@@ -55,7 +55,7 @@
         u.ssex sex,
         u.dept_id deptId,
         u.last_login_time lastLoginTime,
-        u.modify_time modifyTime,
+        u.update_time updateTime,
         u.description,
         u.avatar,
         d.dept_name deptName,
@@ -68,7 +68,7 @@
         LEFT JOIN t_role r ON r.role_id = ur.role_id
         WHERE u.STATUS = 1 AND u.user_id = #{id}
         group by u.username,u.user_id,u.email,u.mobile,u.status,u.create_time,u.ssex,
-        u.dept_id,u.last_login_time,u.modify_time,u.description,u.avatar
+        u.dept_id,u.last_login_time,u.update_time,u.description,u.avatar
     </select>
 
     <!--通过用户名查找用户信息-->
@@ -83,7 +83,7 @@
                u.ssex                    sex,
                u.dept_id                 deptId,
                u.last_login_time         lastLoginTime,
-               u.modify_time             modifyTime,
+               u.update_time             updateTime,
                u.description,
                u.avatar,
                d.dept_name               deptName,
@@ -95,7 +95,7 @@
                  LEFT JOIN t_role r ON r.role_id = ur.role_id
         WHERE u.username = #{username}
         group by u.username, u.user_id, u.email, u.mobile, u.password, u.status, u.create_time, u.ssex, u.dept_id
-               , u.last_login_time, u.modify_time, u.description, u.avatar
+               , u.last_login_time, u.update_time, u.description, u.avatar
     </select>
 
 </mapper>

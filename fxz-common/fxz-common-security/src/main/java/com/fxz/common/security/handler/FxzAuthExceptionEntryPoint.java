@@ -1,6 +1,6 @@
 package com.fxz.common.security.handler;
 
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import com.fxz.common.core.utils.FxzUtil;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;

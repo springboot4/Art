@@ -1,4 +1,4 @@
-package com.fxz.common.core.result;
+package com.fxz.common.mp.result;
 
 import lombok.Data;
 

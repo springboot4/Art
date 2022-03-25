@@ -2,7 +2,7 @@ package com.fxz.common.core.handler;
 
 import com.fxz.common.core.exception.FxzAuthException;
 import com.fxz.common.core.exception.FxzException;
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
