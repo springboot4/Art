@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fxz.common.core.annotation.IsMobile;
+import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,7 +24,7 @@ import java.util.Date;
  */
 @Data
 @TableName("t_user")
-public class SystemUser implements Serializable {
+public class SystemUser extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 3803544824764133607L;
 
@@ -107,22 +108,6 @@ public class SystemUser implements Serializable {
 	@NotBlank(message = "{required}")
 	@TableField("STATUS")
 	private String status;
-
-	/**
-	 * 创建时间
-	 */
-	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
-	@TableField("CREATE_TIME")
-	private Date createTime;
-
-	/**
-	 * 修改时间
-	 */
-	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
-	@TableField("MODIFY_TIME")
-	private Date modifyTime;
 
 	/**
 	 * 最近访问时间

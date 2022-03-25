@@ -2,7 +2,7 @@ package com.fxz.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fxz.common.core.constant.FxzConstant;
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import com.fxz.gateway.properties.FxzGatewayProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -45,7 +45,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	@Transactional(rollbackFor = Exception.class)
 	public void createUser(SystemUser user) {
 		// 创建用户
-		user.setCreateTime(new Date());
 		user.setAvatar(SystemUser.DEFAULT_AVATAR);
 		user.setPassword(passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD));
 		save(user);
@@ -62,8 +61,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		// 更新用户
 		user.setPassword(null);
 		user.setUsername(null);
-		user.setCreateTime(null);
-		user.setModifyTime(new Date());
 		updateById(user);
 
 		userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));

@@ -52,8 +52,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Boolean addRole(Role role) {
-		role.setCreateTime(new Date());
-		role.setModifyTime(new Date());
 		// 保存角色信息
 		this.getBaseMapper().insert(role);
 
@@ -85,7 +83,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 		// 保存角色菜单
 		saveRoleMenu(role);
 
-		return null;
+		return Boolean.TRUE;
 	}
 
 	/**

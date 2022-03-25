@@ -1,7 +1,7 @@
 package com.fxz.system.controller;
 
 import com.fxz.common.core.entity.router.VueRouter;
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.Menu;

@@ -3,9 +3,8 @@ package com.fxz.system.controller;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.common.core.param.PageParam;
 import com.fxz.common.core.exception.FxzException;
-import com.fxz.common.core.result.PageResult;
-import com.fxz.common.core.result.Result;
-import com.fxz.common.core.utils.FxzUtil;
+import com.fxz.common.mp.result.PageResult;
+import com.fxz.common.mp.result.Result;
 import com.fxz.system.entity.SystemUser;
 import com.fxz.system.param.UserInfoParam;
 import com.fxz.system.service.IUserService;
@@ -16,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Map;
 
 /**
  * @author fxz

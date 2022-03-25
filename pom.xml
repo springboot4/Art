@@ -24,6 +24,7 @@
         <com-alibaba-cloud.version>2.1.1.RELEASE</com-alibaba-cloud.version>
         <codingapi.txlcn.version>5.0.2.RELEASE</codingapi.txlcn.version>
         <redisson.version>3.17.0</redisson.version>
+        <myabtis-plus.version>3.5.1</myabtis-plus.version>
     </properties>
 
     <parent>
@@ -69,6 +70,11 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${myabtis-plus.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,16 +1,13 @@
 package com.fxz.system.entity;
 
-import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author Fxz
@@ -19,7 +16,7 @@ import java.util.Date;
  */
 @Data
 @TableName("t_role")
-public class Role implements Serializable {
+public class Role extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -1189610678764394766L;
 
@@ -38,20 +35,6 @@ public class Role implements Serializable {
 	 * 角色描述
 	 */
 	private String remark;
-
-	/**
-	 * 创建时间
-	 */
-	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
-	private Date createTime;
-
-	/**
-	 * 修改时间
-	 */
-	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
-	private Date modifyTime;
 
 	/**
 	 * 角色拥有的菜单id

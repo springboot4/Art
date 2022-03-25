@@ -1,10 +1,9 @@
 package com.fxz.system.controller;
 
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.dinger.UserDinger;
-import com.fxz.system.entity.SystemUser;
 import com.github.jaemon.dinger.core.entity.DingerResponse;
 import com.github.jaemon.dinger.core.entity.ImageTextDeo;
 import com.github.jaemon.dinger.core.entity.LinkDeo;

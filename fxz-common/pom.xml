@@ -19,6 +19,7 @@
         <module>fxz-common-gen</module>
         <module>fxz-common-redis</module>
         <module>fxz-common-mq</module>
+        <module>fxz-common-mp</module>
     </modules>
 
     <properties>
