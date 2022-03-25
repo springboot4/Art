@@ -11,7 +11,7 @@
  Target Server Version : 80000
  File Encoding         : 65001
 
- Date: 05/03/2022 21:55:38
+ Date: 25/03/2022 20:05:59
 */
 
 SET NAMES utf8mb4;
@@ -22,24 +22,26 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_dept`;
 CREATE TABLE `t_dept`  (
-  `DEPT_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门ID',
-  `PARENT_ID` bigint(20) NOT NULL COMMENT '上级部门ID',
-  `DEPT_NAME` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部门名称',
-  `ORDER_NUM` double(20, 0) NULL DEFAULT NULL COMMENT '排序',
-  `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `MODIFY_TIME` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`DEPT_ID`) USING BTREE
+  `dept_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门ID',
+  `parent_id` bigint(20) NOT NULL COMMENT '上级部门ID',
+  `dept_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部门名称',
+  `order_num` double(20, 0) NULL DEFAULT NULL COMMENT '排序',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`dept_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_dept
 -- ----------------------------
-INSERT INTO `t_dept` VALUES (0, -1, 'fxzcloud', 0, '2022-02-28 16:42:49', '2022-02-28 16:42:51');
-INSERT INTO `t_dept` VALUES (1, 0, '研发部', 0, '2022-02-28 16:43:53', '2022-02-28 16:43:55');
-INSERT INTO `t_dept` VALUES (2, 0, '市场部', 1, '2022-02-28 16:43:10', '2022-02-28 16:43:10');
-INSERT INTO `t_dept` VALUES (3, 2, '销售部', 1, '2022-02-28 16:43:27', '2022-02-28 16:43:27');
-INSERT INTO `t_dept` VALUES (4, 1, '前端组', 1, '2022-02-28 16:44:29', '2022-02-28 16:44:29');
-INSERT INTO `t_dept` VALUES (5, 1, '后端组', 1, '2022-02-28 16:44:41', '2022-02-28 16:44:41');
+INSERT INTO `t_dept` VALUES (0, -1, 'fxzcloud', 0, '2022-02-28 16:42:49', '2022-02-28 16:42:51', NULL, NULL);
+INSERT INTO `t_dept` VALUES (1, 0, '研发部', 0, '2022-02-28 16:43:53', '2022-02-28 16:43:55', NULL, NULL);
+INSERT INTO `t_dept` VALUES (2, 0, '市场部', 1, '2022-02-28 16:43:10', '2022-02-28 16:43:10', NULL, NULL);
+INSERT INTO `t_dept` VALUES (3, 2, '销售部', 0, '2022-02-28 16:43:27', '2022-03-25 19:32:45', NULL, 'fxz');
+INSERT INTO `t_dept` VALUES (4, 1, '前端组', 1, '2022-02-28 16:44:29', '2022-02-28 16:44:29', NULL, NULL);
+INSERT INTO `t_dept` VALUES (5, 1, '后端组', 1, '2022-02-28 16:44:41', '2022-02-28 16:44:41', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_menu
@@ -54,13 +56,14 @@ CREATE TABLE `t_menu`  (
   `type` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型 0菜单 1按钮',
   `component` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '对应路由组件component',
   `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '对应路由path',
+  `redirect` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '重定向',
   `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
   `keep_alive` tinyint(4) NULL DEFAULT 1 COMMENT '是否缓存 0:否 1:是',
   `order_num` double(20, 0) NULL DEFAULT NULL COMMENT '排序',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `modify_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-  `create_by` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
-  `update_by` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
   `hidden` char(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '是否隐藏(1 隐藏 0 不隐藏)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
@@ -68,51 +71,53 @@ CREATE TABLE `t_menu`  (
 -- ----------------------------
 -- Records of t_menu
 -- ----------------------------
-INSERT INTO `t_menu` VALUES (1, 0, '仪表盘', 'dashboard', 'dashboard', '0', 'RouteView', '/dashboard', '', 1, 1, '2022-01-23 16:39:07', '2022-01-23 16:19:04', NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES (2, 1, '分析页', 'Analysis', 'dashboard', '0', 'dashboard/Analysis', '/dashboard/analysis/:pageNo([1-9]\\d*)?', '', 1, 1, '2022-01-23 16:47:13', '2022-01-23 06:45:55', NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (3, 1, '工作台', 'Workplace', 'dashboard', '0', 'dashboard/Workplace', '/dashboard/workplace', NULL, 1, 1, '2022-01-23 17:02:58', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (4, 0, '个人页', 'account', 'user', '0', 'RouteView', '/account', NULL, 1, 2, '2022-01-23 17:04:07', NULL, NULL, NULL, '1');
-INSERT INTO `t_menu` VALUES (5, 4, '个人中心', 'center', 'user', '0', 'account/center', '/account/center', NULL, 1, 2, '2022-01-23 17:04:58', NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES (6, 4, '个人设置', 'settings', 'user', '0', 'account/settings/Index', '/account/settings', NULL, 1, 2, '2022-01-18 14:44:25', NULL, NULL, NULL, '1');
-INSERT INTO `t_menu` VALUES (7, 6, '基本设置', 'BaseSettings', 'user', '0', 'account/settings/BaseSetting', '/account/settings/base', NULL, 1, 2, '2022-01-18 14:48:57', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (8, 6, '安全设置', 'SecuritySettings', 'user', '0', 'account/settings/Security', '/account/settings/security', NULL, 1, 2, '2022-01-18 14:49:39', NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES (9, 6, '个性化设置', 'CustomSettings', 'user', '0', 'account/settings/Custom', '/account/settings/custom', NULL, 1, 2, '2022-01-18 14:50:17', NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES (10, 6, '账户绑定', 'BindingSettings', 'user', '0', 'account/settings/Binding', '/account/settings/binding', NULL, 1, 2, '2022-01-18 14:50:58', NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES (11, 6, '新消息通知', 'NotificationSettings', 'user', '0', 'account/settings/Notification', '/account/settings/notification', NULL, 1, 2, '2022-01-18 14:51:31', NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES (12, 0, '欢迎页', 'welcome', 'welcome', '0', 'index/welcome', '/welcome', NULL, 1, 0, '2022-01-18 16:22:11', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (20, 0, '系统管理', 'permissions', 'sys', '0', 'RouteView', '/permissions', NULL, 1, 3, '2022-01-23 16:52:53', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (21, 20, '菜单管理', 'menu', 'sys:menu', '0', 'modules/system/menu/menu', '/permissions/menu', NULL, 1, 0, '2022-01-23 16:55:48', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (29, 21, '添加菜单', 'saveMenu', 'sys:menu:save', '1', NULL, NULL, NULL, 1, 1, '2022-01-23 18:16:31', NULL, NULL, NULL, '1');
-INSERT INTO `t_menu` VALUES (100004, 20, '字典管理', 'dict', 'sys:dict', '0', 'PageView', '/permissions/dict', NULL, 1, 1, '2022-01-23 22:54:55', NULL, NULL, NULL, '1');
-INSERT INTO `t_menu` VALUES (100006, 20, '用户管理', 'user', 'sys:user', '0', 'modules/system/user/userList.vue', '/permissions/user', NULL, 1, 3, '2022-02-27 09:35:00', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (100007, 20, '角色管理', 'role', 'sys:role', '0', 'modules/system/role/RoleList.vue', '/permissions/role', NULL, 1, 4, '2022-02-27 09:43:02', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (100008, 20, '部门管理', 'dept', 'dept', '0', 'modules/system/dept/DeptList.vue', '/permissions/dept', NULL, 1, 4, '2022-02-27 10:15:46', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (100009, 100006, '分页查看用户信息', 'sys:user:view', 'sys:user:view', '1', 'sys:user:view', '/sys/user/list', NULL, 1, 1, '2022-02-27 13:43:05', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (100010, 100006, '更新用户信息', 'sys:user:update', 'sys:user:update', '1', NULL, 'sys:user:update', NULL, 1, NULL, '2022-02-27 17:05:44', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (100011, 100006, '新增用户信息', 'sys:user:add', 'sys:user:add', '1', NULL, 'sys:user:add', NULL, 1, NULL, '2022-02-27 18:07:12', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (100012, 0, '系统工具', 'sysTool', 'sysTool', '0', 'RouteView', '/sysTool', NULL, 1, 4, '2022-03-04 09:14:37', NULL, NULL, NULL, '0');
-INSERT INTO `t_menu` VALUES (100013, 100012, '代码生成器', 'genCode', 'sysTool:genCode', '0', 'modules/system/gen/CodeGenIndex.vue', '/sysTool/genCode', NULL, 1, 0, '2022-03-04 09:19:37', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (1, 0, '仪表盘', 'dashboard', 'dashboard', '0', 'RouteView', '/dashboard', NULL, '', 1, 1, '2022-01-23 16:39:07', '2022-01-23 16:19:04', NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES (2, 1, '分析页', 'Analysis', 'dashboard', '0', 'dashboard/Analysis', '/dashboard/analysis/:pageNo', NULL, '', 1, 1, '2022-01-23 16:47:13', '2022-01-23 06:45:55', NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (3, 1, '工作台', 'Workplace', 'dashboard', '0', 'dashboard/Workplace', '/dashboard/workplace', NULL, NULL, 1, 1, '2022-01-23 17:02:58', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (4, 0, '个人页', 'account', 'user', '0', 'RouteView', '/account', '', NULL, 1, 2, '2022-01-23 17:04:07', NULL, NULL, NULL, '1');
+INSERT INTO `t_menu` VALUES (5, 4, '个人中心', 'center', 'user', '0', 'account/center', '/account/center', NULL, NULL, 1, 2, '2022-01-23 17:04:58', NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES (6, 4, '个人设置', 'settings', 'user', '0', 'account/settings/Index', '/account/settings', NULL, NULL, 1, 2, '2022-01-18 14:44:25', NULL, NULL, NULL, '1');
+INSERT INTO `t_menu` VALUES (7, 6, '基本设置', 'BaseSettings', 'user', '0', 'account/settings/BaseSetting', '/account/settings/base', NULL, NULL, 1, 2, '2022-01-18 14:48:57', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (8, 6, '安全设置', 'SecuritySettings', 'user', '0', 'account/settings/Security', '/account/settings/security', NULL, NULL, 1, 2, '2022-01-18 14:49:39', NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES (9, 6, '个性化设置', 'CustomSettings', 'user', '0', 'account/settings/Custom', '/account/settings/custom', NULL, NULL, 1, 2, '2022-01-18 14:50:17', NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES (10, 6, '账户绑定', 'BindingSettings', 'user', '0', 'account/settings/Binding', '/account/settings/binding', NULL, NULL, 1, 2, '2022-01-18 14:50:58', NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES (11, 6, '新消息通知', 'NotificationSettings', 'user', '0', 'account/settings/Notification', '/account/settings/notification', NULL, NULL, 1, 2, '2022-01-18 14:51:31', NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES (12, 0, '欢迎页', 'welcome', 'welcome', '0', 'index/welcome', '/welcome', '', NULL, 1, 0, '2022-01-18 16:22:11', '2022-03-25 19:33:02', NULL, 'fxz', '0');
+INSERT INTO `t_menu` VALUES (20, 0, '系统管理', 'permissions', 'sys', '0', 'RouteView', '/permissions', NULL, NULL, 1, 3, '2022-01-23 16:52:53', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (21, 20, '菜单管理', 'menu', 'sys:menu', '0', 'modules/system/menu/menu', '/permissions/menu', NULL, NULL, 1, 0, '2022-01-23 16:55:48', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (29, 21, '添加菜单', 'saveMenu', 'sys:menu:save', '1', NULL, NULL, NULL, NULL, 1, 1, '2022-01-23 18:16:31', NULL, NULL, NULL, '1');
+INSERT INTO `t_menu` VALUES (100004, 20, '字典管理', 'dict', 'sys:dict', '0', 'PageView', '/permissions/dict', NULL, NULL, 1, 1, '2022-01-23 22:54:55', NULL, NULL, NULL, '1');
+INSERT INTO `t_menu` VALUES (100006, 20, '用户管理', 'user', 'sys:user', '0', 'modules/system/user/userList.vue', '/permissions/user', NULL, NULL, 1, 3, '2022-02-27 09:35:00', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (100007, 20, '角色管理', 'role', 'sys:role', '0', 'modules/system/role/RoleList.vue', '/permissions/role', NULL, NULL, 1, 4, '2022-02-27 09:43:02', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (100008, 20, '部门管理', 'dept', 'dept', '0', 'modules/system/dept/DeptList.vue', '/permissions/dept', NULL, NULL, 1, 4, '2022-02-27 10:15:46', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (100009, 100006, '分页查看用户信息', 'sys:user:view', 'sys:user:view', '1', 'sys:user:view', '/sys/user/list', NULL, NULL, 1, 1, '2022-02-27 13:43:05', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (100010, 100006, '更新用户信息', 'sys:user:update', 'sys:user:update', '1', NULL, 'sys:user:update', NULL, NULL, 1, NULL, '2022-02-27 17:05:44', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (100011, 100006, '新增用户信息', 'sys:user:add', 'sys:user:add', '1', NULL, 'sys:user:add', NULL, NULL, 1, NULL, '2022-02-27 18:07:12', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (100012, 0, '系统工具', 'sysTool', 'sysTool', '0', 'RouteView', '/sysTool', NULL, NULL, 1, 4, '2022-03-04 09:14:37', NULL, NULL, NULL, '0');
+INSERT INTO `t_menu` VALUES (100013, 100012, '代码生成器', 'genCode', 'sysTool:genCode', '0', 'modules/system/gen/CodeGenIndex.vue', '/sysTool/genCode', NULL, NULL, 1, 0, '2022-03-04 09:19:37', NULL, NULL, NULL, '0');
 
 -- ----------------------------
 -- Table structure for t_role
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role`  (
-  `ROLE_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
-  `ROLE_NAME` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
-  `REMARK` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色描述',
-  `CREATE_TIME` datetime(0) NOT NULL COMMENT '创建时间',
-  `MODIFY_TIME` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`ROLE_ID`) USING BTREE
+  `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+  `role_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
+  `remark` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色描述',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`role_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
-INSERT INTO `t_role` VALUES (1, '管理员', '管理员', '2022-02-28 16:23:11', '2022-02-28 14:38:59');
-INSERT INTO `t_role` VALUES (8, '游客', '游客,没啥权限', '2022-02-28 19:45:16', '2022-02-28 19:45:16');
-INSERT INTO `t_role` VALUES (9, '测试角色1', '测试角色1(拥有部分权限)', '2022-03-01 15:17:51', '2022-03-01 15:17:51');
-INSERT INTO `t_role` VALUES (10, '测试角色2', '测试角色2(拥有部分权限)', '2022-03-01 15:18:22', '2022-03-01 15:18:22');
+INSERT INTO `t_role` VALUES (1, '管理员', '管理员', '2022-02-28 16:23:11', '2022-03-25 19:30:18', NULL, 'fxz');
+INSERT INTO `t_role` VALUES (8, '游客', '游客,没啥权限', '2022-02-28 19:45:16', '2022-03-25 19:30:55', NULL, 'fxz');
+INSERT INTO `t_role` VALUES (9, '测试角色1', '测试角色1(拥有部分权限)', '2022-03-01 15:17:51', '2022-03-01 15:17:51', NULL, NULL);
+INSERT INTO `t_role` VALUES (10, '测试角色2', '测试角色2(拥有部分权限)', '2022-03-01 15:18:22', '2022-03-25 19:32:28', NULL, 'fxz');
 
 -- ----------------------------
 -- Table structure for t_role_menu
@@ -126,7 +131,6 @@ CREATE TABLE `t_role_menu`  (
 -- ----------------------------
 -- Records of t_role_menu
 -- ----------------------------
-INSERT INTO `t_role_menu` VALUES (8, 12);
 INSERT INTO `t_role_menu` VALUES (9, 12);
 INSERT INTO `t_role_menu` VALUES (9, 1);
 INSERT INTO `t_role_menu` VALUES (9, 2);
@@ -134,8 +138,6 @@ INSERT INTO `t_role_menu` VALUES (9, 3);
 INSERT INTO `t_role_menu` VALUES (9, 4);
 INSERT INTO `t_role_menu` VALUES (9, 6);
 INSERT INTO `t_role_menu` VALUES (9, 7);
-INSERT INTO `t_role_menu` VALUES (10, 20);
-INSERT INTO `t_role_menu` VALUES (10, 21);
 INSERT INTO `t_role_menu` VALUES (1, 2);
 INSERT INTO `t_role_menu` VALUES (1, 3);
 INSERT INTO `t_role_menu` VALUES (1, 4);
@@ -144,7 +146,6 @@ INSERT INTO `t_role_menu` VALUES (1, 6);
 INSERT INTO `t_role_menu` VALUES (1, 7);
 INSERT INTO `t_role_menu` VALUES (1, 12);
 INSERT INTO `t_role_menu` VALUES (1, 20);
-INSERT INTO `t_role_menu` VALUES (1, 1);
 INSERT INTO `t_role_menu` VALUES (1, 21);
 INSERT INTO `t_role_menu` VALUES (1, 29);
 INSERT INTO `t_role_menu` VALUES (1, 100006);
@@ -155,6 +156,12 @@ INSERT INTO `t_role_menu` VALUES (1, 100008);
 INSERT INTO `t_role_menu` VALUES (1, 100007);
 INSERT INTO `t_role_menu` VALUES (1, 100012);
 INSERT INTO `t_role_menu` VALUES (1, 100013);
+INSERT INTO `t_role_menu` VALUES (1, 100014);
+INSERT INTO `t_role_menu` VALUES (1, 1);
+INSERT INTO `t_role_menu` VALUES (8, 12);
+INSERT INTO `t_role_menu` VALUES (10, 20);
+INSERT INTO `t_role_menu` VALUES (10, 21);
+INSERT INTO `t_role_menu` VALUES (10, 100012);
 
 -- ----------------------------
 -- Table structure for t_trade_log
@@ -186,32 +193,39 @@ INSERT INTO `t_trade_log` VALUES (150, 11, 'aaa', '打包完毕，开始物流�
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user`  (
-  `USER_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `USERNAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
-  `PASSWORD` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `DEPT_ID` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
-  `EMAIL` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `MOBILE` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系电话',
-  `STATUS` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1' COMMENT '状态 0锁定 1有效',
-  `CREATE_TIME` datetime(0) NOT NULL COMMENT '创建时间',
-  `MODIFY_TIME` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-  `LAST_LOGIN_TIME` datetime(0) NULL DEFAULT NULL COMMENT '最近访问时间',
-  `SSEX` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别 0男 1女 2保密',
-  `AVATAR` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
-  `DESCRIPTION` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '描述',
-  PRIMARY KEY (`USER_ID`) USING BTREE
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
+  `password` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
+  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系电话',
+  `status` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1' COMMENT '状态 0锁定 1有效',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `last_login_time` datetime(0) NULL DEFAULT NULL COMMENT '最近访问时间',
+  `ssex` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别 0男 1女 2保密',
+  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '描述',
+  `create_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'fxz', '$2a$10$gzhiUb1ldc1Rf3lka4k/WOoFKKGPepHSzJxzcPSN5/65SzkMdc.SK', 1, 'fxzbiz@gmail.com', '19888888888', '1', '2019-06-14 20:39:22', '2022-02-27 17:15:53', '2019-08-02 15:57:00', '0', 'https://preview.pro.antdv.com/avatar2.jpg', 'fxzCloud的作者');
-INSERT INTO `t_user` VALUES (3, 'fxzz', '$2a$10$gzhiUb1ldc1Rf3lka4k/WOoFKKGPepHSzJxzcPSN5/65SzkMdc.SK', 3, 'fxzbiz@gmail.com', '19888888880', '1', '2021-11-28 20:43:47', '2022-03-01 15:13:22', NULL, '1', 'https://preview.pro.antdv.com/avatar2.jpg', '123');
-INSERT INTO `t_user` VALUES (4, 'test', '$2a$10$q2Sg8yLpkA3i4r0MOgT5o.mUBsJsWRz1lKXsO7EgOOBT5D1U1d5rC', 0, 'fxzcloud@gmail.com', '19806082431', '1', '2022-02-27 18:19:20', '2022-02-28 17:19:15', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', '测试');
-INSERT INTO `t_user` VALUES (11, 'rrr', '$2a$10$HFImvTPe8wNLUzQ.dtBWmew9ww1cQUMlg/O598ffzvu9GGs9HvI0u', 5, 'fff@qq.com', '12345678900', '1', '2022-02-27 20:07:32', '2022-03-01 15:13:31', NULL, '1', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', '22');
-INSERT INTO `t_user` VALUES (14, 'sss', '$2a$10$2ohXbP1Z8hYEpEMdLo5xRusCwnfmZf.xQUSu9nzGgh4g/Z8iou61W', 0, '222@qq.com', '11213222211', '1', '2022-02-27 20:25:19', '2022-03-01 15:13:40', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', 'das');
-INSERT INTO `t_user` VALUES (18, 'ddddd', '$2a$10$DuEkJBuIUA/nrSZqXjMz1.dxZas7/uZa/vIN.xkF5TB0HVedrI556', 4, 'dddddd@qq.com', 'ddddddddddd', '1', '2022-02-27 20:43:38', '2022-03-01 15:18:50', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', '2');
-INSERT INTO `t_user` VALUES (19, '12345', '$2a$10$GTJGB/TAx4WauFwBLV9ejebNVC/TCAFFFmv0vwCHJQVaHqy3UlzS2', 4, '22345678@gmail.com', '12345890873', '1', '2022-02-28 08:43:26', '2022-03-01 15:14:39', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', 'ss');
+INSERT INTO `t_user` VALUES (1, 'fxz', '$2a$10$gzhiUb1ldc1Rf3lka4k/WOoFKKGPepHSzJxzcPSN5/65SzkMdc.SK', 0, 'fxzbiz@gmail.com', '19888888888', '1', '2019-06-14 20:39:22', '2022-03-25 19:21:34', '2019-08-02 15:57:00', '0', 'https://preview.pro.antdv.com/avatar2.jpg', 'fxzCloud的作者', NULL, 'fxz');
+INSERT INTO `t_user` VALUES (3, 'fxzz', '$2a$10$gzhiUb1ldc1Rf3lka4k/WOoFKKGPepHSzJxzcPSN5/65SzkMdc.SK', 3, 'fxzbiz@gmail.com', '19888888880', '1', '2021-11-28 20:43:47', '2022-03-25 19:33:10', NULL, '1', 'https://preview.pro.antdv.com/avatar2.jpg', '123', NULL, 'fxz');
+INSERT INTO `t_user` VALUES (4, 'test', '$2a$10$q2Sg8yLpkA3i4r0MOgT5o.mUBsJsWRz1lKXsO7EgOOBT5D1U1d5rC', 0, 'fxzcloud@gmail.com', '19806082431', '1', '2022-02-27 18:19:20', '2022-02-28 17:19:15', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', '测试', NULL, NULL);
+INSERT INTO `t_user` VALUES (11, 'rrr', '$2a$10$HFImvTPe8wNLUzQ.dtBWmew9ww1cQUMlg/O598ffzvu9GGs9HvI0u', 5, 'fff@qq.com', '12345678900', '1', '2022-02-27 20:07:32', '2022-03-01 15:13:31', NULL, '1', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', '22', NULL, NULL);
+INSERT INTO `t_user` VALUES (14, 'sss', '$2a$10$2ohXbP1Z8hYEpEMdLo5xRusCwnfmZf.xQUSu9nzGgh4g/Z8iou61W', 0, '222@qq.com', '11213222211', '1', '2022-02-27 20:25:19', '2022-03-01 15:13:40', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', 'das', NULL, NULL);
+INSERT INTO `t_user` VALUES (18, 'ddddd', '$2a$10$DuEkJBuIUA/nrSZqXjMz1.dxZas7/uZa/vIN.xkF5TB0HVedrI556', 4, 'dddddd@qq.com', 'ddddddddddd', '1', '2022-02-27 20:43:38', '2022-03-25 19:33:39', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', '2', NULL, 'fxz');
+INSERT INTO `t_user` VALUES (19, '12345', '$2a$10$GTJGB/TAx4WauFwBLV9ejebNVC/TCAFFFmv0vwCHJQVaHqy3UlzS2', 4, '22345678@gmail.com', '12345890873', '1', '2022-02-28 08:43:26', '2022-03-25 19:35:08', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', 'ss', NULL, 'fxz');
+INSERT INTO `t_user` VALUES (20, 'test1', '$2a$10$Nw.6AfYXfCIIfMQQ5TkDU.T4I0W/uZlIKarmx6yhnnMkUW5Kykj26', NULL, '11111@qq.com', '11111111111', '1', '2022-03-09 17:18:07', NULL, NULL, '0', 'https://preview.pro.antdv.com/avatar2.jpg', '2', NULL, NULL);
+INSERT INTO `t_user` VALUES (23, '22222', '$2a$10$K48UIIGMPhEBUiUpnKYECurrl6iIzzX6Sj3yp9H.aIl9Tghthpnhm', 0, 'ss@qq.com', '22222222222', '1', '2022-03-09 17:19:41', NULL, NULL, '0', 'https://preview.pro.antdv.com/avatar2.jpg', 'ss', NULL, NULL);
+INSERT INTO `t_user` VALUES (24, '233dd2', '$2a$10$6C7nuemMQ9IhFfP/pZsAleqOPGB.lVfzb5Sg7IU4HlypF2Y72MIZe', 0, 'www@qq.com', '22111111111', '1', '2022-03-09 17:19:58', NULL, NULL, '0', 'https://preview.pro.antdv.com/avatar2.jpg', '22', NULL, NULL);
+INSERT INTO `t_user` VALUES (25, 'sssss', '$2a$10$knkDyRtKpWil6aK45i.TlO6eSWbOx4IhwNZbyBkvbYRgyrxkU/ToK', 0, '2222@qq.com', '22211111111', '1', '2022-03-09 17:20:18', NULL, NULL, '1', 'https://preview.pro.antdv.com/avatar2.jpg', '2', NULL, NULL);
+INSERT INTO `t_user` VALUES (26, '测试账号1', '$2a$10$l7cPvJdOBduwPkq0MKyI7.kMmdznT92zbpmrpkQPTurBMzaOgvgJq', 1, '2235602974@qq.com', '17823411234', '1', '2022-03-25 19:22:34', '2022-03-25 19:34:21', NULL, '0', 'https://preview.pro.antdv.com/avatar2.jpg', 'aa', 'fxz', 'fxz');
 
 -- ----------------------------
 -- Table structure for t_user_role
@@ -225,20 +239,25 @@ CREATE TABLE `t_user_role`  (
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
-INSERT INTO `t_user_role` VALUES (1, 1);
 INSERT INTO `t_user_role` VALUES (7, 1);
 INSERT INTO `t_user_role` VALUES (9, 1);
 INSERT INTO `t_user_role` VALUES (10, 1);
 INSERT INTO `t_user_role` VALUES (13, 1);
 INSERT INTO `t_user_role` VALUES (16, 1);
 INSERT INTO `t_user_role` VALUES (4, 1);
-INSERT INTO `t_user_role` VALUES (3, 8);
 INSERT INTO `t_user_role` VALUES (11, 1);
 INSERT INTO `t_user_role` VALUES (14, 8);
-INSERT INTO `t_user_role` VALUES (19, 8);
-INSERT INTO `t_user_role` VALUES (19, 1);
+INSERT INTO `t_user_role` VALUES (20, 1);
+INSERT INTO `t_user_role` VALUES (23, 1);
+INSERT INTO `t_user_role` VALUES (24, 8);
+INSERT INTO `t_user_role` VALUES (25, 1);
+INSERT INTO `t_user_role` VALUES (1, 1);
+INSERT INTO `t_user_role` VALUES (3, 8);
 INSERT INTO `t_user_role` VALUES (18, 9);
 INSERT INTO `t_user_role` VALUES (18, 10);
+INSERT INTO `t_user_role` VALUES (26, 1);
+INSERT INTO `t_user_role` VALUES (19, 1);
+INSERT INTO `t_user_role` VALUES (19, 8);
 
 -- ----------------------------
 -- Table structure for zipkin_annotations
