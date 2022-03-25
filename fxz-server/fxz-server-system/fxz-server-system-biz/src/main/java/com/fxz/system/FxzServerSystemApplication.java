@@ -1,11 +1,17 @@
 package com.fxz.system;
 
 import com.fxz.common.security.annotation.EnableFxzCloudResourceServer;
+import com.fxz.system.dinger.handler.DingTalkMultiHandler;
+import com.github.jaemon.dinger.core.annatations.DingerScan;
+import com.github.jaemon.dinger.core.entity.enums.DingerType;
+import com.github.jaemon.dinger.multi.annotations.EnableMultiDinger;
+import com.github.jaemon.dinger.multi.annotations.MultiDinger;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * env
@@ -17,12 +23,14 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  *
  * @author fxz
  */
+@EnableScheduling
+@EnableMultiDinger(
+// 启用钉钉多机器人配置
+@MultiDinger(dinger = DingerType.DINGTALK, handler = DingTalkMultiHandler.class))
+@DingerScan(basePackages = "com.fxz.system.dinger")
 @EnableFxzCloudResourceServer
 @EnableFeignClients
-// @EnableDistributedTransaction
 @MapperScan("com.fxz.system.mapper")
-// @FxzCloudApplication
-// @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableDiscoveryClient
 @SpringBootApplication
 public class FxzServerSystemApplication {

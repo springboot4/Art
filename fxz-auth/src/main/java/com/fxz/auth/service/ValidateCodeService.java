@@ -1,10 +1,10 @@
 package com.fxz.auth.service;
 
-import com.fxz.common.core.constant.FxzConstant;
-import com.fxz.common.core.exception.ValidateCodeException;
-import com.fxz.common.core.service.RedisService;
 import com.fxz.auth.properties.FxzAuthProperties;
 import com.fxz.auth.properties.FxzValidateCodeProperties;
+import com.fxz.common.core.constant.FxzConstant;
+import com.fxz.common.core.exception.ValidateCodeException;
+import com.fxz.common.redis.service.RedisService;
 import com.wf.captcha.GifCaptcha;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;

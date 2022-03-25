@@ -54,7 +54,7 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.fxz</groupId>
+            <groupId>com.fxz</groupId>
             <artifactId>fxz-common-security</artifactId>
             <version>0.0.1</version>
         </dependency>
