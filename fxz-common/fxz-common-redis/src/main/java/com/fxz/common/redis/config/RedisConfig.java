@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -15,8 +16,9 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 /**
  * @author Fxz
  * @version 1.0
- * @date 2022-03-25 13:48
+ * @date 2022-03-25 13:48 需要注意的是@Cacheable注解不支持配置过期时间 默认永不过期
  */
+@EnableCaching
 @Configuration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisConfig {
