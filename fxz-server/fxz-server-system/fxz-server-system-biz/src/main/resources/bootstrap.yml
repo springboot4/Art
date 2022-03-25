@@ -14,5 +14,5 @@ spring:
     project-id:  ${spring.application.name}
     dingers:
       dingtalk:
-        tokenId: 8e9510e7333358f24f2103bf2b26c0ffe4e02f5f1c1d83ed28fc3557c168a835
-        secret: SECbba87cd724ccb61a6d8ed47d58a1dd10ddd5dbb5fa5a97219b1d26d6aa871dea
+        tokenId: d7192ec2002a09e36e9c07caffed2e8ce4a101775996869a1da46efe1f4b96ff
+        secret: SEC70c57c9b3fa1bf2e276a00c6d543042186aab88763b0a004aa4f5ca85ce34b57

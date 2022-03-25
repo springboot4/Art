@@ -1,8 +1,6 @@
 spring:
   application:
     name: fxz-gateway
-  redisson:
-    address: redis://127.0.0.1:6379
   cloud:
     nacos:
       discovery:
@@ -13,11 +11,4 @@ spring:
         prefix: ${spring.application.name}
         file-extension: yaml
 
-anti:
-  reptile:
-    manager:
-      enabled: true
-      ip-rule:
-        request-max-size: 2
-      global-filter-mode: true
 

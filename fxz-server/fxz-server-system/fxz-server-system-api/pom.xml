@@ -12,7 +12,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.fxz</groupId>
+            <groupId>com.fxz</groupId>
             <artifactId>fxz-common-core</artifactId>
             <version>0.0.1</version>
         </dependency>
