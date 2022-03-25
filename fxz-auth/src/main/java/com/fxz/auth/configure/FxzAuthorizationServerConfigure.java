@@ -6,7 +6,7 @@ import com.fxz.auth.properties.FxzClientsProperties;
 import com.fxz.auth.service.FxzUserDetailServiceImpl;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
-import com.fxz.common.core.service.RedisService;
+import com.fxz.common.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;

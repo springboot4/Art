@@ -7,25 +7,32 @@
         <groupId>com.fxz</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
-    <artifactId>fxz-common-security</artifactId>
-    <version>0.0.1</version>
+
+    <artifactId>fxz-common-redis</artifactId>
 
     <dependencies>
+        <!--redis-->
         <dependency>
-            <groupId>com.fxz</groupId>
-            <artifactId>fxz-common-core</artifactId>
-            <version>0.0.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-security</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
+
+        <!--分布式锁-->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+        </dependency>
+
+
     </dependencies>
 </project>

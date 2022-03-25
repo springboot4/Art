@@ -1,6 +1,5 @@
 package com.fxz.gateway;
 
-import com.fxz.common.core.annotation.EnableLettuceRedis;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version 1.0
  * @date 2021-12-07 10:10
  */
-@EnableLettuceRedis
 @SpringBootApplication
 public class FxzGatewayApplication {
 

@@ -4,7 +4,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.core.exception.FxzException;
-import com.fxz.common.core.service.RedisService;
+import com.fxz.common.redis.service.RedisService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;

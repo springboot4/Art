@@ -19,10 +19,16 @@
             <artifactId>fxz-server-system-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <dependency>
-            <groupId>org.fxz</groupId>
+            <groupId>com.fxz</groupId>
             <artifactId>fxz-common-security</artifactId>
             <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-redis</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- 升级 -->

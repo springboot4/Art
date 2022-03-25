@@ -1,8 +1,6 @@
 package com.fxz.auth;
 
-import com.fxz.common.core.annotation.EnableLettuceRedis;
 import com.fxz.common.security.annotation.EnableFxzCloudResourceServer;
-import com.fxz.common.security.annotation.EnableFxzServerProtect;
 import com.fxz.system.feign.RemoteMenuService;
 import com.fxz.system.feign.RemoteUserService;
 import org.mybatis.spring.annotation.MapperScan;
@@ -18,7 +16,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableFxzCloudResourceServer
 @EnableFeignClients(basePackageClasses = { RemoteMenuService.class, RemoteUserService.class })
-@EnableLettuceRedis
 @MapperScan("com.fxz.auth.mapper")
 // @EnableFxzServerProtect
 // @EnableFxzAuthExceptionHandler

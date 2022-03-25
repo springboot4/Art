@@ -17,16 +17,14 @@ import org.springframework.web.util.pattern.PathPatternParser;
 @Configuration
 public class FxzGateWayCorsConfigure {
 
-	@Bean
-	public CorsWebFilter corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
-		CorsConfiguration cors = new CorsConfiguration();
-		cors.setAllowCredentials(true);
-		cors.addAllowedOrigin(CorsConfiguration.ALL);
-		cors.addAllowedHeader(CorsConfiguration.ALL);
-		cors.addAllowedMethod(CorsConfiguration.ALL);
-		source.registerCorsConfiguration("/**", cors);
-		return new CorsWebFilter(source);
-	}
+	/*
+	 * @Bean public CorsWebFilter corsFilter() { UrlBasedCorsConfigurationSource source =
+	 * new UrlBasedCorsConfigurationSource(new PathPatternParser()); CorsConfiguration
+	 * cors = new CorsConfiguration(); cors.setAllowCredentials(true);
+	 * cors.addAllowedOrigin(CorsConfiguration.ALL);
+	 * cors.addAllowedHeader(CorsConfiguration.ALL);
+	 * cors.addAllowedMethod(CorsConfiguration.ALL);
+	 * source.registerCorsConfiguration("/**", cors); return new CorsWebFilter(source); }
+	 */
 
 }

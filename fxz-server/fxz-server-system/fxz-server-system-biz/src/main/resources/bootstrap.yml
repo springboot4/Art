@@ -10,3 +10,9 @@ spring:
         group: DEFAULT_GROUP
         prefix: ${spring.application.name}
         file-extension: yaml
+  dinger:
+    project-id:  ${spring.application.name}
+    dingers:
+      dingtalk:
+        tokenId: d7192ec2002a09e36e9c07caffed2e8ce4a101775996869a1da46efe1f4b96ff
+        secret: SEC70c57c9b3fa1bf2e276a00c6d543042186aab88763b0a004aa4f5ca85ce34b57
