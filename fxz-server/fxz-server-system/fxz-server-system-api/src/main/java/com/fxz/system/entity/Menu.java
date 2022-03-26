@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,7 +21,7 @@ import java.util.Date;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @Data
 @TableName("t_menu")
-public class Menu implements Serializable {
+public class Menu extends BaseEntity implements Serializable {
 
 	/**
 	 * 一级菜单id
@@ -92,30 +93,6 @@ public class Menu implements Serializable {
 	 * 排序
 	 */
 	private Integer orderNum;
-
-	/**
-	 * 创建时间
-	 */
-	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
-	private Date createTime;
-
-	/**
-	 * 修改时间
-	 */
-	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
-	private Date modifyTime;
-
-	/**
-	 * 创建人
-	 */
-	private Long createBy;
-
-	/**
-	 * 更新人
-	 */
-	private Long updateBy;
 
 	/**
 	 * 是否隐藏(1 隐藏 0 不隐藏)

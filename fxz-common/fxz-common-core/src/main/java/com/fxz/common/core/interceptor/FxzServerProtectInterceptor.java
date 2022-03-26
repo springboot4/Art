@@ -2,7 +2,7 @@ package com.fxz.common.core.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fxz.common.core.constant.FxzConstant;
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.util.Base64Utils;

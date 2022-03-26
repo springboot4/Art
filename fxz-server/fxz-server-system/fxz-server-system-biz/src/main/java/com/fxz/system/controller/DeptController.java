@@ -1,6 +1,6 @@
 package com.fxz.system.controller;
 
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import com.fxz.system.entity.Dept;
 import com.fxz.system.service.IDeptService;
 import lombok.RequiredArgsConstructor;

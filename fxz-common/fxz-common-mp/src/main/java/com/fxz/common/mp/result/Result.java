@@ -1,4 +1,4 @@
-package com.fxz.common.core.result;
+package com.fxz.common.mp.result;
 
 import lombok.Data;
 
@@ -11,6 +11,8 @@ import java.io.Serializable;
  **/
 @Data
 public class Result<T> implements Serializable {
+
+	private static final long serialVersionUID = 5725721612604634972L;
 
 	private String code;
 

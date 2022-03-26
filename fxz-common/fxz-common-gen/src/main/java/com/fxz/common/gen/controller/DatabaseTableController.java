@@ -2,8 +2,8 @@ package com.fxz.common.gen.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fxz.common.core.param.PageParam;
-import com.fxz.common.core.result.PageResult;
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.PageResult;
+import com.fxz.common.mp.result.Result;
 import com.fxz.common.gen.entity.DatabaseTable;
 import com.fxz.common.gen.service.impl.DatabaseTableServiceImpl;
 import lombok.RequiredArgsConstructor;

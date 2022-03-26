@@ -2,9 +2,9 @@ package com.fxz.${module}.controller;
 
 
 import com.fxz.common.core.param.PageParam;
-import com.fxz.common.core.result.PageResult;
-import com.fxz.common.core.result.Result;
-import com.fxz.${module}.service.${className}Service;
+import com.fxz.common.mp.result.PageResult;
+import com.fxz.common.mp.result.Result;
+    ${module}.service.${className}Service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

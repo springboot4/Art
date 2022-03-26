@@ -3,7 +3,7 @@ package com.fxz.gateway.kaptcha.handler;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.IdUtil;
 import com.fxz.common.core.constant.FxzConstant;
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import com.fxz.common.redis.service.RedisService;
 import com.google.code.kaptcha.Producer;
 import lombok.RequiredArgsConstructor;

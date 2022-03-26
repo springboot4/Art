@@ -1,9 +1,8 @@
 package com.fxz.system.controller;
 
+import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.core.param.PageParam;
-import com.fxz.common.core.result.PageResult;
-import com.fxz.common.core.result.Result;
-import com.fxz.common.core.utils.FxzUtil;
+import com.fxz.common.mp.result.Result;
 import com.fxz.system.entity.Role;
 import com.fxz.system.service.IRoleService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Fxz
