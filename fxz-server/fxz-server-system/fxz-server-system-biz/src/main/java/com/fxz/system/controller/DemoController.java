@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +38,23 @@ public class DemoController {
 
 	private final RedissonClient redissonClient;
 
+	/**
+	 * 拥有sys_cache权限才可访问此接口，通过springCache缓存返回值
+	 */
+	@PreAuthorize("@pms.hasPermission('sys_cache')")
 	@Cacheable(value = "fxz_cloud", key = "#userName", unless = "#result==null")
 	@GetMapping("/cache/ann")
 	public FxzAuthUser cacheAnn(String userName) {
 		FxzAuthUser user = SecurityUtil.getUser();
 		log.info("user:{}", user);
 		return user;
+	}
+
+	@PreAuthorize("@pms.hasRole('admin')")
+	@GetMapping("/role")
+	public Result<Void> testRole() {
+		log.info("进来了，拥有admin");
+		return Result.success();
 	}
 
 	@GetMapping("/redisson/test")

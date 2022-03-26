@@ -1,5 +1,6 @@
 package com.fxz.common.security.util;
 
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.security.entity.FxzAuthUser;
 import lombok.SneakyThrows;
@@ -56,7 +57,7 @@ public class SecurityUtil {
 		if (details instanceof OAuth2AuthenticationDetails) {
 			return ((OAuth2AuthenticationDetails) details).getTokenValue();
 		}
-		return null;
+		return StringPool.EMPTY;
 	}
 
 }
