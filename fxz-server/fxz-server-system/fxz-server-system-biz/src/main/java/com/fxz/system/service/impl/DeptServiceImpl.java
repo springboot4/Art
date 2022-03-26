@@ -36,7 +36,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean delete(Long id) throws FxzException {
 		// 判断是否存在下级
-		Integer count = this.getBaseMapper().selectCount(Wrappers.<Dept>lambdaQuery().eq(Dept::getParentId, id));
+		Long count = this.getBaseMapper().selectCount(Wrappers.<Dept>lambdaQuery().eq(Dept::getParentId, id));
 		if (count > 0) {
 			throw new FxzException("存在子部门,无法直接删除");
 		}
@@ -49,8 +49,6 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
 	 */
 	@Override
 	public Boolean addDept(Dept dept) {
-		dept.setCreateTime(new Date());
-		dept.setModifyTime(new Date());
 		return this.getBaseMapper().insert(dept) > 0;
 	}
 

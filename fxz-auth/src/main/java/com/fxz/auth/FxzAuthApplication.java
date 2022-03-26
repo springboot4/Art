@@ -3,9 +3,9 @@ package com.fxz.auth;
 import com.fxz.common.security.annotation.EnableFxzCloudResourceServer;
 import com.fxz.system.feign.RemoteMenuService;
 import com.fxz.system.feign.RemoteUserService;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -16,10 +16,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableFxzCloudResourceServer
 @EnableFeignClients(basePackageClasses = { RemoteMenuService.class, RemoteUserService.class })
-@MapperScan("com.fxz.auth.mapper")
-// @EnableFxzServerProtect
-// @EnableFxzAuthExceptionHandler
-@SpringBootApplication
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class FxzAuthApplication {
 
 	public static void main(String[] args) {

@@ -1,8 +1,5 @@
 package com.fxz.system.configure;
 
-import com.baomidou.mybatisplus.core.parser.ISqlParser;
-import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.fxz.system.properties.FxzServerSystemProperties;
 import com.fxz.system.properties.FxzSwaggerProperties;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +14,8 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * @author fxz
@@ -63,18 +58,6 @@ public class FxzWebConfigure {
 
 	private AuthorizationScope[] scopes(FxzSwaggerProperties swagger) {
 		return new AuthorizationScope[] { new AuthorizationScope("test", "") };
-	}
-
-	/**
-	 * mybatis-plus分页插件
-	 */
-	@Bean
-	public PaginationInterceptor paginationInterceptor() {
-		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-		List<ISqlParser> sqlParserList = new ArrayList<>();
-		sqlParserList.add(new BlockAttackSqlParser());
-		paginationInterceptor.setSqlParserList(sqlParserList);
-		return paginationInterceptor;
 	}
 
 }

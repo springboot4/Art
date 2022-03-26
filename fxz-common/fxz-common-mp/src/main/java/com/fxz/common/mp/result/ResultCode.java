@@ -1,9 +1,6 @@
-package com.fxz.common.core.result;
+package com.fxz.common.mp.result;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 

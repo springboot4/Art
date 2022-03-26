@@ -3,36 +3,36 @@
 <mapper namespace="com.fxz.system.mapper.DeptMapper">
 
     <resultMap id="dept" type="com.fxz.system.entity.Dept">
-        <id column="DEPT_ID" property="deptId"/>
-        <result column="PARENT_ID" property="parentId"/>
-        <result column="DEPT_NAME" property="deptName"/>
-        <result column="ORDER_NUM" property="orderNum"/>
-        <result column="CREATE_TIME" property="createTime"/>
-        <result column="MODIFY_TIME" property="modifyTime"/>
+        <id column="dept_id" property="deptId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
         <collection property="children" column="{DEPT_ID = DEPT_ID}" select="getDeptByPid"/>
     </resultMap>
 
     <!--获取部门树-->
     <select id="getDeptTree" resultMap="dept">
-        select DEPT_ID,
-               PARENT_ID,
-               DEPT_NAME,
-               ORDER_NUM,
-               CREATE_TIME,
-               MODIFY_TIME
+        select dept_id,
+               parent_id,
+               dept_name,
+               order_num,
+               create_time,
+               update_time
         from t_dept
-        WHERE DEPT_ID = 0
+        WHERE dept_id = 0
     </select>
 
     <select id="getDeptByPid" resultMap="dept">
-        select DEPT_ID,
-               PARENT_ID,
-               DEPT_NAME,
-               ORDER_NUM,
-               CREATE_TIME,
-               MODIFY_TIME
+        select dept_id,
+               parent_id,
+               dept_name,
+               order_num,
+               create_time,
+               update_time
         from t_dept
-        where PARENT_ID = #{DEPT_ID}
+        where parent_id = #{DEPT_ID}
         ORDER BY ORDER_NUM
     </select>
 

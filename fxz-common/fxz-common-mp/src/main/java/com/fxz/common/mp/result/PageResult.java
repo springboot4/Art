@@ -1,4 +1,4 @@
-package com.fxz.common.core.result;
+package com.fxz.common.mp.result;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Data;
@@ -13,6 +13,8 @@ import java.util.List;
  */
 @Data
 public class PageResult<T> implements Serializable {
+
+	private static final long serialVersionUID = 7095488598505654202L;
 
 	private String code;
 

@@ -2,10 +2,11 @@ package com.fxz.common.core.handler;
 
 import com.fxz.common.core.exception.FxzAuthException;
 import com.fxz.common.core.exception.FxzException;
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -72,9 +73,9 @@ public class BaseExceptionHandler {
 		return Result.failed("系统错误");
 	}
 
-	@ExceptionHandler(value = FxzAuthException.class)
+	@ExceptionHandler(value = { FxzAuthException.class, AccessDeniedException.class })
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Result<Void> handleFxzAuthException(FxzAuthException e) {
+	public Result<Void> handleFxzAuthException(Exception e) {
 		log.error("认证错误", e);
 		return Result.failed("认证错误");
 	}

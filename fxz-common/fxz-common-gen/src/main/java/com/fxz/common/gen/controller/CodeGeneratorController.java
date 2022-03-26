@@ -1,6 +1,6 @@
 package com.fxz.common.gen.controller;
 
-import com.fxz.common.core.result.Result;
+import com.fxz.common.mp.result.Result;
 import com.fxz.common.gen.dto.CodeGenPreview;
 import com.fxz.common.gen.service.impl.CodeGeneratorServiceImpl;
 import lombok.RequiredArgsConstructor;

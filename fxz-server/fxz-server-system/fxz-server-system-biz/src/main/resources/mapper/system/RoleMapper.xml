@@ -5,19 +5,19 @@
     <!--根据id获取角色信息-->
     <select id="getRoleById" resultType="com.fxz.system.entity.Role">
         SELECT
-            r.ROLE_ID,
-            r.ROLE_NAME,
-            r.REMARK,
-            r.CREATE_TIME,
-            r.MODIFY_TIME,
+            r.role_id,
+            r.role_name,
+            r.remark,
+            r.create_time,
+            r.update_time,
             GROUP_CONCAT( rm.MENU_ID ) menuId
         FROM
             t_role r
-                LEFT JOIN t_role_menu rm ON rm.ROLE_ID = r.ROLE_ID
+                LEFT JOIN t_role_menu rm ON rm.role_id = r.role_id
         WHERE
-            r.ROLE_ID = #{id}
+            r.role_id = #{id}
         GROUP BY
-            r.ROLE_ID
+            r.role_id
     </select>
 
 </mapper>
