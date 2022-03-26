@@ -12,6 +12,8 @@ import java.io.Serializable;
 @Data
 public class Result<T> implements Serializable {
 
+	private static final long serialVersionUID = 5725721612604634972L;
+
 	private String code;
 
 	private T data;

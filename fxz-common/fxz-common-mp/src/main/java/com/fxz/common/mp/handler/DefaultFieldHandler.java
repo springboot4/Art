@@ -34,6 +34,7 @@ public class DefaultFieldHandler implements MetaObjectHandler {
 	@Override
 	public void updateFill(MetaObject metaObject) {
 		log.debug("mybatis plus start update fill ....");
+
 		fillValIfNullByName("updateTime", LocalDateTime.now(), metaObject, true);
 		fillValIfNullByName("updateBy", getUserName(), metaObject, true);
 	}

@@ -4,6 +4,7 @@ import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.security.FxzUserInfoTokenServices;
 import com.fxz.common.security.handler.FxzAccessDeniedHandler;
 import com.fxz.common.security.handler.FxzAuthExceptionEntryPoint;
+import com.fxz.common.security.permission.PermissionService;
 import com.fxz.common.security.properties.FxzCloudSecurityProperties;
 import com.fxz.common.security.util.SecurityUtil;
 import feign.RequestInterceptor;
@@ -14,12 +15,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.util.Base64Utils;
 
@@ -30,7 +28,15 @@ import org.springframework.util.Base64Utils;
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(FxzCloudSecurityProperties.class)
-public class FxzCloudSecurityAutoConfigure extends GlobalMethodSecurityConfiguration {
+public class FxzCloudSecurityAutoConfigure {
+
+	/**
+	 * 接口权限判断工具
+	 */
+	@Bean("pms")
+	public PermissionService permissionService() {
+		return new PermissionService();
+	}
 
 	/**
 	 * 用于处理403类型异常
@@ -89,9 +95,9 @@ public class FxzCloudSecurityAutoConfigure extends GlobalMethodSecurityConfigura
 		};
 	}
 
-	@Override
-	protected MethodSecurityExpressionHandler createExpressionHandler() {
-		return new OAuth2MethodSecurityExpressionHandler();
-	}
+	/*
+	 * @Override protected MethodSecurityExpressionHandler createExpressionHandler() {
+	 * return new OAuth2MethodSecurityExpressionHandler(); }
+	 */
 
 }

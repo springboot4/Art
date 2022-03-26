@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * @author fxz
  */
+@SuppressWarnings("all")
 @Configuration
 @EnableTransactionManagement
 public class RabbitMQConfig {
