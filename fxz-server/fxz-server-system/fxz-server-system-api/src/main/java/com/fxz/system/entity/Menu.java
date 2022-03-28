@@ -20,7 +20,7 @@ import java.util.Date;
  */
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @Data
-@TableName("t_menu")
+@TableName("sys_menu")
 public class Menu extends BaseEntity implements Serializable {
 
 	/**

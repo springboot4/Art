@@ -5,7 +5,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
-    <title>Pig 第三方授权</title>
+    <title>第三方授权</title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/signin.css"/>
 </head>
@@ -44,8 +44,7 @@
     </form>
 </div>
 <footer>
-    <p>support by: pig4cloud.com</p>
-    <p>email: <a href="mailto:wangiegie@gmail.com">wangiegie@gmail.com</a>.</p>
+    <p>support by: fxzcloud.life</p>
 </footer>
 </body>
 </html>

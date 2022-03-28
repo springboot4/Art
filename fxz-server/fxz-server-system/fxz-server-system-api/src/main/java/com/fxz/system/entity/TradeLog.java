@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@TableName("t_trade_log")
+@TableName("sys_trade_log")
 public class TradeLog implements Serializable {
 
 	private static final long serialVersionUID = 3902838426348137002L;
