@@ -1,6 +1,6 @@
 package com.fxz.common.security.annotation;
 
-import com.fxz.common.security.confign.FxzCloudResourceServerConfigure;
+import com.fxz.common.security.config.FxzCloudResourceServerConfigure;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
