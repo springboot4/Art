@@ -46,7 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	public void createUser(SystemUser user) {
 		// 创建用户
 		user.setAvatar(SystemUser.DEFAULT_AVATAR);
-		user.setPassword("{bcrypt}"+passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD));
+		user.setPassword("{bcrypt}" + passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD));
 		save(user);
 		// 保存用户角色
 		if (StringUtils.isNotEmpty(user.getRoleId())) {

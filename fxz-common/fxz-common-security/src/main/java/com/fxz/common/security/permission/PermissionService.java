@@ -67,6 +67,7 @@ public class PermissionService {
 	 * @return 是否
 	 */
 	public boolean hasAnyRoles(String... roles) {
+		// todo
 		return true;
 		/*
 		 * // 如果为空，说明已经有权限 if (ArrayUtil.isEmpty(roles)) { return true; }

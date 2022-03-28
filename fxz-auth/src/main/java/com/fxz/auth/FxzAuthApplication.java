@@ -14,12 +14,12 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author fxz
  */
 @EnableFxzCloudResourceServer
-@EnableFeignClients(basePackageClasses = {RemoteMenuService.class, RemoteUserService.class})
+@EnableFeignClients(basePackageClasses = { RemoteMenuService.class, RemoteUserService.class })
 @SpringBootApplication
 public class FxzAuthApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(FxzAuthApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(FxzAuthApplication.class, args);
+	}
 
 }
