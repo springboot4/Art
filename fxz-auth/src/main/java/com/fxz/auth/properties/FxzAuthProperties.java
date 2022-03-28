@@ -16,8 +16,6 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationProperties(prefix = "fxz.auth")
 public class FxzAuthProperties {
 
-	private FxzClientsProperties[] clients = {};
-
 	private int accessTokenValiditySeconds = 60 * 60 * 24;
 
 	private int refreshTokenValiditySeconds = 60 * 60 * 24 * 7;
