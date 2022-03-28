@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @date 2022-02-27 17:48
  */
 @Data
-@TableName("t_role")
+@TableName("sys_role")
 public class Role extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -1189610678764394766L;

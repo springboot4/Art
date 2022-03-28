@@ -11,9 +11,24 @@
     <artifactId>fxz-auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>fxz-auth</name>
-    <description>Demo project for Spring Boot</description>
+    <description>认证服务器</description>
 
     <dependencies>
+        <!--数据库-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--JDBC相关-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-server-system-api</artifactId>

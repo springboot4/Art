@@ -1,15 +1,13 @@
 package com.fxz.auth.manager;
 
-import com.fxz.system.entity.Menu;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.system.entity.SystemUser;
 import com.fxz.system.feign.RemoteMenuService;
 import com.fxz.system.feign.RemoteUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author Fxz
@@ -31,7 +29,7 @@ public class UserManager {
 
 	public String findUserPermissions(String username) {
 		Set<String> userPermissions = menuService.findUserPermissions(username);
-		return String.join(",", userPermissions);
+		return String.join(StringPool.COMMA, userPermissions);
 	}
 
 }

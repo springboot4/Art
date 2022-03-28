@@ -5,8 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author Fxz
@@ -19,8 +22,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @RequiredArgsConstructor
 public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
-	// private final ValidateCodeFilter validateCodeFilter;
-
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -29,13 +30,23 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-				// .addFilterBefore(validateCodeFilter,
-				// UsernamePasswordAuthenticationFilter.class)
-				.requestMatchers()
-				// 安全配置类只对/oauth/开头的请求有效。
-				.antMatchers("/token/**", "/oauth/**").and().authorizeRequests().antMatchers("/token/**", "/oauth/**")
-				.permitAll().and().csrf().disable();
+		http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form").and().requestMatchers()
+				.antMatchers("/token/**", "/oauth/**").and().authorizeRequests().antMatchers("/token/**").permitAll()
+				.anyRequest().authenticated().and().csrf().disable();
+	}
+
+	/**
+	 * 认证中心静态资源处理
+	 * @param web WebSecurity
+	 */
+	@Override
+	public void configure(WebSecurity web) {
+		web.ignoring().antMatchers("/css/**");
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
 }

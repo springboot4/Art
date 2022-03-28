@@ -10,7 +10,14 @@ spring:
         group: DEFAULT_GROUP
         prefix: ${spring.application.name}
         file-extension: yaml
-
+  datasource:
+    url: jdbc:mysql:///fxz_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 127255
+  redis:
+    url: 127.0.0.1
+    host: 6379
 
 nacos:
   url: 127.0.0.1

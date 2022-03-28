@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author fxz
  */
 @Data
-@TableName("t_user_role")
+@TableName("sys_user_role")
 public class UserRole implements Serializable {
 
 	private static final long serialVersionUID = -3166012934498268403L;

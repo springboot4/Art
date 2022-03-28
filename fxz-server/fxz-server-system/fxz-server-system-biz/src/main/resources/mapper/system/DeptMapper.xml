@@ -20,7 +20,7 @@
                order_num,
                create_time,
                update_time
-        from t_dept
+        from sys_dept
         WHERE dept_id = 0
     </select>
 
@@ -31,7 +31,7 @@
                order_num,
                create_time,
                update_time
-        from t_dept
+        from sys_dept
         where parent_id = #{DEPT_ID}
         ORDER BY ORDER_NUM
     </select>
