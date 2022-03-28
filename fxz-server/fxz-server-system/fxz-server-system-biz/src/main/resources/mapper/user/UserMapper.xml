@@ -21,10 +21,10 @@
         GROUP_CONCAT(r.role_id) roleId,
         GROUP_CONCAT(r.ROLE_NAME) roleName
         FROM
-        t_user u
-        LEFT JOIN t_dept d ON (u.dept_id = d.dept_id)
-        LEFT JOIN t_user_role ur ON (u.user_id = ur.user_id)
-        LEFT JOIN t_role r ON r.role_id = ur.role_id
+        sys_user u
+        LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
+        LEFT JOIN sys_user_role ur ON (u.user_id = ur.user_id)
+        LEFT JOIN sys_role r ON r.role_id = ur.role_id
         WHERE u.STATUS = 1
         <if test="user.username != null and user.username != ''">
             AND u.username like concat('%',#{user.username},'%')
@@ -62,10 +62,10 @@
         GROUP_CONCAT(r.role_id) roleId,
         GROUP_CONCAT(r.ROLE_NAME) roleName
         FROM
-        t_user u
-        LEFT JOIN t_dept d ON (u.dept_id = d.dept_id)
-        LEFT JOIN t_user_role ur ON (u.user_id = ur.user_id)
-        LEFT JOIN t_role r ON r.role_id = ur.role_id
+        sys_user u
+        LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
+        LEFT JOIN sys_user_role ur ON (u.user_id = ur.user_id)
+        LEFT JOIN sys_role r ON r.role_id = ur.role_id
         WHERE u.STATUS = 1 AND u.user_id = #{id}
         group by u.username,u.user_id,u.email,u.mobile,u.status,u.create_time,u.ssex,
         u.dept_id,u.last_login_time,u.update_time,u.description,u.avatar
@@ -89,10 +89,10 @@
                d.dept_name               deptName,
                GROUP_CONCAT(r.role_id)   roleId,
                GROUP_CONCAT(r.ROLE_NAME) roleName
-        FROM t_user u
-                 LEFT JOIN t_dept d ON (u.dept_id = d.dept_id)
-                 LEFT JOIN t_user_role ur ON (u.user_id = ur.user_id)
-                 LEFT JOIN t_role r ON r.role_id = ur.role_id
+        FROM sys_user u
+                 LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
+                 LEFT JOIN sys_user_role ur ON (u.user_id = ur.user_id)
+                 LEFT JOIN sys_role r ON r.role_id = ur.role_id
         WHERE u.username = #{username}
         group by u.username, u.user_id, u.email, u.mobile, u.password, u.status, u.create_time, u.ssex, u.dept_id
                , u.last_login_time, u.update_time, u.description, u.avatar

@@ -23,7 +23,7 @@ import java.util.Date;
  * @date 2021-11-28 15:22
  */
 @Data
-@TableName("t_user")
+@TableName("sys_user")
 public class SystemUser extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 3803544824764133607L;

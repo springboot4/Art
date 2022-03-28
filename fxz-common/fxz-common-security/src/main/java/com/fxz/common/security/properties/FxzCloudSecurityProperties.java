@@ -54,6 +54,11 @@ public class FxzCloudSecurityProperties implements InitializingBean {
 	 */
 	private Boolean onlyFetchByGateway = Boolean.TRUE;
 
+	/**
+	 * 允许不经过网关访问的uri
+	 */
+	private List<String> innerUri;
+
 	@Override
 	public void afterPropertiesSet() {
 		List<String> list = new ArrayList<>();

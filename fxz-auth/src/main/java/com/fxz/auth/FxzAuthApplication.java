@@ -5,7 +5,6 @@ import com.fxz.system.feign.RemoteMenuService;
 import com.fxz.system.feign.RemoteUserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -16,7 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableFxzCloudResourceServer
 @EnableFeignClients(basePackageClasses = { RemoteMenuService.class, RemoteUserService.class })
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 public class FxzAuthApplication {
 
 	public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package com.fxz.common.security.util;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.security.entity.FxzAuthUser;
@@ -53,9 +54,11 @@ public class SecurityUtil {
 	 * @return String 令牌内容
 	 */
 	public static String getCurrentTokenValue() {
-		Object details = getAuthentication().getDetails();
-		if (details instanceof OAuth2AuthenticationDetails) {
-			return ((OAuth2AuthenticationDetails) details).getTokenValue();
+		if (ObjectUtil.isNotNull(getAuthentication())) {
+			Object details = getAuthentication().getDetails();
+			if (details instanceof OAuth2AuthenticationDetails) {
+				return ((OAuth2AuthenticationDetails) details).getTokenValue();
+			}
 		}
 		return StringPool.EMPTY;
 	}

@@ -16,6 +16,8 @@ public interface RemoteUserService {
 
 	/**
 	 * 通过用户名查找用户信息
+	 * @param username 用户名
+	 * @return 用户信息
 	 */
 	@GetMapping("/user/findByName/{username}")
 	public SystemUser findByName(@PathVariable("username") String username);
