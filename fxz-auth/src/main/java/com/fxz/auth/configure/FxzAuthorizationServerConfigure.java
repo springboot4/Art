@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
@@ -60,7 +61,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 	private final FxzWebResponseExceptionTranslator fxzWebResponseExceptionTranslator;
 
 	@Override
-	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+	public void configure(AuthorizationServerSecurityConfigurer security) {
 		// 允许表单认证
 		security.allowFormAuthenticationForClients().tokenKeyAccess("permitAll()").checkTokenAccess("permitAll()");
 	}
@@ -81,7 +82,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 				}
 				String[] grantTypes = StringUtils.splitByWholeSeparatorPreserveAllTokens(client.getGrantType(), ",");
 				builder.withClient(client.getClient()).secret(passwordEncoder.encode(client.getSecret()))
-						.authorizedGrantTypes(grantTypes).scopes(client.getScope());
+						.authorizedGrantTypes(grantTypes).scopes(client.getScope()).redirectUris("https://fxz.life");
 			}
 		}
 	}
@@ -98,8 +99,9 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
-		endpoints.tokenStore(tokenStore()).userDetailsService(userDetailService)
-				.authenticationManager(authenticationManager).tokenServices(defaultTokenServices())
+		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(tokenStore())
+				.userDetailsService(userDetailService).authenticationManager(authenticationManager)
+				.tokenServices(defaultTokenServices()).pathMapping("/oauth/confirm_access", "/token/confirm_access")
 				.tokenGranter(compositeTokenGranter).exceptionTranslator(fxzWebResponseExceptionTranslator);
 	}
 

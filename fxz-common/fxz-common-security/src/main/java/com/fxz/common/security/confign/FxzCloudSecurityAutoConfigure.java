@@ -26,6 +26,7 @@ import org.springframework.util.Base64Utils;
  * @version 1.0
  * @date 2022-03-06 18:15
  */
+
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(FxzCloudSecurityProperties.class)
 public class FxzCloudSecurityAutoConfigure {
@@ -94,10 +95,5 @@ public class FxzCloudSecurityAutoConfigure {
 			}
 		};
 	}
-
-	/*
-	 * @Override protected MethodSecurityExpressionHandler createExpressionHandler() {
-	 * return new OAuth2MethodSecurityExpressionHandler(); }
-	 */
 
 }

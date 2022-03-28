@@ -1,8 +1,11 @@
 package com.fxz.common.core.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fxz.common.mp.result.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -41,6 +44,30 @@ public class FxzUtil {
 		response.setContentType(contentType);
 		response.setStatus(status);
 		response.getOutputStream().write(JSONObject.toJSONString(value).getBytes());
+	}
+
+	/**
+	 * 设置失败响应
+	 * @param response HttpServletResponse
+	 * @param result 响应内容
+	 * @throws IOException IOException
+	 */
+	public static void makeFailureResponse(HttpServletResponse response, Result<Void> result) throws IOException {
+		makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, result);
+	}
+
+	/**
+	 * 设置成功响应
+	 * @param response HttpServletResponse
+	 * @param result 响应内容
+	 */
+	public static void makeSuccessResponse(HttpServletResponse response, Result<Object> result) throws IOException {
+		makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_OK, result);
+	}
+
+	public static boolean isAjaxRequest(HttpServletRequest request) {
+		return (request.getHeader("X-Requested-With") != null
+				&& "XMLHttpRequest".equals(request.getHeader("X-Requested-With")));
 	}
 
 }
