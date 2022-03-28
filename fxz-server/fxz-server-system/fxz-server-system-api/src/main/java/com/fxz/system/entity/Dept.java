@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2022-02-27 18:34
  */
 @Data
-@TableName("t_dept")
+@TableName("sys_dept")
 public class Dept extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -7139055608314923987L;

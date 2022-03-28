@@ -2,14 +2,11 @@ package com.fxz.auth.configure;
 
 import com.fxz.auth.extension.captcha.CaptchaTokenGranter;
 import com.fxz.auth.properties.FxzAuthProperties;
-import com.fxz.auth.properties.FxzClientsProperties;
 import com.fxz.auth.service.FxzUserDetailServiceImpl;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -17,20 +14,22 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,29 +45,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigurerAdapter {
 
-	private final RedisService redisService;
+    private final DataSource dataSource;
 
-	private final AuthenticationManager authenticationManager;
+    private final RedisService redisService;
 
-	private final RedisConnectionFactory redisConnectionFactory;
+    private final AuthenticationManager authenticationManager;
 
-	private final FxzUserDetailServiceImpl userDetailService;
+    private final RedisConnectionFactory redisConnectionFactory;
 
-	private final PasswordEncoder passwordEncoder;
+    private final FxzUserDetailServiceImpl userDetailService;
 
-	private final FxzAuthProperties authProperties;
+    private final PasswordEncoder passwordEncoder;
 
-	private final FxzWebResponseExceptionTranslator fxzWebResponseExceptionTranslator;
+    private final FxzAuthProperties authProperties;
 
-	@Override
-	public void configure(AuthorizationServerSecurityConfigurer security) {
-		// 允许表单认证
-		security.allowFormAuthenticationForClients().tokenKeyAccess("permitAll()").checkTokenAccess("permitAll()");
-	}
+    private final FxzWebResponseExceptionTranslator fxzWebResponseExceptionTranslator;
 
-	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		// todo ClientDetailsService
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) {
+        // 允许表单认证
+        security.allowFormAuthenticationForClients().tokenKeyAccess("permitAll()").checkTokenAccess("permitAll()");
+    }
+
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.withClientDetails(fxzClientDetailsService());
+		/*// todo ClientDetailsService
 		FxzClientsProperties[] clientsArray = authProperties.getClients();
 		InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
 
@@ -82,52 +84,65 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 				}
 				String[] grantTypes = StringUtils.splitByWholeSeparatorPreserveAllTokens(client.getGrantType(), ",");
 				builder.withClient(client.getClient()).secret(passwordEncoder.encode(client.getSecret()))
-						.authorizedGrantTypes(grantTypes).scopes(client.getScope()).redirectUris("https://fxz.life");
+						.authorizedGrantTypes(grantTypes).scopes(client.getScope()).redirectUris("https://fxz.life").autoApprove("false");
 			}
-		}
-	}
+		}*/
+    }
 
-	@Override
-	@SuppressWarnings("all")
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		// 获取原有默认的授权者(授权码模式、密码模式、客户端模式、简化模式)
-		List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
+    @Override
+    @SuppressWarnings("all")
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        // 获取原有默认的授权者(授权码模式、密码模式、客户端模式、简化模式)
+        List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
 
-		// 添加验证码授权模式授权者
-		granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
-				endpoints.getOAuth2RequestFactory(), authenticationManager, redisService));
+        // 添加验证码授权模式授权者
+        granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory(), authenticationManager, redisService));
 
-		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
+        CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
-		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(tokenStore())
-				.userDetailsService(userDetailService).authenticationManager(authenticationManager)
-				.tokenServices(defaultTokenServices()).pathMapping("/oauth/confirm_access", "/token/confirm_access")
-				.tokenGranter(compositeTokenGranter).exceptionTranslator(fxzWebResponseExceptionTranslator);
-	}
+        endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(tokenStore())
+                .userDetailsService(userDetailService).authenticationManager(authenticationManager)
+                .tokenServices(defaultTokenServices()).pathMapping("/oauth/confirm_access", "/token/confirm_access")
+                .tokenGranter(compositeTokenGranter).exceptionTranslator(fxzWebResponseExceptionTranslator);
+    }
 
-	@Bean
-	public TokenStore tokenStore() {
-		RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-		redisTokenStore.setPrefix(SecurityConstants.TOKEN_PREFIX);
-		return redisTokenStore;
-	}
+    /**
+     * 客户端信息加载处理
+     *
+     * @return ClientDetailsService
+     */
+    @Bean
+    public ClientDetailsService fxzClientDetailsService() {
+        JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
+        clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
+        clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
+        return clientDetailsService;
+    }
 
-	@Bean
-	public UserAuthenticationConverter userAuthenticationConverter() {
-		DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
-		defaultUserAuthenticationConverter.setUserDetailsService(userDetailService);
-		return defaultUserAuthenticationConverter;
-	}
+    @Bean
+    public TokenStore tokenStore() {
+        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+        redisTokenStore.setPrefix(SecurityConstants.TOKEN_PREFIX);
+        return redisTokenStore;
+    }
 
-	@Primary
-	@Bean
-	public DefaultTokenServices defaultTokenServices() {
-		DefaultTokenServices tokenServices = new DefaultTokenServices();
-		tokenServices.setTokenStore(tokenStore());
-		tokenServices.setSupportRefreshToken(true);
-		tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
-		tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds());
-		return tokenServices;
-	}
+    @Bean
+    public UserAuthenticationConverter userAuthenticationConverter() {
+        DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
+        defaultUserAuthenticationConverter.setUserDetailsService(userDetailService);
+        return defaultUserAuthenticationConverter;
+    }
+
+    @Primary
+    @Bean
+    public DefaultTokenServices defaultTokenServices() {
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
+        tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds());
+        return tokenServices;
+    }
 
 }

@@ -12,8 +12,8 @@
             r.update_time,
             GROUP_CONCAT( rm.MENU_ID ) menuId
         FROM
-            t_role r
-                LEFT JOIN t_role_menu rm ON rm.role_id = r.role_id
+            sys_role r
+                LEFT JOIN sys_role_menu rm ON rm.role_id = r.role_id
         WHERE
             r.role_id = #{id}
         GROUP BY
