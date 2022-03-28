@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * todo
  * 默认所有请求必须走网关，只有通过网关的请求，才能通过此过滤器的校验
  *
  * @author Fxz
@@ -25,8 +26,8 @@ public class FxzServerProtectInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws IOException {
+		if(1>0) return true;
 		String requestURI = request.getRequestURI();
-		System.out.println("uri：" + requestURI);
 		AntPathMatcher antPathMatcher = new AntPathMatcher();
 		boolean match = antPathMatcher.match("/token/**", requestURI);
 		if (match) {

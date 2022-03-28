@@ -1,4 +1,6 @@
 spring:
+  freemarker:
+    suffix: .ftl
   application:
     name: fxz-auth
   cloud:
