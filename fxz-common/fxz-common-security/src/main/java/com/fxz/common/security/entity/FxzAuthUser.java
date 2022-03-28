@@ -1,7 +1,8 @@
 package com.fxz.common.security.entity;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,10 +16,13 @@ import java.util.Date;
  * @version 1.0
  * @date 2021-11-27 16:23
  */
-@Data
+@Getter
+@Setter
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class FxzAuthUser extends User implements Serializable {
+
+	private static final long serialVersionUID = -6819532868284272852L;
 
 	private Long userId;
 

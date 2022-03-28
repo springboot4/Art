@@ -1,4 +1,4 @@
-package com.fxz.common.security.confign;
+package com.fxz.common.security.config;
 
 import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.security.FxzUserInfoTokenServices;

@@ -14,7 +14,6 @@ import java.util.Set;
  * @version 1.0
  * @date 2021-11-28 15:53
  */
-@SuppressWarnings("unchecked")
 @Service
 @RequiredArgsConstructor
 public class UserManager {

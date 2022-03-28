@@ -1,6 +1,6 @@
 package com.fxz.common.security.annotation;
 
-import com.fxz.common.security.confign.FxzServerProtectConfigure;
+import com.fxz.common.security.config.FxzServerProtectConfigure;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

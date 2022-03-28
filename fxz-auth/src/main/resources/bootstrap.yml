@@ -15,9 +15,6 @@ spring:
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: 127255
-  redis:
-    url: 127.0.0.1
-    host: 6379
 
 nacos:
   url: 127.0.0.1

@@ -1,4 +1,4 @@
-package com.fxz.common.security.confign;
+package com.fxz.common.security.config;
 
 import com.fxz.common.core.interceptor.FxzServerProtectInterceptor;
 import org.springframework.context.annotation.Bean;

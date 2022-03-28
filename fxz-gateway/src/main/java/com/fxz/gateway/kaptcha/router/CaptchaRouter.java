@@ -20,8 +20,7 @@ public class CaptchaRouter {
 	@Bean
 	public RouterFunction<ServerResponse> routeFunction(CaptchaHandler captchaHandler) {
 		return RouterFunctions.route(
-				RequestPredicates.GET("/captcha").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
-				captchaHandler::handle);
+				RequestPredicates.GET("/captcha").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), captchaHandler);
 	}
 
 }

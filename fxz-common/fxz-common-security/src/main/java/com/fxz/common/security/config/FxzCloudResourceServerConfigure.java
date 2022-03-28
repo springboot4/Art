@@ -1,4 +1,4 @@
-package com.fxz.common.security.confign;
+package com.fxz.common.security.config;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.common.security.constant.EndpointConstant;
