@@ -22,31 +22,35 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+    /**
+     * 必须注入 AuthenticationManager，不然oauth  无法处理四种授权方式
+     */
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form").and().requestMatchers()
-				.antMatchers("/token/**", "/oauth/**").and().authorizeRequests().antMatchers("/token/**").permitAll()
-				.anyRequest().authenticated().and().csrf().disable();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form").and().requestMatchers()
+                .antMatchers("/token/**", "/oauth/**").and().authorizeRequests().antMatchers("/token/**").permitAll()
+                .anyRequest().authenticated().and().csrf().disable();
+    }
 
-	/**
-	 * 认证中心静态资源处理
-	 * @param web WebSecurity
-	 */
-	@Override
-	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/css/**");
-	}
+    /**
+     * 认证中心静态资源处理
+     *
+     * @param web WebSecurity
+     */
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/css/**");
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
 }

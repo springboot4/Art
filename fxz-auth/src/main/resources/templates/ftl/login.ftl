@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>微服务统一认证</title>
+    <title>  微服务统一认证</title>
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/signin.css" rel="stylesheet">
@@ -18,18 +18,16 @@
 <div class="container form-margin-top">
     <form class="form-signin" action="/token/form" method="post">
         <h2 class="form-signin-heading" align="center">统一认证系统</h2>
-        <input type="hidden" name="clientId" class="form-control" value="sys_trade_log" placeholder="所属客户端" >
+        <input type="hidden" name="clientId" class="form-control" value=" " placeholder="所属客户端" >
         <input type="text" name="username" class="form-control form-margin-top" placeholder="账号" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="密码" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">sign in</button>
-       <!-- <#if error??>
-            <span style="color: red; ">${error}</span>
-        </#if>-->
+        <#if error??>
+        <span style="color: red; ">${error}</span>
+    </#if>
     </form>
 </div>
 <footer>
-    <p>support by: fxzcloud</p>
-    <p>email: <a href="mailto:fxzcloud@gmail.com">fxzcloud@gmail.com</a>.</p>
 </footer>
 </body>
 </html>
