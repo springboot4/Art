@@ -14,6 +14,7 @@
         <module>fxz-server</module>
         <module>fxz-monitor</module>
         <module>fxz-tx-manager</module>
+        <module>nacos</module>
     </modules>
     <packaging>pom</packaging>
 

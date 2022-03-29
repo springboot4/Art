@@ -25,36 +25,36 @@ import java.util.Map;
 @RequestMapping("/token")
 public class PageEndpoint {
 
-    private final ClientDetailsService clientDetailsService;
+	private final ClientDetailsService clientDetailsService;
 
-    /**
-     * 认证页面
-     */
-    @GetMapping("/login")
-    public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
-        modelAndView.setViewName("ftl/login");
-        modelAndView.addObject("error", error);
-        return modelAndView;
-    }
+	/**
+	 * 认证页面
+	 */
+	@GetMapping("/login")
+	public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
+		modelAndView.setViewName("ftl/login");
+		modelAndView.addObject("error", error);
+		return modelAndView;
+	}
 
-    /**
-     * 确认授权页面
-     */
-    @GetMapping("/confirm_access")
-    public ModelAndView confirm(HttpServletRequest request, HttpSession session, ModelAndView modelAndView) {
-        Map<String, Object> scopeList = (Map<String, Object>) request.getAttribute("scopes");
-        modelAndView.addObject("scopeList", scopeList.keySet());
+	/**
+	 * 确认授权页面
+	 */
+	@GetMapping("/confirm_access")
+	public ModelAndView confirm(HttpServletRequest request, HttpSession session, ModelAndView modelAndView) {
+		Map<String, Object> scopeList = (Map<String, Object>) request.getAttribute("scopes");
+		modelAndView.addObject("scopeList", scopeList.keySet());
 
-        Object auth = session.getAttribute("authorizationRequest");
-        if (auth != null) {
-            AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
-            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
-            modelAndView.addObject("app", clientDetails.getAdditionalInformation());
-            modelAndView.addObject("user", SecurityUtil.getUser());
-        }
+		Object auth = session.getAttribute("authorizationRequest");
+		if (auth != null) {
+			AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
+			ClientDetails clientDetails = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
+			modelAndView.addObject("app", clientDetails.getAdditionalInformation());
+			modelAndView.addObject("user", SecurityUtil.getUser());
+		}
 
-        modelAndView.setViewName("ftl/confirm");
-        return modelAndView;
-    }
+		modelAndView.setViewName("ftl/confirm");
+		return modelAndView;
+	}
 
 }
