@@ -1,9 +1,11 @@
 package com.fxz.system.controller;
 
 import com.fxz.common.mp.result.Result;
+import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.dinger.UserDinger;
+import com.fxz.system.service.impl.DemoService;
 import com.github.jaemon.dinger.core.entity.DingerResponse;
 import com.github.jaemon.dinger.core.entity.ImageTextDeo;
 import com.github.jaemon.dinger.core.entity.LinkDeo;
@@ -28,7 +30,8 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * @date 2022-03-19 20:23
  */
-@RequestMapping("/dinger")
+@Ojbk
+@RequestMapping("/demo")
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -37,6 +40,14 @@ public class DemoController {
 	private final UserDinger userDinger;
 
 	private final RedissonClient redissonClient;
+
+	private final DemoService demoService;
+
+	@GetMapping("/queryDatabase")
+	public Result<Void> queryDatabase() {
+		demoService.queryDatabase();
+		return Result.success();
+	}
 
 	/**
 	 * 拥有sys_cache权限才可访问此接口，通过springCache缓存返回值

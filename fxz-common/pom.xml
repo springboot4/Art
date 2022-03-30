@@ -20,6 +20,7 @@
         <module>fxz-common-redis</module>
         <module>fxz-common-mq</module>
         <module>fxz-common-mp</module>
+        <module>fxz-common-database</module>
     </modules>
 
     <properties>
