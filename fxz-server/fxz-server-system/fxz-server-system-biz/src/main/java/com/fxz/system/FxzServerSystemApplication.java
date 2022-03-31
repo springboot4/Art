@@ -1,6 +1,5 @@
 package com.fxz.system;
 
-import com.common.database.annotation.EnableDynamicDataSource;
 import com.fxz.common.security.annotation.EnableFxzCloudResourceServer;
 import com.fxz.system.dinger.handler.DingTalkMultiHandler;
 import com.github.jaemon.dinger.core.annatations.DingerScan;
@@ -23,7 +22,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  *
  * @author fxz
  */
-@EnableDynamicDataSource
 @EnableMultiDinger(
 // 启用钉钉多机器人配置
 @MultiDinger(dinger = DingerType.DINGTALK, handler = DingTalkMultiHandler.class))

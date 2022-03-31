@@ -1,0 +1,29 @@
+package com.fxz.common.core.entity.${module};
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.experimental.Accessors;
+import lombok.EqualsAndHashCode;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@TableName("${tableName}")
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
+public class ${className} extends BaseEntity{
+
+#foreach ($column in $columns)
+/** $column.comments */
+private $column.attrType $column.name;
+#end
+
+}

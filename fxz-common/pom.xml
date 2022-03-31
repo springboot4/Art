@@ -14,13 +14,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>fxz-common-security</module>
-        <module>fxz-common-core</module>
-        <module>fxz-common-gen</module>
-        <module>fxz-common-redis</module>
         <module>fxz-common-mq</module>
         <module>fxz-common-mp</module>
+        <module>fxz-common-core</module>
+        <module>fxz-common-redis</module>
         <module>fxz-common-database</module>
+        <module>fxz-common-security</module>
     </modules>
 
     <properties>

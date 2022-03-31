@@ -7,6 +7,7 @@
     <groupId>com.fxz</groupId>
     <artifactId>fxz-cloud</artifactId>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>fxz-common</module>
         <module>fxz-auth</module>
@@ -14,8 +15,10 @@
         <module>fxz-server</module>
         <module>fxz-monitor</module>
         <module>fxz-tx-manager</module>
+        <module>fxz-generate</module>
         <module>nacos</module>
     </modules>
+
     <packaging>pom</packaging>
 
     <properties>
@@ -33,7 +36,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.0.RELEASE</version>
+        <version>2.2.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
