@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxz.system.mapper.DemoMapper">
+
+    <!--查询从库指定表中所有数据-->
+    <select id="selectTest" resultType="java.util.Map">
+        select *  from ${tableName}
+    </select>
+
+    <!--查询主库数据-->
+    <select id="selectUser" resultType="com.fxz.system.entity.SystemUser">
+        select * from ${tableName}
+    </select>
+
+</mapper>
