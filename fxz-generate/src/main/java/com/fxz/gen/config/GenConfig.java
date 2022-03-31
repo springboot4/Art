@@ -1,4 +1,4 @@
-package com.fxz.common.gen.config;
+package com.fxz.gen.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

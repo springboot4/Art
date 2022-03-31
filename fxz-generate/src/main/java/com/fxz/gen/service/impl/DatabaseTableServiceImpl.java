@@ -1,4 +1,4 @@
-package com.fxz.common.gen.service.impl;
+package com.fxz.gen.service.impl;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.common.core.param.PageParam;
-import com.fxz.common.gen.entity.DatabaseColumn;
-import com.fxz.common.gen.entity.DatabaseTable;
-import com.fxz.common.gen.mapper.DatabaseTableMapper;
-import com.fxz.common.gen.service.DatabaseTableService;
+import com.fxz.gen.entity.DatabaseColumn;
+import com.fxz.gen.entity.DatabaseTable;
+import com.fxz.gen.mapper.DatabaseTableMapper;
+import com.fxz.gen.service.DatabaseTableService;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.springframework.stereotype.Service;

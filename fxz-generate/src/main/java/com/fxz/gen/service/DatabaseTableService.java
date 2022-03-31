@@ -1,7 +1,7 @@
-package com.fxz.common.gen.service;
+package com.fxz.gen.service;
 
-import com.fxz.common.gen.entity.DatabaseColumn;
-import com.fxz.common.gen.entity.DatabaseTable;
+import com.fxz.gen.entity.DatabaseColumn;
+import com.fxz.gen.entity.DatabaseTable;
 
 import java.util.List;
 

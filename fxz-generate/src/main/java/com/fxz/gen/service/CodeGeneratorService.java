@@ -1,6 +1,6 @@
-package com.fxz.common.gen.service;
+package com.fxz.gen.service;
 
-import com.fxz.common.gen.dto.CodeGenPreview;
+import com.fxz.gen.dto.CodeGenPreview;
 
 import java.util.List;
 
