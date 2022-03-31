@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fxz.common.core.annotation.IsMobile;
 import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
@@ -22,6 +23,7 @@ import java.util.Date;
  * @version 1.0
  * @date 2021-11-28 15:22
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("sys_user")
 public class SystemUser extends BaseEntity implements Serializable {

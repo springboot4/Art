@@ -1,4 +1,4 @@
-package com.fxz.auth.controller;
+package com.fxz.auth.endpoint;
 
 import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.core.exception.FxzAuthException;
@@ -22,7 +22,7 @@ import java.security.Principal;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class SecurityController {
+public class SecurityEndpoint {
 
 	private final ConsumerTokenServices consumerTokenServices;
 
