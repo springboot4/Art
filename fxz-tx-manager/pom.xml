@@ -12,9 +12,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>fxz-tx-manager</name>
     <description>TX-Manager分布式事务管理器t</description>
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

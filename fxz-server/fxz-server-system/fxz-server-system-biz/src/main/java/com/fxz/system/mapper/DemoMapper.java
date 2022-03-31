@@ -1,6 +1,5 @@
 package com.fxz.system.mapper;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.fxz.system.entity.SystemUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,10 +15,10 @@ import java.util.Map;
 @Mapper
 public interface DemoMapper {
 
-	@DS("#last")
+	// @DS("#last")
 	List<Map<String, String>> selectTest(@Param("tableName") String tableName, String dsName);
 
-	@DS("#last")
+	// @DS("#last")
 	List<SystemUser> selectUser(@Param("tableName") String tableName, String dsName);
 
 }

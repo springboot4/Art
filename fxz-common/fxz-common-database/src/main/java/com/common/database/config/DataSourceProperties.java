@@ -23,7 +23,7 @@ public class DataSourceProperties {
 	private String password;
 
 	/**
-	 * jdbcurl
+	 * jdbcUrl
 	 */
 	private String url;
 
@@ -35,6 +35,6 @@ public class DataSourceProperties {
 	/**
 	 * 查询数据源的SQL
 	 */
-	private String queryDsSql = "select * from generate_datasource_conf where del_flag = 0";
+	private String queryDsSql = "select * from gen_datasource_conf where del_flag = 0";
 
 }
