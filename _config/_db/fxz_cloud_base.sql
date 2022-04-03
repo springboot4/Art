@@ -319,7 +319,7 @@ CREATE TABLE `zipkin_annotations`  (
   INDEX `endpoint_service_name`(`endpoint_service_name`) USING BTREE COMMENT 'for getTraces and getServiceNames',
   INDEX `a_type`(`a_type`) USING BTREE COMMENT 'for getTraces and autocomplete values',
   INDEX `a_key`(`a_key`) USING BTREE COMMENT 'for getTraces and autocomplete values',
-  INDEX `trace_id`(`trace_id`, `span_id`, `a_key`) USING BTREE COMMENT 'for dependencies job'
+  INDEX `trace_id`(`trace_id`, `span_id`, `a_key`) USING BTREE COMMENT 'for dependencies sysJob'
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compressed;
 
 -- ----------------------------
