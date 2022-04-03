@@ -31,8 +31,8 @@ public class DatabaseTableController {
 	 * @return 分页信息
 	 */
 	@GetMapping("/page")
-	public Result<PageResult<DatabaseTable>> page(PageParam pageParam, DatabaseTable param) {
-		return Result.success(PageResult.success(databaseTableService.page(pageParam, param)));
+	public Result<PageResult<DatabaseTable>> page(PageParam pageParam, DatabaseTable param, String dsName) {
+		return Result.success(PageResult.success(databaseTableService.page(pageParam, param, dsName)));
 	}
 
 }

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.gen.entity.DatasourceConf;
 
+import java.util.List;
+
 /**
  * @author Fxz
  * @version 1.0
@@ -40,5 +42,10 @@ public interface MyDatasourceConfService {
 	Boolean updateDsConf(DatasourceConf datasourceConf);
 
 	Boolean delete(Long id);
+
+	/**
+	 * 查询所有数据源信息
+	 */
+	List<DatasourceConf> listDs();
 
 }

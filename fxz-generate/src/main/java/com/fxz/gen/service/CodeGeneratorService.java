@@ -16,6 +16,6 @@ public interface CodeGeneratorService {
 	 * @param tableName 表名
 	 * @return 预览代码
 	 */
-	List<CodeGenPreview> codeGenPreview(String tableName);
+	List<CodeGenPreview> codeGenPreview(String tableName, String dsName);
 
 }

@@ -1,6 +1,5 @@
 package com.fxz.system;
 
-import com.common.database.annotation.EnableDynamicDataSource;
 import com.fxz.common.security.annotation.EnableFxzCloudResourceServer;
 import com.fxz.system.dinger.handler.DingTalkMultiHandler;
 import com.github.jaemon.dinger.core.annatations.DingerScan;

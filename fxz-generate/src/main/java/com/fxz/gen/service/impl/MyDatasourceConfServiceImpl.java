@@ -5,6 +5,7 @@ import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.gen.entity.DatasourceConf;
 import com.fxz.gen.mapper.DatasourceConfMapper;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * 数据源表
@@ -104,6 +106,14 @@ public class MyDatasourceConfServiceImpl implements MyDatasourceConfService {
 
 		// 删除数据源信息
 		return datasourceConfMapper.deleteById(id) > 0;
+	}
+
+	/**
+	 * 查询所有数据源信息
+	 */
+	@Override
+	public List<DatasourceConf> listDs() {
+		return datasourceConfMapper.selectList(Wrappers.emptyWrapper());
 	}
 
 	/**

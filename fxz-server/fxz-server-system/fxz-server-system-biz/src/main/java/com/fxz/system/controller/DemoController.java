@@ -5,7 +5,6 @@ import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.dinger.UserDinger;
-import com.fxz.system.service.impl.DemoService;
 import com.github.jaemon.dinger.core.entity.DingerResponse;
 import com.github.jaemon.dinger.core.entity.ImageTextDeo;
 import com.github.jaemon.dinger.core.entity.LinkDeo;
@@ -40,14 +39,6 @@ public class DemoController {
 	private final UserDinger userDinger;
 
 	private final RedissonClient redissonClient;
-
-	private final DemoService demoService;
-
-	@GetMapping("/queryDatabase")
-	public Result<Void> queryDatabase() {
-		demoService.queryDatabase();
-		return Result.success();
-	}
 
 	/**
 	 * 拥有sys_cache权限才可访问此接口，通过springCache缓存返回值
