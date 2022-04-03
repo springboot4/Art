@@ -10,6 +10,8 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 数据源表
  *
@@ -70,6 +72,14 @@ public class DatasourceConfController {
 	public Result<PageResult<DatasourceConf>> page(Page<DatasourceConf> page) {
 		Page<DatasourceConf> result = datasourceConfService.pageDataSourceConf(page, Wrappers.emptyWrapper());
 		return Result.success(PageResult.success(result));
+	}
+
+	/**
+	 * 查询所有数据源信息
+	 */
+	@GetMapping("/listDs")
+	public Result<List<DatasourceConf>> listDs() {
+		return Result.success(datasourceConfService.listDs());
 	}
 
 }

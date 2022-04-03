@@ -53,11 +53,11 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 	 * @return 预览代码
 	 */
 	@Override
-	public List<CodeGenPreview> codeGenPreview(String tableName) {
+	public List<CodeGenPreview> codeGenPreview(String tableName, String dsName) {
 		VelocityInitializer.initVelocity();
 
 		// 获取生成代码所用的数据
-		Map<String, Object> map = this.getCodeGenInfo(tableName);
+		Map<String, Object> map = this.getCodeGenInfo(tableName, dsName);
 		// 遍历生成代码预览
 		return Arrays.stream(CodeGenTemplateVmEnum.values()).map(vmEnum -> {
 			VelocityContext context = new VelocityContext(map);
@@ -72,9 +72,9 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 	 * 获取生成代码所用的数据
 	 * @param tableName 表名
 	 */
-	private Map<String, Object> getCodeGenInfo(String tableName) {
+	private Map<String, Object> getCodeGenInfo(String tableName, String dsName) {
 		// 获取表的基本信息
-		DatabaseTable databaseTable = databaseTableService.findByTableName(tableName);
+		DatabaseTable databaseTable = databaseTableService.findByTableName(tableName, dsName);
 		// 获取表的列信息
 		List<DatabaseColumn> databaseColumns = databaseTableService.findColumnByTableName(tableName);
 
@@ -108,11 +108,11 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 	 * @param tableName 表名
 	 */
 	@SneakyThrows
-	public ResponseEntity<byte[]> genCodeZip(String tableName) {
+	public ResponseEntity<byte[]> genCodeZip(String tableName, String dsName) {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
 		// 将代码放入压缩包内
-		for (CodeGenPreview codeGenPreview : this.codeGenPreview(tableName)) {
+		for (CodeGenPreview codeGenPreview : this.codeGenPreview(tableName, dsName)) {
 			// 添加到zip
 			CodeGenTemplateVmEnum vmEnum = CodeGenTemplateVmEnum.findByName(codeGenPreview.getName());
 			String fileName = tableToJava(tableName) + vmEnum.getFileSuffixName();

@@ -15,7 +15,7 @@ public interface DatabaseTableService {
 	/**
 	 * 获取表基本信息
 	 */
-	DatabaseTable findByTableName(String tableName);
+	DatabaseTable findByTableName(String tableName, String dsName);
 
 	/**
 	 * 获取表的列信息

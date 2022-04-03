@@ -1,5 +1,6 @@
 package com.fxz.gen.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
@@ -31,8 +32,9 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
 	/**
 	 * 获取表基本信息
 	 */
+	@DS("#last")
 	@Override
-	public DatabaseTable findByTableName(String tableName) {
+	public DatabaseTable findByTableName(String tableName, String dsName) {
 		return databaseTableMapper.findByTableName(tableName);
 	}
 
@@ -48,9 +50,11 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
 	 * 分页查询基础表信息
 	 * @param pageParam 分页参数
 	 * @param param 查询参数
+	 * @param dsName 查询的数据库
 	 * @return 分页信息
 	 */
-	public IPage<DatabaseTable> page(PageParam pageParam, DatabaseTable param) {
+	@DS("#last")
+	public IPage<DatabaseTable> page(PageParam pageParam, DatabaseTable param, String dsName) {
 		Page<DatabaseTable> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
 		// 实体类entity及其字段没有缓存或者说指定字段没有缓存
 		// https://blog.csdn.net/qq_36491545/article/details/109091325

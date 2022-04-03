@@ -60,7 +60,7 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 		property.setUsername(properties.getUsername());
 		property.setPassword(properties.getPassword());
 		property.setUrl(properties.getUrl());
-		property.setLazy(true);
+		property.setLazy(false);
 		map.put(DataSourceConstants.DS_MASTER, property);
 		return map;
 	}

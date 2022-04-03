@@ -32,8 +32,9 @@ public class CodeGeneratorController {
 	 * @return 预览代码
 	 */
 	@GetMapping("/codeGenPreview")
-	public Result<List<CodeGenPreview>> codeGenPreview(@RequestParam String tableName) {
-		return Result.success(codeGeneratorService.codeGenPreview(tableName));
+	public Result<List<CodeGenPreview>> codeGenPreview(@RequestParam("tableName") String tableName,
+			@RequestParam("dsName") String dsName) {
+		return Result.success(codeGeneratorService.codeGenPreview(tableName, dsName));
 	}
 
 	/**
@@ -41,8 +42,9 @@ public class CodeGeneratorController {
 	 * @param tableName 表名
 	 */
 	@GetMapping("/genCodeZip")
-	public ResponseEntity<byte[]> genCodeZip(@RequestParam String tableName) {
-		return codeGeneratorService.genCodeZip(tableName);
+	public ResponseEntity<byte[]> genCodeZip(@RequestParam("tableName") String tableName,
+			@RequestParam("dsName") String dsName) {
+		return codeGeneratorService.genCodeZip(tableName, dsName);
 	}
 
 }
