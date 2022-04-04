@@ -10,10 +10,7 @@ import com.fxz.job.service.JobService;
 import com.fxz.job.utils.CronUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.quartz.SchedulerException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 定时任务调度
@@ -59,8 +56,17 @@ public class JobController {
 	 * 定时任务状态修改
 	 */
 	@PutMapping("/changeStatus")
-	public Result<Boolean> changeStatus(@RequestBody SysJob job) throws SchedulerException {
+	public Result<Boolean> changeStatus(@RequestBody SysJob job) {
 		return Result.success(jobService.changeStatus(job));
+	}
+
+	/**
+	 * 定时任务立即执行一次
+	 */
+	@PutMapping("/run")
+	public Result<Void> run(@RequestBody SysJob job) {
+		jobService.run(job);
+		return Result.success();
 	}
 
 	private void validJob(SysJob sysJob) {

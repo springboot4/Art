@@ -1,5 +1,6 @@
 package com.fxz.job.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.common.core.param.PageParam;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
@@ -47,8 +48,8 @@ public class JobLogController {
 	}
 
 	@GetMapping(value = "/page")
-	public Result<PageResult> page(PageParam pageParam, JobLog jobLog) {
-		return Result.success(jobLogService.page(pageParam, jobLog));
+	public Result<PageResult<JobLog>> page(Page<JobLog> page, JobLog jobLog) {
+		return Result.success(jobLogService.page(page, jobLog));
 	}
 
 }

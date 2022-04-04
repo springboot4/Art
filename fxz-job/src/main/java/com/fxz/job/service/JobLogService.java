@@ -1,9 +1,9 @@
 package com.fxz.job.service;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fxz.common.core.param.PageParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.common.mp.result.PageResult;
-import com.fxz.job.dto.JobLogDto;
 import com.fxz.job.entity.JobLog;
 import com.fxz.job.mapper.JobLogMapper;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +44,11 @@ public class JobLogService {
 	/**
 	 * 分页
 	 */
-	public PageResult<JobLogDto> page(PageParam pageParam, JobLog jobLog) {
-		return null;
+	public PageResult<JobLog> page(Page<JobLog> page, JobLog jobLog) {
+		return PageResult.success(jobLogMapper.selectPage(page,
+				Wrappers.<JobLog>lambdaQuery()
+						.eq(StringUtils.isNotBlank(jobLog.getJobName()), JobLog::getJobName, jobLog.getJobName())
+						.eq(StringUtils.isNotBlank(jobLog.getJobGroup()), JobLog::getJobGroup, jobLog.getJobGroup())));
 	}
 
 	/**
@@ -62,7 +65,12 @@ public class JobLogService {
 		return jobLogMapper.selectList(Wrappers.emptyWrapper());
 	}
 
+	/**
+	 * 保存job执行日志
+	 * @param jobLog job执行信息
+	 */
 	public void addJobLog(JobLog jobLog) {
+		jobLogMapper.insert(jobLog);
 	}
 
 }
