@@ -4,10 +4,8 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
-            <a-space>
-              <a-button type="primary" @click="queryPage">查询</a-button>
-              <a-button @click="restQuery">重置</a-button>
-            </a-space>
+            <a-button type="primary" @click="queryPage">查询</a-button>
+            <a-button style="margin-left: 8px" @click="queryPage">重置</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -35,7 +33,7 @@
   export default {
     name: '${className}List',
     components: {
-        ${className}Edit
+            ${className}Edit
     },
     mixins: [TableMixin],
     data() {
@@ -50,7 +48,7 @@
       }
     },
     methods: {
-      handleOk(){
+      handleOk() {
         this.queryPage()
       },
       add() {

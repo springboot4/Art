@@ -1,10 +1,13 @@
+#set($excludeColumns = ["createTime","updateTime","createBy","updateBy"])
 package com.fxz.common.core.${module}.mapper;
 
+import com.fxz.common.mp.base.BaseEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -12,12 +15,17 @@ import lombok.experimental.Accessors;
  * @author ${author}
  * @date ${datetime}
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class ${className}Dto extends <${className}> {
+public class ${className}Dto extends BaseEntity {
+
+    private static final long serialVersionUID = -1L;
 
 #foreach ($column in $columns)
+    #if(!$excludeColumns.contains($column.name))
     private $column.attrType $column.name;
+    #end
 #end
 
 }

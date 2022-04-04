@@ -26,9 +26,13 @@ public enum CodeGenTemplateVmEnum {
 	 */
 	MAPPER("mapper", "codegen/template/java/mapper.java.vm", "Mapper.java"),
 	/**
-	 * service
+	 * serviceImpl
 	 */
 	SERVICE("service", "codegen/template/java/service.java.vm", "Service.java"),
+	/**
+	 * serviceImpl
+	 */
+	SERVICEIMPL("serviceImpl", "codegen/template/java/serviceImpl.java.vm", "ServiceImpl.java"),
 	/**
 	 * controller
 	 */
@@ -39,8 +43,9 @@ public enum CodeGenTemplateVmEnum {
 	DTO("dto", "codegen/template/java/dto.java.vm", "Dto.java"),
 	/**
 	 * param
-	 */
-	PARAM("param", "codegen/template/java/param.java.vm", "Param.java"),
+	 *//*
+		 * PARAM("param", "codegen/template/java/param.java.vm", "Param.java"),
+		 */
 	/**
 	 * api_vue2
 	 */

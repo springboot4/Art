@@ -41,8 +41,9 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
 	/**
 	 * 获取表的列信息
 	 */
+	@DS("#last")
 	@Override
-	public List<DatabaseColumn> findColumnByTableName(String tableName) {
+	public List<DatabaseColumn> findColumnByTableName(String tableName, String dsName) {
 		return databaseTableMapper.findColumnByTableName(tableName);
 	}
 
