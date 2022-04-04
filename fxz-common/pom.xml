@@ -20,6 +20,7 @@
         <module>fxz-common-redis</module>
         <module>fxz-common-database</module>
         <module>fxz-common-security</module>
+        <module>fxz-common-file</module>
     </modules>
 
     <properties>
