@@ -50,6 +50,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 			route.setHidden(menu.getHidden());
 			route.setTitle(menu.getTitle());
 			route.setPerms(menu.getPerms());
+			route.setIcon(menu.getIcon());
 			return route;
 		})).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
 		return TreeUtil.buildVueRouter(routes);
@@ -93,6 +94,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		menu.setName(vueRouter.getName());
 		menu.setComponent(vueRouter.getComponent());
 		menu.setPath(vueRouter.getPath());
+		menu.setIcon(vueRouter.getIcon());
 		menu.setRedirect(vueRouter.getRedirect());
 		menu.setOrderNum(Convert.toInt(vueRouter.getOrderNum()));
 		this.baseMapper.insert(menu);
@@ -117,6 +119,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		vueRouter.setName(menu.getName());
 		vueRouter.setComponent(menu.getComponent());
 		vueRouter.setPath(menu.getPath());
+		vueRouter.setIcon(menu.getIcon());
 		vueRouter.setRedirect(menu.getRedirect());
 		vueRouter.setOrderNum(Double.valueOf(menu.getOrderNum()));
 		return vueRouter;
