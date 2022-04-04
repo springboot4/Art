@@ -13,6 +13,7 @@
         <result column="perms" property="perms"/>
         <result column="type" property="type"/>
         <result column="path" property="path"/>
+        <result column="icon" property="icon"/>
         <result column="redirect" property="redirect"/>
         <result column="order_num" property="orderNum"/>
         <collection property="children" column="{id = id}" select="getMenuByPid"/>
@@ -58,7 +59,8 @@
             m.title,
             m.perms,
             m.type,
-            m.path
+            m.path,
+            m.icon
         FROM
             sys_menu m
         where m.parent_id = 0
@@ -78,6 +80,7 @@
             m.perms,
             m.type,
             m.path,
+            m.icon,
             m.redirect
         FROM
             sys_menu m

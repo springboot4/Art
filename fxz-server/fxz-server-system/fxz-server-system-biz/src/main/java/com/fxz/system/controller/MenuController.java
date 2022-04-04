@@ -73,7 +73,9 @@ public class MenuController {
 	 * @param vueRouter 路由信息
 	 */
 	@PostMapping("/save")
-	public void saveMenu(@RequestBody VueRouter vueRouter) {
+	public void
+
+			saveMenu(@RequestBody VueRouter vueRouter) {
 		this.menuService.saveMenu(vueRouter);
 	}
 

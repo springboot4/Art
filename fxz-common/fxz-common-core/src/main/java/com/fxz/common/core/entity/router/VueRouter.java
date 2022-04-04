@@ -71,6 +71,11 @@ public class VueRouter<T> implements Serializable {
 	private String type;
 
 	/**
+	 * 图标
+	 */
+	private String icon;
+
+	/**
 	 * 是否缓存(0:否 1:是)
 	 */
 	private String keepAlive;
