@@ -23,6 +23,16 @@ export function get (id) {
 }
 
 /**
+ * 获取全部
+ */
+export function findAll (id) {
+  return axios({
+    url: '/${classname}/findAll',
+    method: 'GET'
+  })
+}
+
+/**
  * 添加
  */
 export function add (obj) {

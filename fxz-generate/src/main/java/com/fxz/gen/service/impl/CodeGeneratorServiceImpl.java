@@ -76,7 +76,7 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 		// 获取表的基本信息
 		DatabaseTable databaseTable = databaseTableService.findByTableName(tableName, dsName);
 		// 获取表的列信息
-		List<DatabaseColumn> databaseColumns = databaseTableService.findColumnByTableName(tableName);
+		List<DatabaseColumn> databaseColumns = databaseTableService.findColumnByTableName(tableName, dsName);
 
 		Map<String, Object> map = new HashMap<>(16);
 

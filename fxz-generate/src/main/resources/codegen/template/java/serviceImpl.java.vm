@@ -1,0 +1,80 @@
+package com.fxz.${module}.service;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class ${className}ServiceImpl extends ServiceImpl <${className}Mapper, ${className}> implements ${className}Service {
+
+    private final ${className}Mapper ${classname}Mapper;
+
+    /**
+     * 添加
+     */
+    @Override
+    public Boolean add${className}(${className}Dto ${classname}Dto) {
+        ${className} ${classname} = new ${className}();
+        BeanUtils.copyProperties(${classname}Dto, ${classname});
+        ${classname}Mapper.insert(${classname});
+        return Boolean.TRUE;
+    }
+
+    /**
+     * 修改
+     */
+    @Override
+    public Boolean update${className}(${className}Dto ${classname}Dto) {
+        ${className} ${classname} =new ${className}();
+        BeanUtils.copyProperties(${classname}Dto, ${classname});
+        ${classname}Mapper.updateById(${classname});
+        return Boolean.TRUE;
+    }
+
+    /**
+     * 分页
+     */
+    @Override
+    public IPage<${className}> page${className}(Page<${className}> pageParam, ${className} ${classname}) {
+        return ${classname}Mapper.selectPage(pageParam, Wrappers.emptyWrapper());
+    }
+
+    /**
+     * 获取单条
+     */
+    @Override
+    public ${className} findById(Long id) {
+        return ${classname}Mapper.selectById(id);
+    }
+
+    /**
+     * 获取全部
+     */
+    @Override
+    public List<${className}> findAll() {
+        return ${classname}Mapper.selectList(Wrappers.emptyWrapper());
+    }
+
+    /**
+    * 删除
+    */
+    @Override
+    public Boolean delete${className}(Long id) {
+            ${classname}Mapper.deleteById(id);
+        return Boolean.TRUE;
+    }
+
+}

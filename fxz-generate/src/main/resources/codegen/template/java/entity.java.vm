@@ -1,5 +1,7 @@
+#set($excludeColumns = ["createTime","updateTime","createBy","updateBy"])
 package com.fxz.common.core.entity.${module};
 
+import com.fxz.common.mp.base.BaseEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
@@ -21,9 +23,13 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ${className} extends BaseEntity{
 
+    private static final long serialVersionUID = -1L;
+
 #foreach ($column in $columns)
+    #if(!$excludeColumns.contains($column.name))
 /** $column.comments */
 private $column.attrType $column.name;
+    #end
 #end
 
 }

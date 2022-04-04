@@ -20,6 +20,6 @@ public interface DatabaseTableService {
 	/**
 	 * 获取表的列信息
 	 */
-	List<DatabaseColumn> findColumnByTableName(String tableName);
+	List<DatabaseColumn> findColumnByTableName(String tableName, String dsName);
 
 }
