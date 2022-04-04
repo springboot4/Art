@@ -12,6 +12,7 @@ import com.fxz.job.utils.ScheduleUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.JobDataMap;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -80,7 +81,7 @@ public class JobService {
 	 */
 	public PageResult<SysJob> page(Page<SysJob> page, SysJob sysJob) {
 		Page<SysJob> pageResult = jobMapper.selectPage(page, Wrappers.<SysJob>lambdaQuery()
-				.eq(StringUtils.isNotBlank(sysJob.getJobName()), SysJob::getJobName, sysJob.getJobName()));
+				.like(StringUtils.isNotBlank(sysJob.getJobName()), SysJob::getJobName, sysJob.getJobName()));
 		return PageResult.success(pageResult);
 	}
 
@@ -152,6 +153,20 @@ public class JobService {
 			scheduler.resumeJob(ScheduleUtils.getJobKey(jobId, jobGroup));
 		}
 		return rows;
+	}
+
+	/**
+	 * 定时任务立即执行一次
+	 */
+	@SneakyThrows
+	public void run(SysJob job) {
+		Long jobId = job.getJobId();
+		String jobGroup = job.getJobGroup();
+		SysJob properties = jobMapper.selectById(job.getJobId());
+		// 参数
+		JobDataMap dataMap = new JobDataMap();
+		dataMap.put(ScheduleConstants.TASK_PROPERTIES, properties);
+		scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
 	}
 
 }

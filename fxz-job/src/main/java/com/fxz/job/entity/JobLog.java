@@ -1,11 +1,15 @@
 package com.fxz.job.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -17,14 +21,14 @@ import java.util.Date;
 @Data
 @TableName("sys_job_log")
 @Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
-public class JobLog extends BaseEntity {
+public class JobLog {
 
 	private static final long serialVersionUID = -6956547496195432417L;
 
 	/**
 	 * ID
 	 */
+	@TableId
 	private Long jobLogId;
 
 	/**
@@ -58,13 +62,21 @@ public class JobLog extends BaseEntity {
 	private String exceptionInfo;
 
 	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
+
+	/**
 	 * 开始时间
 	 */
+	@TableField(exist = false)
 	private Date startTime;
 
 	/**
 	 * 停止时间
 	 */
+	@TableField(exist = false)
 	private Date stopTime;
 
 }

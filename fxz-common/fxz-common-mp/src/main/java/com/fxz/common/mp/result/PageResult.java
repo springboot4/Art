@@ -22,6 +22,10 @@ public class PageResult<T> implements Serializable {
 
 	private long total;
 
+	private long current;
+
+	private long size;
+
 	private String msg;
 
 	public static <T> PageResult<T> success(IPage<T> page) {
@@ -29,6 +33,8 @@ public class PageResult<T> implements Serializable {
 		result.setCode(ResultCode.SUCCESS.getCode());
 		result.setRecords(page.getRecords());
 		result.setTotal(page.getTotal());
+		result.setCurrent(page.getCurrent());
+		result.setSize(page.getSize());
 		result.setMsg(ResultCode.SUCCESS.getMsg());
 		return result;
 	}
