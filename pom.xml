@@ -32,6 +32,7 @@
         <myabtis-plus.version>3.5.1</myabtis-plus.version>
         <dynamic-ds.version>3.5.1</dynamic-ds.version>
         <jasypt.version>2.1.0</jasypt.version>
+        <aws.version>1.11.543</aws.version>
     </properties>
 
     <parent>
