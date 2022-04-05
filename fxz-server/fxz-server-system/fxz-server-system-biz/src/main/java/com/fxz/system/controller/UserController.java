@@ -41,13 +41,13 @@ public class UserController {
 
 	@PostMapping
 	@PreAuthorize("hasAnyAuthority('sys:user:add')")
-	public void addUser(@RequestBody SystemUser user) throws FxzException {
+	public void addUser(@RequestBody SystemUser user) {
 		this.userService.createUser(user);
 	}
 
 	@PutMapping
 	@PreAuthorize("hasAnyAuthority('sys:user:update')")
-	public void updateUser(@RequestBody SystemUser user) throws FxzException {
+	public void updateUser(@RequestBody SystemUser user) {
 		this.userService.updateUser(user);
 	}
 

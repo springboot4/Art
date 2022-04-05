@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,12 +58,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUser(SystemUser user) {
 		// 更新用户
-		user.setPassword(null);
+		if (StringUtils.isNotBlank(user.getPassword())) {
+			user.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
+		}
+		else {
+			user.setPassword(null);
+		}
 		user.setUsername(null);
 		updateById(user);
 
-		userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
 		if (StringUtils.isNotEmpty(user.getRoleId())) {
+			userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
 			String[] roles = user.getRoleId().split(StringPool.COMMA);
 			setUserRoles(user, roles);
 		}

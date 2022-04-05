@@ -3,6 +3,7 @@ package com.fxz.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fxz.common.mp.result.Result;
 import com.fxz.system.dto.FileDto;
 import com.fxz.system.entity.File;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +22,7 @@ public interface FileService extends IService<File> {
 	/**
 	 * 上传文件
 	 */
-	Boolean addFile(MultipartFile file);
+	Result<?> addFile(MultipartFile file);
 
 	/**
 	 * 修改

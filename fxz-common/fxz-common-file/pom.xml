@@ -11,6 +11,8 @@
 
     <artifactId>fxz-common-file</artifactId>
     <description>文件操作模块</description>
+    <!--此模块参考了开源项目pig-mesh/oss-spring-boot-starter-->
+    <!--https://github.com/pig-mesh/oss-spring-boot-starter-->
 
     <dependencies>
         <dependency>
