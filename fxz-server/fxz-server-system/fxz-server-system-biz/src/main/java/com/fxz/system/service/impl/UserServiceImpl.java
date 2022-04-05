@@ -76,16 +76,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		user.setUsername(null);
 		updateById(user);
 
-		userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
-		userPostService.remove(new LambdaQueryWrapper<UserPost>().eq(UserPost::getUserId, user.getUserId()));
+		if(StringUtils.isBlank(user.getAvatar())){
+			userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
+			userPostService.remove(new LambdaQueryWrapper<UserPost>().eq(UserPost::getUserId, user.getUserId()));
 
-		if (StringUtils.isNotEmpty(user.getRoleId())) {
-			String[] roles = user.getRoleId().split(StringPool.COMMA);
-			setUserRoles(user, roles);
-		}
-		if (StringUtils.isNotEmpty(user.getPostId())) {
-			String[] posts = user.getPostId().split(StringPool.COMMA);
-			setUserPosts(user, posts);
+			if (StringUtils.isNotEmpty(user.getRoleId())) {
+				String[] roles = user.getRoleId().split(StringPool.COMMA);
+				setUserRoles(user, roles);
+			}
+			if (StringUtils.isNotEmpty(user.getPostId())) {
+				String[] posts = user.getPostId().split(StringPool.COMMA);
+				setUserPosts(user, posts);
+			}
 		}
 	}
 
