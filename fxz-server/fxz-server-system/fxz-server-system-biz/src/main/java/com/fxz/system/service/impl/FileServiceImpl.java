@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.file.OssProperties;
 import com.fxz.common.file.service.OssTemplate;
+import com.fxz.common.mp.result.Result;
 import com.fxz.system.dto.FileDto;
 import com.fxz.system.entity.File;
 import com.fxz.system.mapper.FileMapper;
@@ -48,12 +49,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 	 * 上传文件
 	 */
 	@Override
-	public Boolean addFile(MultipartFile file) {
+	public Result<?> addFile(MultipartFile file) {
 		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 		Map<String, String> resultMap = new HashMap<>(4);
 		resultMap.put("bucketName", ossProperties.getBucketName());
 		resultMap.put("fileName", fileName);
-		resultMap.put("url", String.format("/admin/sys-file/%s/%s", ossProperties.getBucketName(), fileName));
+		resultMap.put("url", String.format("/system/file/%s/%s", ossProperties.getBucketName(), fileName));
 
 		try {
 			minioTemplate.putObject(ossProperties.getBucketName(), fileName, file.getInputStream(),
@@ -63,9 +64,9 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 		}
 		catch (Exception e) {
 			log.error("上传失败", e);
-			return Boolean.FALSE;
+			return Result.failed(e.getLocalizedMessage());
 		}
-		return Boolean.TRUE;
+		return Result.success(resultMap);
 	}
 
 	/**

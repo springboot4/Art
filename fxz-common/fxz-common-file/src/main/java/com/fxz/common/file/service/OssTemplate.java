@@ -110,8 +110,6 @@ public class OssTemplate implements InitializingBean {
 	 * @param size 大小
 	 * @param contextType 类型
 	 * @throws Exception
-	 * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObject">AWS
-	 * API Documentation</a>
 	 */
 	public PutObjectResult putObject(String bucketName, String objectName, InputStream stream, long size,
 			String contextType) throws Exception {

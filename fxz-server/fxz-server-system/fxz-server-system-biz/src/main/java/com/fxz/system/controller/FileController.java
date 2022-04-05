@@ -30,7 +30,7 @@ public class FileController {
 	 * 上传文件
 	 */
 	@PostMapping(value = "/add")
-	public Result<Boolean> add(@RequestPart("file") MultipartFile file) {
+	public Result<?> add(@RequestPart("file") MultipartFile file) {
 		return Result.success(fileService.addFile(file));
 	}
 
