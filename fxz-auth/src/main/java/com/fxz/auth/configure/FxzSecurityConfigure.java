@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @Description 开启和Web相关的安全配置
  * @date 2021-11-27 16:00
  */
-@Order(2)
+@Order(1)
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
@@ -33,9 +33,15 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form").and().requestMatchers()
-				.antMatchers("/token/**", "/oauth/**").and().authorizeRequests().antMatchers("/token/**").permitAll()
-				.anyRequest().authenticated().and().csrf().disable();
+		http.requestMatchers().antMatchers("/token/**", "/oauth/**").and().authorizeRequests().antMatchers("/oauth/**")
+				.authenticated().and().formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
+				.permitAll().and().csrf().disable();
+		/*
+		 * http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form").
+		 * and().requestMatchers() .antMatchers("/token/**",
+		 * "/oauth/**","/css/**").and().authorizeRequests().antMatchers("/token/**",
+		 * "/css/**").permitAll() .anyRequest().authenticated().and().csrf().disable();
+		 */
 	}
 
 	/**
@@ -44,7 +50,7 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/css/**");
+		web.ignoring().antMatchers("/*.html", "/css/**", "/img/**", "/js/**", "/*.ico", "/resource/**");
 	}
 
 	@Bean

@@ -14,11 +14,15 @@
     <description>认证服务器</description>
 
     <dependencies>
-        <!--freemarker-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <!--freemarker-->
+     <!--   <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>-->
         <!--数据库-->
         <dependency>
             <groupId>mysql</groupId>

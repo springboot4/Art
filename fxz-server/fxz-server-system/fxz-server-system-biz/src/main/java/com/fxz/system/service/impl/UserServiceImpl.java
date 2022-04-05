@@ -8,11 +8,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.param.PageParam;
 import com.fxz.system.entity.SystemUser;
+import com.fxz.system.entity.UserPost;
 import com.fxz.system.entity.UserRole;
 import com.fxz.system.mapper.UserMapper;
 import com.fxz.system.param.UserInfoParam;
 import com.fxz.system.service.IUserRoleService;
 import com.fxz.system.service.IUserService;
+import com.fxz.system.service.UserPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> implements IUserService {
+
+	private final UserPostService userPostService;
 
 	private final IUserRoleService userRoleService;
 
@@ -52,6 +56,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 			String[] roles = user.getRoleId().split(StringPool.COMMA);
 			setUserRoles(user, roles);
 		}
+		// 保存用户岗位
+		if (StringUtils.isNotEmpty(user.getPostId())) {
+			String[] posts = user.getPostId().split(StringPool.COMMA);
+			setUserPosts(user, posts);
+		}
 	}
 
 	@Override
@@ -67,10 +76,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		user.setUsername(null);
 		updateById(user);
 
+		userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
+		userPostService.remove(new LambdaQueryWrapper<UserPost>().eq(UserPost::getUserId, user.getUserId()));
+
 		if (StringUtils.isNotEmpty(user.getRoleId())) {
-			userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
 			String[] roles = user.getRoleId().split(StringPool.COMMA);
 			setUserRoles(user, roles);
+		}
+		if (StringUtils.isNotEmpty(user.getPostId())) {
+			String[] posts = user.getPostId().split(StringPool.COMMA);
+			setUserPosts(user, posts);
 		}
 	}
 
@@ -89,6 +104,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	@Override
 	public SystemUser getUserById(Long id) {
 		return this.baseMapper.getUserById(id);
+	}
+
+	private void setUserPosts(SystemUser user, String[] posts) {
+		Arrays.stream(posts).forEach(postId -> {
+			UserPost up = new UserPost();
+			up.setUserId(user.getUserId());
+			up.setPostId(Long.valueOf(postId));
+			userPostService.save(up);
+		});
 	}
 
 	private void setUserRoles(SystemUser user, String[] roles) {
