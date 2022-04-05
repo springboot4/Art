@@ -152,6 +152,15 @@ public class SystemUser extends BaseEntity implements Serializable {
 	private String createTimeTo;
 
 	/**
+	 * 岗位 ID
+	 */
+	@TableField(exist = false)
+	private String postId;
+
+	@TableField(exist = false)
+	private String postName;
+
+	/**
 	 * 角色 ID
 	 */
 	@TableField(exist = false)

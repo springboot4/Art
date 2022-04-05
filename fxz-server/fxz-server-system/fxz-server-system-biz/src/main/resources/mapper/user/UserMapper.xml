@@ -18,13 +18,17 @@
         u.description,
         u.avatar,
         d.dept_name deptName,
-        GROUP_CONCAT(r.role_id) roleId,
-        GROUP_CONCAT(r.ROLE_NAME) roleName
+        GROUP_CONCAT(distinct r.role_id) roleId,
+        GROUP_CONCAT(distinct r.ROLE_NAME) roleName,
+        GROUP_CONCAT(distinct p.post_id) postId,
+        GROUP_CONCAT(distinct p.post_name) postName
         FROM
         sys_user u
         LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
         LEFT JOIN sys_user_role ur ON (u.user_id = ur.user_id)
         LEFT JOIN sys_role r ON r.role_id = ur.role_id
+        LEFT JOIN sys_user_post up ON (u.user_id = up.user_id)
+        LEFT JOIN sys_post p ON p.post_id = up.post_id
         WHERE u.STATUS = 1
         <if test="user.username != null and user.username != ''">
             AND u.username like concat('%',#{user.username},'%')
@@ -59,13 +63,17 @@
         u.description,
         u.avatar,
         d.dept_name deptName,
-        GROUP_CONCAT(r.role_id) roleId,
-        GROUP_CONCAT(r.ROLE_NAME) roleName
+        GROUP_CONCAT(distinct r.role_id) roleId,
+        GROUP_CONCAT(distinct r.ROLE_NAME) roleName,
+        GROUP_CONCAT(distinct p.post_id) postId,
+        GROUP_CONCAT(distinct p.post_name) postName
         FROM
         sys_user u
         LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
         LEFT JOIN sys_user_role ur ON (u.user_id = ur.user_id)
         LEFT JOIN sys_role r ON r.role_id = ur.role_id
+        LEFT JOIN sys_user_post up ON (u.user_id = up.user_id)
+        LEFT JOIN sys_post p ON p.post_id = up.post_id
         WHERE u.STATUS = 1 AND u.user_id = #{id}
         group by u.username,u.user_id,u.email,u.mobile,u.status,u.create_time,u.ssex,
         u.dept_id,u.last_login_time,u.update_time,u.description,u.avatar
@@ -87,8 +95,8 @@
                u.description,
                u.avatar,
                d.dept_name               deptName,
-               GROUP_CONCAT(r.role_id)   roleId,
-               GROUP_CONCAT(r.ROLE_NAME) roleName
+               GROUP_CONCAT(distinct r.role_id)   roleId,
+               GROUP_CONCAT(distinct r.ROLE_NAME) roleName
         FROM sys_user u
                  LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
                  LEFT JOIN sys_user_role ur ON (u.user_id = ur.user_id)

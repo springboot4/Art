@@ -17,7 +17,6 @@
         <module>fxz-tx-manager</module>
         <module>fxz-generate</module>
         <module>fxz-Job</module>
-        <module>nacos</module>
     </modules>
 
     <packaging>pom</packaging>

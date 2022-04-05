@@ -5,7 +5,7 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
             <a-button type="primary" @click="queryPage">查询</a-button>
-            <a-button style="margin-left: 8px" @click="queryPage">重置</a-button>
+            <a-button style="margin-left: 8px" @click="restQuery">重置</a-button>
           </a-col>
         </a-row>
       </a-form>
