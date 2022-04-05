@@ -11,7 +11,7 @@
  Target Server Version : 80000
  File Encoding         : 65001
 
- Date: 28/03/2022 18:44:22
+ Date: 05/04/2022 22:16:53
 */
 
 SET NAMES utf8mb4;
@@ -44,6 +44,96 @@ INSERT INTO `sys_dept` VALUES (4, 1, '前端组', 1, '2022-02-28 16:44:29', '202
 INSERT INTO `sys_dept` VALUES (5, 1, '后端组', 0, '2022-02-28 16:44:41', '2022-03-26 20:26:43', NULL, 'fxz');
 
 -- ----------------------------
+-- Table structure for sys_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict`;
+CREATE TABLE `sys_dict`  (
+  `id` bigint(20) NOT NULL,
+  `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型',
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `system_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '是否是系统内置',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标记',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `sys_dict_del_flag`(`del_flag`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict
+-- ----------------------------
+INSERT INTO `sys_dict` VALUES (1510864072018067457, 'ddd', 'dd', 'dd', '1', '1', '2022-04-04 14:17:20', 'fxz', 'fxz', '2022-04-04 14:17:20');
+INSERT INTO `sys_dict` VALUES (1510865432566308866, 'dict_type', '字典类型', '字典类型', '1', '0', '2022-04-04 14:22:44', 'fxz', 'fxz', '2022-04-04 14:22:44');
+INSERT INTO `sys_dict` VALUES (1510869546876649474, '1', '1', '1', '0', '1', '2022-04-04 14:39:05', 'fxz', 'fxz', '2022-04-04 14:39:05');
+INSERT INTO `sys_dict` VALUES (1510870304607027202, '1231', '13213', '313', '0', '1', '2022-04-04 14:42:06', 'fxz', 'fxz', '2022-04-04 14:42:16');
+INSERT INTO `sys_dict` VALUES (1510873495704817666, 'dasda', 'dsada', 'dasda', '0', '1', '2022-04-04 14:54:47', 'fxz', 'fxz', '2022-04-04 15:05:11');
+INSERT INTO `sys_dict` VALUES (1510894313813856257, '1', '1', '1', '0', '1', '2022-04-04 16:17:30', 'fxz', 'fxz', '2022-04-04 16:17:30');
+INSERT INTO `sys_dict` VALUES (1510894343949930498, '2', '2', '2', '0', '1', '2022-04-04 16:17:37', 'fxz', 'fxz', '2022-04-04 16:17:37');
+INSERT INTO `sys_dict` VALUES (1510894360676814850, '3', '3', '3', '0', '1', '2022-04-04 16:17:41', 'fxz', 'fxz', '2022-04-04 16:17:41');
+INSERT INTO `sys_dict` VALUES (1510894381933547521, '4', '4', '4', '0', '1', '2022-04-04 16:17:46', 'fxz', 'fxz', '2022-04-04 16:17:46');
+INSERT INTO `sys_dict` VALUES (1510894403840397314, '5', '5', '5', '0', '1', '2022-04-04 16:17:52', 'fxz', 'fxz', '2022-04-04 16:17:52');
+INSERT INTO `sys_dict` VALUES (1510894422765096962, '6', '6', '6', '0', '1', '2022-04-04 16:17:56', 'fxz', 'fxz', '2022-04-04 16:17:56');
+INSERT INTO `sys_dict` VALUES (1510894443795337218, '7', '7', '7', '0', '1', '2022-04-04 16:18:01', 'fxz', 'fxz', '2022-04-04 16:18:01');
+INSERT INTO `sys_dict` VALUES (1510894461734375425, '8', '8', '8', '0', '1', '2022-04-04 16:18:05', 'fxz', 'fxz', '2022-04-04 16:18:05');
+INSERT INTO `sys_dict` VALUES (1510894481871228929, '9', '9', '9', '0', '1', '2022-04-04 16:18:10', 'fxz', 'fxz', '2022-04-04 16:18:10');
+
+-- ----------------------------
+-- Table structure for sys_dict_item
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_item`;
+CREATE TABLE `sys_dict_item`  (
+  `id` bigint(20) NOT NULL,
+  `dict_id` bigint(20) NOT NULL COMMENT '字典ID',
+  `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '值',
+  `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标签',
+  `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字典类型',
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `sort_order` int(11) NOT NULL DEFAULT 0 COMMENT '排序（升序）',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT ' ' COMMENT '备注',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标记',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `sys_dict_value`(`value`) USING BTREE,
+  INDEX `sys_dict_label`(`label`) USING BTREE,
+  INDEX `sys_dict_del_flag`(`del_flag`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典项' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict_item
+-- ----------------------------
+INSERT INTO `sys_dict_item` VALUES (1510865497015984129, 1510865432566308866, '1', '系统类', 'dict_type', '系统类', 1, ' ', '0', '2022-04-04 14:23:00', 'fxz', 'fxz', '2022-04-04 14:23:25');
+INSERT INTO `sys_dict_item` VALUES (1510865563508285441, 1510865432566308866, '0', '业务类', 'dict_type', '业务类', 0, ' ', '0', '2022-04-04 14:23:16', 'fxz', 'fxz', '2022-04-04 14:23:16');
+
+-- ----------------------------
+-- Table structure for sys_file
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_file`;
+CREATE TABLE `sys_file`  (
+  `id` bigint(20) NOT NULL,
+  `file_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `bucket_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `original` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `file_size` bigint(20) NULL DEFAULT NULL COMMENT '文件大小',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '0-正常，1-删除',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文件管理表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_file
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
@@ -71,10 +161,10 @@ CREATE TABLE `sys_menu`  (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, 0, '仪表盘', 'dashboard', 'dashboard', '0', 'RouteView', '/dashboard', NULL, '', 1, 1, '2022-01-23 16:39:07', '2022-01-23 16:19:04', NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (2, 1, '分析页', 'Analysis', 'dashboard', '0', 'dashboard/Analysis', '/dashboard/analysis/:pageNo', NULL, '', 1, 1, '2022-01-23 16:47:13', '2022-01-23 06:45:55', NULL, NULL, '0');
-INSERT INTO `sys_menu` VALUES (3, 1, '工作台', 'Workplace', 'dashboard', '0', 'dashboard/Workplace', '/dashboard/workplace', NULL, NULL, 1, 1, '2022-01-23 17:02:58', NULL, NULL, NULL, '0');
-INSERT INTO `sys_menu` VALUES (4, 0, '个人页', 'account', 'user', '0', 'RouteView', '/account', '', NULL, 1, 2, '2022-01-23 17:04:07', NULL, NULL, NULL, '1');
+INSERT INTO `sys_menu` VALUES (1, 0, '仪表盘', 'dashboard', 'dashboard', '0', 'RouteView', '/dashboard', NULL, 'code-sandbox', 1, 1, '2022-01-23 16:39:07', '2022-04-04 17:28:31', NULL, 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (2, 1, '分析页', 'Analysis', 'dashboard', '0', 'dashboard/Analysis', '/dashboard/analysis', NULL, 'form', 1, 1, '2022-01-23 16:47:13', '2022-04-04 17:30:25', NULL, 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (3, 1, '工作台', 'Workplace', 'dashboard', '0', 'dashboard/Workplace', '/dashboard/workplace', NULL, 'highlight', 1, 1, '2022-01-23 17:02:58', '2022-04-04 17:30:41', NULL, 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (4, 0, '个人页', 'account', 'user', '0', 'RouteView', '/account', '', 'aliwangwang', 1, 2, '2022-01-23 17:04:07', '2022-04-04 17:29:00', NULL, 'fxz', '1');
 INSERT INTO `sys_menu` VALUES (5, 4, '个人中心', 'center', 'user', '0', 'account/center', '/account/center', NULL, NULL, 1, 2, '2022-01-23 17:04:58', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (6, 4, '个人设置', 'settings', 'user', '0', 'account/settings/Index', '/account/settings', NULL, NULL, 1, 2, '2022-01-18 14:44:25', NULL, NULL, NULL, '1');
 INSERT INTO `sys_menu` VALUES (7, 6, '基本设置', 'BaseSettings', 'user', '0', 'account/settings/BaseSetting', '/account/settings/base', NULL, NULL, 1, 2, '2022-01-18 14:48:57', NULL, NULL, NULL, '0');
@@ -82,20 +172,25 @@ INSERT INTO `sys_menu` VALUES (8, 6, '安全设置', 'SecuritySettings', 'user',
 INSERT INTO `sys_menu` VALUES (9, 6, '个性化设置', 'CustomSettings', 'user', '0', 'account/settings/Custom', '/account/settings/custom', NULL, NULL, 1, 2, '2022-01-18 14:50:17', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (10, 6, '账户绑定', 'BindingSettings', 'user', '0', 'account/settings/Binding', '/account/settings/binding', NULL, NULL, 1, 2, '2022-01-18 14:50:58', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_menu` VALUES (11, 6, '新消息通知', 'NotificationSettings', 'user', '0', 'account/settings/Notification', '/account/settings/notification', NULL, NULL, 1, 2, '2022-01-18 14:51:31', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_menu` VALUES (12, 0, '欢迎页', 'welcome', 'welcome', '0', 'index/welcome', '/welcome', '', NULL, 1, 0, '2022-01-18 16:22:11', '2022-03-25 19:33:02', NULL, 'fxz', '0');
-INSERT INTO `sys_menu` VALUES (20, 0, '系统管理', 'permissions', 'sys', '0', 'RouteView', '/permissions', NULL, NULL, 1, 3, '2022-01-23 16:52:53', NULL, NULL, NULL, '0');
-INSERT INTO `sys_menu` VALUES (21, 20, '菜单管理', 'menu', 'sys:menu', '0', 'modules/system/menu/menu', '/permissions/menu', NULL, NULL, 1, 0, '2022-01-23 16:55:48', NULL, NULL, NULL, '0');
+INSERT INTO `sys_menu` VALUES (12, 0, '欢迎页', 'welcome', 'welcome', '0', 'index/welcome', '/welcome', '', 'twitter', 1, 0, '2022-01-18 16:22:11', '2022-04-04 17:34:43', NULL, 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (20, 0, '系统管理', 'permissions', 'sys', '0', 'RouteView', '/permissions', NULL, 'rocket', 1, 3, '2022-01-23 16:52:53', '2022-04-05 16:17:42', NULL, 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (21, 20, '菜单管理', 'menu', 'sys:menu', '0', 'modules/system/menu/menu', '/permissions/menu', NULL, 'idcard', 1, 0, '2022-01-23 16:55:48', '2022-04-04 17:31:22', NULL, 'fxz', '0');
 INSERT INTO `sys_menu` VALUES (29, 21, '添加菜单', 'saveMenu', 'sys:menu:save', '1', NULL, NULL, NULL, NULL, 1, 1, '2022-01-23 18:16:31', NULL, NULL, NULL, '1');
-INSERT INTO `sys_menu` VALUES (100004, 20, '字典管理', 'dict', 'sys:dict', '0', 'PageView', '/permissions/dict', NULL, NULL, 1, 1, '2022-01-23 22:54:55', NULL, NULL, NULL, '1');
-INSERT INTO `sys_menu` VALUES (100006, 20, '用户管理', 'user', 'sys:user', '0', 'modules/system/user/userList.vue', '/permissions/user', NULL, NULL, 1, 3, '2022-02-27 09:35:00', NULL, NULL, NULL, '0');
-INSERT INTO `sys_menu` VALUES (100007, 20, '角色管理', 'role', 'sys:role', '0', 'modules/system/role/RoleList.vue', '/permissions/role', NULL, NULL, 1, 4, '2022-02-27 09:43:02', NULL, NULL, NULL, '0');
-INSERT INTO `sys_menu` VALUES (100008, 20, '部门管理', 'dept', 'dept', '0', 'modules/system/dept/DeptList.vue', '/permissions/dept', NULL, NULL, 1, 4, '2022-02-27 10:15:46', NULL, NULL, NULL, '0');
+INSERT INTO `sys_menu` VALUES (100006, 20, '用户管理', 'user', 'sys:user', '0', 'modules/system/user/userList.vue', '/permissions/user', NULL, 'user', 1, 1, '2022-02-27 09:35:00', '2022-04-05 20:24:14', NULL, 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100007, 20, '角色管理', 'role', 'sys:role', '0', 'modules/system/role/RoleList.vue', '/permissions/role', NULL, 'woman', 1, 2, '2022-02-27 09:43:02', '2022-04-05 20:24:23', NULL, 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100008, 20, '部门管理', 'dept', 'dept', '0', 'modules/system/dept/DeptList.vue', '/permissions/dept', NULL, 'contacts', 1, 3, '2022-02-27 10:15:46', '2022-04-05 20:24:37', NULL, 'fxz', '0');
 INSERT INTO `sys_menu` VALUES (100009, 100006, '分页查看用户信息', 'sys:user:view', 'sys:user:view', '1', 'sys:user:view', '/sys/user/list', NULL, NULL, 1, 1, '2022-02-27 13:43:05', NULL, NULL, NULL, '0');
 INSERT INTO `sys_menu` VALUES (100010, 100006, '更新用户信息', 'sys:user:update', 'sys:user:update', '1', NULL, 'sys:user:update', NULL, NULL, 1, NULL, '2022-02-27 17:05:44', NULL, NULL, NULL, '0');
 INSERT INTO `sys_menu` VALUES (100011, 100006, '新增用户信息', 'sys:user:add', 'sys:user:add', '1', NULL, 'sys:user:add', NULL, NULL, 1, NULL, '2022-02-27 18:07:12', NULL, NULL, NULL, '0');
-INSERT INTO `sys_menu` VALUES (100012, 0, '系统工具', 'sysTool', 'sysTool', '0', 'RouteView', '/sysTool', NULL, NULL, 1, 4, '2022-03-04 09:14:37', NULL, NULL, NULL, '0');
-INSERT INTO `sys_menu` VALUES (100013, 100012, '代码生成器', 'genCode', 'sysTool:genCode', '0', 'modules/system/gen/CodeGenIndex.vue', '/sysTool/genCode', NULL, NULL, 1, 0, '2022-03-04 09:19:37', NULL, NULL, NULL, '0');
-INSERT INTO `sys_menu` VALUES (100015, 0, '缓存', 'sys_cache', 'sys_cache', '1', NULL, NULL, NULL, NULL, 1, -1, '2022-03-26 19:56:23', '2022-03-26 19:56:23', 'fxz', 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100012, 0, '系统工具', 'sysTool', 'sysTool', '0', 'RouteView', '/sysTool', NULL, 'shopping-cart', 1, 4, '2022-03-04 09:14:37', '2022-04-05 16:18:24', NULL, 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100013, 100012, '代码生成器', 'genCode', 'sysTool:genCode', '0', 'modules/system/gen/CodeGenIndex.vue', '/sysTool/genCode', NULL, 'area-chart', 1, 1, '2022-03-04 09:19:37', '2022-04-04 17:33:00', NULL, 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100016, 100012, '数据源管理', 'DatasourceConfList', 'sysTool:datasourceConf', '0', 'modules/system/gen/datasource/DatasourceConfList.vue', '/sysTool/datasourceConf', NULL, 'box-plot', 1, 0, '2022-03-31 12:31:26', '2022-04-04 17:33:10', 'fxz', 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100017, 0, '系统监控', 'monitor', 'sysMonitor', '0', 'RouteView', '/sysMonitor', NULL, 'aliwangwang', 1, 5, '2022-04-03 17:59:52', '2022-04-04 17:35:11', 'fxz', 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100018, 100017, '定时任务', 'jobList', 'sysMonitor:job', '0', 'modules/system/monitor/JobList.vue', '/sysMonitor/job', NULL, 'loading', 1, 0, '2022-04-03 18:02:04', '2022-04-04 17:33:39', 'fxz', 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100019, 20, '字典管理', 'dict', 'sys:dict', '0', 'modules/system/dict/DictList.vue', '/permissions/dict', NULL, 'folder-open', 1, 4, '2022-04-04 11:20:33', '2022-04-05 20:24:45', 'fxz', 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100020, 100017, '调度日志', 'JobLogList', 'sysMonitor:jobLog', '0', 'modules/system/monitor/JobLogList.vue', '/sysMonitor/jobLog', NULL, 'hdd', 1, 1, '2022-04-04 15:55:43', '2022-04-04 17:34:06', 'fxz', 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100021, 20, '文件管理', 'file', 'sys:file', '0', 'modules/system/file/FileList.vue', '/permissions/file', NULL, 'mail', 1, 5, '2022-04-04 22:47:38', '2022-04-04 22:49:20', 'fxz', 'fxz', '0');
+INSERT INTO `sys_menu` VALUES (100022, 20, '岗位管理', 'post', 'sys:post', '0', 'modules/system/post/PostList.vue', '/permissions/post', NULL, 'coffee', 1, 4, '2022-04-05 20:17:47', '2022-04-05 20:24:58', 'fxz', 'fxz', '0');
 
 -- ----------------------------
 -- Table structure for sys_oauth_client_details
@@ -125,13 +220,47 @@ CREATE TABLE `sys_oauth_client_details`  (
 -- ----------------------------
 INSERT INTO `sys_oauth_client_details` VALUES ('app', NULL, 'app', 'server', 'app,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('daemon', NULL, 'daemon', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` VALUES ('fxz', NULL, '123456', 'server', 'refresh_token,authorization_code,captcha', 'https://fxz.life', NULL, NULL, NULL, NULL, 'false', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_oauth_client_details` VALUES ('fxz', NULL, '123456', 'server', 'refresh_token,authorization_code,captcha', 'https://fxz.life', NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('gen', NULL, 'gen', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('open', NULL, 'open', 'server', 'refresh_token,authorization_code', 'https://fxz.life', NULL, NULL, NULL, '{\n	\"appName\":\"测试应用\"\n}', 'false', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('pig', NULL, 'pig', 'server', 'password,app,refresh_token,authorization_code,client_credentials', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login', NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('ruoyi', NULL, 'ruoyi', 'server', 'refresh_token,authorization_code', 'http://localhost:80/sso/login', NULL, 43200, 2592001, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('swagger', NULL, '123456', 'test', 'password', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('test', NULL, 'test', 'server', 'password,app,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for sys_post
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_post`;
+CREATE TABLE `sys_post`  (
+  `post_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '岗位ID',
+  `post_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位编码',
+  `post_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位名称',
+  `post_sort` int(11) NOT NULL COMMENT '岗位排序',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
+  `description` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建人',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新人',
+  PRIMARY KEY (`post_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_post
+-- ----------------------------
+INSERT INTO `sys_post` VALUES (1, 'user', '员工', 2, '1', '打工人', '2022-03-19 10:05:15', 'admin', '2022-03-19 10:42:28', 'admin');
+INSERT INTO `sys_post` VALUES (2, 'cto', 'cto', 0, '1', 'cto666', '2022-03-19 10:06:20', 'admin', '2022-03-19 10:06:20', 'admin');
+INSERT INTO `sys_post` VALUES (3, 'boss', '董事长', -1, '1', '大boss', '2022-03-19 10:06:35', 'admin', '2022-03-19 10:42:44', 'admin');
+INSERT INTO `sys_post` VALUES (1509530573596016641, '22s', '222s', 11, '1', '22s', '2022-03-31 21:58:29', 'admin', '2022-03-31 21:58:29', 'admin');
+INSERT INTO `sys_post` VALUES (1509534285496426497, '22sas', '222ssss', 1122, '1', '22s', '2022-03-31 22:13:14', 'admin', '2022-03-31 22:13:14', 'admin');
+INSERT INTO `sys_post` VALUES (1509534945046536193, '22sass', '222sssp', 1122, '1', '22ss', '2022-03-31 22:15:51', 'admin', '2022-03-31 22:15:51', 'admin');
+INSERT INTO `sys_post` VALUES (1509535899309416450, 'aasw', 'ds', 11, '1', 'dd', '2022-03-31 22:19:39', 'admin', '2022-03-31 22:19:39', 'admin');
+INSERT INTO `sys_post` VALUES (1509536193485316097, 'aasws', 'dss', 11, '1', 'dds', '2022-03-31 22:20:49', 'admin', '2022-03-31 22:20:49', 'admin');
+INSERT INTO `sys_post` VALUES (1509536337576435713, 'aasws2', 'dss1', 11, '1', 'dds', '2022-03-31 22:21:23', 'admin', '2022-03-31 22:21:23', 'admin');
+INSERT INTO `sys_post` VALUES (1509536560256229377, 'aasws2s', 'dss1s', 11, '1', 'dds', '2022-03-31 22:22:16', 'admin', '2022-03-31 22:22:16', 'admin');
+INSERT INTO `sys_post` VALUES (1511326356242804737, 'cto', 'cto', 0, '0', 'cto666', '2022-04-05 20:54:17', 'fxz', '2022-04-05 21:03:22', 'fxz');
+INSERT INTO `sys_post` VALUES (1511338847253417985, 'ceo', 'ceo', 1, '0', 'ceo', '2022-04-05 21:43:55', 'fxz', '2022-04-05 21:43:55', 'fxz');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -151,10 +280,8 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 'admin', '管理员', '2022-02-28 16:23:11', '2022-03-26 19:56:31', NULL, 'fxz');
-INSERT INTO `sys_role` VALUES (8, '游客', '游客,没啥权限', '2022-02-28 19:45:16', '2022-03-25 19:30:55', NULL, 'fxz');
-INSERT INTO `sys_role` VALUES (9, '测试角色1', '测试角色1(拥有部分权限)', '2022-03-01 15:17:51', '2022-03-01 15:17:51', NULL, NULL);
-INSERT INTO `sys_role` VALUES (10, '测试角色2', '测试角色2(拥有部分权限)', '2022-03-01 15:18:22', '2022-03-25 19:32:28', NULL, 'fxz');
+INSERT INTO `sys_role` VALUES (1, 'admin', '管理员', '2022-02-28 16:23:11', '2022-04-05 20:17:58', NULL, 'fxz');
+INSERT INTO `sys_role` VALUES (8, '游客', '游客,没啥权限', '2022-02-28 19:45:16', '2022-04-05 18:03:00', NULL, 'fxz');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -168,17 +295,13 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES (9, 12);
-INSERT INTO `sys_role_menu` VALUES (9, 1);
-INSERT INTO `sys_role_menu` VALUES (9, 2);
-INSERT INTO `sys_role_menu` VALUES (9, 3);
-INSERT INTO `sys_role_menu` VALUES (9, 4);
-INSERT INTO `sys_role_menu` VALUES (9, 6);
-INSERT INTO `sys_role_menu` VALUES (9, 7);
 INSERT INTO `sys_role_menu` VALUES (8, 12);
-INSERT INTO `sys_role_menu` VALUES (10, 20);
-INSERT INTO `sys_role_menu` VALUES (10, 21);
-INSERT INTO `sys_role_menu` VALUES (10, 100012);
+INSERT INTO `sys_role_menu` VALUES (8, 4);
+INSERT INTO `sys_role_menu` VALUES (8, 5);
+INSERT INTO `sys_role_menu` VALUES (8, 6);
+INSERT INTO `sys_role_menu` VALUES (8, 1);
+INSERT INTO `sys_role_menu` VALUES (8, 2);
+INSERT INTO `sys_role_menu` VALUES (8, 3);
 INSERT INTO `sys_role_menu` VALUES (1, 2);
 INSERT INTO `sys_role_menu` VALUES (1, 3);
 INSERT INTO `sys_role_menu` VALUES (1, 4);
@@ -200,6 +323,13 @@ INSERT INTO `sys_role_menu` VALUES (1, 100013);
 INSERT INTO `sys_role_menu` VALUES (1, 100014);
 INSERT INTO `sys_role_menu` VALUES (1, 1);
 INSERT INTO `sys_role_menu` VALUES (1, 100015);
+INSERT INTO `sys_role_menu` VALUES (1, 100016);
+INSERT INTO `sys_role_menu` VALUES (1, 100017);
+INSERT INTO `sys_role_menu` VALUES (1, 100018);
+INSERT INTO `sys_role_menu` VALUES (1, 100019);
+INSERT INTO `sys_role_menu` VALUES (1, 100020);
+INSERT INTO `sys_role_menu` VALUES (1, 100021);
+INSERT INTO `sys_role_menu` VALUES (1, 100022);
 
 -- ----------------------------
 -- Table structure for sys_trade_log
@@ -252,18 +382,21 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'fxz', '{bcrypt}$2a$10$gzhiUb1ldc1Rf3lka4k/WOoFKKGPepHSzJxzcPSN5/65SzkMdc.SK', 0, 'fxzbiz@gmail.com', '19888888888', '1', '2019-06-14 20:39:22', '2022-03-25 19:21:34', '2019-08-02 15:57:00', '0', 'https://preview.pro.antdv.com/avatar2.jpg', 'fxzCloud的作者', NULL, 'fxz');
-INSERT INTO `sys_user` VALUES (3, 'fxzz', '$2a$10$gzhiUb1ldc1Rf3lka4k/WOoFKKGPepHSzJxzcPSN5/65SzkMdc.SK', 3, 'fxzbiz@gmail.com', '19888888880', '1', '2021-11-28 20:43:47', '2022-03-25 19:33:10', NULL, '1', 'https://preview.pro.antdv.com/avatar2.jpg', '123', NULL, 'fxz');
-INSERT INTO `sys_user` VALUES (4, 'test', '$2a$10$q2Sg8yLpkA3i4r0MOgT5o.mUBsJsWRz1lKXsO7EgOOBT5D1U1d5rC', 0, 'fxzcloud@gmail.com', '19806082431', '1', '2022-02-27 18:19:20', '2022-02-28 17:19:15', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', '测试', NULL, NULL);
-INSERT INTO `sys_user` VALUES (11, 'rrr', '$2a$10$HFImvTPe8wNLUzQ.dtBWmew9ww1cQUMlg/O598ffzvu9GGs9HvI0u', 5, 'fff@qq.com', '12345678900', '1', '2022-02-27 20:07:32', '2022-03-01 15:13:31', NULL, '1', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', '22', NULL, NULL);
-INSERT INTO `sys_user` VALUES (14, 'sss', '$2a$10$2ohXbP1Z8hYEpEMdLo5xRusCwnfmZf.xQUSu9nzGgh4g/Z8iou61W', 0, '222@qq.com', '11213222211', '1', '2022-02-27 20:25:19', '2022-03-01 15:13:40', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', 'das', NULL, NULL);
-INSERT INTO `sys_user` VALUES (18, 'ddddd', '$2a$10$DuEkJBuIUA/nrSZqXjMz1.dxZas7/uZa/vIN.xkF5TB0HVedrI556', 4, 'dddddd@qq.com', 'ddddddddddd', '1', '2022-02-27 20:43:38', '2022-03-25 19:33:39', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', '2', NULL, 'fxz');
-INSERT INTO `sys_user` VALUES (19, '12345', '$2a$10$GTJGB/TAx4WauFwBLV9ejebNVC/TCAFFFmv0vwCHJQVaHqy3UlzS2', 4, '22345678@gmail.com', '12345890873', '1', '2022-02-28 08:43:26', '2022-03-25 19:35:08', NULL, '0', 'https://portrait.gitee.com/uploads/avatars/user/2497/7493281_fxzcloud_1644239239.png!avatar60', 'ss', NULL, 'fxz');
-INSERT INTO `sys_user` VALUES (20, 'test1', '$2a$10$Nw.6AfYXfCIIfMQQ5TkDU.T4I0W/uZlIKarmx6yhnnMkUW5Kykj26', NULL, '11111@qq.com', '11111111111', '1', '2022-03-09 17:18:07', NULL, NULL, '0', 'https://preview.pro.antdv.com/avatar2.jpg', '2', NULL, NULL);
-INSERT INTO `sys_user` VALUES (23, '22222', '$2a$10$K48UIIGMPhEBUiUpnKYECurrl6iIzzX6Sj3yp9H.aIl9Tghthpnhm', 0, 'ss@qq.com', '22222222222', '1', '2022-03-09 17:19:41', NULL, NULL, '0', 'https://preview.pro.antdv.com/avatar2.jpg', 'ss', NULL, NULL);
-INSERT INTO `sys_user` VALUES (24, '233dd2', '$2a$10$6C7nuemMQ9IhFfP/pZsAleqOPGB.lVfzb5Sg7IU4HlypF2Y72MIZe', 0, 'www@qq.com', '22111111111', '1', '2022-03-09 17:19:58', NULL, NULL, '0', 'https://preview.pro.antdv.com/avatar2.jpg', '22', NULL, NULL);
-INSERT INTO `sys_user` VALUES (25, 'sssss', '$2a$10$knkDyRtKpWil6aK45i.TlO6eSWbOx4IhwNZbyBkvbYRgyrxkU/ToK', 0, '2222@qq.com', '22211111111', '1', '2022-03-09 17:20:18', NULL, NULL, '1', 'https://preview.pro.antdv.com/avatar2.jpg', '2', NULL, NULL);
-INSERT INTO `sys_user` VALUES (26, '测试账号1', '$2a$10$l7cPvJdOBduwPkq0MKyI7.kMmdznT92zbpmrpkQPTurBMzaOgvgJq', 1, '2235602974@qq.com', '17823411234', '1', '2022-03-25 19:22:34', '2022-03-25 19:34:21', NULL, '0', 'https://preview.pro.antdv.com/avatar2.jpg', 'aa', 'fxz', 'fxz');
+INSERT INTO `sys_user` VALUES (1, 'fxz', '{bcrypt}$2a$10$yMqLTL9t9TeRGp5fT7vENuxZaruaN.a/VlOpRGF7jBnKPAim6Xey.', 0, '2235602974@qq.com', '19806082431', '1', '2022-04-05 20:39:22', '2022-04-05 22:06:11', '2022-04-05 15:57:00', '0', '/system/file/fxzcloud/4a5ae857eced433d9b232dc16ac27c57.jpg', 'FxzCloud的作者', NULL, 'fxz');
+
+-- ----------------------------
+-- Table structure for sys_user_post
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_post`;
+CREATE TABLE `sys_user_post`  (
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `post_id` bigint(20) NOT NULL COMMENT '岗位ID',
+  PRIMARY KEY (`user_id`, `post_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户与岗位关联表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user_post
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -277,25 +410,7 @@ CREATE TABLE `sys_user_role`  (
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
-INSERT INTO `sys_user_role` VALUES (7, 1);
-INSERT INTO `sys_user_role` VALUES (9, 1);
-INSERT INTO `sys_user_role` VALUES (10, 1);
-INSERT INTO `sys_user_role` VALUES (13, 1);
-INSERT INTO `sys_user_role` VALUES (16, 1);
-INSERT INTO `sys_user_role` VALUES (4, 1);
-INSERT INTO `sys_user_role` VALUES (11, 1);
-INSERT INTO `sys_user_role` VALUES (14, 8);
-INSERT INTO `sys_user_role` VALUES (20, 1);
-INSERT INTO `sys_user_role` VALUES (23, 1);
-INSERT INTO `sys_user_role` VALUES (24, 8);
-INSERT INTO `sys_user_role` VALUES (25, 1);
 INSERT INTO `sys_user_role` VALUES (1, 1);
-INSERT INTO `sys_user_role` VALUES (3, 8);
-INSERT INTO `sys_user_role` VALUES (18, 9);
-INSERT INTO `sys_user_role` VALUES (18, 10);
-INSERT INTO `sys_user_role` VALUES (26, 1);
-INSERT INTO `sys_user_role` VALUES (19, 1);
-INSERT INTO `sys_user_role` VALUES (19, 8);
 
 -- ----------------------------
 -- Table structure for zipkin_annotations
@@ -319,7 +434,7 @@ CREATE TABLE `zipkin_annotations`  (
   INDEX `endpoint_service_name`(`endpoint_service_name`) USING BTREE COMMENT 'for getTraces and getServiceNames',
   INDEX `a_type`(`a_type`) USING BTREE COMMENT 'for getTraces and autocomplete values',
   INDEX `a_key`(`a_key`) USING BTREE COMMENT 'for getTraces and autocomplete values',
-  INDEX `trace_id`(`trace_id`, `span_id`, `a_key`) USING BTREE COMMENT 'for dependencies sysJob'
+  INDEX `trace_id`(`trace_id`, `span_id`, `a_key`) USING BTREE COMMENT 'for dependencies job'
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compressed;
 
 -- ----------------------------
