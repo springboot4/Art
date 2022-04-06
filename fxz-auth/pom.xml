@@ -5,11 +5,10 @@
     <parent>
         <artifactId>fxz-cloud</artifactId>
         <groupId>com.fxz</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>fxz-auth</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>fxz-auth</name>
     <description>认证服务器</description>
 
@@ -18,11 +17,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <!--freemarker-->
-     <!--   <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>-->
         <!--数据库-->
         <dependency>
             <groupId>mysql</groupId>
@@ -37,18 +31,15 @@
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-server-system-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-security</artifactId>
-            <version>0.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-redis</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

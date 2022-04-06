@@ -5,12 +5,11 @@
     <parent>
         <artifactId>fxz-server</artifactId>
         <groupId>com.fxz</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <packaging>pom</packaging>
     <artifactId>fxz-server-system</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>fxz-server-system</name>
 
     <modules>

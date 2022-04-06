@@ -5,13 +5,12 @@
     <parent>
         <artifactId>fxz-cloud</artifactId>
         <groupId>com.fxz</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fxz-common</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
 
     <modules>
         <module>fxz-common-mq</module>
@@ -21,12 +20,7 @@
         <module>fxz-common-database</module>
         <module>fxz-common-security</module>
         <module>fxz-common-file</module>
+        <module>fxz-common-bom</module>
     </modules>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
 
 </project>
