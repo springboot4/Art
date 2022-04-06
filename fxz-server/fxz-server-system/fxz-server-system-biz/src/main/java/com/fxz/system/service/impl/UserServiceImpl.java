@@ -76,7 +76,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		user.setUsername(null);
 		updateById(user);
 
-		if(StringUtils.isBlank(user.getAvatar())){
+		if (StringUtils.isBlank(user.getAvatar())) {
 			userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
 			userPostService.remove(new LambdaQueryWrapper<UserPost>().eq(UserPost::getUserId, user.getUserId()));
 

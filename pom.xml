@@ -6,7 +6,8 @@
 
     <groupId>com.fxz</groupId>
     <artifactId>fxz-cloud</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
+    <packaging>pom</packaging>
 
     <modules>
         <module>fxz-common</module>
@@ -19,27 +20,17 @@
         <module>fxz-Job</module>
     </modules>
 
-    <packaging>pom</packaging>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <com-alibaba-cloud.version>2.1.1.RELEASE</com-alibaba-cloud.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <codingapi.txlcn.version>5.0.2.RELEASE</codingapi.txlcn.version>
-        <redisson.version>3.17.0</redisson.version>
-        <myabtis-plus.version>3.5.1</myabtis-plus.version>
-        <dynamic-ds.version>3.5.1</dynamic-ds.version>
         <jasypt.version>2.1.0</jasypt.version>
-        <aws.version>1.11.543</aws.version>
+        <spring-javaformat.version>0.0.29</spring-javaformat.version>
     </properties>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
 
     <!--全局依赖-->
     <dependencies>
@@ -60,6 +51,21 @@
     <!--依赖管理-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fxz</groupId>
+                <artifactId>fxz-common-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- spring boot 依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -90,16 +96,6 @@
                 <artifactId>txlcn-txmsg-netty</artifactId>
                 <version>${codingapi.txlcn.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.redisson</groupId>
-                <artifactId>redisson-spring-boot-starter</artifactId>
-                <version>${redisson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${myabtis-plus.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -108,9 +104,18 @@
             <plugin>
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
-                <version>0.0.29</version>
+                <version>${spring-javaformat.version}</version>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

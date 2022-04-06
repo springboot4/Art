@@ -5,7 +5,7 @@
     <parent>
         <artifactId>fxz-common</artifactId>
         <groupId>com.fxz</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -16,7 +16,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-            <version>${dynamic-ds.version}</version>
         </dependency>
     </dependencies>
 

@@ -5,20 +5,22 @@
     <parent>
         <artifactId>fxz-common</artifactId>
         <groupId>com.fxz</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fxz-common-file</artifactId>
     <description>文件操作模块</description>
-    <!--此模块参考了开源项目pig-mesh/oss-spring-boot-starter-->
+
+    <!--此模块参考了开源项目pig-mesh.oss-spring-boot-starter-->
     <!--https://github.com/pig-mesh/oss-spring-boot-starter-->
+    <!--pig是最nb的微服务框架-->
+
 
     <dependencies>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-s3</artifactId>
-            <version>${aws.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -5,51 +5,42 @@
     <parent>
         <artifactId>fxz-cloud</artifactId>
         <groupId>com.fxz</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>fxz-gateway</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>fxz-gateway</name>
-    <description>Demo project for Spring Boot</description>
 
     <dependencies>
-        <!--反爬虫-->
-      <!--  <dependency>
-            <groupId>cn.keking.project</groupId>
-            <artifactId>kk-anti-reptile</artifactId>
-            <version>1.0.0-RELEASE</version>
-        </dependency>-->
 
         <dependency>
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
-            <version>2.3.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-core</artifactId>
-            <version>1.6.3</version>
         </dependency>
+
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-parameter-flow-control</artifactId>
-            <version>1.6.3</version>
         </dependency>
+
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-redis</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-core</artifactId>
-            <version>0.0.1</version>
             <exclusions>
                 <!--：因为Spring Cloud Gateway不是基于Servlet编程模型，而是基于webflux。
                 如果非要web支持的话需要导入spring-boot-starter-webflux而不是spring-boot-start-web；-->
@@ -57,25 +48,19 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
-         <!--       <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-oauth2</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-security</artifactId>
-                </exclusion>-->
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
+
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>5.3</version>
         </dependency>
+
     </dependencies>
 
     <build>
