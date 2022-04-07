@@ -1,20 +1,17 @@
 package com.fxz.gateway.filter;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.mp.result.Result;
 import com.fxz.gateway.properties.FxzGatewayProperties;
+import com.fxz.gateway.util.WebFluxUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.Route;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -30,6 +27,8 @@ import java.util.LinkedHashSet;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.*;
 
 /**
+ * 黑名单 不允许访问的地址
+ *
  * @author Fxz
  * @version 1.0
  * @date 2021-12-07 10:18
@@ -59,8 +58,7 @@ public class FxzGatewayRequestFilter implements GlobalFilter {
 
 		byte[] token = Base64Utils.encode((FxzConstant.GATEWAY_TOKEN_VALUE).getBytes());
 		ServerHttpRequest build = request.mutate().header(FxzConstant.GATEWAY_TOKEN_HEADER, new String(token)).build();
-		ServerWebExchange newExchange = exchange.mutate().request(build).build();
-		return chain.filter(newExchange);
+		return chain.filter(exchange.mutate().request(build).build());
 	}
 
 	private Mono<Void> checkForbidUri(ServerHttpRequest request, ServerHttpResponse response) {
@@ -76,16 +74,10 @@ public class FxzGatewayRequestFilter implements GlobalFilter {
 			}
 		}
 		if (!shouldForward) {
-			return makeResponse(response, Result.failed("该URI不允许外部访问"));
+			return WebFluxUtil.webFluxResponseWriter(response, Result.failed("该URI不允许外部访问"),
+					HttpStatus.FORBIDDEN.value());
 		}
 		return null;
-	}
-
-	private Mono<Void> makeResponse(ServerHttpResponse response, Result<Void> result) {
-		response.setStatusCode(HttpStatus.FORBIDDEN);
-		response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-		DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(result).getBytes());
-		return response.writeWith(Mono.just(dataBuffer));
 	}
 
 	private void printLog(ServerWebExchange exchange) {

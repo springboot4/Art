@@ -22,18 +22,25 @@
 
 
     <properties>
-        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
-        <com-alibaba-cloud.version>2.1.1.RELEASE</com-alibaba-cloud.version>
+        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-cloud.version>2021.0.1</spring-cloud.version>
+        <com-alibaba-cloud.version>2021.0.1.0</com-alibaba-cloud.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <codingapi.txlcn.version>5.0.2.RELEASE</codingapi.txlcn.version>
         <jasypt.version>2.1.0</jasypt.version>
+        <easy-captcha.version>1.6.2</easy-captcha.version>
         <spring-javaformat.version>0.0.29</spring-javaformat.version>
     </properties>
 
     <!--全局依赖-->
     <dependencies>
+        <!--配置文件处理器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
         <!--配置文件加解密-->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
@@ -95,6 +102,11 @@
                 <groupId>com.codingapi.txlcn</groupId>
                 <artifactId>txlcn-txmsg-netty</artifactId>
                 <version>${codingapi.txlcn.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

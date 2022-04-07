@@ -4,9 +4,9 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.core.exception.FxzException;
-import com.fxz.common.redis.service.RedisService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -35,14 +35,14 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
 
 	private final AuthenticationManager authenticationManager;
 
-	private final RedisService redisService;
+	private final RedisTemplate redisTemplate;
 
 	public CaptchaTokenGranter(AuthorizationServerTokenServices tokenServices,
 			ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory,
-			AuthenticationManager authenticationManager, RedisService redisService) {
+			AuthenticationManager authenticationManager, RedisTemplate redisService) {
 		super(tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
 		this.authenticationManager = authenticationManager;
-		this.redisService = redisService;
+		this.redisTemplate = redisService;
 	}
 
 	@SuppressWarnings("all")
@@ -60,14 +60,14 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
 		log.info("validateCodeKey:{}", validateCodeKey);
 
 		// 从缓存取出正确的验证码和用户输入的验证码比对
-		String correctValidateCode = Convert.toStr(redisService.get(validateCodeKey));
+		String correctValidateCode = Convert.toStr(redisTemplate.opsForValue().get(validateCodeKey));
 		log.info("correctValidateCode", correctValidateCode);
 
 		if (!validateCode.equals(correctValidateCode)) {
 			throw new FxzException("验证码不正确");
 		}
 		else {
-			redisService.del(validateCodeKey);
+			redisTemplate.delete(validateCodeKey);
 		}
 
 		String username = parameters.get("username");

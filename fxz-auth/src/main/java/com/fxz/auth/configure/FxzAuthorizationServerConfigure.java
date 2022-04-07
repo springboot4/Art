@@ -5,12 +5,12 @@ import com.fxz.auth.properties.FxzAuthProperties;
 import com.fxz.auth.service.FxzUserDetailServiceImpl;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
-import com.fxz.common.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -46,7 +46,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 	private final DataSource dataSource;
 
-	private final RedisService redisService;
+	private final RedisTemplate redisTemplate;
 
 	private final AuthenticationManager authenticationManager;
 
@@ -77,7 +77,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 		// 添加验证码授权模式授权者
 		granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
-				endpoints.getOAuth2RequestFactory(), authenticationManager, redisService));
+				endpoints.getOAuth2RequestFactory(), authenticationManager, redisTemplate));
 
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 

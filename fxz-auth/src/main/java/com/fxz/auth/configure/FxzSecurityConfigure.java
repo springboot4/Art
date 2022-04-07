@@ -36,12 +36,6 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 		http.requestMatchers().antMatchers("/token/**", "/oauth/**").and().authorizeRequests().antMatchers("/oauth/**")
 				.authenticated().and().formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
 				.permitAll().and().csrf().disable();
-		/*
-		 * http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form").
-		 * and().requestMatchers() .antMatchers("/token/**",
-		 * "/oauth/**","/css/**").and().authorizeRequests().antMatchers("/token/**",
-		 * "/css/**").permitAll() .anyRequest().authenticated().and().csrf().disable();
-		 */
 	}
 
 	/**
