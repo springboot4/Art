@@ -12,46 +12,56 @@
     <name>fxz-gateway</name>
 
     <dependencies>
+
         <!--验证码-->
         <dependency>
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
         </dependency>
+
         <!--gateway 网关依赖,内置webflux 依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
+
         <!--限流-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
         </dependency>
+
         <!--注册中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+
         <!--配置中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!-- LB 扩展 -->
+
+        <!-- SCL 负载均衡 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
+
+        <!--redis依赖-->
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-redis</artifactId>
         </dependency>
+
+        <!--核心依赖-->
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-core</artifactId>
             <exclusions>
-                <!--：因为Spring Cloud Gateway不是基于Servlet编程模型，而是基于webflux。
-                如果非要web支持的话需要导入spring-boot-starter-webflux而不是spring-boot-start-web；-->
+                <!--因为Spring Cloud Gateway不是基于Servlet编程模型，而是基于webflux。
+                如果非要web支持的话需要导入spring-boot-starter-webflux而不是spring-boot-start-web-->
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>

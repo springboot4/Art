@@ -10,14 +10,14 @@
         </a-row>
       </a-form>
     </div>
-    <v-table
+    <f-table
         :columns="tableObj.columns"
         :data="loadData"
         ref="table">
       <template v-slot:buttons>
         <a-button type="primary" icon="plus" @click="add">新建</a-button>
       </template>
-    </v-table>
+    </f-table>
     <${className}-edit
     ref="${classname}Edit"
     @ok="handleOk"/>
