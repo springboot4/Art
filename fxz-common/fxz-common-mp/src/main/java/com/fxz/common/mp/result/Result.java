@@ -48,6 +48,10 @@ public class Result<T> implements Serializable {
 		return result(resultCode.getCode(), msg, null);
 	}
 
+	public static <T> Result<T> failed(Integer resultCode, String msg) {
+		return result(resultCode.toString(), msg, null);
+	}
+
 	public static <T> Result<T> judge(boolean status) {
 		if (status) {
 			return success();

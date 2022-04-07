@@ -18,13 +18,14 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <fastjson.version>1.2.62</fastjson.version>
         <hutool-all.version>5.7.16</hutool-all.version>
-        <spring-boot-admin.version>2.2.0</spring-boot-admin.version>
+        <spring-boot-admin.version>2.6.3</spring-boot-admin.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <sentinel.version>1.6.3</sentinel.version>
         <logstash.version>5.3</logstash.version>
         <velocity.version>2.3</velocity.version>
         <p6spy.version>3.8.1</p6spy.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
+        <security.oauth.version>2.1.8.RELEASE</security.oauth.version>
     </properties>
 
     <!-- 定义全局jar版本-->
@@ -149,6 +150,12 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger.version}</version>
+            </dependency>
+            <!--稳定版本，替代spring security bom内置-->
+            <dependency>
+                <groupId>org.springframework.security.oauth.boot</groupId>
+                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+                <version>${security.oauth.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
