@@ -1,12 +1,15 @@
 package com.fxz.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fxz.common.log.annotation.OperLogAnn;
+import com.fxz.common.log.enums.BusinessType;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
 import com.fxz.system.dto.FileDto;
 import com.fxz.system.entity.File;
 import com.fxz.system.service.FileService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +22,7 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-04
  */
+@Slf4j
 @RestController
 @RequestMapping("/file")
 @RequiredArgsConstructor
@@ -29,8 +33,10 @@ public class FileController {
 	/**
 	 * 上传文件
 	 */
+	@OperLogAnn(title = "文件管理", businessType = BusinessType.INSERT)
 	@PostMapping(value = "/add")
-	public Result<?> add(@RequestPart("file") MultipartFile file) {
+	public Result<Object> add(@RequestPart("file") MultipartFile file) {
+		log.info("文件上传");
 		return Result.success(fileService.addFile(file));
 	}
 

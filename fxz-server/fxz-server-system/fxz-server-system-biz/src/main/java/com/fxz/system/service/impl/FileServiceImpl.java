@@ -49,7 +49,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 	 * 上传文件
 	 */
 	@Override
-	public Result<?> addFile(MultipartFile file) {
+	public Result<Object> addFile(MultipartFile file) {
 		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 		Map<String, String> resultMap = new HashMap<>(4);
 		resultMap.put("bucketName", ossProperties.getBucketName());
@@ -64,7 +64,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 		}
 		catch (Exception e) {
 			log.error("上传失败", e);
-			return Result.failed(e.getLocalizedMessage());
+			return Result.failed();
 		}
 		return Result.success(resultMap);
 	}

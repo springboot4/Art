@@ -22,7 +22,7 @@ public interface FileService extends IService<File> {
 	/**
 	 * 上传文件
 	 */
-	Result<?> addFile(MultipartFile file);
+	Result<Object> addFile(MultipartFile file);
 
 	/**
 	 * 修改
