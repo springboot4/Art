@@ -15,9 +15,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.util.pattern.PathPattern;
 
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * 资源服务器属性配置
@@ -67,17 +69,22 @@ public class FxzCloudSecurityProperties implements InitializingBean {
 		Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
 		map.keySet().forEach(info -> {
+
 			HandlerMethod handlerMethod = map.get(info);
 
 			// 获取方法上边的注解 替代path variable 为 *
 			Ojbk method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Ojbk.class);
-			Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
-					.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+			Optional.ofNullable(method)
+					.ifPresent(inner -> info.getPathPatternsCondition().getPatterns().stream()
+							.map(PathPattern::getPatternString).collect(Collectors.toSet())
+							.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
 			// 获取类上边的注解, 替代path variable 为 *
 			Ojbk controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Ojbk.class);
-			Optional.ofNullable(controller).ifPresent(inner -> info.getPatternsCondition().getPatterns()
-					.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+			Optional.ofNullable(controller)
+					.ifPresent(inner -> info.getPathPatternsCondition().getPatterns().stream()
+							.map(PathPattern::getPatternString).collect(Collectors.toSet())
+							.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
 		});
 

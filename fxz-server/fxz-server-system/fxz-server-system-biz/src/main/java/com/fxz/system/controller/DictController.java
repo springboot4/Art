@@ -1,6 +1,8 @@
 package com.fxz.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fxz.common.log.annotation.OperLogAnn;
+import com.fxz.common.log.enums.BusinessType;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
 import com.fxz.system.dto.DictDto;
@@ -28,6 +30,7 @@ public class DictController {
 	/**
 	 * 添加
 	 */
+	@OperLogAnn(title = "字典管理", businessType = BusinessType.INSERT)
 	@PostMapping(value = "/add")
 	public Result<Boolean> add(@RequestBody DictDto dictDto) {
 		return Result.success(dictService.addDict(dictDto));
@@ -36,6 +39,7 @@ public class DictController {
 	/**
 	 * 修改
 	 */
+	@OperLogAnn(title = "字典管理", businessType = BusinessType.UPDATE)
 	@PostMapping(value = "/update")
 	public Result<Boolean> update(@RequestBody DictDto dictDto) {
 		return Result.success(dictService.updateDict(dictDto));
@@ -44,6 +48,7 @@ public class DictController {
 	/**
 	 * 删除
 	 */
+	@OperLogAnn(title = "字典管理", businessType = BusinessType.DELETE)
 	@DeleteMapping(value = "/delete")
 	public Result<Boolean> delete(Long id) {
 		return Result.judge(dictService.deleteDict(id));
@@ -60,6 +65,7 @@ public class DictController {
 	/**
 	 * 获取全部
 	 */
+	@OperLogAnn(title = "字典管理", businessType = BusinessType.OTHER)
 	@GetMapping(value = "/findAll")
 	public Result<List<Dict>> findAll() {
 		return Result.success(dictService.findAll());

@@ -101,9 +101,9 @@ public class LogAspect {
 			operLog.setRequestMethod(requestMethod);
 			operLog.setOperParam(param);
 			operLog.setBusinessType(businessType);
-			operLog.setTitle(String.valueOf(time));
+			operLog.setTime(time);
 
-			log.info("异步保存");
+			log.info("异步保存:{}", Thread.currentThread().getId());
 			// 异步保存
 			asyncLogService.saveSysLog(operLog);
 		}

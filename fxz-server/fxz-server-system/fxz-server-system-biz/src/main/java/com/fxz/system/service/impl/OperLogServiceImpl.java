@@ -1,6 +1,7 @@
 package com.fxz.system.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -56,7 +57,8 @@ public class OperLogServiceImpl extends ServiceImpl<OperLogMapper, OperLog> impl
 	 */
 	@Override
 	public IPage<OperLog> pageOperLog(Page<OperLog> pageParam, OperLog operLog) {
-		return operLogMapper.selectPage(pageParam, Wrappers.emptyWrapper());
+		return operLogMapper.selectPage(pageParam, Wrappers.<OperLog>lambdaQuery()
+				.like(StringUtils.isNotBlank(operLog.getTitle()), OperLog::getTitle, operLog.getTitle()));
 	}
 
 	/**

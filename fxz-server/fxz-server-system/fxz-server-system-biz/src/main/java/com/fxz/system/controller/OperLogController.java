@@ -3,6 +3,7 @@ package com.fxz.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
+import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.system.dto.OperLogDto;
 import com.fxz.system.entity.OperLog;
 import com.fxz.system.service.OperLogService;
@@ -25,8 +26,9 @@ public class OperLogController {
 	private final OperLogService operLogService;
 
 	/**
-	 * 添加
+	 * 保存日志 因为feign异步调用会丢失请求头 这里放开了权限校验
 	 */
+	@Ojbk
 	@PostMapping(value = "/add")
 	public void add(@RequestBody OperLogDto operLogDto) {
 		operLogService.addOperLog(operLogDto);

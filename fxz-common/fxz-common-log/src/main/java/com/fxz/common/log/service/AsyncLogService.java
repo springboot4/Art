@@ -4,8 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import com.fxz.system.dto.OperLogDto;
 import com.fxz.system.entity.OperLog;
 import com.fxz.system.feign.RemoteLogService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
  *
  * @author fxz
  */
+@Slf4j
+@EnableAsync
 @Service
 public class AsyncLogService {
 
@@ -24,6 +28,7 @@ public class AsyncLogService {
 	 */
 	@Async
 	public void saveSysLog(OperLog operLog) {
+		log.info("调用异步方法,{}", Thread.currentThread().getId());
 		OperLogDto operLogDto = new OperLogDto();
 		BeanUtil.copyProperties(operLog, operLogDto);
 		remoteLogService.add(operLogDto);
