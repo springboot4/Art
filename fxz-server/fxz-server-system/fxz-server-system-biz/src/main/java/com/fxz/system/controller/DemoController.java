@@ -1,6 +1,8 @@
 package com.fxz.system.controller;
 
 import cn.hutool.extra.servlet.ServletUtil;
+import com.fxz.common.Idempotent.annotation.Idempotent;
+import com.fxz.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolver;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.annotation.Ojbk;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,15 @@ public class DemoController {
 		String ip = ServletUtil.getClientIP(request);
 		log.info("ip:{}", ip);
 		return Result.success(ip);
+	}
+
+	@Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class,
+			keyArg = "#str")
+	@Ojbk
+	@GetMapping("/idempotent")
+	public Result<Void> testIdempotent(String str) {
+		log.info("方法执行");
+		return Result.success();
 	}
 
 }

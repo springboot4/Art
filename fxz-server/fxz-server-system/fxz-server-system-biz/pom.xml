@@ -13,8 +13,11 @@
     <dependencies>
         <dependency>
             <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-Idempotent</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fxz</groupId>
             <artifactId>fxz-common-log</artifactId>
-            <version>0.0.1</version>
         </dependency>
         <!-- LB 扩展 -->
         <dependency>

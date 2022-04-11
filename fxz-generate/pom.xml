@@ -12,6 +12,11 @@
     <description>代码生成器</description>
 
     <dependencies>
+        <!-- LB 扩展 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.fxz</groupId>

@@ -17,13 +17,13 @@
         <aws.version>1.11.543</aws.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <fastjson.version>1.2.62</fastjson.version>
-        <hutool-all.version>5.7.16</hutool-all.version>
         <spring-boot-admin.version>2.6.3</spring-boot-admin.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <sentinel.version>1.6.3</sentinel.version>
         <logstash.version>5.3</logstash.version>
         <velocity.version>2.3</velocity.version>
         <p6spy.version>3.8.1</p6spy.version>
+        <hutool.version>5.7.21</hutool.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <security.oauth.version>2.1.8.RELEASE</security.oauth.version>
     </properties>
@@ -31,6 +31,23 @@
     <!-- 定义全局jar版本-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.fxz</groupId>
+                <artifactId>fxz-common-Idempotent</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fxz</groupId>
+                <artifactId>fxz-common-log</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
@@ -100,11 +117,6 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool-all.version}</version>
             </dependency>
             <dependency>
                 <groupId>de.codecentric</groupId>
