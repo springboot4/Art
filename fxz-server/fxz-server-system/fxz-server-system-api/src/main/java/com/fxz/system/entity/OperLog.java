@@ -31,7 +31,7 @@ public class OperLog extends BaseEntity {
 	private String title;
 
 	/**
-	 * 业务类型（0其它 1新增 2修改 3删除）
+	 * 业务类型
 	 */
 	private Integer businessType;
 

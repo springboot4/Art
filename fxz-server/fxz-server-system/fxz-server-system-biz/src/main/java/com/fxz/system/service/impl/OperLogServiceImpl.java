@@ -1,10 +1,12 @@
 package com.fxz.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fxz.common.log.enums.BusinessType;
 import com.fxz.system.dto.OperLogDto;
 import com.fxz.system.entity.OperLog;
 import com.fxz.system.mapper.OperLogMapper;
@@ -57,8 +59,15 @@ public class OperLogServiceImpl extends ServiceImpl<OperLogMapper, OperLog> impl
 	 */
 	@Override
 	public IPage<OperLog> pageOperLog(Page<OperLog> pageParam, OperLog operLog) {
-		return operLogMapper.selectPage(pageParam, Wrappers.<OperLog>lambdaQuery()
-				.like(StringUtils.isNotBlank(operLog.getTitle()), OperLog::getTitle, operLog.getTitle()));
+		QueryWrapper<OperLog> queryWrapper = Wrappers.query();
+		if (operLog.getBusinessType() == null) {
+			queryWrapper.ne("business_type", BusinessType.GRANT);
+		}
+		else {
+			queryWrapper.eq("business_type", operLog.getBusinessType());
+		}
+		queryWrapper.like(StringUtils.isNotBlank(operLog.getTitle()), "title", operLog.getTitle());
+		return operLogMapper.selectPage(pageParam, queryWrapper);
 	}
 
 	/**

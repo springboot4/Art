@@ -33,9 +33,9 @@ public enum BusinessType {
 	DELETE(3, "删除"),
 
 	/**
-	 * 授权
+	 * 登录
 	 */
-	GRANT(4, "授权"),
+	GRANT(4, "登录"),
 
 	/**
 	 * 导出
