@@ -80,6 +80,13 @@ public class BaseExceptionHandler {
 		return Result.failed("认证错误");
 	}
 
+	@ExceptionHandler(value = RuntimeException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public Result<Void> handleRuntimeException(Exception e) {
+		log.error("系统内部异常，异常信息", e);
+		return Result.failed(e.getMessage());
+	}
+
 	@ExceptionHandler(value = Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Result<Void> handleException(Exception e) {
