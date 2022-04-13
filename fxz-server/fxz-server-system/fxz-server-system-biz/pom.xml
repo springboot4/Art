@@ -13,7 +13,12 @@
     <dependencies>
         <dependency>
             <groupId>com.fxz</groupId>
-            <artifactId>fxz-common-Idempotent</artifactId>
+            <artifactId>fxz-common-data-permission</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-idempotent</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fxz</groupId>

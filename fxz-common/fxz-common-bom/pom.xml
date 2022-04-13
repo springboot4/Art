@@ -26,14 +26,21 @@
         <hutool.version>5.7.21</hutool.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <security.oauth.version>2.1.8.RELEASE</security.oauth.version>
+        <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
     </properties>
 
     <!-- 定义全局jar版本-->
     <dependencyManagement>
         <dependencies>
+            <!-- 解决 ThreadLocal 父子线程的传值问题 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.fxz</groupId>
-                <artifactId>fxz-common-Idempotent</artifactId>
+                <artifactId>fxz-common-idempotent</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -16,6 +16,8 @@ import com.fxz.system.service.IUserRoleService;
 import com.fxz.system.service.IUserService;
 import com.fxz.system.service.UserPostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -63,6 +65,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		}
 	}
 
+	@CacheEvict(value = "fxz_cloud:user", key = "#user.userId")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUser(SystemUser user) {
@@ -103,6 +106,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	/**
 	 * 根据用户id获取用户信息
 	 */
+	@Cacheable(value = "fxz_cloud:user", key = "#id+':userInfo'")
 	@Override
 	public SystemUser getUserById(Long id) {
 		return this.baseMapper.getUserById(id);
@@ -129,9 +133,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	/**
 	 * 通过用户名查找用户信息
 	 */
+	@Cacheable(value = "fxz_cloud:user", key = "#username+':userInfo'")
 	@Override
 	public SystemUser findByName(String username) {
-		return this.baseMapper.findByName(username);
+		SystemUser user = this.baseMapper.findByName(username);
+		return user;
 	}
 
 }
