@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fxz-common-Idempotent</artifactId>
+    <artifactId>fxz-common-idempotent</artifactId>
     <description>幂等性工具</description>
 
     <dependencies>

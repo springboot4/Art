@@ -24,9 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class DemoController {
 
-	/**
-	 * 获取部门树
-	 */
 	@Ojbk
 	@GetMapping("/ipTest")
 	public Result<Object> getDeptTree(HttpServletRequest request) {
@@ -41,6 +38,12 @@ public class DemoController {
 	@GetMapping("/idempotent")
 	public Result<Void> testIdempotent(String str) {
 		log.info("方法执行");
+		return Result.success();
+	}
+
+	@GetMapping("/authTest")
+	public Result<Void> authTest() {
+		log.info("authTest.....");
 		return Result.success();
 	}
 
