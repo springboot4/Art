@@ -1,11 +1,16 @@
 package com.fxz.system.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.fxz.common.core.param.PageParam;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
+import com.fxz.common.security.entity.FxzAuthUser;
+import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.SystemUser;
+import com.fxz.system.entity.UserInfo;
 import com.fxz.system.param.UserInfoParam;
 import com.fxz.system.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +69,20 @@ public class UserController {
 	@GetMapping("/findByName/{username}")
 	public SystemUser findByName(@PathVariable("username") String username) {
 		return this.userService.findByName(username);
+	}
+
+	/**
+	 * 获取当前用户全部信息
+	 */
+	@GetMapping("/info")
+	public Result<UserInfo> userInfo() {
+		FxzAuthUser user = SecurityUtil.getUser();
+		SystemUser systemUser = userService
+				.getOne(Wrappers.<SystemUser>lambdaQuery().eq(SystemUser::getUsername, user.getUsername()));
+		if (ObjectUtil.isNull(systemUser)) {
+			return Result.failed();
+		}
+		return Result.success(userService.findUserInfo(systemUser));
 	}
 
 }

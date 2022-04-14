@@ -5,6 +5,7 @@ import com.fxz.auth.properties.FxzAuthProperties;
 import com.fxz.auth.service.FxzUserDetailServiceImpl;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
+import com.fxz.common.security.component.FxzTokenEnhancer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,6 +49,8 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 	private final RedisTemplate redisTemplate;
 
+	private final FxzTokenEnhancer fxzTokenEnhancer;
+
 	private final AuthenticationManager authenticationManager;
 
 	private final RedisConnectionFactory redisConnectionFactory;
@@ -82,9 +85,10 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
 		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(tokenStore())
-				.userDetailsService(userDetailService).authenticationManager(authenticationManager)
-				.tokenServices(defaultTokenServices()).pathMapping("/oauth/confirm_access", "/token/confirm_access")
-				.tokenGranter(compositeTokenGranter).exceptionTranslator(fxzWebResponseExceptionTranslator);
+				.tokenEnhancer(fxzTokenEnhancer).userDetailsService(userDetailService)
+				.authenticationManager(authenticationManager).tokenServices(defaultTokenServices())
+				.pathMapping("/oauth/confirm_access", "/token/confirm_access").tokenGranter(compositeTokenGranter)
+				.exceptionTranslator(fxzWebResponseExceptionTranslator);
 	}
 
 	/**
@@ -119,6 +123,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		DefaultTokenServices tokenServices = new DefaultTokenServices();
 		tokenServices.setTokenStore(tokenStore());
 		tokenServices.setSupportRefreshToken(true);
+		tokenServices.setTokenEnhancer(fxzTokenEnhancer);
 		tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
 		tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds());
 		return tokenServices;

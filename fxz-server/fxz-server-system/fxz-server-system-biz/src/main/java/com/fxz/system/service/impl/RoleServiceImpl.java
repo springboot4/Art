@@ -17,6 +17,7 @@ import com.fxz.system.mapper.RoleMapper;
 import com.fxz.system.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	/**
 	 * 修改角色信息
 	 */
+	@CacheEvict(value = "fxz_cloud:role", key = "#role.roleId")
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Boolean editRole(Role role) {
@@ -101,6 +103,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	/**
 	 * 删除角色信息
 	 */
+	@CacheEvict(value = "fxz_cloud:role", key = "#id")
 	@Override
 	public Boolean deleteRoleById(Long id) {
 		// 删除角色菜单关联信息

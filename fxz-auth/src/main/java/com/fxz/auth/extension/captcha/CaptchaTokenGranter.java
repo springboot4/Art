@@ -7,6 +7,7 @@ import com.fxz.common.core.exception.FxzException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -35,7 +36,7 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
 
 	private final AuthenticationManager authenticationManager;
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
 
 	public CaptchaTokenGranter(AuthorizationServerTokenServices tokenServices,
 			ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory,
@@ -60,7 +61,9 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
 		log.info("validateCodeKey:{}", validateCodeKey);
 
 		// 从缓存取出正确的验证码和用户输入的验证码比对
-		String correctValidateCode = Convert.toStr(redisTemplate.opsForValue().get(validateCodeKey));
+		redisTemplate.setValueSerializer(RedisSerializer.json());
+		Object o = redisTemplate.opsForValue().get(validateCodeKey);
+		String correctValidateCode = Convert.toStr(o);
 		log.info("correctValidateCode", correctValidateCode);
 
 		if (!validateCode.equals(correctValidateCode)) {
