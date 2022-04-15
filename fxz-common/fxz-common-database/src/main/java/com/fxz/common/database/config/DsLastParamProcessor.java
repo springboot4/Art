@@ -1,4 +1,4 @@
-package com.common.database.config;
+package com.fxz.common.database.config;
 
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import org.aopalliance.intercept.MethodInvocation;

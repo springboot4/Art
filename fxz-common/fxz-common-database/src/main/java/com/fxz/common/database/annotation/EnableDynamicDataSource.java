@@ -1,7 +1,7 @@
 
-package com.common.database.annotation;
+package com.fxz.common.database.annotation;
 
-import com.common.database.DynamicDataSourceAutoConfiguration;
+import com.fxz.common.database.DynamicDataSourceAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

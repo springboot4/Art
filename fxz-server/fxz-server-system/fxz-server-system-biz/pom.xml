@@ -13,6 +13,10 @@
     <dependencies>
         <dependency>
             <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fxz</groupId>
             <artifactId>fxz-common-data-permission</artifactId>
             <version>0.0.1</version>
         </dependency>

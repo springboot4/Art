@@ -1,5 +1,5 @@
 
-package com.common.database.conatant;
+package com.fxz.common.database.conatant;
 
 /**
  * @author fxz

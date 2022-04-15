@@ -1,11 +1,20 @@
 package com.fxz.common.redis.config;
 
+import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.fxz.common.redis.service.RedisService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -30,7 +39,8 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.CollectionUtils;
 
-import java.time.Duration;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -46,7 +56,7 @@ import java.util.Set;
 @EnableCaching
 @Configuration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
-public class RedisConfig extends CachingConfigurerSupport {
+public class RedisCachingConfig extends CachingConfigurerSupport {
 
 	private final CachingProperties cachingProperties;
 
@@ -91,8 +101,11 @@ public class RedisConfig extends CachingConfigurerSupport {
 		Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(
 				Object.class);
 		ObjectMapper om = new ObjectMapper();
+
 		om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-		om.registerModule(new JavaTimeModule());
+
+		om.registerModule(createJavaTimeModule());
+
 		// ObjectMapper.DefaultTyping.NON_FINAL指定序列化输入的类型
 		om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL,
 				JsonTypeInfo.As.WRAPPER_ARRAY);
@@ -113,32 +126,30 @@ public class RedisConfig extends CachingConfigurerSupport {
 		return redisCacheConfiguration;
 	}
 
-	/**
-	 * 创建 RedisTemplate Bean，使用 JSON 序列化方式
-	 */
-	@Bean
-	@ConditionalOnClass(RedisOperations.class)
-	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
-		// 创建 RedisTemplate 对象
-		RedisTemplate<String, Object> template = new RedisTemplate<>();
-		// 设置 RedisConnection 工厂。
-		template.setConnectionFactory(factory);
+	private JavaTimeModule createJavaTimeModule() {
+		JavaTimeModule javaTimeModule = new JavaTimeModule();
 
-		// 使用 String 序列化方式，序列化 KEY 。
-		template.setKeySerializer(RedisSerializer.string());
-		template.setHashKeySerializer(RedisSerializer.string());
+		// yyyy-MM-dd HH:mm:ss
+		javaTimeModule.addSerializer(LocalDateTime.class,
+				new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER));
+		// yyyy-MM-dd
+		javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
+		// HH:mm:ss
+		javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_LOCAL_TIME));
+		// Instant 类型序列化
+		javaTimeModule.addSerializer(Instant.class, InstantSerializer.INSTANCE);
 
-		// 使用 JSON 序列化方式（库是 Jackson ），序列化 VALUE 。
-		template.setValueSerializer(RedisSerializer.json());
-		template.setHashValueSerializer(RedisSerializer.json());
+		// yyyy-MM-dd HH:mm:ss
+		javaTimeModule.addDeserializer(LocalDateTime.class,
+				new LocalDateTimeDeserializer(DatePattern.NORM_DATETIME_FORMATTER));
+		// yyyy-MM-dd
+		javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));
+		// HH:mm:ss
+		javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_LOCAL_TIME));
+		// Instant 反序列化
+		javaTimeModule.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
 
-		return template;
-	}
-
-	@Bean
-	@ConditionalOnBean(name = "redisTemplate")
-	public RedisService redisService() {
-		return new RedisService();
+		return javaTimeModule;
 	}
 
 }

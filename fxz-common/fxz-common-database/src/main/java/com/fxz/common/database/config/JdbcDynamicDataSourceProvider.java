@@ -1,9 +1,9 @@
 
-package com.common.database.config;
+package com.fxz.common.database.config;
 
 import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
-import com.common.database.conatant.DataSourceConstants;
+import com.fxz.common.database.conatant.DataSourceConstants;
 import org.jasypt.encryption.StringEncryptor;
 
 import java.sql.ResultSet;
