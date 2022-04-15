@@ -69,7 +69,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		}
 	}
 
-	@CacheEvict(value = "fxz_cloud:user", key = "#user.userId")
+	@CacheEvict(value = "fxz_cloud:user", key = "#user.userId+':userInfo'")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUser(SystemUser user) {

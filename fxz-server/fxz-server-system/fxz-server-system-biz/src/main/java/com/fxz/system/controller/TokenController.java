@@ -37,12 +37,11 @@ public class TokenController {
 	/**
 	 * 分页查询token
 	 * @param page 分页参数
-	 * @param username 用户名
 	 * @return
 	 */
 	@GetMapping("/token/page")
-	public Result<PageResult> tokenList(Page page, String username) {
-		return remoteTokenService.tokenList(page, username);
+	public Result<PageResult> tokenList(Page page) {
+		return remoteTokenService.tokenList(page);
 	}
 
 }
