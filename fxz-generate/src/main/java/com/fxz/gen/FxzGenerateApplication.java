@@ -1,6 +1,6 @@
 package com.fxz.gen;
 
-import com.common.database.annotation.EnableDynamicDataSource;
+import com.fxz.common.database.annotation.EnableDynamicDataSource;
 import com.fxz.common.security.annotation.EnableFxzCloudResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

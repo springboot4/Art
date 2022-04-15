@@ -1,5 +1,5 @@
 
-package com.common.database.config;
+package com.fxz.common.database.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

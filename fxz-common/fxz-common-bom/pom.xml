@@ -40,6 +40,11 @@
             </dependency>
             <dependency>
                 <groupId>com.fxz</groupId>
+                <artifactId>fxz-common-jackson</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fxz</groupId>
                 <artifactId>fxz-common-idempotent</artifactId>
                 <version>${project.version}</version>
             </dependency>

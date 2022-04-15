@@ -1,13 +1,13 @@
-package com.common.database;
+package com.fxz.common.database;
 
 import com.baomidou.dynamic.datasource.processor.DsHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
-import com.common.database.config.DataSourceProperties;
-import com.common.database.config.DsLastParamProcessor;
-import com.common.database.config.JdbcDynamicDataSourceProvider;
+import com.fxz.common.database.config.DataSourceProperties;
+import com.fxz.common.database.config.DsLastParamProcessor;
+import com.fxz.common.database.config.JdbcDynamicDataSourceProvider;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;

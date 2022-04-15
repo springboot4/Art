@@ -24,6 +24,7 @@
         <module>fxz-common-database</module>
         <module>fxz-common-idempotent</module>
         <module>fxz-common-data-permission</module>
+        <module>fxz-common-jackson</module>
     </modules>
 
 </project>
