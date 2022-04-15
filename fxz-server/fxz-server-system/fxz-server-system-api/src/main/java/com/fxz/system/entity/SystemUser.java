@@ -74,7 +74,7 @@ public class SystemUser extends BaseEntity implements Serializable {
 	/**
 	 * 用户名
 	 */
-	@Size(min = 4, max = 10, message = "{range}")
+	@Size(min = 3, max = 10, message = "{range}")
 	private String username;
 
 	/**

@@ -6,6 +6,7 @@ import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.core.exception.FxzAuthException;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
+import com.fxz.common.security.annotation.Ojbk;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -39,11 +40,6 @@ public class SecurityEndpoint {
 
 	private final RedisTemplate redisTemplate;
 
-	@GetMapping("/user/info")
-	public Principal currentUser(Principal principal) {
-		return principal;
-	}
-
 	@GetMapping("/user")
 	public Principal user(Principal principal) {
 		return principal;
@@ -52,6 +48,7 @@ public class SecurityEndpoint {
 	/**
 	 * 退出登录
 	 */
+	@Ojbk
 	@DeleteMapping("/myLogout")
 	public Result<Void> logout(HttpServletRequest request) {
 		// 获取请求头信息
@@ -80,13 +77,11 @@ public class SecurityEndpoint {
 	/**
 	 * 分页查询token
 	 * @param page 分页参数
-	 * @param username 用户名
 	 * @return
 	 */
 	@GetMapping("/token/page")
-	public Result<PageResult> tokenList(Page page, String username) {
-		Set<String> keys = redisTemplate.keys(SecurityConstants.TOKEN_PREFIX.concat("access:")
-				.concat(StringUtils.isNotBlank(username) ? username : "*"));
+	public Result<PageResult> tokenList(Page page) {
+		Set<String> keys = redisTemplate.keys(SecurityConstants.TOKEN_PREFIX.concat("access:").concat("*"));
 		redisTemplate.setValueSerializer(RedisSerializer.java());
 		List<DefaultOAuth2AccessToken> list = redisTemplate.opsForValue().multiGet(keys);
 		redisTemplate.setValueSerializer(RedisSerializer.java());

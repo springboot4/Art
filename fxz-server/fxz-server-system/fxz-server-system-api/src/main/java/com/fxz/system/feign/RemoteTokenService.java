@@ -28,6 +28,6 @@ public interface RemoteTokenService {
 	 * 分页查询token
 	 */
 	@GetMapping("/token/page")
-	public Result<PageResult> tokenList(@RequestParam("page") Page page, @RequestParam("username") String username);
+	public Result<PageResult> tokenList(@RequestParam("page") Page page);
 
 }
