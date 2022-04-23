@@ -4,6 +4,7 @@ import com.fxz.common.core.entity.DeptDataPermissionRespDTO;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.core.param.PageParam;
 import com.fxz.common.mp.result.Result;
+import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.Role;
@@ -78,6 +79,7 @@ public class RoleController {
 	/**
 	 * 获取当前用户角色下的数据权限
 	 */
+	@Ojbk
 	@GetMapping("/getDataPermission")
 	public Result<DeptDataPermissionRespDTO> getDataPermission() {
 		FxzAuthUser user = SecurityUtil.getUser();

@@ -12,6 +12,7 @@
     <artifactId>fxz-common-redis</artifactId>
 
     <dependencies>
+
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,9 +36,16 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
         </dependency>
+
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
     </dependencies>
 </project>
