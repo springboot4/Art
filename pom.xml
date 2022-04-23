@@ -14,12 +14,10 @@
         <module>fxz-auth</module>
         <module>fxz-gateway</module>
         <module>fxz-server</module>
-        <module>fxz-monitor</module>
         <module>fxz-tx-manager</module>
         <module>fxz-generate</module>
         <module>fxz-Job</module>
     </modules>
-
 
     <properties>
         <spring-boot.version>2.6.6</spring-boot.version>
