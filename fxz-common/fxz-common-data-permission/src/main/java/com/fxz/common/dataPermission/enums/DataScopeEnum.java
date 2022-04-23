@@ -28,6 +28,7 @@ public enum DataScopeEnum {
 	 * 部门数据权限
 	 */
 	DEPT_ONLY(3),
+
 	/**
 	 * 部门及以下数据权限
 	 */
