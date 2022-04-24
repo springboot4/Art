@@ -1,10 +1,8 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 124.222.103.118
  Source Server Type    : MySQL
  Source Server Version : 80028
- Source Host           : 124.222.103.118:3306
  Source Schema         : fxz_cloud_base
 
  Target Server Type    : MySQL
