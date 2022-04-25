@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fxz.common.core.annotation.IsMobile;
+import com.fxz.common.core.enums.SensitiveType;
+import com.fxz.common.core.sensitive.SensitiveInfo;
 import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -90,12 +92,14 @@ public class SystemUser extends BaseEntity implements Serializable {
 	/**
 	 * 邮箱
 	 */
+	@SensitiveInfo(SensitiveType.EMAIL)
 	@Email(message = "{email}")
 	private String email;
 
 	/**
 	 * 联系电话
 	 */
+	@SensitiveInfo(SensitiveType.MOBILE_PHONE)
 	@IsMobile(message = "{mobile}")
 	private String mobile;
 
