@@ -3,6 +3,8 @@ package com.fxz.system.controller;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.fxz.common.Idempotent.annotation.Idempotent;
 import com.fxz.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolver;
+import com.fxz.common.core.exception.ErrorCodes;
+import com.fxz.common.core.utils.MsgUtils;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.annotation.Ojbk;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/demo")
 @RequiredArgsConstructor
 public class DemoController {
+
+	@Ojbk
+	@GetMapping("/messageTest")
+	public Result<String> messageTest() {
+		return Result.failed(MsgUtils.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
+	}
 
 	@Ojbk
 	@GetMapping("/ipTest")
