@@ -55,6 +55,7 @@ public class SecurityEndpoint {
 		String authorization = request.getHeader("Authorization");
 		// 提取token
 		String token = StringUtils.replace(authorization, FxzConstant.OAUTH2_TOKEN_TYPE, "");
+		token = StringUtils.replace(token, FxzConstant.OAUTH2_TOKEN_TYPE_LOW, "");
 		log.info("退出登录,token:{}", token);
 
 		return removeToken(token);
