@@ -71,4 +71,6 @@ public class FxzConstant {
 
 	public static final String OAUTH2_TOKEN_TYPE_LOW = "bearer";
 
+	public static final Integer STATUS_YES = 1;
+
 }
