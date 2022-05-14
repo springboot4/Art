@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.util.Base64Utils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.DispatcherServlet;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 /**
  * @author Fxz
@@ -88,11 +96,34 @@ public class FxzCloudSecurityAutoConfigure {
 		return requestTemplate -> {
 			String gatewayToken = new String(Base64Utils.encode(FxzConstant.GATEWAY_TOKEN_VALUE.getBytes()));
 			requestTemplate.header(FxzConstant.GATEWAY_TOKEN_HEADER, gatewayToken);
-			String authorizationToken = SecurityUtil.getCurrentTokenValue();
-			if (StringUtils.isNotBlank(authorizationToken)) {
-				requestTemplate.header(HttpHeaders.AUTHORIZATION, FxzConstant.OAUTH2_TOKEN_TYPE + authorizationToken);
+
+			RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+			if (requestAttributes != null) {
+				ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+				HttpServletRequest request = attributes.getRequest();
+				// 获取请求头
+				Enumeration<String> headerNames = request.getHeaderNames();
+				if (headerNames != null) {
+					while (headerNames.hasMoreElements()) {
+						String name = headerNames.nextElement();
+						String values = request.getHeader(name);
+						// 将请求头保存到模板中
+						requestTemplate.header(name, values);
+					}
+				}
 			}
 		};
+	}
+
+	/**
+	 * DispatcherServlet向子线程传递RequestContext,解决子线程丢失请求头的问题
+	 * @param servlet servlet
+	 * @return 注册bean
+	 */
+	@Bean
+	public ServletRegistrationBean<DispatcherServlet> dispatcherRegistration(DispatcherServlet servlet) {
+		servlet.setThreadContextInheritable(true);
+		return new ServletRegistrationBean<>(servlet, "/**");
 	}
 
 }

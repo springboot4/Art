@@ -13,6 +13,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-core</artifactId>
+        </dependency>
+
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
