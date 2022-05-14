@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fxz.common.core.annotation.IsMobile;
+import com.fxz.common.core.annotation.CheckMobileValid;
 import com.fxz.common.core.enums.SensitiveType;
 import com.fxz.common.core.sensitive.SensitiveInfo;
 import com.fxz.common.mp.base.BaseEntity;
@@ -100,7 +100,7 @@ public class SystemUser extends BaseEntity implements Serializable {
 	 * 联系电话
 	 */
 	@SensitiveInfo(SensitiveType.MOBILE_PHONE)
-	@IsMobile(message = "{mobile}")
+	@CheckMobileValid(message = "{mobile}")
 	private String mobile;
 
 	/**
