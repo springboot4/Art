@@ -32,6 +32,21 @@ public interface SecurityConstants {
 	String OAUTH_PREFIX = "oauth:";
 
 	/**
+	 * 系统管理 web 客户端ID
+	 */
+	String ADMIN_CLIENT_ID = "fxz";
+
+	/**
+	 * 移动端（H5/Android/IOS）客户端ID
+	 */
+	String APP_CLIENT_ID = "mall-app";
+
+	/**
+	 * 小程序端（微信小程序、....） 客户端ID
+	 */
+	String WEAPP_CLIENT_ID = "mall-weapp";
+
+	/**
 	 * 授权码模式code key 前缀
 	 */
 	String OAUTH_CODE_PREFIX = "oauth:code:";
@@ -120,6 +135,21 @@ public interface SecurityConstants {
 	 * AES 加密
 	 */
 	String AES = "aes";
+
+	/**
+	 * 认证请求头key
+	 */
+	String AUTHORIZATION_KEY = "Authorization";
+
+	/**
+	 * Basic认证前缀
+	 */
+	String BASIC_PREFIX = "Basic ";
+
+	/**
+	 * Basic认证前缀
+	 */
+	String BASIC_PREFIX_LOW = "basic ";
 
 	/**
 	 * sys_oauth_client_details 表的字段，不包括client_id、client_secret

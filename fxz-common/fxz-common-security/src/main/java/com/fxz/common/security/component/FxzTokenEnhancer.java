@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * token增强
+ * token增强，为令牌设置附加字段
  *
  * @author fxz
  */
