@@ -1,9 +1,12 @@
 package com.fxz.auth.configure;
 
+import com.fxz.auth.service.FxzMemberUserDetailsServiceImpl;
+import com.fxz.auth.service.FxzUserDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
+
+	private final FxzUserDetailServiceImpl fxzUserDetailService;
 
 	/**
 	 * 必须注入 AuthenticationManager，不然oauth 无法处理四种授权方式
@@ -45,6 +50,20 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) {
 		web.ignoring().antMatchers("/*.html", "/css/**", "/img/**", "/js/**", "/*.ico", "/resource/**");
+	}
+
+	/**
+	 * 用户名密码认证授权提供者
+	 * @return 用户名密码认证授权提供者
+	 */
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(fxzUserDetailService);
+		provider.setPasswordEncoder(passwordEncoder());
+		// 是否隐藏用户不存在异常，默认:true-隐藏；false-抛出异常；
+		provider.setHideUserNotFoundExceptions(false);
+		return provider;
 	}
 
 	@Bean

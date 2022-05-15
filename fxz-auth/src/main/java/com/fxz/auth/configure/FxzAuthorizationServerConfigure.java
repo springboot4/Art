@@ -2,7 +2,9 @@ package com.fxz.auth.configure;
 
 import com.fxz.auth.extension.captcha.CaptchaTokenGranter;
 import com.fxz.auth.properties.FxzAuthProperties;
+import com.fxz.auth.service.FxzMemberUserDetailsServiceImpl;
 import com.fxz.auth.service.FxzUserDetailServiceImpl;
+import com.fxz.auth.service.PreAuthenticatedUserDetailsService;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.security.component.FxzTokenEnhancer;
@@ -14,6 +16,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -28,11 +32,10 @@ import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticat
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Fxz
@@ -55,7 +58,9 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 	private final RedisConnectionFactory redisConnectionFactory;
 
-	private final FxzUserDetailServiceImpl userDetailService;
+	private final FxzUserDetailServiceImpl fxzUserDetailService;
+
+	private final FxzMemberUserDetailsServiceImpl fxzMemberUserDetailsService;
 
 	private final FxzAuthProperties authProperties;
 
@@ -85,10 +90,9 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
 		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(tokenStore())
-				.tokenEnhancer(fxzTokenEnhancer).userDetailsService(userDetailService)
-				.authenticationManager(authenticationManager).tokenServices(defaultTokenServices())
-				.pathMapping("/oauth/confirm_access", "/token/confirm_access").tokenGranter(compositeTokenGranter)
-				.exceptionTranslator(fxzWebResponseExceptionTranslator);
+				.tokenEnhancer(fxzTokenEnhancer).authenticationManager(authenticationManager)
+				.tokenServices(defaultTokenServices()).pathMapping("/oauth/confirm_access", "/token/confirm_access")
+				.tokenGranter(compositeTokenGranter).exceptionTranslator(fxzWebResponseExceptionTranslator);
 	}
 
 	/**
@@ -113,19 +117,47 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 	@Bean
 	public UserAuthenticationConverter userAuthenticationConverter() {
 		DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
-		defaultUserAuthenticationConverter.setUserDetailsService(userDetailService);
+		defaultUserAuthenticationConverter.setUserDetailsService(fxzUserDetailService);
 		return defaultUserAuthenticationConverter;
 	}
 
 	@Primary
 	@Bean
 	public DefaultTokenServices defaultTokenServices() {
+		// 为DefaultTokenServices设置七大参数
 		DefaultTokenServices tokenServices = new DefaultTokenServices();
+
+		// token采用redis存储
 		tokenServices.setTokenStore(tokenStore());
+		// refresh_token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
+		// 1 重复使用：access_token过期刷新时， refresh_token过期时间未改变，仍以初次生成的 时间为准
+		// 2 非重复使用：access_token过期刷新时，
+		// refresh_token过期时间延续，在refresh_token有效期内刷新便永不失效达到无需再次登录的目的
 		tokenServices.setSupportRefreshToken(true);
+		// token增强，添加了字段
 		tokenServices.setTokenEnhancer(fxzTokenEnhancer);
+		// token令牌有效时间
 		tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
+		// 刷新token有效时间
 		tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds());
+		// 设置ClientDetailsService
+		tokenServices.setClientDetailsService(fxzClientDetailsService());
+
+		// 多用户体系下，认证客户端ID和 UserDetailService 的映射Map
+		Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
+		// 系统管理客户端使用fxzUserDetailService加载用户信息
+		clientUserDetailsServiceMap.put(SecurityConstants.ADMIN_CLIENT_ID, fxzUserDetailService);
+		// todo Android、IOS、H5 移动客户端使用fxzMemberUserDetailsService加载用户信息
+		clientUserDetailsServiceMap.put(SecurityConstants.APP_CLIENT_ID, fxzUserDetailService);
+		// todo 微信小程序客户端使用fxzMemberUserDetailsService加载用户信息
+		clientUserDetailsServiceMap.put(SecurityConstants.WEAPP_CLIENT_ID, fxzMemberUserDetailsService);
+
+		// 重写预认证提供者替换其AuthenticationManager，可自定义根据客户端ID和认证方式区分用户体系获取认证用户信息
+		PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+		provider.setPreAuthenticatedUserDetailsService(
+				new PreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
+		tokenServices.setAuthenticationManager(new ProviderManager(Collections.singletonList(provider)));
+
 		return tokenServices;
 	}
 
