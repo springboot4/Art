@@ -1,6 +1,7 @@
 package com.fxz.system.entity;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * @author fxz
  */
+@Accessors(chain = true)
 @Data
 public class UserInfo implements Serializable {
 
