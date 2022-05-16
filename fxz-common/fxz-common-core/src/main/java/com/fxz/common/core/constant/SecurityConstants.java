@@ -7,6 +7,16 @@ package com.fxz.common.core.constant;
 public interface SecurityConstants {
 
 	/**
+	 * 内部
+	 */
+	String FROM_IN = "Y";
+
+	/**
+	 * 标志
+	 */
+	String FROM = "from";
+
+	/**
 	 * 刷新token
 	 */
 	String REFRESH_TOKEN = "refresh_token";
