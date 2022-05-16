@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.fxz.common.security.config.FxzCloudSecurityAutoConfigure,\
   com.fxz.common.security.listener.AuthenticationEventListener,\
-  com.fxz.common.security.component.FxzTokenEnhancer
+  com.fxz.common.security.component.FxzTokenEnhancer,\
+  com.fxz.common.security.component.SecurityInnerAspect
