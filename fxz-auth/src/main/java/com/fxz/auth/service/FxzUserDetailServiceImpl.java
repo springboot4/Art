@@ -64,6 +64,7 @@ public class FxzUserDetailServiceImpl implements UserDetailsService {
 						true, true, AuthorityUtils.commaSeparatedStringToAuthorityList(null));
 
 				BeanUtils.copyProperties(systemUser, authUser);
+				authUser.setUserId(systemUser.getId());
 
 				return authUser;
 			}

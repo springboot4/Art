@@ -37,7 +37,7 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
 	 */
 	private void declareRabbitModule() {
 		List<RabbitModuleInfo> rabbitModuleInfos = rabbitModuleProperties.getModules();
-		if (rabbitModuleInfos != null && rabbitModuleInfos.size() > 0) {
+		if (rabbitModuleInfos == null && rabbitModuleInfos.size() <= 0) {
 			return;
 		}
 		for (RabbitModuleInfo rabbitModuleInfo : rabbitModuleInfos) {
