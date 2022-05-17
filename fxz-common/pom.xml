@@ -25,6 +25,7 @@
         <module>fxz-common-idempotent</module>
         <module>fxz-common-data-permission</module>
         <module>fxz-common-jackson</module>
+        <module>fxz-common-seata</module>
     </modules>
 
 </project>
