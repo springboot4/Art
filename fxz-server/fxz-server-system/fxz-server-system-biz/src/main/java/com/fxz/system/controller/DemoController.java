@@ -7,6 +7,8 @@ import com.fxz.common.core.exception.ErrorCodes;
 import com.fxz.common.core.utils.MsgUtils;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.annotation.Ojbk;
+import com.fxz.common.security.entity.FxzAuthUser;
+import com.fxz.common.security.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Fxz
@@ -26,33 +30,50 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class DemoController {
 
-	@Ojbk
-	@GetMapping("/messageTest")
-	public Result<String> messageTest() {
-		return Result.failed(MsgUtils.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
-	}
+    @GetMapping("/security/inheritable")
+    public Result<FxzAuthUser> securityInheritable() {
+        AtomicReference<FxzAuthUser> user = new AtomicReference<>();
 
-	@Ojbk
-	@GetMapping("/ipTest")
-	public Result<Object> getDeptTree(HttpServletRequest request) {
-		String ip = ServletUtil.getClientIP(request);
-		log.info("ip:{}", ip);
-		return Result.success(ip);
-	}
+        user.set(SecurityUtil.getUser());
+        log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
 
-	@Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class,
-			keyArg = "#str")
-	@Ojbk
-	@GetMapping("/idempotent")
-	public Result<Void> testIdempotent(String str) {
-		log.info("方法执行");
-		return Result.success();
-	}
+        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.runAsync(() -> {
+            user.set(SecurityUtil.getUser());
+            log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
+        });
 
-	@GetMapping("/authTest")
-	public Result<Void> authTest() {
-		log.info("authTest.....");
-		return Result.success();
-	}
+        voidCompletableFuture.join();
+
+        return Result.success(user.get());
+    }
+
+    @Ojbk
+    @GetMapping("/messageTest")
+    public Result<String> messageTest() {
+        return Result.failed(MsgUtils.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
+    }
+
+    @Ojbk
+    @GetMapping("/ipTest")
+    public Result<Object> getDeptTree(HttpServletRequest request) {
+        String ip = ServletUtil.getClientIP(request);
+        log.info("ip:{}", ip);
+        return Result.success(ip);
+    }
+
+    @Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class,
+            keyArg = "#str")
+    @Ojbk
+    @GetMapping("/idempotent")
+    public Result<Void> testIdempotent(String str) {
+        log.info("方法执行");
+        return Result.success();
+    }
+
+    @GetMapping("/authTest")
+    public Result<Void> authTest() {
+        log.info("authTest.....");
+        return Result.success();
+    }
 
 }

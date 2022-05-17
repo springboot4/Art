@@ -29,7 +29,7 @@ public class BusinessNoGenerator {
 	 * @return 业务序号
 	 */
 	public String generate(BusinessTypeEnum businessType, Integer digit) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 		String date = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
 
 		String key = RedisConstant.BUSINESS_PREFIX + businessType.getValue() + ":" + date;
