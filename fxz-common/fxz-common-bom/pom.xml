@@ -24,6 +24,7 @@
         <velocity.version>2.3</velocity.version>
         <p6spy.version>3.8.1</p6spy.version>
         <hutool.version>5.7.21</hutool.version>
+        <seata.version>1.4.2</seata.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <security.oauth.version>2.1.8.RELEASE</security.oauth.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
@@ -37,6 +38,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable-thread-local.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fxz</groupId>
+                <artifactId>fxz-common-seata</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fxz</groupId>
@@ -149,6 +155,11 @@
                 <groupId>com.github.penggle</groupId>
                 <artifactId>kaptcha</artifactId>
                 <version>${kaptcha.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-serializer-kryo</artifactId>
+                <version>${seata.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.csp</groupId>
