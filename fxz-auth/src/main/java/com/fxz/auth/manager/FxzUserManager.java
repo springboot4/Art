@@ -18,7 +18,7 @@ import java.util.Set;
  */
 @Service
 @RequiredArgsConstructor
-public class UserManager {
+public class FxzUserManager {
 
 	private final RemoteUserService userService;
 

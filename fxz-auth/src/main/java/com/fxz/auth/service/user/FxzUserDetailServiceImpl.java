@@ -1,7 +1,8 @@
-package com.fxz.auth.service;
+package com.fxz.auth.service.user;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.fxz.auth.manager.UserManager;
+import com.fxz.auth.manager.FxzUserManager;
+import com.fxz.auth.service.FxzUserDetailsService;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
@@ -11,10 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +23,11 @@ import org.springframework.stereotype.Service;
  * @date 2021-11-27 16:18
  */
 @Slf4j
-@Primary
 @Service("fxzUserDetailServiceImpl")
 @RequiredArgsConstructor
-public class FxzUserDetailServiceImpl implements UserDetailsService {
+public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 
-	private final UserManager userManager;
+	private final FxzUserManager fxzUserManager;
 
 	/**
 	 * 通过用户名从数据库中获取用户信息SystemUser和用户权限集合
@@ -41,9 +39,9 @@ public class FxzUserDetailServiceImpl implements UserDetailsService {
 		log.info("clientId:{}", clientId);
 		if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
 			log.info("系统端接口");
-			SystemUser systemUser = userManager.findByName(username);
+			SystemUser systemUser = fxzUserManager.findByName(username);
 			if (ObjectUtil.isNotEmpty(systemUser)) {
-				String permissions = userManager.findUserPermissions(systemUser.getUsername());
+				String permissions = fxzUserManager.findUserPermissions(systemUser.getUsername());
 				boolean notLocked = false;
 				if (StringUtils.equals(SystemUser.STATUS_VALID, systemUser.getStatus()))
 					notLocked = true;
@@ -58,7 +56,7 @@ public class FxzUserDetailServiceImpl implements UserDetailsService {
 		else {
 			// todo
 			log.info("会员接口");
-			Member systemUser = userManager.loadUser(username);
+			Member systemUser = fxzUserManager.loadUser(username);
 			if (ObjectUtil.isNotEmpty(systemUser)) {
 				FxzAuthUser authUser = new FxzAuthUser(systemUser.getNickName(), systemUser.getPassword(), true, true,
 						true, true, AuthorityUtils.commaSeparatedStringToAuthorityList(null));
