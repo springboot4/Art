@@ -1,10 +1,11 @@
 package com.fxz.auth.configure;
 
-import com.fxz.auth.extension.captcha.CaptchaTokenGranter;
+import com.fxz.auth.extension.captcha.FxzCaptchaTokenGranter;
+import com.fxz.auth.extension.mobile.FxzSmsCodeTokenGranter;
 import com.fxz.auth.properties.FxzAuthProperties;
-import com.fxz.auth.service.FxzMemberUserDetailsServiceImpl;
-import com.fxz.auth.service.FxzUserDetailServiceImpl;
-import com.fxz.auth.service.PreAuthenticatedUserDetailsService;
+import com.fxz.auth.service.FxzPreAuthenticatedUserDetailsService;
+import com.fxz.auth.service.member.FxzMemberUserDetailsServiceImpl;
+import com.fxz.auth.service.user.FxzUserDetailServiceImpl;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.security.component.FxzTokenEnhancer;
@@ -80,12 +81,17 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 	@Override
 	@SuppressWarnings("all")
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		// 获取原有默认的授权者(授权码模式、密码模式、客户端模式、简化模式)
+
+		// 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
 		List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
 
 		// 添加验证码授权模式授权者
-		granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+		granterList.add(new FxzCaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
 				endpoints.getOAuth2RequestFactory(), authenticationManager, redisTemplate));
+
+		// 添加手机短信验证码授权模式的授权者
+		granterList.add(new FxzSmsCodeTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+				endpoints.getOAuth2RequestFactory(), authenticationManager));
 
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
@@ -148,14 +154,14 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		// 系统管理客户端使用fxzUserDetailService加载用户信息
 		clientUserDetailsServiceMap.put(SecurityConstants.ADMIN_CLIENT_ID, fxzUserDetailService);
 		// todo Android、IOS、H5 移动客户端使用fxzMemberUserDetailsService加载用户信息
-		clientUserDetailsServiceMap.put(SecurityConstants.APP_CLIENT_ID, fxzUserDetailService);
+		clientUserDetailsServiceMap.put(SecurityConstants.APP_CLIENT_ID, fxzMemberUserDetailsService);
 		// todo 微信小程序客户端使用fxzMemberUserDetailsService加载用户信息
 		clientUserDetailsServiceMap.put(SecurityConstants.WEAPP_CLIENT_ID, fxzMemberUserDetailsService);
 
 		// 重写预认证提供者替换其AuthenticationManager，可自定义根据客户端ID和认证方式区分用户体系获取认证用户信息
 		PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
 		provider.setPreAuthenticatedUserDetailsService(
-				new PreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
+				new FxzPreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
 		tokenServices.setAuthenticationManager(new ProviderManager(Collections.singletonList(provider)));
 
 		return tokenServices;

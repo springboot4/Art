@@ -30,7 +30,7 @@ import java.util.Map;
  * TokenRequest)
  */
 @Slf4j
-public class CaptchaTokenGranter extends AbstractTokenGranter {
+public class FxzCaptchaTokenGranter extends AbstractTokenGranter {
 
 	private static final String GRANT_TYPE = "captcha";
 
@@ -38,7 +38,7 @@ public class CaptchaTokenGranter extends AbstractTokenGranter {
 
 	private final RedisTemplate<String, Object> redisTemplate;
 
-	public CaptchaTokenGranter(AuthorizationServerTokenServices tokenServices,
+	public FxzCaptchaTokenGranter(AuthorizationServerTokenServices tokenServices,
 			ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory,
 			AuthenticationManager authenticationManager, RedisTemplate redisService) {
 		super(tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);

@@ -1,9 +1,6 @@
 package com.fxz.auth;
 
 import com.fxz.common.security.annotation.EnableFxzCloudResourceServer;
-import com.fxz.mall.user.feign.RemoteMemberService;
-import com.fxz.system.feign.RemoteMenuService;
-import com.fxz.system.feign.RemoteUserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;

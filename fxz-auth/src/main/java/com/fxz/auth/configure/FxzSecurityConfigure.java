@@ -1,12 +1,15 @@
 package com.fxz.auth.configure;
 
-import com.fxz.auth.service.FxzMemberUserDetailsServiceImpl;
-import com.fxz.auth.service.FxzUserDetailServiceImpl;
+import com.fxz.auth.extension.mobile.FxzSmsCodeAuthenticationProvider;
+import com.fxz.auth.service.member.FxzMemberUserDetailsServiceImpl;
+import com.fxz.auth.service.user.FxzUserDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,7 +28,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
+	private final StringRedisTemplate redisTemplate;
+
 	private final FxzUserDetailServiceImpl fxzUserDetailService;
+
+	private final FxzMemberUserDetailsServiceImpl fxzMemberUserDetailsService;
 
 	/**
 	 * 必须注入 AuthenticationManager，不然oauth 无法处理四种授权方式
@@ -52,6 +59,12 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/*.html", "/css/**", "/img/**", "/js/**", "/*.ico", "/resource/**");
 	}
 
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) {
+		auth.authenticationProvider(daoAuthenticationProvider())
+				.authenticationProvider(smsCodeAuthenticationProvider());
+	}
+
 	/**
 	 * 用户名密码认证授权提供者
 	 * @return 用户名密码认证授权提供者
@@ -63,6 +76,18 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 		provider.setPasswordEncoder(passwordEncoder());
 		// 是否隐藏用户不存在异常，默认:true-隐藏；false-抛出异常；
 		provider.setHideUserNotFoundExceptions(false);
+		return provider;
+	}
+
+	/**
+	 * 手机验证码认证授权提供者
+	 * @return 手机验证码认证授权提供者
+	 */
+	@Bean
+	public FxzSmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
+		FxzSmsCodeAuthenticationProvider provider = new FxzSmsCodeAuthenticationProvider();
+		provider.setUserDetailsService(fxzMemberUserDetailsService);
+		provider.setRedisTemplate(redisTemplate);
 		return provider;
 	}
 
