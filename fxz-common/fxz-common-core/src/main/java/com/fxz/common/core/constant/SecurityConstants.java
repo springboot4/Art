@@ -17,6 +17,11 @@ public interface SecurityConstants {
 	String FROM = "from";
 
 	/**
+	 * 短信验证码key前缀
+	 */
+	String SMS_CODE_PREFIX = "SMS_CODE:";
+
+	/**
 	 * 刷新token
 	 */
 	String REFRESH_TOKEN = "refresh_token";
