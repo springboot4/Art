@@ -30,50 +30,50 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class DemoController {
 
-    @GetMapping("/security/inheritable")
-    public Result<FxzAuthUser> securityInheritable() {
-        AtomicReference<FxzAuthUser> user = new AtomicReference<>();
+	@GetMapping("/security/inheritable")
+	public Result<FxzAuthUser> securityInheritable() {
+		AtomicReference<FxzAuthUser> user = new AtomicReference<>();
 
-        user.set(SecurityUtil.getUser());
-        log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
+		user.set(SecurityUtil.getUser());
+		log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
 
-        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.runAsync(() -> {
-            user.set(SecurityUtil.getUser());
-            log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
-        });
+		CompletableFuture<Void> voidCompletableFuture = CompletableFuture.runAsync(() -> {
+			user.set(SecurityUtil.getUser());
+			log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
+		});
 
-        voidCompletableFuture.join();
+		voidCompletableFuture.join();
 
-        return Result.success(user.get());
-    }
+		return Result.success(user.get());
+	}
 
-    @Ojbk
-    @GetMapping("/messageTest")
-    public Result<String> messageTest() {
-        return Result.failed(MsgUtils.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
-    }
+	@Ojbk
+	@GetMapping("/messageTest")
+	public Result<String> messageTest() {
+		return Result.failed(MsgUtils.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
+	}
 
-    @Ojbk
-    @GetMapping("/ipTest")
-    public Result<Object> getDeptTree(HttpServletRequest request) {
-        String ip = ServletUtil.getClientIP(request);
-        log.info("ip:{}", ip);
-        return Result.success(ip);
-    }
+	@Ojbk
+	@GetMapping("/ipTest")
+	public Result<Object> getDeptTree(HttpServletRequest request) {
+		String ip = ServletUtil.getClientIP(request);
+		log.info("ip:{}", ip);
+		return Result.success(ip);
+	}
 
-    @Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class,
-            keyArg = "#str")
-    @Ojbk
-    @GetMapping("/idempotent")
-    public Result<Void> testIdempotent(String str) {
-        log.info("方法执行");
-        return Result.success();
-    }
+	@Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class,
+			keyArg = "#str")
+	@Ojbk
+	@GetMapping("/idempotent")
+	public Result<Void> testIdempotent(String str) {
+		log.info("方法执行");
+		return Result.success();
+	}
 
-    @GetMapping("/authTest")
-    public Result<Void> authTest() {
-        log.info("authTest.....");
-        return Result.success();
-    }
+	@GetMapping("/authTest")
+	public Result<Void> authTest() {
+		log.info("authTest.....");
+		return Result.success();
+	}
 
 }

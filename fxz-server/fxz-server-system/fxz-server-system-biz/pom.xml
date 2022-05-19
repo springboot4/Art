@@ -30,6 +30,11 @@
 
         <dependency>
             <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-sms</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fxz</groupId>
             <artifactId>fxz-common-jackson</artifactId>
         </dependency>
 
