@@ -1,8 +1,8 @@
 package com.fxz.common.core.config;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
  * @version 1.0
  * @date 2022/5/13 23:10
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 public class MessageConfig {
 
 	/**

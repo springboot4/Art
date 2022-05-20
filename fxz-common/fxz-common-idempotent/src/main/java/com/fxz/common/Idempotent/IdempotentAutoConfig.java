@@ -4,8 +4,8 @@ import com.fxz.common.Idempotent.aspect.IdempotentAspect;
 import com.fxz.common.Idempotent.keyresolver.impl.DefaultIdempotentKeyResolver;
 import com.fxz.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolver;
 import com.fxz.common.Idempotent.redis.IdempotentRedisDAO;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
@@ -14,7 +14,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @date 2022-04-11 22:12
  */
 @SuppressWarnings("all")
-@Configuration
+@AutoConfiguration
 public class IdempotentAutoConfig {
 
 	@Bean

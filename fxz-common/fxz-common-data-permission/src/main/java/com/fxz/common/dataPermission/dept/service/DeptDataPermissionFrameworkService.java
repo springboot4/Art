@@ -5,7 +5,7 @@ import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.system.feign.RemoteRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 /**
  * 基于部门的数据权限 Framework Service
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @author fxz
  */
 @Slf4j
-@Service
+@AutoConfiguration
 @RequiredArgsConstructor
 public class DeptDataPermissionFrameworkService {
 

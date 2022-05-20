@@ -2,7 +2,7 @@ package com.fxz.common.seata.config;
 
 import com.fxz.common.core.factory.YamlPropertySourceFactory;
 import io.seata.spring.annotation.datasource.EnableAutoDataSourceProxy;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.PropertySource;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 @PropertySource(value = "classpath:seata-config.yml", factory = YamlPropertySourceFactory.class)
 @EnableAutoDataSourceProxy
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 public class SeataAutoConfiguration {
 
 }

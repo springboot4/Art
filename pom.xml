@@ -19,7 +19,7 @@
     </modules>
 
     <properties>
-        <spring-boot.version>2.6.7</spring-boot.version>
+        <spring-boot.version>2.7.0</spring-boot.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
         <com-alibaba-cloud.version>2021.0.1.0</com-alibaba-cloud.version>
         <maven.compiler.source>8</maven.compiler.source>

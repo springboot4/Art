@@ -8,7 +8,7 @@ import com.fxz.auth.service.member.FxzMemberUserDetailsServiceImpl;
 import com.fxz.auth.service.user.FxzUserDetailServiceImpl;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
-import com.fxz.common.security.component.FxzTokenEnhancer;
+import com.fxz.common.security.entity.FxzAuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +19,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -28,10 +29,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
+import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
@@ -52,8 +50,6 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 	private final DataSource dataSource;
 
 	private final RedisTemplate redisTemplate;
-
-	private final FxzTokenEnhancer fxzTokenEnhancer;
 
 	private final AuthenticationManager authenticationManager;
 
@@ -96,7 +92,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
 		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(tokenStore())
-				.tokenEnhancer(fxzTokenEnhancer).authenticationManager(authenticationManager)
+				.tokenEnhancer(tokenEnhancer()).authenticationManager(authenticationManager)
 				.tokenServices(defaultTokenServices()).pathMapping("/oauth/confirm_access", "/token/confirm_access")
 				.tokenGranter(compositeTokenGranter).exceptionTranslator(fxzWebResponseExceptionTranslator);
 	}
@@ -141,7 +137,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		// refresh_token过期时间延续，在refresh_token有效期内刷新便永不失效达到无需再次登录的目的
 		tokenServices.setSupportRefreshToken(true);
 		// token增强，添加了字段
-		tokenServices.setTokenEnhancer(fxzTokenEnhancer);
+		tokenServices.setTokenEnhancer(tokenEnhancer());
 		// token令牌有效时间
 		tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
 		// 刷新token有效时间
@@ -165,6 +161,26 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		tokenServices.setAuthenticationManager(new ProviderManager(Collections.singletonList(provider)));
 
 		return tokenServices;
+	}
+
+	/**
+	 * token 生成接口输出增强
+	 * @return TokenEnhancer
+	 */
+	@Bean
+	public TokenEnhancer tokenEnhancer() {
+		return (accessToken, authentication) -> {
+			final Map<String, Object> additionalInfo = new HashMap<>(8);
+			String clientId = authentication.getOAuth2Request().getClientId();
+			additionalInfo.put(SecurityConstants.CLIENT_ID, clientId);
+			additionalInfo.put(SecurityConstants.ACTIVE, Boolean.TRUE);
+
+			FxzAuthUser user = (FxzAuthUser) authentication.getUserAuthentication().getPrincipal();
+			additionalInfo.put(SecurityConstants.DETAILS_USER_ID, user.getUserId());
+			additionalInfo.put(SecurityConstants.DETAILS_USERNAME, user.getUsername());
+			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+			return accessToken;
+		};
 	}
 
 }

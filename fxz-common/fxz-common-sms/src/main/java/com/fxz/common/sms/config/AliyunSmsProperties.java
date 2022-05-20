@@ -1,14 +1,14 @@
 package com.fxz.common.sms.config;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author fxz
  */
 @ConfigurationProperties(prefix = "aliyun.sms")
-@Configuration
+@AutoConfiguration
 @Data
 public class AliyunSmsProperties {
 
