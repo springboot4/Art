@@ -9,11 +9,11 @@ import com.fxz.common.database.config.DataSourceProperties;
 import com.fxz.common.database.config.DsLastParamProcessor;
 import com.fxz.common.database.config.JdbcDynamicDataSourceProvider;
 import org.jasypt.encryption.StringEncryptor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author fxz
@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
  * <p>
  * 动态数据源切换配置
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 public class DynamicDataSourceAutoConfiguration {

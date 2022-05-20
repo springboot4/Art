@@ -3,6 +3,7 @@ package com.fxz.common.dataPermission.dept.config;
 import com.fxz.common.dataPermission.dept.rule.DeptDataPermissionRule;
 import com.fxz.common.dataPermission.dept.rule.DeptDataPermissionRuleCustomizer;
 import com.fxz.common.dataPermission.dept.service.DeptDataPermissionFrameworkService;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author fxz
  */
-@Configuration
+@AutoConfiguration
 // @ConditionalOnBean(value = { DeptDataPermissionFrameworkService.class})
 public class DeptDataPermissionAutoConfiguration {
 

@@ -3,12 +3,12 @@ package com.fxz.common.dataPermission.config;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.fxz.common.dataPermission.aop.DataPermissionAnnotationAdvisor;
 import com.fxz.common.dataPermission.db.DataPermissionDatabaseInterceptor;
-import com.fxz.common.dataPermission.rule.DataPermissionRule;
 import com.fxz.common.dataPermission.factory.DataPermissionRuleFactory;
 import com.fxz.common.dataPermission.factory.DataPermissionRuleFactoryImpl;
+import com.fxz.common.dataPermission.rule.DataPermissionRule;
 import com.fxz.common.mp.utils.MyBatisUtils;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author fxz
  */
-@Configuration
+@AutoConfiguration
 public class DataPermissionAutoConfiguration {
 
 	/**

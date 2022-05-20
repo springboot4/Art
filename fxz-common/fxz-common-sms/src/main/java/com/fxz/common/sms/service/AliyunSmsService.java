@@ -12,6 +12,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.sms.config.AliyunSmsProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author fxz
  */
-@Service
+@AutoConfiguration
 @RequiredArgsConstructor
 public class AliyunSmsService {
 
