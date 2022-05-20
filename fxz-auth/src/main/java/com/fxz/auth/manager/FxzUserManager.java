@@ -1,6 +1,7 @@
 package com.fxz.auth.manager;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.mall.user.entity.Member;
 import com.fxz.mall.user.feign.RemoteMemberService;
 import com.fxz.system.entity.SystemUser;
@@ -36,7 +37,7 @@ public class FxzUserManager {
 	}
 
 	public Member loadUser(String username) {
-		return remoteMemberService.loadUserByUsername(username).getData();
+		return remoteMemberService.loadUserByUsername(username, SecurityConstants.FROM_IN).getData();
 	}
 
 }

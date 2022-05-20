@@ -19,14 +19,12 @@
     </modules>
 
     <properties>
-        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-boot.version>2.6.7</spring-boot.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
         <com-alibaba-cloud.version>2021.0.1.0</com-alibaba-cloud.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <codingapi.txlcn.version>5.0.2.RELEASE</codingapi.txlcn.version>
         <jasypt.version>2.1.0</jasypt.version>
-        <easy-captcha.version>1.6.2</easy-captcha.version>
         <spring-javaformat.version>0.0.29</spring-javaformat.version>
     </properties>
 
@@ -83,11 +81,6 @@
                 <version>${com-alibaba-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.github.whvcse</groupId>
-                <artifactId>easy-captcha</artifactId>
-                <version>${easy-captcha.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

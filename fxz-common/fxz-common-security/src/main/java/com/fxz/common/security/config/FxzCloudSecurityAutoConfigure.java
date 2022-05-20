@@ -66,8 +66,8 @@ public class FxzCloudSecurityAutoConfigure {
 	/**
 	 * 用于处理403类型异常
 	 */
+	@Primary
 	@Bean
-	@ConditionalOnMissingBean(name = "accessDeniedHandler")
 	public FxzAccessDeniedHandler accessDeniedHandler() {
 		return new FxzAccessDeniedHandler();
 	}
@@ -75,8 +75,8 @@ public class FxzCloudSecurityAutoConfigure {
 	/**
 	 * 用于处理401类型异常
 	 */
+	@Primary
 	@Bean
-	@ConditionalOnMissingBean(name = "authenticationEntryPoint")
 	public FxzAuthExceptionEntryPoint authenticationEntryPoint() {
 		return new FxzAuthExceptionEntryPoint();
 	}
