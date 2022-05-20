@@ -86,7 +86,8 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 	@Bean
 	public FxzSmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
 		FxzSmsCodeAuthenticationProvider provider = new FxzSmsCodeAuthenticationProvider();
-		provider.setUserDetailsService(fxzMemberUserDetailsService);
+		provider.setFxzMemberUserDetailsService(fxzMemberUserDetailsService);
+		provider.setFxzUserDetailService(fxzUserDetailService);
 		provider.setRedisTemplate(redisTemplate);
 		return provider;
 	}

@@ -79,7 +79,7 @@ public class AliyunSmsService {
 		catch (ClientException e) {
 			e.printStackTrace();
 		}
-		return Boolean.FALSE;
+		return Boolean.TRUE;
 	}
 
 }

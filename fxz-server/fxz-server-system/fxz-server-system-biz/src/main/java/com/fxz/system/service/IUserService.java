@@ -55,4 +55,11 @@ public interface IUserService extends IService<SystemUser> {
 	 */
 	UserInfo findUserInfo(SystemUser systemUser);
 
+	/**
+	 * 通过手机号查找用户信息
+	 * @param mobile 手机号
+	 * @return 用户信息
+	 */
+	SystemUser findByMobile(String mobile);
+
 }

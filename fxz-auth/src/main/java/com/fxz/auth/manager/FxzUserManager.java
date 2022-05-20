@@ -40,4 +40,8 @@ public class FxzUserManager {
 		return remoteMemberService.loadUserByUsername(username, SecurityConstants.FROM_IN).getData();
 	}
 
+	public SystemUser findByMobile(String mobile) {
+		return userService.findByMobile(mobile, SecurityConstants.FROM_IN);
+	}
+
 }

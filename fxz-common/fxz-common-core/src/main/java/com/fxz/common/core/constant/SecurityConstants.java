@@ -82,6 +82,11 @@ public interface SecurityConstants {
 	String CLIENT_ID = "client_id";
 
 	/**
+	 * 客户端编号
+	 */
+	String AUTH_TYPE = "auth_type";
+
+	/**
 	 * 用户ID字段
 	 */
 	String DETAILS_USER_ID = "id";
