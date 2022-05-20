@@ -140,8 +140,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	@Cacheable(value = "fxz_cloud:user", key = "#username+':userInfo'")
 	@Override
 	public SystemUser findByName(String username) {
-		SystemUser user = this.baseMapper.findByName(username);
-		return user;
+		return this.baseMapper.findByName(username);
 	}
 
 	/**
@@ -168,6 +167,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 			}
 		}
 		return userInfo;
+	}
+
+	/**
+	 * 通过手机号查找用户信息
+	 * @param mobile 手机号
+	 * @return 用户信息
+	 */
+	@Override
+	public SystemUser findByMobile(String mobile) {
+		return this.baseMapper.findByMobile(mobile);
 	}
 
 }

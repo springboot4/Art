@@ -106,4 +106,13 @@ public class SecurityUtil {
 		return clientId;
 	}
 
+	public String getAuthType() {
+
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+
+		// 从请求路径中获取
+		return request.getParameter(SecurityConstants.AUTH_TYPE);
+	}
+
 }

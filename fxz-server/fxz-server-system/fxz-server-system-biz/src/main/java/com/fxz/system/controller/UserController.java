@@ -7,6 +7,7 @@ import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.core.param.PageParam;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
+import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.mall.user.entity.Member;
@@ -73,6 +74,18 @@ public class UserController {
 	@GetMapping("/findByName/{username}")
 	public SystemUser findByName(@PathVariable("username") String username) {
 		return this.userService.findByName(username);
+	}
+
+	/**
+	 * 通过手机号查找用户信息
+	 * @param mobile 手机号
+	 * @return 用户信息
+	 */
+	@Ojbk(inner = true)
+	@GetMapping("/findByMobile/{mobile}")
+	public SystemUser findByMobile(@PathVariable("mobile") String mobile) {
+		return this.userService.findByMobile(mobile);
+
 	}
 
 	/**

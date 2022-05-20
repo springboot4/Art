@@ -71,8 +71,15 @@ public class FxzPreAuthenticatedUserDetailsService<T extends Authentication>
 		}
 		else if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
 			log.info("系统管理端");
-			// 管理系统的用户体系是系统用户，认证方式通过用户名 username 认证
-			return ((FxzUserDetailServiceImpl) userDetailsService).loadUserByUsername(authentication.getName());
+			String authType = SecurityUtil.getAuthType();
+			if (authType == null) {
+				// 系统用户，认证方式通过用户名 username 认证
+				return ((FxzUserDetailServiceImpl) userDetailsService).loadUserByUsername(authentication.getName());
+			}
+			else {
+				// 系统用户，认证方式通过用户名 手机号 认证
+				return ((FxzUserDetailServiceImpl) userDetailsService).loadUserByMobile(authentication.getName());
+			}
 		}
 		else {
 			return ((FxzUserDetailServiceImpl) userDetailsService).loadUserByUsername(authentication.getName());

@@ -2,9 +2,10 @@ package com.fxz.auth.extension.mobile;
 
 import cn.hutool.core.util.StrUtil;
 import com.fxz.auth.service.member.FxzMemberUserDetailsServiceImpl;
+import com.fxz.auth.service.user.FxzUserDetailServiceImpl;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.core.exception.FxzException;
-import com.fxz.mall.user.feign.RemoteMemberService;
+import com.fxz.common.security.util.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,9 +31,9 @@ public class FxzSmsCodeAuthenticationProvider implements AuthenticationProvider 
 
 	private StringRedisTemplate redisTemplate;
 
-	private FxzMemberUserDetailsServiceImpl userDetailsService;
+	private FxzMemberUserDetailsServiceImpl fxzMemberUserDetailsService;
 
-	private RemoteMemberService memberFeignClient;
+	private FxzUserDetailServiceImpl fxzUserDetailService;
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -49,8 +50,16 @@ public class FxzSmsCodeAuthenticationProvider implements AuthenticationProvider 
 		// 比对成功删除缓存的验证码
 		redisTemplate.delete(codeKey);
 
-		// 查询用户信息
-		UserDetails userDetails = userDetailsService.loadUserByMobile(mobile);
+		UserDetails userDetails;
+		String authType = SecurityUtil.getAuthType();
+		if (authType == null) {
+			// 查询会员用户信息
+			userDetails = fxzMemberUserDetailsService.loadUserByMobile(mobile);
+		}
+		else {
+			// 查询系统用户信息
+			userDetails = fxzUserDetailService.loadUserByMobile(mobile);
+		}
 
 		authenticationToken = new FxzSmsCodeAuthenticationToken(userDetails, authentication.getCredentials(),
 				new HashSet<>());

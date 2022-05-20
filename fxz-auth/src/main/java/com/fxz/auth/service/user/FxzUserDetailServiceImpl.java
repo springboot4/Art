@@ -73,4 +73,25 @@ public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 		return null;
 	}
 
+	/**
+	 * 手机号码认证方式
+	 * @param mobile 手机号
+	 * @return UserDetails
+	 */
+	public UserDetails loadUserByMobile(String mobile) {
+		SystemUser systemUser = fxzUserManager.findByMobile(mobile);
+		if (ObjectUtil.isNotEmpty(systemUser)) {
+			String permissions = fxzUserManager.findUserPermissions(systemUser.getUsername());
+			boolean notLocked = false;
+			if (StringUtils.equals(SystemUser.STATUS_VALID, systemUser.getStatus()))
+				notLocked = true;
+			FxzAuthUser authUser = new FxzAuthUser(systemUser.getUsername(), systemUser.getPassword(), true, true, true,
+					notLocked, AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
+
+			BeanUtils.copyProperties(systemUser, authUser);
+			return authUser;
+		}
+		return null;
+	}
+
 }
