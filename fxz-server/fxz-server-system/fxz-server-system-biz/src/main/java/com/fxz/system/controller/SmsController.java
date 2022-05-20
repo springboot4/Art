@@ -26,7 +26,7 @@ public class SmsController {
 	@Ojbk
 	@GetMapping("/sendSms")
 	public <T> Result<T> sendSmsCode(String phoneNumber) {
-		return Result.judge(aliyunSmsService.sendSmsCode("19806082431"));
+		return Result.judge(aliyunSmsService.sendSmsCode(phoneNumber));
 	}
 
 }

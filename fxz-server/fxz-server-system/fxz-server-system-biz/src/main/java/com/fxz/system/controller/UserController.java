@@ -90,7 +90,8 @@ public class UserController {
 			return Result.success(userService.findUserInfo(systemUser));
 		}
 		else {
-			Member member = remoteMemberService.loadUserByUsername(user.getUsername()).getData();
+			Member member = remoteMemberService.loadUserByUsername(user.getUsername(), SecurityConstants.FROM_IN)
+					.getData();
 			return Result.success(new UserInfo().setSysUser(new SystemUser().setUserId(member.getId())
 					.setAvatar(member.getAvatarUrl()).setUsername(member.getNickName())));
 		}
