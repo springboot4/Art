@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * RabbitMQ队列初始化器
+ * 容器中所有单例bean都初始化完成以后,初始化RabbitMQ队列
  *
  * @author fxz
  */

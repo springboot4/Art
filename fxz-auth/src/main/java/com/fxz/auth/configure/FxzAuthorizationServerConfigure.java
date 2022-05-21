@@ -2,6 +2,7 @@ package com.fxz.auth.configure;
 
 import com.fxz.auth.extension.captcha.FxzCaptchaTokenGranter;
 import com.fxz.auth.extension.mobile.FxzSmsCodeTokenGranter;
+import com.fxz.auth.extension.wechat.FxzWechatTokenGranter;
 import com.fxz.auth.properties.FxzAuthProperties;
 import com.fxz.auth.service.FxzPreAuthenticatedUserDetailsService;
 import com.fxz.auth.service.member.FxzMemberUserDetailsServiceImpl;
@@ -87,6 +88,10 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 		// 添加手机短信验证码授权模式的授权者
 		granterList.add(new FxzSmsCodeTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+				endpoints.getOAuth2RequestFactory(), authenticationManager));
+
+		// 添加微信授权模式的授权者
+		granterList.add(new FxzWechatTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
 				endpoints.getOAuth2RequestFactory(), authenticationManager));
 
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);

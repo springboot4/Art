@@ -46,6 +46,26 @@ public class FxzMemberUserDetailsServiceImpl implements FxzUserDetailsService {
 		throw new UsernameNotFoundException("用户不存在");
 	}
 
+	/**
+	 * openid 认证方式
+	 * @param openId 微信openId
+	 * @return UserDetails
+	 */
+	public UserDetails loadUserByOpenId(String openId) {
+		Member systemUser = memberFeignClient.loadUserByOpenId(openId, SecurityConstants.FROM_IN).getData();
+
+		if (Objects.nonNull(systemUser)) {
+			FxzAuthUser authUser = new FxzAuthUser(systemUser.getNickName(), systemUser.getOpenid(), true, true, true,
+					true, AuthorityUtils.commaSeparatedStringToAuthorityList(null));
+			BeanUtils.copyProperties(systemUser, authUser);
+			authUser.setUserId(systemUser.getId());
+
+			return authUser;
+		}
+
+		throw new UsernameNotFoundException("用户不存在");
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String username) {
 		return null;
