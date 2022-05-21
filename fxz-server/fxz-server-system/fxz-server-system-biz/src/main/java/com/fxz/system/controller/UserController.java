@@ -99,12 +99,11 @@ public class UserController {
 		// 分别查询系统端和商城端用户信息
 		if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
 			SystemUser systemUser = userService
-					.getOne(Wrappers.<SystemUser>lambdaQuery().eq(SystemUser::getUsername, user.getUsername()));
+					.getOne(Wrappers.<SystemUser>lambdaQuery().eq(SystemUser::getUserId, user.getUserId()));
 			return Result.success(userService.findUserInfo(systemUser));
 		}
 		else {
-			Member member = remoteMemberService.loadUserByUsername(user.getUsername(), SecurityConstants.FROM_IN)
-					.getData();
+			Member member = remoteMemberService.loadUserByUserId(user.getUserId(), SecurityConstants.FROM_IN).getData();
 			return Result.success(new UserInfo().setSysUser(new SystemUser().setUserId(member.getId())
 					.setAvatar(member.getAvatarUrl()).setUsername(member.getNickName())));
 		}

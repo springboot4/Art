@@ -2,8 +2,6 @@ package com.fxz.auth.manager;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.common.core.constant.SecurityConstants;
-import com.fxz.mall.user.entity.Member;
-import com.fxz.mall.user.feign.RemoteMemberService;
 import com.fxz.system.entity.SystemUser;
 import com.fxz.system.feign.RemoteMenuService;
 import com.fxz.system.feign.RemoteUserService;
@@ -25,8 +23,6 @@ public class FxzUserManager {
 
 	private final RemoteMenuService menuService;
 
-	private final RemoteMemberService remoteMemberService;
-
 	public SystemUser findByName(String username) {
 		return userService.findByName(username);
 	}
@@ -34,10 +30,6 @@ public class FxzUserManager {
 	public String findUserPermissions(String username) {
 		Set<String> userPermissions = menuService.findUserPermissions(username);
 		return String.join(StringPool.COMMA, userPermissions);
-	}
-
-	public Member loadUser(String username) {
-		return remoteMemberService.loadUserByUsername(username, SecurityConstants.FROM_IN).getData();
 	}
 
 	public SystemUser findByMobile(String mobile) {

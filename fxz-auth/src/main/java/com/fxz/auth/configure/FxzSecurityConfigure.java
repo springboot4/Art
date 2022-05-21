@@ -1,8 +1,11 @@
 package com.fxz.auth.configure;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
 import com.fxz.auth.extension.mobile.FxzSmsCodeAuthenticationProvider;
+import com.fxz.auth.extension.wechat.FxzWechatAuthenticationProvider;
 import com.fxz.auth.service.member.FxzMemberUserDetailsServiceImpl;
 import com.fxz.auth.service.user.FxzUserDetailServiceImpl;
+import com.fxz.mall.user.feign.RemoteMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
@@ -28,7 +31,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
+	private final WxMaService wxMaService;
+
 	private final StringRedisTemplate redisTemplate;
+
+	private final RemoteMemberService remoteMemberService;
 
 	private final FxzUserDetailServiceImpl fxzUserDetailService;
 
@@ -61,8 +68,8 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) {
-		auth.authenticationProvider(daoAuthenticationProvider())
-				.authenticationProvider(smsCodeAuthenticationProvider());
+		auth.authenticationProvider(daoAuthenticationProvider()).authenticationProvider(smsCodeAuthenticationProvider())
+				.authenticationProvider(wechatAuthenticationProvider());
 	}
 
 	/**
@@ -89,6 +96,19 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 		provider.setFxzMemberUserDetailsService(fxzMemberUserDetailsService);
 		provider.setFxzUserDetailService(fxzUserDetailService);
 		provider.setRedisTemplate(redisTemplate);
+		return provider;
+	}
+
+	/**
+	 * 微信认证授权提供者
+	 * @return 微信认证授权提供者
+	 */
+	@Bean
+	public FxzWechatAuthenticationProvider wechatAuthenticationProvider() {
+		FxzWechatAuthenticationProvider provider = new FxzWechatAuthenticationProvider();
+		provider.setUserDetailsService(fxzMemberUserDetailsService);
+		provider.setWxMaService(wxMaService);
+		provider.setMemberFeignClient(remoteMemberService);
 		return provider;
 	}
 
