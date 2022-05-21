@@ -44,25 +44,25 @@ public class UserController {
 	}
 
 	@GetMapping
-	@PreAuthorize("hasAnyAuthority('sys:user:view')")
+	@PreAuthorize("@pms.hasPermission('sys:user:view')")
 	public Result<PageResult<SystemUser>> userList(PageParam pageParam, UserInfoParam userInfoParam) {
 		return Result.success(PageResult.success(userService.findUserDetail(userInfoParam, pageParam)));
 	}
 
 	@PostMapping
-	@PreAuthorize("hasAnyAuthority('sys:user:add')")
+	@PreAuthorize("@pms.hasPermission('sys:user:add')")
 	public void addUser(@RequestBody SystemUser user) {
 		this.userService.createUser(user);
 	}
 
 	@PutMapping
-	@PreAuthorize("hasAnyAuthority('sys:user:update')")
+	@PreAuthorize("@pms.hasPermission('sys:user:update')")
 	public void updateUser(@RequestBody SystemUser user) {
 		this.userService.updateUser(user);
 	}
 
 	@DeleteMapping("/{userIds}")
-	@PreAuthorize("hasAnyAuthority('sys:user:delete')")
+	@PreAuthorize("@pms.hasPermission('sys:user:delete')")
 	public void deleteUsers(@NotBlank(message = "{required}") @PathVariable String userIds) throws FxzException {
 		String[] ids = userIds.split(StringPool.COMMA);
 		this.userService.deleteUsers(ids);
