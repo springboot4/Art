@@ -12,6 +12,7 @@ import feign.RequestInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -39,6 +40,7 @@ import java.util.Enumeration;
  * @date 2022-03-06 18:15
  */
 @Slf4j
+@AutoConfiguration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(FxzCloudSecurityProperties.class)
 public class FxzCloudSecurityAutoConfigure {
