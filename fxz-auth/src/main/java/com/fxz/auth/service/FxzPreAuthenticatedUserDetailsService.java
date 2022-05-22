@@ -66,7 +66,7 @@ public class FxzPreAuthenticatedUserDetailsService<T extends Authentication>
 		}
 		else if (clientId.equals(SecurityConstants.WEAPP_CLIENT_ID)) {
 			log.info("小程序端");
-			// todo 小程序的用户体系是会员，认证方式是通过微信三方标识 openid 认证
+			// 小程序的用户体系是会员，认证方式是通过微信三方标识 openid 认证
 			return ((FxzMemberUserDetailsServiceImpl) userDetailsService).loadUserByOpenId(authentication.getName());
 		}
 		else if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
