@@ -87,7 +87,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 			return null;
 		}
 
-		// todo 获得用户的数据权限
+		// 获得用户的数据权限
 		DeptDataPermissionRespDTO deptDataPermission = deptDataPermissionService.getDeptDataPermission(loginUser);
 		if (deptDataPermission == null) {
 			log.error("[getExpression][LoginUser({}) 获取数据权限为 null]", loginUser);

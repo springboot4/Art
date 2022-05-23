@@ -27,6 +27,7 @@
         <module>fxz-common-jackson</module>
         <module>fxz-common-seata</module>
         <module>fxz-common-sms</module>
+        <module>fxz-common-sequence</module>
     </modules>
 
 </project>
