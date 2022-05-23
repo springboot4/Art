@@ -13,7 +13,6 @@ import com.fxz.system.entity.DictItem;
 import com.fxz.system.mapper.DictItemMapper;
 import com.fxz.system.mapper.DictMapper;
 import com.fxz.system.service.DictItemService;
-import com.fxz.system.service.DictService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

@@ -150,7 +150,7 @@
             </dependency>
             <dependency>
                 <groupId>com.fxz</groupId>
-                <artifactId>fxz-server-system-api</artifactId>
+                <artifactId>fxz-system-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

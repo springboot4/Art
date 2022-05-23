@@ -6,11 +6,11 @@
 
     <parent>
         <groupId>com.fxz</groupId>
-        <artifactId>fxz-server-system</artifactId>
+        <artifactId>fxz-system</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>fxz-server-system-api</artifactId>
+    <artifactId>fxz-system-api</artifactId>
 
     <dependencies>
 
