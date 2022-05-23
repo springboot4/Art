@@ -1,5 +1,6 @@
 package com.fxz.common.redis.util;
 
+import cn.hutool.core.date.DatePattern;
 import com.fxz.common.core.constant.RedisConstant;
 import com.fxz.common.core.enums.BusinessTypeEnum;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 
 /**
  * 业务序号生成
@@ -29,8 +29,7 @@ public class BusinessNoGenerator {
 	 * @return 业务序号
 	 */
 	public String generate(BusinessTypeEnum businessType, Integer digit) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-		String date = LocalDateTime.now(ZoneOffset.of("+8")).format(formatter);
+		String date = LocalDateTime.now(ZoneOffset.of("+8")).format(DatePattern.PURE_DATETIME_FORMATTER);
 
 		String key = RedisConstant.BUSINESS_PREFIX + businessType.getValue() + ":" + date;
 

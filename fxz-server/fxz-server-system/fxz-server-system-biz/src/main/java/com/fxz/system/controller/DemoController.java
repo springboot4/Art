@@ -9,6 +9,7 @@ import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
+import com.fxz.common.sequence.service.Sequence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,25 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequestMapping("/demo")
 @RequiredArgsConstructor
 public class DemoController {
+
+	// private final Sequence sequence;
+
+	private final Sequence fxzSequence;
+
+	private final Sequence cloudSequence;
+
+	@Ojbk
+	@GetMapping("/seqTestZdy")
+	public Result<String> seqTestZdy() {
+		return Result.success(fxzSequence.nextValue("fxz") + ":" + cloudSequence.nextValue("cloud"));
+	}
+
+	/*
+	 * @Ojbk
+	 *
+	 * @GetMapping("/seqTest") public Result<String> seqTest() { String fxz =
+	 * sequence.nextValue("fxz"); return Result.success(fxz); }
+	 */
 
 	@GetMapping("/security/inheritable")
 	public Result<FxzAuthUser> securityInheritable() {
