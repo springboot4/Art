@@ -8,7 +8,7 @@ import com.fxz.common.canal.model.CanalBinLogEvent;
 @FunctionalInterface
 public interface ExceptionHandler {
 
-	void onError(CanalBinLogEvent event, Exception e);
+	void onError(CanalBinLogEvent event, Throwable e);
 
 	ExceptionHandler NO_OP = (event, e) -> {
 	};

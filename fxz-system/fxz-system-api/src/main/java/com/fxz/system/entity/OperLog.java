@@ -1,6 +1,8 @@
 package com.fxz.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fxz.common.canal.annotation.CanalModel;
+import com.fxz.common.canal.common.FieldNamingPolicy;
 import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,9 +18,8 @@ import lombok.experimental.Accessors;
 @TableName("sys_oper_log")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
+@CanalModel(database = "fxz_cloud_base", table = "sys_oper_log", fieldNamingPolicy = FieldNamingPolicy.LOWER_UNDERSCORE)
 public class OperLog extends BaseEntity {
-
-	private static final long serialVersionUID = -1L;
 
 	/**
 	 * 主键
