@@ -14,7 +14,7 @@
 - 转换器和解析器层开发。
 - 处理器层开发。
 - 全局组件自动配置模块开发（仅限于`Spring`体系，已经抽取到`spring-boot-starter-canal-glue`模块）。
-- `CanalGlue`开发。
+- `CanalBase`开发。
 
 ### 基本模型定义
 
@@ -572,8 +572,8 @@ protected ExceptionHandler exceptionHandler() {
 /**
     * 覆盖默认的ExceptionHandler.NO_OP
     */
-private static final ExceptionHandler EXCEPTION_HANDLER = (event, throwable)
-        -> log.error("解析binlog事件出现异常,事件内容:{}", JSON.toJSONString(event), throwable);
+private static final ExceptionHandler EXCEPTION_HANDLER = (event, fxz)
+        -> log.error("解析binlog事件出现异常,事件内容:{}", JSON.toJSONString(event), fxz);
 ```
 
 另外，有些场景需要对回调前或者回调后的结果做特化处理，因此引入了解析结果拦截器（链）的实现，对应的类是`BaseParseResultInterceptor`：
@@ -635,11 +635,11 @@ public abstract class BaseParseResultInterceptor<T> extends BaseParameterizedTyp
 
 ### 开发全局组件自动配置模块
 
-如果使用了`Spring`容器，需要添加一个配置类来加载所有既有的组件，添加一个全局配置类`CanalGlueAutoConfiguration`（这个类可以在项目的`spring-boot-starter-canal-glue`模块中看到，这个模块就只有一个类）：
+如果使用了`Spring`容器，需要添加一个配置类来加载所有既有的组件，添加一个全局配置类`CanalBaseAutoConfiguration`（这个类可以在项目的`spring-boot-starter-canal-glue`模块中看到，这个模块就只有一个类）：
 
 ```java
 @Configuration
-public class CanalGlueAutoConfiguration implements SmartInitializingSingleton, BeanFactoryAware {
+public class CanalBaseAutoConfiguration implements SmartInitializingSingleton, BeanFactoryAware {
 
     private ConfigurableListableBeanFactory configurableListableBeanFactory;
 
@@ -675,8 +675,8 @@ public class CanalGlueAutoConfiguration implements SmartInitializingSingleton, B
 
     @Bean
     @Primary
-    public CanalGlue canalGlue(CanalBinlogEventProcessorFactory canalBinlogEventProcessorFactory) {
-        return DefaultCanalGlue.of(canalBinlogEventProcessorFactory);
+    public CanalBase CanalBase(CanalBinlogEventProcessorFactory canalBinlogEventProcessorFactory) {
+        return DefaultCanalBase.of(canalBinlogEventProcessorFactory);
     }
 
     @Override
@@ -709,27 +709,27 @@ public class CanalGlueAutoConfiguration implements SmartInitializingSingleton, B
 为了更好地让其他服务引入此配置类，可以使用`spring.factories`的特性。新建`resources/META-INF/spring.factories`文件，内容如下：
 
 ```shell
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.throwx.canal.gule.config.CanalGlueAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.throwx.canal.gule.config.CanalBaseAutoConfiguration
 ```
 
 这样子通过引入`spring-boot-starter-canal-glue`就可以激活所有用到的组件并且初始化所有已经添加到`Spring`容器中的处理器。
 
-## CanalGlue开发
+## CanalBase开发
 
-`CanalGlue`其实就是提供`binlog`事件字符串的处理入口，目前定义为一个接口：
+`CanalBase`其实就是提供`binlog`事件字符串的处理入口，目前定义为一个接口：
 
 ```java
-public interface CanalGlue {
+public interface CanalBase {
 
     void process(String content);
 }
 ```
 
-此接口的实现`DefaultCanalGlue`也十分简单：
+此接口的实现`DefaultCanalBase`也十分简单：
 
 ```java
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC, staticName = "of")
-public class DefaultCanalGlue implements CanalGlue {
+public class DefaultCanalBase implements CanalBase {
 
     private final CanalBinlogEventProcessorFactory canalBinlogEventProcessorFactory;
 
@@ -782,8 +782,8 @@ public class OrderProcessor extends BaseCanalBinlogEventProcessor<OrderModel> {
     /**
         * 覆盖默认的ExceptionHandler.NO_OP
         */
-    private static final ExceptionHandler EXCEPTION_HANDLER = (event, throwable)
-            -> log.error("解析binlog事件出现异常,事件内容:{}", JSON.toJSONString(event), throwable);
+    private static final ExceptionHandler EXCEPTION_HANDLER = (event, fxz)
+            -> log.error("解析binlog事件出现异常,事件内容:{}", JSON.toJSONString(event), fxz);
 }
 ```
 
@@ -828,7 +828,7 @@ public class OrderProcessor extends BaseCanalBinlogEventProcessor<OrderModel> {
 
 执行结果如下：
 
-![](https://throwable-blog-1256189093.cos.ap-guangzhou.myqcloud.com/202010/m-c-g-g-3.png)
+![](https://fxz-blog-1256189093.cos.ap-guangzhou.myqcloud.com/202010/m-c-g-g-3.png)
 
 如果直接对接`Canal`投放到`Kafka`的`Topic`也很简单，配合`Kafka`的消费者使用的示例如下：
 
@@ -838,7 +838,7 @@ public class OrderProcessor extends BaseCanalBinlogEventProcessor<OrderModel> {
 @RequiredArgsConstructor
 public class CanalEventListeners {
 
-    private final CanalGlue canalGlue;
+    private final CanalBase CanalBase;
 
     @KafkaListener(
             id = "${canal.event.order.listener.id:db-order-service-listener}",
@@ -846,7 +846,7 @@ public class CanalEventListeners {
             containerFactory = "kafkaListenerContainerFactory"
     )
     public void onCrmMessage(String content) {
-        canalGlue.process(content);
+        CanalBase.process(content);
     }    
 }
 ```
