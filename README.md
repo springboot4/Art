@@ -10,7 +10,10 @@
 🥒项目整体结构
 ```
 fxz-cloud 
-    ├── _config -- 数据库相关配置
+    ├── other -- 项目相关文件
+       ├── _config -- 相关配置
+       ├── _middleware -- 中间件
+       ├── _ui -- 前端代码
     ├── fxz-auth -- 认证服务器
     ├── fxz-common -- 通用工具封装
        ├── fxz-common-canal -- 针对canal封装
