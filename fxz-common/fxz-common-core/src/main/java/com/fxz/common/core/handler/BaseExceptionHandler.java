@@ -72,7 +72,7 @@ public class BaseExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Result<Void> handleFxzException(FxzException e) {
 		log.error("系统错误", e);
-		return Result.failed("系统错误");
+		return Result.failed(e.getLocalizedMessage());
 	}
 
 	@ExceptionHandler(value = { FxzAuthException.class, AccessDeniedException.class })
