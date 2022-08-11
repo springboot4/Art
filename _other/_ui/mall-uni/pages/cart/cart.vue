@@ -188,7 +188,7 @@ export default {
       if (!checkedItemList || checkedItemList.length === 0) {
         this.totalPrice = 0
       } else if (checkedItemList.length == 1) {
-        this.totalPrice = checkedItemList[0].count * (checkedItemList[0].price / 100);
+        this.totalPrice = checkedItemList[0].count * checkedItemList[0].price;
       } else {
         checkedItemList.forEach(item=>{
           this.totalPrice += (item.price  * item.count)

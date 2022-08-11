@@ -8,6 +8,8 @@ import com.fxz.system.entity.Menu;
 import com.fxz.system.service.IMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,93 +27,101 @@ import java.util.*;
 @RequiredArgsConstructor
 public class MenuController {
 
-	private final IMenuService menuService;
+    private final IMenuService menuService;
 
-	/**
-	 * 获取用户路由信息和用户权限信息
-	 */
-	@GetMapping("/nav")
-	public Result<Map<String, Object>> getUserRouters() {
-		long start = System.currentTimeMillis();
+    /**
+     * 获取用户路由信息和用户权限信息
+     */
+    @GetMapping("/nav")
+    public Result<Map<String, Object>> getUserRouters() {
+        Map<String, Object> result = new HashMap<>();
+        Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
+            // 构建用户路由对象
+            List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(userName);
+            // 封装用户路由信息
+            result.put("routes", userRouters);
+            // 封装用户权限信息
+            result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray());
+        });
 
-		Map<String, Object> result = new HashMap<>();
-		Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
-			// 构建用户路由对象
-			List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(userName);
-			// 封装用户路由信息
-			result.put("routes", userRouters);
-			// 封装用户权限信息
-			result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray());
-		});
+        return Result.success(result);
+    }
 
-		long end = System.currentTimeMillis();
-		log.info("方法耗时:{}", end - start);
+    /**
+     * 获取全部的树形菜单信息(包括按钮)
+     *
+     * @return 树形菜单信息
+     */
+    @Cacheable(value = "fxz_cloud:menu", key = "'all'", unless = "#result.data==null")
+    @GetMapping("/getAllMenuTree")
+    public Result<List<VueRouter<Object>>> getAllMenuTree() {
+        return Result.success(this.menuService.getAllMenuTree());
+    }
 
-		return Result.success(result);
-	}
+    /**
+     * 获取菜单下拉框
+     *
+     * @return 树形菜单下拉框
+     */
+    @Cacheable(value = "fxz_cloud:menu", key = "'treeSelect'")
+    @GetMapping("/getTreeSelect")
+    public Result<List<VueRouter<Object>>> getTreeSelect() {
+        return Result.success(this.menuService.getTreeSelect());
+    }
 
-	/**
-	 * 获取全部的树形菜单信息(包括按钮)
-	 * @return 树形菜单信息
-	 */
-	@GetMapping("/getAllMenuTree")
-	public Result<List<VueRouter<Object>>> getAllMenuTree() {
-		return Result.success(this.menuService.getAllMenuTree());
-	}
+    /**
+     * 保存路由信息
+     *
+     * @param vueRouter 路由信息
+     */
+    @CacheEvict(value = "fxz_cloud:menu", allEntries = true)
+    @PostMapping("/save")
+    public void saveMenu(@RequestBody VueRouter vueRouter) {
+        this.menuService.saveMenu(vueRouter);
+    }
 
-	/**
-	 * 获取菜单下拉框
-	 * @return 树形菜单下拉框
-	 */
-	@GetMapping("/getTreeSelect")
-	public Result<List<VueRouter<Object>>> getTreeSelect() {
-		return Result.success(this.menuService.getTreeSelect());
-	}
+    /**
+     * 根据id删除路由信息
+     *
+     * @param id
+     */
+    @CacheEvict(value = "fxz_cloud:menu", allEntries = true)
+    @DeleteMapping("/delete/{id}")
+    public void deleteMenu(@PathVariable("id") Long id) {
+        this.menuService.removeById(id);
+    }
 
-	/**
-	 * 保存路由信息
-	 * @param vueRouter 路由信息
-	 */
-	@PostMapping("/save")
-	public void saveMenu(@RequestBody VueRouter vueRouter) {
-		this.menuService.saveMenu(vueRouter);
-	}
+    /**
+     * 根据id查询路由信息
+     *
+     * @param id
+     * @return
+     */
+    @Cacheable(value = "fxz_cloud:menu", key = "#id", unless = "#result.data==null")
+    @GetMapping("/getMenuById/{id}")
+    public Result<VueRouter> getMenuById(@PathVariable("id") Long id) {
+        return Result.success(this.menuService.getMenuById(id));
+    }
 
-	/**
-	 * 根据id删除路由信息
-	 * @param id
-	 */
-	@DeleteMapping("/delete/{id}")
-	public void deleteMenu(@PathVariable("id") Long id) {
-		this.menuService.removeById(id);
-	}
+    /**
+     * 更新路由
+     */
+    @CacheEvict(value = "fxz_cloud:menu", allEntries = true)
+    @PostMapping("/update")
+    public void updateMenu(@RequestBody VueRouter vueRouter) {
+        this.menuService.updateMenu(vueRouter);
+    }
 
-	/**
-	 * 根据id查询路由信息
-	 * @param id
-	 * @return
-	 */
-	@GetMapping("/getMenuById/{id}")
-	public Result<VueRouter> getMenuById(@PathVariable("id") Long id) {
-		return Result.success(this.menuService.getMenuById(id));
-	}
-
-	/**
-	 * 更新路由
-	 */
-	@PostMapping("/update")
-	public void updateMenu(@RequestBody VueRouter vueRouter) {
-		this.menuService.updateMenu(vueRouter);
-	}
-
-	/**
-	 * 通过用户名查询权限信息
-	 * @param username 用户名称
-	 * @return 权限信息
-	 */
-	@GetMapping("/findUserPermissions/{username}")
-	public Set<String> findUserPermissions(@PathVariable("username") String username) {
-		return menuService.findUserPermissions(username);
-	}
+    /**
+     * 通过用户名查询权限信息
+     *
+     * @param username 用户名称
+     * @return 权限信息
+     */
+    @Cacheable(value = "fxz_cloud:menu", key = "'permissions:'+#username", unless = "#result==null")
+    @GetMapping("/findUserPermissions/{username}")
+    public Set<String> findUserPermissions(@PathVariable("username") String username) {
+        return menuService.findUserPermissions(username);
+    }
 
 }
