@@ -26,7 +26,7 @@
       </view>
       <!-- 商品列表 -->
       <view class="g-item" v-for="(item, index) in orderItems" :key="item.skuId">
-        <image :src="getImg(item.picUrl)"></image>
+        <image :src="item.picUrl"></image>
         <view class="right">
           <text class="title clamp">{{ item.skuName }}</text>
           <text class="spec"></text>
@@ -223,9 +223,6 @@ export default {
           url: '/pages/money/pay?orderId=' + orderId + '&orderSn=' + orderSn + '&payAmount=' + this.payAmount
         });
       });
-    },
-    getImg(url){
-      return 'http://127.0.0.1:8301'+url
     }
   }
 };

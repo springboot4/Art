@@ -210,9 +210,6 @@ export default {
       this.moving = false;
       this.coverTransition = 'transform 0.3s cubic-bezier(.21,1.93,.53,.64)';
       this.coverTransform = 'translateY(0px)';
-    },
-    getImg(url){
-      return 'http://127.0.0.1:8301'+url
     }
   }
 };

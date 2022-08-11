@@ -5,7 +5,7 @@
       <swiper indicator-dots circular="true" duration="400">
         <swiper-item class="swiper-item" v-for="(item, index) in goodsInfo.album" :key="index">
           <view class="image-wrapper">
-            <image :src="getImg(item)" class="loaded" mode="aspectFill"></image>
+            <image :src="item" class="loaded" mode="aspectFill"></image>
           </view>
         </swiper-item>
       </swiper>
@@ -284,10 +284,7 @@ export default {
         });
       })
     },
-    stopPrevent() {},
-    getImg(url){
-      return 'http://127.0.0.1:8301'+url
-    }
+    stopPrevent() {}
   }
 };
 

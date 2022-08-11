@@ -4,17 +4,17 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				// #ifdef MP 
+				// #ifdef MP
 				"navigationBarTitleText": "Dloud商城",
 				//"navigationStyle": "custom",
-				// #endif 
+				// #endif
 				"app-plus": {
 					"titleNView": {
 						"type": "transparent",
 						"searchInput": {
 							"backgroundColor": "rgba(231, 231, 231,.7)",
 							"borderRadius": "16px",
-							"placeholder": "请输入地址 如：大钟寺",
+							"placeholder": "请输入商品 如：华为手机",
 							"disabled": true,
 							"placeholderColor": "#606266"
 						},

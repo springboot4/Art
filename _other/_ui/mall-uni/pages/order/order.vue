@@ -31,7 +31,7 @@
             </scroll-view>
             <view v-if="order.orderItems.length === 1" class="goods-box-single"
                   v-for="(orderItem, itemIndex) in order.orderItems" :key="itemIndex">
-              <image class="goods-img" :src="getImg(orderItem.picUrl)" mode="aspectFill"></image>
+              <image class="goods-img" :src="orderItem.picUrl" mode="aspectFill"></image>
               <view class="right">
                 <text class="title clamp">{{ orderItem.spuName }}</text>
                 <text class="attr-box">{{ orderItem.skuName }} x {{ orderItem.count }}</text>
@@ -217,9 +217,6 @@ export default {
       uni.redirectTo({
         url: '/pages/money/pay?orderId=' + order.id + '&orderSn=' + order.orderSn + '&payAmount=' + order.payAmount
       });
-    },
-    getImg(url){
-      return 'http://127.0.0.1:8301'+url
     }
   },
 };

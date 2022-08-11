@@ -16,7 +16,7 @@
     <view class="goods-list">
       <view v-for="(item, index) in goodsList" :key="index" class="goods-item" @click="navToDetailPage(item)">
         <view class="image-wrapper">
-          <image :src="getImg(item.picUrl)" mode="aspectFill"></image>
+          <image :src="item.picUrl" mode="aspectFill"></image>
         </view>
         <text class="title clamp">{{ item.name }}</text>
         <view class="price-box">
@@ -99,9 +99,6 @@ export default {
     this.loadData();
   },
   methods: {
-    getImg(url){
-      return 'http://127.0.0.1:8301'+url
-    },
     //加载分类
     loadCateList(fid, sid) {
       list(fid).then(response => {
