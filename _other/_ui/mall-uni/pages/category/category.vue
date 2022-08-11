@@ -10,7 +10,7 @@
         <text class="s-item">{{ item.name }}</text>
         <view class="t-list">
           <view @click="navToList(item.id, titem.id)" v-if="titem.parentId === item.id" class="t-item" v-for="titem in tlist" :key="titem.id">
-            <image :src="getImg(titem.iconUrl)"></image>
+            <image :src="titem.iconUrl"></image>
             <text>{{ titem.name }}</text>
           </view>
         </view>
@@ -38,9 +38,6 @@ export default {
     this.loadData();
   },
   methods: {
-    getImg(url){
-      return 'http://127.0.0.1:8301'+url
-    },
     async loadData() {
       list().then(response => {
         const categoryList = response.data;

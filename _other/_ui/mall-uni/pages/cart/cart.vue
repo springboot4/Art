@@ -19,7 +19,7 @@
         <block v-for="(item, index) in cartItemList" :key="item.skuId">
           <view class="cart-item" :class="{ 'b-b': index !== cartItemList.length - 1 }">
             <view class="image-wrapper">
-              <image :src="getImg(item.picUrl)" class="loaded" mode="aspectFill" lazy-load
+              <image :src="item.picUrl" class="loaded" mode="aspectFill" lazy-load
                      @load="onImageLoad('cartItemList', index)" @error="onImageError('cartItemList', index)">
               </image>
               <view class="yticon icon-xuanzhong2 checkbox" :class="{ checked: item.checked }"
@@ -209,9 +209,6 @@ export default {
       uni.navigateTo({
         url: '/pages/public/login'
       });
-    },
-    getImg(url){
-      return 'http://127.0.0.1:8301'+url
     }
   }
 };

@@ -57,10 +57,10 @@
 		<view class="seckill-section m-t">
 			<view class="s-header">
 				<image class="s-img" src="/static/temp/secskill-img.jpg" mode="widthFix"></image>
-				<text class="tip">{{seckillData[0].timeLine}}点场</text>
-				<text class="hour timer">07</text>
-				<text class="minute timer">13</text>
-				<text class="second timer">55</text>
+				<text class="tip">{{seckillData[0].timeLine||new Date().getHours()}}点场</text>
+<!--				<text class="hour timer">07</text>-->
+<!--				<text class="minute timer">13</text>-->
+<!--				<text class="second timer">55</text>-->
 				<text class="yticon icon-you"></text>
 			</view>
 			<scroll-view class="floor-list" scroll-x>
@@ -261,10 +261,6 @@ import {seckillList} from "../../api/promotion/seckill"
 			this.loadData();
 		},
 		methods: {
-			/**
-			 * 请求静态数据只是为了代码不那么乱
-			 * 分次请求未作整合
-			 */
 			async loadData() {
 				let carouselList = await this.$api.json('carouselList');
 				this.titleNViewBackground = carouselList[0].background;
@@ -273,9 +269,7 @@ import {seckillList} from "../../api/promotion/seckill"
 
         seckillList().then(res=>{
           this.seckillData = res.data
-          console.log("秒杀数据：",res.data)
           this.goodsList = res.data[0].seckillGoodsList || []
-          console.log(this.goodsList)
         })
 			},
 			//轮播图切换修改背景色
@@ -286,7 +280,6 @@ import {seckillList} from "../../api/promotion/seckill"
 			},
 			//详情页
 			navToDetailPage(item) {
-				//测试数据没有写id，用title代替
 				let id = item.goodsId;
 				uni.navigateTo({
 					url: `/pages/product/product?id=${id}`
