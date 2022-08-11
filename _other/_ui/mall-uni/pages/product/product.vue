@@ -130,7 +130,14 @@
           <image :src="selectedSku.picUrl" />
           <view class="right">
             <text class="price">¥{{selectedSku.price/100}}</text>
-            <text class="stock">库存：{{selectedSku.stockNum}}件</text>
+            <text class="stock">
+              <text v-if="!isNull">
+                库存：{{selectedSku.stockNum}}件
+              </text>
+              <text v-else>
+                无库存！
+              </text>
+            </text>
             <view class="selected">
               已选：
               <text class="selected-text" v-for="(sItem, sIndex) in selectedSpecValues"
@@ -148,7 +155,7 @@
             </text>
           </view>
         </view>
-        <button class="btn" @click="toggleSpec">完成</button>
+        <button class="btn" @click="toggleSpec" :disabled="isNull">完成</button>
       </view>
     </view>
     <!-- 分享 -->
@@ -182,7 +189,8 @@ export default {
       selectedSku: {},
       selectedSpecValues: [], // 选择的规格项集合
       favorite: true,
-      shareList: []
+      shareList: [],
+      isNull:false
     };
   },
   async onLoad(options) {
@@ -196,26 +204,29 @@ export default {
       this.specList = specList;
       this.skuList = skuList;
 
-      // 默认选择规格的第一项
-      this.specList.forEach(item => {
-        if (item.values.length > 0) {
-          item.values[0].selected = true // 添加规格是否选中属性
-          this.selectedSpecValues.push(item.values[0])
-        }
+      console.log('res:',response)
+
+      //默认选择第一个sku
+      this.selectedSku = this.skuList[0]
+      console.log('selectedSku:',this.selectedSku)
+
+      //默认选中的规格id
+      const defaultSelectedSpecIds = this.selectedSku.specIds.split('_')
+
+      this.specList.forEach(spec => {
+        spec.values.forEach(vals=>{
+          if(defaultSelectedSpecIds.indexOf(vals.id)!==-1){
+            this.selectedSpecValues.push(vals)
+            this.$set(vals, 'selected', true)
+          }else{
+            this.$set(vals, 'selected', false)
+          }
+        })
       })
 
-      // 默认选择规格项ID的集合
-      const defaultSelectedSpecIds = this.selectedSpecValues.map(item => item.id)
-      console.log('defaultSelectedSpecIds:',defaultSelectedSpecIds)
+      console.log('selectedSpecValues:',this.selectedSpecValues)
 
-      console.log('skuList:',this.skuList)
-
-      // 默认规格项集合生成默认商品库存单元
-      // this.selectedSku = this.skuList.filter(sku => sku.specIds.split('_').equals(
-      //     defaultSelectedSpecIds))[0]
-      this.selectedSku = this.skuList[0]
     });
-    this.shareList = await this.$api.json('shareList');
   },
   methods: {
     //规格弹窗开关
@@ -231,6 +242,8 @@ export default {
     },
     // 选择规格
     selectSpec(specIndex, specValueIndex) {
+      console.log('specIndex',specIndex)
+      console.log('specValueIndex',specValueIndex)
       this.specList[specIndex].values.forEach((item, index) => {
         if (index == specValueIndex) {
           this.$set(item, 'selected', true);
@@ -248,7 +261,14 @@ export default {
       const selectedSpecValueIds = this.selectedSpecValues.map(item => item.id)
 
       // 根据选择的规格项匹配商品库存单元
-      this.selectedSku = this.skuList.filter(item => item.specIds.split('_').equals(selectedSpecValueIds))[0]
+      let sku = this.skuList.filter(item => item.specIds.split('_').equals(selectedSpecValueIds))
+      if(!sku || sku.length===0){
+        this.selectedSku = {stockNum:0}
+        this.isNull = true
+      }else{
+        this.selectedSku = sku[0]
+        this.isNull = false
+      }
 
       console.log('您选择的商品:', JSON.stringify(this.selectedSku))
 
@@ -279,7 +299,7 @@ export default {
             let page = getCurrentPages().pop();
             if (page == undefined || page == null) return;
             page.curSegment = 0;
-            page.onLoad();
+            page.loadData();
           },
         });
       })

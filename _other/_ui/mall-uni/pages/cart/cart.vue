@@ -19,14 +19,14 @@
         <block v-for="(item, index) in cartItemList" :key="item.skuId">
           <view class="cart-item" :class="{ 'b-b': index !== cartItemList.length - 1 }">
             <view class="image-wrapper">
-              <image :src="item.picUrl" class="loaded" mode="aspectFill" lazy-load
-                     @load="onImageLoad('cartItemList', index)" @error="onImageError('cartItemList', index)">
-              </image>
+              <img :src="getImg(item.picUrl)" class="loaded" mode="aspectFill" lazy-load
+                     @load="onImageLoad('cartItemList', index)" @error="onImageError('cartItemList', index)" alt="">
+              <img/>
               <view class="yticon icon-xuanzhong2 checkbox" :class="{ checked: item.checked }"
                     @click="handleCheckItem(index, item.skuId)"></view>
             </view>
             <view class="item-right">
-              <text class="clamp title">{{ item.goodsName }}</text>
+              <text class="clamp title">{{ item.skuName }}</text>
               <text class="price">¥{{ item.price / 100 }}</text>
               <uni-number-box class="step" :min="1" :max="item.stock"
                               :value="item.count"
@@ -93,25 +93,33 @@ export default {
     ...mapGetters(['hasLogin'])
   },
   methods: {
+    getImg(url){
+      const res = 'http:127.0.0.1:8301'+url;
+      return res;
+    },
     //请求数据
     async loadData() {
+      console.log('加载购物车数据')
       getCart().then(response => {
         this.cartItemList = [];
         this.totalPrice = 0;
-
-        console.log('获取购物车数据', response.data);
-        this.cartItemList = response.data;
-        this.changeCart(); //计算总价
+        this.$nextTick( _ => {
+          console.log('获取购物车数据', response.data);
+          this.cartItemList = response.data;
+          this.changeCart(); //计算总价
+        })
       });
     },
 
     //监听image加载完成
     onImageLoad(key, index) {
+      console.log('监听image加载完成')
       this.$set(this[key][index], 'loaded', 'loaded');
     },
 
     //监听image加载失败
     onImageError(key, index) {
+      console.log('监听image加载失败')
       this[key][index].image = '/static/errorImage.jpg';
     },
 
