@@ -183,24 +183,16 @@ export default {
         return;
       }
 
-      let checked = true;
-      for (let i = 0; i < this.cartItemList.length; i++) {
-        if (this.cartItemList[i].checked === false) {
-          checked = false;
-          break;
-        }
-      }
-      this.allChecked = checked;
-
       const checkedItemList = this.cartItemList.filter(item => item.checked)
+
       if (!checkedItemList || checkedItemList.length === 0) {
         this.totalPrice = 0
       } else if (checkedItemList.length == 1) {
-        this.totalPrice = checkedItemList[0].count * checkedItemList[0].price;
+        this.totalPrice = checkedItemList[0].count * (checkedItemList[0].price / 100);
       } else {
-        this.totalPrice = checkedItemList.reduce((prev, curr) => {
-          return prev.price * prev.count + curr.price * curr.count;
-        });
+        checkedItemList.forEach(item=>{
+          this.totalPrice += (item.price  * item.count)
+        })
       }
     },
 
