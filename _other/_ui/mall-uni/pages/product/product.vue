@@ -15,8 +15,8 @@
       <text class="title">{{ goodsInfo.name }}</text>
       <view class="price-box">
         <text class="price-tip">¥</text>
-        <text class="price">{{ goodsInfo.price / 100 }}</text>
-        <text class="m-price">¥{{ goodsInfo.originPrice /100 }}</text>
+        <text class="price">{{ selectedSku.price / 100 }}</text>
+        <text class="m-price" v-if="selectedSku.promotion">¥{{ selectedSku.originPrice /100 }}</text>
         <!-- <text class="coupon-tip">7折</text> -->
       </view>
       <view class="bot-row">
