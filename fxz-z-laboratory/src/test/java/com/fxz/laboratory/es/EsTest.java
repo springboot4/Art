@@ -70,8 +70,9 @@ public class EsTest {
 	@Test
 	public void updateDocument() throws IOException {
 		HashMap<String, String> map = new HashMap<>();
-		map.put("name", "2342342");
-		map.put("age", "22");
+		map.put("name", "测试null值会不会被更新");
+		map.put("age", "");
+		map.put("des",null);
 		elasticsearchClient.update(u -> u.index("test").id("2").doc(map), HashMap.class);
 	}
 
@@ -82,7 +83,7 @@ public class EsTest {
 
 	@Test
 	public void getDocument() throws IOException {
-		GetResponse<Map> response = elasticsearchClient.get(d -> d.index("test").id("1"), Map.class);
+		GetResponse<Map> response = elasticsearchClient.get(d -> d.index("test").id("2"), Map.class);
 		Map source = response.source();
 		log.info("map:{}", source);
 	}
