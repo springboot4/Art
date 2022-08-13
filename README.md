@@ -1,7 +1,6 @@
-大哥们路过麻烦给个star🙏
 ##  🍉项目介绍
 
-  写着玩,采用微服务架构,致力于打造成全球最牛逼的后台权限管理框架。
+ 微服务架构,致力于打造成宇宙最牛逼的后台权限管理框架。
 
 
 
@@ -10,10 +9,6 @@
 🥒项目整体结构
 ```
 fxz-cloud 
-    ├── other -- 项目相关文件
-       ├── _config -- 相关配置
-       ├── _middleware -- 中间件
-       ├── _ui -- 前端代码
     ├── fxz-auth -- 认证服务器
     ├── fxz-common -- 通用工具封装
        ├── fxz-common-canal -- 针对canal封装
@@ -43,13 +38,20 @@ fxz-cloud
        ├── fxz-system-api -- feign接口
        ├── fxz-system-biz -- 业务模块
     ├── fxz-z-laboratory -- 实验性模块
+    ├──_other -- 项目相关文件
+       ├── _config -- 相关配置
+          ├── db -- 数据库相关文件
+          ├── docker -- docker环境
+          ├── es -- es索引信息
+       ├── _middleware -- 一些本地启动的中间件
+       ├── _ui -- 前端代码
+          ├── admin-vue2 -- 管理员界面
+          ├── mall-uni   -- 商城小程序界面
 ```
-🔨 快速启动
-https://gitee.com/fxzcloud/fxz-cloud/wikis/%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8
+[🔥🔥🔥快速启动](https://gitee.com/fxzcloud/fxz-cloud/wikis/%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8)
 
-🚀java交流群
-
-qq群:932249645
+🚀🚀🚀交流群
+qq群:932249645（名额有限，先到先得 🤪）
 <p>
 <img src="https://minio.pigx.vip/oss/2022/07/FcAxsd.jpg" width = "330" height = "500"/>
 </p>

@@ -35,13 +35,14 @@
       v-on="$listeners"
       @checkbox-change="selectChangeEvent"
       @checkbox-all="selectAllEvent"
+      empty-text="没有更多数据了!"
     >
 
       <!--复选框-->
       <vxe-column type="checkbox" width="60" v-if="checkbox"></vxe-column>
 
       <!--序号列-->
-      <vxe-column type="seq" width="60" v-if="seq" :title="seqTitle"></vxe-column>
+      <vxe-column type="seq" width="60" v-if="seq" :title="seqTitle" ></vxe-column>
 
       <!--展开行-->
       <vxe-column type="expand" width="60" v-if="expandConfig&&expandConfig.expand">
@@ -110,13 +111,6 @@
           </template>
         </template>
       </vxe-column>
-
-      <template #empty>
-        <span style="color: red;">
-          <img src="https://n.sinaimg.cn/sinacn17/w120h120/20180314/89fc-fyscsmv5911424.gif">
-          <p>不用再看了，没有更多数据了！</p>
-        </span>
-      </template>
 
       <template v-for="(column,index) in columns">
         <vxe-column

@@ -25,7 +25,7 @@ public class ElasticsearchClientConfig {
 
 	@Bean
 	public RestClient restClient() {
-		return RestClient.builder(new HttpHost("fxz-elasticsearch", 9210)).build();
+		return RestClient.builder(new HttpHost("fxz-elasticsearch", 9200)).build();
 	}
 
 	@Bean
