@@ -25,7 +25,10 @@ public class ElasticsearchClientConfig {
 
 	@Bean
 	public RestClient restClient() {
-		return RestClient.builder(new HttpHost("fxz-elasticsearch", 9200)).build();
+		return RestClient.builder(new HttpHost("fxz-elasticsearch", 9200))
+				.setRequestConfigCallback(
+						b -> b.setConnectTimeout(10000).setConnectionRequestTimeout(10000).setSocketTimeout(60000))
+				.build();
 	}
 
 	@Bean
