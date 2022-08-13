@@ -20,27 +20,27 @@ import javax.annotation.Resource;
 @AutoConfiguration
 public class ElasticsearchClientConfig {
 
-	@Resource
-	private ObjectMapper objectMapper;
+    @Resource
+    private ObjectMapper objectMapper;
 
-	@Bean
-	public RestClient restClient() {
-		return RestClient.builder(new HttpHost("fxz-elasticsearch", 9200)).build();
-	}
+    @Bean
+    public RestClient restClient() {
+        return RestClient.builder(new HttpHost("fxz-elasticsearch", 9200)).setRequestConfigCallback(b -> b.setConnectTimeout(10000).setConnectionRequestTimeout(10000).setSocketTimeout(60000)).build();
+    }
 
-	@Bean
-	public JacksonJsonpMapper jacksonJsonpMapper() {
-		return new JacksonJsonpMapper(objectMapper);
-	}
+    @Bean
+    public JacksonJsonpMapper jacksonJsonpMapper() {
+        return new JacksonJsonpMapper(objectMapper);
+    }
 
-	@Bean
-	public ElasticsearchTransport elasticsearchTransport() {
-		return new RestClientTransport(restClient(), jacksonJsonpMapper());
-	}
+    @Bean
+    public ElasticsearchTransport elasticsearchTransport() {
+        return new RestClientTransport(restClient(), jacksonJsonpMapper());
+    }
 
-	@Bean
-	public ElasticsearchClient elasticsearchClient() {
-		return new ElasticsearchClient(elasticsearchTransport());
-	}
+    @Bean
+    public ElasticsearchClient elasticsearchClient() {
+        return new ElasticsearchClient(elasticsearchTransport());
+    }
 
 }
