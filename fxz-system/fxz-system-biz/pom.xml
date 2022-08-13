@@ -41,11 +41,6 @@
             <version>0.0.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
-        </dependency>
-
         <!--nacos配置中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -75,6 +70,12 @@
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-system-api</artifactId>
+        </dependency>
+
+        <!--测试:xxl-job-->
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-xxl-job</artifactId>
         </dependency>
 
         <!--测试:es模块-->
