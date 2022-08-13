@@ -10,4 +10,4 @@ spring:
   config:
     import:
       - optional:nacos:${spring.application.name}.yaml
-    
+      - optional:nacos:fxz-application-common.yaml
