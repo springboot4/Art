@@ -1,12 +1,12 @@
-##  🍉项目介绍
+##  🚀项目介绍
 
  微服务架构,致力于打造成宇宙最牛逼的后台权限管理框架。
 
 
 
-## 🍒文档
+## 📖文档
 
-🥒项目整体结构
+🪜项目整体结构
 ```
 fxz-cloud 
     ├── fxz-auth -- 认证服务器
@@ -31,6 +31,7 @@ fxz-cloud
        ├── fxz-common-sequence -- 发号器（序列号生成器）
        ├── fxz-common-sms -- 阿里云短信服务
        ├── fxz-common-websocket  -- websocket
+       ├── fxz-common-xxl-job  -- xxl-job配置
     ├── fxz-gateway -- 网关模块
     ├── fxz-generate -- 代码生成器
     ├── fxz-scheduled -- quartz定时任务模块
@@ -39,12 +40,11 @@ fxz-cloud
        ├── fxz-system-biz -- 业务模块
     ├── fxz-z-laboratory -- 实验性模块
     ├──_other -- 项目相关文件
-       ├── _config -- 相关配置
-          ├── db -- 数据库相关文件
-          ├── docker -- docker环境
-          ├── es -- es索引信息
-       ├── _middleware -- 一些本地启动的中间件
-       ├── _ui -- 前端代码
+       ├── db -- 数据库相关文件
+       ├── docker -- docker环境
+       ├── es -- es索引信息   
+       ├── middleware -- 一些本地启动的中间件
+       ├── ui -- 前端代码
           ├── admin-vue2 -- 管理员界面
           ├── mall-uni   -- 商城小程序界面
 ```
