@@ -23,7 +23,7 @@ public class FxzGatewayExceptionHandler implements ErrorWebExceptionHandler {
 	public Mono<Void> handle(ServerWebExchange exchange, Throwable fxz) {
 		ServerHttpResponse response = exchange.getResponse();
 
-		if (exchange.getResponse().isCommitted()) {
+		if (response.isCommitted()) {
 			return Mono.error(fxz);
 		}
 
