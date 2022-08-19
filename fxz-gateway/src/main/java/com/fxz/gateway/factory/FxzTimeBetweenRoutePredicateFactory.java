@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -25,6 +27,10 @@ public class FxzTimeBetweenRoutePredicateFactory extends AbstractRoutePredicateF
 		LocalTime endTime = config.getEndTime();
 
 		return (serverWebExchange) -> LocalTime.now().isAfter(startTime) && LocalTime.now().isBefore(endTime);
+	}
+
+	public List<String> shortcutFieldOrder() {
+		return Arrays.asList("startTime", "endTime");
 	}
 
 	public FxzTimeBetweenRoutePredicateFactory() {
