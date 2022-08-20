@@ -18,6 +18,7 @@ fxz-cloud
        ├── fxz-common-dependencies -- 依赖管理
        ├── fxz-common-es es配置
        ├── fxz-common-file 文件管理模块
+       ├── fxz-common-gateway 动态网关
        ├── fxz-common-idempotency -- 幂等控制组件
        ├── fxz-common-jackson -- Json序列化配置
        ├── fxz-common-log -- 日志配置

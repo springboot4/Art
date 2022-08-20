@@ -109,7 +109,7 @@ public class FxzGatewayRequestFilter implements GlobalFilter, Ordered {
 		}
 
 		if (url != null && route != null && originUri != null) {
-			log.info("转发请求：{}://{}{} --> 目标服务：{}，目标地址：{}://{}{}，转发时间：{}，方法耗时：{}", originUri.getScheme(),
+			log.info("转发请求：{}://{}{} --> 目标服务：{}，目标地址：{}://{}{}，转发时间：{}，方法耗时：{}ms", originUri.getScheme(),
 					originUri.getAuthority(), originUri.getPath(), route.getId(), url.getScheme(), url.getAuthority(),
 					url.getPath(), LocalDateTime.now(), executeTime);
 		}
