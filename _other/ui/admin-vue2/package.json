@@ -42,7 +42,8 @@
     "vxe-table": "^3.5.4",
     "wangeditor": "^3.1.1",
     "xe-utils": "^3.5.4",
-    "clipboard": "^2.0.4"
+    "clipboard": "^2.0.4",
+    "vue-json-editor": "^1.2.3"
   },
   "devDependencies": {
     "@ant-design/colors": "^3.2.1",

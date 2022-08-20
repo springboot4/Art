@@ -2,33 +2,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
     <parent>
+        <artifactId>fxz-common</artifactId>
         <groupId>com.fxz</groupId>
-        <artifactId>fxz-system</artifactId>
         <version>0.0.1</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fxz-system-api</artifactId>
-
+    <artifactId>fxz-common-gateway</artifactId>
     <dependencies>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <artifactId>spring-cloud-gateway-server</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.fxz</groupId>
-            <artifactId>fxz-common-core</artifactId>
+            <artifactId>fxz-common-redis</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.fxz</groupId>
-            <artifactId>fxz-common-mq-redis</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
         </dependency>
-
     </dependencies>
+
 
 </project>
