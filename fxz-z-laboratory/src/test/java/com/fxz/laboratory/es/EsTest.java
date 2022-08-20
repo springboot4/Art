@@ -72,7 +72,7 @@ public class EsTest {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("name", "测试null值会不会被更新");
 		map.put("age", "");
-		map.put("des",null);
+		map.put("des", null);
 		elasticsearchClient.update(u -> u.index("test").id("2").doc(map), HashMap.class);
 	}
 
