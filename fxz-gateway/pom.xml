@@ -49,10 +49,9 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
-        <!--redis依赖-->
         <dependency>
             <groupId>com.fxz</groupId>
-            <artifactId>fxz-common-redis</artifactId>
+            <artifactId>fxz-common-gateway</artifactId>
         </dependency>
 
         <!--核心依赖-->
@@ -67,6 +66,18 @@
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- 单元测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-system-api</artifactId>
         </dependency>
 
     </dependencies>
