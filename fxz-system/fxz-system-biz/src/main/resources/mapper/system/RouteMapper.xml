@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxz.system.mapper.RouteConfMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumn">
+        name,route_id,predicates,filters,uri,sort_order,metadata
+    </sql>
+
+    <!--查询从库指定表中所有数据-->
+    <select id="findAll" resultType="com.fxz.system.entity.RouteConf">
+        select
+        <include refid="baseColumn"/>
+        from
+        sys_route_conf r
+        WHERE
+        r.del_flag = 0
+        ORDER BY
+        r.sort_order
+    </select>
+
+</mapper>
