@@ -24,7 +24,7 @@ export default {
   menu: {
     locale: true
   },
-  title: 'Fxz-Mall',
+  title: 'Fxz-Cloud',
   pwa: false,
   iconfontUrl: '',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
