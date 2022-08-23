@@ -51,7 +51,9 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 	@Override
 	public Result<Object> addFile(MultipartFile file) {
 		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+
 		Map<String, String> resultMap = new HashMap<>(4);
+
 		resultMap.put("bucketName", ossProperties.getBucketName());
 		resultMap.put("fileName", fileName);
 		resultMap.put("url", String.format("/system/file/%s/%s", ossProperties.getBucketName(), fileName));
@@ -76,11 +78,13 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 	 */
 	private void fileLog(MultipartFile file, String fileName) {
 		File sysFile = new File();
+
 		sysFile.setFileName(fileName);
 		sysFile.setOriginal(file.getOriginalFilename());
 		sysFile.setFileSize(file.getSize());
 		sysFile.setType(FileUtil.extName(file.getOriginalFilename()));
 		sysFile.setBucketName(ossProperties.getBucketName());
+
 		this.save(sysFile);
 	}
 
