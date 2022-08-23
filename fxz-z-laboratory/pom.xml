@@ -14,6 +14,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
         <!-- 单元测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -29,6 +34,12 @@
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-security</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fxz</groupId>
+                    <artifactId>fxz-common-mq-redis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
