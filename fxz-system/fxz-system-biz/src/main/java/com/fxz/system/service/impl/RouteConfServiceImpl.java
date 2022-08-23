@@ -56,17 +56,17 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 			RouteConf r = new RouteConf();
 			Map<String, Object> map = (Map) value;
 
-			Object routeId = map.get("routeId");
+			Object routeId = map.get(RouteConf.Fields.routeId);
 			if (Objects.nonNull(routeId)) {
 				r.setRouteId(String.valueOf(routeId));
 			}
 
-			Object name = map.get("name");
+			Object name = map.get(RouteConf.Fields.name);
 			if (Objects.nonNull(name)) {
 				r.setName(String.valueOf(name));
 			}
 
-			Object predicates = map.get("predicates");
+			Object predicates = map.get(RouteConf.Fields.predicates);
 			if (Objects.nonNull(predicates)) {
 				JSONArray predicatesArray = (JSONArray) predicates;
 				List<PredicateDefinitionDto> predicateDefinitionList = predicatesArray
@@ -74,24 +74,24 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 				r.setPredicates(JSONUtil.toJsonStr(predicateDefinitionList));
 			}
 
-			Object filters = map.get("filters");
+			Object filters = map.get(RouteConf.Fields.filters);
 			if (filters != null) {
 				JSONArray filtersArray = (JSONArray) filters;
 				List<FilterDefinitionDto> filterDefinitionList = filtersArray.toList(FilterDefinitionDto.class);
 				r.setFilters(JSONUtil.toJsonStr(filterDefinitionList));
 			}
 
-			Object uri = map.get("uri");
+			Object uri = map.get(RouteConf.Fields.uri);
 			if (uri != null) {
 				r.setUri(URI.create(String.valueOf(uri)).toString());
 			}
 
-			Object order = map.get("sortOrder");
+			Object order = map.get(RouteConf.Fields.sortOrder);
 			if (order != null) {
 				r.setSortOrder(Integer.parseInt(String.valueOf(order)));
 			}
 
-			Object metadata = map.get("metadata");
+			Object metadata = map.get(RouteConf.Fields.metadata);
 			if (metadata != null) {
 				Map<String, Object> metadataMap = JSONUtil.toBean(String.valueOf(metadata), Map.class);
 				r.setMetadata(JSONUtil.toJsonStr(metadataMap));

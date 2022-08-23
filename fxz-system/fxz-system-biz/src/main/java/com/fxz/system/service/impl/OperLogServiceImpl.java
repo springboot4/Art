@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 操作日志记录
@@ -60,13 +61,13 @@ public class OperLogServiceImpl extends ServiceImpl<OperLogMapper, OperLog> impl
 	@Override
 	public IPage<OperLog> pageOperLog(Page<OperLog> pageParam, OperLog operLog) {
 		QueryWrapper<OperLog> queryWrapper = Wrappers.query();
-		if (operLog.getBusinessType() == null) {
-			queryWrapper.ne("business_type", BusinessType.GRANT);
+		if (Objects.isNull(operLog.getBusinessType())) {
+			queryWrapper.ne(OperLog.Fields.businessType, BusinessType.GRANT);
 		}
 		else {
-			queryWrapper.eq("business_type", operLog.getBusinessType());
+			queryWrapper.eq(OperLog.Fields.businessType, operLog.getBusinessType());
 		}
-		queryWrapper.like(StringUtils.isNotBlank(operLog.getTitle()), "title", operLog.getTitle());
+		queryWrapper.like(StringUtils.isNotBlank(operLog.getTitle()), OperLog.Fields.title, operLog.getTitle());
 		return operLogMapper.selectPage(pageParam, queryWrapper);
 	}
 
