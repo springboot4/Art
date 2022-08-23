@@ -42,8 +42,12 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	 */
 	@Override
 	public Boolean addRouteConf(RouteConf routeConf) {
+		// 保存路由信息
 		this.save(routeConf);
+
+		// 通知mq
 		this.sendMq();
+
 		return Boolean.TRUE;
 	}
 
@@ -75,24 +79,24 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 			}
 
 			Object filters = map.get(RouteConf.Fields.filters);
-			if (filters != null) {
+			if (Objects.nonNull(filters)) {
 				JSONArray filtersArray = (JSONArray) filters;
 				List<FilterDefinitionDto> filterDefinitionList = filtersArray.toList(FilterDefinitionDto.class);
 				r.setFilters(JSONUtil.toJsonStr(filterDefinitionList));
 			}
 
 			Object uri = map.get(RouteConf.Fields.uri);
-			if (uri != null) {
+			if (Objects.nonNull(uri)) {
 				r.setUri(URI.create(String.valueOf(uri)).toString());
 			}
 
 			Object order = map.get(RouteConf.Fields.sortOrder);
-			if (order != null) {
+			if (Objects.nonNull(order)) {
 				r.setSortOrder(Integer.parseInt(String.valueOf(order)));
 			}
 
 			Object metadata = map.get(RouteConf.Fields.metadata);
-			if (metadata != null) {
+			if (Objects.nonNull(metadata)) {
 				Map<String, Object> metadataMap = JSONUtil.toBean(String.valueOf(metadata), Map.class);
 				r.setMetadata(JSONUtil.toJsonStr(metadataMap));
 			}
@@ -116,8 +120,12 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	 */
 	@Override
 	public Boolean deleteRouteConf(Long id) {
+		// 删除路由信息
 		this.removeById(id);
+
+		// 发送消息到mq
 		this.sendMq();
+
 		return Boolean.TRUE;
 	}
 

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.dataPermission.annotation.DataPermission;
+import com.fxz.common.redis.constant.CacheConstants;
 import com.fxz.system.entity.Dept;
 import com.fxz.system.mapper.DeptMapper;
 import com.fxz.system.service.IDeptService;
@@ -44,6 +45,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
 		if (count > 0) {
 			throw new FxzException("存在子部门,无法直接删除");
 		}
+
 		// 删除数据
 		return this.getBaseMapper().deleteById(id) > 0;
 	}
@@ -60,7 +62,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
 	 * 根据Pid查询下级部门 避免数据权限查询时循环调用
 	 */
 	@DataPermission(enable = false)
-	@Cacheable(value = "fxz_cloud:dept:", key = "#pId", unless = "#result==null")
+	@Cacheable(value = CacheConstants.GLOBALLY + "dept:", key = "#pId", unless = "#result==null")
 	@Override
 	public List<Dept> getDeptsByParentId(Long pId) {
 		Dept dept = this.baseMapper.getDeptsByParentId(pId);
