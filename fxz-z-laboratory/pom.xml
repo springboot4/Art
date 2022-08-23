@@ -34,12 +34,6 @@
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-security</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fxz</groupId>
-                    <artifactId>fxz-common-mq-redis</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
