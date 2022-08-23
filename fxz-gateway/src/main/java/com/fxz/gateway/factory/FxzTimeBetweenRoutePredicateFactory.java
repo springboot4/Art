@@ -30,7 +30,7 @@ public class FxzTimeBetweenRoutePredicateFactory extends AbstractRoutePredicateF
 	}
 
 	public List<String> shortcutFieldOrder() {
-		return Arrays.asList("startTime", "endTime");
+		return Arrays.asList(FxzTimeBetweenConfig.Fields.startTime, FxzTimeBetweenConfig.Fields.endTime);
 	}
 
 	public FxzTimeBetweenRoutePredicateFactory() {

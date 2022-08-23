@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,11 +39,9 @@ public class EasyCaptchaHandler implements HandlerFunction<ServerResponse> {
 		CodeTypeEnum codeTypeEnum = CodeTypeEnum.ARITHMETIC;
 		Captcha captcha = easyCaptchaProducer.getCaptcha(codeTypeEnum);
 		String captchaValue = captcha.text();
-		// 对于数学类型的需要进行处理
-		if (codeTypeEnum == null || codeTypeEnum == CodeTypeEnum.ARITHMETIC) {
-			if (captcha.getCharType() - 1 == CodeTypeEnum.ARITHMETIC.ordinal() && captchaValue.contains(".")) {
-				captchaValue = captchaValue.split("\\.")[0];
-			}
+
+		if (captcha.getCharType() - 1 == CodeTypeEnum.ARITHMETIC.ordinal() && captchaValue.contains(".")) {
+			captchaValue = captchaValue.split("\\.")[0];
 		}
 
 		// 缓存验证码至Redis

@@ -9,9 +9,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.param.PageParam;
+import com.fxz.common.redis.constant.CacheConstants;
+import com.fxz.system.dto.UserInfoDto;
 import com.fxz.system.entity.*;
 import com.fxz.system.mapper.UserMapper;
-import com.fxz.system.dto.UserInfoDto;
 import com.fxz.system.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -56,20 +57,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		// 创建用户
 		user.setAvatar(SystemUser.DEFAULT_AVATAR);
 		user.setPassword("{bcrypt}" + passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD));
+
+		// 保存用户信息
 		save(user);
+
 		// 保存用户角色
-		if (StringUtils.isNotEmpty(user.getRoleId())) {
-			String[] roles = user.getRoleId().split(StringPool.COMMA);
-			setUserRoles(user, roles);
-		}
+		setUserRoles(user);
+
 		// 保存用户岗位
-		if (StringUtils.isNotEmpty(user.getPostId())) {
-			String[] posts = user.getPostId().split(StringPool.COMMA);
-			setUserPosts(user, posts);
-		}
+		setUserPosts(user);
 	}
 
-	@CacheEvict(value = "fxz_cloud:user", key = "#user.userId+':userInfo'")
+	@CacheEvict(value = CacheConstants.GLOBALLY + "user", key = "#user.userId+':userInfo'")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUser(SystemUser user) {
@@ -80,6 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		else {
 			user.setPassword(null);
 		}
+
 		user.setUsername(null);
 		updateById(user);
 
@@ -87,22 +87,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 			userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
 			userPostService.remove(new LambdaQueryWrapper<UserPost>().eq(UserPost::getUserId, user.getUserId()));
 
-			if (StringUtils.isNotEmpty(user.getRoleId())) {
-				String[] roles = user.getRoleId().split(StringPool.COMMA);
-				setUserRoles(user, roles);
-			}
-			if (StringUtils.isNotEmpty(user.getPostId())) {
-				String[] posts = user.getPostId().split(StringPool.COMMA);
-				setUserPosts(user, posts);
-			}
+			// 保存角色信息
+			setUserRoles(user);
+
+			// 保存岗位信息
+			setUserPosts(user);
 		}
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteUsers(String[] userIds) {
-		List<String> list = Arrays.asList(userIds);
-		removeByIds(list);
+		// 删除用户
+		removeByIds(Arrays.asList(userIds));
+
 		// 删除用户角色
 		this.userRoleService.deleteUserRolesByUserId(userIds);
 	}
@@ -110,34 +108,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	/**
 	 * 根据用户id获取用户信息
 	 */
-	@Cacheable(value = "fxz_cloud:user", key = "#id+':userInfo'")
+	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#id+':userInfo'")
 	@Override
 	public SystemUser getUserById(Long id) {
 		return this.baseMapper.getUserById(id);
 	}
 
-	private void setUserPosts(SystemUser user, String[] posts) {
-		Arrays.stream(posts).forEach(postId -> {
-			UserPost up = new UserPost();
-			up.setUserId(user.getUserId());
-			up.setPostId(Long.valueOf(postId));
-			userPostService.save(up);
-		});
-	}
-
-	private void setUserRoles(SystemUser user, String[] roles) {
-		Arrays.stream(roles).forEach(roleId -> {
-			UserRole ur = new UserRole();
-			ur.setUserId(user.getUserId());
-			ur.setRoleId(Long.valueOf(roleId));
-			userRoleService.save(ur);
-		});
-	}
-
 	/**
 	 * 通过用户名查找用户信息
 	 */
-	@Cacheable(value = "fxz_cloud:user", key = "#username+':userInfo'")
+	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#username+':userInfo'")
 	@Override
 	public SystemUser findByName(String username) {
 		return this.baseMapper.findByName(username);
@@ -177,6 +157,48 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	@Override
 	public SystemUser findByMobile(String mobile) {
 		return this.baseMapper.findByMobile(mobile);
+	}
+
+	/**
+	 * 保存用户的岗位信息
+	 * @param user 用户信息
+	 */
+	private void setUserPosts(SystemUser user) {
+		if (StringUtils.isBlank(user.getPostId())) {
+			return;
+		}
+
+		String[] posts = user.getPostId().split(StringPool.COMMA);
+
+		List<UserPost> list = Arrays.stream(posts).map(postId -> {
+			UserPost up = new UserPost();
+			up.setUserId(user.getUserId());
+			up.setPostId(Long.valueOf(postId));
+			return up;
+		}).collect(Collectors.toList());
+
+		userPostService.saveBatch(list);
+	}
+
+	/**
+	 * 保存用户的角色信息
+	 * @param user 用户信息
+	 */
+	private void setUserRoles(SystemUser user) {
+		if (StringUtils.isBlank(user.getRoleId())) {
+			return;
+		}
+
+		String[] roles = user.getRoleId().split(StringPool.COMMA);
+
+		List<UserRole> list = Arrays.stream(roles).map(roleId -> {
+			UserRole ur = new UserRole();
+			ur.setUserId(user.getUserId());
+			ur.setRoleId(Long.valueOf(roleId));
+			return ur;
+		}).collect(Collectors.toList());
+
+		userRoleService.saveBatch(list);
 	}
 
 }
