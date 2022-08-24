@@ -68,6 +68,7 @@ public class OperLogServiceImpl extends ServiceImpl<OperLogMapper, OperLog> impl
 			queryWrapper.eq(OperLog.Fields.businessType, operLog.getBusinessType());
 		}
 		queryWrapper.like(StringUtils.isNotBlank(operLog.getTitle()), OperLog.Fields.title, operLog.getTitle());
+
 		return operLogMapper.selectPage(pageParam, queryWrapper);
 	}
 
