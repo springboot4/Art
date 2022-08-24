@@ -67,22 +67,25 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
 	public List<Dept> getDeptsByParentId(Long pId) {
 		Dept dept = this.baseMapper.getDeptsByParentId(pId);
 
-		List<Dept> list = treeToList(dept);
-		return list;
+		return treeToList(dept);
 	}
 
 	private List<Dept> treeToList(Dept dept) {
 		LinkedList<Dept> list = new LinkedList<>();
 		list.add(dept);
+
 		List<Dept> children = dept.getChildren();
-		if (CollectionUtils.isNotEmpty(children)) {
-			children.forEach(item -> {
-				List<Dept> depts = treeToList(item);
-				if (CollectionUtils.isNotEmpty(depts)) {
-					list.addAll(depts);
-				}
-			});
+		if (CollectionUtils.isEmpty(children)) {
+			return list;
 		}
+
+		children.forEach(item -> {
+			List<Dept> depts = treeToList(item);
+			if (CollectionUtils.isEmpty(depts)) {
+				list.addAll(depts);
+			}
+		});
+
 		return list;
 	}
 

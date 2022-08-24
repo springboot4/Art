@@ -129,23 +129,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	@Override
 	public UserInfo findUserInfo(SystemUser systemUser) {
 		UserInfo userInfo = new UserInfo();
+
+		// 设置用户信息
 		userInfo.setSysUser(systemUser);
+
+		// 查询用户角色信息
 		List<UserRole> userRoles = userRoleService
 				.list(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUserId, systemUser.getUserId()));
-		if (CollectionUtils.isNotEmpty(userRoles)) {
-			Set<Long> roleSet = userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toSet());
-			List<RoleMenu> roleMenus = roleMenuService
-					.list(Wrappers.<RoleMenu>lambdaQuery().in(RoleMenu::getRoleId, roleSet));
-			if (CollectionUtils.isNotEmpty(roleMenus)) {
-				Set<Long> menuIds = roleMenus.stream().map(RoleMenu::getMenuId).collect(Collectors.toSet());
-				List<Menu> menus = menuService.list(Wrappers.<Menu>lambdaQuery().in(Menu::getId, menuIds));
-				if (CollectionUtils.isNotEmpty(menus)) {
-					List<String> permissions = menus.stream().map(Menu::getPerms).distinct()
-							.collect(Collectors.toList());
-					userInfo.setPermissions(permissions);
-				}
-			}
+		if (CollectionUtils.isEmpty(userRoles)) {
+			return userInfo;
 		}
+
+		// 查询角色菜单信息
+		List<RoleMenu> roleMenus = roleMenuService.list(Wrappers.<RoleMenu>lambdaQuery().in(RoleMenu::getRoleId,
+				userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toSet())));
+		if (CollectionUtils.isEmpty(roleMenus)) {
+			return userInfo;
+		}
+
+		// 查询菜单信息
+		List<Menu> menus = menuService.list(Wrappers.<Menu>lambdaQuery().in(Menu::getId,
+				roleMenus.stream().map(RoleMenu::getMenuId).collect(Collectors.toSet())));
+		if (CollectionUtils.isEmpty(menus)) {
+			return userInfo;
+		}
+
+		// 设置用户权限标识
+		List<String> permissions = menus.stream().map(Menu::getPerms).distinct().collect(Collectors.toList());
+		userInfo.setPermissions(permissions);
+
 		return userInfo;
 	}
 
@@ -168,9 +180,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 			return;
 		}
 
-		String[] posts = user.getPostId().split(StringPool.COMMA);
-
-		List<UserPost> list = Arrays.stream(posts).map(postId -> {
+		List<UserPost> list = Arrays.stream(user.getPostId().split(StringPool.COMMA)).map(postId -> {
 			UserPost up = new UserPost();
 			up.setUserId(user.getUserId());
 			up.setPostId(Long.valueOf(postId));
@@ -189,9 +199,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 			return;
 		}
 
-		String[] roles = user.getRoleId().split(StringPool.COMMA);
-
-		List<UserRole> list = Arrays.stream(roles).map(roleId -> {
+		List<UserRole> list = Arrays.stream(user.getRoleId().split(StringPool.COMMA)).map(roleId -> {
 			UserRole ur = new UserRole();
 			ur.setUserId(user.getUserId());
 			ur.setRoleId(Long.valueOf(roleId));
