@@ -33,7 +33,7 @@
       <global-footer />
     </template>
 
-    <global-web-socket uri="/websocket/user"/>
+    <global-web-socket uri="/websocket/user" v-if="enableWebSocket"/>
 
   </pro-layout>
 </template>
@@ -94,7 +94,10 @@ export default {
       query: {},
 
       // 是否手机模式
-      isMobile: false
+      isMobile: false,
+
+      // 开启websocket
+      enableWebSocket: false
     }
   },
   computed: {

@@ -81,7 +81,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
 
 		children.forEach(item -> {
 			List<Dept> depts = treeToList(item);
-			if (CollectionUtils.isEmpty(depts)) {
+			if (CollectionUtils.isNotEmpty(depts)) {
 				list.addAll(depts);
 			}
 		});
