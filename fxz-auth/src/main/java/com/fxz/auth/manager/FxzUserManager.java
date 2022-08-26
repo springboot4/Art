@@ -8,8 +8,6 @@ import com.fxz.system.feign.RemoteUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 /**
  * @author Fxz
  * @version 1.0
@@ -28,8 +26,7 @@ public class FxzUserManager {
 	}
 
 	public String findUserPermissions(String username) {
-		Set<String> userPermissions = menuService.findUserPermissions(username);
-		return String.join(StringPool.COMMA, userPermissions);
+		return String.join(StringPool.COMMA, menuService.findUserPermissions(username));
 	}
 
 	public SystemUser findByMobile(String mobile) {
