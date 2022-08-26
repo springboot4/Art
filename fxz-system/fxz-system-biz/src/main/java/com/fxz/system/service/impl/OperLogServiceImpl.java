@@ -62,10 +62,10 @@ public class OperLogServiceImpl extends ServiceImpl<OperLogMapper, OperLog> impl
 	public IPage<OperLog> pageOperLog(Page<OperLog> pageParam, OperLog operLog) {
 		QueryWrapper<OperLog> queryWrapper = Wrappers.query();
 		if (Objects.isNull(operLog.getBusinessType())) {
-			queryWrapper.ne(OperLog.Fields.businessType, BusinessType.GRANT);
+			queryWrapper.ne(StringUtils.camelToUnderline(OperLog.Fields.businessType), BusinessType.GRANT);
 		}
 		else {
-			queryWrapper.eq(OperLog.Fields.businessType, operLog.getBusinessType());
+			queryWrapper.eq(StringUtils.camelToUnderline(OperLog.Fields.businessType), operLog.getBusinessType());
 		}
 		queryWrapper.like(StringUtils.isNotBlank(operLog.getTitle()), OperLog.Fields.title, operLog.getTitle());
 
