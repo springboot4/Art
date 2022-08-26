@@ -3,8 +3,7 @@ export const tableObj = {
     {
       title: '活动名称',
       field: 'promotionName',
-      width: '180px',
-      fixed: 'left'
+      width: '180px'
     },
     {
       title: '活动开始时间',
@@ -30,9 +29,10 @@ export const tableObj = {
     },
     {
       title: '操作',
-      width: '200px',
+      width: '150px',
       field: 'action',
-      slot: true
+      slot: true,
+      fixed: 'right'
     }
   ]
 }
