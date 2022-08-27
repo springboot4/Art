@@ -24,16 +24,16 @@ public class ${className}Controller {
      * 添加
      */
     @PostMapping(value = "/add")
-    public Result<Boolean> add(@RequestBody ${className}Dto ${classname}Dto) {
-        return Result.success(${classname}Service.add${className}(${classname}Dto));
+    public Result<Boolean> add(@RequestBody ${className}DTO ${classname}DTO) {
+        return Result.success(${classname}Service.add${className}(${classname}DTO));
     }
 
     /**
     * 修改
     */
     @PostMapping(value = "/update")
-    public Result<Boolean> update(@RequestBody ${className}Dto ${classname}Dto) {
-        return Result.success(${classname}Service.update${className}(${classname}Dto));
+    public Result<Boolean> update(@RequestBody ${className}DTO ${classname}DTO) {
+        return Result.success(${classname}Service.update${className}(${classname}DTO));
     }
 
     /**
