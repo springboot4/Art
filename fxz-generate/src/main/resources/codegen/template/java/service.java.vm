@@ -16,12 +16,12 @@ public interface ${className}Service extends IService <${className}> {
     /**
      * 添加
      */
-    Boolean add${className}(${className}Dto ${classname}Dto);
+    Boolean add${className}(${className}DTO ${classname}DTO);
 
     /**
      * 修改
      */
-    Boolean update${className}(${className}Dto ${classname}Dto);
+    Boolean update${className}(${className}DTO ${classname}DTO);
 
     /**
      * 分页
