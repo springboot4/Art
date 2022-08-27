@@ -40,7 +40,7 @@ public enum CodeGenTemplateVmEnum {
 	/**
 	 * dto
 	 */
-	DTO("dto", "codegen/template/java/dto.java.vm", "Dto.java"),
+	DTO("dto", "codegen/template/java/dto.java.vm", "DTO.java"),
 	/**
 	 * api_vue2
 	 */
