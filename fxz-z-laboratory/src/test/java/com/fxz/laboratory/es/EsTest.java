@@ -5,11 +5,11 @@ import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
 import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
-import co.elastic.clients.elasticsearch.core.GetResponse;
 import co.elastic.clients.elasticsearch.core.IndexRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import com.fxz.common.es.utils.EsClientUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -78,14 +78,42 @@ public class EsTest {
 
 	@Test
 	public void deleteDocument() throws IOException {
+		// 删除单条
 		elasticsearchClient.delete(d -> d.index("test").id("1"));
+		// 删除所有
+		elasticsearchClient.deleteByQuery(d -> d.index("test").query(q -> q.matchAll(v -> v)));
 	}
 
 	@Test
 	public void getDocument() throws IOException {
-		GetResponse<Map> response = elasticsearchClient.get(d -> d.index("test").id("2"), Map.class);
-		Map source = response.source();
-		log.info("map:{}", source);
+		// 查所有 默认返回前10条
+		log.info("查所有");
+		SearchResponse<Map> search = elasticsearchClient.search(s -> s.index("test").query(q -> q.matchAll(m -> m)),
+				Map.class);
+		search.hits().hits().forEach(h -> log.info("{}", h.source()));
+
+		// 分页 from开始下标从0开始，size为每页记录数
+		log.info("分页查");
+		search = elasticsearchClient.search(s -> s.index("test").query(q -> q.matchAll(m -> m)).from(0).size(1000),
+				Map.class);
+		search.hits().hits().forEach(h -> log.info("{}", h.source()));
+
+		// 查单条 根据id获取
+		log.info("查单条");
+		log.info("map:{}", EsClientUtil.getById("test", 2 + "", Map.class));
+
+		// 更新单条数据
+		log.info("更新单条");
+		HashMap<String, String> map = new HashMap<>();
+		map.put("name", "测试更新");
+		map.put("age", "");
+		map.put("des", null);
+		map.put("no", "999999999");
+		EsClientUtil.updateById("test", "2", map, Map.class);
+
+		// 查单条 根据id获取
+		log.info("查单条");
+		log.info("map:{}", EsClientUtil.getById("test", 2 + "", Map.class));
 	}
 
 	/**
@@ -122,12 +150,13 @@ public class EsTest {
 	public void bulk() throws IOException {
 		List<BulkOperation> operations = new LinkedList<>();
 
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 1000; i++) {
 			String id = String.valueOf(i);
 			HashMap<String, String> map = new HashMap<>();
-			map.put("name", "fxz");
+			map.put("name", "fxz" + i);
 			map.put("age", "18");
 			map.put("des", "emm..");
+			map.put("no", i + "");
 
 			BulkOperation operation = new BulkOperation.Builder().index(c -> c.index("test").id(id).document(map))
 					.build();
@@ -138,12 +167,13 @@ public class EsTest {
 
 		BulkRequest.Builder br = new BulkRequest.Builder();
 
-		for (int i = 11; i <= 20; i++) {
+		for (int i = 1001; i <= 2000; i++) {
 			String id = String.valueOf(i);
 			HashMap<String, String> map = new HashMap<>();
 			map.put("name", "fxz");
 			map.put("age", "19");
 			map.put("des", "emm..");
+			map.put("no", i + "");
 
 			br.operations(op -> op.index(idx -> idx.index("test").id(id).document(map)));
 		}
