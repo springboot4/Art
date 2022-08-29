@@ -1,6 +1,17 @@
 import { axios } from '@/utils/request'
 
 /**
+ * 列出优惠券
+ */
+export function listCoupon (params) {
+  return axios({
+    url: '/promotion/admin/coupon/listCoupon',
+    method: 'GET',
+    params: params
+  })
+}
+
+/**
  * 添加优惠券
  */
 export function add (obj) {
