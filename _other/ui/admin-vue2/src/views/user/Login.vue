@@ -293,7 +293,7 @@ export default {
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({
-          message: '嘿嘿 来啦',
+          message: '登录',
           description: `${timeFix()}，欢迎回来`
         })
       }, 500)
@@ -303,7 +303,7 @@ export default {
       this.isLoginError = true
       this.$notification['error']({
         message: '错误',
-        description: ((err.response || {}).data || {}).message || '请求出现错误，请稍后再试',
+        description: ((err.msg || {}).data || {}).message || '请求出现错误，请稍后再试',
         duration: 4
       })
     }

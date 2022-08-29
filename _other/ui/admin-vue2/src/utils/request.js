@@ -39,7 +39,8 @@ const errorHandler = (error) => {
       }
     }
   }
-  return Promise.reject(error)
+  console.log('error.response.data:', error.response.data)
+  return Promise.reject(error.response.data)
 }
 
 // request interceptor
