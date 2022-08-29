@@ -68,7 +68,7 @@ export default {
         this.$message.success('删除成功')
         this.queryPage()
       }).catch(err => {
-        this.$message.error(err.response.data.message)
+        this.$message.error(err.msg)
       })
     },
     handleOk () {
