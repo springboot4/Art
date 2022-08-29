@@ -14,10 +14,8 @@
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
     >
-      <a-form-model-item label="主键" prop="id" hidden="true">
-        <a-input v-model="form.id" v-if="!showable" />
-        <span v-else>{{ form.id }}</span>
-      </a-form-model-item>
+      <a-form-model-item label="主键" prop="id" hidden="true" />
+      <a-form-model-item label="结束时间" prop="endTime" hidden="true" />
       <a-form-model-item
         label="活动名称"
         prop="promotionName"
@@ -148,7 +146,6 @@
         </a-radio-group>
         <span v-if="form.scopeType&&form.scopeType==='portion_goods'&&!showable">
           <a-transfer
-            :rowKey="record => record.id"
             :data-source="skuData"
             show-search
             :filter-option="filterOption"
@@ -184,6 +181,7 @@ import { FormMixin } from '@/mixins/FormMixin'
 import { get, add, update } from '@/api/mall/promotion/coupon'
 import { listSku } from '@/api/mall/product/goods'
 import moment from 'moment'
+
 export default {
   name: 'CouponEdit',
   mixins: [FormMixin],
@@ -254,13 +252,17 @@ export default {
         this.skuData.forEach(item => {
           item.title = item.name
           item.key = item.id
+          item.skuId = item.id
+          item.goodsId = item.spuId
+          item.goodsName = item.name
+          item.id = undefined
         })
       })
     },
     filterOption (inputValue, option) {
       return option.name.indexOf(inputValue) > -1
     },
-    handleChange (targetKeys, direction, moveKeys) {
+    handleChange (targetKeys) {
       this.targetKeys = targetKeys
       this.form.scopeId = this.targetKeys.join()
     },
@@ -282,7 +284,7 @@ export default {
           const keys = this.targetKeys
           const skus = this.skuData
           if (this.form.scopeType === 'portion_goods') {
-            this.form.promotionGoodsList = skus.filter(item => keys.indexOf(item.id) > -1)
+            this.form.promotionGoodsList = skus.filter(item => keys.indexOf(item.key) > -1)
           }
 
           if (this.form.rangeDayType === 'fixedtime') {

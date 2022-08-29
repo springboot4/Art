@@ -5,9 +5,20 @@ import { axios } from '@/utils/request'
  */
 export function page (params) {
   return axios({
-    url: '/${classname}/page',
+    url: '/promotion/admin/couponActivity/page',
     method: 'GET',
     params: params
+  })
+}
+
+/**
+ * 添加优惠券活动
+ */
+export function add (obj) {
+  return axios({
+    url: '/promotion/admin/couponActivity/save',
+    method: 'POST',
+    data: obj
   })
 }
 
@@ -16,7 +27,7 @@ export function page (params) {
  */
 export function get (id) {
   return axios({
-    url: '/${classname}/findById',
+    url: '/couponActivity/findById',
     method: 'GET',
     params: { id }
   })
@@ -27,19 +38,8 @@ export function get (id) {
  */
 export function findAll () {
   return axios({
-    url: '/${classname}/findAll',
+    url: '/couponActivity/findAll',
     method: 'GET'
-  })
-}
-
-/**
- * 添加
- */
-export function add (obj) {
-  return axios({
-    url: '/${classname}/add',
-    method: 'POST',
-    data: obj
   })
 }
 
@@ -48,7 +48,7 @@ export function add (obj) {
  */
 export function update (obj) {
   return axios({
-    url: '/${classname}/update',
+    url: '/couponActivity/update',
     method: 'POST',
     data: obj
   })
@@ -59,7 +59,7 @@ export function update (obj) {
  */
 export function del (id) {
   return axios({
-    url: '/${classname}/delete',
+    url: '/couponActivity/delete',
     params: { id },
     method: 'DELETE'
   })
