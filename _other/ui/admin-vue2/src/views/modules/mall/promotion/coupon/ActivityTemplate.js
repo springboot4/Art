@@ -33,16 +33,6 @@ export const tableObj = {
       width: '100px'
     },
     {
-      title: '发行数量',
-      field: 'publishNum',
-      width: '100px'
-    },
-    {
-      title: '已被领取的数量',
-      field: 'receivedNum',
-      width: '100px'
-    },
-    {
       title: '活动开始时间',
       field: 'startTime',
       width: '180px'
@@ -51,24 +41,6 @@ export const tableObj = {
       title: '活动结束时间',
       field: 'endTime',
       width: '180px'
-    },
-    {
-      title: '有效天数',
-      field: 'effectiveDays',
-      width: '100px'
-    },
-    {
-      title: '状态',
-      field: 'statue',
-      width: '100px',
-      slot: true
-    },
-    {
-      title: '操作',
-      width: '200px',
-      field: 'action',
-      slot: true,
-      fixed: 'right'
     }
   ]
 }

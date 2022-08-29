@@ -10,3 +10,14 @@ export function page (params) {
     params: params
   })
 }
+
+/**
+ * 列出所有会员信息
+ */
+export function listMembers (params) {
+  return axios({
+    url: '/user/member/listMembers',
+    method: 'GET',
+    params: params
+  })
+}
