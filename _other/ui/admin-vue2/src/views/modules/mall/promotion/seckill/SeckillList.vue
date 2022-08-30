@@ -13,7 +13,6 @@
     <f-table
       :columns="tableObj.columns"
       :data="loadData"
-      :seq="false"
       ref="table">
       <template v-slot:hours="{row}">
         <a-tag v-for="(item,index) in unixHours(row.hours) " :key="index">{{ item }}&nbsp;</a-tag>

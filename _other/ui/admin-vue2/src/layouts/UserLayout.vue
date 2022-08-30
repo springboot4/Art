@@ -9,14 +9,14 @@
           </a>
         </div>
         <div class="desc">
-          Fxz-Cloud 致力于打造全球最牛逼的后台权限管理框架
+          Fxz-Cloud 致力于打造具有影响力的微服务开发平台
         </div>
       </div>
       <router-view />
       <div class="footer">
         <div class="links"></div>
         <div class="copyright">
-          Copyright &copy; 2022 fxzmall
+          Copyright &copy; 2022 fxz-cloud
         </div>
       </div>
     </div>

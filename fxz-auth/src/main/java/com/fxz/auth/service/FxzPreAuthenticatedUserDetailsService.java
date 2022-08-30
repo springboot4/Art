@@ -53,7 +53,6 @@ public class FxzPreAuthenticatedUserDetailsService<T extends Authentication>
 	public UserDetails loadUserDetails(T authentication) throws UsernameNotFoundException {
 		// 获取客户端id
 		String clientId = SecurityUtil.getOAuth2ClientId();
-
 		log.info("clientId:{}", clientId);
 
 		// 根据客户端id获取获取UserDetailsService
@@ -61,18 +60,18 @@ public class FxzPreAuthenticatedUserDetailsService<T extends Authentication>
 
 		// 根据客户端选择加载用户的方式
 		if (clientId.equals(SecurityConstants.APP_CLIENT_ID)) {
-			log.info("移动端");
+			log.info("移动端用户登录");
+			// 移动端用户，认证方式是通过会员手机号
 			return ((FxzMemberUserDetailsServiceImpl) userDetailsService).loadUserByMobile(authentication.getName());
 		}
 		else if (clientId.equals(SecurityConstants.WEAPP_CLIENT_ID)) {
-			log.info("小程序端");
-			// 小程序的用户体系是会员，认证方式是通过微信三方标识 openid 认证
+			log.info("小程序端登录");
+			// 小程序端用户，认证方式是通过微信三方标识 openid 认证
 			return ((FxzMemberUserDetailsServiceImpl) userDetailsService).loadUserByOpenId(authentication.getName());
 		}
 		else if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
-			log.info("系统管理端");
-			String authType = SecurityUtil.getAuthType();
-			if (authType == null) {
+			log.info("系统管理端登录");
+			if (SecurityUtil.getAuthType() == null) {
 				// 系统用户，认证方式通过用户名 username 认证
 				return ((FxzUserDetailServiceImpl) userDetailsService).loadUserByUsername(authentication.getName());
 			}
@@ -81,9 +80,8 @@ public class FxzPreAuthenticatedUserDetailsService<T extends Authentication>
 				return ((FxzUserDetailServiceImpl) userDetailsService).loadUserByMobile(authentication.getName());
 			}
 		}
-		else {
-			return ((FxzUserDetailServiceImpl) userDetailsService).loadUserByUsername(authentication.getName());
-		}
+
+		return ((FxzUserDetailServiceImpl) userDetailsService).loadUserByUsername(authentication.getName());
 	}
 
 }

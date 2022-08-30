@@ -14,11 +14,6 @@ import java.awt.*;
 public class EasyCaptchaProducer {
 
 	/**
-	 * 验证码配置
-	 */
-	private final CodeTypeEnum codeType = CodeTypeEnum.ARITHMETIC;
-
-	/**
 	 * 验证码内容长度
 	 */
 	private final int length = 4;

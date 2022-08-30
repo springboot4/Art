@@ -32,3 +32,13 @@ export function del (id) {
     method: 'DELETE'
   })
 }
+
+/**
+ * 获取sku列表
+ */
+export function listSku () {
+  return axios({
+    url: '/product/goods/listSku',
+    method: 'GET'
+  })
+}

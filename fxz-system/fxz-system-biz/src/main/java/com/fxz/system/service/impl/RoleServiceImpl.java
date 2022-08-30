@@ -8,9 +8,10 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fxz.common.core.param.PageParam;
 import com.fxz.common.core.entity.DeptDataPermissionRespDTO;
+import com.fxz.common.core.param.PageParam;
 import com.fxz.common.dataPermission.enums.DataScopeEnum;
+import com.fxz.common.redis.constant.CacheConstants;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.system.entity.*;
 import com.fxz.system.mapper.RoleMapper;
@@ -76,7 +77,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	/**
 	 * 根据id获取角色信息
 	 */
-	@Cacheable(value = "fxz_cloud:role", key = "#id", unless = "#result==null")
+	@Cacheable(value = CacheConstants.GLOBALLY + "role", key = "#id", unless = "#result==null")
 	@Override
 	public Role getRoleById(Long id) {
 		return this.getBaseMapper().getRoleById(id);
@@ -85,7 +86,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	/**
 	 * 修改角色信息
 	 */
-	@CacheEvict(value = "fxz_cloud:role", key = "#role.roleId")
+	@CacheEvict(value = CacheConstants.GLOBALLY + "role", key = "#role.roleId")
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Boolean editRole(Role role) {
@@ -103,7 +104,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	/**
 	 * 删除角色信息
 	 */
-	@CacheEvict(value = "fxz_cloud:role", key = "#id")
+	@CacheEvict(value = CacheConstants.GLOBALLY + "role", key = "#id")
 	@Override
 	public Boolean deleteRoleById(Long id) {
 		// 删除角色菜单关联信息
@@ -117,17 +118,18 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	/**
 	 * 获取当前用户角色下的数据权限
 	 */
-	@Cacheable(value = "fxz_cloud:user", key = "#user.userId+':dataScope'", unless = "#result==null")
+	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#user.userId+':dataScope'", unless = "#result==null")
 	@Override
 	public DeptDataPermissionRespDTO getDataPermission(FxzAuthUser user) {
 		SystemUser loginUser = userService.findByName(user.getUsername());
+
 		// 创建 DeptDataPermissionRespDTO 对象
 		DeptDataPermissionRespDTO result = new DeptDataPermissionRespDTO();
 		if (StringUtils.isNotBlank(loginUser.getRoleId())) {
 			String[] roleIds = loginUser.getRoleId().split(StringPool.COMMA);
 			if (roleIds.length > 0) {
 				Arrays.stream(roleIds).forEach(roleId -> {
-					String key = "fxz_cloud:role:" + roleId;
+					String key = CacheConstants.GLOBALLY + "role:" + roleId;
 					Role role = (Role) redisTemplate.opsForValue().get(key);
 					if (ObjectUtil.isNull(role)) {
 						role = getRoleById(Long.valueOf(roleId));
@@ -181,16 +183,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	 */
 	private void saveRoleMenu(Role role) {
 		String menuId = role.getMenuId();
-		if (StringUtils.isNotEmpty(menuId)) {
-			String[] menuIds = menuId.split(StringPool.COMMA);
-			List<RoleMenu> roleMenuList = Arrays.stream(menuIds).map(item -> {
-				RoleMenu roleMenu = new RoleMenu();
-				roleMenu.setRoleId(role.getRoleId());
-				roleMenu.setMenuId(Long.valueOf(item));
-				return roleMenu;
-			}).collect(Collectors.toList());
-			roleMenuService.saveBatch(roleMenuList);
+
+		if (StringUtils.isBlank(menuId)) {
+			return;
 		}
+
+		List<RoleMenu> roleMenuList = Arrays.stream(menuId.split(StringPool.COMMA)).map(item -> {
+			RoleMenu roleMenu = new RoleMenu();
+			roleMenu.setRoleId(role.getRoleId());
+			roleMenu.setMenuId(Long.valueOf(item));
+			return roleMenu;
+		}).collect(Collectors.toList());
+
+		roleMenuService.saveBatch(roleMenuList);
 	}
 
 }

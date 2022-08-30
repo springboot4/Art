@@ -26,9 +26,9 @@ public class ${className}ServiceImpl extends ServiceImpl <${className}Mapper, ${
      * 添加
      */
     @Override
-    public Boolean add${className}(${className}Dto ${classname}Dto) {
+    public Boolean add${className}(${className}DTO ${classname}DTO) {
         ${className} ${classname} = new ${className}();
-        BeanUtils.copyProperties(${classname}Dto, ${classname});
+        BeanUtils.copyProperties(${classname}DTO, ${classname});
         ${classname}Mapper.insert(${classname});
         return Boolean.TRUE;
     }
@@ -37,9 +37,9 @@ public class ${className}ServiceImpl extends ServiceImpl <${className}Mapper, ${
      * 修改
      */
     @Override
-    public Boolean update${className}(${className}Dto ${classname}Dto) {
+    public Boolean update${className}(${className}DTO ${classname}DTO) {
         ${className} ${classname} =new ${className}();
-        BeanUtils.copyProperties(${classname}Dto, ${classname});
+        BeanUtils.copyProperties(${classname}DTO, ${classname});
         ${classname}Mapper.updateById(${classname});
         return Boolean.TRUE;
     }
