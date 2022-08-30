@@ -1,4 +1,4 @@
-package com.fxz.laboratory.mongo.entity;
+package com.fxz.demos.mongo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
