@@ -27,9 +27,19 @@ export function add (obj) {
  */
 export function get (id) {
   return axios({
-    url: '/couponActivity/findById',
+    url: '/promotion/admin/couponActivity/findById',
     method: 'GET',
     params: { id }
+  })
+}
+
+/**
+ * 关闭优惠券
+ */
+export function close (id) {
+  return axios({
+    url: `/promotion/admin/couponActivity/close/${id}`,
+    method: 'PUT'
   })
 }
 
