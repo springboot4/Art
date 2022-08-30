@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
+/**
+ * @author fxz
+ */
 @Configuration
 public class FxzGatewayErrorConfigure {
 

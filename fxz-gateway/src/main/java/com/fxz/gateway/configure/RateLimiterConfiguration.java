@@ -8,6 +8,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
+/**
+ * @author fxz
+ */
 @Configuration
 public class RateLimiterConfiguration {
 

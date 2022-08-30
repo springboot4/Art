@@ -46,7 +46,6 @@ public class CityValidator implements ConstraintValidator<CheckCityValid, String
 			String line = IoUtil.readUtf8(inputStream);
 			redisTemplate.opsForValue().set("constant:city", line);
 			jsonStr = line;
-
 		}
 		List<CityEntity> cityJson = JSONUtil.toList(jsonStr, CityEntity.class);
 		CityEntity entity;

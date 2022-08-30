@@ -38,6 +38,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	@Override
 	public List<VueRouter<Menu>> getUserRouters(String username) {
 		List<Menu> menus = this.baseMapper.findUserMenus(username);
+
 		List<VueRouter<Menu>> routes = menus.stream().map(menu -> CompletableFuture.supplyAsync(() -> {
 			VueRouter<Menu> route = new VueRouter<>();
 			route.setId(menu.getId().toString());
@@ -52,6 +53,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 			route.setIcon(menu.getIcon());
 			return route;
 		})).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
+
 		return TreeUtil.buildVueRouter(routes);
 	}
 
@@ -71,9 +73,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	@Override
 	public List<VueRouter<Object>> getTreeSelect() {
 		List<VueRouter<Object>> allMenuTree = this.getAllMenuTree();
+
 		VueRouter<Object> router = new VueRouter<>().setId("0").setTitle("顶级菜单").setChildren(allMenuTree);
+
 		List<VueRouter<Object>> result = new ArrayList<>();
 		result.add(router);
+
 		return result;
 	}
 
@@ -84,6 +89,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	@Override
 	public void saveMenu(VueRouter vueRouter) {
 		Menu menu = new Menu();
+
 		menu.setHidden(vueRouter.getHidden());
 		menu.setParentId(Convert.toLong(vueRouter.getParentId()));
 		menu.setPerms(vueRouter.getPerms());
@@ -96,6 +102,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		menu.setIcon(vueRouter.getIcon());
 		menu.setRedirect(vueRouter.getRedirect());
 		menu.setOrderNum(Convert.toInt(vueRouter.getOrderNum()));
+
 		this.baseMapper.insert(menu);
 	}
 
@@ -107,6 +114,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	@Override
 	public VueRouter getMenuById(Long id) {
 		Menu menu = this.getById(id);
+
 		VueRouter<Object> vueRouter = new VueRouter<>();
 		vueRouter.setId(id.toString());
 		vueRouter.setHidden(menu.getHidden());
@@ -121,6 +129,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		vueRouter.setIcon(menu.getIcon());
 		vueRouter.setRedirect(menu.getRedirect());
 		vueRouter.setOrderNum(Double.valueOf(menu.getOrderNum()));
+
 		return vueRouter;
 	}
 

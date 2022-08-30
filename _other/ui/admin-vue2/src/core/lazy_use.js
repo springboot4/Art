@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 // base library
 import {
+  Transfer,
   Pagination,
   Cascader,
   Tree,
@@ -65,6 +66,7 @@ import BizCom from '@/components/BaseComp'
 
 Vue.use(BizCom)
 Vue.use(FTable)
+Vue.use(Transfer)
 Vue.use(Pagination)
 Vue.use(Cascader)
 Vue.use(Tree)
