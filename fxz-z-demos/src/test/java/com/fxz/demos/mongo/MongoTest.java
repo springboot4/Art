@@ -1,6 +1,6 @@
-package com.fxz.laboratory.mongo;
+package com.fxz.demos.mongo;
 
-import com.fxz.laboratory.mongo.entity.FxzEmpDocument;
+import com.fxz.demos.mongo.entity.FxzEmpDocument;
 import com.mongodb.client.result.UpdateResult;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

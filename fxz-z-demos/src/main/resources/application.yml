@@ -1,6 +1,6 @@
 spring:
   application:
-    name: fxz-z-laboratory
+    name: fxz-demos
   cloud:
     nacos:
       config:
@@ -11,11 +11,3 @@ spring:
     import:
       - optional:nacos:${spring.application.name}.yaml
       - optional:nacos:fxz-application-common.yaml
-  data:
-    mongodb:
-      authentication-database: admin
-      database: user
-      username: admin
-      password: "123456"
-      host: fxz-mysql
-      port: 27017

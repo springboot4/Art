@@ -1,4 +1,4 @@
-package com.fxz.laboratory;
+package com.fxz.demos;
 
 import com.fxz.common.security.annotation.EnableFxzCloudResourceServer;
 import org.springframework.boot.SpringApplication;
@@ -10,16 +10,16 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * @author Fxz
  * @version 1.0
- * @date 2022/5/28 21:34
+ * @date 2022/8/30 22:12
  */
 @EnableFxzCloudResourceServer
 @EnableFeignClients(basePackages = { "com.fxz" })
 @EnableDiscoveryClient
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-public class FxzLabApplication {
+public class FxzDemosApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FxzLabApplication.class, args);
+		SpringApplication.run(FxzDemosApplication.class, args);
 	}
 
 }
