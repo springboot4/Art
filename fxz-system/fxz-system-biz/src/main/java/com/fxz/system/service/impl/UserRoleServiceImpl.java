@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-
 /**
  * @author fxz
  */
@@ -20,13 +18,13 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteUserRolesByRoleId(String[] roleIds) {
-		Arrays.stream(roleIds).forEach(id -> baseMapper.deleteByRoleId(Long.valueOf(id)));
+		this.baseMapper.deleteByRoleId(roleIds);
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteUserRolesByUserId(String[] userIds) {
-		Arrays.stream(userIds).forEach(id -> baseMapper.deleteByUserId(Long.valueOf(id)));
+		this.baseMapper.deleteByUserId(userIds);
 	}
 
 }

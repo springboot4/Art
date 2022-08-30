@@ -26,7 +26,6 @@ router.beforeEach((to, from, next) => {
     } else {
       // 如果没有路由信息 调后端接口获取路由菜单
       if (store.getters.addRouters.length === 0) {
-        console.log('store.getters.addRouters:', store.getters.addRouters)
         store
           .dispatch('GetInfo')
           .then(res => {

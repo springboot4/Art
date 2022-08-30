@@ -8,11 +8,9 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fxz.common.security.annotation.Ojbk;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -27,13 +25,10 @@ import java.util.stream.Collectors;
  *
  * @author fxz
  */
-@ToString
 @Data
 @RequiredArgsConstructor
 @ConfigurationProperties(prefix = "fxz.cloud.security")
 public class FxzCloudSecurityProperties implements InitializingBean {
-
-	private final WebApplicationContext webApplicationContext;
 
 	private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 

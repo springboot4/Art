@@ -23,8 +23,7 @@ public class MemberUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Collection<GrantedAuthority> collection = new HashSet<>();
-		return collection;
+		return new HashSet<>();
 	}
 
 	@Override

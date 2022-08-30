@@ -138,7 +138,7 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 	 */
 	public static String tableToJava(String tableName) {
 		// 自动去除表前缀
-		return NamingCase.toPascalCase(tableName.substring(tableName.indexOf("_") + 1));
+		return NamingCase.toPascalCase(tableName);
 	}
 
 }

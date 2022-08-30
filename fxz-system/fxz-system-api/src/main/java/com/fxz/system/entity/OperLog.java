@@ -5,6 +5,7 @@ import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * 操作日志记录
@@ -13,6 +14,7 @@ import lombok.experimental.Accessors;
  * @date 2022-04-07
  */
 @Data
+@FieldNameConstants
 @TableName("sys_oper_log")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
