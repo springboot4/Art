@@ -20,7 +20,7 @@
                   <span>
                     <a-avatar
                       v-show="item.level===3"
-                      :src="getImg(item.iconUrl)"
+                      :src="item.iconUrl"
                       shape="square"
                       size="small"
                       style="width: 20px; height:20px; vertical-align: middle;margin-top: -5px" />
@@ -283,9 +283,6 @@ export default {
         return
       }
       this.formData2.attributes.splice(index, 1)
-    },
-    getImg (icon) {
-      return 'http://127.0.0.1:8301' + icon
     },
     init () {
       list().then(res => {

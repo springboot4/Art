@@ -48,7 +48,6 @@ public class RouteMessageConsumer extends AbstractStreamMessageListener<RouteMes
 			fxzRouteDefinition.setId(sys.getRouteId());
 			fxzRouteDefinition.setUri(URI.create(sys.getUri()));
 			fxzRouteDefinition.setOrder(sys.getSortOrder());
-
 			JSONArray filterObj = JSONUtil.parseArray(sys.getFilters());
 			fxzRouteDefinition.setFilters(filterObj.toList(FilterDefinition.class));
 			JSONArray predicateObj = JSONUtil.parseArray(sys.getPredicates());

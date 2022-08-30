@@ -1,11 +1,8 @@
 package com.fxz.auth.service.user;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.fxz.auth.manager.FxzUserManager;
 import com.fxz.auth.service.FxzUserDetailsService;
-import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.security.entity.FxzAuthUser;
-import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.SystemUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +12,8 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * @author Fxz
@@ -33,26 +32,8 @@ public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		String clientId = SecurityUtil.getOAuth2ClientId();
-		log.info("clientId:{}", clientId);
-
-		if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
-			log.info("系统端接口");
-			SystemUser systemUser = fxzUserManager.findByName(username);
-			if (ObjectUtil.isNotEmpty(systemUser)) {
-				String permissions = fxzUserManager.findUserPermissions(systemUser.getUsername());
-				boolean notLocked = false;
-				if (StringUtils.equals(SystemUser.STATUS_VALID, systemUser.getStatus()))
-					notLocked = true;
-				FxzAuthUser authUser = new FxzAuthUser(systemUser.getUsername(), systemUser.getPassword(), true, true,
-						true, notLocked, AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
-
-				BeanUtils.copyProperties(systemUser, authUser);
-				return authUser;
-			}
-
-		}
-		return null;
+		SystemUser systemUser = fxzUserManager.findByName(username);
+		return getUserDetails(systemUser);
 	}
 
 	/**
@@ -62,17 +43,25 @@ public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 	 */
 	public UserDetails loadUserByMobile(String mobile) {
 		SystemUser systemUser = fxzUserManager.findByMobile(mobile);
-		if (ObjectUtil.isNotEmpty(systemUser)) {
+		return getUserDetails(systemUser);
+	}
+
+	private UserDetails getUserDetails(SystemUser systemUser) {
+		if (Objects.nonNull(systemUser)) {
 			String permissions = fxzUserManager.findUserPermissions(systemUser.getUsername());
+
 			boolean notLocked = false;
-			if (StringUtils.equals(SystemUser.STATUS_VALID, systemUser.getStatus()))
+			if (StringUtils.equals(SystemUser.STATUS_VALID, systemUser.getStatus())) {
 				notLocked = true;
+			}
+
 			FxzAuthUser authUser = new FxzAuthUser(systemUser.getUsername(), systemUser.getPassword(), true, true, true,
 					notLocked, AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
 
 			BeanUtils.copyProperties(systemUser, authUser);
 			return authUser;
 		}
+
 		return null;
 	}
 

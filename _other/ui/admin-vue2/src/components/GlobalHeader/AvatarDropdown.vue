@@ -55,7 +55,7 @@ export default {
     handleLogout (e) {
       Modal.confirm({
         title: '注销登录?',
-        content: '你确定要退出登录吗,小老弟?',
+        content: '确定要退出登录吗?',
         onOk: () => {
           return this.$store.dispatch('Logout').then(() => {
             this.$router.push({ path: '/user/login' })
