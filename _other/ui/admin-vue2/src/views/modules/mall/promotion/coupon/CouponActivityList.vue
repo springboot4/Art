@@ -5,7 +5,7 @@
       :data="loadData"
       ref="table">
       <template v-slot:buttons>
-        <a-button type="primary" icon="plus" @click="add">新建</a-button>
+        <a-button type="primary" icon="plus" @click="add">新建券活动</a-button>
       </template>
       <template v-slot:activityScope="{row}">
         <span v-if="row.activityScope==='all'">全部会员</span>
@@ -21,6 +21,15 @@
         <a-tag color="#108ee9" v-if="getStatue(row)==='新建'">未开始</a-tag>
         <a-tag color="orange" v-if="getStatue(row)==='已结束'">已结束</a-tag>
       </template>
+      <template v-slot:action="{row}">
+        <span v-if="getStatue(row)==='已开始'">
+          <a href="javascript:;" @click="close(row)" style="color: red">关闭</a>
+          <a-divider type="vertical" />
+        </span>
+        <span>
+          <a href="javascript:;" @click="show(row)">查看</a>
+        </span>
+      </template>
     </f-table>
     <CouponActivity-edit
       ref="couponActivityEdit"
@@ -30,7 +39,7 @@
 
 <script>
 import { tableObj } from './CouponActivitytemplate'
-import { del, page } from '@/api/mall/promotion/couponActivity'
+import { close, page } from '@/api/mall/promotion/couponActivity'
 import CouponActivityEdit from './CouponActivityEdit'
 import { TableMixin } from '@/mixins/TableMixin'
 
@@ -73,20 +82,18 @@ export default {
     handleOk () {
       this.queryPage()
     },
+    close (record) {
+      close(record.id).then(_ => {
+        this.$message.info('关闭成功')
+        this.queryPage()
+      })
+    },
     add () {
       this.$refs.couponActivityEdit.init('', 'add')
     },
-    edit (record) {
-      this.$refs.couponActivityEdit.init(record.id, 'edit')
-    },
     show (record) {
+      console.log('record:', record)
       this.$refs.couponActivityEdit.init(record.id, 'show')
-    },
-    remove (record) {
-      del(record.id).then(_ => {
-        this.$message.info('删除成功')
-        this.queryPage()
-      })
     }
   }
 }
