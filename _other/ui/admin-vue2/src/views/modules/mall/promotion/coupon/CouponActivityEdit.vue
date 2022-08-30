@@ -21,19 +21,22 @@
         label="活动名称"
         prop="promotionName"
       >
-        <a-input v-model="form.promotionName" :disabled="showable" />
+        <a-input v-model="form.promotionName" v-if="!showable" />
+        <span v-else>{{ form.promotionName }}</span>
       </a-form-model-item>
       <a-form-model-item
         label="活动开始时间"
         prop="startTime"
       >
         <a-range-picker
+          v-if="!showable"
           style="width: 100%"
           v-model="time"
           :show-time="{ format: 'HH:mm:ss' }"
           format="YYYY-MM-DD HH:mm:ss"
           :placeholder="['开始时间', '结束时间']"
         />
+        <span v-else>{{ form.startTime }}至{{ form.endTime }}</span>
       </a-form-model-item>
       <a-form-model-item
         label="活动结束时间"
@@ -51,6 +54,10 @@
             精确发券
           </a-radio>
         </a-radio-group>
+        <span v-else>
+          <span v-if="form.couponActivityType==='registered'">注册赠券</span>
+          <span v-else>精确发券</span>
+        </span>
       </a-form-model-item>
       <a-form-model-item
         label="发放范围"
@@ -65,11 +72,19 @@
             指定会员
           </a-radio>
         </a-radio-group>
+        <span v-else>
+          <span v-if="form.activityScope==='all'">
+            全部会员
+          </span>
+          <span v-else>
+            指定会员
+          </span>
+        </span>
       </a-form-model-item>
       <a-form-model-item
         label="选择会员"
         prop="members"
-        v-if="form.couponActivityType==='specify'&&form.activityScope==='designated'"
+        v-if="form.couponActivityType==='specify'&&form.activityScope==='designated'&&!showable"
       >
         <a-transfer
           :data-source="memberData"
@@ -82,6 +97,7 @@
       </a-form-model-item>
     </a-form-model>
     <vxe-table
+      v-if="!showable"
       border
       resizable
       :data="couponData"
@@ -91,11 +107,14 @@
       <vxe-table-column field="couponName" title="优惠券名称"></vxe-table-column>
       <vxe-table-column field="consumeThreshold" title="消费门槛"></vxe-table-column>
       <vxe-table-column field="scopeType" title="使用范围"></vxe-table-column>
-      <vxe-table-column field="getType" title="获取方式" ></vxe-table-column>
-      <vxe-table-column field="price" title="面额" ></vxe-table-column>
-      <vxe-table-column field="num" title="数量" :edit-render="{name: '$input', props: {type: 'number'}}" ></vxe-table-column>
+      <vxe-table-column field="getType" title="获取方式"></vxe-table-column>
+      <vxe-table-column field="price" title="面额"></vxe-table-column>
+      <vxe-table-column
+        field="num"
+        title="每人限领"
+        :edit-render="{name: '$input', props: {type: 'number', disabled: showable}}"></vxe-table-column>
       <vxe-table-column field="startTime" title="活动开始时间"></vxe-table-column>
-      <vxe-table-column field="endTime" title="活动结束时间" ></vxe-table-column>
+      <vxe-table-column field="endTime" title="活动结束时间"></vxe-table-column>
     </vxe-table>
     <template v-slot:footer>
       <a-button key="cancel" @click="handleCancel">取消</a-button>
@@ -112,7 +131,7 @@ import { FormMixin } from '@/mixins/FormMixin'
 import { add, get, update } from '@/api/mall/promotion/couponActivity'
 import { listMembers } from '@/api/mall/user/member'
 import { listCoupon } from '@/api/mall/promotion/coupon'
-import error from '@/views/result/Error'
+
 export default {
   name: 'CouponActivityEdit',
   mixins: [FormMixin],
@@ -189,6 +208,7 @@ export default {
         this.confirmLoading = true
         get(id).then(res => {
           this.form = res.data
+          console.log('this.form')
           this.confirmLoading = false
         })
       } else {

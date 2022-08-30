@@ -20,7 +20,7 @@
       :data="loadData"
       ref="table">
       <template v-slot:buttons>
-        <a-button type="primary" icon="plus" @click="add">新建</a-button>
+        <a-button type="primary" icon="plus" @click="add">新建优惠券</a-button>
       </template>
       <template v-slot:scopeType="{row}">
         <span v-if="row.scopeType==='all'">全品类</span>
@@ -46,11 +46,11 @@
           <a-divider type="vertical" />
         </span>
         <span v-if="getStatue(row)==='新建'">
-          <a href="javascript:;" @click="edit(row)">编辑</a>
+          <a href="javascript:;" @click="edit(row)" >编辑</a>
           <a-divider type="vertical" />
         </span>
         <span>
-          <a href="javascript:;" @click="show(row)">查看</a>
+          <a href="javascript:;" @click="show(row)" >查看</a>
         </span>
       </template>
     </f-table>
