@@ -1,4 +1,4 @@
-package com.fxz.laboratory.es;
+package com.fxz.demos.es;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;

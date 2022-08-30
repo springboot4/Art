@@ -16,7 +16,7 @@
         <module>fxz-system</module>
         <module>fxz-generate</module>
         <module>fxz-scheduled</module>
-        <module>fxz-z-laboratory</module>
+        <module>fxz-z-demos</module>
     </modules>
 
     <properties>
