@@ -1,10 +1,9 @@
-package com.fxz.auth.extension.mobile;
+package com.fxz.common.security.extension.mobile;
 
 import cn.hutool.core.util.StrUtil;
-import com.fxz.auth.service.member.FxzMemberUserDetailsServiceImpl;
-import com.fxz.auth.service.user.FxzUserDetailServiceImpl;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.core.exception.FxzException;
+import com.fxz.common.security.service.FxzUserDetailsService;
 import com.fxz.common.security.util.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +16,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 短信验证码认证授权提供者
@@ -31,9 +32,7 @@ public class FxzSmsCodeAuthenticationProvider implements AuthenticationProvider 
 
 	private StringRedisTemplate redisTemplate;
 
-	private FxzMemberUserDetailsServiceImpl fxzMemberUserDetailsService;
-
-	private FxzUserDetailServiceImpl fxzUserDetailService;
+	private Map<String, FxzUserDetailsService> userDetailsServiceMap;
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -50,16 +49,16 @@ public class FxzSmsCodeAuthenticationProvider implements AuthenticationProvider 
 		// 比对成功删除缓存的验证码
 		redisTemplate.delete(codeKey);
 
-		UserDetails userDetails;
-		String authType = SecurityUtil.getAuthType();
-		if (authType == null) {
-			// 查询会员用户信息
-			userDetails = fxzMemberUserDetailsService.loadUserByMobile(mobile);
+		String clientId = SecurityUtil.getOAuth2ClientId();
+
+		Optional<FxzUserDetailsService> optional = userDetailsServiceMap.values().stream()
+				.filter(s -> s.support(clientId, null)).findFirst();
+
+		if (!optional.isPresent()) {
+			throw new FxzException("请检查客户端配置!");
 		}
-		else {
-			// 查询系统用户信息
-			userDetails = fxzUserDetailService.loadUserByMobile(mobile);
-		}
+
+		UserDetails userDetails = optional.get().loadUserByMobile(mobile);
 
 		authenticationToken = new FxzSmsCodeAuthenticationToken(userDetails, authentication.getCredentials(),
 				new HashSet<>());

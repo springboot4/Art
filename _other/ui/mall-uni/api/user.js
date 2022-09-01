@@ -34,9 +34,8 @@ export function login(parameter) {
 
 export function getUserInfo () {
     return request({
-        url: '/system/user/info',
+        url: '/user/member/auth/loadUserByUserId',
         method: 'get',
-		params: { client_id:'mall-app' },
         headers: {
             'auth': true
         }

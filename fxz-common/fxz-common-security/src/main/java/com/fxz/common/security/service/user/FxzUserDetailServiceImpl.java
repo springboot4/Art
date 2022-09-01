@@ -1,8 +1,9 @@
-package com.fxz.auth.service.user;
+package com.fxz.common.security.service.user;
 
-import com.fxz.auth.manager.FxzUserManager;
-import com.fxz.auth.service.FxzUserDetailsService;
+import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.security.entity.FxzAuthUser;
+import com.fxz.common.security.service.FxzUserDetailsService;
+import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.SystemUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,18 +33,19 @@ public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		SystemUser systemUser = fxzUserManager.findByName(username);
-		return getUserDetails(systemUser);
+		if (SecurityUtil.getAuthType() == null) {
+			// 系统用户，认证方式通过用户名 username 认证
+			return getUserDetails(fxzUserManager.findByName(username));
+		}
+		else {
+			// 系统用户，认证方式通过用户名 手机号 认证
+			return this.loadUserByMobile(username);
+		}
 	}
 
-	/**
-	 * 手机号码认证方式
-	 * @param mobile 手机号
-	 * @return UserDetails
-	 */
+	@Override
 	public UserDetails loadUserByMobile(String mobile) {
-		SystemUser systemUser = fxzUserManager.findByMobile(mobile);
-		return getUserDetails(systemUser);
+		return getUserDetails(fxzUserManager.findByMobile(mobile));
 	}
 
 	private UserDetails getUserDetails(SystemUser systemUser) {
@@ -63,6 +65,16 @@ public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 		}
 
 		return null;
+	}
+
+	/**
+	 * 是否支持此客户端校验
+	 * @param clientId 目标客户端
+	 * @return true/false
+	 */
+	@Override
+	public boolean support(String clientId, String grantType) {
+		return SecurityConstants.ADMIN_CLIENT_ID.equals(clientId);
 	}
 
 }
