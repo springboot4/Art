@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     add () {
-      this.$refs.seckillManageEdit.init(this.$route.query.seckillId || this.queryParam.seckillId, 'add', this.activeKey)
+      this.$refs.seckillManageEdit.init(this.$route.query.seckillId || this.queryParam.seckillId, 'add', this.hours[this.activeKey].split(':')[0])
     },
     deleteItem (row) {
       deleteApply(row.seckillId, row.id).then(_ => {
