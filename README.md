@@ -93,7 +93,9 @@ fxz-cloud
 ![](https://minio.pigx.vip/oss/2022/09/I28W9e.png)
 ![](https://minio.pigx.vip/oss/2022/09/DswHAG.png)
 ![](https://minio.pigx.vip/oss/2022/09/y04bpB.png)
-
+## 说明
+脚手架与商城为两个单独项目，功能可按需引入。如仅需脚手架功能，可轻松去除。<br/>
+低耦合，秒上手，稳得很！
 ## 其他功能
 过于先进，不便展示。欢迎下载源码研究🧐欢迎star
 ## 🚀🚀🚀加入我们
