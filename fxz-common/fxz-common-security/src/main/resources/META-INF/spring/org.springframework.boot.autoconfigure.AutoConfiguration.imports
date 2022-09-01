@@ -1,3 +1,5 @@
 com.fxz.common.security.config.FxzCloudSecurityAutoConfigure
 com.fxz.common.security.listener.AuthenticationEventListener
 com.fxz.common.security.component.SecurityInnerAspect
+com.fxz.common.security.service.user.FxzUserDetailServiceImpl
+com.fxz.common.security.service.user.FxzUserManager

@@ -46,7 +46,7 @@
         label="优惠券活动类型"
         prop="couponActivityType"
       >
-        <a-radio-group v-model="form.couponActivityType" v-if="!showable">
+        <a-radio-group v-model="form.couponActivityType" v-if="!showable" :default-value="'registered'">
           <a-radio :value="'registered'">
             注册赠券
           </a-radio>
@@ -113,8 +113,6 @@
         field="num"
         title="每人限领"
         :edit-render="{name: '$input', props: {type: 'number', disabled: showable}}"></vxe-table-column>
-      <vxe-table-column field="startTime" title="活动开始时间"></vxe-table-column>
-      <vxe-table-column field="endTime" title="活动结束时间"></vxe-table-column>
     </vxe-table>
     <template v-slot:footer>
       <a-button key="cancel" @click="handleCancel">取消</a-button>
@@ -178,16 +176,16 @@ export default {
       const query = { getType: 'activity' }
       listCoupon(query).then(res => {
         this.couponData = res.data
-        console.log('couponData:', this.couponData)
       })
     },
     // 所有列出会员信息
     listMembers () {
-      listMembers().then(res => {
+      const params = { columns: 'id,nick_name' }
+      listMembers(params).then(res => {
         this.memberData = res.data
         this.memberData.forEach(item => {
           item.key = item.id
-          item.title = item.nickName
+          item.title = item.nick_name
         })
       })
     },
@@ -229,7 +227,6 @@ export default {
           this.form.startTime = moment(this.time[0]).format('YYYY-MM-DD HH:mm:ss')
           this.form.endTime = moment(this.time[1]).format('YYYY-MM-DD HH:mm:ss')
 
-          console.log('form:', this.form)
           this.confirmLoading = true
           if (this.type === 'add') {
             await add(this.form).catch(error => this.$message.error(error.msg))
