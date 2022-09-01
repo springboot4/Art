@@ -16,7 +16,7 @@ export function page (params) {
  */
 export function listMembers (params) {
   return axios({
-    url: '/user/member/listMembers',
+    url: '/user/member/listMemberMap',
     method: 'GET',
     params: params
   })

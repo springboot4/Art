@@ -22,7 +22,7 @@ public interface RemoteUserService {
 	 * @return 用户信息
 	 */
 	@GetMapping("/user/findByName/{username}")
-	public SystemUser findByName(@PathVariable("username") String username);
+	SystemUser findByName(@PathVariable("username") String username);
 
 	/**
 	 * 通过手机号查找用户信息
@@ -30,7 +30,6 @@ public interface RemoteUserService {
 	 * @return 用户信息
 	 */
 	@GetMapping("/user/findByMobile/{mobile}")
-	public SystemUser findByMobile(@PathVariable("mobile") String mobile,
-			@RequestHeader(SecurityConstants.FROM) String from);
+	SystemUser findByMobile(@PathVariable("mobile") String mobile, @RequestHeader(SecurityConstants.FROM) String from);
 
 }
