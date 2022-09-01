@@ -91,6 +91,7 @@ fxz-cloud
 ![](https://minio.pigx.vip/oss/2022/09/7POcE0.png)
 ![](https://minio.pigx.vip/oss/2022/09/I86DRb.png)
 ![](https://minio.pigx.vip/oss/2022/09/I28W9e.png)
+![](https://minio.pigx.vip/oss/2022/09/QPGuiC.png)
 ![](https://minio.pigx.vip/oss/2022/09/DswHAG.png)
 ![](https://minio.pigx.vip/oss/2022/09/y04bpB.png)
 ## 说明
