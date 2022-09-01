@@ -1,53 +1,44 @@
-package com.fxz.auth.extension.wechat;
+package com.fxz.common.security.extension.mobile;
 
-import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
+ * 手机验证码登录
+ *
  * @author fxz
  */
-public class FxzWechatAuthenticationToken extends AbstractAuthenticationToken {
+public class FxzSmsCodeAuthenticationToken extends AbstractAuthenticationToken {
 
-	private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = 550L;
 
 	private final Object principal;
 
-	@Getter
-	private String encryptedData;
+	private Object credentials;
 
-	@Getter
-	private String iv;
-
-	/**
-	 * 账号校验之前的token构建
-	 */
-	public FxzWechatAuthenticationToken(Object principal, String encryptedData, String iv) {
-		super(null);
+	public FxzSmsCodeAuthenticationToken(Object principal, Object credentials) {
+		super(Collections.emptyList());
 		this.principal = principal;
-		this.encryptedData = encryptedData;
-		this.iv = iv;
-		setAuthenticated(false);
+		this.credentials = credentials;
+		this.setAuthenticated(false);
 	}
 
-	/**
-	 * 账号校验成功之后的token构建
-	 */
-	public FxzWechatAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+	public FxzSmsCodeAuthenticationToken(Object principal, Object credentials,
+			Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.principal = principal;
+		this.credentials = credentials;
 		super.setAuthenticated(true);
 	}
 
-	@Override
 	public Object getCredentials() {
-		return null;
+		return this.credentials;
 	}
 
-	@Override
 	public Object getPrincipal() {
 		return this.principal;
 	}
@@ -60,6 +51,7 @@ public class FxzWechatAuthenticationToken extends AbstractAuthenticationToken {
 
 	public void eraseCredentials() {
 		super.eraseCredentials();
+		this.credentials = null;
 	}
 
 }
