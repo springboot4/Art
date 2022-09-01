@@ -65,6 +65,8 @@ fxz-cloud
 ![](https://minio.pigx.vip/oss/2022/09/BVZE8h.png)
 动态路由
 ![](https://minio.pigx.vip/oss/2022/09/bCzQSv.png)
+多种登录方式
+![](https://minio.pigx.vip/oss/2022/09/4eoo2d.png)
 字典管理
 ![](https://minio.pigx.vip/oss/2022/09/h6y7X8.png)
 强退用户
