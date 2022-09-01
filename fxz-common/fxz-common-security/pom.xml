@@ -20,12 +20,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fxz</groupId>
-            <artifactId>mall-member-api</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-extra</artifactId>
         </dependency>
@@ -48,6 +42,11 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-redis</artifactId>
         </dependency>
 
     </dependencies>
