@@ -2,7 +2,6 @@ package com.fxz.system.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.core.param.PageParam;
 import com.fxz.common.mp.result.PageResult;
@@ -10,11 +9,9 @@ import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
-import com.fxz.mall.member.entity.Member;
-import com.fxz.mall.member.feign.RemoteMemberService;
+import com.fxz.system.dto.UserInfoDto;
 import com.fxz.system.entity.SystemUser;
 import com.fxz.system.entity.UserInfo;
-import com.fxz.system.dto.UserInfoDto;
 import com.fxz.system.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +32,6 @@ import javax.validation.constraints.NotBlank;
 public class UserController {
 
 	private final IUserService userService;
-
-	private final RemoteMemberService remoteMemberService;
 
 	@GetMapping("/getUserById/{id}")
 	public Result<SystemUser> getUserById(@PathVariable("id") Long id) {
@@ -94,19 +89,11 @@ public class UserController {
 	@GetMapping("/info")
 	public Result<UserInfo> userInfo() {
 		FxzAuthUser user = SecurityUtil.getUser();
-		String clientId = SecurityUtil.getOAuth2ClientId();
 
 		// 分别查询系统端和商城端用户信息
-		if (clientId.equals(SecurityConstants.ADMIN_CLIENT_ID)) {
-			SystemUser systemUser = userService
-					.getOne(Wrappers.<SystemUser>lambdaQuery().eq(SystemUser::getUserId, user.getUserId()));
-			return Result.success(userService.findUserInfo(systemUser));
-		}
-		else {
-			Member member = remoteMemberService.loadUserByUserId(user.getUserId(), SecurityConstants.FROM_IN).getData();
-			return Result.success(new UserInfo().setSysUser(new SystemUser().setUserId(member.getId())
-					.setAvatar(member.getAvatarUrl()).setUsername(member.getNickName())));
-		}
+		SystemUser systemUser = userService
+				.getOne(Wrappers.<SystemUser>lambdaQuery().eq(SystemUser::getUserId, user.getUserId()));
+		return Result.success(userService.findUserInfo(systemUser));
 	}
 
 }

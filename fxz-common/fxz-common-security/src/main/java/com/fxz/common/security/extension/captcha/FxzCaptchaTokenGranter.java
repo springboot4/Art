@@ -1,4 +1,4 @@
-package com.fxz.auth.extension.captcha;
+package com.fxz.common.security.extension.captcha;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
