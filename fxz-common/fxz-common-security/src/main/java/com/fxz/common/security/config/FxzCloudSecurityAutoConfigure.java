@@ -3,12 +3,16 @@ package com.fxz.common.security.config;
 import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.security.FxzUserInfoTokenServices;
+import com.fxz.common.security.extension.mobile.FxzSmsCodeAuthenticationProvider;
 import com.fxz.common.security.handler.FxzAccessDeniedHandler;
 import com.fxz.common.security.handler.FxzAuthExceptionEntryPoint;
 import com.fxz.common.security.permission.PermissionService;
 import com.fxz.common.security.properties.FxzCloudSecurityProperties;
+import com.fxz.common.security.service.FxzUserDetailsService;
+import com.fxz.common.security.service.user.FxzUserDetailServiceImpl;
 import com.fxz.common.security.util.SecurityUtil;
 import feign.RequestInterceptor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
@@ -19,10 +23,13 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.util.Base64Utils;
@@ -33,6 +40,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
+import java.util.Map;
 
 /**
  * @author Fxz
@@ -41,9 +49,50 @@ import java.util.Enumeration;
  */
 @Slf4j
 @AutoConfiguration
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(FxzCloudSecurityProperties.class)
 public class FxzCloudSecurityAutoConfigure {
+
+	private final StringRedisTemplate stringRedisTemplate;
+
+	private final FxzUserDetailServiceImpl fxzUserDetailService;
+
+	private final Map<String, FxzUserDetailsService> userDetailsServiceMap;
+
+	/**
+	 * 用户名密码认证授权提供者
+	 * @return 用户名密码认证授权提供者
+	 */
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(fxzUserDetailService);
+		provider.setPasswordEncoder(passwordEncoder());
+		// 是否隐藏用户不存在异常，默认:true-隐藏；false-抛出异常；
+		provider.setHideUserNotFoundExceptions(false);
+		return provider;
+	}
+
+	/**
+	 * 手机验证码认证授权提供者
+	 * @return 手机验证码认证授权提供者
+	 */
+	@Bean
+	public FxzSmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
+		FxzSmsCodeAuthenticationProvider provider = new FxzSmsCodeAuthenticationProvider();
+		provider.setUserDetailsServiceMap(userDetailsServiceMap);
+		provider.setRedisTemplate(stringRedisTemplate);
+		return provider;
+	}
+
+	/**
+	 * 注入密码编码器
+	 */
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
 
 	/**
 	 * 解决SecurityContextHolder子线程不能获取用户信息
@@ -84,15 +133,6 @@ public class FxzCloudSecurityAutoConfigure {
 	}
 
 	/**
-	 * 注入密码编码器
-	 */
-	@Bean
-	@ConditionalOnMissingBean(value = PasswordEncoder.class)
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	/**
 	 * 配置拦截器,所有请求必须通过网关
 	 */
 	@Bean
@@ -113,7 +153,7 @@ public class FxzCloudSecurityAutoConfigure {
 	@Bean
 	public RequestInterceptor oauth2FeignRequestInterceptor() {
 		return requestTemplate -> {
-			String gatewayToken = new String(Base64Utils.encode(FxzConstant.GATEWAY_TOKEN_VALUE.getBytes()));
+			String gatewayToken = new String(Base64Utils.encode((FxzConstant.GATEWAY_TOKEN_VALUE).getBytes()));
 			requestTemplate.header(FxzConstant.GATEWAY_TOKEN_HEADER, gatewayToken);
 
 			String authorizationToken = SecurityUtil.getCurrentTokenValue();
