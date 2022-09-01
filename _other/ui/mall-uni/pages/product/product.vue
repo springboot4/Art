@@ -716,7 +716,7 @@ page {
 					margin-top: 20upx;
 					font-size: 30upx;
 				}
-				}
+			}
 				.coupon-box-right{
 					flex: 1;
 					position: relative;
@@ -741,12 +741,12 @@ page {
 							.triangle{
 								border-bottom: 19upx solid transparent;
 								border-top: 19upx solid transparent;
-								border-right: 23upx solid  #53c7ca;
+								border-right: 19upx solid  #53c7ca;
 								// border-left: 20upx solid transparent;
 								border-left: 0upx;
 								position: absolute;
-								left: -22upx;
-								top: 0;
+								left: -20upx;
+								top: -1upx;
 							}
 						}
 					}
@@ -761,17 +761,10 @@ page {
 						text-align: center;
 						display: inline-block;
 					}
-					.coupon-box-right_date{
-						
-					}
 				}
 		}
 	}
-		
-	// <view class="coupon-box-right_view"><i class="coupon-box-right_type">东券</i>仅可购买男装部分商品
-	// </view>
-	// <text class="coupon-box-right_btn bg_2 disabled" ind="0" ptype="coupon" style="">可用商品</text>
-	// <view class="coupon-box-right_date ">自领取后3天内有效</view>
+	
 }
 
 /* 规格选择弹窗 */
