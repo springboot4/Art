@@ -122,9 +122,9 @@
     <view class="popup spec" :class="couponClass" @touchmove.stop.prevent="stopPrevent" @click="toggleCoupon">
       <view class="mask"></view>
       <view class="layer coupon-content"  @click.stop="stopPrevent">
-        <view class="coupon-title">优惠</view>
+        <view class="coupon-title">优惠券</view>
         <scroll-view style="padding-top: 10upx;" scroll-y = "true" class="coupon-box" >
-          <view style="display: flex; margin: 20upx 0 " class="coupon_voucher3_main" v-for="item in couponList" :key="item.id">
+          <view style="display: flex; margin: 20upx 0 " class="coupon_voucher3_main" v-for="item in couponList" :key="item.id" @click.stop="receiveCoupon(item.id)">
             <view class="coupon-box-left">
               <view class="coupon-box-left_price" v-if="item.coupon_type==='discount'"><i >¥</i>{{item.coupon_discount}}折</view>
               <view class="coupon-box-left_price" v-else><i >¥</i>{{item.price}}</view>
@@ -134,9 +134,8 @@
               <view class="coupon-box-right_view"><i class="coupon-box-right_type"> <text style="background-color: #53c7ca;position: relative;padding: 2upx 6upx;">
                 {{ item.coupon_name }}<text class="triangle"></text></text> </i>{{item.description}}
               </view>
-              <text class="coupon-box-right_btn " v-if="false">领取</text>
-              <text class="coupon-box-right_btn "  v-else style="background-color: #ccc;">已领取</text>
-              <view class="coupon-box-right_date " v-if="item.range_day_type==='dynamictime'">自领取后{{item.effectiveDays}}天内有效</view>
+              <text class="coupon-box-right_btn">领取</text>
+              <view class="coupon-box-right_date " v-if="item.range_day_type==='dynamictime'">自领取后{{item.effective_days}}天内有效</view>
               <view class="coupon-box-right_date " v-else>有效期：{{item.start_time}}至{{item.end_time}}</view>
             </view>
           </view>
@@ -189,9 +188,10 @@
 <script>
 import share from '@/components/share';
 
-import {getSpuDetail, getStockNum} from '../../api/product/goods.js';
+import {getSpuDetail} from '../../api/product/goods.js';
 
 import {addCartItem} from "../../api/order/cart";
+import {receiveCoupon} from "../../api/promotion/coupon";
 
 export default {
   components: {share},
@@ -256,6 +256,14 @@ export default {
     });
   },
   methods: {
+    //会员领取优惠券
+    receiveCoupon(couponId){
+      receiveCoupon(couponId).then(_=>{
+        this.$api.msg('领取成功');
+      }).catch(err=> {
+        this.$api.msg(err);
+      })
+    },
     //规格弹窗开关
     toggleSpec() {
       if (this.specClass === 'show') {
