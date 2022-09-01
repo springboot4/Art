@@ -1,4 +1,4 @@
-package com.fxz.auth.manager;
+package com.fxz.common.security.service.user;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.common.core.constant.SecurityConstants;
@@ -25,12 +25,12 @@ public class FxzUserManager {
 		return userService.findByName(username);
 	}
 
-	public String findUserPermissions(String username) {
-		return String.join(StringPool.COMMA, menuService.findUserPermissions(username));
-	}
-
 	public SystemUser findByMobile(String mobile) {
 		return userService.findByMobile(mobile, SecurityConstants.FROM_IN);
+	}
+
+	public String findUserPermissions(String username) {
+		return String.join(StringPool.COMMA, menuService.findUserPermissions(username));
 	}
 
 }
