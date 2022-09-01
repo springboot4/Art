@@ -1,15 +1,15 @@
 package com.fxz.auth.configure;
 
-import com.fxz.auth.extension.captcha.FxzCaptchaTokenGranter;
-import com.fxz.auth.extension.mobile.FxzSmsCodeTokenGranter;
-import com.fxz.auth.extension.wechat.FxzWechatTokenGranter;
 import com.fxz.auth.properties.FxzAuthProperties;
-import com.fxz.auth.service.FxzPreAuthenticatedUserDetailsService;
-import com.fxz.auth.service.member.FxzMemberUserDetailsServiceImpl;
-import com.fxz.auth.service.user.FxzUserDetailServiceImpl;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.security.entity.FxzAuthUser;
+import com.fxz.common.security.extension.captcha.FxzCaptchaTokenGranter;
+import com.fxz.common.security.extension.mobile.FxzSmsCodeTokenGranter;
+import com.fxz.common.security.service.FxzPreAuthenticatedUserDetailsService;
+import com.fxz.common.security.service.FxzUserDetailsService;
+import com.fxz.common.security.service.user.FxzUserDetailServiceImpl;
+import com.fxz.mall.support.extension.wechat.FxzWechatTokenGranter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -38,9 +37,10 @@ import javax.sql.DataSource;
 import java.util.*;
 
 /**
+ * 认证服务器配置
+ *
  * @author Fxz
  * @version 1.0
- * @Description 认证服务器配置
  * @date 2021-11-27 16:10
  */
 @SuppressWarnings("rawtypes")
@@ -57,9 +57,9 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 	private final RedisConnectionFactory redisConnectionFactory;
 
-	private final FxzUserDetailServiceImpl fxzUserDetailService;
+	private final Map<String, FxzUserDetailsService> userDetailsServiceMap;
 
-	private final FxzMemberUserDetailsServiceImpl fxzMemberUserDetailsService;
+	private final FxzUserDetailServiceImpl fxzUserDetailService;
 
 	private final FxzAuthProperties authProperties;
 
@@ -91,7 +91,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		granterList.add(new FxzSmsCodeTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
 				endpoints.getOAuth2RequestFactory(), authenticationManager));
 
-		// 添加微信授权模式的授权者
+		// todo 添加微信授权模式的授权者 若不需要商城体系，注释掉这一行即可
 		granterList.add(new FxzWechatTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
 				endpoints.getOAuth2RequestFactory(), authenticationManager));
 
@@ -151,19 +151,11 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		// 设置ClientDetailsService
 		tokenServices.setClientDetailsService(fxzClientDetailsService());
 
-		// 多用户体系下，认证客户端ID和 UserDetailService 的映射Map
-		Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>(8);
-		// 系统管理客户端使用fxzUserDetailService加载用户信息
-		clientUserDetailsServiceMap.put(SecurityConstants.ADMIN_CLIENT_ID, fxzUserDetailService);
-		// Android、IOS、H5 移动客户端使用fxzMemberUserDetailsService加载用户信息
-		clientUserDetailsServiceMap.put(SecurityConstants.APP_CLIENT_ID, fxzMemberUserDetailsService);
-		// 微信小程序客户端使用fxzMemberUserDetailsService加载用户信息
-		clientUserDetailsServiceMap.put(SecurityConstants.WEAPP_CLIENT_ID, fxzMemberUserDetailsService);
-
 		// 重写预认证提供者替换其AuthenticationManager，可自定义根据客户端ID和认证方式区分用户体系获取认证用户信息
 		PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
 		provider.setPreAuthenticatedUserDetailsService(
-				new FxzPreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
+				new FxzPreAuthenticatedUserDetailsService<>(userDetailsServiceMap));
+
 		tokenServices.setAuthenticationManager(new ProviderManager(Collections.singletonList(provider)));
 
 		return tokenServices;

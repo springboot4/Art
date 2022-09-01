@@ -13,15 +13,11 @@
 
     <dependencies>
 
+        <!-- 如果需要多用户体系支持商城，则引入此依赖，不需要注释掉即可-->
         <dependency>
             <groupId>com.fxz</groupId>
-            <artifactId>mall-member-api</artifactId>
+            <artifactId>support</artifactId>
             <version>0.0.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
         </dependency>
 
         <dependency>

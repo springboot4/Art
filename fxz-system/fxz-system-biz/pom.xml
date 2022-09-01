@@ -35,12 +35,6 @@
 <!--            <artifactId>sentinel-datasource-nacos</artifactId>-->
 <!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.fxz</groupId>
-            <artifactId>mall-member-api</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-
         <!--nacos配置中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
