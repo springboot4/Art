@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(contextId = "remoteRoleService", value = FxzServerConstant.FXZ_SERVER_SYSTEM)
 public interface RemoteRoleService {
 
-    /**
-     * 获取当前用户角色下的数据权限
-     */
-    @GetMapping("/role/getDataPermission")
-    Result<DeptDataPermissionRespDTO> getDataPermission();
+	/**
+	 * 获取当前用户角色下的数据权限
+	 */
+	@GetMapping("/role/getDataPermission")
+	Result<DeptDataPermissionRespDTO> getDataPermission();
 
 }
