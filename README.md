@@ -22,6 +22,7 @@ fxz-cloud
        ├── fxz-common-gateway 动态网关
        ├── fxz-common-idempotency -- 幂等控制组件
        ├── fxz-common-jackson -- Json序列化配置
+       ├── fxz-common-lock -- 分布式锁模块
        ├── fxz-common-log -- 日志配置
        ├── fxz-common-mp -- mybatis-plus配置
        ├── fxz-common-mq -- 消息队列封装
