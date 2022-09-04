@@ -1,4 +1,4 @@
-package com.fxz.demos.distributed.lock;
+package com.fxz.demos.distributed.lock.client;
 
 import com.fxz.demos.distributed.lock.redis.DistributedRedisLock;
 import lombok.RequiredArgsConstructor;
