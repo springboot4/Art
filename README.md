@@ -1,7 +1,5 @@
+![logo](https://minio.pigx.vip/oss/2022/08/T4LHAz.svg)
 ##  🚀项目介绍
-[![star](https://gitee.com/fxzcloud/fxz-cloud/badge/star.svg?theme=dark)](https://gitee.com/fxzcloud/fxz-cloud/stargazers)
-[![fork](https://gitee.com/fxzcloud/fxz-cloud/badge/fork.svg?theme=gray)](https://gitee.com/fxzcloud/fxz-cloud/members)
-<br/>
 Not Only Scaffolding
 
 全端代码开源，致力于打造成一款具有影响力的微服务开发平台

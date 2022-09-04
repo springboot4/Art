@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Data
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class FxzRouteDefinition extends RouteDefinition implements Serializable {
 
 	/**
