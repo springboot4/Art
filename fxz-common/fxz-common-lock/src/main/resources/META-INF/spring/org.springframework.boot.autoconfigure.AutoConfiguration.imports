@@ -1,4 +1,5 @@
 com.fxz.common.lock.config.RedissonClientAutoConfiguration
+com.fxz.common.lock.config.DistributedLockAspectConfig
 com.fxz.common.lock.factory.RedissonLockServiceFactory
 com.fxz.common.lock.service.impl.RedissonFairLockServiceImpl
 com.fxz.common.lock.service.impl.RedissonMultiLockServiceImpl
