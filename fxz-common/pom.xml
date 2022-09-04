@@ -18,6 +18,7 @@
         <module>fxz-common-mp</module>
         <module>fxz-common-log</module>
         <module>fxz-common-file</module>
+        <module>fxz-common-lock</module>
         <module>fxz-common-core</module>
         <module>fxz-common-redis</module>
         <module>fxz-common-gateway</module>
