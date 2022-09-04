@@ -18,6 +18,6 @@ public interface RemoteRoleService {
 	 * 获取当前用户角色下的数据权限
 	 */
 	@GetMapping("/role/getDataPermission")
-	public Result<DeptDataPermissionRespDTO> getDataPermission();
+	Result<DeptDataPermissionRespDTO> getDataPermission();
 
 }
