@@ -92,8 +92,8 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 				endpoints.getOAuth2RequestFactory(), authenticationManager));
 
 		// todo 添加微信授权模式的授权者 若不需要商城体系，注释掉这一行即可
-		granterList.add(new FxzWechatTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
-				endpoints.getOAuth2RequestFactory(), authenticationManager));
+//		granterList.add(new FxzWechatTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+//				endpoints.getOAuth2RequestFactory(), authenticationManager));
 
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
