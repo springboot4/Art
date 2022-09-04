@@ -20,8 +20,8 @@ public class RedissonLockServiceFactory {
 	 * @param redissonLockType 锁类型
 	 */
 	public static RedissonService getLock(RedissonLockType redissonLockType) {
-		Map<String, RedissonService> type = SpringUtil.getBeansOfType(RedissonService.class);
-		return type.values().stream().filter(s -> redissonLockType.equals(s.lockType())).findFirst().orElse(null);
+		Map<String, RedissonService> serviceMap = SpringUtil.getBeansOfType(RedissonService.class);
+		return serviceMap.values().stream().filter(s -> redissonLockType.equals(s.lockType())).findFirst().orElse(null);
 	}
 
 }
