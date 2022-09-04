@@ -44,6 +44,12 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
+        <!--测试:分布式锁模块-->
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-lock</artifactId>
+        </dependency>
+
         <!--测试:es模块-->
         <dependency>
             <groupId>com.fxz</groupId>
