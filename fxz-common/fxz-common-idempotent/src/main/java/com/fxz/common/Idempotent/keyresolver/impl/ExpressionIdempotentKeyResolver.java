@@ -2,7 +2,7 @@ package com.fxz.common.Idempotent.keyresolver.impl;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.fxz.common.Idempotent.annotation.Idempotent;
-import com.fxz.common.Idempotent.keyresolver.IdempotentKeyResolver;
+import com.fxz.common.Idempotent.keyresolver.KeyResolver;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
@@ -15,32 +15,34 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import java.lang.reflect.Method;
 
 /**
- * spring el表达式key解析器
+ * key解析器 使用spring el生成key
  *
  * @author fxz
  */
-public class ExpressionIdempotentKeyResolver implements IdempotentKeyResolver {
-
-	/**
-	 * 获取方法参数名
-	 */
-	private final ParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
+public class ExpressionIdempotentKeyResolver implements KeyResolver {
 
 	/**
 	 * 参数解析器
 	 */
 	private final ExpressionParser expressionParser = new SpelExpressionParser();
 
+	/**
+	 * 获取方法参数名
+	 */
+	private final ParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
+
 	@Override
 	public String resolver(JoinPoint joinPoint, Idempotent idempotent) {
-		// 获得被拦截方法参数名列表
+		// 获得被拦截方法
 		Method method = getMethod(joinPoint);
+
 		// 获取方法参数
 		Object[] args = joinPoint.getArgs();
+
 		// 获取到参数名
 		String[] parameterNames = this.parameterNameDiscoverer.getParameterNames(method);
 
-		// 准备 Spring EL 表达式解析的上下文
+		// el表达式解析上下文
 		StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
 		if (ArrayUtil.isNotEmpty(parameterNames)) {
 			for (int i = 0; i < parameterNames.length; i++) {
@@ -49,20 +51,22 @@ public class ExpressionIdempotentKeyResolver implements IdempotentKeyResolver {
 		}
 
 		// 解析参数
-		Expression expression = expressionParser.parseExpression(idempotent.keyArg());
+		Expression expression = expressionParser.parseExpression(idempotent.key());
 
+		// 返回解析的key值
 		return expression.getValue(evaluationContext, String.class);
 	}
 
 	private static Method getMethod(JoinPoint point) {
-		// 处理，声明在类上的情况
-		MethodSignature signature = (MethodSignature) point.getSignature();
-		Method method = signature.getMethod();
+		// 获取被拦截的方法
+		Method method = ((MethodSignature) point.getSignature()).getMethod();
+
+		// 声明在类上的情况 直接返回
 		if (!method.getDeclaringClass().isInterface()) {
 			return method;
 		}
 
-		// 处理，声明在接口上的情况
+		// 声明在接口上的情况 根据实际执行的类处理
 		try {
 			return point.getTarget().getClass().getDeclaredMethod(point.getSignature().getName(),
 					method.getParameterTypes());

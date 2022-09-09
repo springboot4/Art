@@ -10,7 +10,7 @@ import com.fxz.common.lock.entity.LockEntity;
  */
 public interface RedissonService {
 
-	ThreadLocal<LockEntity> threadLock = new ThreadLocal<>();
+	ThreadLocal<LockEntity> THREAD_LOCK = new ThreadLocal<>();
 
 	/**
 	 * 加锁
@@ -31,14 +31,14 @@ public interface RedissonService {
 	 * 获取当前线程锁信息
 	 */
 	default LockEntity getThreadLock() {
-		return threadLock.get();
+		return THREAD_LOCK.get();
 	}
 
 	/**
 	 * 保存当前线程锁信息
 	 */
 	default void saveThreadLock(LockEntity lockEntity) {
-		threadLock.set(lockEntity);
+		THREAD_LOCK.set(lockEntity);
 	}
 
 	/**
@@ -46,7 +46,7 @@ public interface RedissonService {
 	 */
 	default void clearThreadLock() {
 		// 清空线程信息
-		threadLock.remove();
+		THREAD_LOCK.remove();
 	}
 
 }
