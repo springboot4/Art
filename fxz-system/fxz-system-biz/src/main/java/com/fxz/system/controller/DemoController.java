@@ -16,7 +16,6 @@ import com.fxz.common.websocket.service.UserWsNoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -106,12 +105,20 @@ public class DemoController {
 		return Result.success(ip);
 	}
 
-	@Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class,
-			keyArg = "#str")
+	@Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class, key = "#str")
 	@Ojbk
 	@GetMapping("/idempotent")
 	public Result<Void> testIdempotent(String str) {
 		log.info("方法执行");
+		return Result.success();
+	}
+
+	@Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class, key = "#str",
+			delKey = true)
+	@Ojbk
+	@GetMapping("/idempotentDel")
+	public Result<Void> idempotentDel(String str) {
+		log.info("方法执行且执行完自动删除key");
 		return Result.success();
 	}
 

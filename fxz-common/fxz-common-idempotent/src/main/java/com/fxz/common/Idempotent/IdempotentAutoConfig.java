@@ -3,7 +3,7 @@ package com.fxz.common.Idempotent;
 import com.fxz.common.Idempotent.aspect.IdempotentAspect;
 import com.fxz.common.Idempotent.keyresolver.impl.DefaultIdempotentKeyResolver;
 import com.fxz.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolver;
-import com.fxz.common.Idempotent.redis.IdempotentRedisDAO;
+import com.fxz.common.Idempotent.redis.IdempotentRedisService;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -28,13 +28,13 @@ public class IdempotentAutoConfig {
 	}
 
 	@Bean
-	public IdempotentRedisDAO idempotentRedisDAO(StringRedisTemplate RedisTemplate) {
-		return new IdempotentRedisDAO(RedisTemplate);
+	public IdempotentRedisService idempotentRedisDAO(StringRedisTemplate RedisTemplate) {
+		return new IdempotentRedisService(RedisTemplate);
 	}
 
 	@Bean
-	public IdempotentAspect idempotentAspect(IdempotentRedisDAO idempotentRedisDAO) {
-		return new IdempotentAspect(idempotentRedisDAO);
+	public IdempotentAspect idempotentAspect(IdempotentRedisService idempotentRedisService) {
+		return new IdempotentAspect(idempotentRedisService);
 	}
 
 }
