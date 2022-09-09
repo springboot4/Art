@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
 public class DistributedLockAspect implements Ordered {
 
 	/**
-	 * 对带有DistributedLock注解的进行幂等处理，使用前置通知
+	 * 对带有DistributedLock注解的进行幂等处理，使用环绕通知
 	 */
 	@Around(value = "@annotation(distributedLock)")
 	public Object around(ProceedingJoinPoint joinPoint, DistributedLock distributedLock) throws Throwable {
