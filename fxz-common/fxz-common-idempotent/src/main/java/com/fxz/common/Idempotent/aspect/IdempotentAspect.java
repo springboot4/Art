@@ -87,6 +87,9 @@ public class IdempotentAspect {
 		if (!idempotentRedisService.removeKey(key)) {
 			log.info("删除幂等key:{}失败！", key);
 		}
+
+		// 删除缓存的幂等注解信息
+		THREAD_LOCAL.remove();
 	}
 
 }
