@@ -14,12 +14,12 @@ fxz-cloud
     ├── fxz-common -- 通用工具封装
        ├── fxz-common-canal -- 针对canal封装
        ├── fxz-common-core -- web基础配置
-       ├── fxz-common-data-permission 数据权限封装
-       ├── fxz-common-database 多数据源
+       ├── fxz-common-data-permission -- 数据权限封装
+       ├── fxz-common-database -- 多数据源
        ├── fxz-common-dependencies -- 依赖管理
-       ├── fxz-common-es es配置
-       ├── fxz-common-file 文件管理模块
-       ├── fxz-common-gateway 动态网关
+       ├── fxz-common-es -- es配置
+       ├── fxz-common-file -- 文件管理模块
+       ├── fxz-common-gateway -- 动态网关
        ├── fxz-common-idempotency -- 幂等控制组件
        ├── fxz-common-jackson -- Json序列化配置
        ├── fxz-common-lock -- 分布式锁模块
