@@ -8,7 +8,7 @@ Not Only Scaffolding
 ## 📖文档
 
 🪜项目整体结构
-```
+```lua
 fxz-cloud 
     ├── fxz-auth -- 认证服务器
     ├── fxz-common -- 通用工具封装
