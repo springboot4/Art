@@ -13,18 +13,19 @@
     <description>幂等性工具</description>
 
     <dependencies>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-crypto</artifactId>
-        </dependency>
+        <!--工具类-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-extra</artifactId>
         </dependency>
+
+        <!--redis支持-->
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-redis</artifactId>
         </dependency>
+
+        <!--aspectj Aop支持-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
