@@ -6,16 +6,16 @@
       </span>
     </a-table>
     <br /><br />
-    <a-button type="primary">选择商品</a-button>
+    <a-button type="primary" icon="plus" @click="add">选择商品</a-button>
     <br /><br />
     <a-tabs @change="callback" type="card" :activeKey="activeKey">
       <a-tab-pane :key="index" :tab="item" v-for="(item,index) in hours">
         <a-table :columns="skuColumns" :data-source="selectSkuList" :pagination="false" bordered>
           <span slot="originalPrice" slot-scope="text">
-            {{ text/100 }}
+            {{ text / 100 }}
           </span>
           <span slot="price" slot-scope="text">
-            {{ text/100 }}
+            {{ text / 100 }}
           </span>
           <span slot="action" slot-scope="text, record">
             <a-popconfirm title="是否删除?" @confirm="deleteItem(record)" okText="是" cancelText="否">
@@ -26,12 +26,14 @@
         </a-table>
       </a-tab-pane>
     </a-tabs>
+    <seckill-manage-edit ref="seckillManageEdit" @ok="queryData" />
   </a-card>
 </template>
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { get, deleteApply } from '@/api/mall/promotion/seckill'
+import { deleteApply, get } from '@/api/mall/promotion/seckill'
+import SeckillManageEdit from '@/views/modules/mall/promotion/seckill/SeckillManageEdit'
 const columns = [
   {
     title: '活动名称',
@@ -96,8 +98,7 @@ const skuColumns = [
 export default {
   name: 'SeckillManage',
   mixins: [FormMixin],
-  components: {
-  },
+  components: { SeckillManageEdit },
   data () {
     return {
       columns,
@@ -116,7 +117,13 @@ export default {
       this.queryData()
     }
   },
+  created () {
+    this.queryData()
+  },
   methods: {
+    add () {
+      this.$refs.seckillManageEdit.init(this.$route.query.seckillId || this.queryParam.seckillId, 'add', this.hours[this.activeKey].split(':')[0])
+    },
     deleteItem (row) {
       deleteApply(row.seckillId, row.id).then(_ => {
         this.$message.success('删除成功')
@@ -130,8 +137,8 @@ export default {
       console.log(this.selectSkuList)
     },
     queryData () {
-      const seckillId = this.queryParam.seckillId
-      if (!seckillId) return
+      const seckillId = this.$route.query.seckillId || this.queryParam.seckillId
+      if (!seckillId && !this.queryParam.seckillId) return
       get(seckillId).then(res => {
         console.log('res.data', res.data)
         const arr = []

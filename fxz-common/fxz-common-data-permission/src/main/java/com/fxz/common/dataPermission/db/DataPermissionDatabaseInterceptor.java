@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.parser.JsqlParserSupport;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.fxz.common.dataPermission.rule.DataPermissionRule;
 import com.fxz.common.dataPermission.factory.DataPermissionRuleFactory;
+import com.fxz.common.dataPermission.rule.DataPermissionRule;
 import com.fxz.common.mp.utils.MyBatisUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -35,32 +35,35 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 数据权限拦截器，通过 {@link DataPermissionRule} 数据权限规则，重写 SQL 的方式来实现 主要的 SQL 重写方法，可见
- * {@link #builderExpression(Expression, Table)} 方法
- * <p>
- * 整体的代码实现上，参考
+ * 数据权限拦截器 通过数据权限规则 重写SQL的方式来实现
+ * <p/>
+ * 主要的SQL重写方法可见 {@link #builderExpression(Expression, Table)} 方法 参考
  * {@link com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor} 实现。
- * 所以每次 MyBatis Plus 升级时，需要 Review 下其具体的实现是否有变更！
  *
  * @author fxz
  */
 @RequiredArgsConstructor
 public class DataPermissionDatabaseInterceptor extends JsqlParserSupport implements InnerInterceptor {
 
+	/**
+	 * 数据权限规则工厂接口 管理容器中配置的数据权限规则
+	 */
 	private final DataPermissionRuleFactory ruleFactory;
 
 	@Getter
 	private final MappedStatementCache mappedStatementCache = new MappedStatementCache();
 
 	/**
-	 * SELECT 场景
+	 * Executor.query(MappedStatement, Object, RowBounds, ResultHandler, CacheKey,
+	 * BoundSql) 操作前置处理 改改sql啥的
 	 */
 	@Override
 	public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds,
 			ResultHandler resultHandler, BoundSql boundSql) {
-		// 获得 Mapper 对应的数据权限的规则
-		List<DataPermissionRule> rules = ruleFactory.getDataPermissionRule(ms.getId());
-		// 如果无需重写，则跳过
+		// 获取生效的数据权限规则
+		List<DataPermissionRule> rules = ruleFactory.getDataPermissionRule();
+
+		// 如果无需重写 则跳过
 		if (mappedStatementCache.noRewritable(ms, rules)) {
 			return;
 		}
@@ -79,7 +82,7 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 	}
 
 	/**
-	 * 只处理 UPDATE / DELETE 场景，不处理 INSERT 场景
+	 * 只处理 UPDATE / DELETE 场景 不处理 INSERT 场景
 	 */
 	@Override
 	public void beforePrepare(StatementHandler sh, Connection connection, Integer transactionTimeout) {
@@ -87,8 +90,8 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 		MappedStatement ms = mpSh.mappedStatement();
 		SqlCommandType sct = ms.getSqlCommandType();
 		if (sct == SqlCommandType.UPDATE || sct == SqlCommandType.DELETE) {
-			// 获得 Mapper 对应的数据权限的规则
-			List<DataPermissionRule> rules = ruleFactory.getDataPermissionRule(ms.getId());
+			// 获取生效的数据权限规则
+			List<DataPermissionRule> rules = ruleFactory.getDataPermissionRule();
 			// 如果无需重写，则跳过
 			if (mappedStatementCache.noRewritable(ms, rules)) {
 				return;
@@ -404,7 +407,7 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 		if (ContextHolder.getRewrite()) {
 			return;
 		}
-		// 无重写，进行添加
+		// 无重写 进行添加
 		mappedStatementCache.addNoRewritable(ms, ContextHolder.getRules());
 	}
 
@@ -466,23 +469,26 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 		private final Map<Class<? extends DataPermissionRule>, Set<String>> noRewritableMappedStatements = new ConcurrentHashMap<>();
 
 		/**
-		 * 判断是否无需重写 ps：虽然有点中文式英语，但是容易读懂即可
+		 * 判断是否无需重写
 		 * @param ms MappedStatement
 		 * @param rules 数据权限规则数组
 		 * @return 是否无需重写
 		 */
 		public boolean noRewritable(MappedStatement ms, List<DataPermissionRule> rules) {
-			// 如果规则为空，说明无需重写
+			// 如果规则为空 无需重写
 			if (CollUtil.isEmpty(rules)) {
 				return true;
 			}
-			// 任一规则不在 noRewritableMap 中，则说明可能需要重写
+
 			for (DataPermissionRule rule : rules) {
+				// 根据规则类获取不需要重写的MappedStatementId集合
 				Set<String> mappedStatementIds = noRewritableMappedStatements.get(rule.getClass());
+				// 任一规则不在 noRewritableMap 中 则说明可能需要重写
 				if (!CollUtil.contains(mappedStatementIds, ms.getId())) {
 					return false;
 				}
 			}
+
 			return true;
 		}
 
@@ -498,16 +504,10 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 					mappedStatementIds.add(ms.getId());
 				}
 				else {
-					noRewritableMappedStatements.put(rule.getClass(), new HashSet<>(Arrays.asList(ms.getId())));
+					noRewritableMappedStatements.put(rule.getClass(),
+							new HashSet<>(Collections.singletonList(ms.getId())));
 				}
 			}
-		}
-
-		/**
-		 * 清空缓存 目前主要提供给单元测试
-		 */
-		public void clear() {
-			noRewritableMappedStatements.clear();
 		}
 
 	}
