@@ -21,8 +21,8 @@ import java.util.List;
 public class DataPermissionAutoConfiguration {
 
 	/**
-	 * 数据权限规则工厂 配置需要生效的数据权限规则
-	 * @param rules 容器中的数据权限类
+	 * 数据权限规则工厂 管理数据权限规则
+	 * @param rules 容器中的数据权限规则类
 	 */
 	@Bean
 	public DataPermissionRuleFactory dataPermissionRuleFactory(List<DataPermissionRule> rules) {
@@ -35,19 +35,19 @@ public class DataPermissionAutoConfiguration {
 	@Bean
 	public DataPermissionDatabaseInterceptor dataPermissionDatabaseInterceptor(MybatisPlusInterceptor interceptor,
 			List<DataPermissionRule> rules) {
-		// 生效的数据权限规则
+		// 数据权限规则工厂接口
 		DataPermissionRuleFactory ruleFactory = dataPermissionRuleFactory(rules);
 
 		// 创建 DataPermissionDatabaseInterceptor 拦截器
 		DataPermissionDatabaseInterceptor inner = new DataPermissionDatabaseInterceptor(ruleFactory);
 
-		// 需要加在首个，主要是为了在分页插件前面。这个是 MyBatis Plus 的规定
+		// 需要加在分页插件前面
 		MyBatisUtils.addInterceptor(interceptor, inner, 0);
 		return inner;
 	}
 
 	/**
-	 * 针对数据权限注解的AOP处理
+	 * aop处理
 	 */
 	@Bean
 	public DataPermissionAnnotationAdvisor dataPermissionAnnotationAdvisor() {
