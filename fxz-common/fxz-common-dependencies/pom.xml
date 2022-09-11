@@ -24,7 +24,7 @@
         <sentinel.version>1.6.3</sentinel.version>
         <logstash.version>5.3</logstash.version>
         <velocity.version>2.3</velocity.version>
-        <hutool.version>5.7.21</hutool.version>
+        <hutool.version>5.8.6</hutool.version>
         <seata.version>1.4.2</seata.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
