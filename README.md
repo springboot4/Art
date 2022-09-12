@@ -1,8 +1,6 @@
 ![logo](https://minio.pigx.vip/oss/2022/08/T4LHAz.svg)
 ##  🚀项目介绍
- Not Only Scaffolding
-
- 全端代码开源，致力于打造成一款具有影响力的微服务开发平台
+ FCloud 全端代码开源，致力于打造成一款具有影响力的微服务开发平台。
 
 
 ## 📖文档
@@ -51,43 +49,40 @@ fxz-cloud
           ├── admin-vue2 -- 管理员界面
           ├── mall-uni   -- 商城小程序界面
 ```
-[🔥🔥🔥快速启动](https://fxzcloud.gitee.io/docs/)
+[🔥快速启动](https://fxzcloud.gitee.io/docs/)
 
 
-## 🪞基础功能
-数据权限，角色支持多种数据权限设定，支持自定义进行拓展。
-![](https://minio.pigx.vip/oss/2022/09/hYx7vs.png)
-动态网关，网关支持通过前端动态配置路由，不需要在nacos中维护路由信息，修改自动加载，无需重启服务。
-![](https://minio.pigx.vip/oss/2022/09/ynUvTt.png)
+## 💻系统应用
+RBAC&数据权限，角色支持多种数据权限设定，支持自定义进行拓展。
+![](https://minio.pigx.vip/oss/2022/09/2f0YJk.png)
+
+动态网关，网关支持通过前端动态配置，不需要在nacos中维护路由信息，修改自动加载，无需重启服务。
+![](https://minio.pigx.vip/oss/2022/09/PxMBNC.png)
+
 动态数据源&代码生成,支持动态添加数据源与项目基础crud代码生成。
-![](https://minio.pigx.vip/oss/2022/09/rComtz.png)
-![](https://minio.pigx.vip/oss/2022/09/BVZE8h.png)
-动态路由
-![](https://minio.pigx.vip/oss/2022/09/bCzQSv.png)
-多种登录方式
-![](https://minio.pigx.vip/oss/2022/09/4eoo2d.png)
-字典管理
-![](https://minio.pigx.vip/oss/2022/09/h6y7X8.png)
-强退用户
-![](https://minio.pigx.vip/oss/2022/09/RffesX.png)
-审计日志
-![](https://minio.pigx.vip/oss/2022/09/LOKhRX.png)
-## 🎁商城管理
+![](https://minio.pigx.vip/oss/2022/09/LpRdJs.png)
+![](https://minio.pigx.vip/oss/2022/09/aMfUqv.png)支持多种登录方式,可自定义进行拓展。
+![](https://minio.pigx.vip/oss/2022/09/q9yBuA.png)字典管理
+![](https://minio.pigx.vip/oss/2022/09/sj2R4y.png)强退用户
+![](https://minio.pigx.vip/oss/2022/09/FKsSGc.png)审计日志
+
+## ![](https://minio.pigx.vip/oss/2022/09/kBIASc.png)🎁商城应用
+
 秒杀活动
 ![](https://minio.pigx.vip/oss/2022/09/qAFJUh.png)
 ![](https://minio.pigx.vip/oss/2022/09/89RNFg.png)
 优惠券活动
-![](https://minio.pigx.vip/oss/2022/09/9AnfQ2.png)
-![](https://minio.pigx.vip/oss/2022/09/GrC1kg.png)
+![](https://minio.pigx.vip/oss/2022/09/bHjYjU.png)
+![](https://minio.pigx.vip/oss/2022/09/bGSyKP.png)
 ![](https://minio.pigx.vip/oss/2022/09/tpMtYV.png)
 商品检索
-![](https://minio.pigx.vip/oss/2022/09/1nPvz6.png)
-订单管理
-![](https://minio.pigx.vip/oss/2022/09/0xju53.png)
-会员管理
-![](https://minio.pigx.vip/oss/2022/09/4AA7JQ.png)
 
-## 📱移动端展示
+![](https://minio.pigx.vip/oss/2022/09/BSJsJU.png)订单管理
+
+![](https://minio.pigx.vip/oss/2022/09/d0EG2h.png)会员管理
+
+## ![](https://minio.pigx.vip/oss/2022/09/S7DRyz.png)📱移动端展示
+
 支持多种登录方式
 ![](https://minio.pigx.vip/oss/2022/09/7POcE0.png)
 ![](https://minio.pigx.vip/oss/2022/09/I86DRb.png)
@@ -95,12 +90,12 @@ fxz-cloud
 ![](https://minio.pigx.vip/oss/2022/09/QPGuiC.png)
 ![](https://minio.pigx.vip/oss/2022/09/DswHAG.png)
 ![](https://minio.pigx.vip/oss/2022/09/y04bpB.png)
-## 说明
+## 🔍说明
 脚手架与商城为两个单独项目，功能可按需引入。如仅需脚手架功能，可轻松去除。<br/>
 低耦合，秒上手，稳得很！
-## 其他功能
+## ❓其他功能
 过于先进，不便展示。欢迎下载源码研究🧐欢迎star
-## 🚀🚀🚀加入我们
+## 🍺加入我们
 qq群:932249645
 <p>
 <img src="https://minio.pigx.vip/oss/2022/07/FcAxsd.jpg" width = "330" height = "500"/>
