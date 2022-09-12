@@ -51,6 +51,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 			route.setTitle(menu.getTitle());
 			route.setPerms(menu.getPerms());
 			route.setIcon(menu.getIcon());
+			route.setApplication(menu.getApplication());
 			return route;
 		})).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
 
