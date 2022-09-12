@@ -96,6 +96,11 @@ public class VueRouter<T> implements Serializable {
 	private String title;
 
 	/**
+	 * 应用id
+	 */
+	private Long application;
+
+	/**
 	 * 子路由
 	 */
 	private List<VueRouter<T>> children;

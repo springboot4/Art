@@ -1,5 +1,6 @@
 package com.fxz.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.system.entity.Menu;

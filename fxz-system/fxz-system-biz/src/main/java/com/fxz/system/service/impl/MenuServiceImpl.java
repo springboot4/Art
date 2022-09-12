@@ -2,6 +2,7 @@ package com.fxz.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.core.utils.TreeUtil;
@@ -51,6 +52,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 			route.setTitle(menu.getTitle());
 			route.setPerms(menu.getPerms());
 			route.setIcon(menu.getIcon());
+			route.setApplication(menu.getApplication());
 			return route;
 		})).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
 
@@ -102,6 +104,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		menu.setIcon(vueRouter.getIcon());
 		menu.setRedirect(vueRouter.getRedirect());
 		menu.setOrderNum(Convert.toInt(vueRouter.getOrderNum()));
+		menu.setApplication(vueRouter.getApplication());
 
 		this.baseMapper.insert(menu);
 	}
@@ -129,6 +132,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 		vueRouter.setIcon(menu.getIcon());
 		vueRouter.setRedirect(menu.getRedirect());
 		vueRouter.setOrderNum(Double.valueOf(menu.getOrderNum()));
+		vueRouter.setApplication(menu.getApplication());
 
 		return vueRouter;
 	}
@@ -140,7 +144,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	public void updateMenu(VueRouter vueRouter) {
 		Menu menu = new Menu();
 		BeanUtil.copyProperties(vueRouter, menu);
-		this.baseMapper.updateById(menu);
+		this.updateById(menu);
+		this.update(Wrappers.<Menu>lambdaUpdate().eq(Menu::getParentId, menu.getId()).set(Menu::getApplication,
+				menu.getApplication()));
 	}
 
 }
