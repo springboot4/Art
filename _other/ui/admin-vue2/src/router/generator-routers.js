@@ -43,7 +43,8 @@ const rootRouter = {
   component: 'BasicLayout',
   redirect: '/welcome',
   title: '首页',
-  children: []
+  children: [],
+  application: '1'
 }
 
 /**
