@@ -1,7 +1,7 @@
 <template>
   <pro-layout
     :title="title"
-    :menus="menus"
+    :menus="newMenus[appsSelect[0]]"
     :collapsed="collapsed"
     :mediaQuery="query"
     :isMobile="isMobile"
@@ -79,6 +79,7 @@ export default {
 
       // base
       menus: [],
+      newMenus:{},
       // 侧栏收起状态
       collapsed: false,
       title: defaultSettings.title,
@@ -119,6 +120,10 @@ export default {
     this.appsSelect[0] = this.apps[0].id
     const routes = this.mainMenu.find(item => item.path === '/')
     this.menus = (routes && routes.children) || []
+    // this.menus = this.menus.filter(item => item.application === this.appsSelect[0])
+    for(let k in this.apps){
+      this.newMenus[this.apps[k].id] = (routes && routes.children.filter(item => item.application === this.apps[k].id))
+    }
     // 处理侧栏收起状态
     this.$watch('collapsed', () => {
       this.$store.commit(SIDEBAR_TYPE, this.collapsed)
