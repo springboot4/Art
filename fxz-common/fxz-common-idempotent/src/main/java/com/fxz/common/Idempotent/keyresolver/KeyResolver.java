@@ -6,13 +6,13 @@ import org.aspectj.lang.JoinPoint;
 /**
  * @author fxz
  */
-public interface IdempotentKeyResolver {
+public interface KeyResolver {
 
 	/**
-	 * 解析一个 Key
+	 * 解析幂等key
 	 * @param idempotent 幂等注解
-	 * @param joinPoint AOP 切面
-	 * @return Key
+	 * @param joinPoint 连接点
+	 * @return 解析出的幂等key
 	 */
 	String resolver(JoinPoint joinPoint, Idempotent idempotent);
 
