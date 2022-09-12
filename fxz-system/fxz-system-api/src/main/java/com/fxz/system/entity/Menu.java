@@ -1,17 +1,13 @@
 package com.fxz.system.entity;
 
-import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author Fxz
@@ -103,6 +99,11 @@ public class Menu extends BaseEntity implements Serializable {
 	 * title
 	 */
 	private String title;
+
+	/**
+	 * 应用id
+	 */
+	private Long application;
 
 	private transient String createTimeFrom;
 
