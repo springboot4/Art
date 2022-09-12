@@ -43,7 +43,8 @@ const rootRouter = {
   component: 'BasicLayout',
   redirect: '/welcome',
   title: '首页',
-  children: []
+  children: [],
+  application: '1'
 }
 
 /**
@@ -54,13 +55,15 @@ const rootRouter = {
 export const generatorDynamicRouter = (token) => {
   return new Promise((resolve, reject) => {
     loginService.getCurrentUserNav(token).then(res => {
-      // const { result } = res
-      const menuNav = []
+      const apps = res.data.apps
       rootRouter.children = res.data.routes
+
+      const menuNav = []
       menuNav.push(rootRouter)
       const routers = generator(menuNav)
       routers.push(notFoundRouter)
-      resolve(routers)
+
+      resolve({ routers, apps })
     }).catch(err => {
       reject(err)
     })
@@ -80,6 +83,7 @@ export const generator = (routerMap) => {
       path: item.path,
       // 路由名称，建议唯一
       name: item.name,
+      application: item.application,
       // 该路由对应页面的 组件 :方案1
       // component: constantRouterComponents[item.component || item.key],
       // 该路由对应页面的 组件 :方案2 (动态加载) 注意此处组件路径包名

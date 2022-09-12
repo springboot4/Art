@@ -4,7 +4,7 @@ import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
-import com.fxz.system.entity.Menu;
+import com.fxz.system.service.AppService;
 import com.fxz.system.service.IMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Fxz
@@ -29,19 +30,29 @@ public class MenuController {
 
 	private final IMenuService menuService;
 
+	private final AppService appService;
+
 	/**
 	 * 获取用户路由信息和用户权限信息
 	 */
 	@GetMapping("/nav")
 	public Result<Map<String, Object>> getUserRouters() {
-		Map<String, Object> result = new HashMap<>();
+		// 返回结果集
+		Map<String, Object> result = new HashMap<>(4);
+
 		Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
 			// 构建用户路由对象
-			List<VueRouter<Menu>> userRouters = this.menuService.getUserRouters(userName);
-			// 封装用户路由信息
-			result.put("routes", userRouters);
+			CompletableFuture<Void> routes = CompletableFuture
+					.runAsync(() -> result.put("routes", this.menuService.getUserRouters(userName)));
 			// 封装用户权限信息
-			result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray());
+			CompletableFuture<Void> permissions = CompletableFuture
+					.runAsync(() -> result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray()));
+			// 封装应用信息
+			CompletableFuture<Void> apps = CompletableFuture
+					.runAsync(() -> result.put("apps", this.appService.findAll()));
+
+			// 异步执行
+			CompletableFuture.allOf(routes, permissions, apps).join();
 		});
 
 		return Result.success(result);

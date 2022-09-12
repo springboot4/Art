@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     } else {
       // 如果没有路由信息 调后端接口获取路由菜单
-      if (store.getters.addRouters.length === 0) {
+      if (!store.getters.addRouters || store.getters.addRouters.length === 0) {
         store
           .dispatch('GetInfo')
           .then(res => {

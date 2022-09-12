@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component("fxzTask")
-public class RyTask {
+public class Task {
 
 	public void fxzMultipleParamsTask(String s, Boolean b, Long l, Double d, Integer i) {
 		log.info("执行多参方法:{},{},{},{},{}", s, b, l, d, i);

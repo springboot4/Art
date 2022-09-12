@@ -48,6 +48,20 @@
           </a-select>
         </a-form-item>
         <a-form-item
+          label="所属应用"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+        >
+          <a-select
+            :disabled="showable"
+            v-decorator="['application', { rules: [{ required: true, message: '请选择所属应用!' }] }]"
+          >
+            <a-select-option :key="app.id" v-for="app in appList">
+              {{ app.name }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item
           label="名称"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -181,6 +195,7 @@ import pick from 'lodash.pick'
 import { addObj, putObj, getObj } from '@/api/sys/menu'
 import { FormMixin } from '@/mixins/FormMixin'
 import IconSelector from '@/components/IconSelector'
+import { findAll } from '@/api/sys/app'
 
 const isOrNoList = [
   {
@@ -215,14 +230,19 @@ export default {
           label: '按钮',
           value: '1'
         }
-      ]
+      ],
+      appList: []
     }
+  },
+  created () {
+    findAll().then((res) => {
+      this.appList = res.data
+    })
   },
   methods: {
     // 选择图标
     handleIconChange (icon) {
       this.visibleIcon = false
-      console.log(icon)
       const iconData = { icon }
       const { form: { setFieldsValue } } = this
       this.$nextTick(() => {
@@ -254,7 +274,7 @@ export default {
           this.confirmLoading = false
           console.log('record', record)
           this.$nextTick(() => {
-            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'icon', 'keepAlive', 'hidden', 'redirect', 'orderNum']))
+            setFieldsValue(pick(record, ['id', 'title', 'type', 'perms', 'parentId', 'path', 'component', 'name', 'icon', 'keepAlive', 'hidden', 'redirect', 'orderNum', 'application']))
           })
         })
       }
