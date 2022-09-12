@@ -71,8 +71,8 @@
         </view>
       </view>
     </view>
-
-    <!-- 评价 -->
+	
+	<!-- 评价 -->
     <view class="eva-section">
       <view class="e-header">
         <text class="tit">评价</text>
@@ -120,28 +120,26 @@
       </view>
     </view>
     <view class="popup spec" :class="couponClass" @touchmove.stop.prevent="stopPrevent" @click="toggleCoupon">
-      <view class="mask"></view>
-      <view class="layer coupon-content"  @click.stop="stopPrevent">
-        <view class="coupon-title">优惠券</view>
-        <scroll-view style="padding-top: 10upx;" scroll-y = "true" class="coupon-box" >
-          <view style="display: flex; margin: 20upx 0 " class="coupon_voucher3_main" v-for="item in couponList" :key="item.id" @click.stop="receiveCoupon(item.id)">
-            <view class="coupon-box-left">
-              <view class="coupon-box-left_price" v-if="item.coupon_type==='discount'"><i >¥</i>{{item.coupon_discount}}折</view>
-              <view class="coupon-box-left_price" v-else><i >¥</i>{{item.price}}</view>
-              <view class="coupon-box-left_des">满{{item.consume_threshold}}元可用</view>
-            </view>
-            <view class="coupon-box-right">
-              <view class="coupon-box-right_view"><i class="coupon-box-right_type"> <text style="background-color: #53c7ca;position: relative;padding: 2upx 6upx;">
-                {{ item.coupon_name }}<text class="triangle"></text></text> </i>{{item.description}}
-              </view>
-              <text class="coupon-box-right_btn">领取</text>
-              <view class="coupon-box-right_date " v-if="item.range_day_type==='dynamictime'">自领取后{{item.effective_days}}天内有效</view>
-              <view class="coupon-box-right_date " v-else>有效期：{{item.start_time}}至{{item.end_time}}</view>
-            </view>
-          </view>
-        </scroll-view>
+		<view class="mask"></view>
+		<view class="layer coupon-content"  @click.stop="stopPrevent">
+			<view class="coupon-title">优惠</view>
+			<scroll-view style="padding-top: 10upx;" scroll-y = "true" class="coupon-box" >
+				<view style="display: flex; margin: 20upx 0 " class="coupon_voucher3_main" v-for="item in 10" :key="item">
+					<view class="coupon-box-left">
+						<view class="coupon-box-left_price"><i >¥</i>5</view>
+						<view class="coupon-box-left_des">满49元可用</view>
+					</view>
+					<view class="coupon-box-right">
+						<view class="coupon-box-right_view"><i class="coupon-box-right_type"> <text style="background-color: #53c7ca;position: relative;padding: 2upx 6upx;">优惠券<text class="triangle"></text></text> </i>仅可购买男装部分商品
+						</view>
+						<text class="coupon-box-right_btn " v-if="false">领取</text>
+						<text class="coupon-box-right_btn "  v-else style="background-color: #ccc;">已领取</text>
+						<view class="coupon-box-right_date ">自领取后3天内有效</view>
+					</view>
+				</view>
+			</scroll-view>
 
-      </view>
+		</view>
     </view>
     <!-- 规格-模态层弹窗 -->
     <view class="popup  spec" :class="specClass" @touchmove.stop.prevent="stopPrevent" @click="toggleSpec">
@@ -188,10 +186,9 @@
 <script>
 import share from '@/components/share';
 
-import {getSpuDetail} from '../../api/product/goods.js';
+import {getSpuDetail, getStockNum} from '../../api/product/goods.js';
 
 import {addCartItem} from "../../api/order/cart";
-import {receiveCoupon} from "../../api/promotion/coupon";
 
 export default {
   components: {share},
@@ -209,29 +206,28 @@ export default {
       specList: [], // 规格列表
       skuList: [], // SKU列表
       specClass: 'none',
-      couponClass:'none',
+	  couponClass:'none',
       selectedSku: {},
       selectedSpecValues: [], // 选择的规格项集合
       favorite: true,
       shareList: [],
       isNull:false,
-      couponShow:false,
-      couponList:[]
+	  couponShow:false,
+	  couponList:[]
     };
   },
   async onLoad(options) {
     console.log('========>> 进入商品详情页面, 路径:', this.$mp.page.route, '参数', options);
     const goodsId = options.id
     getSpuDetail(goodsId).then(response => {
-      const {goodsInfo, attributeList, specList, skuList,couponList} = response.data;
+      const {goodsInfo, attributeList, specList, skuList} = response.data;
 
       this.goodsInfo = goodsInfo;
       this.attributeList = attributeList;
       this.specList = specList;
       this.skuList = skuList;
-      this.couponList = couponList;
 
-      console.log('res:',couponList)
+      console.log('res:',response)
 
       //默认选择第一个sku
       this.selectedSku = this.skuList[0]
@@ -256,14 +252,6 @@ export default {
     });
   },
   methods: {
-    //会员领取优惠券
-    receiveCoupon(couponId){
-      receiveCoupon(couponId).then(_=>{
-        this.$api.msg('领取成功');
-      }).catch(err=> {
-        this.$api.msg(err);
-      })
-    },
     //规格弹窗开关
     toggleSpec() {
       if (this.specClass === 'show') {
@@ -308,18 +296,18 @@ export default {
       console.log('您选择的商品:', JSON.stringify(this.selectedSku))
 
     },
-    //打开优惠券弹窗
-    toggleCoupon() {
-      if (this.couponClass === 'show') {
-        this.couponClass = 'hide';
-        setTimeout(() => {
-          this.couponClass = 'none';
-        }, 250);
-      } else if (this.couponClass === 'none') {
-        this.couponClass = 'show';
-      }
-      // this.couponList =
-    },
+	//打开优惠券弹窗
+	toggleCoupon() {
+	  if (this.couponClass === 'show') {
+	    this.couponClass = 'hide';
+	    setTimeout(() => {
+	      this.couponClass = 'none';
+	    }, 250);
+	  } else if (this.couponClass === 'none') {
+	    this.couponClass = 'show';
+	  }
+	  // this.couponList = 
+	},
     // 分享
     share() {
       this.$refs.share.toggleMask();
@@ -679,104 +667,104 @@ page {
 
 /* 优惠券选择弹窗 */
 .coupon-content{
-  padding: 10upx 30upx;
-  .coupon-title{
-    font-size: 40upx;
-    font-weight: 700;
-    margin-bottom: 30upx;
-    text-align: center;
-  }
-  .coupon-box-title{
-    color: #262626;
-    font-weight: 700;
-    height: 40upx;
-    // line-height: 40upx;
-  }
-  .coupon-box{
-    max-height: 60vh;
-    overflow-y: scroll;
-    .coupon_voucher3_main{
-      border-radius: 6upx;
-      border-top: 6upx solid;
-      box-shadow: 0 0 6upx 0 rgba(0, 0, 0, 0.1);
-      box-shadow: #fff;
-      color: #53c7ca;
-      margin-bottom: 18upx;
-      padding: 20upx 10upx;
-      text-decoration: none;
-      .coupon-box-left{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        line-height: 1;
-        margin-right: 10upx;
-        overflow: hidden;
-        text-align: center;
-        width: 200upx;
-        .coupon-box-left_price{
-          font-size: 60upx;
-          font-weight: 900;
-          i{
-            font-weight: 400;
-            font-size: 26upx;
-            margin-right: 20upx;
-            text-shadow: none;
-            font-style: normal;
-          }
-        }
-        .coupon-box-left_des{
-          margin-top: 20upx;
-          font-size: 30upx;
-        }
-      }
-      .coupon-box-right{
-        flex: 1;
-        position: relative;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        color: #666;
-        display: -webkit-box;
-        font-size: 12upx;
-        height: 36upx;
-        .coupon-box-right_view{
-          overflow: hidden;
-          margin-bottom: 50upx;
-          .coupon-box-right_type{
-            font-style: normal;
-            color: #fff;
-            font-size: 12upx;
-            display: inline-block;
-            height: 35upx;
-            padding-left: 25upx;
-            position: relative;
-            margin-right: 20upx;
-            .triangle{
-              border-bottom: 19upx solid transparent;
-              border-top: 19upx solid transparent;
-              border-right: 19upx solid  #53c7ca;
-              // border-left: 20upx solid transparent;
-              border-left: 0upx;
-              position: absolute;
-              left: -20upx;
-              top: -1upx;
-            }
-          }
-        }
-        .coupon-box-right_btn{
-          background-color: #53c7ca;
-          // border: 1px solid #53c7ca;
-          border-radius: 36upx;
-          color: #fff;
-          position: absolute;
-          right: 0;
-          width: 130upx;
-          text-align: center;
-          display: inline-block;
-        }
-      }
-    }
-  }
-
+	padding: 10upx 30upx;
+	.coupon-title{
+		font-size: 40upx;
+		font-weight: 700;
+		margin-bottom: 30upx;
+		text-align: center;
+	}
+	.coupon-box-title{
+		color: #262626;
+		font-weight: 700;
+		height: 40upx;
+		// line-height: 40upx;
+	}
+	.coupon-box{
+		max-height: 60vh;
+		overflow-y: scroll;
+		.coupon_voucher3_main{
+			border-radius: 6upx;
+			border-top: 6upx solid;
+			box-shadow: 0 0 6upx 0 rgba(0, 0, 0, 0.1);
+			box-shadow: #fff;
+			color: #53c7ca;
+			margin-bottom: 18upx;
+			padding: 20upx 10upx;
+			text-decoration: none;
+			.coupon-box-left{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				line-height: 1;
+				margin-right: 10upx;
+				overflow: hidden;
+				text-align: center;
+				width: 200upx;
+				.coupon-box-left_price{
+					font-size: 60upx;
+					font-weight: 900;
+					i{
+						font-weight: 400;
+						font-size: 26upx;
+						margin-right: 20upx;
+						text-shadow: none;
+						font-style: normal;
+					}
+				}
+				.coupon-box-left_des{
+					margin-top: 20upx;
+					font-size: 30upx;
+				}
+			}
+				.coupon-box-right{
+					flex: 1;
+					position: relative;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+					color: #666;
+					display: -webkit-box;
+					font-size: 12upx;
+					height: 36upx;
+					.coupon-box-right_view{
+						overflow: hidden;
+						margin-bottom: 50upx;
+						.coupon-box-right_type{
+							font-style: normal;
+							color: #fff;
+							font-size: 12upx;
+							display: inline-block;
+							height: 35upx;
+							padding-left: 25upx;
+							position: relative;
+							margin-right: 20upx;
+							.triangle{
+								border-bottom: 19upx solid transparent;
+								border-top: 19upx solid transparent;
+								border-right: 19upx solid  #53c7ca;
+								// border-left: 20upx solid transparent;
+								border-left: 0upx;
+								position: absolute;
+								left: -20upx;
+								top: -1upx;
+							}
+						}
+					}
+					.coupon-box-right_btn{
+						background-color: #53c7ca;
+						// border: 1px solid #53c7ca;
+						border-radius: 36upx;
+						color: #fff;
+						position: absolute;
+						right: 0;
+						width: 130upx;
+						text-align: center;
+						display: inline-block;
+					}
+				}
+		}
+	}
+	
 }
 
 /* 规格选择弹窗 */

@@ -23,10 +23,8 @@ public class FxzTimeBetweenRoutePredicateFactory extends AbstractRoutePredicateF
 
 	@Override
 	public Predicate<ServerWebExchange> apply(FxzTimeBetweenConfig config) {
-		LocalTime startTime = config.getStartTime();
-		LocalTime endTime = config.getEndTime();
-
-		return (serverWebExchange) -> LocalTime.now().isAfter(startTime) && LocalTime.now().isBefore(endTime);
+		return (serverWebExchange) -> LocalTime.now().isAfter(config.getStartTime())
+				&& LocalTime.now().isBefore(config.getEndTime());
 	}
 
 	public List<String> shortcutFieldOrder() {

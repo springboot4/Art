@@ -1,5 +1,6 @@
 package com.fxz.common.mp.utils;
 
+import cn.hutool.core.text.StrPool;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import net.sf.jsqlparser.expression.Alias;
@@ -8,6 +9,7 @@ import net.sf.jsqlparser.schema.Table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * MyBatis 工具类
@@ -53,7 +55,7 @@ public class MyBatisUtils {
 	 * @return Column 对象
 	 */
 	public static Column buildColumn(String tableName, Alias tableAlias, String column) {
-		return new Column(tableAlias != null ? tableAlias.getName() + "." + column : column);
+		return new Column(Objects.nonNull(tableAlias) ? tableAlias.getName() + StrPool.DOT + column : column);
 	}
 
 }
