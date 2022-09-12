@@ -23,7 +23,7 @@
     <!-- 页面头-->
     <template v-slot:rightContentRender>
       <a-menu class="topNav" v-model="appsSelect" mode="horizontal" style="display: flex;">
-        <a-menu-item @click="clickNav(item.id)" class="topNav-text" v-for="item in apps" :key="Number(item.id)">
+        <a-menu-item @click="clickNav(item.id)" class="topNav-text" v-for="item in apps" :key="item.id">
           <a-icon :type="item.icon" />
           {{ item.name }}
         </a-menu-item>
@@ -70,7 +70,7 @@ export default {
   },
   data () {
     return {
-      appsSelect: [],
+      appsSelect: ['1'],
       // preview.pro.antdv.com only use.
       isProPreviewSite: process.env.VUE_APP_PREVIEW === 'true' && process.env.NODE_ENV !== 'development',
       // end
@@ -117,10 +117,9 @@ export default {
     })
   },
   created () {
-    this.appsSelect[0] = this.apps[0].id
+    this.appsSelect[0] =  this.apps[0].id
     const routes = this.mainMenu.find(item => item.path === '/')
     this.menus = (routes && routes.children) || []
-    // this.menus = this.menus.filter(item => item.application === this.appsSelect[0])
     for(let k in this.apps){
       this.newMenus[this.apps[k].id] = (routes && routes.children.filter(item => item.application === this.apps[k].id))
     }
@@ -149,8 +148,7 @@ export default {
   methods: {
     i18nRender,
     clickNav (item) {
-      this.appsSelect[0] = item
-      console.log('this.mainMenu', this.mainMenu)
+      this.appsSelect[0] = item 
     },
     handleMediaQuery (val) {
       this.query = val
@@ -169,7 +167,6 @@ export default {
       this.collapsed = val
     },
     handleSettingChange ({ type, value }) {
-      console.log('type', type, value)
       type && (this.settings[type] = value)
       switch (type) {
         case 'contentWidth':
