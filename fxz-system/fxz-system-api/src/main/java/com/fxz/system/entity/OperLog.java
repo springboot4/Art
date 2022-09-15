@@ -2,6 +2,7 @@ package com.fxz.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.encrypt.annotation.EncryptionData;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -63,6 +64,7 @@ public class OperLog extends BaseEntity {
 	/**
 	 * 请求参数
 	 */
+	@EncryptionData
 	private String operParam;
 
 	/**
