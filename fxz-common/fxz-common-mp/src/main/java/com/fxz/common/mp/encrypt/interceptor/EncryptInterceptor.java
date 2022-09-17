@@ -40,9 +40,10 @@ public class EncryptInterceptor implements Interceptor {
 	public Object intercept(Invocation invocation) throws Throwable {
 		// 获取方法参数
 		Object[] args = invocation.getArgs();
+		Class<?>[] params = { MappedStatement.class, Object.class };
 
 		// 不符合加密条件 直接放行
-		if (!encryptProperties.isEnableFieldDecrypt() || args.length != 2) {
+		if (!encryptProperties.isEnableFieldDecrypt() || args.length != params.length) {
 			return invocation.proceed();
 		}
 
