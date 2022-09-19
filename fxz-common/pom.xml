@@ -34,6 +34,7 @@
         <module>fxz-common-canal</module>
         <module>fxz-common-websocket</module>
         <module>fxz-common-xxl-job</module>
+        <module>fxz-common-captcha</module>
     </modules>
 
 </project>
