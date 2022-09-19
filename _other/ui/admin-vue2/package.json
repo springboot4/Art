@@ -15,6 +15,7 @@
     "@antv/data-set": "^0.10.2",
     "ant-design-vue": "^1.6.2",
     "axios": "^0.19.2",
+    "clipboard": "^2.0.4",
     "core-js": "^3.1.2",
     "crypto-js": "^4.1.1",
     "enquire.js": "^2.1.6",
@@ -34,6 +35,7 @@
     "vue-clipboard2": "^0.2.1",
     "vue-cropper": "0.4.9",
     "vue-i18n": "^8.17.4",
+    "vue-json-editor": "^1.2.3",
     "vue-ls": "^4.0.0",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.1.2",
@@ -41,9 +43,7 @@
     "vuex": "^3.1.1",
     "vxe-table": "^3.5.4",
     "wangeditor": "^3.1.1",
-    "xe-utils": "^3.5.4",
-    "clipboard": "^2.0.4",
-    "vue-json-editor": "^1.2.3"
+    "xe-utils": "^3.5.4"
   },
   "devDependencies": {
     "@ant-design/colors": "^3.2.1",

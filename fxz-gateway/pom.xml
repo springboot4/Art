@@ -13,13 +13,7 @@
 
     <dependencies>
 
-        <!--验证码-->
-        <dependency>
-            <groupId>com.github.whvcse</groupId>
-            <artifactId>easy-captcha</artifactId>
-        </dependency>
-
-        <!--gateway 网关依赖,内置webflux 依赖-->
+        <!--gateway网关-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
@@ -43,12 +37,19 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!-- SCL 负载均衡 -->
+        <!--负载均衡 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
+        <!--验证码依赖-->
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-captcha</artifactId>
+        </dependency>
+
+        <!--动态网关-->
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-gateway</artifactId>
@@ -66,13 +67,6 @@
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!-- 单元测试 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
