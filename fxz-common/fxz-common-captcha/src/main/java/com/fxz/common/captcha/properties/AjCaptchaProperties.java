@@ -25,12 +25,12 @@ public class AjCaptchaProperties {
 	/**
 	 * 滑动拼图底图路径.
 	 */
-	private String jigsaw = "";
+	private String jigsaw = "classpath:images/jigsaw";
 
 	/**
 	 * 点选文字底图路径.
 	 */
-	private String picClick = "";
+	private String picClick = "classpath:images/pic-click";
 
 	/**
 	 * 右下角水印文字(我的水印).
