@@ -45,27 +45,26 @@
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input-password>
           </a-form-item>
+          <!--          <a-form-item>-->
+          <!--            <a-row :gutter="8">-->
+          <!--              <a-col :span="16">-->
+          <!--                <a-input-->
+          <!--                  size="large"-->
+          <!--                  type="text"-->
+          <!--                  placeholder="请输入验证码"-->
+          <!--                  v-decorator="[ 'validateCode', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'} ]">-->
+          <!--                  <a-icon-->
+          <!--                    slot="prefix"-->
+          <!--                    type="safety-certificate"-->
+          <!--                    :style="{ color: 'rgba(0,0,0,.25)' }"/>-->
+          <!--                  >-->
 
-          <a-form-item>
-            <a-row :gutter="8">
-              <a-col :span="16">
-                <a-input
-                  size="large"
-                  type="text"
-                  placeholder="请输入验证码"
-                  v-decorator="[ 'validateCode', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'} ]">
-                  <a-icon
-                    slot="prefix"
-                    type="safety-certificate"
-                    :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                  >
-
-                </a-input></a-col>
-              <a-col :span="8">
-                <img class="login-code-img" :src="captchaUrl" @click="getValidateCode" />
-              </a-col>
-            </a-row>
-          </a-form-item>
+          <!--                </a-input></a-col>-->
+          <!--              <a-col :span="8">-->
+          <!--                <img class="login-code-img" :src="captchaUrl" @click="getValidateCode" />-->
+          <!--              </a-col>-->
+          <!--            </a-row>-->
+          <!--          </a-form-item>-->
         </a-tab-pane>
         <a-tab-pane key="tab2" tab="手机号登录">
           <a-form-item>
@@ -115,13 +114,21 @@
         <a-button
           size="large"
           type="primary"
-          htmlType="submit"
+          @click="handleLogin"
           class="login-button"
           :loading="state.loginBtn"
           :disabled="state.loginBtn"
         >确定
         </a-button>
       </a-form-item>
+
+      <Verify
+        @success="verifySuccess"
+        :mode="'pop'"
+        :captchaType="'blockPuzzle'"
+        :imgSize="{ width: '330px', height: '155px' }"
+        ref="verify"
+      />
 
       <div class="user-login-other">
         <span>其他登录方式</span>
@@ -152,10 +159,12 @@ import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
 import { getSmsCaptcha, getCaptcha } from '@/api/login'
+import Verify from '@/components/verifition/Verify'
 
 export default {
   components: {
-    TwoStepCaptcha
+    TwoStepCaptcha,
+    Verify
   },
   data () {
     return {
@@ -179,17 +188,26 @@ export default {
     }
   },
   created () {
-    this.getValidateCode()
+    // this.getValidateCode()
   },
   methods: {
     ...mapActions(['Login', 'Logout']),
-    getValidateCode () {
-      getCaptcha().then(res => {
-        const { img, uuid } = res.data
-        this.captchaUrl = img
-        this.uuid = uuid
-      })
+    handleLogin () {
+      this.$refs.verify.show()
     },
+    verifySuccess (params) {
+      console.log('成功', params)
+      this.form.code = params.captchaVerification
+
+      this.handleSubmit()
+    },
+    // getValidateCode () {
+    //   getCaptcha().then(res => {
+    //     const { img, uuid } = res.data
+    //     this.captchaUrl = img
+    //     this.uuid = uuid
+    //   })
+    // },
     handleUsernameOrEmail (rule, value, callback) {
       const { state } = this
       const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
@@ -202,10 +220,9 @@ export default {
     },
     handleTabClick (key) {
       this.customActiveKey = key
-      // this.form.resetFields()
     },
     handleSubmit (e) {
-      e.preventDefault()
+     // e.preventDefault()
       const {
         form: { validateFields },
         state,
@@ -222,10 +239,11 @@ export default {
           const loginParams = { ...values }
 
           if (customActiveKey === 'tab1') {
-            loginParams.uuid = this.uuid
+            // loginParams.uuid = this.uuid
             delete loginParams.username
             loginParams[!state.loginType ? 'email' : 'username'] = values.username
-            loginParams.grant_type = 'captcha'
+            loginParams.grant_type = 'password'
+            // loginParams.grant_type = 'captcha'
           } else {
             loginParams.code = loginParams.captcha
             loginParams.auth_type = 'sms'
@@ -235,7 +253,7 @@ export default {
           Login(loginParams).then((res) => this.loginSuccess(res))
             .catch(err => {
               this.requestFailed(err)
-              this.getValidateCode()
+             // this.getValidateCode()
             })
             .finally(() => {
               state.loginBtn = false
