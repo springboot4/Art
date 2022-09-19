@@ -1,1 +1,2 @@
 com.fxz.common.mp.config.MybatisPlusAutoConfiguration
+com.fxz.common.mp.encrypt.EncryptAutoConfig

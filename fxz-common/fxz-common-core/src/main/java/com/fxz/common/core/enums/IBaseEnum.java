@@ -10,6 +10,7 @@ import java.util.Objects;
  *
  * @author fxz
  */
+@SuppressWarnings("all")
 public interface IBaseEnum<T> {
 
 	/**
