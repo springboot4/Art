@@ -25,12 +25,12 @@ public class AjCaptchaProperties {
 	/**
 	 * 滑动拼图底图路径.
 	 */
-	private String jigsaw = "";
+	private String jigsaw = "classpath:images/jigsaw";
 
 	/**
 	 * 点选文字底图路径.
 	 */
-	private String picClick = "";
+	private String picClick = "classpath:images/pic-click";
 
 	/**
 	 * 右下角水印文字(我的水印).
@@ -73,7 +73,7 @@ public class AjCaptchaProperties {
 	private String timingClear = "180";
 
 	/**
-	 * 缓存类型redis/local/....
+	 * 缓存类型
 	 */
 	private StorageType cacheType = StorageType.local;
 
@@ -87,23 +87,29 @@ public class AjCaptchaProperties {
 	 */
 	private boolean reqFrequencyLimitEnable = false;
 
-	/***
+	/**
 	 * 一分钟内check接口失败次数
 	 */
 	private int reqGetLockLimit = 5;
 
 	/**
-	 *
+	 * 验证失败后，锁定时间间隔
 	 */
 	private int reqGetLockSeconds = 300;
 
-	/***
+	/**
 	 * get接口一分钟内限制访问数
 	 */
 	private int reqGetMinuteLimit = 100;
 
+	/**
+	 * check接口一分钟内请求数限制
+	 */
 	private int reqCheckMinuteLimit = 100;
 
+	/**
+	 * verify接口一分钟内请求数限制
+	 */
 	private int reqVerifyMinuteLimit = 100;
 
 	/**
