@@ -62,6 +62,7 @@ RBAC&数据权限，角色支持多种数据权限设定，支持自定义进行
 动态数据源&代码生成,支持动态添加数据源与项目基础crud代码生成。
 ![](https://minio.pigx.vip/oss/2022/09/LpRdJs.png)
 ![](https://minio.pigx.vip/oss/2022/09/aMfUqv.png)支持多种登录方式,可自定义进行拓展。
+![](https://minio.pigx.vip/oss/2022/09/76RYJu.png)
 ![](https://minio.pigx.vip/oss/2022/09/q9yBuA.png)字典管理
 ![](https://minio.pigx.vip/oss/2022/09/sj2R4y.png)强退用户
 ![](https://minio.pigx.vip/oss/2022/09/FKsSGc.png)审计日志
@@ -81,7 +82,8 @@ RBAC&数据权限，角色支持多种数据权限设定，支持自定义进行
 
 ![](https://minio.pigx.vip/oss/2022/09/d0EG2h.png)会员管理
 
-## ![](https://minio.pigx.vip/oss/2022/09/S7DRyz.png)📱移动端展示
+## ![](https://minio.pigx.vip/oss/2022/09/S7DRyz.png)
+📱移动端展示
 
 支持多种登录方式
 ![](https://minio.pigx.vip/oss/2022/09/7POcE0.png)
