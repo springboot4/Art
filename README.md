@@ -11,6 +11,7 @@ fxz-cloud
     ├── fxz-auth -- 认证服务器
     ├── fxz-common -- 通用工具封装
        ├── fxz-common-canal -- 针对canal封装
+       ├── fxz-common-captcha -- 验证码封装
        ├── fxz-common-core -- web基础配置
        ├── fxz-common-data-permission -- 数据权限封装
        ├── fxz-common-database -- 多数据源
