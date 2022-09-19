@@ -6,8 +6,7 @@ import com.anji.captcha.service.impl.CaptchaServiceFactory;
 import com.anji.captcha.util.ImageUtils;
 import com.anji.captcha.util.StringUtils;
 import com.fxz.common.captcha.properties.AjCaptchaProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,15 +23,15 @@ import java.util.Properties;
 /**
  * @author fxz
  */
+@Slf4j
 @Configuration
 public class AjCaptchaServiceAutoConfiguration {
-
-	private static Logger logger = LoggerFactory.getLogger(AjCaptchaServiceAutoConfiguration.class);
 
 	@Bean
 	@ConditionalOnMissingBean
 	public CaptchaService captchaService(AjCaptchaProperties prop) {
-		logger.info("自定义配置项：{}", prop.toString());
+		log.info("自定义配置项：{}", prop.toString());
+
 		Properties config = new Properties();
 		config.put(Const.CAPTCHA_CACHETYPE, prop.getCacheType().name());
 		config.put(Const.CAPTCHA_WATER_MARK, prop.getWaterMark());
@@ -67,8 +66,7 @@ public class AjCaptchaServiceAutoConfiguration {
 			config.put(Const.CAPTCHA_INIT_ORIGINAL, "true");
 			initializeBaseMap(prop.getJigsaw(), prop.getPicClick());
 		}
-		CaptchaService s = CaptchaServiceFactory.getInstance(config);
-		return s;
+		return CaptchaServiceFactory.getInstance(config);
 	}
 
 	private static void initializeBaseMap(String jigsaw, String picClick) {
