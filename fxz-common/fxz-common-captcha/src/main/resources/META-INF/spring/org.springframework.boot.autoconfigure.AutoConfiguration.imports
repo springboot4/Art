@@ -1,0 +1,2 @@
+com.fxz.common.captcha.config.AjCaptchaAutoConfiguration
+com.fxz.common.captcha.service.RedisCaptchaServiceImpl
