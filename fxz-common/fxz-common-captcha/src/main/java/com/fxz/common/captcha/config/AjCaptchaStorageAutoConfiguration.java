@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 存储策略自动配置.
+ * @author fxz
  */
 @Configuration
 public class AjCaptchaStorageAutoConfiguration {
