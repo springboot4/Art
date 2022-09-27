@@ -23,7 +23,6 @@
         <spring-boot-admin.version>2.6.3</spring-boot-admin.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <sentinel.version>1.6.3</sentinel.version>
-        <logstash.version>5.3</logstash.version>
         <velocity.version>2.3</velocity.version>
         <hutool.version>5.8.6</hutool.version>
         <seata.version>1.4.2</seata.version>
@@ -251,11 +250,6 @@
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-parameter-flow-control</artifactId>
                 <version>${sentinel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.logstash.logback</groupId>
-                <artifactId>logstash-logback-encoder</artifactId>
-                <version>${logstash.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.velocity</groupId>
