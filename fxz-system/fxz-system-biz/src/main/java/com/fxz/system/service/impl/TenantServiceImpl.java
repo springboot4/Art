@@ -159,35 +159,14 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 	}
 
 	/**
-	 * 修改
-	 */
-	@Override
-	public Boolean updateSysTenant(Tenant tenant) {
-		this.updateById(tenant);
-		return Boolean.TRUE;
-	}
-
-	/**
-	 * 分页
-	 */
-	@Override
-	public IPage<Tenant> pageSysTenant(Page pageParam, Tenant tenant) {
-		return this.page(pageParam, Wrappers.emptyWrapper());
-	}
-
-	/**
-	 * 获取全部
-	 */
-	@Override
-	public List<Tenant> findAll() {
-		return this.list(Wrappers.emptyWrapper());
-	}
-
-	/**
-	 * 删除
+	 * 删除租户
 	 */
 	@Override
 	public Boolean deleteSysTenant(Long id) {
+		if (isSystemTenant(id)) {
+			throw new FxzException("系统内置租户，不允许删除");
+		}
+
 		this.removeById(id);
 		return Boolean.TRUE;
 	}
@@ -242,6 +221,40 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 		if (Objects.isNull(tenant) || count > tenant.getAccountCount()) {
 			throw new FxzException("租户账号数量超过额度！");
 		}
+	}
+
+	/**
+	 * 校验租户是否是系统租户
+	 * @param id 租户id 我们任务租户id为0时为系统内置租户 不允许删除
+	 * @return 是否是系统租户
+	 */
+	private boolean isSystemTenant(Long id) {
+		return Objects.equals(id, Tenant.PACKAGE_ID_SYSTEM);
+	}
+
+	/**
+	 * 修改租户信息
+	 */
+	@Override
+	public Boolean updateSysTenant(Tenant tenant) {
+		this.updateById(tenant);
+		return Boolean.TRUE;
+	}
+
+	/**
+	 * 分页查询租户信息
+	 */
+	@Override
+	public IPage<Tenant> pageSysTenant(Page pageParam, Tenant tenant) {
+		return this.page(pageParam, Wrappers.emptyWrapper());
+	}
+
+	/**
+	 * 获取全部
+	 */
+	@Override
+	public List<Tenant> findAll() {
+		return this.list(Wrappers.emptyWrapper());
 	}
 
 }
