@@ -59,6 +59,11 @@
 
         <dependency>
             <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-tenant</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fxz</groupId>
             <artifactId>fxz-common-security</artifactId>
         </dependency>
 

@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.entity.DeptDataPermissionRespDTO;
+import com.fxz.common.core.enums.RoleAdminEnum;
+import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.core.param.PageParam;
 import com.fxz.common.dataPermission.enums.DataScopeEnum;
 import com.fxz.common.redis.constant.CacheConstants;
@@ -24,6 +26,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -39,13 +42,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
+	@Resource
+	private IUserService userService;
+
 	private final IRoleMenuService roleMenuService;
 
 	private final IUserRoleService userRoleService;
 
 	private final IDeptService deptService;
-
-	private final IUserService userService;
 
 	private final RedisTemplate redisTemplate;
 
@@ -64,14 +68,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Boolean addRole(Role role) {
+	public Role addRole(Role role) {
 		// 保存角色信息
 		this.getBaseMapper().insert(role);
 
 		// 保存角色菜单
 		saveRoleMenu(role);
 
-		return Boolean.TRUE;
+		return role;
 	}
 
 	/**
@@ -107,6 +111,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	@CacheEvict(value = CacheConstants.GLOBALLY + "role", key = "#id")
 	@Override
 	public Boolean deleteRoleById(Long id) {
+		Role role = this.getById(id);
+		if (RoleAdminEnum.isAdmin(role.getCode())) {
+			throw new FxzException("管理员角色不可删除！");
+		}
+
 		// 删除角色菜单关联信息
 		roleMenuService.remove(Wrappers.<RoleMenu>lambdaQuery().eq(RoleMenu::getRoleId, id));
 		// 删除角色用户关联信息

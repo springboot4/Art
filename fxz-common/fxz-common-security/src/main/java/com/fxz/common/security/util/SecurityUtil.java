@@ -18,6 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Objects;
 
 /**
  * Spring security 工具类
@@ -107,12 +108,20 @@ public class SecurityUtil {
 	}
 
 	public String getAuthType() {
-
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
 
 		// 从请求路径中获取
 		return request.getParameter(SecurityConstants.AUTH_TYPE);
+	}
+
+	/**
+	 * 获取请求中携带的租户id
+	 * @return 租户id
+	 */
+	public static Long getTenantId(HttpServletRequest request) {
+		String header = request.getHeader("TENANT-ID");
+		return Objects.nonNull(header) ? Long.valueOf(header) : null;
 	}
 
 }

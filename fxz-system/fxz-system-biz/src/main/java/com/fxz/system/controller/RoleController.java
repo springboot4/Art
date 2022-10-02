@@ -48,8 +48,8 @@ public class RoleController {
 	 * 添加角色
 	 */
 	@PostMapping("/addRole")
-	public Result<Void> addRole(@RequestBody Role role) {
-		return Result.judge(roleService.addRole(role));
+	public Result<Role> addRole(@RequestBody Role role) {
+		return Result.success(roleService.addRole(role));
 	}
 
 	/**
