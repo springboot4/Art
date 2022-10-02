@@ -32,6 +32,7 @@ fxz-cloud
        ├── fxz-common-security -- 安全模块
        ├── fxz-common-sequence -- 发号器（序列号生成器）
        ├── fxz-common-sms -- 阿里云短信服务
+       ├── fxz-common-tenant -- SaaS多租户支持
        ├── fxz-common-websocket  -- websocket
        ├── fxz-common-xxl-job  -- xxl-job配置
     ├── fxz-gateway -- 网关模块
