@@ -1,5 +1,7 @@
 package com.fxz.system.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
@@ -20,6 +22,7 @@ public class TenantPackage extends BaseEntity {
 	/**
 	 * 套餐id
 	 */
+	@TableId(type = IdType.ASSIGN_ID)
 	private Long id;
 
 	/**

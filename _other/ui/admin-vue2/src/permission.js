@@ -45,10 +45,10 @@ router.beforeEach((to, from, next) => {
               }
             })
           })
-          .catch(() => {
+          .catch((e) => {
             notification.error({
               message: '错误',
-              description: '请求用户信息失败，请重试'
+              description: e.msg ? e.msg : '请求用户信息失败！请重试。'
             })
             // 失败时，获取用户信息失败时，调用登出，来清空历史保留信息
             store.dispatch('Logout').then(() => {

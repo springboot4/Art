@@ -93,8 +93,8 @@ public class UserController {
 		FxzAuthUser user = SecurityUtil.getUser();
 
 		// 查询用户信息
-		SystemUser systemUser = userService
-				.getOne(Wrappers.<SystemUser>lambdaQuery().eq(SystemUser::getUserId, user.getUserId()));
+		SystemUser systemUser = userService.getById(user.getUserId());
+
 		return Result.success(userService.findUserInfo(systemUser));
 	}
 
