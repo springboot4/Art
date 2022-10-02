@@ -1,11 +1,9 @@
 ![logo](https://minio.pigx.vip/oss/2022/08/T4LHAz.svg)
 ##  🚀项目介绍
- FCloud 全端代码开源，致力于打造成一款具有影响力的微服务开发平台。
+ FCloud 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。致力于打造成一款具有影响力的微服务开发平台。
+ 
 
-
-## 📖文档
-
-🪜项目整体结构
+## 🪜项目结构
 ```lua
 fxz-cloud 
     ├── fxz-auth -- 认证服务器
@@ -51,21 +49,27 @@ fxz-cloud
           ├── admin-vue2 -- 管理员界面
           ├── mall-uni   -- 商城小程序界面
 ```
-[🔥快速启动](https://fxzcloud.gitee.io/docs/)
+
+## 🍬说明文档
+[🍓🍓🍓配套文档 fxzcloud.gitee.io/docs](https://fxzcloud.gitee.io/docs/)
 
 
 ## 💻系统应用
 RBAC&数据权限，角色支持多种数据权限设定，支持自定义进行拓展。
 ![](https://minio.pigx.vip/oss/2022/09/2f0YJk.png)
-
+SaaS多租户，自定义租户套餐.
+![](https://minio.pigx.vip/oss/2022/10/vpuDaz.png)
+![](https://minio.pigx.vip/oss/2022/10/TivOOd.png)
+![](https://minio.pigx.vip/oss/2022/10/OmxgtF.png)
 动态网关，网关支持通过前端动态配置，不需要在nacos中维护路由信息，修改自动加载，无需重启服务。
 ![](https://minio.pigx.vip/oss/2022/09/PxMBNC.png)
 
 动态数据源&代码生成,支持动态添加数据源与项目基础crud代码生成。
 ![](https://minio.pigx.vip/oss/2022/09/LpRdJs.png)
-![](https://minio.pigx.vip/oss/2022/09/aMfUqv.png)支持多种登录方式,可自定义进行拓展。
+![](https://minio.pigx.vip/oss/2022/09/aMfUqv.png)
+支持多种登录方式,可自定义进行拓展。
 ![](https://minio.pigx.vip/oss/2022/09/76RYJu.png)
-![](https://minio.pigx.vip/oss/2022/09/q9yBuA.png)字典管理
+![](https://minio.pigx.vip/oss/2022/10/DseL2p.png)字典管理
 ![](https://minio.pigx.vip/oss/2022/09/sj2R4y.png)强退用户
 ![](https://minio.pigx.vip/oss/2022/09/FKsSGc.png)审计日志
 
@@ -104,3 +108,13 @@ qq群:932249645
 <p>
 <img src="https://minio.pigx.vip/oss/2022/07/FcAxsd.jpg" width = "330" height = "500"/>
 </p>
+
+## 依赖版本
+
+| 依赖                   | 版本         |
+| ---------------------- |------------|
+| Spring Boot            | 2.7.0      |
+| Spring Cloud           | 2021.0.1   |
+| Spring Cloud Alibaba   | 2021.0.1.0 |
+| Mybatis Plus           | 3.5.1      |
+| hutool                 | 5.8.6      |
