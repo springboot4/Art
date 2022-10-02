@@ -49,6 +49,8 @@ public class FxzAuthUser extends User implements Serializable {
 
 	private String status;
 
+	private Long tenantId;
+
 	public FxzAuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
 	}
