@@ -80,4 +80,9 @@ public interface TenantService extends IService<Tenant> {
 	 */
 	void updateTenantRoleMenu(Long id, List<String> menus);
 
+	/**
+	 * 校验租户下账号数量
+	 */
+	void validCount();
+
 }
