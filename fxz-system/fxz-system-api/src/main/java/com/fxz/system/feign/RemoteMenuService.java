@@ -21,6 +21,6 @@ public interface RemoteMenuService {
 	 * @return 权限信息
 	 */
 	@GetMapping("/menu/findUserPermissions/{username}")
-	public Set<String> findUserPermissions(@PathVariable("username") String username);
+	Set<String> findUserPermissions(@PathVariable("username") String username);
 
 }

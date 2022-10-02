@@ -13,9 +13,12 @@ import java.time.ZoneOffset;
 
 /**
  * 业务序号生成
+ * <p/>
+ * 已弃用 使用fxz-common-sequence
  *
  * @author fxz
  */
+@Deprecated
 @SuppressWarnings("all")
 @RequiredArgsConstructor
 @Component
