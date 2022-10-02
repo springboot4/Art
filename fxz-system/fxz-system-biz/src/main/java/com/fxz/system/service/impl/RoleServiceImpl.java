@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
 	@Resource
-	private  IUserService userService;
+	private IUserService userService;
 
 	private final IRoleMenuService roleMenuService;
 
