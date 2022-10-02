@@ -1,5 +1,7 @@
 package com.fxz.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.text.StrPool;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -22,7 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -38,7 +42,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> implements TenantService {
 
-	private final TenantPackageService tenantPackageService;
+	@Resource
+	private TenantPackageService tenantPackageService;
 
 	private final RoleServiceImpl roleService;
 
@@ -183,6 +188,44 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 	public Boolean deleteSysTenant(Long id) {
 		this.removeById(id);
 		return Boolean.TRUE;
+	}
+
+	/**
+	 * 获取指定套餐下的所有租户
+	 * @param packageId 套餐id
+	 * @return 指定套餐下的所有租户
+	 */
+	@Override
+	public List<Tenant> getTenantListByPackageId(Long packageId) {
+		return this.list(Wrappers.<Tenant>lambdaQuery().eq(Tenant::getPackageId, packageId));
+	}
+
+	/**
+	 * 更新指定租户的角色菜单信息
+	 * @param id 租户id
+	 * @param menus 菜单信息
+	 */
+	@Override
+	public void updateTenantRoleMenu(Long id, List<String> menus) {
+		TenantUtils.run(id, () -> {
+			// 本租户下的所有角色
+			List<Role> roleList = roleService.list();
+
+			roleList.forEach(r -> {
+				if (Objects.equals(r.getCode(), RoleAdminEnum.TENANT_ADMIN.getType())) {
+					// 租户管理员 则直接赋值新菜单
+					r.setMenuId(String.join(StrPool.COMMA, menus));
+				}
+				else {
+					// 非租户管理员 则原菜单和现菜单取交集
+					r.setMenuId(String.join(StrPool.COMMA,
+							CollUtil.intersectionDistinct(menus, Arrays.asList(r.getMenuId().split(StrPool.COMMA)))));
+				}
+
+				// 更新角色信息
+				roleService.editRole(r);
+			});
+		});
 	}
 
 }

@@ -24,7 +24,7 @@ public class TenantPackageController {
 	private final TenantPackageService tenantPackageService;
 
 	/**
-	 * 添加
+	 * 保存租户套餐信息
 	 */
 	@PostMapping(value = "/add")
 	public Result<Boolean> add(@RequestBody TenantPackage tenantPackage) {
@@ -32,7 +32,7 @@ public class TenantPackageController {
 	}
 
 	/**
-	 * 修改
+	 * 更新租户套餐信息
 	 */
 	@PostMapping(value = "/update")
 	public Result<Boolean> update(@RequestBody TenantPackage tenantPackage) {
@@ -40,7 +40,7 @@ public class TenantPackageController {
 	}
 
 	/**
-	 * 删除
+	 * 删除租户套餐信息
 	 */
 	@DeleteMapping(value = "/delete")
 	public Result<Boolean> delete(Long id) {

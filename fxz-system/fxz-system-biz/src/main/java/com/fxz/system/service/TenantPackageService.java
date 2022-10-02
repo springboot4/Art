@@ -21,7 +21,7 @@ public interface TenantPackageService extends IService<TenantPackage> {
 	Boolean addTenantPackage(TenantPackage tenantPackage);
 
 	/**
-	 * 修改
+	 * 更新租户套餐信息
 	 */
 	Boolean updateTenantPackage(TenantPackage tenantPackage);
 
