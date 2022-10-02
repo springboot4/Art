@@ -24,6 +24,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -39,13 +40,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
+	@Resource
+	private  IUserService userService;
+
 	private final IRoleMenuService roleMenuService;
 
 	private final IUserRoleService userRoleService;
 
 	private final IDeptService deptService;
-
-	private final IUserService userService;
 
 	private final RedisTemplate redisTemplate;
 
