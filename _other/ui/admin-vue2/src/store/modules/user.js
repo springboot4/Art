@@ -47,7 +47,7 @@ const user = {
         login(userInfo).then(response => {
           const result = response
           Vue.ls.set(ACCESS_TOKEN, result.access_token, result.expires_in * 1000)
-          Vue.ls.set(REFRESH_TOKEN, result.access_token)
+          Vue.ls.set(REFRESH_TOKEN, result.refresh_token)
           commit('SET_TOKEN', result.access_token)
           commit('SET_REFRESH_TOKEN', result.refresh_token)
           resolve()

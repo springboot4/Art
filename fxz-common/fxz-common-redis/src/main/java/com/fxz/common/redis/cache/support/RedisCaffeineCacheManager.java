@@ -90,9 +90,6 @@ public class RedisCaffeineCacheManager implements CacheManager {
 		return this.cacheNames;
 	}
 
-	/**
-	 * todo redis key过期清理本地缓存
-	 */
 	public void clearLocal(String cacheName, Object key) {
 		Cache cache = null;
 

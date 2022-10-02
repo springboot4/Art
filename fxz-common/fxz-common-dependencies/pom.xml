@@ -66,6 +66,11 @@
             </dependency>
             <dependency>
                 <groupId>com.fxz</groupId>
+                <artifactId>fxz-common-tenant</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fxz</groupId>
                 <artifactId>fxz-common-captcha</artifactId>
                 <version>${project.version}</version>
             </dependency>

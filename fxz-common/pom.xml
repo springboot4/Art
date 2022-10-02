@@ -35,6 +35,7 @@
         <module>fxz-common-websocket</module>
         <module>fxz-common-xxl-job</module>
         <module>fxz-common-captcha</module>
+        <module>fxz-common-tenant</module>
     </modules>
 
 </project>
