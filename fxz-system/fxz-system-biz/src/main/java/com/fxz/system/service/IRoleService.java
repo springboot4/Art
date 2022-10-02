@@ -22,7 +22,7 @@ public interface IRoleService extends IService<Role> {
 	/**
 	 * 添加角色信息
 	 */
-	Boolean addRole(Role role);
+	Role addRole(Role role);
 
 	/**
 	 * 根据id获取角色信息
