@@ -78,7 +78,6 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 	@Override
 	@SuppressWarnings("all")
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-
 		// 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
 		List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
 

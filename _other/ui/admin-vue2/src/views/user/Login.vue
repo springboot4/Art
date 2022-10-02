@@ -18,7 +18,21 @@
             type="error"
             showIcon
             style="margin-bottom: 24px;"
-            message="请检查账户、密码、验证码是否正确" />
+            message="请检查租户、账户、密码是否正确" />
+
+          <a-form-item>
+            <a-input
+              size="large"
+              type="text"
+              placeholder="租户"
+              v-decorator="[
+                'tenant',
+                {rules: [{ required: true, message: '请输入正确租户信息' }, { validator: handleTenantIdByName }], validateTrigger: 'blur'}
+              ]"
+            >
+              <a-icon slot="prefix" type="account-book" :style="{ color: 'rgba(0,0,0,.25)' }" />
+            </a-input>
+          </a-form-item>
           <a-form-item>
             <a-input
               size="large"
@@ -67,6 +81,19 @@
           <!--          </a-form-item>-->
         </a-tab-pane>
         <a-tab-pane key="tab2" tab="手机号登录">
+          <a-form-item>
+            <a-input
+              size="large"
+              type="text"
+              placeholder="租户"
+              v-decorator="[
+                'tenant',
+                {rules: [{ required: true, message: '请输入正确租户信息' }, { validator: handleTenantIdByName }], validateTrigger: 'blur'}
+              ]"
+            >
+              <a-icon slot="prefix" type="account-book" :style="{ color: 'rgba(0,0,0,.25)' }" />
+            </a-input>
+          </a-form-item>
           <a-form-item>
             <a-input
               size="large"
@@ -158,8 +185,11 @@
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
-import { getSmsCaptcha, getCaptcha } from '@/api/login'
+import { getSmsCaptcha } from '@/api/login'
 import Verify from '@/components/verifition/Verify'
+import { getTenantIdByName } from '@/api/sys/tenant'
+import Vue from 'vue'
+import { TENANT_ID } from '@/store/mutation-types'
 
 export default {
   components: {
@@ -196,7 +226,6 @@ export default {
       this.$refs.verify.show()
     },
     verifySuccess (params) {
-      console.log('成功', params)
       this.form.code = params.captchaVerification
 
       this.handleSubmit()
@@ -218,11 +247,23 @@ export default {
       }
       callback()
     },
+    handleTenantIdByName (rule, value, callback) {
+      getTenantIdByName(value).then(res => {
+        const result = res.data
+        if (result) {
+          Vue.ls.set(TENANT_ID, result)
+          callback()
+        } else {
+          // eslint-disable-next-line standard/no-callback-literal
+          callback('租户不存在')
+        }
+      })
+    },
     handleTabClick (key) {
       this.customActiveKey = key
     },
     handleSubmit (e) {
-     // e.preventDefault()
+      // e.preventDefault()
       const {
         form: { validateFields },
         state,
@@ -253,7 +294,7 @@ export default {
           Login(loginParams).then((res) => this.loginSuccess(res))
             .catch(err => {
               this.requestFailed(err)
-             // this.getValidateCode()
+              // this.getValidateCode()
             })
             .finally(() => {
               state.loginBtn = false

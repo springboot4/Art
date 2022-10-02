@@ -1,30 +1,30 @@
 package com.fxz.common.mq.rabbit.dynamic;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
 import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 容器中所有单例bean都初始化完成以后,初始化RabbitMQ队列
+ * 容器中所有单例bean都初始化完成以后 初始化RabbitMQ队列
+ * {@link DefaultListableBeanFactory#preInstantiateSingletons}
  *
  * @author fxz
  */
 @Slf4j
+@RequiredArgsConstructor
 public class RabbitModuleInitializer implements SmartInitializingSingleton {
 
-	private AmqpAdmin amqpAdmin;
+	private final AmqpAdmin amqpAdmin;
 
-	private RabbitModuleProperties rabbitModuleProperties;
-
-	public RabbitModuleInitializer(AmqpAdmin amqpAdmin, RabbitModuleProperties rabbitModuleProperties) {
-		this.amqpAdmin = amqpAdmin;
-		this.rabbitModuleProperties = rabbitModuleProperties;
-	}
+	private final RabbitModuleProperties rabbitModuleProperties;
 
 	@Override
 	public void afterSingletonsInstantiated() {
@@ -37,9 +37,10 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
 	 */
 	private void declareRabbitModule() {
 		List<RabbitModuleInfo> rabbitModuleInfos = rabbitModuleProperties.getModules();
-		if (rabbitModuleInfos == null && rabbitModuleInfos.size() <= 0) {
+		if (CollectionUtils.isEmpty(rabbitModuleInfos)) {
 			return;
 		}
+
 		for (RabbitModuleInfo rabbitModuleInfo : rabbitModuleInfos) {
 			configParamValidate(rabbitModuleInfo);
 
@@ -47,7 +48,7 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
 			Queue queue = convertQueue(rabbitModuleInfo.getQueue());
 			// 交换机
 			Exchange exchange = convertExchange(rabbitModuleInfo.getExchange());
-			// 绑定关系x
+			// 绑定关系
 			String routingKey = rabbitModuleInfo.getRoutingKey();
 			String queueName = rabbitModuleInfo.getQueue().getName();
 			String exchangeName = rabbitModuleInfo.getExchange().getName();
@@ -62,10 +63,9 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
 
 	/**
 	 * RabbitMQ动态配置参数校验
-	 * @param rabbitModuleInfo
+	 * @param rabbitModuleInfo 队列和交换机机绑定关系
 	 */
 	public void configParamValidate(RabbitModuleInfo rabbitModuleInfo) {
-
 		String routingKey = rabbitModuleInfo.getRoutingKey();
 
 		Assert.isTrue(routingKey != null, "RoutingKey 未配置");
@@ -80,8 +80,8 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
 
 	/**
 	 * 转换生成RabbitMQ队列
-	 * @param queue
-	 * @return
+	 * @param queue 队列信息
+	 * @return 队列
 	 */
 	public Queue convertQueue(RabbitModuleInfo.Queue queue) {
 		Map<String, Object> arguments = queue.getArguments();
@@ -109,11 +109,10 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
 
 	/**
 	 * 转换生成RabbitMQ交换机
-	 * @param exchangeInfo
-	 * @return
+	 * @param exchangeInfo 交换机信息
+	 * @return 交换机
 	 */
 	public Exchange convertExchange(RabbitModuleInfo.Exchange exchangeInfo) {
-
 		AbstractExchange exchange = null;
 
 		RabbitExchangeTypeEnum exchangeType = exchangeInfo.getType();

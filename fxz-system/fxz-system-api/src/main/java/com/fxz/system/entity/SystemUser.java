@@ -76,6 +76,11 @@ public class SystemUser extends BaseEntity implements Serializable {
 	private Long userId;
 
 	/**
+	 * 租户 ID
+	 */
+	private Long tenantId;
+
+	/**
 	 * 用户名
 	 */
 	@Size(min = 3, max = 10, message = "{range}")

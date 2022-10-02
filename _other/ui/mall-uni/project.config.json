@@ -9,7 +9,7 @@
   "setting": {
     "urlCheck": true,
     "coverView": true,
-    "es6": true,
+    "es6": true, 
     "postcss": true,
     "lazyloadPlaceholderEnable": false,
     "preloadBackgroundData": false,
