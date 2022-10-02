@@ -21,6 +21,7 @@ service.interceptors.request.use(
 				config.headers['Authorization'] = token;
 			}
 		}
+		config.headers['TENANT-ID'] = '0'
 		return config
 	},
 	error => {

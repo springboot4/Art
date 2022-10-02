@@ -13,6 +13,11 @@ export const tableObj = {
       field: 'tenantAdminMobile'
     },
     {
+      title: '套餐类型',
+      field: 'type',
+      slot: true
+    },
+    {
       title: '状态',
       field: 'status',
       slot: true

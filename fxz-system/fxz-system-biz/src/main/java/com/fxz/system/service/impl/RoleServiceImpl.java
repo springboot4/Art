@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.entity.DeptDataPermissionRespDTO;
+import com.fxz.common.core.enums.RoleAdminEnum;
+import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.core.param.PageParam;
 import com.fxz.common.dataPermission.enums.DataScopeEnum;
 import com.fxz.common.redis.constant.CacheConstants;
@@ -109,6 +111,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	@CacheEvict(value = CacheConstants.GLOBALLY + "role", key = "#id")
 	@Override
 	public Boolean deleteRoleById(Long id) {
+		Role role = this.getById(id);
+		if (RoleAdminEnum.isAdmin(role.getCode())) {
+			throw new FxzException("管理员角色不可删除！");
+		}
+
 		// 删除角色菜单关联信息
 		roleMenuService.remove(Wrappers.<RoleMenu>lambdaQuery().eq(RoleMenu::getRoleId, id));
 		// 删除角色用户关联信息
