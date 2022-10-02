@@ -87,6 +87,8 @@ export default {
       del(record.id).then(_ => {
         this.$message.info('删除成功')
         this.queryPage()
+      }).catch(e => {
+        this.$message.error(e.msg)
       })
     }
   }
