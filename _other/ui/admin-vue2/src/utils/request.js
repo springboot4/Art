@@ -51,6 +51,8 @@ request.interceptors.request.use(config => {
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token
   }
+  // 设置租户信息
+  config.headers['TENANT-ID'] = 1
   return config
 }, errorHandler)
 

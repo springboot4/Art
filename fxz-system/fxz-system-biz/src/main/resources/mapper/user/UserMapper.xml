@@ -62,6 +62,7 @@
         u.update_time updateTime,
         u.description,
         u.avatar,
+        u.tenant_id   tenantId,
         d.dept_name deptName,
         GROUP_CONCAT(distinct r.role_id) roleId,
         GROUP_CONCAT(distinct r.ROLE_NAME) roleName,
@@ -94,6 +95,7 @@
                u.update_time             updateTime,
                u.description,
                u.avatar,
+               u.tenant_id               tenantId,
                d.dept_name               deptName,
                GROUP_CONCAT(distinct r.role_id)   roleId,
                GROUP_CONCAT(distinct r.ROLE_NAME) roleName
@@ -121,6 +123,7 @@
                u.update_time             updateTime,
                u.description,
                u.avatar,
+               u.tenant_id               tenantId,
                d.dept_name               deptName,
                GROUP_CONCAT(distinct r.role_id)   roleId,
                GROUP_CONCAT(distinct r.ROLE_NAME) roleName

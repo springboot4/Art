@@ -9,6 +9,7 @@ import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
+import com.fxz.common.tenant.aspect.IgnoreTenant;
 import com.fxz.system.dto.UserInfoDto;
 import com.fxz.system.entity.SystemUser;
 import com.fxz.system.entity.UserInfo;
@@ -66,6 +67,7 @@ public class UserController {
 	/**
 	 * 通过用户名查找用户信息
 	 */
+	@IgnoreTenant
 	@GetMapping("/findByName/{username}")
 	public SystemUser findByName(@PathVariable("username") String username) {
 		return this.userService.findByName(username);
@@ -90,7 +92,7 @@ public class UserController {
 	public Result<UserInfo> userInfo() {
 		FxzAuthUser user = SecurityUtil.getUser();
 
-		// 分别查询系统端和商城端用户信息
+		// 查询用户信息
 		SystemUser systemUser = userService
 				.getOne(Wrappers.<SystemUser>lambdaQuery().eq(SystemUser::getUserId, user.getUserId()));
 		return Result.success(userService.findUserInfo(systemUser));

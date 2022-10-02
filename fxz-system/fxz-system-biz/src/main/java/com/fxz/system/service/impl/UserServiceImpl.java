@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -53,10 +53,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void createUser(SystemUser user) {
-		// 创建用户
+	public SystemUser createUser(SystemUser user) {
+		// 设置用户默认头像
 		user.setAvatar(SystemUser.DEFAULT_AVATAR);
-		user.setPassword("{bcrypt}" + passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD));
+
+		// 设置用户密码
+		user.setPassword("{bcrypt}" + (Objects.isNull(user.getPassword())
+				? passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD) : passwordEncoder.encode(user.getPassword())));
 
 		// 保存用户信息
 		save(user);
@@ -66,6 +69,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 
 		// 保存用户岗位
 		setUserPosts(user);
+
+		return user;
 	}
 
 	@CacheEvict(value = CacheConstants.GLOBALLY + "user", key = "#user.userId+':userInfo'")

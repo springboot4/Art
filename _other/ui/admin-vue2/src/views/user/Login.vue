@@ -158,7 +158,7 @@
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
-import { getSmsCaptcha, getCaptcha } from '@/api/login'
+import { getSmsCaptcha } from '@/api/login'
 import Verify from '@/components/verifition/Verify'
 
 export default {
@@ -196,7 +196,6 @@ export default {
       this.$refs.verify.show()
     },
     verifySuccess (params) {
-      console.log('成功', params)
       this.form.code = params.captchaVerification
 
       this.handleSubmit()
@@ -222,7 +221,7 @@ export default {
       this.customActiveKey = key
     },
     handleSubmit (e) {
-     // e.preventDefault()
+      // e.preventDefault()
       const {
         form: { validateFields },
         state,
@@ -253,7 +252,7 @@ export default {
           Login(loginParams).then((res) => this.loginSuccess(res))
             .catch(err => {
               this.requestFailed(err)
-             // this.getValidateCode()
+              // this.getValidateCode()
             })
             .finally(() => {
               state.loginBtn = false
