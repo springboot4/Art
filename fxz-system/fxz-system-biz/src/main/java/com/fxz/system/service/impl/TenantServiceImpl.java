@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.enums.GlobalStatusEnum;
 import com.fxz.common.core.enums.RoleAdminEnum;
 import com.fxz.common.core.exception.FxzException;
+import com.fxz.common.dataPermission.enums.DataScopeEnum;
 import com.fxz.common.tenant.util.TenantUtils;
 import com.fxz.system.entity.Role;
 import com.fxz.system.entity.SystemUser;
@@ -19,6 +20,7 @@ import com.fxz.system.vo.TenantVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -71,19 +73,10 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 	}
 
 	/**
-	 * 根据id查询租户信息
-	 * @param id 租户id
-	 * @return 租户信息
-	 */
-	@Override
-	public Tenant findById(Long id) {
-		return this.getById(id);
-	}
-
-	/**
 	 * 保存租户信息
 	 * @param tenant 租户视图信息
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Boolean addSysTenant(TenantVO tenant) {
 		// 检查套餐信息
@@ -130,9 +123,32 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 		// 生成租户管理员角色角色
 		Role role = new Role().setRoleName(RoleAdminEnum.TENANT_ADMIN.getDescription())
 				.setCode(RoleAdminEnum.TENANT_ADMIN.getType()).setRemark("系统生成租户管理员角色")
-				.setMenuId(tenantPackage.getMenuIds());
+				.setMenuId(tenantPackage.getMenuIds()).setDataScope(DataScopeEnum.ALL.getScope());
 
 		return roleService.addRole(role).getRoleId();
+	}
+
+	/**
+	 * 根据id查询租户信息
+	 * @param id 租户id
+	 * @return 租户信息
+	 */
+	@Override
+	public Tenant findById(Long id) {
+		return this.getById(id);
+	}
+
+	/**
+	 * 根据name查询租户信息
+	 */
+	@Override
+	public Long findTenantIdById(String name) {
+		Tenant tenant = this.getOne(Wrappers.<Tenant>lambdaQuery().eq(Tenant::getName, name).last("limit 1"));
+		if (Objects.isNull(tenant)) {
+			return null;
+		}
+
+		return tenant.getId();
 	}
 
 	/**

@@ -57,6 +57,11 @@ public class Role extends BaseEntity implements Serializable {
 	private String dataScopeDeptIds;
 
 	/**
+	 * 租户id
+	 */
+	private Long tenantId;
+
+	/**
 	 * 角色拥有的菜单id
 	 */
 	@TableField(exist = false)

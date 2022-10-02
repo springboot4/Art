@@ -3,7 +3,7 @@ import axios from 'axios'
 import store from '@/store'
 import notification from 'ant-design-vue/es/notification'
 import { VueAxios } from './axios'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, TENANT_ID } from '@/store/mutation-types'
 
 // 创建 axios 实例
 const request = axios.create({
@@ -46,13 +46,17 @@ const errorHandler = (error) => {
 // request interceptor
 request.interceptors.request.use(config => {
   const token = Vue.ls.get(ACCESS_TOKEN)
-  // 如果 token 存在
-  // 让每个请求携带自定义 token 请根据实际情况自行修改
+  // 如果 token 存在让每个请求携带自定义 token
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token
   }
-  // 设置租户信息
-  config.headers['TENANT-ID'] = 1
+
+  const tenantId = Vue.ls.get(TENANT_ID)
+  if (tenantId) {
+    // 设置租户信息
+    config.headers['TENANT-ID'] = tenantId
+  }
+
   return config
 }, errorHandler)
 

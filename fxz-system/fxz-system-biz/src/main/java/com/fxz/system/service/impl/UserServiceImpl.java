@@ -58,8 +58,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		user.setAvatar(SystemUser.DEFAULT_AVATAR);
 
 		// 设置用户密码
-		user.setPassword("{bcrypt}" + (Objects.isNull(user.getPassword())
-				? passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD) : passwordEncoder.encode(user.getPassword())));
+		user.setPassword((Objects.isNull(user.getPassword()) ? passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD)
+				: passwordEncoder.encode(user.getPassword())));
 
 		// 保存用户信息
 		save(user);
