@@ -62,7 +62,6 @@ public class MenuController {
 	 * 获取全部的树形菜单信息(包括按钮)
 	 * @return 树形菜单信息
 	 */
-	@Cacheable(value = "fxz_cloud:menu", key = "'all'", unless = "#result.data==null")
 	@GetMapping("/getAllMenuTree")
 	public Result<List<VueRouter<Object>>> getAllMenuTree() {
 		return Result.success(this.menuService.getAllMenuTree());
@@ -72,7 +71,6 @@ public class MenuController {
 	 * 获取菜单下拉框
 	 * @return 树形菜单下拉框
 	 */
-	@Cacheable(value = "fxz_cloud:menu", key = "'treeSelect'")
 	@GetMapping("/getTreeSelect")
 	public Result<List<VueRouter<Object>>> getTreeSelect() {
 		return Result.success(this.menuService.getTreeSelect());
@@ -82,7 +80,6 @@ public class MenuController {
 	 * 保存路由信息
 	 * @param vueRouter 路由信息
 	 */
-	@CacheEvict(value = "fxz_cloud:menu", allEntries = true)
 	@PostMapping("/save")
 	public void saveMenu(@RequestBody VueRouter vueRouter) {
 		this.menuService.saveMenu(vueRouter);
@@ -92,7 +89,6 @@ public class MenuController {
 	 * 根据id删除路由信息
 	 * @param id
 	 */
-	@CacheEvict(value = "fxz_cloud:menu", allEntries = true)
 	@DeleteMapping("/delete/{id}")
 	public void deleteMenu(@PathVariable("id") Long id) {
 		this.menuService.removeById(id);
@@ -103,7 +99,6 @@ public class MenuController {
 	 * @param id
 	 * @return
 	 */
-	@Cacheable(value = "fxz_cloud:menu", key = "#id", unless = "#result.data==null")
 	@GetMapping("/getMenuById/{id}")
 	public Result<VueRouter> getMenuById(@PathVariable("id") Long id) {
 		return Result.success(this.menuService.getMenuById(id));
@@ -112,7 +107,6 @@ public class MenuController {
 	/**
 	 * 更新路由
 	 */
-	@CacheEvict(value = "fxz_cloud:menu", allEntries = true)
 	@PostMapping("/update")
 	public void updateMenu(@RequestBody VueRouter vueRouter) {
 		this.menuService.updateMenu(vueRouter);
@@ -123,7 +117,6 @@ public class MenuController {
 	 * @param username 用户名称
 	 * @return 权限信息
 	 */
-	@Cacheable(value = "fxz_cloud:menu", key = "'permissions:'+#username", unless = "#result==null")
 	@GetMapping("/findUserPermissions/{username}")
 	public Set<String> findUserPermissions(@PathVariable("username") String username) {
 		return menuService.findUserPermissions(username);

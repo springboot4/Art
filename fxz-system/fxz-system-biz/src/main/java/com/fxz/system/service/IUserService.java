@@ -3,9 +3,9 @@ package com.fxz.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fxz.common.core.param.PageParam;
+import com.fxz.system.dto.UserInfoDto;
 import com.fxz.system.entity.SystemUser;
 import com.fxz.system.entity.UserInfo;
-import com.fxz.system.dto.UserInfoDto;
 
 /**
  * @author Fxz
@@ -26,7 +26,7 @@ public interface IUserService extends IService<SystemUser> {
 	 * 新增用户
 	 * @param user user
 	 */
-	void createUser(SystemUser user);
+	SystemUser createUser(SystemUser user);
 
 	/**
 	 * 修改用户
@@ -48,7 +48,7 @@ public interface IUserService extends IService<SystemUser> {
 	/**
 	 * 通过用户名查找用户信息
 	 */
-	public SystemUser findByName(String username);
+	SystemUser findByName(String username);
 
 	/**
 	 * 获取用户全部信息
