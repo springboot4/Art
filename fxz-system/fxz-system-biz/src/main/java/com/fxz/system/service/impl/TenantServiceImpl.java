@@ -10,6 +10,7 @@ import com.fxz.common.core.enums.GlobalStatusEnum;
 import com.fxz.common.core.enums.RoleAdminEnum;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.dataPermission.enums.DataScopeEnum;
+import com.fxz.common.tenant.context.TenantContextHolder;
 import com.fxz.common.tenant.util.TenantUtils;
 import com.fxz.system.entity.Role;
 import com.fxz.system.entity.SystemUser;
@@ -45,9 +46,10 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 	@Resource
 	private TenantPackageService tenantPackageService;
 
-	private final RoleServiceImpl roleService;
+	@Resource
+	private UserServiceImpl userService;
 
-	private final UserServiceImpl userService;
+	private final RoleServiceImpl roleService;
 
 	/**
 	 * 校验租户信息是否合法
@@ -226,6 +228,20 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 				roleService.editRole(r);
 			});
 		});
+	}
+
+	/**
+	 * 校验租户下账号数量
+	 */
+	@Override
+	public void validCount() {
+		long count = userService.count();
+		Long tenantId = TenantContextHolder.getTenantId();
+		Tenant tenant = this.getById(tenantId);
+
+		if (Objects.isNull(tenant) || count > tenant.getAccountCount()) {
+			throw new FxzException("租户账号数量超过额度！");
+		}
 	}
 
 }
