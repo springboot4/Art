@@ -2,6 +2,7 @@ package com.fxz.system.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
@@ -46,5 +47,11 @@ public class TenantPackage extends BaseEntity {
 	 * 套餐关联的菜单编号
 	 */
 	private String menuIds;
+
+	/**
+	 * 删除标记
+	 */
+	@TableLogic
+	private String delFlag;
 
 }

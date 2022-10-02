@@ -57,7 +57,7 @@
 		<view class="seckill-section m-t">
 			<view class="s-header">
 				<image class="s-img" src="/static/temp/secskill-img.jpg" mode="widthFix"></image>
-				<text class="tip">{{seckillData[0].timeLine||new Date().getHours()}}点场</text>
+<!--				<text class="tip">{{seckillData&&seckillData[0].timeLine?seckillData[0].timeLine:new Date().getHours()}}点场</text>-->
 <!--				<text class="hour timer">07</text>-->
 <!--				<text class="minute timer">13</text>-->
 <!--				<text class="second timer">55</text>-->
@@ -269,7 +269,7 @@ import {seckillList} from "../../api/promotion/seckill"
 
         seckillList().then(res=>{
           this.seckillData = res.data
-          this.goodsList = res.data[0].seckillGoodsList || []
+         // this.goodsList = res.data[0].seckillGoodsList || []
         })
 			},
 			//轮播图切换修改背景色
