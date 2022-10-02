@@ -26,6 +26,10 @@
         <span v-if="row.status===0">正常</span>
         <span v-else>关闭</span>
       </template>
+      <template v-slot:type="{row}">
+        <span v-if="row.id==0">系统套餐</span>
+        <span v-else>普通套餐</span>
+      </template>
       <template v-slot:action="{row}">
         <a href="javascript:" @click="show(row)">查看</a>
         <a-divider type="vertical" />

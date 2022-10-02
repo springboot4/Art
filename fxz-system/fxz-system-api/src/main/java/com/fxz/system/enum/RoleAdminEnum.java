@@ -3,6 +3,8 @@ package com.fxz.common.core.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * @author fxz
  */
@@ -29,5 +31,14 @@ public enum RoleAdminEnum {
 	 * 描述
 	 */
 	private final String description;
+
+	/**
+	 * 角色是否为管理员
+	 * @param code 角色编码
+	 * @return true or false
+	 */
+	public static boolean isAdmin(String code) {
+		return Arrays.stream(values()).anyMatch(v -> v.getType().equals(code));
+	}
 
 }
