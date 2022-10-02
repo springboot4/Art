@@ -36,6 +36,11 @@ public interface TenantService extends IService<Tenant> {
 	Tenant findById(Long id);
 
 	/**
+	 * 根据name查询租户Id
+	 */
+	Long findTenantIdById(String name);
+
+	/**
 	 * 保存租户信息
 	 * @param tenant 租户视图信息
 	 */

@@ -14,6 +14,17 @@ export function page (params) {
 /**
  * 获取单条
  */
+export function getTenantIdByName (name) {
+  return axios({
+    url: '/system/tenant/findIdByName',
+    method: 'GET',
+    params: { name }
+  })
+}
+
+/**
+ * 获取单条
+ */
 export function get (id) {
   return axios({
     url: '/system/tenant/findById',

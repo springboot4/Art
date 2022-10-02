@@ -3,6 +3,7 @@ package com.fxz.common.tenant.security;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.fxz.common.jackson.util.JacksonUtil;
+import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.common.tenant.config.FxzTenantProperties;
@@ -53,7 +54,7 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 			// 当前url不放行且未带租户的编号 不允许访问
 			if (Objects.isNull(tenantId)) {
 				log.info("未传递租户编号");
-				ServletUtil.write(response, JacksonUtil.toJsonString("租户信息未传递!"),
+				ServletUtil.write(response, JacksonUtil.toJsonString(Result.failed("租户信息未传递!")),
 						MediaType.APPLICATION_JSON_UTF8_VALUE);
 				return;
 			}
@@ -70,7 +71,7 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 
 			FxzAuthUser user = SecurityUtil.getUser();
 			if (Objects.isNull(user.getTenantId()) || !Objects.equals(tenantId, user.getTenantId())) {
-				ServletUtil.write(response, JacksonUtil.toJsonString("无权访问该租户!"),
+				ServletUtil.write(response, JacksonUtil.toJsonString(Result.failed("无权访问该租户!")),
 						MediaType.APPLICATION_JSON_UTF8_VALUE);
 				return;
 			}

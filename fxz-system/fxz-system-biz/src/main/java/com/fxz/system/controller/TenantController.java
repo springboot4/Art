@@ -54,7 +54,7 @@ public class TenantController {
 	}
 
 	/**
-	 * 修改
+	 * 修改租户信息
 	 */
 	@PostMapping(value = "/update")
 	public Result update(@RequestBody Tenant tenant) {
@@ -70,11 +70,20 @@ public class TenantController {
 	}
 
 	/**
-	 * 获取单条
+	 * 根据id查询租户信息
 	 */
 	@GetMapping(value = "/findById")
 	public Result<Tenant> findById(Long id) {
 		return Result.success(tenantService.findById(id));
+	}
+
+	/**
+	 * 根据name查询租户信息
+	 */
+	@Ojbk
+	@GetMapping(value = "/findIdByName")
+	public Result<Long> findTenantIdById(String name) {
+		return Result.success(tenantService.findTenantIdById(name));
 	}
 
 	/**
