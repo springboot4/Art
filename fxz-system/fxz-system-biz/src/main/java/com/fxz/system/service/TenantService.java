@@ -66,4 +66,18 @@ public interface TenantService extends IService<Tenant> {
 	 */
 	Boolean deleteSysTenant(Long id);
 
+	/**
+	 * 获取指定套餐下的所有租户
+	 * @param packageId 套餐id
+	 * @return 指定套餐下的所有租户
+	 */
+	List<Tenant> getTenantListByPackageId(Long packageId);
+
+	/**
+	 * 更新指定租户的角色菜单信息
+	 * @param id 租户id
+	 * @param menus 菜单信息
+	 */
+	void updateTenantRoleMenu(Long id, List<String> menus);
+
 }
