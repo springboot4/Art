@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
 import com.fxz.system.entity.TenantPackage;
+import com.fxz.system.param.TenantPackageParam;
 import com.fxz.system.service.TenantPackageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,7 @@ public class TenantPackageController {
 	}
 
 	/**
-	 * 获取单条
+	 * 获取单条租户套餐信息
 	 */
 	@GetMapping(value = "/findById")
 	public Result<TenantPackage> findById(Long id) {
@@ -56,7 +57,7 @@ public class TenantPackageController {
 	}
 
 	/**
-	 * 获取全部
+	 * 获取全部租户套餐信息
 	 */
 	@GetMapping(value = "/findAll")
 	public Result<List<TenantPackage>> findAll() {
@@ -64,12 +65,12 @@ public class TenantPackageController {
 	}
 
 	/**
-	 * 分页
+	 * 分页查询租户套餐信息
 	 */
 	@GetMapping(value = "/page")
 	public Result<PageResult<TenantPackage>> pageTenantPackage(Page<TenantPackage> pageParam,
-			TenantPackage tenantPackage) {
-		return Result.success(PageResult.success(tenantPackageService.pageTenantPackage(pageParam, tenantPackage)));
+			TenantPackageParam param) {
+		return Result.success(PageResult.success(tenantPackageService.pageTenantPackage(pageParam, param)));
 	}
 
 }

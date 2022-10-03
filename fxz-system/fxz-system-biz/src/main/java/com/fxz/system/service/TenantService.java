@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fxz.system.entity.Tenant;
+import com.fxz.system.param.TenantParam;
 import com.fxz.system.vo.TenantVO;
 
 import java.util.List;
@@ -52,9 +53,9 @@ public interface TenantService extends IService<Tenant> {
 	Boolean updateSysTenant(Tenant tenant);
 
 	/**
-	 * 分页
+	 * 分页查询租户信息
 	 */
-	IPage<Tenant> pageSysTenant(Page pageParam, Tenant tenant);
+	IPage<Tenant> pageSysTenant(Page pageParam, TenantParam param);
 
 	/**
 	 * 获取全部
