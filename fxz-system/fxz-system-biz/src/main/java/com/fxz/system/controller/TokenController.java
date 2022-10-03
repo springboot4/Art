@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2022-04-14 21:32
  */
 @RequiredArgsConstructor
-@RestController("/token")
+@RestController
 public class TokenController {
 
 	private final RemoteTokenService remoteTokenService;

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.system.entity.Menu;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -29,9 +30,10 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	List<Menu> findUserMenus(String username);
 
 	/**
-	 * 获取全部的树形菜单信息(包括按钮)
+	 * 根据父节点id查询路由信息
+	 * @param id 父节点id
 	 * @return 树形菜单信息
 	 */
-	List<VueRouter<Object>> getAllMenuTree();
+	List<VueRouter<Object>> getMenuByPid(@Param("id") Long id);
 
 }
