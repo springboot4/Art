@@ -117,6 +117,7 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 	private Long createUser(Long roleId, TenantVO tenant) {
 		// 创建用户
 		SystemUser systemUser = new SystemUser().setUsername(tenant.getUsername()).setPassword(tenant.getPassword())
+				.setMobile(tenant.getTenantAdminMobile()).setUsername(tenant.getTenantAdminName())
 				.setRoleId(String.valueOf(roleId));
 
 		return userService.createUser(systemUser).getUserId();

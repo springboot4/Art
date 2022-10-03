@@ -66,8 +66,8 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { getAllMenuTree } from '@/api/sys/menu'
-import { addRole, getRoleById, editRole } from '@/api/sys/role'
+import { getUserMenuTree } from '@/api/sys/menu'
+import { addRole, editRole, getRoleById } from '@/api/sys/role'
 import { getDictItemsByType } from '@/api/sys/dict'
 import { getDeptTree } from '@/api/sys/dept'
 
@@ -97,7 +97,7 @@ export default {
     }
   },
   created () {
-    getAllMenuTree().then(res => {
+    getUserMenuTree().then(res => {
       if (res.data && res.data.length > 0) {
         this.treeData = res.data.map(item => {
           return this.buildTree(item)
@@ -202,6 +202,6 @@ export default {
 }
 </script>
 
-<style lang='less'>
+<style lang="less">
 
 </style>
