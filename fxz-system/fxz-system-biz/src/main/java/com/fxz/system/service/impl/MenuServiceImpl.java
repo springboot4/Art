@@ -5,7 +5,10 @@ import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.entity.router.VueRouter;
+import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.core.utils.TreeUtil;
+import com.fxz.common.security.entity.FxzAuthUser;
+import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.Menu;
 import com.fxz.system.mapper.MenuMapper;
 import com.fxz.system.service.IMenuService;
@@ -16,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -38,24 +41,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
 	@Override
 	public List<VueRouter<Menu>> getUserRouters(String username) {
+		// 指定用户名角色下的所有菜单
 		List<Menu> menus = this.baseMapper.findUserMenus(username);
 
-		List<VueRouter<Menu>> routes = menus.stream().map(menu -> CompletableFuture.supplyAsync(() -> {
-			VueRouter<Menu> route = new VueRouter<>();
-			route.setId(menu.getId().toString());
-			route.setParentId(menu.getParentId().toString());
-			route.setPath(menu.getPath());
-			route.setRedirect(menu.getRedirect());
-			route.setComponent(menu.getComponent());
-			route.setName(menu.getName());
-			route.setHidden(menu.getHidden());
-			route.setTitle(menu.getTitle());
-			route.setPerms(menu.getPerms());
-			route.setIcon(menu.getIcon());
-			route.setApplication(menu.getApplication());
-			return route;
-		})).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
+		// 根据菜单构建VueRouter
+		List<VueRouter<Menu>> routes = menus.stream().map(Menu::toVueRouter).collect(Collectors.toList());
 
+		// 构建树形VueRouter
 		return TreeUtil.buildVueRouter(routes);
 	}
 
@@ -65,7 +57,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	 */
 	@Override
 	public List<VueRouter<Object>> getAllMenuTree() {
-		return this.baseMapper.getAllMenuTree();
+		return this.baseMapper.getMenuByPid(0L);
 	}
 
 	/**
@@ -73,12 +65,17 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	 * @return 树形菜单下拉框
 	 */
 	@Override
-	public List<VueRouter<Object>> getTreeSelect() {
-		List<VueRouter<Object>> allMenuTree = this.getAllMenuTree();
+	public List<VueRouter<Menu>> getTreeSelect() {
+		FxzAuthUser user = SecurityUtil.getUser();
+		if (Objects.isNull(user)) {
+			throw new FxzException("用户未登录！");
+		}
 
-		VueRouter<Object> router = new VueRouter<>().setId("0").setTitle("顶级菜单").setChildren(allMenuTree);
+		List<VueRouter<Menu>> allMenuTree = this.getUserRouters(user.getUsername());
 
-		List<VueRouter<Object>> result = new ArrayList<>();
+		VueRouter<Menu> router = new VueRouter<Menu>().setId("0").setTitle("顶级菜单").setChildren(allMenuTree);
+
+		List<VueRouter<Menu>> result = new ArrayList<>();
 		result.add(router);
 
 		return result;
@@ -117,24 +114,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	@Override
 	public VueRouter getMenuById(Long id) {
 		Menu menu = this.getById(id);
-
-		VueRouter<Object> vueRouter = new VueRouter<>();
-		vueRouter.setId(id.toString());
-		vueRouter.setHidden(menu.getHidden());
-		vueRouter.setParentId(Convert.toStr(menu.getParentId()));
-		vueRouter.setPerms(menu.getPerms());
-		vueRouter.setTitle(menu.getTitle());
-		vueRouter.setKeepAlive(menu.getKeepAlive().toString());
-		vueRouter.setType(menu.getType());
-		vueRouter.setName(menu.getName());
-		vueRouter.setComponent(menu.getComponent());
-		vueRouter.setPath(menu.getPath());
-		vueRouter.setIcon(menu.getIcon());
-		vueRouter.setRedirect(menu.getRedirect());
-		vueRouter.setOrderNum(Double.valueOf(menu.getOrderNum()));
-		vueRouter.setApplication(menu.getApplication());
-
-		return vueRouter;
+		return menu.toVueRouter();
 	}
 
 	/**
