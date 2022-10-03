@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { delObj, getAllMenuTree } from '@/api/sys/menu'
+import { delObj, getUserMenuTree } from '@/api/sys/menu'
 import permissionAddOrUpdate from './permissionAddOrUpdate'
 import { tableObj } from './template'
 import { TableMixin } from '@/mixins/TableMixin'
@@ -50,12 +50,14 @@ export default {
       loading: false,
       tableData: [],
       loadData: (parameter) => {
-        return getAllMenuTree(
+        return getUserMenuTree(
           Object.assign(parameter, this.queryParam)
         ).then(res => {
           console.log('res', res)
           return res.data
-        }).catch(e => {})
+        }).catch(e => {
+          console.log(e.msg)
+        })
       }
     }
   },
@@ -71,9 +73,9 @@ export default {
     edit (row) {
       this.$refs.modalForm.init(row, 'edit')
     },
-   show (row) {
-     this.$refs.modalForm.init(row, 'show')
-   },
+    show (row) {
+      this.$refs.modalForm.init(row, 'show')
+    },
     handleOk () {
       this.queryPage()
     }
