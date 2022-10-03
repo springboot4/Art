@@ -38,7 +38,7 @@ public interface IMenuService extends IService<Menu> {
 	 * 获取菜单下拉框
 	 * @return 树形菜单下拉框
 	 */
-	List<VueRouter<Object>> getTreeSelect();
+	List<VueRouter<Menu>> getTreeSelect();
 
 	/**
 	 * 保存路由信息
