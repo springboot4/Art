@@ -47,26 +47,6 @@
         order by m.order_num
     </select>
 
-    <!--获取全部的树形菜单信息(包括按钮)-->
-    <select id="getAllMenuTree" resultMap="vueRouter">
-        SELECT
-            m.id,
-            m.parent_id,
-            m.`name`,
-            m.component,
-            m.keep_alive,
-            m.hidden,
-            m.title,
-            m.perms,
-            m.type,
-            m.path,
-            m.icon
-        FROM
-            sys_menu m
-        where m.parent_id = 0
-        ORDER BY order_num
-    </select>
-
     <!--根据父节点id查询路由信息-->
     <select id="getMenuByPid" resultMap="vueRouter">
         SELECT
@@ -86,6 +66,7 @@
             sys_menu m
         WHERE
             parent_id = #{id}
+        ORDER BY order_num
     </select>
 
 </mapper>

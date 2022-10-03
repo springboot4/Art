@@ -1,15 +1,15 @@
 package com.fxz.system.controller;
 
 import com.fxz.common.core.entity.router.VueRouter;
+import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
+import com.fxz.system.entity.Menu;
 import com.fxz.system.service.AppService;
 import com.fxz.system.service.IMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,6 +59,20 @@ public class MenuController {
 	}
 
 	/**
+	 * 获取用户角色下的所有树形菜单信息(包括按钮)
+	 * @return 用户角色下的树形菜单信息
+	 */
+	@GetMapping("/getUserMenuTree")
+	public Result<List<VueRouter<Menu>>> getUserMenuTree() {
+		FxzAuthUser user = SecurityUtil.getUser();
+		if (Objects.isNull(user)) {
+			throw new FxzException("用户未登录！");
+		}
+
+		return Result.success(this.menuService.getUserRouters(user.getUsername()));
+	}
+
+	/**
 	 * 获取全部的树形菜单信息(包括按钮)
 	 * @return 树形菜单信息
 	 */
@@ -72,7 +86,7 @@ public class MenuController {
 	 * @return 树形菜单下拉框
 	 */
 	@GetMapping("/getTreeSelect")
-	public Result<List<VueRouter<Object>>> getTreeSelect() {
+	public Result<List<VueRouter<Menu>>> getTreeSelect() {
 		return Result.success(this.menuService.getTreeSelect());
 	}
 

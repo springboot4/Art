@@ -1,5 +1,15 @@
 import { axios } from '@/utils/request'
 
+/**
+ * 获取当前用户角色下的所有菜单信息
+ */
+export function getUserMenuTree () {
+  return axios({
+    url: '/system/menu/getUserMenuTree',
+    method: 'GET'
+  })
+}
+
 export function getAllMenuTree () {
   return axios({
     url: '/system/menu/getAllMenuTree',

@@ -22,12 +22,12 @@ public interface RemoteTokenService {
 	 * 删除token
 	 */
 	@DeleteMapping("/token/{token}")
-	public Result<Void> removeToken(@PathVariable("token") String token);
+	Result<Void> removeToken(@PathVariable("token") String token);
 
 	/**
 	 * 分页查询token
 	 */
 	@GetMapping("/token/page")
-	public Result<PageResult> tokenList(@RequestParam("page") Page page);
+	Result<PageResult> tokenList(@RequestParam("page") Page page);
 
 }
