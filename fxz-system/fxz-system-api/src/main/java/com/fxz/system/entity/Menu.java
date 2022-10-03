@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -110,5 +111,24 @@ public class Menu extends BaseEntity implements Serializable {
 	private transient String createTimeFrom;
 
 	private transient String createTimeTo;
+
+	public VueRouter<Menu> toVueRouter() {
+		VueRouter<Menu> route = new VueRouter<>();
+		route.setId(this.getId().toString());
+		route.setParentId(this.getParentId().toString());
+		route.setPath(this.getPath());
+		route.setRedirect(this.getRedirect());
+		route.setComponent(this.getComponent());
+		route.setName(this.getName());
+		route.setHidden(this.getHidden());
+		route.setTitle(this.getTitle());
+		route.setPerms(this.getPerms());
+		route.setIcon(this.getIcon());
+		route.setApplication(this.getApplication());
+		route.setKeepAlive(this.getKeepAlive().toString());
+		route.setType(this.getType());
+		route.setOrderNum(Double.valueOf(this.getOrderNum()));
+		return route;
+	}
 
 }

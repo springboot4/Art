@@ -24,7 +24,7 @@
         <a-input v-model="form.name" :disabled="showable" />
       </a-form-model-item>
       <a-form-model-item
-        label="关联的菜单编号"
+        label="关联菜单"
         prop="menuIds"
       >
         <a-tree
