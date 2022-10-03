@@ -5,6 +5,7 @@ import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.system.entity.Tenant;
+import com.fxz.system.param.TenantParam;
 import com.fxz.system.service.TenantService;
 import com.fxz.system.vo.TenantVO;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +63,7 @@ public class TenantController {
 	}
 
 	/**
-	 * 删除
+	 * 删除租户信息
 	 */
 	@DeleteMapping(value = "/delete")
 	public Result delete(Long id) {
@@ -87,7 +88,7 @@ public class TenantController {
 	}
 
 	/**
-	 * 获取全部
+	 * 获取全部租户信息
 	 */
 	@GetMapping(value = "/findAll")
 	public Result<List<Tenant>> findAll() {
@@ -95,11 +96,11 @@ public class TenantController {
 	}
 
 	/**
-	 * 分页
+	 * 分页查询租户列表
 	 */
 	@GetMapping(value = "/page")
-	public Result<PageResult<Tenant>> pageSysTenant(Page pageParam, Tenant tenant) {
-		return Result.success(PageResult.success(tenantService.pageSysTenant(pageParam, tenant)));
+	public Result<PageResult<Tenant>> pageSysTenant(Page pageParam, TenantParam param) {
+		return Result.success(PageResult.success(tenantService.pageSysTenant(pageParam, param)));
 	}
 
 }

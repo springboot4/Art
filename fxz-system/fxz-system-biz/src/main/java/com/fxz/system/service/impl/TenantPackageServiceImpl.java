@@ -11,6 +11,7 @@ import com.fxz.common.core.exception.FxzException;
 import com.fxz.system.entity.Tenant;
 import com.fxz.system.entity.TenantPackage;
 import com.fxz.system.mapper.TenantPackageMapper;
+import com.fxz.system.param.TenantPackageParam;
 import com.fxz.system.service.TenantPackageService;
 import com.fxz.system.service.TenantService;
 import lombok.RequiredArgsConstructor;
@@ -135,11 +136,11 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	}
 
 	/**
-	 * 分页
+	 * 分页查询租户套餐信息
 	 */
 	@Override
-	public IPage<TenantPackage> pageTenantPackage(Page<TenantPackage> pageParam, TenantPackage tenantPackage) {
-		return tenantPackageMapper.selectPage(pageParam, Wrappers.emptyWrapper());
+	public IPage<TenantPackage> pageTenantPackage(Page<TenantPackage> pageParam, TenantPackageParam param) {
+		return tenantPackageMapper.selectPage(pageParam, param.lambdaQuery());
 	}
 
 	/**

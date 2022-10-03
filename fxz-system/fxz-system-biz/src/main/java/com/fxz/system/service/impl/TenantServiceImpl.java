@@ -17,6 +17,7 @@ import com.fxz.system.entity.SystemUser;
 import com.fxz.system.entity.Tenant;
 import com.fxz.system.entity.TenantPackage;
 import com.fxz.system.mapper.TenantMapper;
+import com.fxz.system.param.TenantParam;
 import com.fxz.system.service.TenantPackageService;
 import com.fxz.system.service.TenantService;
 import com.fxz.system.vo.TenantVO;
@@ -245,8 +246,8 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, Tenant> impleme
 	 * 分页查询租户信息
 	 */
 	@Override
-	public IPage<Tenant> pageSysTenant(Page pageParam, Tenant tenant) {
-		return this.page(pageParam, Wrappers.emptyWrapper());
+	public IPage<Tenant> pageSysTenant(Page pageParam, TenantParam param) {
+		return this.page(pageParam, param.lambdaQuery());
 	}
 
 	/**
