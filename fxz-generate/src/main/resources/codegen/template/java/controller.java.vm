@@ -24,6 +24,7 @@ public class ${className}Controller {
      * 添加
      */
     @PostMapping(value = "/add")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:add')")
     public Result<Boolean> add(@RequestBody ${className}DTO ${classname}DTO) {
         return Result.success(${classname}Service.add${className}(${classname}DTO));
     }
@@ -32,6 +33,7 @@ public class ${className}Controller {
     * 修改
     */
     @PostMapping(value = "/update")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:update')")
     public Result<Boolean> update(@RequestBody ${className}DTO ${classname}DTO) {
         return Result.success(${classname}Service.update${className}(${classname}DTO));
     }
@@ -40,6 +42,7 @@ public class ${className}Controller {
     * 删除
     */
     @DeleteMapping(value = "/delete")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:delete')")
     public Result<Boolean> delete(Long id) {
         return Result.judge(${classname}Service.delete${className}(id));
     }
@@ -48,6 +51,7 @@ public class ${className}Controller {
      * 获取单条
      */
     @GetMapping(value = "/findById")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:view')")
     public Result<${className}> findById(Long id) {
         return Result.success(${classname}Service.findById(id));
     }
@@ -56,6 +60,7 @@ public class ${className}Controller {
     * 获取全部
     */
     @GetMapping(value = "/findAll")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:view')")
     public Result<List<${className}>> findAll() {
         return Result.success(${classname}Service.findAll());
     }
@@ -64,6 +69,7 @@ public class ${className}Controller {
      * 分页
      */
     @GetMapping(value = "/page")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:view')")
     public Result<PageResult<${className}>> page${className}(Page<${className}> pageParam, ${className} ${classname}) {
         return Result.success(PageResult.success(${classname}Service.page${className}(pageParam, ${classname})));
     }
