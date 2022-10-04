@@ -9,7 +9,7 @@
           </a>
         </div>
         <div class="desc">
-          Fxz-Cloud 致力于打造具有影响力的微服务开发平台
+          Art 致力于打造具有影响力的微服务开发平台
         </div>
       </div>
       <router-view />
