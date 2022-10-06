@@ -2,7 +2,7 @@
   <a-drawer
     :title="title"
     :width="650"
-    :mask-closable="showable"
+    :mask-closable="true"
     @close="handleCancel"
     :visible="visible"
     :confirmLoading="confirmLoading">
