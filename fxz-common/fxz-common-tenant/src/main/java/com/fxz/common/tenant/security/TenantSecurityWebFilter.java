@@ -1,8 +1,7 @@
 package com.fxz.common.tenant.security;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.extra.servlet.ServletUtil;
-import com.fxz.common.jackson.util.JacksonUtil;
+import com.fxz.common.core.utils.FxzUtil;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
@@ -43,7 +42,6 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 		this.tenantFrameworkService = tenantValidService;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
@@ -54,8 +52,8 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 			// 当前url不放行且未带租户的编号 不允许访问
 			if (Objects.isNull(tenantId)) {
 				log.info("未传递租户编号");
-				ServletUtil.write(response, JacksonUtil.toJsonString(Result.failed("租户信息未传递!")),
-						MediaType.APPLICATION_JSON_UTF8_VALUE);
+				FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
+						Result.failed("租户信息未传递!"));
 				return;
 			}
 
@@ -64,15 +62,15 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 				tenantFrameworkService.validTenant(tenantId);
 			}
 			catch (Throwable ex) {
-				ServletUtil.write(response, JacksonUtil.toJsonString(ex.getLocalizedMessage()),
-						MediaType.APPLICATION_JSON_UTF8_VALUE);
+				FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
+						Result.failed(ex.getLocalizedMessage()));
 				return;
 			}
 
 			FxzAuthUser user = SecurityUtil.getUser();
 			if (Objects.isNull(user.getTenantId()) || !Objects.equals(tenantId, user.getTenantId())) {
-				ServletUtil.write(response, JacksonUtil.toJsonString(Result.failed("无权访问该租户!")),
-						MediaType.APPLICATION_JSON_UTF8_VALUE);
+				FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
+						Result.failed("无权访问该租户"));
 				return;
 			}
 		}
@@ -92,12 +90,9 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 	 * @return 是否放行
 	 */
 	private boolean skipDispatch(HttpServletRequest request) {
-		if (CollUtil.contains(tenantProperties.getIgnoreUrls(), request.getRequestURI())) {
-			return true;
-		}
-
-		String uri = request.getRequestURI();
-		return tenantProperties.getIgnoreUrls().stream().anyMatch(isIgnoreUrl -> pathMatcher.match(isIgnoreUrl, uri));
+		return CollUtil.contains(tenantProperties.getIgnoreUrls(), request.getRequestURI())
+				|| tenantProperties.getIgnoreUrls().stream()
+						.anyMatch(isIgnoreUrl -> pathMatcher.match(isIgnoreUrl, request.getRequestURI()));
 	}
 
 }
