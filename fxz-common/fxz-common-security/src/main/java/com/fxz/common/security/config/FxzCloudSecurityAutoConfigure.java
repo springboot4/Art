@@ -109,7 +109,7 @@ public class FxzCloudSecurityAutoConfigure {
 	/**
 	 * 接口权限判断工具
 	 */
-	@Bean("pms")
+	@Bean("ps")
 	public PermissionService permissionService() {
 		return new PermissionService();
 	}
