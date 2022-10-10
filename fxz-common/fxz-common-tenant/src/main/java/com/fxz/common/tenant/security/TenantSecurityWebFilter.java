@@ -90,6 +90,7 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 	 * @return 是否放行
 	 */
 	private boolean skipDispatch(HttpServletRequest request) {
+		// Direct match or Pattern match
 		return CollUtil.contains(tenantProperties.getIgnoreUrls(), request.getRequestURI())
 				|| tenantProperties.getIgnoreUrls().stream()
 						.anyMatch(isIgnoreUrl -> pathMatcher.match(isIgnoreUrl, request.getRequestURI()));

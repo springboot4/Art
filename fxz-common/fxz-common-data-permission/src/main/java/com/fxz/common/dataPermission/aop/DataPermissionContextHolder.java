@@ -37,7 +37,6 @@ public class DataPermissionContextHolder {
 
 	/**
 	 * 出栈 数据权限 注解
-	 * @return 数据权限 注解
 	 */
 	public static void remove() {
 		DATA_PERMISSIONS.get().removeLast();
