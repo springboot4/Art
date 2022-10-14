@@ -18,7 +18,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -30,9 +29,9 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("sys_user")
-public class SystemUser extends BaseEntity implements Serializable {
+public class SystemUser extends BaseEntity {
 
-	private static final Long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
 	/**
 	 * 用户状态：有效
