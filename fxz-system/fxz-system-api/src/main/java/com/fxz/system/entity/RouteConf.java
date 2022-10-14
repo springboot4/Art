@@ -2,7 +2,6 @@ package com.fxz.system.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -69,7 +68,6 @@ public class RouteConf {
 	/**
 	 * 删除标志
 	 */
-	@TableLogic
 	private String delFlag;
 
 	/**

@@ -116,5 +116,5 @@ qq群:932249645
 | Spring Boot            | 2.7.0      |
 | Spring Cloud           | 2021.0.1   |
 | Spring Cloud Alibaba   | 2021.0.1.0 |
-| Mybatis Plus           | 3.5.2      |
-| hutool                 | 5.8.8      |
+| Mybatis Plus           | 3.5.1      |
+| hutool                 | 5.8.6      |
