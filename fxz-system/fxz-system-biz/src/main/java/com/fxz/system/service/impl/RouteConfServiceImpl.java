@@ -13,13 +13,12 @@ import com.fxz.system.mq.RouteMessage;
 import com.fxz.system.service.RouteConfService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -108,49 +107,31 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	/**
 	 * 构建路由信息
 	 */
+	@SuppressWarnings("all")
 	private RouteConf buildRouteConf(Object value) {
 		RouteConf r = new RouteConf();
 		Map<String, Object> map = (Map) value;
+		PropertyMapper mapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
-		Object routeId = map.get(RouteConf.Fields.routeId);
-		if (Objects.nonNull(routeId)) {
-			r.setRouteId(String.valueOf(routeId));
-		}
+		mapper.from(map.get(RouteConf.Fields.name)).whenNonNull().as(String::valueOf).to(r::setName);
 
-		Object name = map.get(RouteConf.Fields.name);
-		if (Objects.nonNull(name)) {
-			r.setName(String.valueOf(name));
-		}
+		mapper.from(map.get(RouteConf.Fields.routeId)).whenNonNull().as(String::valueOf).to(r::setRouteId);
 
-		Object predicates = map.get(RouteConf.Fields.predicates);
-		if (Objects.nonNull(predicates)) {
-			JSONArray predicatesArray = (JSONArray) predicates;
-			List<PredicateDefinitionDto> predicateDefinitionList = predicatesArray.toList(PredicateDefinitionDto.class);
-			r.setPredicates(JSONUtil.toJsonStr(predicateDefinitionList));
-		}
+		mapper.from(map.get(RouteConf.Fields.uri)).whenNonNull().as(String::valueOf).as(URI::create).as(String::valueOf)
+				.to(r::setUri);
 
-		Object filters = map.get(RouteConf.Fields.filters);
-		if (Objects.nonNull(filters)) {
-			JSONArray filtersArray = (JSONArray) filters;
-			List<FilterDefinitionDto> filterDefinitionList = filtersArray.toList(FilterDefinitionDto.class);
-			r.setFilters(JSONUtil.toJsonStr(filterDefinitionList));
-		}
+		mapper.from(map.get(RouteConf.Fields.sortOrder)).whenNonNull().as(String::valueOf).as(Integer::parseInt)
+				.to(r::setSortOrder);
 
-		Object uri = map.get(RouteConf.Fields.uri);
-		if (Objects.nonNull(uri)) {
-			r.setUri(URI.create(String.valueOf(uri)).toString());
-		}
+		mapper.from(map.get(RouteConf.Fields.metadata)).whenNonNull().as(String::valueOf)
+				.as(v -> JSONUtil.toBean(v, Map.class)).as(JSONUtil::toJsonStr).to(r::setMetadata);
 
-		Object order = map.get(RouteConf.Fields.sortOrder);
-		if (Objects.nonNull(order)) {
-			r.setSortOrder(Integer.parseInt(String.valueOf(order)));
-		}
+		mapper.from(map.get(RouteConf.Fields.filters)).whenNonNull().as(JSONArray::new)
+				.as(v -> v.toList(FilterDefinitionDto.class)).as(JSONUtil::toJsonStr).to(r::setFilters);
 
-		Object metadata = map.get(RouteConf.Fields.metadata);
-		if (Objects.nonNull(metadata)) {
-			Map<String, Object> metadataMap = JSONUtil.toBean(String.valueOf(metadata), Map.class);
-			r.setMetadata(JSONUtil.toJsonStr(metadataMap));
-		}
+		mapper.from(map.get(RouteConf.Fields.predicates)).whenNonNull().as(JSONArray::new)
+				.as(v -> v.toList(PredicateDefinitionDto.class)).as(JSONUtil::toJsonStr).to(r::setPredicates);
+
 		return r;
 	}
 
