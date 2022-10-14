@@ -30,7 +30,6 @@ public class TenantValidService {
 						return e;
 					}
 				});
-
 	}
 
 	public void validTenant(Long id) {
