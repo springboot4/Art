@@ -14,7 +14,7 @@
         <jakarta.version>2.0.1</jakarta.version>
         <es-java.version>7.17.3</es-java.version>
         <redisson.version>3.17.0</redisson.version>
-        <myabtis-plus.version>3.5.2</myabtis-plus.version>
+        <myabtis-plus.version>3.5.1</myabtis-plus.version>
         <dynamic-ds.version>3.5.1</dynamic-ds.version>
         <aws.version>1.11.543</aws.version>
         <captcha.version>1.3.0</captcha.version>
@@ -24,7 +24,7 @@
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <sentinel.version>1.6.3</sentinel.version>
         <velocity.version>2.3</velocity.version>
-        <hutool.version>5.8.8</hutool.version>
+        <hutool.version>5.8.6</hutool.version>
         <seata.version>1.4.2</seata.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
