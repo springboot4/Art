@@ -45,8 +45,8 @@ public class JacksonUtil {
 		if (StrUtil.isEmpty(text)) {
 			return new ArrayList<>();
 		}
-		return objectMapper.readValue(text, objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
 
+		return objectMapper.readValue(text, objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
 	}
 
 	@SneakyThrows
