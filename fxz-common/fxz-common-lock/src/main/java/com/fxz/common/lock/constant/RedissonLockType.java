@@ -1,6 +1,5 @@
 package com.fxz.common.lock.constant;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 /**

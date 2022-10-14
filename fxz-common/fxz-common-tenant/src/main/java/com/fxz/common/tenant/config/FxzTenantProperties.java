@@ -35,7 +35,7 @@ public class FxzTenantProperties {
 	/**
 	 * 开启多租户的表
 	 * <p>
-	 * 开启多租户的功能 需要添加对应的租户字段
+	 * 添加需要开启多租户功能的表
 	 */
 	private Set<String> tables = Collections.emptySet();
 
