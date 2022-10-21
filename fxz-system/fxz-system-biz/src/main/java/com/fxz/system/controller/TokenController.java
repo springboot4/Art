@@ -1,6 +1,5 @@
 package com.fxz.system.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.common.log.annotation.OperLogAnn;
 import com.fxz.common.log.enums.BusinessType;
 import com.fxz.common.mp.result.PageResult;
@@ -8,10 +7,9 @@ import com.fxz.common.mp.result.Result;
 import com.fxz.system.feign.RemoteTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author Fxz
@@ -36,12 +34,12 @@ public class TokenController {
 
 	/**
 	 * 分页查询token
-	 * @param page 分页参数
+	 * @param params 分页参数
 	 * @return
 	 */
 	@GetMapping("/token/page")
-	public Result<PageResult> tokenList(Page page) {
-		return remoteTokenService.tokenList(page);
+	public Result<PageResult> tokenList(@RequestParam Map<String, Object> params) {
+		return remoteTokenService.tokenList(params);
 	}
 
 }
