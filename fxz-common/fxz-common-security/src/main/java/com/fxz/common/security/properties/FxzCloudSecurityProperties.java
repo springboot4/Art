@@ -1,8 +1,8 @@
 package com.fxz.common.security.properties;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fxz.common.security.annotation.Ojbk;
@@ -65,7 +65,6 @@ public class FxzCloudSecurityProperties implements InitializingBean {
 		Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 
 		map.keySet().forEach(info -> {
-
 			HandlerMethod handlerMethod = map.get(info);
 
 			// 获取方法上边的注解 替代path variable 为 *
@@ -84,7 +83,7 @@ public class FxzCloudSecurityProperties implements InitializingBean {
 
 		});
 
-		if (CollectionUtils.isNotEmpty(list)) {
+		if (CollectionUtil.isNotEmpty(list)) {
 			if (StringUtils.isNotEmpty(anonUris)) {
 				List<String> anonUrisList = Arrays.asList(anonUris.split(StringPool.COMMA));
 				list.addAll(anonUrisList);

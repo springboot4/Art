@@ -1,5 +1,6 @@
 package com.fxz.auth.endpoint;
 
+import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.common.core.constant.FxzConstant;
 import com.fxz.common.core.constant.SecurityConstants;
@@ -15,15 +16,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Fxz
@@ -77,17 +77,25 @@ public class SecurityEndpoint {
 
 	/**
 	 * 分页查询token
-	 * @param page 分页参数
+	 * @param param 分页参数
 	 * @return
 	 */
-	@GetMapping("/token/page")
-	public Result<PageResult> tokenList(Page page) {
-		Set<String> keys = redisTemplate.keys(SecurityConstants.TOKEN_PREFIX.concat("access:").concat("*"));
+	@PostMapping("/token/page")
+	public Result<PageResult> tokenList(@RequestBody Map<String, Object> param) {
 		redisTemplate.setValueSerializer(RedisSerializer.java());
-		List<DefaultOAuth2AccessToken> list = redisTemplate.opsForValue().multiGet(keys);
-		redisTemplate.setValueSerializer(RedisSerializer.java());
-		page.setTotal(list.size());
+
+		String key = SecurityConstants.TOKEN_PREFIX.concat("access:*");
+		Set<String> keys = redisTemplate.keys(key);
+
+		Integer current = MapUtil.getInt(param, "current");
+		Integer size = MapUtil.getInt(param, "size");
+
+		List<String> pages = keys.stream().skip((current - 1) * size).limit(size).collect(Collectors.toList());
+		List<DefaultOAuth2AccessToken> list = redisTemplate.opsForValue().multiGet(pages);
+
+		Page page = new Page(current, size);
 		page.setRecords(list);
+		page.setTotal(keys.size());
 
 		return Result.success(PageResult.success(page));
 	}

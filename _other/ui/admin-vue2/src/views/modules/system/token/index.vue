@@ -43,7 +43,6 @@ export default {
         username: ''
       },
       loadData: (parameter) => {
-        console.log('param:', this.queryParam)
         return pageToken(
           Object.assign(parameter, this.queryParam)
         ).then(res => {

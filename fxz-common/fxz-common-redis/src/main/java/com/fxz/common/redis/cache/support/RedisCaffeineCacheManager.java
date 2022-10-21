@@ -43,6 +43,11 @@ public class RedisCaffeineCacheManager implements CacheManager {
 		this.cacheNames = cacheRedisCaffeineProperties.getCacheNames();
 	}
 
+	/**
+	 * 根据名称获取缓存
+	 * @param name the cache identifier (must not be {@code null}) 缓存名称
+	 * @return 缓存
+	 */
 	@Override
 	public Cache getCache(String name) {
 		Cache cache = cacheMap.get(name);
@@ -58,6 +63,15 @@ public class RedisCaffeineCacheManager implements CacheManager {
 		Cache oldCache = cacheMap.putIfAbsent(name, cache);
 		log.debug("create cache instance, the cache name is : {}", name);
 		return oldCache == null ? cache : oldCache;
+	}
+
+	/**
+	 * 获取缓存名称集合
+	 * @return 缓存名称集合
+	 */
+	@Override
+	public Collection<String> getCacheNames() {
+		return this.cacheNames;
 	}
 
 	public com.github.benmanes.caffeine.cache.Cache<Object, Object> caffeineCache() {
@@ -83,11 +97,6 @@ public class RedisCaffeineCacheManager implements CacheManager {
 		}
 
 		return cacheBuilder.build();
-	}
-
-	@Override
-	public Collection<String> getCacheNames() {
-		return this.cacheNames;
 	}
 
 	public void clearLocal(String cacheName, Object key) {
