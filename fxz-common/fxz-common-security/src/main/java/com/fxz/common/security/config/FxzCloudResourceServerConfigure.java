@@ -67,8 +67,7 @@ public class FxzCloudResourceServerConfigure extends ResourceServerConfigurerAda
 	}
 
 	private void permitAll(HttpSecurity http) throws Exception {
-		http.csrf().disable();
-		http.authorizeRequests().anyRequest().permitAll();
+		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 	}
 
 }
