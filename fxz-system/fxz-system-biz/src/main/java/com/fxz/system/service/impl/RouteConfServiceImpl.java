@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  * @author fxz
  * @date 2022-08-20
  */
+@SuppressWarnings("all")
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -107,10 +108,11 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	/**
 	 * 构建路由信息
 	 */
-	@SuppressWarnings("all")
 	private RouteConf buildRouteConf(Object value) {
 		RouteConf r = new RouteConf();
+
 		Map<String, Object> map = (Map) value;
+
 		PropertyMapper mapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
 		mapper.from(map.get(RouteConf.Fields.name)).whenNonNull().as(String::valueOf).to(r::setName);

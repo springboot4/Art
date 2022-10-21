@@ -1,14 +1,15 @@
 package com.fxz.system.feign;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fxz.common.core.constant.FxzServerConstant;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Map;
 
 /**
  * @author Fxz
@@ -27,7 +28,7 @@ public interface RemoteTokenService {
 	/**
 	 * 分页查询token
 	 */
-	@GetMapping("/token/page")
-	Result<PageResult> tokenList(@RequestParam("page") Page page);
+	@PostMapping("/token/page")
+	Result<PageResult> tokenList(@RequestBody Map<String, Object> params);
 
 }
