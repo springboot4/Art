@@ -17,3 +17,13 @@ spring:
       max-request-size: 100MB
   main:
     allow-circular-references: true
+
+fxz:
+  common:
+    doc:
+      author: "fxz"
+      version: "0.0.1"
+      title: "Art开发文档"
+      description: "系统管理模块"
+      basePackages:
+        "[系统管理API]": com.fxz.system

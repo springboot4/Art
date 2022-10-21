@@ -6,6 +6,8 @@ import com.fxz.common.mp.result.Result;
 import com.fxz.system.dto.DictItemDto;
 import com.fxz.system.entity.DictItem;
 import com.fxz.system.service.DictItemService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-04
  */
+@Tag(name = "字典项管理")
 @RestController
 @RequestMapping("/dictItem")
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class DictItemController {
 	/**
 	 * 添加
 	 */
+	@Operation(summary = "添加")
 	@PostMapping(value = "/add")
 	public Result<Boolean> add(@RequestBody DictItemDto dictItemDto) {
 		return Result.success(dictItemService.addDictItem(dictItemDto));
@@ -35,6 +39,7 @@ public class DictItemController {
 	/**
 	 * 修改
 	 */
+	@Operation(summary = "修改")
 	@PostMapping(value = "/update")
 	public Result<Void> update(@RequestBody DictItemDto dictItemDto) {
 		return dictItemService.updateDictItem(dictItemDto);

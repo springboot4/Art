@@ -6,6 +6,8 @@ import com.fxz.common.mp.result.Result;
 import com.fxz.system.dto.UserPostDto;
 import com.fxz.system.entity.UserPost;
 import com.fxz.system.service.UserPostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-05
  */
+@Tag(name = "用户岗位管理")
 @RestController
 @RequestMapping("/userPost")
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class UserPostController {
 	/**
 	 * 添加
 	 */
+	@Operation(summary = "添加")
 	@PostMapping(value = "/add")
 	public Result<Boolean> add(@RequestBody UserPostDto userPostDto) {
 		return Result.success(userPostService.addUserPost(userPostDto));
@@ -35,6 +39,7 @@ public class UserPostController {
 	/**
 	 * 修改
 	 */
+	@Operation(summary = "修改")
 	@PostMapping(value = "/update")
 	public Result<Boolean> update(@RequestBody UserPostDto userPostDto) {
 		return Result.success(userPostService.updateUserPost(userPostDto));
@@ -43,6 +48,7 @@ public class UserPostController {
 	/**
 	 * 删除
 	 */
+	@Operation(summary = "删除")
 	@DeleteMapping(value = "/delete")
 	public Result<Boolean> delete(Long id) {
 		return Result.judge(userPostService.deleteUserPost(id));
@@ -51,6 +57,7 @@ public class UserPostController {
 	/**
 	 * 获取单条
 	 */
+	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
 	public Result<UserPost> findById(Long id) {
 		return Result.success(userPostService.findById(id));
@@ -59,6 +66,7 @@ public class UserPostController {
 	/**
 	 * 获取全部
 	 */
+	@Operation(summary = "获取全部")
 	@GetMapping(value = "/findAll")
 	public Result<List<UserPost>> findAll() {
 		return Result.success(userPostService.findAll());
@@ -67,6 +75,7 @@ public class UserPostController {
 	/**
 	 * 分页
 	 */
+	@Operation(summary = "分页")
 	@GetMapping(value = "/page")
 	public Result<PageResult<UserPost>> pageUserPost(Page<UserPost> pageParam, UserPost userPost) {
 		return Result.success(PageResult.success(userPostService.pageUserPost(pageParam, userPost)));

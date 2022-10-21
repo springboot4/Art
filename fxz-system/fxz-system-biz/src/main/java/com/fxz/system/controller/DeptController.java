@@ -3,6 +3,8 @@ package com.fxz.system.controller;
 import com.fxz.common.mp.result.Result;
 import com.fxz.system.entity.Dept;
 import com.fxz.system.service.IDeptService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0
  * @date 2022-02-27 18:33
  */
+@Tag(name = "部门管理")
 @RestController
 @RequestMapping("/dept")
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class DeptController {
 	/**
 	 * 获取部门树
 	 */
+	@Operation(summary = "获取部门树")
 	@Cacheable(value = "fxz_cloud:dept", key = "'deptTree'", unless = "#result.data==null")
 	@GetMapping("/getDeptTree")
 	public Result<Dept> getDeptTree() {
@@ -33,6 +37,7 @@ public class DeptController {
 	/**
 	 * 根据id删除部门
 	 */
+	@Operation(summary = "根据id删除部门")
 	@CacheEvict(value = "fxz_cloud:dept", allEntries = true)
 	@SneakyThrows
 	@DeleteMapping("/deleteById/{id}")
@@ -43,6 +48,7 @@ public class DeptController {
 	/**
 	 * 保存部门信息
 	 */
+	@Operation(summary = "保存部门信息")
 	@CacheEvict(value = "fxz_cloud:dept", allEntries = true)
 	@PostMapping("/addDept")
 	public Result<Void> addDept(@RequestBody Dept dept) {
@@ -52,6 +58,7 @@ public class DeptController {
 	/**
 	 * 根据id获取部门数据
 	 */
+	@Operation(summary = "根据id获取部门数据")
 	@Cacheable(value = "fxz_cloud:dept", key = "#id", unless = "#result.data==null")
 	@GetMapping("/getDeptById/{id}")
 	public Result<Dept> getDeptById(@PathVariable("id") Long id) {
@@ -61,6 +68,7 @@ public class DeptController {
 	/**
 	 * 更新部门信息(父机构ID 不能修改)
 	 */
+	@Operation(summary = "更新部门信息(父机构ID 不能修改)")
 	@CacheEvict(value = "fxz_cloud:dept", allEntries = true)
 	@PutMapping("/updateDept")
 	public Result<Void> updateDept(@RequestBody Dept dept) {
