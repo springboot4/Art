@@ -8,6 +8,8 @@ import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.Menu;
 import com.fxz.system.service.AppService;
 import com.fxz.system.service.IMenuService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -17,10 +19,13 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
+ * 菜单管理
+ *
  * @author Fxz
  * @version 1.0
  * @date 2021-11-29 18:47
  */
+@Tag(name = "菜单管理")
 @Slf4j
 @Validated
 @RestController
@@ -35,6 +40,7 @@ public class MenuController {
 	/**
 	 * 获取用户路由信息和用户权限信息
 	 */
+	@Operation(summary = "获取用户路由信息和用户权限信息")
 	@GetMapping("/nav")
 	public Result<Map<String, Object>> getUserRouters() {
 		// 返回结果集
@@ -62,6 +68,7 @@ public class MenuController {
 	 * 获取用户角色下的所有树形菜单信息(包括按钮)
 	 * @return 用户角色下的树形菜单信息
 	 */
+	@Operation(summary = "获取用户角色下的所有树形菜单信息(包括按钮)")
 	@GetMapping("/getUserMenuTree")
 	public Result<List<VueRouter<Menu>>> getUserMenuTree() {
 		FxzAuthUser user = SecurityUtil.getUser();
@@ -76,6 +83,7 @@ public class MenuController {
 	 * 获取全部的树形菜单信息(包括按钮)
 	 * @return 树形菜单信息
 	 */
+	@Operation(summary = "获取全部的树形菜单信息(包括按钮)")
 	@GetMapping("/getAllMenuTree")
 	public Result<List<VueRouter<Object>>> getAllMenuTree() {
 		return Result.success(this.menuService.getAllMenuTree());
@@ -85,6 +93,7 @@ public class MenuController {
 	 * 获取菜单下拉框
 	 * @return 树形菜单下拉框
 	 */
+	@Operation(summary = "获取菜单下拉框")
 	@GetMapping("/getTreeSelect")
 	public Result<List<VueRouter<Menu>>> getTreeSelect() {
 		return Result.success(this.menuService.getTreeSelect());
@@ -94,6 +103,7 @@ public class MenuController {
 	 * 保存路由信息
 	 * @param vueRouter 路由信息
 	 */
+	@Operation(summary = "保存路由信息")
 	@PostMapping("/save")
 	public void saveMenu(@RequestBody VueRouter vueRouter) {
 		this.menuService.saveMenu(vueRouter);
@@ -103,6 +113,7 @@ public class MenuController {
 	 * 根据id删除路由信息
 	 * @param id
 	 */
+	@Operation(summary = "根据id删除路由信息")
 	@DeleteMapping("/delete/{id}")
 	public void deleteMenu(@PathVariable("id") Long id) {
 		this.menuService.removeById(id);
@@ -113,6 +124,7 @@ public class MenuController {
 	 * @param id
 	 * @return
 	 */
+	@Operation(summary = "根据id查询路由信息")
 	@GetMapping("/getMenuById/{id}")
 	public Result<VueRouter> getMenuById(@PathVariable("id") Long id) {
 		return Result.success(this.menuService.getMenuById(id));
@@ -121,6 +133,7 @@ public class MenuController {
 	/**
 	 * 更新路由
 	 */
+	@Operation(summary = "更新路由")
 	@PostMapping("/update")
 	public void updateMenu(@RequestBody VueRouter vueRouter) {
 		this.menuService.updateMenu(vueRouter);
@@ -131,6 +144,7 @@ public class MenuController {
 	 * @param username 用户名称
 	 * @return 权限信息
 	 */
+	@Operation(summary = "通过用户名查询权限信息")
 	@GetMapping("/findUserPermissions/{username}")
 	public Set<String> findUserPermissions(@PathVariable("username") String username) {
 		return menuService.findUserPermissions(username);
