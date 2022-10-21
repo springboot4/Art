@@ -39,7 +39,6 @@ const errorHandler = (error) => {
       }
     }
   }
-  console.log('error.response.data:', error.response.data)
   return Promise.reject(error.response.data)
 }
 

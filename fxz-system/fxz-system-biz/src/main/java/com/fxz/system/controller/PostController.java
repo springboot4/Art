@@ -6,6 +6,8 @@ import com.fxz.common.mp.result.Result;
 import com.fxz.system.dto.PostDto;
 import com.fxz.system.entity.Post;
 import com.fxz.system.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-05
  */
+@Tag(name = "岗位管理")
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class PostController {
 	/**
 	 * 添加
 	 */
+	@Operation(summary = "添加")
 	@PostMapping(value = "/add")
 	public Result<Boolean> add(@RequestBody PostDto postDto) {
 		return Result.success(postService.addPost(postDto));
@@ -35,6 +39,7 @@ public class PostController {
 	/**
 	 * 修改
 	 */
+	@Operation(summary = "修改")
 	@PostMapping(value = "/update")
 	public Result<Boolean> update(@RequestBody PostDto postDto) {
 		return Result.success(postService.updatePost(postDto));
@@ -43,6 +48,7 @@ public class PostController {
 	/**
 	 * 删除
 	 */
+	@Operation(summary = "删除")
 	@DeleteMapping(value = "/delete")
 	public Result<Boolean> delete(Long id) {
 		return Result.judge(postService.deletePost(id));
@@ -51,6 +57,7 @@ public class PostController {
 	/**
 	 * 获取单条
 	 */
+	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
 	public Result<Post> findById(Long id) {
 		return Result.success(postService.findById(id));
@@ -59,6 +66,7 @@ public class PostController {
 	/**
 	 * 获取全部
 	 */
+	@Operation(summary = "获取全部")
 	@GetMapping(value = "/findAll")
 	public Result<List<Post>> findAll() {
 		return Result.success(postService.findAll());
@@ -67,6 +75,7 @@ public class PostController {
 	/**
 	 * 分页
 	 */
+	@Operation(summary = "分页")
 	@GetMapping(value = "/page")
 	public Result<PageResult<Post>> pagePost(Page<Post> pageParam, Post post) {
 		return Result.success(PageResult.success(postService.pagePost(pageParam, post)));

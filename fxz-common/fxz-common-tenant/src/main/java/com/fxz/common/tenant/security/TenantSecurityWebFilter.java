@@ -91,9 +91,11 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 	 */
 	private boolean skipDispatch(HttpServletRequest request) {
 		// Direct match or Pattern match
-		return CollUtil.contains(tenantProperties.getIgnoreUrls(), request.getRequestURI())
-				|| tenantProperties.getIgnoreUrls().stream()
-						.anyMatch(isIgnoreUrl -> pathMatcher.match(isIgnoreUrl, request.getRequestURI()));
+		String uri = request.getRequestURI();
+		boolean r = CollUtil.contains(tenantProperties.getIgnoreUrls(), uri) || tenantProperties.getIgnoreUrls()
+				.stream().anyMatch(isIgnoreUrl -> pathMatcher.match(isIgnoreUrl, request.getRequestURI()));
+		log.info("uri:{},boolean:{}", uri, r);
+		return r;
 	}
 
 }

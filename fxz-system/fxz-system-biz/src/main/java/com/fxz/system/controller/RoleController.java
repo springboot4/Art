@@ -1,14 +1,16 @@
 package com.fxz.system.controller;
 
 import com.fxz.common.core.entity.DeptDataPermissionRespDTO;
-import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.core.param.PageParam;
+import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.Role;
 import com.fxz.system.service.IRoleService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import java.util.List;
  * @version 1.0
  * @date 2022-02-27 17:47
  */
+@Tag(name = "角色管理")
 @Slf4j
 @RestController
 @RequestMapping("/role")
@@ -31,6 +34,7 @@ public class RoleController {
 	/**
 	 * 获取所有角色
 	 */
+	@Operation(summary = "获取所有角色")
 	@GetMapping("/getAllRole")
 	public Result<List<Role>> getAllRole() {
 		return Result.success(roleService.list());
@@ -39,6 +43,7 @@ public class RoleController {
 	/**
 	 * 分页查询角色信息
 	 */
+	@Operation(summary = "分页查询角色信息")
 	@GetMapping("/page")
 	public Result<PageResult<?>> pageRole(PageParam pageParam, String roleName) {
 		return Result.success(PageResult.success(roleService.PageRole(pageParam, roleName)));
@@ -47,6 +52,7 @@ public class RoleController {
 	/**
 	 * 添加角色
 	 */
+	@Operation(summary = "添加角色")
 	@PostMapping("/addRole")
 	public Result<Role> addRole(@RequestBody Role role) {
 		return Result.success(roleService.addRole(role));
@@ -55,6 +61,7 @@ public class RoleController {
 	/**
 	 * 根据id获取角色信息
 	 */
+	@Operation(summary = "根据id获取角色信息")
 	@GetMapping("/getRoleById/{id}")
 	public Result<Role> getRoleById(@PathVariable("id") Long id) {
 		return Result.success(roleService.getRoleById(id));
@@ -63,6 +70,7 @@ public class RoleController {
 	/**
 	 * 修改角色信息
 	 */
+	@Operation(summary = "修改角色信息")
 	@PutMapping("/editRole")
 	public Result<Void> editRole(@RequestBody Role role) {
 		return Result.judge(roleService.editRole(role));
@@ -71,6 +79,7 @@ public class RoleController {
 	/**
 	 * 删除角色信息
 	 */
+	@Operation(summary = "删除角色信息")
 	@DeleteMapping("/deleteRoleById/{id}")
 	public Result<Void> deleteRoleById(@PathVariable("id") Long id) {
 		return Result.judge(roleService.deleteRoleById(id));
@@ -79,6 +88,7 @@ public class RoleController {
 	/**
 	 * 获取当前用户角色下的数据权限
 	 */
+	@Operation(summary = "获取当前用户角色下的数据权限")
 	@Ojbk
 	@GetMapping("/getDataPermission")
 	public Result<DeptDataPermissionRespDTO> getDataPermission() {

@@ -5,6 +5,7 @@ import com.fxz.common.mp.base.BaseEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +16,7 @@ import lombok.experimental.Accessors;
  * @author ${author}
  * @date ${datetime}
  */
+@Schema(title = "${comments}")
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
@@ -24,6 +26,7 @@ public class ${className}DTO extends BaseEntity {
 
 #foreach ($column in $columns)
     #if(!$excludeColumns.contains($column.name))
+    @Schema(description = "$column.comments")
     private $column.attrType $column.name;
     #end
 #end
