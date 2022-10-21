@@ -7,6 +7,8 @@ import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.system.dto.OperLogDto;
 import com.fxz.system.entity.OperLog;
 import com.fxz.system.service.OperLogService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,7 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-07
  */
+@Tag(name = "操作日志管理")
 @RestController
 @RequestMapping("/operLog")
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class OperLogController {
 	/**
 	 * 保存日志
 	 */
+	@Operation(summary = "保存日志")
 	@Ojbk
 	@PostMapping(value = "/add")
 	public void add(@RequestBody OperLogDto operLogDto) {
@@ -37,6 +41,7 @@ public class OperLogController {
 	/**
 	 * 修改
 	 */
+	@Operation(summary = "修改")
 	@PostMapping(value = "/update")
 	public Result<Boolean> update(@RequestBody OperLogDto operLogDto) {
 		return Result.success(operLogService.updateOperLog(operLogDto));
@@ -45,6 +50,7 @@ public class OperLogController {
 	/**
 	 * 删除
 	 */
+	@Operation(summary = "删除")
 	@DeleteMapping(value = "/delete")
 	public Result<Boolean> delete(Long id) {
 		return Result.judge(operLogService.deleteOperLog(id));
@@ -53,6 +59,7 @@ public class OperLogController {
 	/**
 	 * 获取单条
 	 */
+	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
 	public Result<OperLog> findById(Long id) {
 		return Result.success(operLogService.findById(id));
@@ -61,6 +68,7 @@ public class OperLogController {
 	/**
 	 * 获取全部
 	 */
+	@Operation(summary = "获取全部")
 	@GetMapping(value = "/findAll")
 	public Result<List<OperLog>> findAll() {
 		return Result.success(operLogService.findAll());
@@ -69,6 +77,7 @@ public class OperLogController {
 	/**
 	 * 分页
 	 */
+	@Operation(summary = "分页")
 	@GetMapping(value = "/page")
 	public Result<PageResult<OperLog>> pageOperLog(Page<OperLog> pageParam, OperLog operLog) {
 		return Result.success(PageResult.success(operLogService.pageOperLog(pageParam, operLog)));

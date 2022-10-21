@@ -17,6 +17,8 @@
         <myabtis-plus.version>3.5.1</myabtis-plus.version>
         <dynamic-ds.version>3.5.1</dynamic-ds.version>
         <aws.version>1.11.543</aws.version>
+        <doc.version>1.6.11</doc.version>
+        <knife4j.version>3.0.3</knife4j.version>
         <captcha.version>1.3.0</captcha.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <fastjson.version>1.2.62</fastjson.version>
@@ -28,7 +30,6 @@
         <seata.version>1.4.2</seata.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
-        <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <security.oauth.version>2.1.8.RELEASE</security.oauth.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
@@ -38,6 +39,16 @@
     <!-- 定义全局jar版本-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${doc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-springdoc-ui</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.anji-plus</groupId>
                 <artifactId>captcha</artifactId>
@@ -63,6 +74,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable-thread-local.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fxz</groupId>
+                <artifactId>fxz-common-doc</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fxz</groupId>
@@ -260,16 +276,6 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox-swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox-swagger.version}</version>
             </dependency>
             <!--稳定版本，替代spring security bom内置-->
             <dependency>

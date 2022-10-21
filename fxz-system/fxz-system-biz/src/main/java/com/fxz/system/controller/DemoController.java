@@ -13,6 +13,8 @@ import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.common.sequence.service.Sequence;
 import com.fxz.common.websocket.service.UserWsNoticeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @version 1.0
  * @date 2022-02-27 18:33
  */
+@Tag(name = "测试")
 @Slf4j
 @RestController
 @RequestMapping("/demo")
@@ -45,6 +48,7 @@ public class DemoController {
 
 	private final RedisMQTemplate redisMQTemplate;
 
+	@Operation(summary = "清除缓存")
 	@Ojbk
 	@CacheEvict(value = "demo", key = "#id")
 	@GetMapping("/cache/evict")
