@@ -67,6 +67,7 @@ public class UserController {
 		this.userService.createUser(user);
 	}
 
+	@Operation(summary = "更新用户")
 	@PutMapping
 	@PreAuthorize("@ps.hasPermission('sys:user:update')")
 	public void updateUser(@RequestBody SystemUser user) {
