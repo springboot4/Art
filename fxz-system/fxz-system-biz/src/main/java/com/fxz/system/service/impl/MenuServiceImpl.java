@@ -7,12 +7,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.core.utils.TreeUtil;
+import com.fxz.common.redis.constant.CacheConstants;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.Menu;
 import com.fxz.system.mapper.MenuMapper;
 import com.fxz.system.service.IMenuService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,8 +58,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	 * 获取全部的树形菜单信息(包括按钮)
 	 * @return 树形菜单信息
 	 */
+	@Cacheable(value = CacheConstants.GLOBALLY + "menu", unless = "#result==null")
 	@Override
-	public List<VueRouter<Object>> getAllMenuTree() {
+	public List<VueRouter<Menu>> getAllMenuTree() {
 		return this.baseMapper.getMenuByPid(0L);
 	}
 
@@ -64,6 +68,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	 * 获取菜单下拉框
 	 * @return 树形菜单下拉框
 	 */
+	@Cacheable(value = CacheConstants.GLOBALLY + "menu:select", unless = "#result==null")
 	@Override
 	public List<VueRouter<Menu>> getTreeSelect() {
 		FxzAuthUser user = SecurityUtil.getUser();
@@ -111,6 +116,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	 * @param id
 	 * @return
 	 */
+	@Cacheable(value = CacheConstants.GLOBALLY + "menu", key = "#id", unless = "#result==null")
 	@Override
 	public VueRouter getMenuById(Long id) {
 		Menu menu = this.getById(id);
@@ -120,6 +126,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	/**
 	 * 更新路由
 	 */
+	@CacheEvict(value = CacheConstants.GLOBALLY + "menu", key = "#vueRouter.id")
 	@Override
 	public void updateMenu(VueRouter vueRouter) {
 		Menu menu = new Menu();

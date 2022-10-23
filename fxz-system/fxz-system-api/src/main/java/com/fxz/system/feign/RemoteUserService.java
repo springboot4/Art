@@ -22,7 +22,8 @@ public interface RemoteUserService {
 	 * @return 用户信息
 	 */
 	@GetMapping("/user/findByName/{username}")
-	SystemUser findByName(@PathVariable("username") String username);
+	SystemUser findByName(@PathVariable("username") String username,
+			@RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
 	 * 通过手机号查找用户信息

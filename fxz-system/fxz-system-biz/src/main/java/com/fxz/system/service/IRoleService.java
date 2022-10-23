@@ -2,10 +2,12 @@ package com.fxz.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fxz.common.core.param.PageParam;
 import com.fxz.common.core.entity.DeptDataPermissionRespDTO;
+import com.fxz.common.core.param.PageParam;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.system.entity.Role;
+
+import java.util.List;
 
 /**
  * @author Fxz
@@ -43,5 +45,16 @@ public interface IRoleService extends IService<Role> {
 	 * 获取当前用户角色下的数据权限
 	 */
 	DeptDataPermissionRespDTO getDataPermission(FxzAuthUser user);
+
+	/**
+	 * 是否是超级管理员
+	 * @param roleId 角色id
+	 */
+	boolean isSuperAdmin(String roleId);
+
+	/**
+	 * 获取所有角色
+	 */
+	List<Role> getAllRole();
 
 }

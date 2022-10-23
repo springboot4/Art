@@ -3,11 +3,15 @@ package com.fxz.system.controller;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.mp.result.Result;
+import com.fxz.common.security.annotation.Ojbk;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
 import com.fxz.system.entity.Menu;
+import com.fxz.system.entity.SystemUser;
 import com.fxz.system.service.AppService;
 import com.fxz.system.service.IMenuService;
+import com.fxz.system.service.IRoleService;
+import com.fxz.system.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +38,10 @@ import java.util.concurrent.CompletableFuture;
 public class MenuController {
 
 	private final IMenuService menuService;
+
+	private final IRoleService roleService;
+
+	private final IUserService userService;
 
 	private final AppService appService;
 
@@ -71,12 +79,18 @@ public class MenuController {
 	@Operation(summary = "获取用户角色下的所有树形菜单信息(包括按钮)")
 	@GetMapping("/getUserMenuTree")
 	public Result<List<VueRouter<Menu>>> getUserMenuTree() {
-		FxzAuthUser user = SecurityUtil.getUser();
-		if (Objects.isNull(user)) {
+		FxzAuthUser authUser = SecurityUtil.getUser();
+		if (Objects.isNull(authUser)) {
 			throw new FxzException("用户未登录！");
 		}
 
-		return Result.success(this.menuService.getUserRouters(user.getUsername()));
+		SystemUser user = userService.getUserById(authUser.getUserId());
+		if (roleService.isSuperAdmin(user.getRoleId())) {
+			return Result.success(this.menuService.getAllMenuTree());
+		}
+		else {
+			return Result.success(this.menuService.getUserRouters(user.getUsername()));
+		}
 	}
 
 	/**
@@ -85,7 +99,7 @@ public class MenuController {
 	 */
 	@Operation(summary = "获取全部的树形菜单信息(包括按钮)")
 	@GetMapping("/getAllMenuTree")
-	public Result<List<VueRouter<Object>>> getAllMenuTree() {
+	public Result<List<VueRouter<Menu>>> getAllMenuTree() {
 		return Result.success(this.menuService.getAllMenuTree());
 	}
 
@@ -145,6 +159,7 @@ public class MenuController {
 	 * @return 权限信息
 	 */
 	@Operation(summary = "通过用户名查询权限信息")
+	@Ojbk(inner = true)
 	@GetMapping("/findUserPermissions/{username}")
 	public Set<String> findUserPermissions(@PathVariable("username") String username) {
 		return menuService.findUserPermissions(username);
