@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,8 +42,13 @@ public class DocProperties {
 	private String version = "0.0.1";
 
 	/**
-	 * 扫描模块
+	 * 网关地址
 	 */
-	private Map<String, List<String>> basePackages = new LinkedHashMap<>();
+	private String url = "http://fxz-gateway:8301";
+
+	/**
+	 * 服务转发配置
+	 */
+	private Map<String, String> services;
 
 }
