@@ -32,7 +32,7 @@ public interface IMenuService extends IService<Menu> {
 	 * 获取全部的树形菜单信息(包括按钮)
 	 * @return 树形菜单信息
 	 */
-	List<VueRouter<Object>> getAllMenuTree();
+	List<VueRouter<Menu>> getAllMenuTree();
 
 	/**
 	 * 获取菜单下拉框

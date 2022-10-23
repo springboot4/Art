@@ -2,6 +2,7 @@ package com.fxz.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -185,6 +186,32 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * 是否是超级管理员
+	 * @param roleId 角色id
+	 */
+	@CacheEvict(value = CacheConstants.GLOBALLY + "role:isSuperAdmin", key = "#roleId")
+	@Override
+	public boolean isSuperAdmin(String roleId) {
+		if (StrUtil.isBlank(roleId)) {
+			return false;
+		}
+
+		String[] roleIds = roleId.split(StringPool.COMMA);
+		List<Role> roles = this.listByIds(Arrays.asList(roleIds));
+
+		return roles.stream().anyMatch(r -> RoleAdminEnum.SUPER_ADMIN.getType().equals(r.getCode()));
+	}
+
+	/**
+	 * 获取所有角色
+	 */
+	@CacheEvict(value = CacheConstants.GLOBALLY + "role")
+	@Override
+	public List<Role> getAllRole() {
+		return this.list();
 	}
 
 	/**

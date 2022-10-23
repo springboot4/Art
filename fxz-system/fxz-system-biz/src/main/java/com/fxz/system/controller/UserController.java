@@ -89,6 +89,7 @@ public class UserController {
 	 * 通过用户名查找用户信息
 	 */
 	@Operation(summary = "通过用户名查找用户信息")
+	@Ojbk(inner = true)
 	@IgnoreTenant
 	@GetMapping("/findByName/{username}")
 	public SystemUser findByName(@PathVariable("username") String username) {

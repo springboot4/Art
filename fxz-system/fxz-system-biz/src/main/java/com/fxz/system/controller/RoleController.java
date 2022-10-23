@@ -37,7 +37,7 @@ public class RoleController {
 	@Operation(summary = "获取所有角色")
 	@GetMapping("/getAllRole")
 	public Result<List<Role>> getAllRole() {
-		return Result.success(roleService.list());
+		return Result.success(roleService.getAllRole());
 	}
 
 	/**
