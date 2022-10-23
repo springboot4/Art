@@ -13,6 +13,16 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-springdoc-ui</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+        </dependency>
+
         <!--gateway网关-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
