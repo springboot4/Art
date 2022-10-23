@@ -84,9 +84,6 @@ export const generator = (routerMap) => {
       // 路由名称，建议唯一
       name: item.name,
       application: item.application,
-      // 该路由对应页面的 组件 :方案1
-      // component: constantRouterComponents[item.component || item.key],
-      // 该路由对应页面的 组件 :方案2 (动态加载) 注意此处组件路径包名
       component: (constantRouterComponents[item.component]) || (() => import(`@/views/${item.component}`)),
 
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)

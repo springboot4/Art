@@ -22,7 +22,7 @@ public class FxzUserManager {
 	private final RemoteMenuService menuService;
 
 	public SystemUser findByName(String username) {
-		return userService.findByName(username);
+		return userService.findByName(username, SecurityConstants.FROM_IN);
 	}
 
 	public SystemUser findByMobile(String mobile) {
@@ -30,7 +30,7 @@ public class FxzUserManager {
 	}
 
 	public String findUserPermissions(String username) {
-		return String.join(StringPool.COMMA, menuService.findUserPermissions(username));
+		return String.join(StringPool.COMMA, menuService.findUserPermissions(username, SecurityConstants.FROM_IN));
 	}
 
 }

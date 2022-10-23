@@ -1,6 +1,5 @@
 package com.fxz.system.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.system.entity.Menu;
@@ -34,6 +33,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	 * @param id 父节点id
 	 * @return 树形菜单信息
 	 */
-	List<VueRouter<Object>> getMenuByPid(@Param("id") Long id);
+	List<VueRouter<Menu>> getMenuByPid(@Param("id") Long id);
 
 }
