@@ -192,7 +192,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	 * 是否是超级管理员
 	 * @param roleId 角色id
 	 */
-	@CacheEvict(value = CacheConstants.GLOBALLY + "role:isSuperAdmin", key = "#roleId")
+	@Cacheable(value = CacheConstants.GLOBALLY + "role:isSuperAdmin", key = "#roleId")
 	@Override
 	public boolean isSuperAdmin(String roleId) {
 		if (StrUtil.isBlank(roleId)) {

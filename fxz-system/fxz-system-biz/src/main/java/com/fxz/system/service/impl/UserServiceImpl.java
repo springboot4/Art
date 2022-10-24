@@ -55,6 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		return this.baseMapper.findUserDetailPage(page, user);
 	}
 
+	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#user.userId+':userInfo'")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public SystemUser createUser(SystemUser user) {
