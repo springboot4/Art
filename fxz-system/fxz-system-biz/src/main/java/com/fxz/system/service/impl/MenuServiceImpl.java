@@ -68,7 +68,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	 * 获取菜单下拉框
 	 * @return 树形菜单下拉框
 	 */
-	@Cacheable(value = CacheConstants.GLOBALLY + "menu:select", unless = "#result==null")
 	@Override
 	public List<VueRouter<Menu>> getTreeSelect() {
 		FxzAuthUser user = SecurityUtil.getUser();
