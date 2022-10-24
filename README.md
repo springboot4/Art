@@ -14,6 +14,7 @@ fxz-cloud
        ├── fxz-common-data-permission -- 数据权限封装
        ├── fxz-common-database -- 多数据源
        ├── fxz-common-dependencies -- 依赖管理
+       ├── fxz-common-doc -- 接口文档
        ├── fxz-common-es -- es配置
        ├── fxz-common-file -- 文件管理模块
        ├── fxz-common-gateway -- 动态网关
