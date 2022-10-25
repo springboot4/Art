@@ -1,2 +1,1 @@
-com.fxz.common.log.service.AsyncLogService
-com.fxz.common.log.aspect.LogAspect
+com.fxz.common.log.configuration.LogAutoConfiguration
