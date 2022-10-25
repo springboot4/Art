@@ -4,8 +4,8 @@ import cn.hutool.core.bean.BeanUtil;
 import com.fxz.system.dto.OperLogDto;
 import com.fxz.system.entity.OperLog;
 import com.fxz.system.feign.RemoteLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -18,10 +18,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Slf4j
 @EnableAsync
 @AutoConfiguration
+@RequiredArgsConstructor
 public class AsyncLogService {
 
-	@Autowired
-	private RemoteLogService remoteLogService;
+	private final RemoteLogService remoteLogService;
 
 	/**
 	 * 保存系统日志记录
