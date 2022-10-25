@@ -6,9 +6,7 @@ import com.fxz.system.entity.OperLog;
 import com.fxz.system.feign.RemoteLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * 异步操作日志服务
@@ -16,8 +14,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @author fxz
  */
 @Slf4j
-@EnableAsync
-@AutoConfiguration
 @RequiredArgsConstructor
 public class AsyncLogService {
 
@@ -28,7 +24,7 @@ public class AsyncLogService {
 	 */
 	@Async
 	public void saveSysLog(OperLog operLog) {
-		log.info("调用异步方法,{}", Thread.currentThread().getId());
+		log.info("调用异步方法:{}", Thread.currentThread().getId());
 		OperLogDto operLogDto = new OperLogDto();
 		BeanUtil.copyProperties(operLog, operLogDto);
 		remoteLogService.add(operLogDto);

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fxz.common.core.annotation.CheckMobileValid;
 import com.fxz.common.core.enums.SensitiveType;
 import com.fxz.common.core.sensitive.SensitiveInfo;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -29,7 +29,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("sys_user")
-public class SystemUser extends BaseEntity {
+public class SystemUser extends BaseCreateEntity {
 
 	private static final long serialVersionUID = -1L;
 
@@ -37,11 +37,6 @@ public class SystemUser extends BaseEntity {
 	 * 用户状态：有效
 	 */
 	public static final String STATUS_VALID = "1";
-
-	/**
-	 * 用户状态：锁定
-	 */
-	public static final String STATUS_LOCK = "0";
 
 	/**
 	 * 默认头像
@@ -52,21 +47,6 @@ public class SystemUser extends BaseEntity {
 	 * 默认密码
 	 */
 	public static final String DEFAULT_PASSWORD = "123456";
-
-	/**
-	 * 性别男
-	 */
-	public static final String SEX_MALE = "0";
-
-	/**
-	 * 性别女
-	 */
-	public static final String SEX_FEMALE = "1";
-
-	/**
-	 * 性别保密
-	 */
-	public static final String SEX_UNKNOW = "2";
 
 	/**
 	 * 用户 ID

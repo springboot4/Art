@@ -1,10 +1,10 @@
 package com.fxz.system.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fxz.common.mp.base.BaseDelEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
@@ -16,11 +16,12 @@ import java.time.LocalDateTime;
  * @author fxz
  * @date 2022-08-20
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @FieldNameConstants
 @TableName("sys_route_conf")
 @Accessors(chain = true)
-public class RouteConf {
+public class RouteConf extends BaseDelEntity {
 
 	private static final long serialVersionUID = -1L;
 
@@ -28,6 +29,7 @@ public class RouteConf {
 	 * 主键
 	 */
 	@JsonIgnore
+	@TableId(type = IdType.ASSIGN_ID)
 	private Long id;
 
 	/**
@@ -64,11 +66,6 @@ public class RouteConf {
 	 * 路由元信息
 	 */
 	private String metadata;
-
-	/**
-	 * 删除标志
-	 */
-	private String delFlag;
 
 	/**
 	 * 创建者

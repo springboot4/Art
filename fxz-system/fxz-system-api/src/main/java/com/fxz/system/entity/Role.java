@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.core.enums.RoleAdminEnum;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -21,14 +21,14 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("sys_role")
-public class Role extends BaseEntity implements Serializable {
+public class Role extends BaseCreateEntity implements Serializable {
 
 	private static final long serialVersionUID = -1189610678764394766L;
 
 	/**
 	 * 角色id
 	 */
-	@TableId(type = IdType.AUTO)
+	@TableId(type = IdType.ASSIGN_ID)
 	private Long roleId;
 
 	/**

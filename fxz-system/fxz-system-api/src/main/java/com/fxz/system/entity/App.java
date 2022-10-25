@@ -1,7 +1,7 @@
 package com.fxz.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.BaseIdEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,14 +16,9 @@ import lombok.experimental.Accessors;
 @TableName("sys_app")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class App extends BaseEntity {
+public class App extends BaseIdEntity {
 
 	private static final long serialVersionUID = -1L;
-
-	/**
-	 * 主键id
-	 */
-	private Long id;
 
 	/**
 	 * 应用名称

@@ -1,10 +1,10 @@
 package com.fxz.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,14 +19,14 @@ import lombok.experimental.Accessors;
 @TableName("sys_post")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class Post extends BaseEntity {
+public class Post extends BaseCreateEntity {
 
 	private static final long serialVersionUID = -1L;
 
 	/**
 	 * 岗位ID
 	 */
-	@TableId
+	@TableId(type = IdType.ASSIGN_ID)
 	private Long postId;
 
 	/**

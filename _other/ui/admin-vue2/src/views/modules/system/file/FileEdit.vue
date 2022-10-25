@@ -31,7 +31,7 @@
 import { FormMixin } from '@/mixins/FormMixin'
 import { get } from '@/api/sys/file'
 import Vue from 'vue'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, TENANT_ID } from '@/store/mutation-types'
 
 export default {
   name: 'FileEdit',
@@ -53,7 +53,8 @@ export default {
       },
       fileList: [],
       headers: {
-        Authorization: 'Bearer ' + Vue.ls.get(ACCESS_TOKEN)
+        Authorization: 'Bearer ' + Vue.ls.get(ACCESS_TOKEN),
+        'TENANT-ID': Vue.ls.get(TENANT_ID)
       }
     }
   },
