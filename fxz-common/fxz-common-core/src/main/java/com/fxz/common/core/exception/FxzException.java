@@ -7,7 +7,7 @@ package com.fxz.common.core.exception;
  */
 public class FxzException extends RuntimeException {
 
-	private static final Long serialVersionUID = -6916154462432027437L;
+	private static final long serialVersionUID = -6916154462432027437L;
 
 	public FxzException(String message) {
 		super(message);
