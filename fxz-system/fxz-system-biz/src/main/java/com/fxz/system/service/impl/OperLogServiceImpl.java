@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.log.enums.BusinessType;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.BaseCreateEntity;
 import com.fxz.system.dto.OperLogDto;
 import com.fxz.system.entity.OperLog;
 import com.fxz.system.mapper.OperLogMapper;
@@ -69,7 +69,7 @@ public class OperLogServiceImpl extends ServiceImpl<OperLogMapper, OperLog> impl
 			queryWrapper.eq(StringUtils.camelToUnderline(OperLog.Fields.businessType), operLog.getBusinessType());
 		}
 		queryWrapper.like(StringUtils.isNotBlank(operLog.getTitle()), OperLog.Fields.title, operLog.getTitle())
-				.orderByDesc(StringUtils.camelToUnderline(BaseEntity.Fields.createTime));
+				.orderByDesc(StringUtils.camelToUnderline(BaseCreateEntity.Fields.createTime));
 
 		return operLogMapper.selectPage(pageParam, queryWrapper);
 	}

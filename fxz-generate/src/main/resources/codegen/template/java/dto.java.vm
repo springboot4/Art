@@ -1,10 +1,7 @@
 #set($excludeColumns = ["createTime","updateTime","createBy","updateBy"])
 package com.fxz.common.core.${module}.mapper;
 
-import com.fxz.common.mp.base.BaseEntity;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.LocalDate;
+import com.fxz.common.mp.base.BaseCreateEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Data;
@@ -20,7 +17,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class ${className}DTO extends BaseEntity {
+public class ${className}DTO extends BaseCreateEntity {
 
     private static final long serialVersionUID = -1L;
 

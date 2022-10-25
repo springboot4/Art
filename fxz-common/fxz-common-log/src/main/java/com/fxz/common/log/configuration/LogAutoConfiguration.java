@@ -5,12 +5,14 @@ import com.fxz.common.log.service.AsyncLogService;
 import com.fxz.system.feign.RemoteLogService;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author Fxz
  * @version 1.0
  * @date 2022/10/25 12:32
  */
+@EnableAsync
 @AutoConfiguration
 public class LogAutoConfiguration {
 

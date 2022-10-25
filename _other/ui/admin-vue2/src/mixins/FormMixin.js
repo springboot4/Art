@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, TENANT_ID } from '@/store/mutation-types'
 
 export const FormMixin = {
   data () {
@@ -19,7 +19,8 @@ export const FormMixin = {
       showable: false,
       type: 'add',
       headers: {
-        Authorization: 'Bearer ' + Vue.ls.get(ACCESS_TOKEN)
+        Authorization: 'Bearer ' + Vue.ls.get(ACCESS_TOKEN),
+        'TENANT-ID': Vue.ls.get(TENANT_ID)
       }
     }
   },

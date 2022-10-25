@@ -1,11 +1,8 @@
 package com.fxz.system.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.core.enums.GlobalStatusEnum;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.MpEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -21,13 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class Tenant extends BaseEntity {
-
-	/**
-	 * 租户id
-	 */
-	@TableId(type = IdType.ASSIGN_ID)
-	private Long id;
+public class Tenant extends MpEntity {
 
 	/**
 	 * 租户名
@@ -70,12 +61,6 @@ public class Tenant extends BaseEntity {
 	 * 账号数量
 	 */
 	private Integer accountCount;
-
-	/**
-	 * 删除标记
-	 */
-	@TableLogic
-	private String delFlag;
 
 	/**
 	 * 系统套餐id

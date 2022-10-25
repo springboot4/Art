@@ -1,8 +1,7 @@
 package com.fxz.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.MpEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -17,14 +16,9 @@ import lombok.experimental.Accessors;
 @TableName("sys_dict_item")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class DictItem extends BaseEntity {
+public class DictItem extends MpEntity {
 
 	private static final long serialVersionUID = -1L;
-
-	/**
-	 *
-	 */
-	private Long id;
 
 	/**
 	 * 字典ID
@@ -60,11 +54,5 @@ public class DictItem extends BaseEntity {
 	 * 备注
 	 */
 	private String remark;
-
-	/**
-	 * 删除标记
-	 */
-	@TableLogic
-	private String delFlag;
 
 }

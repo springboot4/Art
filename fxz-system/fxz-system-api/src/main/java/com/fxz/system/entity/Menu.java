@@ -1,7 +1,5 @@
 package com.fxz.system.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fxz.common.core.entity.router.VueRouter;
@@ -36,12 +34,6 @@ public class Menu extends BaseEntity implements Serializable {
 	 * 按钮
 	 */
 	public static final String TYPE_BUTTON = "1";
-
-	/**
-	 * 菜单/按钮ID
-	 */
-	@TableId(type = IdType.AUTO)
-	private Long id;
 
 	/**
 	 * 上级菜单ID
