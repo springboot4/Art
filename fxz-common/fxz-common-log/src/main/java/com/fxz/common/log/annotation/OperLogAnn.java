@@ -15,12 +15,12 @@ import java.lang.annotation.*;
 public @interface OperLogAnn {
 
 	/**
-	 * 模块
+	 * 操作模块
 	 */
 	String title() default "";
 
 	/**
-	 * 功能
+	 * 业务操作类型
 	 */
 	BusinessType businessType() default BusinessType.OTHER;
 

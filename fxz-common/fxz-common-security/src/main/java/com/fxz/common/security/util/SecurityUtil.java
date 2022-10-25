@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.core.exception.FxzException;
+import com.fxz.common.core.utils.WebUtil;
 import com.fxz.common.security.entity.FxzAuthUser;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -12,8 +13,6 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
@@ -82,9 +81,7 @@ public class SecurityUtil {
 	 */
 	@SneakyThrows
 	public String getOAuth2ClientId() {
-
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
+		HttpServletRequest request = WebUtil.getRequest();
 
 		// 从请求路径中获取
 		String clientId = request.getParameter(SecurityConstants.CLIENT_ID);
@@ -94,8 +91,10 @@ public class SecurityUtil {
 
 		// 从请求头获取
 		String basic = request.getHeader(SecurityConstants.AUTHORIZATION_KEY);
-		if (StrUtil.isNotBlank(basic) && (basic.startsWith(SecurityConstants.BASIC_PREFIX)
-				|| basic.startsWith(SecurityConstants.BASIC_PREFIX_LOW))) {
+
+		boolean flag = StrUtil.isNotBlank(basic) && (basic.startsWith(SecurityConstants.BASIC_PREFIX)
+				|| basic.startsWith(SecurityConstants.BASIC_PREFIX_LOW));
+		if (flag) {
 			basic = basic.replace(SecurityConstants.BASIC_PREFIX, Strings.EMPTY);
 			basic = basic.replace(SecurityConstants.BASIC_PREFIX_LOW, Strings.EMPTY);
 
@@ -108,8 +107,7 @@ public class SecurityUtil {
 	}
 
 	public String getAuthType() {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
+		HttpServletRequest request = WebUtil.getRequest();
 
 		// 从请求路径中获取
 		return request.getParameter(SecurityConstants.AUTH_TYPE);

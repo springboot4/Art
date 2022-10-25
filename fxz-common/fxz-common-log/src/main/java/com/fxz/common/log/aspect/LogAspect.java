@@ -3,23 +3,23 @@ package com.fxz.common.log.aspect;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.fxz.common.core.utils.WebUtil;
 import com.fxz.common.log.annotation.OperLogAnn;
 import com.fxz.common.log.enums.BusinessStatus;
 import com.fxz.common.log.service.AsyncLogService;
 import com.fxz.common.mp.result.Result;
 import com.fxz.system.entity.OperLog;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -30,19 +30,45 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @Slf4j
 @Aspect
+@RequiredArgsConstructor
 public class LogAspect {
 
-	@Autowired
-	private AsyncLogService asyncLogService;
+	private final AsyncLogService asyncLogService;
 
 	/**
 	 * 处理OperLog注解，使用环绕通知
 	 */
+	@SuppressWarnings("unchecked")
 	@Around("@annotation(operLogAnn)")
 	public Result<Object> around(ProceedingJoinPoint point, OperLogAnn operLogAnn) {
-		HttpServletRequest request = ((ServletRequestAttributes) Objects
-				.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 		OperLog operLog = new OperLog();
+		buildLog(point, operLogAnn, operLog);
+
+		Long startTime = System.currentTimeMillis();
+		Result<Object> result = null;
+		try {
+			result = (Result<Object>) point.proceed();
+		}
+		catch (Throwable e) {
+			handleException(operLog, e.getLocalizedMessage());
+		}
+		finally {
+			Long endTime = System.currentTimeMillis();
+			// 方法执行时间
+			long time = endTime - startTime;
+
+			// 赋值
+			operLog.setTime(time);
+
+			log.info("异步保存:{}", Thread.currentThread().getId());
+			// 异步保存
+			asyncLogService.saveSysLog(operLog);
+		}
+		return result;
+	}
+
+	private void buildLog(JoinPoint point, OperLogAnn operLogAnn, OperLog operLog) {
+		HttpServletRequest request = WebUtil.getRequest();
 
 		// 模块名
 		String title = operLogAnn.title();
@@ -60,7 +86,8 @@ public class LogAspect {
 		});
 
 		// 方法名称
-		String method = point.getTarget().getClass().getName() + "." + point.getSignature().getName() + "()";
+		String method = point.getTarget().getClass().getName() + StringPool.DOT + point.getSignature().getName()
+				+ StringPool.LEFT_BRACKET + StringPool.RIGHT_BRACKET;
 
 		// 请求方式
 		String requestMethod = request.getMethod();
@@ -74,38 +101,16 @@ public class LogAspect {
 		// 业务类型
 		Integer businessType = operLogAnn.businessType().getValue();
 
-		Long startTime = System.currentTimeMillis();
-
 		log.info("方法:{}", method);
-		Result<Object> result = null;
-		try {
-			result = (Result<Object>) point.proceed();
-		}
-		catch (Throwable e) {
-			operLog.setStatus(BusinessStatus.FAIL.getValue());
-			operLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
-		}
-		finally {
-			Long endTime = System.currentTimeMillis();
-			// 方法执行时间
-			long time = endTime - startTime;
 
-			// 赋值
-			operLog.setTitle(title);
-			operLog.setOperIp(ip);
-			operLog.setOperUrl(path);
-			operLog.setOperName(userName.get());
-			operLog.setMethod(method);
-			operLog.setRequestMethod(requestMethod);
-			operLog.setOperParam(param);
-			operLog.setBusinessType(businessType);
-			operLog.setTime(time);
+		// 赋值
+		operLog.setTitle(title).setOperIp(ip).setOperUrl(path).setOperName(userName.get()).setMethod(method)
+				.setRequestMethod(requestMethod).setOperParam(param).setBusinessType(businessType);
+	}
 
-			log.info("异步保存:{}", Thread.currentThread().getId());
-			// 异步保存
-			asyncLogService.saveSysLog(operLog);
-		}
-		return result;
+	private void handleException(OperLog operLog, String msg) {
+		operLog.setStatus(BusinessStatus.FAIL.getValue());
+		operLog.setErrorMsg(StringUtils.substring(msg, 0, 2000));
 	}
 
 }
