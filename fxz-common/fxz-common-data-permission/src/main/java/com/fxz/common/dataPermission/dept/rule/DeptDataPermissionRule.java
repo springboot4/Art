@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.fxz.common.core.entity.DeptDataPermissionRespDTO;
 import com.fxz.common.dataPermission.dept.service.DeptDataPermissionFrameworkService;
 import com.fxz.common.dataPermission.rule.DataPermissionRule;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.BaseCreateEntity;
 import com.fxz.common.mp.utils.MyBatisUtils;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;
@@ -179,14 +179,14 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 	/**
 	 * entityClass对应的表 以DEPT_COLUMN_NAME为查询条件
 	 */
-	public void addDeptColumn(Class<? extends BaseEntity> entityClass) {
+	public void addDeptColumn(Class<? extends BaseCreateEntity> entityClass) {
 		addDeptColumn(entityClass, DEPT_COLUMN_NAME);
 	}
 
 	/**
 	 * entityClass对应的表 以columnName列为查询条件
 	 */
-	public void addDeptColumn(Class<? extends BaseEntity> entityClass, String columnName) {
+	public void addDeptColumn(Class<? extends BaseCreateEntity> entityClass, String columnName) {
 		// 获取实体类对应的表名
 		String tableName = TableInfoHelper.getTableInfo(entityClass).getTableName();
 		addDeptColumn(tableName, columnName);
@@ -203,14 +203,14 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 	/**
 	 * entityClass对应的实体类以USER_COLUMN_NAME列来查询
 	 */
-	public void addUserColumn(Class<? extends BaseEntity> entityClass) {
+	public void addUserColumn(Class<? extends BaseCreateEntity> entityClass) {
 		addUserColumn(entityClass, USER_COLUMN_NAME);
 	}
 
 	/**
 	 * entityClass对应的表 以columnName列为查询条件
 	 */
-	public void addUserColumn(Class<? extends BaseEntity> entityClass, String columnName) {
+	public void addUserColumn(Class<? extends BaseCreateEntity> entityClass, String columnName) {
 		// 获取实体类对应的表名
 		String tableName = TableInfoHelper.getTableInfo(entityClass).getTableName();
 		addUserColumn(tableName, columnName);

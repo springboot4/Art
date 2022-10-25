@@ -22,7 +22,7 @@ import java.util.Date;
 @Accessors(chain = true)
 public class JobLog implements Serializable {
 
-	private static final Long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
 	/**
 	 * ID

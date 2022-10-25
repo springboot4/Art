@@ -1,10 +1,7 @@
 package com.fxz.system.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.MpEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,13 +15,7 @@ import lombok.experimental.Accessors;
 @TableName("sys_tenant_package")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class TenantPackage extends BaseEntity {
-
-	/**
-	 * 套餐id
-	 */
-	@TableId(type = IdType.ASSIGN_ID)
-	private Long id;
+public class TenantPackage extends MpEntity {
 
 	/**
 	 * 套餐名
@@ -47,11 +38,5 @@ public class TenantPackage extends BaseEntity {
 	 * 套餐关联的菜单编号
 	 */
 	private String menuIds;
-
-	/**
-	 * 删除标记
-	 */
-	@TableLogic
-	private String delFlag;
 
 }

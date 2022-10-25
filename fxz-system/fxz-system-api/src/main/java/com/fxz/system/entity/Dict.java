@@ -1,8 +1,7 @@
 package com.fxz.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.MpEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -17,14 +16,9 @@ import lombok.experimental.Accessors;
 @TableName("sys_dict")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class Dict extends BaseEntity {
+public class Dict extends MpEntity {
 
 	private static final long serialVersionUID = -7407384936260772014L;
-
-	/**
-	 *
-	 */
-	private Long id;
 
 	/**
 	 * 类型
@@ -45,11 +39,5 @@ public class Dict extends BaseEntity {
 	 * 是否是系统内置
 	 */
 	private String systemFlag;
-
-	/**
-	 * 删除标记
-	 */
-	@TableLogic
-	private String delFlag;
 
 }

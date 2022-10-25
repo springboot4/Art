@@ -1,7 +1,7 @@
 package com.fxz.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.MpEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,32 +16,27 @@ import lombok.experimental.Accessors;
 @TableName("sys_file")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class File extends BaseEntity {
+public class File extends MpEntity {
 
 	private static final long serialVersionUID = -1L;
 
 	/**
-	 *
-	 */
-	private Long id;
-
-	/**
-	 *
+	 * 文件名
 	 */
 	private String fileName;
 
 	/**
-	 *
+	 * 桶名称
 	 */
 	private String bucketName;
 
 	/**
-	 *
+	 * 原始文件名
 	 */
 	private String original;
 
 	/**
-	 *
+	 * 文件类型
 	 */
 	private String type;
 
@@ -49,10 +44,5 @@ public class File extends BaseEntity {
 	 * 文件大小
 	 */
 	private Long fileSize;
-
-	/**
-	 * 0-正常，1-删除
-	 */
-	private String delFlag;
 
 }

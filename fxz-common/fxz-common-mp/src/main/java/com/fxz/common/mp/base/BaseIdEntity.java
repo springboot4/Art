@@ -13,12 +13,12 @@ import java.io.Serializable;
  *
  * @author Fxz
  * @version 1.0
- * @date 2022/10/25 15:26
+ * @date 2022/10/25 15:11
  */
 @Getter
 @Setter
 @FieldNameConstants
-public class BaseEntity extends BaseCreateEntity implements Serializable {
+public class BaseIdEntity implements Serializable {
 
 	private static final long serialVersionUID = -1L;
 
