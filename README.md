@@ -105,9 +105,17 @@ SaaS多租户，自定义租户套餐.
 ## ❓其他功能
 过于先进，不便展示。欢迎下载源码研究🧐欢迎star
 ## 🍺加入我们
-qq群:932249645
+qq交流群:932249645
 <p>
 <img src="https://minio.pigx.vip/oss/2022/07/FcAxsd.jpg" width = "330" height = "500"/>
+</p>
+微信交流群:
+<p>
+<img src="https://minio.pigx.vip/oss/2022/10/SSBSne.jpg" width = "330" height = "500"/>
+</p>
+二维码过期可加本人微信:
+<p>
+<img src="https://minio.pigx.vip/oss/2022/10/HPJ944.jpg" width = "330" height = "500"/>
 </p>
 
 ## 依赖版本
