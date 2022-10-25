@@ -1,6 +1,6 @@
 package com.fxz.system.dto;
 
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public class UserPostDto extends BaseEntity {
+public class UserPostDto extends BaseCreateEntity {
 
 	private static final long serialVersionUID = -1L;
 

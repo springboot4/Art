@@ -22,11 +22,6 @@ import lombok.experimental.FieldNameConstants;
 public class OperLog extends BaseEntity {
 
 	/**
-	 * 主键
-	 */
-	private Long id;
-
-	/**
 	 * 模块标题
 	 */
 	private String title;

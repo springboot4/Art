@@ -3,7 +3,7 @@ package com.fxz.scheduled.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fxz.common.mp.base.BaseEntity;
+import com.fxz.common.mp.base.BaseCreateEntity;
 import com.fxz.scheduled.constant.ScheduleConstants;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,9 +19,9 @@ import lombok.experimental.Accessors;
 @TableName("sys_job")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class SysJob extends BaseEntity {
+public class SysJob extends BaseCreateEntity {
 
-	private static final Long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
 	/**
 	 * 任务ID

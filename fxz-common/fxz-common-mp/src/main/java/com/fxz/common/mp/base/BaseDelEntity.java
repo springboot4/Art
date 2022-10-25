@@ -1,7 +1,6 @@
 package com.fxz.common.mp.base;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -13,19 +12,19 @@ import java.io.Serializable;
  *
  * @author Fxz
  * @version 1.0
- * @date 2022/10/25 15:26
+ * @date 2022/10/25 15:14
  */
 @Getter
 @Setter
 @FieldNameConstants
-public class BaseEntity extends BaseCreateEntity implements Serializable {
+public class BaseDelEntity implements Serializable {
 
 	private static final long serialVersionUID = -1L;
 
 	/**
-	 * 主键
+	 * 逻辑删除标志
 	 */
-	@TableId(type = IdType.ASSIGN_ID)
-	private Long id;
+	@TableLogic
+	private boolean delFlag;
 
 }

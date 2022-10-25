@@ -1,12 +1,6 @@
 #set($excludeColumns = ["createTime","updateTime","createBy","updateBy"])
 package com.fxz.common.core.entity.${module};
 
-import com.fxz.common.mp.base.BaseEntity;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
