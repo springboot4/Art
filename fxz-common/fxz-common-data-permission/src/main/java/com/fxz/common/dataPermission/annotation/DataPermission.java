@@ -5,7 +5,7 @@ import com.fxz.common.dataPermission.rule.DataPermissionRule;
 import java.lang.annotation.*;
 
 /**
- * 数据权限注解 可声明在类或者方法上，标识使用的数据权限规则
+ * 数据权限注解 可声明在类或者方法上 标识使用的数据权限规则
  *
  * @author fxz
  */
@@ -20,12 +20,12 @@ public @interface DataPermission {
 	boolean enable() default true;
 
 	/**
-	 * 生效的数据权限规则数组，优先级高于 {@link #excludeRules()}
+	 * 生效的数据权限规则数组 优先级高于 {@link #excludeRules()}
 	 */
 	Class<? extends DataPermissionRule>[] includeRules() default {};
 
 	/**
-	 * 排除的数据权限规则数组，优先级最低
+	 * 排除的数据权限规则数组 优先级低与 {@link #includeRules()}
 	 */
 	Class<? extends DataPermissionRule>[] excludeRules() default {};
 
