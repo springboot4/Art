@@ -1,10 +1,9 @@
-package com.fxz.common.dataPermission.aop;
+package com.fxz.common.dataPermission.local;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.fxz.common.dataPermission.annotation.DataPermission;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 数据权限注解上下文
@@ -28,7 +27,7 @@ public class DataPermissionContextHolder {
 	}
 
 	/**
-	 * 入栈 数据权限 注解
+	 * 入栈数据权限注解
 	 * @param dataPermission 数据权限注解
 	 */
 	public static void add(DataPermission dataPermission) {
@@ -36,22 +35,14 @@ public class DataPermissionContextHolder {
 	}
 
 	/**
-	 * 出栈 数据权限 注解
+	 * 出栈数据权限注解
 	 */
 	public static void remove() {
 		DATA_PERMISSIONS.get().removeLast();
-		// 无元素时，清空 ThreadLocal
+		// 无元素时 清空 ThreadLocal
 		if (DATA_PERMISSIONS.get().isEmpty()) {
 			DATA_PERMISSIONS.remove();
 		}
-	}
-
-	/**
-	 * 获得所有 数据权限
-	 * @return 数据权限 队列
-	 */
-	public static List<DataPermission> getAll() {
-		return DATA_PERMISSIONS.get();
 	}
 
 }
