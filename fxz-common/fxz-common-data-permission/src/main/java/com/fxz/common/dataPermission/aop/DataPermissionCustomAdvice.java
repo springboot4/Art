@@ -1,8 +1,8 @@
 package com.fxz.common.dataPermission.aop;
 
 import com.fxz.common.dataPermission.annotation.DataPermission;
+import com.fxz.common.dataPermission.local.DataPermissionContextHolder;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.MethodClassKey;
@@ -14,21 +14,22 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 自定义Advice 处理数据权限的拦截器 1. 在执行方法前，将 数据权限 注解入栈 2. 在执行方法后，将 数据权限 注解出栈
+ * 自定义Advice 处理数据权限的通知
+ * <p/>
+ * 1. 在执行方法前 将数据权限注解入栈 2. 在执行方法后 将数据权限注解出栈
  *
  * @author fxz
  */
-@AllArgsConstructor(staticName = "of")
 @DataPermission
+@AllArgsConstructor(staticName = "of")
 public class DataPermissionCustomAdvice implements MethodInterceptor {
 
 	/**
-	 * DataPermission 空对象，方法无数据权限注解时，使用DATA_PERMISSION_NULL占位
+	 * 方法无数据权限注解时 使用此进行占位
 	 */
 	static final DataPermission DATA_PERMISSION_NULL = DataPermissionCustomAdvice.class
 			.getAnnotation(DataPermission.class);
 
-	@Getter
 	private final Map<MethodClassKey, DataPermission> dataPermissionCache = new ConcurrentHashMap<>();
 
 	@Override
@@ -42,12 +43,12 @@ public class DataPermissionCustomAdvice implements MethodInterceptor {
 		}
 
 		try {
-			// 执行逻辑
+			// 执行目标方法
 			return methodInvocation.proceed();
 		}
 		finally {
 			if (Objects.nonNull(dataPermission)) {
-				// 数据权限注解出栈
+				// 方法执行后 数据权限注解出栈
 				DataPermissionContextHolder.remove();
 			}
 		}
@@ -62,18 +63,18 @@ public class DataPermissionCustomAdvice implements MethodInterceptor {
 		// 从缓存中获取数据权限注解
 		DataPermission dataPermission = dataPermissionCache.get(methodClassKey);
 		if (Objects.nonNull(dataPermission)) {
+			// 缓存中已经存在此方法的数据权限信息 直接返回
 			return dataPermission != DATA_PERMISSION_NULL ? dataPermission : null;
 		}
 
-		// 从方法中获取
+		// 优先从方法中获取注解
 		dataPermission = AnnotationUtils.findAnnotation(method, DataPermission.class);
-
 		if (Objects.isNull(dataPermission)) {
-			// 从类上获取
+			// 方法上没有 从类上获取
 			dataPermission = AnnotationUtils.findAnnotation(clazz, DataPermission.class);
 		}
 
-		// 添加到缓存中
+		// 方法或者类上有注解则添加到缓存中 没有则添加默认的到缓存
 		dataPermissionCache.put(methodClassKey,
 				Objects.nonNull(dataPermission) ? dataPermission : DATA_PERMISSION_NULL);
 
