@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class DeptDataPermissionFrameworkService {
+public class DeptDataPermissionService {
 
 	private final RemoteRoleService remoteRoleService;
 

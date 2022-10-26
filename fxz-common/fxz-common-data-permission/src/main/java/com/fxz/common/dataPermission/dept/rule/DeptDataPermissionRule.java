@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.fxz.common.core.entity.DeptDataPermissionRespDTO;
-import com.fxz.common.dataPermission.dept.service.DeptDataPermissionFrameworkService;
+import com.fxz.common.dataPermission.dept.service.DeptDataPermissionService;
 import com.fxz.common.dataPermission.rule.DataPermissionRule;
 import com.fxz.common.mp.base.BaseCreateEntity;
 import com.fxz.common.mp.utils.MyBatisUtils;
@@ -35,39 +35,48 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DeptDataPermissionRule implements DataPermissionRule {
 
+	/**
+	 * 部门条件字段
+	 */
 	private static final String DEPT_COLUMN_NAME = "dept_id";
 
+	/**
+	 * 用户条件字段
+	 */
 	private static final String USER_COLUMN_NAME = "user_id";
 
+	/**
+	 * 空表达式
+	 */
 	static final Expression EXPRESSION_NULL = new NullValue();
 
-	private final DeptDataPermissionFrameworkService deptDataPermissionService;
-
 	/**
-	 * 基于部门的表字段配置 一般情况下 每个表的部门编号字段是 dept_id 通过该配置自定义
+	 * 基于部门的字段配置 一般情况下 每个表的部门编号字段是 dept_id 通过该配置自定义
 	 * <p>
-	 * key：表名 value：字段名
+	 * 表名:条件字段名
 	 */
 	private final Map<String, String> deptColumns = new HashMap<>();
 
 	/**
-	 * 基于用户的表字段配置 一般情况下 每个表的用户编号字段是 user_id 通过该配置自定义
+	 * 基于用户的字段配置 一般情况下 每个表的用户编号字段是 user_id 通过该配置自定义
 	 * <p>
-	 * key：表名 value：字段名
+	 * 表名:条件字段名
 	 */
 	private final Map<String, String> userColumns = new HashMap<>();
 
 	/**
-	 * 所有表名，是 {@link #deptColumns} 和 {@link #userColumns} 的合集
+	 * 所有表名 是 {@link #deptColumns} 和 {@link #userColumns} 的合集
 	 */
-	private final Set<String> TABLE_NAMES = new HashSet<>();
+	private final Set<String> tableNames = new HashSet<>();
+
+	private final DeptDataPermissionService deptDataPermissionService;
 
 	/**
-	 * 获取配置此规则的所有表名
+	 * 返回此规则需要生效的所有表名数组
 	 */
 	@Override
 	public Set<String> getTableNames() {
-		return TABLE_NAMES;
+		return tableNames;
 	}
 
 	/**
@@ -93,20 +102,20 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 					tableName, tableAlias.getName()));
 		}
 
-		// 1.可查看全部 无需拼接条件
+		// 可查看全部 不拼接条件
 		if (deptDataPermission.getAll()) {
 			return null;
 		}
 
-		// 2.不能查看部门 又不能查看自己 则说明无权限
+		// 不能查看部门 又不能查看自己 则无权限
 		if (CollUtil.isEmpty(deptDataPermission.getDeptIds()) && Boolean.FALSE.equals(deptDataPermission.getSelf())) {
-			// WHERE null = null 保证返回的数据为空
+			// WHERE null = null 返回的数据为空
 			return new EqualsTo(null, null);
 		}
 
-		// 3. 构建部门查询条件
+		// 构建部门查询条件
 		Expression deptExpression = this.buildDeptExpression(tableName, tableAlias, deptDataPermission.getDeptIds());
-		// 4. 构建用户查询条件
+		// 构建用户查询条件
 		Expression userExpression = this.buildUserExpression(tableName, tableAlias, deptDataPermission.getSelf(),
 				loginUser.getUserId());
 
@@ -136,13 +145,13 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 	 * @return 查询条件 where dept_id in ()
 	 */
 	private Expression buildDeptExpression(String tableName, Alias tableAlias, Set<Long> deptIds) {
-		// 如果不存在这张表的配置，则无需作为条件
+		// 如果不存在这张表的部门条件配置 则无需作为条件
 		String columnName = deptColumns.get(tableName);
 		if (StrUtil.isEmpty(columnName)) {
 			return null;
 		}
 
-		// 如果允许查看的部门为空，则不拼接部门查询条件
+		// 如果允许查看的部门为空 则不拼接部门查询条件
 		if (CollUtil.isEmpty(deptIds)) {
 			return null;
 		}
@@ -161,7 +170,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 	 * @return 查询条件 where user_id = ''
 	 */
 	private Expression buildUserExpression(String tableName, Alias tableAlias, Boolean self, Long userId) {
-		// 如果不查看自己，则无需作为条件
+		// 如果不查看自己 则无需作为条件
 		if (Boolean.FALSE.equals(self)) {
 			return null;
 		}
@@ -197,7 +206,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 	 */
 	public void addDeptColumn(String tableName, String columnName) {
 		deptColumns.put(tableName, columnName);
-		TABLE_NAMES.add(tableName);
+		tableNames.add(tableName);
 	}
 
 	/**
@@ -221,7 +230,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 	 */
 	public void addUserColumn(String tableName, String columnName) {
 		userColumns.put(tableName, columnName);
-		TABLE_NAMES.add(tableName);
+		tableNames.add(tableName);
 	}
 
 }

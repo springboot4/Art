@@ -21,7 +21,7 @@ import java.util.List;
 public class DataPermissionAutoConfiguration {
 
 	/**
-	 * 数据权限规则工厂 管理数据权限规则
+	 * 注入数据权限规则工厂
 	 * @param rules 容器中的数据权限规则类
 	 */
 	@Bean
@@ -30,7 +30,7 @@ public class DataPermissionAutoConfiguration {
 	}
 
 	/**
-	 * 配置拦截器 重写sql
+	 * 添加拦截器 重写sql
 	 */
 	@Bean
 	public DataPermissionDatabaseInterceptor dataPermissionDatabaseInterceptor(MybatisPlusInterceptor interceptor,
@@ -47,7 +47,7 @@ public class DataPermissionAutoConfiguration {
 	}
 
 	/**
-	 * aop处理
+	 * 数据权限aop处理
 	 */
 	@Bean
 	public DataPermissionAnnotationAdvisor dataPermissionAnnotationAdvisor() {

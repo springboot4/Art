@@ -1,15 +1,15 @@
 package com.fxz.common.dataPermission.db;
 
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.ttl.TransmittableThreadLocal;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.parser.JsqlParserSupport;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.fxz.common.dataPermission.factory.DataPermissionRuleFactory;
+import com.fxz.common.dataPermission.local.DataPermissionRuleContextHolder;
+import com.fxz.common.dataPermission.local.MappedStatementCache;
 import com.fxz.common.dataPermission.rule.DataPermissionRule;
 import com.fxz.common.mp.utils.MyBatisUtils;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
@@ -31,14 +31,16 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Connection;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 数据权限拦截器 通过数据权限规则 重写SQL的方式来实现
  * <p/>
  * 主要的SQL重写方法可见 {@link #builderExpression(Expression, Table)} 方法 参考
- * {@link com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor} 实现。
+ * {@link com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor} 实现
  *
  * @author fxz
  */
@@ -50,7 +52,6 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 	 */
 	private final DataPermissionRuleFactory ruleFactory;
 
-	@Getter
 	private final MappedStatementCache mappedStatementCache = new MappedStatementCache();
 
 	/**
@@ -71,13 +72,13 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 		PluginUtils.MPBoundSql mpBs = PluginUtils.mpBoundSql(boundSql);
 		try {
 			// 初始化上下文
-			ContextHolder.init(rules);
+			DataPermissionRuleContextHolder.init(rules);
 			// 处理 SQL
 			mpBs.sql(parserSingle(mpBs.sql(), null));
 		}
 		finally {
 			addMappedStatementCache(ms);
-			ContextHolder.clear();
+			DataPermissionRuleContextHolder.clear();
 		}
 	}
 
@@ -100,13 +101,13 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 			PluginUtils.MPBoundSql mpBs = mpSh.mPBoundSql();
 			try {
 				// 初始化上下文
-				ContextHolder.init(rules);
+				DataPermissionRuleContextHolder.init(rules);
 				// 处理 SQL
 				mpBs.sql(parserMulti(mpBs.sql(), null));
 			}
 			finally {
 				addMappedStatementCache(ms);
-				ContextHolder.clear();
+				DataPermissionRuleContextHolder.clear();
 			}
 		}
 	}
@@ -379,7 +380,7 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 	private Expression buildDataPermissionExpression(Table table) {
 		// 生成条件
 		Expression allExpression = null;
-		for (DataPermissionRule rule : ContextHolder.getRules()) {
+		for (DataPermissionRule rule : DataPermissionRuleContextHolder.getRules()) {
 			// 判断表名是否匹配
 			if (!rule.getTableNames().contains(table.getName())) {
 				continue;
@@ -387,7 +388,7 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 			// 如果有匹配的规则，说明可重写。
 			// 为什么不是有 allExpression 非空才重写呢？在生成 column = value 过滤条件时，会因为 value 不存在，导致未重写。
 			// 这样导致第一次无 value，被标记成无需重写；但是第二次有 value，此时会需要重写。
-			ContextHolder.setRewrite(true);
+			DataPermissionRuleContextHolder.setRewrite(true);
 
 			// 单条规则的条件
 			String tableName = MyBatisUtils.getTableName(table);
@@ -400,116 +401,15 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
 	}
 
 	/**
-	 * 判断 SQL 是否重写。如果没有重写，则添加到 {@link MappedStatementCache} 中
+	 * 判断 SQL 是否重写 如果没有重写 则添加到 {@link MappedStatementCache} 中
 	 * @param ms MappedStatement
 	 */
 	private void addMappedStatementCache(MappedStatement ms) {
-		if (ContextHolder.getRewrite()) {
+		if (DataPermissionRuleContextHolder.getRewrite()) {
 			return;
 		}
-		// 无重写 进行添加
-		mappedStatementCache.addNoRewritable(ms, ContextHolder.getRules());
-	}
-
-	/**
-	 * SQL 解析上下文，方便透传 {@link DataPermissionRule} 规则
-	 *
-	 * @author fxz
-	 */
-	static final class ContextHolder {
-
-		/**
-		 * 该 {@link MappedStatement} 对应的规则
-		 */
-		private static final ThreadLocal<List<DataPermissionRule>> RULES = new TransmittableThreadLocal<>();
-
-		/**
-		 * SQL 是否进行重写
-		 */
-		private static final ThreadLocal<Boolean> REWRITE = new TransmittableThreadLocal<>();
-
-		public static void init(List<DataPermissionRule> rules) {
-			RULES.set(rules);
-			REWRITE.set(false);
-		}
-
-		public static void clear() {
-			RULES.remove();
-			REWRITE.remove();
-		}
-
-		public static boolean getRewrite() {
-			return REWRITE.get();
-		}
-
-		public static void setRewrite(boolean rewrite) {
-			REWRITE.set(rewrite);
-		}
-
-		public static List<DataPermissionRule> getRules() {
-			return RULES.get();
-		}
-
-	}
-
-	/**
-	 * {@link MappedStatement} 缓存 目前主要用于，记录 {@link DataPermissionRule} 是否对指定
-	 * {@link MappedStatement} 无效 如果无效，则可以避免 SQL 的解析，加快速度
-	 *
-	 * @author fxz
-	 */
-	static final class MappedStatementCache {
-
-		/**
-		 * 指定数据权限规则，对指定 MappedStatement 无需重写（不生效)的缓存
-		 * <p>
-		 * value：{@link MappedStatement#getId()} 编号
-		 */
-		@Getter
-		private final Map<Class<? extends DataPermissionRule>, Set<String>> noRewritableMappedStatements = new ConcurrentHashMap<>();
-
-		/**
-		 * 判断是否无需重写
-		 * @param ms MappedStatement
-		 * @param rules 数据权限规则数组
-		 * @return 是否无需重写
-		 */
-		public boolean noRewritable(MappedStatement ms, List<DataPermissionRule> rules) {
-			// 如果规则为空 无需重写
-			if (CollUtil.isEmpty(rules)) {
-				return true;
-			}
-
-			for (DataPermissionRule rule : rules) {
-				// 根据规则类获取不需要重写的MappedStatementId集合
-				Set<String> mappedStatementIds = noRewritableMappedStatements.get(rule.getClass());
-				// 任一规则不在 noRewritableMap 中 则说明可能需要重写
-				if (!CollUtil.contains(mappedStatementIds, ms.getId())) {
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		/**
-		 * 添加无需重写的 MappedStatement
-		 * @param ms MappedStatement
-		 * @param rules 数据权限规则数组
-		 */
-		public void addNoRewritable(MappedStatement ms, List<DataPermissionRule> rules) {
-			for (DataPermissionRule rule : rules) {
-				Set<String> mappedStatementIds = noRewritableMappedStatements.get(rule.getClass());
-				if (CollUtil.isNotEmpty(mappedStatementIds)) {
-					mappedStatementIds.add(ms.getId());
-				}
-				else {
-					noRewritableMappedStatements.put(rule.getClass(),
-							new HashSet<>(Collections.singletonList(ms.getId())));
-				}
-			}
-		}
-
+		// 不重写 进行添加
+		mappedStatementCache.addNoRewritable(ms, DataPermissionRuleContextHolder.getRules());
 	}
 
 }
