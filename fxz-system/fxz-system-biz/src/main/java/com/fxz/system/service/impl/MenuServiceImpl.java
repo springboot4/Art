@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.core.exception.FxzException;
-import com.fxz.common.core.utils.TreeUtil;
+import com.fxz.common.core.util.TreeUtil;
 import com.fxz.common.redis.constant.CacheConstants;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;

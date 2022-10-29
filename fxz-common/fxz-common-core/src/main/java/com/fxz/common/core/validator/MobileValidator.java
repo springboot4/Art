@@ -2,7 +2,7 @@ package com.fxz.common.core.validator;
 
 import com.fxz.common.core.annotation.CheckMobileValid;
 import com.fxz.common.core.constant.RegexpConstant;
-import com.fxz.common.core.utils.FxzUtil;
+import com.fxz.common.core.util.FxzUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;

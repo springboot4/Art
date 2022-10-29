@@ -1,4 +1,4 @@
-package com.fxz.common.core.utils;
+package com.fxz.common.core.util;
 
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.experimental.UtilityClass;

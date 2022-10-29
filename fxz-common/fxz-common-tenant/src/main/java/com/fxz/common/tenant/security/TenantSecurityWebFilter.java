@@ -1,7 +1,7 @@
 package com.fxz.common.tenant.security;
 
 import cn.hutool.core.collection.CollUtil;
-import com.fxz.common.core.utils.FxzUtil;
+import com.fxz.common.core.util.FxzUtil;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.util.SecurityUtil;

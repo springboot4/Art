@@ -1,4 +1,4 @@
-package com.fxz.common.core.utils;
+package com.fxz.common.core.util;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.fxz.common.core.entity.router.VueRouter;
