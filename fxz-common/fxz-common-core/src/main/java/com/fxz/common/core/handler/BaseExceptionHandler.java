@@ -4,7 +4,6 @@ import com.fxz.common.core.exception.FxzAuthException;
 import com.fxz.common.core.exception.FxzException;
 import com.fxz.common.mp.result.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Path;
 import java.util.List;
 import java.util.Set;
 
@@ -57,15 +55,14 @@ public class BaseExceptionHandler {
 	@ExceptionHandler(value = ConstraintViolationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public Result<Void> handleConstraintViolationException(ConstraintViolationException e) {
-		StringBuilder message = new StringBuilder();
-		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-		for (ConstraintViolation<?> violation : violations) {
-			Path path = violation.getPropertyPath();
-			String[] pathArr = StringUtils.splitByWholeSeparatorPreserveAllTokens(path.toString(), ".");
-			message.append(pathArr[1]).append(violation.getMessage()).append(",");
+		StringBuilder msg = new StringBuilder();
+		Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+		for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+			String message = constraintViolation.getMessage();
+			msg.append(message).append(System.lineSeparator());
 		}
-		message = new StringBuilder(message.substring(0, message.length() - 1));
-		return Result.failed(message.toString());
+
+		return Result.failed(msg.toString());
 	}
 
 	@ExceptionHandler(value = FxzException.class)

@@ -4,7 +4,7 @@ import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.fxz.common.core.utils.WebUtil;
+import com.fxz.common.core.util.WebUtil;
 import com.fxz.common.log.annotation.OperLogAnn;
 import com.fxz.common.log.enums.BusinessStatus;
 import com.fxz.common.log.service.AsyncLogService;
