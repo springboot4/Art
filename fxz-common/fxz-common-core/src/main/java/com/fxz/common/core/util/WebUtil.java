@@ -1,4 +1,4 @@
-package com.fxz.common.core.utils;
+package com.fxz.common.core.util;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.web.context.request.RequestContextHolder;

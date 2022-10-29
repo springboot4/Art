@@ -4,7 +4,7 @@ import cn.hutool.extra.servlet.ServletUtil;
 import com.fxz.common.Idempotent.annotation.Idempotent;
 import com.fxz.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolver;
 import com.fxz.common.core.exception.ErrorCodes;
-import com.fxz.common.core.utils.MsgUtils;
+import com.fxz.common.core.util.MsgUtils;
 import com.fxz.common.mp.result.Result;
 import com.fxz.common.mq.redis.core.RedisMQTemplate;
 import com.fxz.common.redis.cache.support.CacheMessage;

@@ -1,4 +1,4 @@
-package com.fxz.common.core.utils;
+package com.fxz.common.core.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.fxz.common.core.utils;
+package com.fxz.common.core.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fxz.common.mp.result.Result;
