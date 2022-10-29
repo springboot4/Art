@@ -1,6 +1,8 @@
 package com.fxz.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fxz.common.core.util.ValidationUtil;
+import com.fxz.common.core.validator.ValidationGroup;
 import com.fxz.common.mp.result.PageResult;
 import com.fxz.common.mp.result.Result;
 import com.fxz.system.entity.App;
@@ -33,6 +35,7 @@ public class AppController {
 	@Operation(summary = "添加")
 	@PostMapping(value = "/add")
 	public Result<Boolean> add(@RequestBody App app) {
+		ValidationUtil.validateParam(app, ValidationGroup.add.class);
 		return Result.success(appService.addSysApp(app));
 	}
 
@@ -42,6 +45,7 @@ public class AppController {
 	@Operation(summary = "修改")
 	@PostMapping(value = "/update")
 	public Result<Boolean> update(@RequestBody App app) {
+		ValidationUtil.validateParam(app, ValidationGroup.update.class);
 		return Result.success(appService.updateSysApp(app));
 	}
 

@@ -17,4 +17,3 @@ spring:
       max-request-size: 100MB
   main:
     allow-circular-references: true
-

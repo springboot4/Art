@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.core.exception.FxzException;
-import com.fxz.common.core.utils.WebUtil;
+import com.fxz.common.core.util.WebUtil;
 import com.fxz.common.security.entity.FxzAuthUser;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
