@@ -6,6 +6,9 @@ import java.util.Objects;
 
 import static org.springframework.util.StringUtils.tokenizeToStringArray;
 
+/**
+ * @author fxz
+ */
 public class FilterDefinitionDto {
 
 	private String name;

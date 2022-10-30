@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,9 +17,10 @@ import java.util.List;
  * @version 1.0
  * @date 2022-02-27 18:34
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("sys_dept")
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
 public class Dept extends BaseCreateEntity implements Serializable {
 
 	private static final long serialVersionUID = -7139055608314923987L;

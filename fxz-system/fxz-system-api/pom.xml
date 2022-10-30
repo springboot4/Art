@@ -30,6 +30,11 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-doc</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
