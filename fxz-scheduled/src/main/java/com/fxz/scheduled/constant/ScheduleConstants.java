@@ -53,7 +53,7 @@ public class ScheduleConstants {
 		@Getter
 		private final String value;
 
-		private Status(String value) {
+		Status(String value) {
 			this.value = value;
 		}
 
