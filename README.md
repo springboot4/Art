@@ -51,6 +51,19 @@ fxz-cloud
           ├── mall-uni   -- 商城小程序界面
 ```
 
+## 🍺加入我们
+qq交流群:932249645
+<p>
+<img src="https://minio.pigx.vip/oss/2022/07/FcAxsd.jpg" width = "330" height = "500"/>
+</p>
+微信交流群:
+<p>
+<img src="https://minio.pigx.vip/oss/2022/10/eTegus.jpg" width = "330" height = "500"/>
+</p>
+二维码过期可加本人微信:
+<p>
+<img src="https://minio.pigx.vip/oss/2022/10/HPJ944.jpg" width = "330" height = "500"/>
+</p>
 ## 🍬说明文档
 [🍓🍓🍓配套文档 fxzcloud.gitee.io/docs](https://fxzcloud.gitee.io/docs/)
 
@@ -104,20 +117,6 @@ SaaS多租户，自定义租户套餐.
 低耦合，秒上手，稳得很！
 ## ❓其他功能
 过于先进，不便展示。欢迎下载源码研究🧐欢迎star
-## 🍺加入我们
-qq交流群:932249645
-<p>
-<img src="https://minio.pigx.vip/oss/2022/07/FcAxsd.jpg" width = "330" height = "500"/>
-</p>
-微信交流群:
-<p>
-<img src="https://minio.pigx.vip/oss/2022/10/SSBSne.jpg" width = "330" height = "500"/>
-</p>
-二维码过期可加本人微信:
-<p>
-<img src="https://minio.pigx.vip/oss/2022/10/HPJ944.jpg" width = "330" height = "500"/>
-</p>
-
 ## 依赖版本
 
 | 依赖                   | 版本         |
