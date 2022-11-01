@@ -7,26 +7,26 @@ package com.fxz.common.core.constant;
  */
 public interface FxzServerConstant {
 
-	public static final String FXZ_AUTH = "fxz-auth";
+	String FXZ_AUTH = "fxz-auth";
 
-	public static final String FXZ_CLOUD = "fxz-cloud";
+	String FXZ_CLOUD = "fxz-cloud";
 
-	public static final String FXZ_COMMON = "fxz-common";
+	String FXZ_COMMON = "fxz-common";
 
-	public static final String FXZ_GATEWAY = "fxz-gateway";
+	String FXZ_GATEWAY = "fxz-gateway";
 
-	public static final String FXZ_REGISTER = "fxz-register";
+	String FXZ_REGISTER = "fxz-register";
 
-	public static final String FXZ_SERVER = "fxz-server";
+	String FXZ_SERVER = "fxz-server";
 
-	public static final String FXZ_SERVER_SYSTEM = "fxz-server-system";
+	String FXZ_SERVER_SYSTEM = "fxz-server-system";
 
-	public static final String FXZ_MALL_PRODUCT = "fxz-mall-product";
+	String FXZ_MALL_PRODUCT = "fxz-mall-product";
 
-	public static final String FXZ_MALL_ORDER = "fxz-mall-order";
+	String FXZ_MALL_ORDER = "fxz-mall-order";
 
-	public static final String FXZ_MALL_MEMBER = "fxz-mall-user";
+	String FXZ_MALL_MEMBER = "fxz-mall-user";
 
-	public static final String FXZ_MALL_PROMOTION = "fxz-mall-promotion";
+	String FXZ_MALL_PROMOTION = "fxz-mall-promotion";
 
 }
