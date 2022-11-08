@@ -13,26 +13,32 @@
     <description>数据权限模块</description>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-mp</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-common-security</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.fxz</groupId>
             <artifactId>fxz-system-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>
