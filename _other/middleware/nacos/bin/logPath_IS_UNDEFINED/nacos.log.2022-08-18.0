@@ -1,0 +1,606 @@
+2022-08-18 00:00:28,274 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m30s489ms).
+
+2022-08-18 00:05:58,434 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m30s160ms).
+
+2022-08-18 00:11:58,610 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m30s174ms).
+
+2022-08-18 00:17:58,732 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m30s115ms).
+
+2022-08-18 00:23:28,818 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m30s88ms).
+
+2022-08-18 00:23:33,746 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3f220496 (Communications link failure
+
+The last packet successfully received from the server was 310,177 milliseconds ago. The last packet sent successfully to the server was 310,726 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 00:28:03,682 WARN clearConfigHistory start
+
+2022-08-18 00:31:02,186 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@595a1300 (Communications link failure
+
+The last packet successfully received from the server was 447,882 milliseconds ago. The last packet sent successfully to the server was 447,927 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 00:38:03,920 WARN clearConfigHistory start
+
+2022-08-18 00:47:10,159 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7a95b555 (Communications link failure
+
+The last packet successfully received from the server was 967,369 milliseconds ago. The last packet sent successfully to the server was 967,422 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 00:47:16,129 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@42179c9d marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,020 milliseconds ago. The last packet sent successfully to the server was 3,854 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1200)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeQuery(ProxyStatement.java:111)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeQuery(HikariProxyStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1QueryStatementCallback.doInStatement(JdbcTemplate.java:439)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:376)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:452)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:462)
+	at com.alibaba.nacos.config.server.service.datasource.ExternalDataSourceServiceImpl$CheckDbHealthTask.run(ExternalDataSourceServiceImpl.java:246)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,020 milliseconds ago. The last packet sent successfully to the server was 3,854 milliseconds ago.
+	at jdk.internal.reflect.GeneratedConstructorAccessor97.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:490)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:538)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:702)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:641)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:940)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:886)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1073)
+	at com.mysql.cj.jdbc.StatementImpl.executeQuery(StatementImpl.java:1168)
+	... 13 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/java.net.SocketInputStream.socketRead0(Native Method)
+	at java.base/java.net.SocketInputStream.socketRead(SocketInputStream.java:115)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:168)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.base/java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:532)
+	... 19 common frames omitted
+2022-08-18 00:48:04,169 WARN clearConfigHistory start
+
+2022-08-18 00:58:04,556 WARN clearConfigHistory start
+
+2022-08-18 01:08:04,787 WARN clearConfigHistory start
+
+2022-08-18 01:18:04,895 WARN clearConfigHistory start
+
+2022-08-18 01:28:05,158 WARN clearConfigHistory start
+
+2022-08-18 01:38:05,319 WARN clearConfigHistory start
+
+2022-08-18 01:48:05,488 WARN clearConfigHistory start
+
+2022-08-18 01:58:05,753 WARN clearConfigHistory start
+
+2022-08-18 02:08:05,907 WARN clearConfigHistory start
+
+2022-08-18 02:14:00,027 WARN HikariPool-1 - Retrograde clock change detected (housekeeper delta=29s791ms), soft-evicting connections from pool.
+
+2022-08-18 02:18:05,780 WARN clearConfigHistory start
+
+2022-08-18 02:28:05,930 WARN clearConfigHistory start
+
+2022-08-18 02:28:06,014 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@1a7d9934 (Communications link failure
+
+The last packet successfully received from the server was 695,415 milliseconds ago. The last packet sent successfully to the server was 695,459 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 02:38:06,142 WARN clearConfigHistory start
+
+2022-08-18 02:48:06,227 WARN clearConfigHistory start
+
+2022-08-18 02:58:06,273 WARN clearConfigHistory start
+
+2022-08-18 03:07:44,276 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@6e8410a1 (Communications link failure
+
+The last packet successfully received from the server was 463,138 milliseconds ago. The last packet sent successfully to the server was 463,186 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 03:08:06,606 WARN clearConfigHistory start
+
+2022-08-18 03:18:06,791 WARN clearConfigHistory start
+
+2022-08-18 03:26:23,334 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@4ee954ba (Communications link failure
+
+The last packet successfully received from the server was 839,870 milliseconds ago. The last packet sent successfully to the server was 839,915 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 03:28:06,963 WARN clearConfigHistory start
+
+2022-08-18 03:38:07,099 WARN clearConfigHistory start
+
+2022-08-18 03:43:27,445 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@345b89ea (Communications link failure
+
+The last packet successfully received from the server was 595,586 milliseconds ago. The last packet sent successfully to the server was 595,648 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 03:48:07,076 WARN clearConfigHistory start
+
+2022-08-18 03:58:07,265 WARN clearConfigHistory start
+
+2022-08-18 04:08:07,498 WARN clearConfigHistory start
+
+2022-08-18 04:18:07,710 WARN clearConfigHistory start
+
+2022-08-18 04:28:07,873 WARN clearConfigHistory start
+
+2022-08-18 04:38:08,084 WARN clearConfigHistory start
+
+2022-08-18 04:48:08,250 WARN clearConfigHistory start
+
+2022-08-18 04:58:08,391 WARN clearConfigHistory start
+
+2022-08-18 05:08:08,652 WARN clearConfigHistory start
+
+2022-08-18 05:18:08,798 WARN clearConfigHistory start
+
+2022-08-18 05:21:50,360 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3191a79a (Communications link failure
+
+The last packet successfully received from the server was 556,352 milliseconds ago. The last packet sent successfully to the server was 556,402 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 05:28:08,927 WARN clearConfigHistory start
+
+2022-08-18 05:38:09,102 WARN clearConfigHistory start
+
+2022-08-18 05:48:09,255 WARN clearConfigHistory start
+
+2022-08-18 05:58:09,713 WARN clearConfigHistory start
+
+2022-08-18 06:08:09,870 WARN clearConfigHistory start
+
+2022-08-18 06:18:10,071 WARN clearConfigHistory start
+
+2022-08-18 06:28:10,208 WARN clearConfigHistory start
+
+2022-08-18 06:32:11,522 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@1678b3dd (Communications link failure
+
+The last packet successfully received from the server was 607,586 milliseconds ago. The last packet sent successfully to the server was 607,635 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 06:36:49,899 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@52155d26 marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,029 milliseconds ago. The last packet sent successfully to the server was 3,337 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:953)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1003)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:678)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:763)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:97)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:56)
+	at com.alibaba.nacos.config.server.auth.ExternalRolePersistServiceImpl.getRolesByUserName(ExternalRolePersistServiceImpl.java:101)
+	at com.alibaba.nacos.console.security.nacos.roles.NacosRoleServiceImpl.reload(NacosRoleServiceImpl.java:77)
+	at jdk.internal.reflect.GeneratedMethodAccessor139.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,029 milliseconds ago. The last packet sent successfully to the server was 3,337 milliseconds ago.
+	at jdk.internal.reflect.GeneratedConstructorAccessor97.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:490)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:538)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:702)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:641)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:940)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1075)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:930)
+	... 24 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/java.net.SocketInputStream.socketRead0(Native Method)
+	at java.base/java.net.SocketInputStream.socketRead(SocketInputStream.java:115)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:168)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.base/java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:532)
+	... 29 common frames omitted
+2022-08-18 06:38:10,371 WARN clearConfigHistory start
+
+2022-08-18 06:48:10,541 WARN clearConfigHistory start
+
+2022-08-18 06:58:10,781 WARN clearConfigHistory start
+
+2022-08-18 07:06:52,094 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5f205884 (Communications link failure
+
+The last packet successfully received from the server was 527,734 milliseconds ago. The last packet sent successfully to the server was 527,786 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 07:08:10,944 WARN clearConfigHistory start
+
+2022-08-18 07:18:11,125 WARN clearConfigHistory start
+
+2022-08-18 07:28:11,262 WARN clearConfigHistory start
+
+2022-08-18 07:38:11,527 WARN clearConfigHistory start
+
+2022-08-18 07:48:11,750 WARN clearConfigHistory start
+
+2022-08-18 07:58:12,009 WARN clearConfigHistory start
+
+2022-08-18 08:08:12,117 WARN clearConfigHistory start
+
+2022-08-18 08:18:12,287 WARN clearConfigHistory start
+
+2022-08-18 08:28:12,447 WARN clearConfigHistory start
+
+2022-08-18 08:38:12,581 WARN clearConfigHistory start
+
+2022-08-18 08:48:12,812 WARN clearConfigHistory start
+
+2022-08-18 08:58:12,956 WARN clearConfigHistory start
+
+2022-08-18 09:00:17,912 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@68406745 (Communications link failure
+
+The last packet successfully received from the server was 432,199 milliseconds ago. The last packet sent successfully to the server was 432,245 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 09:08:13,132 WARN clearConfigHistory start
+
+2022-08-18 09:08:45,753 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@2c2e5eed (Communications link failure
+
+The last packet successfully received from the server was 506,566 milliseconds ago. The last packet sent successfully to the server was 506,626 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 09:18:13,406 WARN clearConfigHistory start
+
+2022-08-18 09:28:13,591 WARN clearConfigHistory start
+
+2022-08-18 09:33:38,331 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@1ddfe3ed (Communications link failure
+
+The last packet successfully received from the server was 481,824 milliseconds ago. The last packet sent successfully to the server was 481,881 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 09:38:13,868 WARN clearConfigHistory start
+
+2022-08-18 09:48:14,063 WARN clearConfigHistory start
+
+2022-08-18 09:48:23,060 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5edc7121 (Communications link failure
+
+The last packet successfully received from the server was 616,595 milliseconds ago. The last packet sent successfully to the server was 616,643 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 09:48:53,602 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7e15989e (Communications link failure
+
+The last packet successfully received from the server was 377,504 milliseconds ago. The last packet sent successfully to the server was 377,553 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 09:58:14,232 WARN clearConfigHistory start
+
+2022-08-18 10:08:14,407 WARN clearConfigHistory start
+
+2022-08-18 10:18:13,426 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@2b0a628a (Communications link failure
+
+The last packet successfully received from the server was 877,260 milliseconds ago. The last packet sent successfully to the server was 877,313 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 10:18:14,637 WARN clearConfigHistory start
+
+2022-08-18 10:28:14,745 WARN clearConfigHistory start
+
+2022-08-18 10:38:14,920 WARN clearConfigHistory start
+
+2022-08-18 10:48:04,318 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@38102c81 (Communications link failure
+
+The last packet successfully received from the server was 507,882 milliseconds ago. The last packet sent successfully to the server was 507,933 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 10:48:15,074 WARN clearConfigHistory start
+
+2022-08-18 10:58:15,163 WARN clearConfigHistory start
+
+2022-08-18 11:08:15,342 WARN clearConfigHistory start
+
+2022-08-18 11:18:15,500 WARN clearConfigHistory start
+
+2022-08-18 11:19:23,343 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@132aa59e (Communications link failure
+
+The last packet successfully received from the server was 615,714 milliseconds ago. The last packet sent successfully to the server was 615,840 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 11:28:15,643 WARN clearConfigHistory start
+
+2022-08-18 11:38:15,780 WARN clearConfigHistory start
+
+2022-08-18 11:48:16,037 WARN clearConfigHistory start
+
+2022-08-18 11:49:08,634 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@51d2753f (Communications link failure
+
+The last packet successfully received from the server was 874,265 milliseconds ago. The last packet sent successfully to the server was 874,311 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 12:08:08,772 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@333ae1f5 (Communications link failure
+
+The last packet successfully received from the server was 1,027,865 milliseconds ago. The last packet sent successfully to the server was 1,027,928 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 12:23:54,122 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=32m47s806ms).
+
+2022-08-18 12:28:50,042 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@2a26b1ae (Communications link failure
+
+The last packet successfully received from the server was 1,240,004 milliseconds ago. The last packet sent successfully to the server was 1,240,055 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 12:28:50,128 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@521e9393 (Communications link failure
+
+The last packet successfully received from the server was 1,239,883 milliseconds ago. The last packet sent successfully to the server was 1,239,939 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 12:29:14,342 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m20s221ms).
+
+2022-08-18 12:35:24,221 WARN clearConfigHistory start
+
+2022-08-18 12:45:24,381 WARN clearConfigHistory start
+
+2022-08-18 13:24:54,669 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@6c37ee40 (Communications link failure
+
+The last packet successfully received from the server was 1,826,117 milliseconds ago. The last packet sent successfully to the server was 1,826,167 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 13:24:54,744 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5d429438 (Communications link failure
+
+The last packet successfully received from the server was 1,825,816 milliseconds ago. The last packet sent successfully to the server was 1,825,862 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 13:24:54,827 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@576e1b47 (Communications link failure
+
+The last packet successfully received from the server was 2,199,848 milliseconds ago. The last packet sent successfully to the server was 2,199,892 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 13:32:21,044 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=38m6s525ms).
+
+2022-08-18 13:33:01,053 WARN clearConfigHistory start
+
+2022-08-18 13:43:01,445 WARN clearConfigHistory start
+
+2022-08-18 13:53:01,826 WARN clearConfigHistory start
+
+2022-08-18 14:02:07,667 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@57ad4822 (Communications link failure
+
+The last packet successfully received from the server was 555,938 milliseconds ago. The last packet sent successfully to the server was 555,986 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 14:03:01,973 WARN clearConfigHistory start
+
+2022-08-18 14:13:02,142 WARN clearConfigHistory start
+
+2022-08-18 14:23:02,324 WARN clearConfigHistory start
+
+2022-08-18 14:33:02,522 WARN clearConfigHistory start
+
+2022-08-18 14:43:02,820 WARN clearConfigHistory start
+
+2022-08-18 14:53:03,000 WARN clearConfigHistory start
+
+2022-08-18 15:03:03,370 WARN clearConfigHistory start
+
+2022-08-18 15:13:03,515 WARN clearConfigHistory start
+
+2022-08-18 15:23:03,661 WARN clearConfigHistory start
+
+2022-08-18 15:33:03,815 WARN clearConfigHistory start
+
+2022-08-18 15:43:04,052 WARN clearConfigHistory start
+
+2022-08-18 15:53:04,315 WARN clearConfigHistory start
+
+2022-08-18 15:59:34,953 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@8ae365a (Communications link failure
+
+The last packet successfully received from the server was 492,089 milliseconds ago. The last packet sent successfully to the server was 492,141 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 16:03:04,364 WARN clearConfigHistory start
+
+2022-08-18 16:13:04,516 WARN clearConfigHistory start
+
+2022-08-18 16:23:04,692 WARN clearConfigHistory start
+
+2022-08-18 16:33:04,857 WARN clearConfigHistory start
+
+2022-08-18 16:43:05,029 WARN clearConfigHistory start
+
+2022-08-18 16:53:05,201 WARN clearConfigHistory start
+
+2022-08-18 16:59:33,862 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@6b5176da (Communications link failure
+
+The last packet successfully received from the server was 640,661 milliseconds ago. The last packet sent successfully to the server was 640,708 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 17:03:05,367 WARN clearConfigHistory start
+
+2022-08-18 17:09:24,356 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@37a263cc marked as broken because of SQLSTATE(08S01), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,027 milliseconds ago. The last packet sent successfully to the server was 3,159 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ConnectionImpl.setSessionMaxRows(ConnectionImpl.java:2430)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1001)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:678)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:783)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:804)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:66)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePaginationHelperImpl.fetchPage(ExternalStoragePaginationHelperImpl.java:56)
+	at com.alibaba.nacos.config.server.auth.ExternalUserPersistServiceImpl.getUsers(ExternalUserPersistServiceImpl.java:136)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.getUsersFromDatabase(NacosUserDetailsServiceImpl.java:89)
+	at com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl.reload(NacosUserDetailsServiceImpl.java:55)
+	at jdk.internal.reflect.GeneratedMethodAccessor138.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 3,027 milliseconds ago. The last packet sent successfully to the server was 3,159 milliseconds ago.
+	at jdk.internal.reflect.GeneratedConstructorAccessor97.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:490)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:538)
+	at com.mysql.cj.protocol.a.NativeProtocol.checkErrorMessage(NativeProtocol.java:702)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendCommand(NativeProtocol.java:641)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:940)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryString(NativeProtocol.java:886)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1073)
+	at com.mysql.cj.jdbc.ConnectionImpl.setSessionMaxRows(ConnectionImpl.java:2426)
+	... 26 common frames omitted
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/java.net.SocketInputStream.socketRead0(Native Method)
+	at java.base/java.net.SocketInputStream.socketRead(SocketInputStream.java:115)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:168)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
+	at com.mysql.cj.protocol.ReadAheadInputStream.fill(ReadAheadInputStream.java:107)
+	at com.mysql.cj.protocol.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:150)
+	at com.mysql.cj.protocol.ReadAheadInputStream.read(ReadAheadInputStream.java:180)
+	at java.base/java.io.FilterInputStream.read(FilterInputStream.java:133)
+	at com.mysql.cj.protocol.FullReadInputStream.readFully(FullReadInputStream.java:64)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:63)
+	at com.mysql.cj.protocol.a.SimplePacketReader.readHeader(SimplePacketReader.java:45)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:52)
+	at com.mysql.cj.protocol.a.TimeTrackingPacketReader.readHeader(TimeTrackingPacketReader.java:41)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:54)
+	at com.mysql.cj.protocol.a.MultiPacketReader.readHeader(MultiPacketReader.java:44)
+	at com.mysql.cj.protocol.a.NativeProtocol.readMessage(NativeProtocol.java:532)
+	... 32 common frames omitted
+2022-08-18 17:09:31,731 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@50ff956f (Communications link failure
+
+The last packet successfully received from the server was 20,020 milliseconds ago. The last packet sent successfully to the server was 20,069 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 17:09:41,575 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@42a5e6c3 (Communications link failure
+
+The last packet successfully received from the server was 378,411 milliseconds ago. The last packet sent successfully to the server was 378,455 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 17:13:05,530 WARN clearConfigHistory start
+
+2022-08-18 17:18:37,466 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@18e4d915 (Communications link failure
+
+The last packet successfully received from the server was 24,760 milliseconds ago. The last packet sent successfully to the server was 24,860 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 17:18:40,039 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@6c4e6fdb (Communications link failure
+
+The last packet successfully received from the server was 20,017 milliseconds ago. The last packet sent successfully to the server was 20,073 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 17:23:05,736 WARN clearConfigHistory start
+
+2022-08-18 17:33:06,022 WARN clearConfigHistory start
+
+2022-08-18 17:43:06,188 WARN clearConfigHistory start
+
+2022-08-18 17:53:06,381 WARN clearConfigHistory start
+
+2022-08-18 18:03:06,562 WARN clearConfigHistory start
+
+2022-08-18 18:21:07,105 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@45c3e3a1 (Communications link failure
+
+The last packet successfully received from the server was 980,061 milliseconds ago. The last packet sent successfully to the server was 980,106 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 18:21:07,185 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@75ea8837 (Communications link failure
+
+The last packet successfully received from the server was 978,600 milliseconds ago. The last packet sent successfully to the server was 978,657 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 18:21:07,257 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@18b0ec24 (Communications link failure
+
+The last packet successfully received from the server was 1,453,251 milliseconds ago. The last packet sent successfully to the server was 1,453,318 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 18:28:44,958 WARN HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=23m51s448ms).
+
+2022-08-18 18:36:28,187 WARN clearConfigHistory start
+
+2022-08-18 18:37:18,173 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@35cdcbb5 (Communications link failure
+
+The last packet successfully received from the server was 969,795 milliseconds ago. The last packet sent successfully to the server was 969,841 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 18:46:28,225 WARN clearConfigHistory start
+
+2022-08-18 18:56:28,373 WARN clearConfigHistory start
+
+2022-08-18 19:06:28,524 WARN clearConfigHistory start
+
+2022-08-18 19:07:12,809 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7c14c45f (Communications link failure
+
+The last packet successfully received from the server was 1,107,290 milliseconds ago. The last packet sent successfully to the server was 1,107,332 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 19:16:28,676 WARN clearConfigHistory start
+
+2022-08-18 19:23:07,033 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3b989f00 (Communications link failure
+
+The last packet successfully received from the server was 381,374 milliseconds ago. The last packet sent successfully to the server was 381,440 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 19:26:28,829 WARN clearConfigHistory start
+
+2022-08-18 19:36:28,962 WARN clearConfigHistory start
+
+2022-08-18 19:46:29,153 WARN clearConfigHistory start
+
+2022-08-18 19:56:29,313 WARN clearConfigHistory start
+
+2022-08-18 20:00:18,095 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@649a32c3 (Communications link failure
+
+The last packet successfully received from the server was 1,022,315 milliseconds ago. The last packet sent successfully to the server was 1,022,363 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 20:06:29,460 WARN clearConfigHistory start
+
+2022-08-18 20:16:29,800 WARN clearConfigHistory start
+
+2022-08-18 20:21:27,133 WARN HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@2215e8e5 (Communications link failure
+
+The last packet successfully received from the server was 641,147 milliseconds ago. The last packet sent successfully to the server was 641,211 milliseconds ago.). Possibly consider using a shorter maxLifetime value.
+
+2022-08-18 20:26:29,950 WARN clearConfigHistory start
+
+2022-08-18 20:36:30,098 WARN clearConfigHistory start
+
+2022-08-18 20:46:30,072 WARN clearConfigHistory start
+
+2022-08-18 20:56:30,263 WARN clearConfigHistory start
+
+2022-08-18 21:06:30,437 WARN clearConfigHistory start
+
+2022-08-18 21:16:30,628 WARN clearConfigHistory start
+
