@@ -1,7 +1,6 @@
 package com.fxz.common.sequence.segment;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * 序列号号段配置
@@ -11,7 +10,6 @@ import lombok.experimental.Accessors;
  * @date 2022/5/23 09:48
  */
 @Data
-@Accessors(chain = true)
 public class SeqSegmentConfig {
 
 	/**

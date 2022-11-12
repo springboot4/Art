@@ -3,8 +3,6 @@ package com.fxz.common.core.entity.${module};
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.experimental.Accessors;
-import lombok.EqualsAndHashCode;
 
 /**
  * ${comments}
@@ -13,8 +11,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @TableName("${tableName}")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 public class ${className} extends BaseEntity{
 
     private static final long serialVersionUID = -1L;

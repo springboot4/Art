@@ -1,7 +1,6 @@
 package com.fxz.scheduled.param;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * 定时任务调度表
@@ -10,7 +9,7 @@ import lombok.experimental.Accessors;
  * @date 2022-04-03
  */
 @Data
-@Accessors(chain = true)
+
 public class JobParam {
 
 }

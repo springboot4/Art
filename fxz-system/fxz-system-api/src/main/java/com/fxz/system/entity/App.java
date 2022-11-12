@@ -5,8 +5,6 @@ import com.fxz.common.core.validator.ValidationGroup;
 import com.fxz.common.mp.base.BaseIdEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,8 +18,6 @@ import javax.validation.constraints.Size;
 @Schema(title = "系统应用")
 @Data
 @TableName("sys_app")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 public class App extends BaseIdEntity {
 
 	private static final long serialVersionUID = -1L;

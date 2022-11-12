@@ -1,7 +1,6 @@
 package com.fxz.gen.entity;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * 数据库列信息
@@ -11,7 +10,6 @@ import lombok.experimental.Accessors;
  * @date 2022-03-03 16:04
  */
 @Data
-@Accessors(chain = true)
 public class DatabaseColumn {
 
 	/**

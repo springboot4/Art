@@ -2,7 +2,6 @@ package com.fxz.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * 用户与岗位关联表
@@ -12,7 +11,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @TableName("sys_user_post")
-@Accessors(chain = true)
 public class UserPost {
 
 	private static final long serialVersionUID = -1L;

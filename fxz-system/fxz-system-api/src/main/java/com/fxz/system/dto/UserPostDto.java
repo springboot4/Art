@@ -2,8 +2,6 @@ package com.fxz.system.dto;
 
 import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * 用户与岗位关联表
@@ -11,9 +9,7 @@ import lombok.experimental.Accessors;
  * @author fxz
  * @date 2022-04-05
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-@Accessors(chain = true)
 public class UserPostDto extends BaseCreateEntity {
 
 	private static final long serialVersionUID = -1L;

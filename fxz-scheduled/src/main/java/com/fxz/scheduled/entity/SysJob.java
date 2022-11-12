@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.BaseCreateEntity;
 import com.fxz.scheduled.constant.ScheduleConstants;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * 定时任务调度表
@@ -17,8 +15,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @TableName("sys_job")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 public class SysJob extends BaseCreateEntity {
 
 	private static final long serialVersionUID = -1L;
