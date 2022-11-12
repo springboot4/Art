@@ -25,7 +25,7 @@ import java.util.Set;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-11-29 18:34
  */
 public interface IMenuService extends IService<Menu> {

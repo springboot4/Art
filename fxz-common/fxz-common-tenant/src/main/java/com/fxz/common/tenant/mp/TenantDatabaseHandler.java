@@ -30,7 +30,7 @@ import java.util.Objects;
  * mybatis-plus 多租户插件配置
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/1 11:17
  */
 public class TenantDatabaseHandler implements TenantLineHandler {

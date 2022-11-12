@@ -27,7 +27,7 @@ import java.util.Set;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-03-06 14:50
  */
 @FeignClient(contextId = "remoteMenuService", value = FxzServerConstant.FXZ_SERVER_SYSTEM)

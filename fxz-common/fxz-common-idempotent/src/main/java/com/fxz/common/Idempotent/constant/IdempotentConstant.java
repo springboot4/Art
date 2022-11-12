@@ -20,7 +20,7 @@ package com.fxz.common.Idempotent.constant;
  * 幂等常量
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/9 19:37
  */
 public interface IdempotentConstant {

@@ -24,7 +24,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * 发号器相应参数配置
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/23 09:37
  */
 @Getter

@@ -24,7 +24,7 @@ import java.util.concurrent.Callable;
  * 多租户操作工具类
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/1 12:11
  */
 public class TenantUtils {

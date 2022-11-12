@@ -33,7 +33,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
  * 资源服务器配置
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-03-06 18:10
  */
 @RequiredArgsConstructor

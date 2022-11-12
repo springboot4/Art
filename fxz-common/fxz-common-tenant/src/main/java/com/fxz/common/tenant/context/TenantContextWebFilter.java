@@ -30,7 +30,7 @@ import java.util.Objects;
  * 多租户上下文过滤器
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/1 11:09
  */
 public class TenantContextWebFilter extends OncePerRequestFilter {

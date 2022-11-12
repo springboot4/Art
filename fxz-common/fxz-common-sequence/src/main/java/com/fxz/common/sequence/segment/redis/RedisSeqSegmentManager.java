@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * redis号段管理器
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/23 09:56
  */
 @Slf4j
