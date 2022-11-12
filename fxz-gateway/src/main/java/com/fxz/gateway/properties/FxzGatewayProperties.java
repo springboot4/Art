@@ -23,7 +23,7 @@ import org.springframework.context.annotation.PropertySource;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-12-07 10:22
  */
 @Data

@@ -18,7 +18,7 @@ package com.fxz.demos.distributed.lock.redis.constant;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/3 15:14
  */
 public interface RedisConstant {

@@ -25,7 +25,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/6/30 17:44
  */
 @AutoConfiguration

@@ -31,7 +31,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/22 20:45
  */
 @ComponentScan

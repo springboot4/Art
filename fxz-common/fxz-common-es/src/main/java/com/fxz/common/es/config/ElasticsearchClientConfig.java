@@ -30,7 +30,7 @@ import javax.annotation.Resource;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/24 21:52
  */
 @AutoConfiguration

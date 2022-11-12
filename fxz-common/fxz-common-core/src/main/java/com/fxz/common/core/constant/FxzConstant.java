@@ -18,7 +18,7 @@ package com.fxz.common.core.constant;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-11-28 13:10
  */
 public interface FxzConstant {

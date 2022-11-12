@@ -27,7 +27,7 @@ import org.redisson.api.RedissonClient;
  * redisson公平锁封装
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/4 17:11
  */
 @RequiredArgsConstructor

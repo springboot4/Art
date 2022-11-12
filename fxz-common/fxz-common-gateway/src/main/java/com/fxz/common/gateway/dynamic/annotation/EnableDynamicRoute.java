@@ -25,7 +25,7 @@ import java.lang.annotation.*;
  * 开启动态路由
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/8/20 14:34
  */
 @Target({ ElementType.TYPE })

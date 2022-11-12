@@ -32,7 +32,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * 校验城市地名是否合法，不接受null
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/14 15:28
  */
 @Documented

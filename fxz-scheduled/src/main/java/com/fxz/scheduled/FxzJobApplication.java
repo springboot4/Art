@@ -23,7 +23,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-04-03 17:16
  */
 @EnableFeignClients(basePackages = { "com.fxz" })

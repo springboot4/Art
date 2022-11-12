@@ -29,7 +29,7 @@ import reactor.core.publisher.Mono;
  * 网关异常通用处理器
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-12-07 11:01
  */
 @Slf4j

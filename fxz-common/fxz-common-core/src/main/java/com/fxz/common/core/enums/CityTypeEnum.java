@@ -18,7 +18,7 @@ package com.fxz.common.core.enums;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/14 15:30
  */
 public enum CityTypeEnum {

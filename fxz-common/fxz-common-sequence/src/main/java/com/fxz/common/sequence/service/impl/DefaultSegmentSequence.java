@@ -33,7 +33,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 序列号号段生成器接口默认实现
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/23 10:16
  */
 @Setter

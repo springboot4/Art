@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * 幂等注解
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-04-11 21:20
  */
 @Target({ ElementType.METHOD })

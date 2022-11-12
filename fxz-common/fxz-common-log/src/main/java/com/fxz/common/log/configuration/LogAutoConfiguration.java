@@ -25,7 +25,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/25 12:32
  */
 @EnableAsync

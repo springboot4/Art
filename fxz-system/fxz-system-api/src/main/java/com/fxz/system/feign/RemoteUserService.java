@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-03-06 14:50
  */
 @FeignClient(contextId = "remoteUserService", value = FxzServerConstant.FXZ_SERVER_SYSTEM)

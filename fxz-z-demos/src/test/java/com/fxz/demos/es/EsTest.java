@@ -39,7 +39,7 @@ import java.util.Map;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/28 21:53
  * @see <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docs.html"/>
  */
