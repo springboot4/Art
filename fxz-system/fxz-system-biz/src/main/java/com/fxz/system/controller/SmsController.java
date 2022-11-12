@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 短信管理
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/19 21:04
  */
 @Tag(name = "短信管理")

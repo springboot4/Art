@@ -42,7 +42,7 @@ import java.util.concurrent.CompletableFuture;
  * 菜单管理
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-11-29 18:47
  */
 @Tag(name = "菜单管理")

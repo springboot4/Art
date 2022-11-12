@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-04-13 21:39
  */
 @FeignClient(contextId = "remoteRoleService", value = FxzServerConstant.FXZ_SERVER_SYSTEM)

@@ -35,7 +35,7 @@ import static com.fxz.common.lock.constant.RedisConstant.REDIS_PREFIX;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/4 16:26
  * @see <a href=
  * "https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95"/>

@@ -22,7 +22,7 @@ import lombok.Data;
  * 数据库列信息
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-03-03 16:04
  */
 @Data

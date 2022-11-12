@@ -20,7 +20,7 @@ import com.fxz.common.mq.redis.message.AbstractRedisMessage;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/6/30 16:12
  */
 public interface RedisMessageInterceptor {

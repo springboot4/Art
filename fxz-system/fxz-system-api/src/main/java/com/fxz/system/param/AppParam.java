@@ -27,7 +27,7 @@ import java.util.Objects;
  * 应用查询参数
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/12 13:01
  */
 public class AppParam extends App {

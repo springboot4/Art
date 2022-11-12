@@ -20,7 +20,7 @@ package com.fxz.common.core.validator;
  * 参数校验分组
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/29 17:16
  */
 public interface ValidationGroup {

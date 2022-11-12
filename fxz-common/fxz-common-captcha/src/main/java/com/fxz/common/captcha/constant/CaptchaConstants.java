@@ -18,7 +18,7 @@ package com.fxz.common.captcha.constant;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/19 16:15
  */
 public interface CaptchaConstants {

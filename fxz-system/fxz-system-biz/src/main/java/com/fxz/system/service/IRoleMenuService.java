@@ -21,7 +21,7 @@ import com.fxz.system.entity.RoleMenu;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-02-28 18:34
  */
 public interface IRoleMenuService extends IService<RoleMenu> {

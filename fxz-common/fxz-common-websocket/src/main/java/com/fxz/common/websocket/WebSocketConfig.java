@@ -30,7 +30,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/6/28 09:23
  */
 @AutoConfiguration

@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * 内存缓存只适合单节点部署的应用，否则验证码生产与验证在节点之间信息不同步，导致失败。
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/19 16:12
  */
 @NoArgsConstructor

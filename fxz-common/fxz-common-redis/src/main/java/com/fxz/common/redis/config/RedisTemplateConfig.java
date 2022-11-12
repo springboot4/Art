@@ -32,7 +32,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-04-15 23:28
  */
 @EnableCaching

@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  * 传递feign租户请求头
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/1 11:09
  */
 @Slf4j

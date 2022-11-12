@@ -30,7 +30,7 @@ import java.util.Objects;
  * redis key中拼接租户id
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/1 12:18
  */
 public class TenantRedisCacheManager extends RedisCaffeineCacheManager {

@@ -22,7 +22,7 @@ import com.alibaba.ttl.TransmittableThreadLocal;
  * 多租户上下文
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/1 11:09
  */
 public class TenantContextHolder {

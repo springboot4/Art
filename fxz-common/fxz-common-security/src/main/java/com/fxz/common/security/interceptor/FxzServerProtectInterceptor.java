@@ -32,7 +32,7 @@ import java.io.IOException;
  * 拦截器只放行通过网关的请求
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-11-28 13:12
  */
 public class FxzServerProtectInterceptor implements HandlerInterceptor {

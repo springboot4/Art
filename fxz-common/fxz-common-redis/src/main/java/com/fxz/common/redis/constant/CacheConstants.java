@@ -18,7 +18,7 @@ package com.fxz.common.redis.constant;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/8/20 12:06
  */
 public interface CacheConstants {

@@ -34,7 +34,7 @@ import java.util.List;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/14 15:32
  */
 public class CityValidator implements ConstraintValidator<CheckCityValid, String> {

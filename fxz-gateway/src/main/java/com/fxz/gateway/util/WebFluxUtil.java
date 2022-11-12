@@ -27,7 +27,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-04-07 15:25
  */
 public class WebFluxUtil {

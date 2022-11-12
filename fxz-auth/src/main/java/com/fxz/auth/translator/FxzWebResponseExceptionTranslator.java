@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
  * 覆盖默认的认证异常响应 需要在认证服务器配置
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-11-27 21:17
  */
 
