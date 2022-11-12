@@ -11,8 +11,6 @@ import com.fxz.common.core.enums.SensitiveType;
 import com.fxz.common.core.sensitive.SensitiveInfo;
 import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
@@ -25,8 +23,6 @@ import java.util.Date;
  * @version 1.0
  * @date 2021-11-28 15:22
  */
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("sys_user")
 public class SystemUser extends BaseCreateEntity {

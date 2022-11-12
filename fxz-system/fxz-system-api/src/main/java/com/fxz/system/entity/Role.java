@@ -7,8 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.core.enums.RoleAdminEnum;
 import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -17,8 +15,6 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2022-02-27 17:48
  */
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("sys_role")
 public class Role extends BaseCreateEntity implements Serializable {

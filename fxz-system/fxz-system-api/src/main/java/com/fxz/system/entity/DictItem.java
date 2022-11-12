@@ -3,8 +3,6 @@ package com.fxz.system.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.MpEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * 字典项
@@ -14,8 +12,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @TableName("sys_dict_item")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 public class DictItem extends MpEntity {
 
 	private static final long serialVersionUID = -1L;

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fxz.common.core.entity.router.VueRouter;
 import com.fxz.common.mp.base.BaseEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -16,7 +15,6 @@ import java.io.Serializable;
  */
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @Data
-@EqualsAndHashCode(callSuper = true)
 @TableName("sys_menu")
 public class Menu extends BaseEntity implements Serializable {
 

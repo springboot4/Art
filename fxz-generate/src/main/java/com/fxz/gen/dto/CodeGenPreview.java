@@ -1,7 +1,6 @@
 package com.fxz.gen.dto;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * 代码预览内容
@@ -11,7 +10,6 @@ import lombok.experimental.Accessors;
  * @date 2022-03-03 15:38
  */
 @Data
-@Accessors(chain = true)
 public class CodeGenPreview {
 
 	/**

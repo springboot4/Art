@@ -1,7 +1,6 @@
 package com.fxz.common.gateway.dynamic.route;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 
@@ -14,7 +13,6 @@ import java.io.Serializable;
  */
 @Data
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 public class FxzRouteDefinition extends RouteDefinition implements Serializable {
 
 	/**

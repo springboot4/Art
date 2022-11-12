@@ -1,7 +1,6 @@
 package com.fxz.common.lock.entity;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +11,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2022/9/4 17:17
  */
 @Data
-@Accessors(chain = true)
 public class LockEntity {
 
 	/**

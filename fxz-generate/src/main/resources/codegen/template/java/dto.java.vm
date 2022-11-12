@@ -5,8 +5,6 @@ import com.fxz.common.mp.base.BaseCreateEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * ${comments}
@@ -14,9 +12,7 @@ import lombok.experimental.Accessors;
  * @date ${datetime}
  */
 @Schema(title = "${comments}")
-@EqualsAndHashCode(callSuper = true)
 @Data
-@Accessors(chain = true)
 public class ${className}DTO extends BaseCreateEntity {
 
     private static final long serialVersionUID = -1L;

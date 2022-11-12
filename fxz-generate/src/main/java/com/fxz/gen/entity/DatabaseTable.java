@@ -3,7 +3,6 @@ package com.fxz.gen.entity;
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,6 @@ import java.time.LocalDateTime;
  * @date 2022-03-03 15:58
  */
 @Data
-@Accessors(chain = true)
 public class DatabaseTable {
 
 	/**

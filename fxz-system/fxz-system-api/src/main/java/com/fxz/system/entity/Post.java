@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * 岗位信息
@@ -17,8 +15,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @TableName("sys_post")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 public class Post extends BaseCreateEntity {
 
 	private static final long serialVersionUID = -1L;

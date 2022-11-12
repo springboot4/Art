@@ -1,7 +1,6 @@
 package com.fxz.gen.param;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
  * @date 2022-03-31
  */
 @Data
-@Accessors(chain = true)
 public class DatasourceConfParam {
 
 	private Long id;
