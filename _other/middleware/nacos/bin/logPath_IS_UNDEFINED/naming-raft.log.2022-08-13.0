@@ -1,8 +1,0 @@
-2022-08-13 23:22:24,387 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@fxz-auth
-
-2022-08-13 23:22:24,413 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@fxz-gateway
-
-2022-08-13 23:22:24,414 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@fxz-generate
-
-2022-08-13 23:22:24,415 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@fxz-server-system
-
