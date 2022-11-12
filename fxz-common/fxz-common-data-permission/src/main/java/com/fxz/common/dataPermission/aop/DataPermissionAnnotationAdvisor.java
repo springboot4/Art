@@ -1,6 +1,5 @@
 package com.fxz.common.dataPermission.aop;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.aopalliance.aop.Advice;
 import org.springframework.aop.Pointcut;
@@ -16,7 +15,6 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
  * @author fxz
  */
 @Getter
-@EqualsAndHashCode(callSuper = true)
 public class DataPermissionAnnotationAdvisor extends DefaultPointcutAdvisor {
 
 	private final Advice advice;

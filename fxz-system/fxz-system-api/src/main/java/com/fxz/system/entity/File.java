@@ -3,8 +3,6 @@ package com.fxz.system.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.MpEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * 文件管理
@@ -14,8 +12,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @TableName("sys_file")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 public class File extends MpEntity {
 
 	private static final long serialVersionUID = -1L;

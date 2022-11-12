@@ -2,7 +2,6 @@ package com.fxz.system.vo;
 
 import com.fxz.system.entity.Tenant;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @author Fxz
@@ -10,7 +9,6 @@ import lombok.EqualsAndHashCode;
  * @date 2022/10/1 18:49
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class TenantVO extends Tenant {
 
 	private String username;

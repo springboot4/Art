@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.BaseCreateEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * 数据源表
@@ -16,9 +14,7 @@ import lombok.experimental.Accessors;
  * @date 2022-03-31
  */
 @Data
-@Accessors(chain = true)
 @TableName("gen_datasource_conf")
-@EqualsAndHashCode(callSuper = true)
 public class DatasourceConf extends BaseCreateEntity {
 
 	private static final long serialVersionUID = 666L;

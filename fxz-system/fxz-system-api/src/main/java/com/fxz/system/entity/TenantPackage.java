@@ -3,8 +3,6 @@ package com.fxz.system.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.MpEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * @author Fxz
@@ -13,8 +11,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @TableName("sys_tenant_package")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 public class TenantPackage extends MpEntity {
 
 	/**

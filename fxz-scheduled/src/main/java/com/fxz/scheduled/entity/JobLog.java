@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -19,7 +18,6 @@ import java.util.Date;
  */
 @Data
 @TableName("sys_job_log")
-@Accessors(chain = true)
 public class JobLog implements Serializable {
 
 	private static final long serialVersionUID = -1L;
