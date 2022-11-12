@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fxz.common.mp.base.BaseDelEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
@@ -16,11 +14,9 @@ import java.time.LocalDateTime;
  * @author fxz
  * @date 2022-08-20
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @FieldNameConstants
 @TableName("sys_route_conf")
-@Accessors(chain = true)
 public class RouteConf extends BaseDelEntity {
 
 	private static final long serialVersionUID = -1L;

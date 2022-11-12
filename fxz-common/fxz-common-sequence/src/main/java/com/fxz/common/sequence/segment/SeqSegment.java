@@ -2,7 +2,6 @@ package com.fxz.common.sequence.segment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -15,7 +14,6 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Data
 @AllArgsConstructor
-@Accessors(chain = true)
 public class SeqSegment {
 
 	/**

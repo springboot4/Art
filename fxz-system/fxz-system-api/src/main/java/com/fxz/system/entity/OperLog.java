@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fxz.common.mp.base.BaseEntity;
 import com.fxz.common.mp.encrypt.annotation.EncryptionData;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
 /**
@@ -17,8 +15,6 @@ import lombok.experimental.FieldNameConstants;
 @Data
 @FieldNameConstants
 @TableName("sys_oper_log")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
 public class OperLog extends BaseEntity {
 
 	/**
