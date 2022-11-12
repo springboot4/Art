@@ -33,7 +33,7 @@ import java.util.Map;
  * 开启和Web相关的安全配置
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-11-27 16:00
  */
 @Order(1)

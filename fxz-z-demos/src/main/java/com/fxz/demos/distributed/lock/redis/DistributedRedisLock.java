@@ -34,7 +34,7 @@ import java.util.concurrent.locks.Lock;
  * redis实现分布式锁demo
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/3 15:07
  */
 public class DistributedRedisLock implements Lock {

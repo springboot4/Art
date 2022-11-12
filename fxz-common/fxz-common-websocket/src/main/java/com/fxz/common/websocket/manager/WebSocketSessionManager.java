@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * websocket连接管理器
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/6/28 10:02
  */
 public class WebSocketSessionManager {

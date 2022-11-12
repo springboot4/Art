@@ -40,7 +40,7 @@ import java.util.Objects;
  * 用户租户信息合法性校验拦截器
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/1 12:11
  */
 @Slf4j

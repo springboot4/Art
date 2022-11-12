@@ -30,7 +30,7 @@ import java.io.IOException;
  * 用于处理403类型异常
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-11-27 21:52
  */
 public class FxzAccessDeniedHandler implements AccessDeniedHandler {

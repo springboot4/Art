@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * 分布式锁注解(声明式加锁的方式暂不支持红锁、连锁)
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/4 23:12
  */
 @Target(value = { ElementType.METHOD })

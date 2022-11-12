@@ -29,7 +29,7 @@ import java.util.Map;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-04-14 21:30
  */
 @FeignClient(contextId = "remoteTokenService", value = FxzServerConstant.FXZ_AUTH)

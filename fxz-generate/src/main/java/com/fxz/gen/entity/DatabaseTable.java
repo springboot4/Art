@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
  * 数据库表基本信息
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-03-03 15:58
  */
 @Data

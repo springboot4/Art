@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * mysql号段管理器
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/23 13:14
  */
 @Slf4j

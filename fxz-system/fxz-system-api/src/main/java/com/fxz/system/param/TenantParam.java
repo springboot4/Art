@@ -27,7 +27,7 @@ import java.util.Objects;
  * 租户查询参数
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/3 12:41
  */
 public class TenantParam extends Tenant {

@@ -23,7 +23,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/13 23:10
  */
 @AutoConfiguration

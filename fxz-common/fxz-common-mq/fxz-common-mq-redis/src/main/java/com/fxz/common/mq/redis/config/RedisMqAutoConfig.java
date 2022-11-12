@@ -40,7 +40,7 @@ import java.util.Properties;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/6/30 16:10
  */
 @Configuration

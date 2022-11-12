@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * websocket用户全局通知
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/6/28 09:49
  */
 @Component

@@ -25,7 +25,7 @@ import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
  * 自定义Pointcut
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/10 11:09
  */
 public class DataPermissionCustomPointcut {

@@ -48,7 +48,7 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.*
  * 日志、黑名单过滤器
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-12-07 10:18
  */
 @Slf4j

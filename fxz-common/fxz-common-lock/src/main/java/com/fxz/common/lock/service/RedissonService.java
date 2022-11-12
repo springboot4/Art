@@ -21,7 +21,7 @@ import com.fxz.common.lock.entity.LockEntity;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/9/4 16:52
  */
 public interface RedissonService {

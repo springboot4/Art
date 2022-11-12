@@ -24,7 +24,7 @@ import org.springframework.core.Ordered;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/10/1 13:43
  */
 @Aspect

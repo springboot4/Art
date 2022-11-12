@@ -25,7 +25,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/8/30 22:12
  */
 @EnableFxzCloudResourceServer

@@ -22,7 +22,7 @@ import com.fxz.common.sequence.exception.SeqException;
  * 序列号生成器接口
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022/5/23 09:43
  */
 public interface Sequence {

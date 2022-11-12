@@ -24,7 +24,7 @@ import java.io.Serializable;
  * 分页查询参数
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2022-02-27 12:40
  */
 @Data

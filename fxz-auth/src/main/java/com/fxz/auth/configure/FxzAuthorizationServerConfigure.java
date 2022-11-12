@@ -55,7 +55,7 @@ import java.util.*;
  * 认证服务器配置
  *
  * @author Fxz
- * @version 1.0
+ * @version 0.0.1
  * @date 2021-11-27 16:10
  */
 @SuppressWarnings("rawtypes")
