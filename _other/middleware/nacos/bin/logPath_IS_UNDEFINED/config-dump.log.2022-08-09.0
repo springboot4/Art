@@ -1,0 +1,10 @@
+2022-08-09 11:05:37,232 INFO [dump-task] add task. groupKey=fxz-auth.yaml+DEFAULT_GROUP, taskKey=fxz-auth.yaml+DEFAULT_GROUP++false+null
+
+2022-08-09 11:05:37,413 WARN [dump-ignore] ignore to save cache file. groupKey=fxz-auth.yaml+DEFAULT_GROUP, md5=9b6cea0f4a4ab4e642cf92ccc8778070, lastModifiedOld=1659863524435, lastModifiedNew=1660014336632
+
+2022-08-09 11:32:23,075 INFO [dump-task] add task. groupKey=fxz-gateway.yaml+DEFAULT_GROUP, taskKey=fxz-gateway.yaml+DEFAULT_GROUP++false+null
+
+2022-08-09 11:41:45,504 INFO [dump-task] add task. groupKey=fxz-mall-promotion.yaml+DEFAULT_GROUP, taskKey=fxz-mall-promotion.yaml+DEFAULT_GROUP++false+null
+
+2022-08-09 11:43:23,167 INFO [dump-task] add task. groupKey=fxz-mall-promotion.yaml+DEFAULT_GROUP, taskKey=fxz-mall-promotion.yaml+DEFAULT_GROUP++false+null
+
