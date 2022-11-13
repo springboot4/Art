@@ -73,6 +73,16 @@ public class FxzCloudSecurityProperties implements InitializingBean {
 	 */
 	private List<String> innerUri;
 
+	/**
+	 * 访问令牌有效期(秒)
+	 */
+	private Integer accessTokenValiditySeconds = 60 * 60 * 24;
+
+	/**
+	 * 刷新令牌有效期(秒)
+	 */
+	private Integer refreshTokenValiditySeconds = 60 * 60 * 24 * 7;
+
 	@Override
 	public void afterPropertiesSet() {
 		List<String> list = new ArrayList<>();

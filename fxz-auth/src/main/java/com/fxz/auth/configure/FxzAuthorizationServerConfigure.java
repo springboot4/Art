@@ -16,12 +16,12 @@
 
 package com.fxz.auth.configure;
 
-import com.fxz.auth.properties.FxzAuthProperties;
 import com.fxz.auth.translator.FxzWebResponseExceptionTranslator;
 import com.fxz.common.core.constant.SecurityConstants;
 import com.fxz.common.security.entity.FxzAuthUser;
 import com.fxz.common.security.extension.captcha.FxzCaptchaTokenGranter;
 import com.fxz.common.security.extension.mobile.FxzSmsCodeTokenGranter;
+import com.fxz.common.security.properties.FxzCloudSecurityProperties;
 import com.fxz.common.security.service.FxzPreAuthenticatedUserDetailsService;
 import com.fxz.common.security.service.FxzUserDetailsService;
 import com.fxz.common.security.service.user.FxzUserDetailServiceImpl;
@@ -76,7 +76,7 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 	private final FxzUserDetailServiceImpl fxzUserDetailService;
 
-	private final FxzAuthProperties authProperties;
+	private final FxzCloudSecurityProperties fxzSecurityProperties;
 
 	private final FxzWebResponseExceptionTranslator fxzWebResponseExceptionTranslator;
 
@@ -160,9 +160,9 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 		// token增强，添加了字段
 		tokenServices.setTokenEnhancer(tokenEnhancer());
 		// token令牌有效时间
-		tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds());
+		tokenServices.setAccessTokenValiditySeconds(fxzSecurityProperties.getAccessTokenValiditySeconds());
 		// 刷新token有效时间
-		tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds());
+		tokenServices.setRefreshTokenValiditySeconds(fxzSecurityProperties.getRefreshTokenValiditySeconds());
 		// 设置ClientDetailsService
 		tokenServices.setClientDetailsService(fxzClientDetailsService());
 
