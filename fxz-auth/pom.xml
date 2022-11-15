@@ -75,6 +75,11 @@
 
         <dependency>
             <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-banner</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fxz</groupId>
             <artifactId>fxz-common-tenant</artifactId>
         </dependency>
 

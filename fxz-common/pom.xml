@@ -53,6 +53,7 @@
         <module>fxz-common-xxl-job</module>
         <module>fxz-common-captcha</module>
         <module>fxz-common-tenant</module>
+        <module>fxz-common-banner</module>
     </modules>
 
 </project>
