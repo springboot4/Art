@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author fxz
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class AjCaptchaStorageAutoConfiguration {
 
 	@Bean(name = "AjCaptchaCacheService")

@@ -27,7 +27,7 @@ import java.util.Objects;
 /**
  * @author fxz
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class RateLimiterConfiguration {
 
 	// @Bean

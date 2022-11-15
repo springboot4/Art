@@ -23,6 +23,7 @@ import com.fxz.common.mq.redis.core.RedisMQTemplate;
 import com.fxz.common.mq.redis.interceptor.RedisMessageInterceptor;
 import com.fxz.common.mq.redis.stream.AbstractStreamMessageListener;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisServerCommands;
@@ -43,7 +44,7 @@ import java.util.Properties;
  * @version 0.0.1
  * @date 2022/6/30 16:10
  */
-@Configuration
+@AutoConfiguration
 @Slf4j
 public class RedisMqAutoConfig {
 

@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
  * @version 0.0.1
  * @date 2022/5/23 14:29
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class SeqConfig {
 
