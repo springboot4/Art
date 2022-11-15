@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.cloud.client.ServiceInstance;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,19 +29,17 @@ import java.util.concurrent.TimeUnit;
  * @version 0.0.1
  * @date 2022/11/15 14:58
  */
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class BannerRunner implements ApplicationRunner {
 
-	private final ServiceInstance serviceInstance;
+	private final String appName;
 
 	@Override
 	public void run(ApplicationArguments args) {
 		ThreadUtil.execute(() -> {
 			ThreadUtil.sleep(3, TimeUnit.SECONDS);
-			String serviceId = serviceInstance.getServiceId();
-			log.info("" + "\n" + "项目启动成功！😊" + "\n" + "服务:{}" + "\n" + "接口文档:http://fxz-gateway:8301/doc.html",
-					serviceId);
+			log.info("" + "\n" + "项目启动成功！" + "\n" + "服务:{}" + "\n" + "接口文档:http://fxz-gateway:8301/doc.html", appName);
 		});
 	}
 
