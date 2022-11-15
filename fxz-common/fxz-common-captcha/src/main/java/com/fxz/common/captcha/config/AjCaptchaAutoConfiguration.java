@@ -17,6 +17,7 @@
 package com.fxz.common.captcha.config;
 
 import com.fxz.common.captcha.properties.AjCaptchaProperties;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +26,7 @@ import org.springframework.context.annotation.Import;
 /**
  * @author fxz
  */
-@Configuration
+@AutoConfiguration
 @EnableConfigurationProperties(AjCaptchaProperties.class)
 @ComponentScan("com.fxz.common.captcha")
 @Import({ AjCaptchaServiceAutoConfiguration.class, AjCaptchaStorageAutoConfiguration.class })

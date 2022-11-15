@@ -40,7 +40,7 @@ import java.util.Properties;
  * @author fxz
  */
 @Slf4j
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class AjCaptchaServiceAutoConfiguration {
 
 	@Bean

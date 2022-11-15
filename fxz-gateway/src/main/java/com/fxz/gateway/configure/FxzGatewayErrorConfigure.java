@@ -27,7 +27,7 @@ import org.springframework.core.annotation.Order;
 /**
  * @author fxz
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class FxzGatewayErrorConfigure {
 
 	@Bean
