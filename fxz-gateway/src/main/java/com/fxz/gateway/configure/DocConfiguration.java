@@ -34,7 +34,7 @@ import java.util.Set;
  * @version 0.0.1
  * @date 2022/10/22 23:16
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class DocConfiguration {
 
 	public static final String API_URI = "/%s/v3/api-docs";
