@@ -58,7 +58,7 @@ qq交流群:932249645
 </p>
 微信交流群:
 <p>
-<img src="https://minio.pigx.vip/oss/2022/11/7xvoyn.jpg" width = "330" height = "500"/>
+<img src="https://minio.pigx.vip/oss/2022/11/sGA58Z.jpg" width = "330" height = "500"/>
 </p>
 二维码过期可加本人微信:
 <p>
