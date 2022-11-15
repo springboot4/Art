@@ -17,8 +17,8 @@
 package com.fxz.common.banner.config;
 
 import com.fxz.common.banner.core.BannerRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -30,8 +30,8 @@ import org.springframework.context.annotation.Bean;
 public class BannerAutoConfiguration {
 
 	@Bean
-	public BannerRunner bannerRunner(ServiceInstance serviceInstance) {
-		return new BannerRunner(serviceInstance);
+	public BannerRunner bannerRunner(@Value("${spring.application.name}") String appName) {
+		return new BannerRunner(appName);
 	}
 
 }
