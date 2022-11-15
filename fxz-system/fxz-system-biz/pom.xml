@@ -82,6 +82,12 @@
             <artifactId>fxz-system-api</artifactId>
         </dependency>
 
+        <!--banner信息-->
+        <dependency>
+            <groupId>com.fxz</groupId>
+            <artifactId>fxz-common-banner</artifactId>
+        </dependency>
+
         <!--测试:xxl-job-->
         <dependency>
             <groupId>com.fxz</groupId>
