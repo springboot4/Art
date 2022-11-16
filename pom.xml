@@ -20,19 +20,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.fxz</groupId>
-    <artifactId>fxz-cloud</artifactId>
+    <groupId>com.art</groupId>
+    <artifactId>art</artifactId>
     <version>0.0.1</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>fxz-common</module>
-        <module>fxz-auth</module>
-        <module>fxz-gateway</module>
-        <module>fxz-system</module>
-        <module>fxz-generate</module>
-        <module>fxz-scheduled</module>
-        <module>fxz-z-demos</module>
+        <module>art-api</module>
+        <module>art-auth</module>
+        <module>art-server</module>
+        <module>art-gateway</module>
+        <module>art-framework</module>
     </modules>
 
     <properties>
@@ -71,11 +69,11 @@
     <!--依赖管理-->
     <dependencyManagement>
 
-        <!-- fxz-common 依赖 -->
+        <!-- art-common 依赖 -->
         <dependencies>
             <dependency>
-                <groupId>com.fxz</groupId>
-                <artifactId>fxz-common-dependencies</artifactId>
+                <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-dependencies</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>

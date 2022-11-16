@@ -1,3 +1,0 @@
-com.fxz.common.redis.config.RedisTemplateConfig
-com.fxz.common.redis.util.BusinessNoGenerator
-com.fxz.common.redis.config.CacheRedisCaffeineAutoConfiguration

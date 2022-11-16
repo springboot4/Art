@@ -5,42 +5,43 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 ## 🪜项目结构
 ```lua
-fxz-cloud 
-    ├── fxz-auth -- 认证服务器
-    ├── fxz-common -- 通用工具封装
-       ├── fxz-common-canal -- 针对canal封装
-       ├── fxz-common-captcha -- 验证码封装
-       ├── fxz-common-core -- web基础配置
-       ├── fxz-common-data-permission -- 数据权限封装
-       ├── fxz-common-database -- 多数据源
-       ├── fxz-common-dependencies -- 依赖管理
-       ├── fxz-common-doc -- 接口文档
-       ├── fxz-common-es -- es配置
-       ├── fxz-common-file -- 文件管理模块
-       ├── fxz-common-gateway -- 动态网关
-       ├── fxz-common-idempotency -- 幂等控制组件
-       ├── fxz-common-jackson -- Json序列化配置
-       ├── fxz-common-lock -- 分布式锁模块
-       ├── fxz-common-log -- 日志配置
-       ├── fxz-common-mp -- mybatis-plus配置
-       ├── fxz-common-mq -- 消息队列封装
-          ├── fxz-common-mq-rabbit -- rabbitMq消息队列
-          ├── fxz-common-mq-redis -- redis轻量级消息队列
-       ├── fxz-common-redis -- 多级缓存、分布式锁模块
-       ├── fxz-common-seata -- 分布式事务
-       ├── fxz-common-security -- 安全模块
-       ├── fxz-common-sequence -- 发号器（序列号生成器）
-       ├── fxz-common-sms -- 阿里云短信服务
-       ├── fxz-common-tenant -- SaaS多租户支持
-       ├── fxz-common-websocket  -- websocket
-       ├── fxz-common-xxl-job  -- xxl-job配置
-    ├── fxz-gateway -- 网关模块
-    ├── fxz-generate -- 代码生成器
-    ├── fxz-scheduled -- quartz定时任务模块
-    ├── fxz-system -- 系统服务
-       ├── fxz-system-api -- feign接口
-       ├── fxz-system-biz -- 业务模块
-    ├── fxz-z-laboratory -- 实验性模块
+   art
+    ├── art-api -- 接口管理
+    ├── art-auth -- 认证服务器
+    ├── art-framework -- 通用工具封装
+       ├── art-spring-boot-starter-banner -- banner信息
+       ├── art-spring-boot-starter-canal -- 针对canal封装
+       ├── art-spring-boot-starter-captcha -- 验证码封装
+       ├── art-spring-boot-starter-core -- web基础配置
+       ├── art-spring-boot-starter-data-permission -- 数据权限封装
+       ├── art-spring-boot-starter-database -- 多数据源
+       ├── art-spring-boot-starter-dependencies -- 依赖管理
+       ├── art-spring-boot-starter-doc -- 接口文档
+       ├── art-spring-boot-starter-es -- es配置
+       ├── art-spring-boot-starter-file -- 文件管理模块
+       ├── art-spring-boot-starter-gateway -- 动态网关
+       ├── art-spring-boot-starter-idempotency -- 幂等控制组件
+       ├── art-spring-boot-starter-jackson -- Json序列化配置
+       ├── art-spring-boot-starter-lock -- 分布式锁模块
+       ├── art-spring-boot-starter-log -- 日志配置
+       ├── art-spring-boot-starter-mp -- mybatis-plus配置
+       ├── art-spring-boot-starter-mq -- 消息队列封装
+          ├── art-spring-boot-starter-mq-rabbit -- rabbitMq消息队列
+          ├── art-spring-boot-starter-mq-redis -- redis轻量级消息队列
+       ├── art-spring-boot-starter-redis -- 多级缓存、分布式锁模块
+       ├── art-spring-boot-starter-seata -- 分布式事务
+       ├── art-spring-boot-starter-security -- 安全模块
+       ├── art-spring-boot-starter-sequence -- 发号器（序列号生成器）
+       ├── art-spring-boot-starter-sms -- 阿里云短信服务
+       ├── art-spring-boot-starter-tenant -- SaaS多租户支持
+       ├── art-spring-boot-starter-websocket  -- websocket
+       ├── art-spring-boot-starter-xxl-job  -- xxl-job配置
+    ├── art-gateway -- 网关模块
+    ├── art-system -- 系统服务
+       ├── art-system -- 系统管理模块
+       ├── art-generate -- 代码生成器模块
+       ├── art-scheduled -- quartz定时任务模块
+       ├── art-z-demos -- 实验性模块
     ├──_other -- 项目相关文件
        ├── db -- 数据库相关文件
        ├── docker -- docker环境
