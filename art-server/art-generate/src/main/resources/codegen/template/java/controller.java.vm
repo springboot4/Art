@@ -1,0 +1,86 @@
+package com.art.${module}.controller;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.art.common.mp.result.PageResult;
+import com.art.common.mp.result.Result;
+import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Tag(name ="${comments}")
+@RestController
+@RequestMapping("/${classname}")
+@RequiredArgsConstructor
+public class ${className}Controller {
+
+    private final ${className}Service ${classname}Service;
+
+    /**
+     * 添加
+     */
+    @Operation( summary = "添加")
+    @PostMapping(value = "/add")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:add')")
+    public Result<Boolean> add(@RequestBody ${className}DTO ${classname}DTO) {
+        return Result.success(${classname}Service.add${className}(${classname}DTO));
+    }
+
+    /**
+    * 修改
+    */
+    @Operation( summary = "修改")
+    @PostMapping(value = "/update")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:update')")
+    public Result<Boolean> update(@RequestBody ${className}DTO ${classname}DTO) {
+        return Result.success(${classname}Service.update${className}(${classname}DTO));
+    }
+
+    /**
+    * 删除
+    */
+    @Operation( summary = "删除")
+    @DeleteMapping(value = "/delete")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:delete')")
+    public Result<Boolean> delete(Long id) {
+        return Result.judge(${classname}Service.delete${className}(id));
+    }
+
+    /**
+     * 获取单条
+     */
+    @Operation( summary = "获取单条")
+    @GetMapping(value = "/findById")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:view')")
+    public Result<${className}> findById(Long id) {
+        return Result.success(${classname}Service.findById(id));
+    }
+
+    /**
+    * 获取全部
+    */
+    @Operation( summary = "获取全部")
+    @GetMapping(value = "/findAll")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:view')")
+    public Result<List<${className}>> findAll() {
+        return Result.success(${classname}Service.findAll());
+    }
+
+    /**
+     * 分页
+     */
+    @Operation( summary = "分页")
+    @GetMapping(value = "/page")
+    @PreAuthorize("@ps.hasPermission('${module}:${classname}:view')")
+    public Result<PageResult<${className}>> page${className}(Page<${className}> pageParam, ${className} ${classname}) {
+        return Result.success(PageResult.success(${classname}Service.page${className}(pageParam, ${classname})));
+    }
+
+}

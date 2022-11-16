@@ -1,0 +1,25 @@
+#set($excludeColumns = ["createTime","updateTime","createBy","updateBy"])
+package com.art.common.core.entity.${module};
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@TableName("${tableName}")
+public class ${className} extends BaseEntity{
+
+    private static final long serialVersionUID = -1L;
+
+#foreach ($column in $columns)
+    #if(!$excludeColumns.contains($column.name))
+/** $column.comments */
+private $column.attrType $column.name;
+    #end
+#end
+
+}

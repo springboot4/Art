@@ -1,0 +1,46 @@
+package com.art.${module}.service;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Service extends IService <${className}> {
+
+    /**
+     * 添加
+     */
+    Boolean add${className}(${className}DTO ${classname}DTO);
+
+    /**
+     * 修改
+     */
+    Boolean update${className}(${className}DTO ${classname}DTO);
+
+    /**
+     * 分页
+     */
+    IPage<${className}> page${className}(Page<${className}> pageParam, ${className} ${classname});
+
+    /**
+     * 获取单条
+     */
+     ${className} findById(Long id);
+
+    /**
+     * 获取全部
+     */
+    List<${className}> findAll();
+
+    /**
+    * 删除
+    */
+    Boolean delete${className}(Long id);
+
+}
