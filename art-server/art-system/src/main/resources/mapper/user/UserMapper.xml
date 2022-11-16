@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.art.system.mapper.UserMapper">
+
+    <!--分页查找用户详细信息-->
+    <select id="findUserDetailPage"  resultType="com.art.system.entity.SystemUser">
+        SELECT
+        u.user_id userId,
+        u.username,
+        u.email,
+        u.mobile,
+        u.status,
+        u.create_time createTime,
+        u.ssex sex,
+        u.dept_id deptId,
+        u.last_login_time lastLoginTime,
+        u.update_time updateTime,
+        u.description,
+        u.avatar,
+        d.dept_name deptName,
+        GROUP_CONCAT(distinct r.role_id) roleId,
+        GROUP_CONCAT(distinct r.ROLE_NAME) roleName,
+        GROUP_CONCAT(distinct p.post_id) postId,
+        GROUP_CONCAT(distinct p.post_name) postName
+        FROM
+        sys_user u
+        LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
+        LEFT JOIN sys_user_role sur ON (u.user_id = sur.user_id)
+        LEFT JOIN sys_role r ON r.role_id = sur.role_id
+        LEFT JOIN sys_user_post up ON (u.user_id = up.user_id)
+        LEFT JOIN sys_post p ON p.post_id = up.post_id
+        WHERE u.STATUS = 1
+        <if test="user.username != null and user.username != ''">
+            AND u.username like concat('%',#{user.username},'%')
+        </if>
+        <if test="user.sex != null and user.sex != ''">
+            AND u.ssex = #{user.sex}
+        </if>
+        <if test="user.status != null and user.status != ''">
+            AND u.status = #{user.status}
+        </if>
+        <if test="user.mobile != null and user.mobile != ''">
+            AND u.mobile like concat('%',#{user.mobile},'%')
+        </if>
+        group by u.username,u.user_id,u.email,u.mobile,u.status,u.create_time,u.ssex,
+        u.dept_id,u.last_login_time,u.update_time,u.description,u.avatar
+        order by createTime
+    </select>
+
+    <!--根据用户id获取用户信息-->
+    <select id="getUserById" resultType="com.art.system.entity.SystemUser">
+        SELECT
+        u.user_id userId,
+        u.username,
+        u.email,
+        u.mobile,
+        u.status,
+        u.create_time createTime,
+        u.ssex sex,
+        u.dept_id deptId,
+        u.last_login_time lastLoginTime,
+        u.update_time updateTime,
+        u.description,
+        u.avatar,
+        u.tenant_id   tenantId,
+        d.dept_name deptName,
+        GROUP_CONCAT(distinct r.role_id) roleId,
+        GROUP_CONCAT(distinct r.ROLE_NAME) roleName,
+        GROUP_CONCAT(distinct p.post_id) postId,
+        GROUP_CONCAT(distinct p.post_name) postName
+        FROM
+        sys_user u
+        LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
+        LEFT JOIN sys_user_role sur ON (u.user_id = sur.user_id)
+        LEFT JOIN sys_role r ON r.role_id = sur.role_id
+        LEFT JOIN sys_user_post up ON (u.user_id = up.user_id)
+        LEFT JOIN sys_post p ON p.post_id = up.post_id
+        WHERE u.STATUS = 1 AND u.user_id = #{id}
+        group by u.username,u.user_id,u.email,u.mobile,u.status,u.create_time,u.ssex,
+        u.dept_id,u.last_login_time,u.update_time,u.description,u.avatar
+    </select>
+
+    <!--通过用户名查找用户信息-->
+    <select id="findByName" parameterType="string" resultType="com.art.system.entity.SystemUser">
+        SELECT u.user_id                 userId,
+               u.username,
+               u.email,
+               u.mobile,
+               u.password,
+               u.status,
+               u.create_time             createTime,
+               u.ssex                    sex,
+               u.dept_id                 deptId,
+               u.last_login_time         lastLoginTime,
+               u.update_time             updateTime,
+               u.description,
+               u.avatar,
+               u.tenant_id               tenantId,
+               d.dept_name               deptName,
+               GROUP_CONCAT(distinct r.role_id)   roleId,
+               GROUP_CONCAT(distinct r.ROLE_NAME) roleName
+        FROM sys_user u
+                 LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
+                 LEFT JOIN sys_user_role sur ON (u.user_id = sur.user_id)
+                 LEFT JOIN sys_role r ON r.role_id = sur.role_id
+        WHERE u.username = #{username}
+        group by u.username, u.user_id, u.email, u.mobile, u.password, u.status, u.create_time, u.ssex, u.dept_id
+               , u.last_login_time, u.update_time, u.description, u.avatar
+    </select>
+
+    <!--通过用户名查找用户信息-->
+    <select id="findByMobile" parameterType="string" resultType="com.art.system.entity.SystemUser">
+        SELECT u.user_id                 userId,
+               u.username,
+               u.email,
+               u.mobile,
+               u.password,
+               u.status,
+               u.create_time             createTime,
+               u.ssex                    sex,
+               u.dept_id                 deptId,
+               u.last_login_time         lastLoginTime,
+               u.update_time             updateTime,
+               u.description,
+               u.avatar,
+               u.tenant_id               tenantId,
+               d.dept_name               deptName,
+               GROUP_CONCAT(distinct r.role_id)   roleId,
+               GROUP_CONCAT(distinct r.ROLE_NAME) roleName
+        FROM sys_user u
+                 LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
+                 LEFT JOIN sys_user_role sur ON (u.user_id = sur.user_id)
+                 LEFT JOIN sys_role r ON r.role_id = sur.role_id
+        WHERE u.mobile = #{mobile}
+        group by u.username, u.user_id, u.email, u.mobile, u.password, u.status, u.create_time, u.ssex, u.dept_id
+               , u.last_login_time, u.update_time, u.description, u.avatar
+    </select>
+
+</mapper>
