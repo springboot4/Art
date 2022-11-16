@@ -1,0 +1,2 @@
+com.art.common.captcha.config.AjCaptchaAutoConfiguration
+com.art.common.captcha.service.RedisCaptchaServiceImpl

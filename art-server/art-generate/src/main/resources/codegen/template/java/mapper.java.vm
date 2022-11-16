@@ -1,0 +1,13 @@
+package com.art.${module}.dao;
+
+    ${module}.${className};
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Mapper
+public interface ${className}Mapper extends BaseMapper<${className}> {
+}
