@@ -37,11 +37,11 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
        ├── art-spring-boot-starter-websocket  -- websocket
        ├── art-spring-boot-starter-xxl-job  -- xxl-job配置
     ├── art-gateway -- 网关模块
-    ├── art-system -- 系统服务
-       ├── art-system -- 系统管理模块
-       ├── art-generate -- 代码生成器模块
-       ├── art-scheduled -- quartz定时任务模块
-       ├── art-z-demos -- 实验性模块
+    ├── art-server -- 系统服务
+       ├── art-server-system -- 系统管理模块
+       ├── art-server-generate -- 代码生成器模块
+       ├── art-server-scheduled -- quartz定时任务模块
+       ├── art-server-z-demos -- 实验性模块
     ├──_other -- 项目相关文件
        ├── db -- 数据库相关文件
        ├── docker -- docker环境
