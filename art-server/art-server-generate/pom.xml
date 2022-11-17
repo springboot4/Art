@@ -25,30 +25,16 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>art-z-demos</artifactId>
-    <description>demo</description>
+    <artifactId>art-server-generate</artifactId>
+    <description>代码生成器</description>
 
     <dependencies>
 
-        <!-- 单元测试-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-
-        <!--mongoDb-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
-
-        <!--nacos配置中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!--nacos服务发现-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -60,46 +46,31 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
-        <!--banner信息-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-api-generate</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-banner</artifactId>
         </dependency>
 
-        <!--测试:分布式锁模块-->
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-lock</artifactId>
+            <artifactId>art-spring-boot-starter-database</artifactId>
         </dependency>
 
-        <!--测试:es模块-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-es</artifactId>
-        </dependency>
-
-        <!--jackson序列化-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-jackson</artifactId>
-        </dependency>
-
-        <!--安全模块-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-security</artifactId>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 
-    <build>
-        <finalName>fxz-demos</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    </dependencies>
 
 </project>

@@ -18,15 +18,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>art-server</artifactId>
         <groupId>com.art</groupId>
         <version>0.0.1</version>
     </parent>
 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>art-generate</artifactId>
-    <description>代码生成器</description>
+    <artifactId>art-server-scheduled</artifactId>
+    <description>Quartz定时任务模块</description>
 
     <dependencies>
 
@@ -46,11 +47,35 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
+        <!-- Quartz -->
         <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-api-generate</artifactId>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.mchange</groupId>
+                    <artifactId>c3p0</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+
+        <!-- Mysql Connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-api-scheduled</artifactId>
+        </dependency>
+
+        <!--banner信息-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-banner</artifactId>
@@ -58,17 +83,12 @@
 
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-database</artifactId>
+            <artifactId>art-spring-boot-starter-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
     </dependencies>

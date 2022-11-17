@@ -28,10 +28,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>art-system</module>
-        <module>art-generate</module>
-        <module>art-scheduled</module>
-        <module>art-z-demos</module>
+        <module>art-server-system</module>
+        <module>art-server-generate</module>
+        <module>art-server-scheduled</module>
+        <module>art-server-z-demos</module>
     </modules>
 
 </project>
