@@ -18,24 +18,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <artifactId>art-server</artifactId>
         <groupId>com.art</groupId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>art-scheduled</artifactId>
-    <description>Quartz定时任务模块</description>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>art-server-z-demos</artifactId>
+    <description>demo</description>
 
     <dependencies>
 
+        <!-- 单元测试-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <!--mongoDb-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <!--nacos配置中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
+        <!--nacos服务发现-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -47,50 +60,46 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
-        <!-- Quartz -->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.mchange</groupId>
-                    <artifactId>c3p0</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
-
-        <!-- Mysql Connector -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-api-scheduled</artifactId>
-        </dependency>
-
         <!--banner信息-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-banner</artifactId>
         </dependency>
 
+        <!--测试:分布式锁模块-->
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-core</artifactId>
+            <artifactId>art-spring-boot-starter-lock</artifactId>
         </dependency>
 
+        <!--测试:es模块-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-es</artifactId>
+        </dependency>
+
+        <!--jackson序列化-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-jackson</artifactId>
+        </dependency>
+
+        <!--安全模块-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-security</artifactId>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>fxz-demos</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
