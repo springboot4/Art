@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.art.common.database.conatant;
+package com.art.common.database.constant;
 
 /**
  * @author fxz
