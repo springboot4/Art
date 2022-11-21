@@ -132,4 +132,4 @@ SaaS多租户，自定义租户套餐.<br/>
 | Spring Cloud           | 2021.0.1   |
 | Spring Cloud Alibaba   | 2021.0.1.0 |
 | Mybatis Plus           | 3.5.1      |
-| hutool                 | 5.8.6      |
+| hutool                 | 5.8.9      |
