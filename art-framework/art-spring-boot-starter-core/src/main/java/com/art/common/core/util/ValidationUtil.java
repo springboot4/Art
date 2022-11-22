@@ -17,9 +17,11 @@
 package com.art.common.core.util;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import lombok.experimental.UtilityClass;
 
 import javax.validation.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -46,7 +48,7 @@ public class ValidationUtil {
 	}
 
 	/**
-	 * 验证参数对象，如果验证失败则返回所有失败信息
+	 * 验证参数对象 如果验证失败则返回所有失败信息
 	 */
 	public String validate(Object object, Class<?>... groups) {
 		Validator validator = VALIDATOR_FACTORY.getValidator();
@@ -58,6 +60,23 @@ public class ValidationUtil {
 		}
 
 		return message.toString();
+	}
+
+	/**
+	 * 验证参数对象 验证失败则抛出异常
+	 */
+	public void validateListObject(List<?> list, Class<?>... groups) {
+		if (CollectionUtil.isEmpty(list)) {
+			return;
+		}
+
+		Validator validator = VALIDATOR_FACTORY.getValidator();
+		list.forEach(object -> {
+			Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
+			if (CollUtil.isNotEmpty(constraintViolations)) {
+				throw new ConstraintViolationException(constraintViolations);
+			}
+		});
 	}
 
 }
