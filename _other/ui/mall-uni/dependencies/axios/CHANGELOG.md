@@ -44,7 +44,7 @@ Fixes and Functionality:
 - Fixing 'progressEvent' type ([#2851](https://github.com/axios/axios/pull/2851))
   - Fix 'progressEvent' type
   - Update axios.ts
-- Fixing getting local files (fileDO://) failed ([#2470](https://github.com/axios/axios/pull/2470))
+- Fixing getting local files (file://) failed ([#2470](https://github.com/axios/axios/pull/2470))
   - fix issue #2416, #2396
   - fix Eslint warn
   - Modify judgment conditions
@@ -454,7 +454,7 @@ below) or via reviews and triaging on GitHub:
 
 - Adding cancellation support ([#452](https://github.com/axios/axios/pull/452))
 - Moving default adapter to global defaults ([#437](https://github.com/axios/axios/pull/437))
-- Fixing issue with `fileDO` URI scheme ([#440](https://github.com/axios/axios/pull/440))
+- Fixing issue with `file` URI scheme ([#440](https://github.com/axios/axios/pull/440))
 - Fixing issue with `params` objects that have no prototype ([#445](https://github.com/axios/axios/pull/445))
 
 ### 0.14.0 (Aug 27, 2016)
@@ -606,7 +606,7 @@ below) or via reviews and triaging on GitHub:
 
 ### 0.3.1 (Sep 16, 2014)
 
-- Fixing missing postDO body when using node.js ([#3](https://github.com/axios/axios/issues/3))
+- Fixing missing post body when using node.js ([#3](https://github.com/axios/axios/issues/3))
 
 ### 0.3.0 (Sep 16, 2014)
 
@@ -620,7 +620,7 @@ below) or via reviews and triaging on GitHub:
 
 ### 0.2.1 (Sep 12, 2014)
 
-- Fixing build problem causing ridiculous fileDO sizes
+- Fixing build problem causing ridiculous file sizes
 
 ### 0.2.0 (Sep 12, 2014)
 

@@ -65,11 +65,11 @@
       <a-button type="primary" icon="plus" @click="handleEdit()">新建</a-button>
       <a-button type="dashed" @click="tableOption">{{ optionAlertShow && '关闭' || '开启' }} alert</a-button>
       <a-dropdown v-action:edit v-if="selectedRowKeys.length > 0">
-        <a-menuDO slot="overlay">
-          <a-menuDO-item key="1"><a-icon type="delete" />删除</a-menuDO-item>
+        <a-menu slot="overlay">
+          <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
           <!-- lock | unlock -->
-          <a-menuDO-item key="2"><a-icon type="lock" />锁定</a-menuDO-item>
-        </a-menuDO>
+          <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
+        </a-menu>
         <a-button style="margin-left: 8px">
           批量操作 <a-icon type="down" />
         </a-button>
@@ -97,17 +97,17 @@
           <a class="ant-dropdown-link">
             更多 <a-icon type="down" />
           </a>
-          <a-menuDO slot="overlay">
-            <a-menuDO-item>
+          <a-menu slot="overlay">
+            <a-menu-item>
               <a href="javascript:;">详情</a>
-            </a-menuDO-item>
-            <a-menuDO-item v-if="$auth('table.disable')">
+            </a-menu-item>
+            <a-menu-item v-if="$auth('table.disable')">
               <a href="javascript:;">禁用</a>
-            </a-menuDO-item>
-            <a-menuDO-item v-if="$auth('table.delete')">
+            </a-menu-item>
+            <a-menu-item v-if="$auth('table.delete')">
               <a href="javascript:;">删除</a>
-            </a-menuDO-item>
-          </a-menuDO>
+            </a-menu-item>
+          </a-menu>
         </a-dropdown>
       </span>
     </s-table>

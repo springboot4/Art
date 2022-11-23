@@ -16,11 +16,9 @@
 
 package com.art.system.service;
 
-import com.art.system.dao.dataobject.PostDO;
+import com.art.system.api.post.dto.PostDTO;
+import com.art.system.api.post.dto.PostPageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.api.post.PostDTO;
 
 import java.util.List;
 
@@ -30,36 +28,36 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-05
  */
-public interface PostService extends IService<PostDO> {
+public interface PostService {
 
-	/**
-	 * 添加
-	 */
-	Boolean addPost(PostDTO postDto);
+    /**
+     * 添加
+     */
+    Boolean addPost(PostDTO postDto);
 
-	/**
-	 * 修改
-	 */
-	Boolean updatePost(PostDTO postDto);
+    /**
+     * 修改
+     */
+    Boolean updatePost(PostDTO postDto);
 
-	/**
-	 * 分页
-	 */
-	IPage<PostDO> pagePost(Page<PostDO> pageParam, PostDO postDO);
+    /**
+     * 获取单条
+     */
+    PostDTO findById(Long id);
 
-	/**
-	 * 获取单条
-	 */
-	PostDO findById(Long id);
+    /**
+     * 获取全部
+     */
+    List<PostDTO> findAll();
 
-	/**
-	 * 获取全部
-	 */
-	List<PostDO> findAll();
+    /**
+     * 删除
+     */
+    Boolean deletePost(Long id);
 
-	/**
-	 * 删除
-	 */
-	Boolean deletePost(Long id);
+    /**
+     * 分页
+     */
+    IPage<PostDTO> pagePost(PostPageDTO postPageDTO);
 
 }

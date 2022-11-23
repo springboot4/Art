@@ -39,7 +39,7 @@
       </template>
     </f-table>
 
-    <roleDO-add-or-update
+    <role-add-or-update
       ref="modalForm"
       @ok="handleOk"/>
 
@@ -50,7 +50,7 @@
 
 import { TableMixin } from '@/mixins/TableMixin'
 import { tableObj } from './template'
-import { PageRole, deleteRoleById } from '@/api/sys/roleDO'
+import { PageRole, deleteRoleById } from '@/api/sys/role'
 import RoleAddOrUpdate from './RoleAddOrUpdate'
 
 export default {

@@ -55,7 +55,7 @@
     <Dict-edit
       ref="dictEdit"
       @ok="handleOk" />
-    <dictDO-item-list
+    <dict-item-list
       ref="dictItemList"
     />
   </a-card>
@@ -63,7 +63,7 @@
 
 <script>
 import { tableObj } from './template'
-import { del, getDictItemsByType, page } from '@/api/sys/dictDO'
+import { del, getDictItemsByType, page } from '@/api/sys/dict'
 import DictEdit from './DictEdit'
 import DictItemList from './DictItemList'
 import { TableMixin } from '@/mixins/TableMixin'
