@@ -96,9 +96,9 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { add, get, update } from '@/api/sys/tenantDO'
+import { add, get, update } from '@/api/sys/tenant'
 import moment from 'moment'
-import { findAll } from '@/api/sys/tenantPackageDO'
+import { findAll } from '@/api/sys/tenantPackage'
 
 export default {
   name: 'SysTenantEdit',

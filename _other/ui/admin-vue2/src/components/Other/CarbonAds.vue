@@ -29,7 +29,7 @@ export default {
   methods: {
     load () {
       // if(isGitee) {
-      //   axios.get('https://api.codefund.appDO/properties/162/funder.html?template=horizontal')
+      //   axios.get('https://api.codefund.app/properties/162/funder.html?template=horizontal')
       //   .then(function (response) {
       //     document.getElementById("codefund-ads").innerHTML = response.data;
       //   });

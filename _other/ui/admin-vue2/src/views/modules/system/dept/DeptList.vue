@@ -8,7 +8,7 @@
       ref="table"
     >
       <template v-slot:buttons>
-        <a-button @click="addData" icon="plus" type="primary" v-action="'sys:menuDO:save'">新建</a-button>
+        <a-button @click="addData" icon="plus" type="primary" v-action="'sys:menu:save'">新建</a-button>
       </template>
       <template v-slot:action="{row}">
         <a href="javascript:;" @click="show(row)">查看</a>
@@ -22,7 +22,7 @@
       </template>
     </f-table>
 
-    <deptDO-add-or-update
+    <dept-add-or-update
       ref="modalForm"
       @ok="handleOk" />
 
@@ -31,10 +31,10 @@
 </template>
 
 <script>
-import DeptAddOrUpdate from '@/views/modules/system/deptDO/DeptAddOrUpdate'
+import DeptAddOrUpdate from '@/views/modules/system/dept/DeptAddOrUpdate'
 import { TableMixin } from '@/mixins/TableMixin'
-import { tableObj } from '@/views/modules/system/deptDO/template'
-import { deleteById, getDeptTree } from '@/api/sys/deptDO'
+import { tableObj } from '@/views/modules/system/dept/template'
+import { deleteById, getDeptTree } from '@/api/sys/dept'
 
 export default {
   name: 'Menu',

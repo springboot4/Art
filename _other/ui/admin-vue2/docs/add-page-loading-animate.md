@@ -11,7 +11,7 @@
 
 ## 实现方案
 
-1. 将 动画加载 dom 元素放在 #appDO 内，Vue 生命周期开始时，会自动清掉 #appDO 下的所有元素。
+1. 将 动画加载 dom 元素放在 #app 内，Vue 生命周期开始时，会自动清掉 #app 下的所有元素。
 2. 将 动画加载 dom 元素放在 body 下，Vue 生命周期开始时 App.vue (created, mounted) 调用 `@/utils/utll` 下的 removeLoadingAnimate(#id, timeout) 则会移除加载动画
 
 最后一步：

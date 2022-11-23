@@ -14,28 +14,32 @@
  * limitations under the License.
  */
 
-@import "~ant-design-vue/es/style/themes/default";
+package com.art.system.api.post.dto;
 
-.global-search-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: @zindex-modal-mask;
-  background: @modal-mask-bg;
+import com.art.common.mp.base.BaseCreateEntity;
+import lombok.Data;
 
-  .global-search-box {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    width: 450px;
-    transform: translate(-50%, -50%);
+/**
+ * 岗位信息表
+ *
+ * @author fxz
+ * @date 2022-04-05
+ */
+@Data
+public class PostDTO extends BaseCreateEntity {
 
-    .global-search-tips {
-      color: @white;
-      font-size: @font-size-lg;
-      text-align: right;
-    }
-  }
+	private static final long serialVersionUID = -1L;
+
+	private Long postId;
+
+	private String postCode;
+
+	private String postName;
+
+	private Integer postSort;
+
+	private String delFlag;
+
+	private String description;
+
 }

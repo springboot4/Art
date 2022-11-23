@@ -36,7 +36,7 @@
 
 <script>
 import { tableObj } from './OperLogtemplate'
-import { del, page } from '@/api/sys/operLogDO'
+import { del, page } from '@/api/sys/operLog'
 import OperLogEdit from './OperLogEdit'
 import { TableMixin } from '@/mixins/TableMixin'
 

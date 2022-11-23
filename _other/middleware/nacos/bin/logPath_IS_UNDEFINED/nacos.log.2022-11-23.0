@@ -558,3 +558,41 @@ The last packet successfully received from the server was 1,260,731 milliseconds
 
 2022-11-23 21:11:26,331 WARN clearConfigHistory start
 
+2022-11-23 21:21:26,421 WARN clearConfigHistory start
+
+2022-11-23 21:21:29,928 WARN HikariPool-1 - Connection com.mysql.cj.jdbc.ConnectionImpl@73d02b87 marked as broken because of SQLSTATE(null), ErrorCode(0)
+
+com.mysql.cj.jdbc.exceptions.MySQLTimeoutException: Statement cancelled due to timeout or client request
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:113)
+	at com.mysql.cj.jdbc.StatementImpl.checkCancelTimeout(StatementImpl.java:2191)
+	at com.mysql.cj.protocol.a.NativeProtocol.sendQueryPacket(NativeProtocol.java:1022)
+	at com.mysql.cj.NativeSession.execSQL(NativeSession.java:1075)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:930)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1003)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeQuery(ProxyPreparedStatement.java:52)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeQuery(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate$1.doInPreparedStatement(JdbcTemplate.java:678)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:783)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:809)
+	at com.alibaba.nacos.config.server.service.repository.extrnal.ExternalStoragePersistServiceImpl.findConfigHistoryCountByTime(ExternalStoragePersistServiceImpl.java:542)
+	at com.alibaba.nacos.config.server.service.dump.DumpService.lambda$dumpOperate$3(DumpService.java:153)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-11-23 21:21:29,942 ERROR clearConfigHistory error : org.springframework.dao.QueryTimeoutException: PreparedStatementCallback; SQL [SELECT COUNT(*) FROM his_config_info WHERE gmt_modified < ?]; Statement cancelled due to timeout or client request; nested exception is com.mysql.cj.jdbc.exceptions.MySQLTimeoutException: Statement cancelled due to timeout or client request
+
+2022-11-23 21:31:29,967 WARN clearConfigHistory start
+
+2022-11-23 21:41:30,178 WARN clearConfigHistory start
+
+2022-11-23 21:51:30,309 WARN clearConfigHistory start
+
+2022-11-23 22:01:30,381 WARN clearConfigHistory start
+

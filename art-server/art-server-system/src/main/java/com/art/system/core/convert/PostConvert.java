@@ -14,32 +14,32 @@
  * limitations under the License.
  */
 
-package com.art.system.api.post;
+package com.art.system.core.convert;
 
-import com.art.common.mp.base.BaseCreateEntity;
-import lombok.Data;
+import com.art.system.api.post.dto.PostDTO;
+import com.art.system.dao.dataobject.PostDO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
- * 岗位信息表
- *
- * @author fxz
- * @date 2022-04-05
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/11/23 21:40
  */
-@Data
-public class PostDTO extends BaseCreateEntity {
+@Mapper
+public interface PostConvert {
 
-	private static final long serialVersionUID = -1L;
+    PostConvert INSTANCE = Mappers.getMapper(PostConvert.class);
 
-	private Long postId;
+    PostDO convert(PostDTO postDTO);
 
-	private String postCode;
+    PostDTO convert(PostDO postDO);
 
-	private String postName;
+    List<PostDTO> convert(List<PostDO> postDOList);
 
-	private Integer postSort;
-
-	private String delFlag;
-
-	private String description;
+    Page<PostDTO> convert(Page<PostDO> postDOList);
 
 }

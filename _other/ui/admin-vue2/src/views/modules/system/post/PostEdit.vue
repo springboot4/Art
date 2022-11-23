@@ -44,7 +44,7 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { get, add, update } from '@/api/sys/postDO'
+import { get, add, update } from '@/api/sys/post'
 
 export default {
   name: 'PostEdit',
