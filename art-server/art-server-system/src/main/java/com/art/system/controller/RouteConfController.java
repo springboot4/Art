@@ -18,7 +18,7 @@ package com.art.system.controller;
 
 import cn.hutool.json.JSONArray;
 import com.art.common.mp.result.Result;
-import com.art.system.entity.RouteConf;
+import com.art.system.dao.dataobject.RouteConfDO;
 import com.art.system.service.RouteConfService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,8 +46,8 @@ public class RouteConfController {
 	 */
 	@Operation(summary = "添加路由信息")
 	@PostMapping(value = "/add")
-	public Result<Boolean> add(@RequestBody RouteConf routeConf) {
-		return Result.success(routeConfService.addRouteConf(routeConf));
+	public Result<Boolean> add(@RequestBody RouteConfDO routeConfDO) {
+		return Result.success(routeConfService.addRouteConf(routeConfDO));
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class RouteConfController {
 	 */
 	@Operation(summary = "获取单条路由信息")
 	@GetMapping(value = "/findById")
-	public Result<RouteConf> findById(Long id) {
+	public Result<RouteConfDO> findById(Long id) {
 		return Result.success(routeConfService.findById(id));
 	}
 
@@ -82,7 +82,7 @@ public class RouteConfController {
 	 */
 	@Operation(summary = "获取全部路由信息")
 	@GetMapping(value = "/findAll")
-	public Result<List<RouteConf>> findAll() {
+	public Result<List<RouteConfDO>> findAll() {
 		return Result.success(routeConfService.findAll());
 	}
 

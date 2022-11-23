@@ -3,7 +3,7 @@
   ~ COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
+  ~ you may not use this fileDO except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
   ~     http://www.apache.org/licenses/LICENSE-2.0
@@ -38,6 +38,7 @@
         <spring-cloud.version>2021.0.1</spring-cloud.version>
         <com-alibaba-cloud.version>2021.0.1.0</com-alibaba-cloud.version>
         <jasypt.version>2.1.0</jasypt.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <spring-javaformat.version>0.0.29</spring-javaformat.version>
@@ -63,6 +64,18 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <!--mapstruct-processor-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <!--mapstruct-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
         </dependency>
     </dependencies>
 

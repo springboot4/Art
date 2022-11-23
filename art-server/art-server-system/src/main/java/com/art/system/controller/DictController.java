@@ -16,14 +16,13 @@
 
 package com.art.system.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.art.common.log.annotation.OperLogAnn;
 import com.art.common.log.enums.BusinessType;
 import com.art.common.mp.result.PageResult;
 import com.art.common.mp.result.Result;
-import com.art.system.dto.DictDto;
-import com.art.system.entity.Dict;
-import com.art.system.entity.DictItem;
+import com.art.system.api.dict.dto.DictDTO;
+import com.art.system.api.dict.dto.DictItemDTO;
+import com.art.system.api.dict.dto.DictPageDTO;
 import com.art.system.service.DictService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,7 +51,7 @@ public class DictController {
 	@Operation(summary = "添加")
 	@OperLogAnn(title = "字典管理", businessType = BusinessType.INSERT)
 	@PostMapping(value = "/add")
-	public Result<Boolean> add(@RequestBody DictDto dictDto) {
+	public Result<Boolean> add(@RequestBody DictDTO dictDto) {
 		return Result.success(dictService.addDict(dictDto));
 	}
 
@@ -62,8 +61,8 @@ public class DictController {
 	@Operation(summary = "修改")
 	@OperLogAnn(title = "字典管理", businessType = BusinessType.UPDATE)
 	@PostMapping(value = "/update")
-	public Result<Void> update(@RequestBody DictDto dictDto) {
-		return dictService.updateDict(dictDto);
+	public Result<Void> update(@RequestBody DictDTO dictDto) {
+		return Result.judge(dictService.updateDict(dictDto));
 	}
 
 	/**
@@ -73,7 +72,7 @@ public class DictController {
 	@OperLogAnn(title = "字典管理", businessType = BusinessType.DELETE)
 	@DeleteMapping(value = "/delete")
 	public Result<Void> delete(Long id) {
-		return dictService.deleteDict(id);
+		return Result.judge(dictService.deleteDict(id));
 	}
 
 	/**
@@ -81,7 +80,7 @@ public class DictController {
 	 */
 	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
-	public Result<Dict> findById(Long id) {
+	public Result<DictDTO> findById(Long id) {
 		return Result.success(dictService.findById(id));
 	}
 
@@ -91,7 +90,7 @@ public class DictController {
 	@Operation(summary = "获取全部")
 	@OperLogAnn(title = "字典管理", businessType = BusinessType.OTHER)
 	@GetMapping(value = "/findAll")
-	public Result<List<Dict>> findAll() {
+	public Result<List<DictDTO>> findAll() {
 		return Result.success(dictService.findAll());
 	}
 
@@ -100,8 +99,8 @@ public class DictController {
 	 */
 	@Operation(summary = "分页")
 	@GetMapping(value = "/page")
-	public Result<PageResult<Dict>> pageDict(Page<Dict> pageParam, Dict dict) {
-		return Result.success(PageResult.success(dictService.pageDict(pageParam, dict)));
+	public Result<PageResult<DictDTO>> pageDict(DictPageDTO dictPageDTO) {
+		return Result.success(PageResult.success(dictService.pageDict(dictPageDTO)));
 	}
 
 	/**
@@ -111,7 +110,7 @@ public class DictController {
 	 */
 	@Operation(summary = "根据字典类型获取字典下的所有字典项")
 	@GetMapping("/getDictItemsByType")
-	public Result<List<DictItem>> getDictItemsByType(String type) {
+	public Result<List<DictItemDTO>> getDictItemsByType(String type) {
 		return Result.success(dictService.getDictItemsByType(type));
 	}
 

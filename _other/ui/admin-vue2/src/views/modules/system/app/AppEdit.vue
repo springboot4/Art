@@ -71,7 +71,7 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { get, add, update } from '@/api/sys/app'
+import { get, add, update } from '@/api/sys/appDO'
 import IconSelector from '@/components/IconSelector'
 
 export default {

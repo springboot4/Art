@@ -2,7 +2,7 @@
  * Copyright 1999-2018 Alibaba Group Holding Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this fileDO except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -194,29 +194,29 @@ CREATE TABLE users (
 	enabled boolean NOT NULL DEFAULT true
 );
 
-CREATE TABLE roles (
+CREATE TABLE roleDOS (
 	username varchar(50) NOT NULL,
-	role varchar(50) NOT NULL,
-	constraint uk_username_role UNIQUE (username,role)
+	roleDO varchar(50) NOT NULL,
+	constraint uk_username_role UNIQUE (username,roleDO)
 );
 
 CREATE TABLE permissions (
-    role varchar(50) NOT NULL,
+    roleDO varchar(50) NOT NULL,
     resource varchar(512) NOT NULL,
     action varchar(8) NOT NULL,
-    constraint uk_role_permission UNIQUE (role,resource,action)
+    constraint uk_role_permission UNIQUE (roleDO,resource,action)
 );
 
 INSERT INTO users (username, password, enabled) VALUES ('nacos', '$2a$10$EuWPZHzz32dJN7jexM34MOeYirDdFAZm2kuWj7VEOJhhZkDrxfvUu', TRUE);
 
-INSERT INTO roles (username, role) VALUES ('nacos', 'ROLE_ADMIN');
+INSERT INTO roleDOS (username, roleDO) VALUES ('nacos', 'ROLE_ADMIN');
 
 
 /*
  * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this fileDO except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0

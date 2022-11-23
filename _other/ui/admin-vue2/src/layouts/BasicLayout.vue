@@ -1,7 +1,7 @@
 <template>
   <pro-layout
     :title="title"
-    :menus="newMenus[appsSelect[0]]"
+    :menuDOS="newMenus[appsSelect[0]]"
     :collapsed="collapsed"
     :mediaQuery="query"
     :isMobile="isMobile"
@@ -22,13 +22,13 @@
 
     <!-- 页面头-->
     <template v-slot:rightContentRender>
-      <a-menu class="topNav" v-model="appsSelect" mode="horizontal" style="display: flex;">
-        <a-menu-item @click="clickNav(item.id)" class="topNav-text" v-for="item in apps" :key="item.id">
+      <a-menuDO class="topNav" v-model="appsSelect" mode="horizontal" style="display: flex;">
+        <a-menuDO-item @click="clickNav(item.id)" class="topNav-text" v-for="item in apps" :key="item.id">
           <a-icon :type="item.icon" />
           {{ item.name }}
-        </a-menu-item>
-      </a-menu>
-      <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="isMobile" :theme="settings.theme" />
+        </a-menuDO-item>
+      </a-menuDO>
+      <right-content :top-menuDO="settings.layout === 'topmenu'" :is-mobile="isMobile" :theme="settings.theme" />
     </template>
 
     <!-- 页面内容-->
@@ -78,7 +78,7 @@ export default {
       fixedHeader: defaultSettings.fixedHeader, // sticky header
 
       // base
-      menus: [],
+      menuDOS: [],
       newMenus:{},
       // 侧栏收起状态
       collapsed: false,
@@ -117,10 +117,10 @@ export default {
     })
   },
   created () {
-    this.appsSelect[0] =  this.apps[0].id
+    this.appsSelect[0] = this.apps[0].id
     const routes = this.mainMenu.find(item => item.path === '/')
-    this.menus = (routes && routes.children) || []
-    for(let k in this.apps){
+    this.menuDOS = (routes && routes.children) || []
+    for (const k in this.apps) {
       this.newMenus[this.apps[k].id] = (routes && routes.children.filter(item => item.application === this.apps[k].id))
     }
     // 处理侧栏收起状态
@@ -148,7 +148,7 @@ export default {
   methods: {
     i18nRender,
     clickNav (item) {
-      this.appsSelect[0] = item 
+      this.appsSelect[0] = item
     },
     handleMediaQuery (val) {
       this.query = val

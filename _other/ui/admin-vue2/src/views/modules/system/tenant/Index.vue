@@ -49,7 +49,7 @@
 
 <script>
 import { tableObj } from './Template'
-import { page, del } from '@/api/sys/tenant'
+import { page, del } from '@/api/sys/tenantDO'
 import SysTenantEdit from './TenantEdit'
 import { TableMixin } from '@/mixins/TableMixin'
 

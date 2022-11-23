@@ -40,7 +40,7 @@
 
 <script>
 import { tableObj } from './Filetemplate'
-import { del, page } from '@/api/sys/file'
+import { del, page } from '@/api/sys/fileDO'
 import FileEdit from './FileEdit'
 import { TableMixin } from '@/mixins/TableMixin'
 import TestWork from '@/views/dashboard/TestWork'
@@ -70,7 +70,7 @@ export default {
     },
     downFile (row) {
       downBlobFile(
-        '/system/file/' + row.bucketName + '/' + row.fileName,
+        '/system/fileDO/' + row.bucketName + '/' + row.fileName,
         this.queryParam,
         row.fileName
       )

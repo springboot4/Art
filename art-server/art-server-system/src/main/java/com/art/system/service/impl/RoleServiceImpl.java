@@ -19,12 +19,6 @@ package com.art.system.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.core.entity.DeptDataPermissionRespDTO;
 import com.art.common.core.enums.RoleAdminEnum;
 import com.art.common.core.exception.FxzException;
@@ -32,9 +26,15 @@ import com.art.common.core.param.PageParam;
 import com.art.common.dataPermission.enums.DataScopeEnum;
 import com.art.common.redis.constant.CacheConstants;
 import com.art.common.security.entity.FxzAuthUser;
-import com.art.system.entity.*;
-import com.art.system.mapper.RoleMapper;
+import com.art.system.dao.dataobject.*;
+import com.art.system.dao.mysql.RoleMapper;
 import com.art.system.service.*;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -57,16 +57,16 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements RoleService {
 
 	@Resource
-	private IUserService userService;
+	private UserService userService;
 
-	private final IRoleMenuService roleMenuService;
+	private final RoleMenuService roleMenuService;
 
-	private final IUserRoleService userRoleService;
+	private final UserRoleService userRoleService;
 
-	private final IDeptService deptService;
+	private final DeptService deptService;
 
 	private final RedisTemplate redisTemplate;
 
@@ -75,9 +75,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	 */
 	@Override
 	public IPage<?> PageRole(PageParam pageParam, String roleName) {
-		Page<Role> rolePage = new Page<>(pageParam.getCurrent(), pageParam.getSize());
+		Page<RoleDO> rolePage = new Page<>(pageParam.getCurrent(), pageParam.getSize());
 		return this.getBaseMapper().selectPage(rolePage,
-				Wrappers.<Role>lambdaQuery().like(StringUtils.isNotEmpty(roleName), Role::getRoleName, roleName));
+				Wrappers.<RoleDO>lambdaQuery().like(StringUtils.isNotEmpty(roleName), RoleDO::getRoleName, roleName));
 	}
 
 	/**
@@ -85,14 +85,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Role addRole(Role role) {
+	public RoleDO addRole(RoleDO roleDO) {
 		// 保存角色信息
-		this.getBaseMapper().insert(role);
+		this.getBaseMapper().insert(roleDO);
 
 		// 保存角色菜单
-		saveRoleMenu(role);
+		saveRoleMenu(roleDO);
 
-		return role;
+		return roleDO;
 	}
 
 	/**
@@ -100,24 +100,24 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	 */
 	@Cacheable(value = CacheConstants.GLOBALLY + "role", key = "#id", unless = "#result==null")
 	@Override
-	public Role getRoleById(Long id) {
+	public RoleDO getRoleById(Long id) {
 		return this.getBaseMapper().getRoleById(id);
 	}
 
 	/**
 	 * 修改角色信息
 	 */
-	@CacheEvict(value = CacheConstants.GLOBALLY + "role", key = "#role.roleId")
+	@CacheEvict(value = CacheConstants.GLOBALLY + "role", key = "#roleDO.roleId")
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Boolean editRole(Role role) {
-		this.getBaseMapper().updateById(role);
+	public Boolean editRole(RoleDO roleDO) {
+		this.getBaseMapper().updateById(roleDO);
 
 		// 删除角色原有菜单
-		roleMenuService.remove(Wrappers.<RoleMenu>lambdaQuery().eq(RoleMenu::getRoleId, role.getRoleId()));
+		roleMenuService.remove(Wrappers.<RoleMenuDO>lambdaQuery().eq(RoleMenuDO::getRoleId, roleDO.getRoleId()));
 
 		// 保存角色菜单
-		saveRoleMenu(role);
+		saveRoleMenu(roleDO);
 
 		return Boolean.TRUE;
 	}
@@ -128,15 +128,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	@CacheEvict(value = CacheConstants.GLOBALLY + "role", key = "#id")
 	@Override
 	public Boolean deleteRoleById(Long id) {
-		Role role = this.getById(id);
-		if (RoleAdminEnum.isAdmin(role.getCode())) {
+		RoleDO roleDO = this.getById(id);
+		if (RoleAdminEnum.isAdmin(roleDO.getCode())) {
 			throw new FxzException("管理员角色不可删除！");
 		}
 
 		// 删除角色菜单关联信息
-		roleMenuService.remove(Wrappers.<RoleMenu>lambdaQuery().eq(RoleMenu::getRoleId, id));
+		roleMenuService.remove(Wrappers.<RoleMenuDO>lambdaQuery().eq(RoleMenuDO::getRoleId, id));
 		// 删除角色用户关联信息
-		userRoleService.remove(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getRoleId, id));
+		userRoleService.remove(Wrappers.<UserRoleDO>lambdaQuery().eq(UserRoleDO::getRoleId, id));
 		// 删除角色信息
 		return this.getBaseMapper().deleteById(id) > 0;
 	}
@@ -147,7 +147,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#user.userId+':dataScope'", unless = "#result==null")
 	@Override
 	public DeptDataPermissionRespDTO getDataPermission(FxzAuthUser user) {
-		SystemUser loginUser = userService.findByName(user.getUsername());
+		SystemUserDO loginUser = userService.findByName(user.getUsername());
 
 		// 创建 DeptDataPermissionRespDTO 对象
 		DeptDataPermissionRespDTO result = new DeptDataPermissionRespDTO();
@@ -155,49 +155,49 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 			String[] roleIds = loginUser.getRoleId().split(StringPool.COMMA);
 			if (roleIds.length > 0) {
 				Arrays.stream(roleIds).forEach(roleId -> {
-					String key = CacheConstants.GLOBALLY + "role:" + roleId;
-					Role role = (Role) redisTemplate.opsForValue().get(key);
-					if (ObjectUtil.isNull(role)) {
-						role = getRoleById(Long.valueOf(roleId));
+					String key = CacheConstants.GLOBALLY + "roleDO:" + roleId;
+					RoleDO roleDO = (RoleDO) redisTemplate.opsForValue().get(key);
+					if (ObjectUtil.isNull(roleDO)) {
+						roleDO = getRoleById(Long.valueOf(roleId));
 					}
 					// 为空时，跳过
-					if (ObjectUtil.isNull(role.getDataScope())) {
+					if (ObjectUtil.isNull(roleDO.getDataScope())) {
 						return;
 					}
 					// 情况一，ALL
-					if (Objects.equals(role.getDataScope(), DataScopeEnum.ALL.getScope())) {
+					if (Objects.equals(roleDO.getDataScope(), DataScopeEnum.ALL.getScope())) {
 						result.setAll(true);
 						return;
 					}
 					// 情况二，DEPT_CUSTOM
-					if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_CUSTOM.getScope())) {
-						CollUtil.addAll(result.getDeptIds(), role.getDataScopeDeptIds());
+					if (Objects.equals(roleDO.getDataScope(), DataScopeEnum.DEPT_CUSTOM.getScope())) {
+						CollUtil.addAll(result.getDeptIds(), roleDO.getDataScopeDeptIds());
 						// 自定义可见部门时，保证可以看到自己所在的部门。否则，一些场景下可能会有问题。
 						// 例如说，登录时，基于 t_user 的 username 查询会可能被 dept_id 过滤掉
 						CollUtil.addAll(result.getDeptIds(), loginUser.getDeptId());
 						return;
 					}
 					// 情况三，DEPT_ONLY
-					if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_ONLY.getScope())) {
+					if (Objects.equals(roleDO.getDataScope(), DataScopeEnum.DEPT_ONLY.getScope())) {
 						result.getDeptIds().add(loginUser.getDeptId());
 						return;
 					}
 					// 情况四，DEPT_DEPT_AND_CHILD
-					if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_AND_CHILD.getScope())) {
-						List<Dept> depts = deptService.getDeptsByParentId(loginUser.getDeptId());
+					if (Objects.equals(roleDO.getDataScope(), DataScopeEnum.DEPT_AND_CHILD.getScope())) {
+						List<DeptDO> deptDOS = deptService.getDeptsByParentId(loginUser.getDeptId());
 						CollUtil.addAll(result.getDeptIds(),
-								depts.stream().map(Dept::getDeptId).collect(Collectors.toList()));
+								deptDOS.stream().map(DeptDO::getDeptId).collect(Collectors.toList()));
 						// 添加本身部门id
 						CollUtil.addAll(result.getDeptIds(), loginUser.getDeptId());
 						return;
 					}
 					// 情况五，SELF
-					if (Objects.equals(role.getDataScope(), DataScopeEnum.SELF.getScope())) {
+					if (Objects.equals(roleDO.getDataScope(), DataScopeEnum.SELF.getScope())) {
 						result.setSelf(true);
 						return;
 					}
 					// 未知情况，error log 即可
-					log.error("[getDeptDataPermission][LoginUser({}) role({}) 无法处理]", loginUser.getUserId(), result);
+					log.error("[getDeptDataPermission][LoginUser({}) roleDO({}) 无法处理]", loginUser.getUserId(), result);
 				});
 			}
 		}
@@ -216,9 +216,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 		}
 
 		String[] roleIds = roleId.split(StringPool.COMMA);
-		List<Role> roles = this.listByIds(Arrays.asList(roleIds));
-
-		return roles.stream().anyMatch(r -> RoleAdminEnum.SUPER_ADMIN.getType().equals(r.getCode()));
+		List<RoleDO> roleDOList = this.listByIds(Arrays.asList(roleIds));
+		return roleDOList.stream().anyMatch(r -> RoleAdminEnum.SUPER_ADMIN.getType().equals(r.getCode()));
 	}
 
 	/**
@@ -226,28 +225,28 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 	 */
 	@CacheEvict(value = CacheConstants.GLOBALLY + "role")
 	@Override
-	public List<Role> getAllRole() {
+	public List<RoleDO> getAllRole() {
 		return this.list();
 	}
 
 	/**
 	 * 保存角色菜单
 	 */
-	private void saveRoleMenu(Role role) {
-		String menuId = role.getMenuId();
+	private void saveRoleMenu(RoleDO roleDO) {
+		String menuId = roleDO.getMenuId();
 
 		if (StringUtils.isBlank(menuId)) {
 			return;
 		}
 
-		List<RoleMenu> roleMenuList = Arrays.stream(menuId.split(StringPool.COMMA)).map(item -> {
-			RoleMenu roleMenu = new RoleMenu();
-			roleMenu.setRoleId(role.getRoleId());
-			roleMenu.setMenuId(Long.valueOf(item));
-			return roleMenu;
+		List<RoleMenuDO> roleMenuDOList = Arrays.stream(menuId.split(StringPool.COMMA)).map(item -> {
+			RoleMenuDO roleMenuDO = new RoleMenuDO();
+			roleMenuDO.setRoleId(roleDO.getRoleId());
+			roleMenuDO.setMenuId(Long.valueOf(item));
+			return roleMenuDO;
 		}).collect(Collectors.toList());
 
-		roleMenuService.saveBatch(roleMenuList);
+		roleMenuService.saveBatch(roleMenuDOList);
 	}
 
 }

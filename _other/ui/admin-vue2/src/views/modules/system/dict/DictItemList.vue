@@ -26,7 +26,7 @@
         </a-popconfirm>
       </template>
     </f-table>
-    <dict-item-edit
+    <dictDO-item-edit
       ref="dictItemEdit"
       @ok="init"
     />
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { itemDel, itemPage } from '@/api/sys/dictItem'
+import { itemDel, itemPage } from '@/api/sys/dictItemDO'
 import DictItemEdit from './DictItemEdit'
 import { TableMixin } from '@/mixins/TableMixin'
 import { tableObj } from './ItemTemplate'
@@ -49,7 +49,7 @@ export default {
     return {
       tableObj,
       visible: false,
-      dict: '',
+      dictDO: '',
       loadData: (parameter) => {
         return itemPage(Object.assign(parameter, this.queryParam)).then(res => {
           return res.data
@@ -59,9 +59,9 @@ export default {
   },
   methods: {
     // 展示列表
-    list (dict) {
-      this.dict = dict
-      this.queryParam.dictId = dict.id
+    list (dictDO) {
+      this.dictDO = dictDO
+      this.queryParam.dictId = dictDO.id
       this.init()
     },
     init () {
@@ -71,7 +71,7 @@ export default {
       })
     },
     add () {
-      this.$refs.dictItemEdit.init(this.dict, 'add')
+      this.$refs.dictItemEdit.init(this.dictDO, 'add')
     },
     edit (record) {
       this.$refs.dictItemEdit.init(record, 'edit')

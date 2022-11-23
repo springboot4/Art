@@ -37,7 +37,7 @@
             style="width: 200px"
             v-model="form.roleId"
           >
-            <a-select-option v-for="item in roleList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
+            <a-select-option v-for="item in roleDOList" :key="item.roleId" :label="item.roleName" :value="item.roleId">
               {{ item.roleName }}
             </a-select-option>
           </a-select>
@@ -77,9 +77,9 @@
 import { FormMixin } from '@/mixins/FormMixin'
 import { getById, updateById } from '@/api/sys/user'
 import { validateEmail, validateMobile } from '@/utils/validate'
-import { getDeptTree } from '@/api/sys/dept'
-import { getAllRole } from '@/api/sys/role'
-import { findAll } from '@/api/sys/post'
+import { getDeptTree } from '@/api/sys/deptDO'
+import { getAllRole } from '@/api/sys/roleDO'
+import { findAll } from '@/api/sys/postDO'
 
 export default {
   name: 'UserEdit',
@@ -87,7 +87,7 @@ export default {
   data () {
     return {
       postList: [],
-      roleList: [],
+      roleDOList: [],
       deptList: [],
       treeData: [],
       tempDeptId: { halfChecked: [], checked: [] },
@@ -114,7 +114,7 @@ export default {
       this.postList = res.data
     })
     getAllRole().then(res => {
-      this.roleList = res.data
+      this.roleDOList = res.data
     })
     getDeptTree().then(res => {
       this.treeData.push(this.buildTree(res.data))

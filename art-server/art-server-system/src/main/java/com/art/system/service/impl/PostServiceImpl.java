@@ -16,15 +16,15 @@
 
 package com.art.system.service.impl;
 
+import com.art.system.dao.dataobject.PostDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.art.system.dto.PostDto;
-import com.art.system.entity.Post;
-import com.art.system.entity.UserPost;
-import com.art.system.mapper.PostMapper;
+import com.art.system.api.post.PostDTO;
+import com.art.system.dao.dataobject.UserPostDO;
+import com.art.system.dao.mysql.PostMapper;
 import com.art.system.service.PostService;
 import com.art.system.service.UserPostService;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +44,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements PostService {
+public class PostServiceImpl extends ServiceImpl<PostMapper, PostDO> implements PostService {
 
 	private final PostMapper postMapper;
 
@@ -54,10 +54,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 	 * 添加
 	 */
 	@Override
-	public Boolean addPost(PostDto postDto) {
-		Post post = new Post();
-		BeanUtils.copyProperties(postDto, post);
-		postMapper.insert(post);
+	public Boolean addPost(PostDTO postDto) {
+		PostDO postDO = new PostDO();
+		BeanUtils.copyProperties(postDto, postDO);
+		postMapper.insert(postDO);
 		return Boolean.TRUE;
 	}
 
@@ -65,10 +65,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 	 * 修改
 	 */
 	@Override
-	public Boolean updatePost(PostDto postDto) {
-		Post post = new Post();
-		BeanUtils.copyProperties(postDto, post);
-		postMapper.updateById(post);
+	public Boolean updatePost(PostDTO postDto) {
+		PostDO postDO = new PostDO();
+		BeanUtils.copyProperties(postDto, postDO);
+		postMapper.updateById(postDO);
 		return Boolean.TRUE;
 	}
 
@@ -76,18 +76,18 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 	 * 分页
 	 */
 	@Override
-	public IPage<Post> pagePost(Page<Post> pageParam, Post post) {
+	public IPage<PostDO> pagePost(Page<PostDO> pageParam, PostDO postDO) {
 		return postMapper.selectPage(pageParam,
-				Wrappers.<Post>lambdaQuery()
-						.like(StringUtils.isNotBlank(post.getPostCode()), Post::getPostCode, post.getPostCode())
-						.like(StringUtils.isNotBlank(post.getPostName()), Post::getPostName, post.getPostName()));
+				Wrappers.<PostDO>lambdaQuery()
+						.like(StringUtils.isNotBlank(postDO.getPostCode()), PostDO::getPostCode, postDO.getPostCode())
+						.like(StringUtils.isNotBlank(postDO.getPostName()), PostDO::getPostName, postDO.getPostName()));
 	}
 
 	/**
 	 * 获取单条
 	 */
 	@Override
-	public Post findById(Long id) {
+	public PostDO findById(Long id) {
 		return postMapper.selectById(id);
 	}
 
@@ -95,7 +95,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 	 * 获取全部
 	 */
 	@Override
-	public List<Post> findAll() {
+	public List<PostDO> findAll() {
 		return postMapper.selectList(Wrappers.emptyWrapper());
 	}
 
@@ -105,7 +105,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Boolean deletePost(Long id) {
-		userPostService.remove(Wrappers.<UserPost>lambdaQuery().eq(UserPost::getPostId, id));
+		userPostService.remove(Wrappers.<UserPostDO>lambdaQuery().eq(UserPostDO::getPostId, id));
 		postMapper.deleteById(id);
 		return Boolean.TRUE;
 	}

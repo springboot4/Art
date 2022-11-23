@@ -156,7 +156,7 @@ async function getUser() {
 Performing a `POST` request
 
 ```js
-axios.post('/user', {
+axios.postDO('/user', {
     firstName: 'Fred',
     lastName: 'Flintstone'
   })
@@ -195,7 +195,7 @@ Requests can be made by passing the relevant config to `axios`.
 ```js
 // Send a POST request
 axios({
-  method: 'post',
+  method: 'postDO',
   url: '/user/12345',
   data: {
     firstName: 'Fred',
@@ -232,7 +232,7 @@ For convenience aliases have been provided for all supported request methods.
 ##### axios.delete(url[, config])
 ##### axios.head(url[, config])
 ##### axios.options(url[, config])
-##### axios.post(url[, data[, config]])
+##### axios.postDO(url[, data[, config]])
 ##### axios.put(url[, data[, config]])
 ##### axios.patch(url[, data[, config]])
 
@@ -270,7 +270,7 @@ The available instance methods are listed below. The specified config will be me
 ##### axios#delete(url[, config])
 ##### axios#head(url[, config])
 ##### axios#options(url[, config])
-##### axios#post(url[, data[, config]])
+##### axios#postDO(url[, data[, config]])
 ##### axios#put(url[, data[, config]])
 ##### axios#patch(url[, data[, config]])
 ##### axios#getUri([config])
@@ -337,7 +337,7 @@ These are the available config options for making requests. Only the `url` is re
   },
   
   // syntax alternative to send data into the body
-  // method post
+  // method postDO
   // only the value is sent, not the key
   data: 'Country=Brasil&City=Belo Horizonte',
 
@@ -509,7 +509,7 @@ You can specify config defaults that will be applied to every request.
 ```js
 axios.defaults.baseURL = 'https://api.example.com';
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.postDO['Content-Type'] = 'application/x-www-form-urlencoded';
 ```
 
 ### Custom instance defaults
@@ -648,7 +648,7 @@ axios.get('/user/12345', {
   }
 });
 
-axios.post('/user/12345', {
+axios.postDO('/user/12345', {
   name: 'new name'
 }, {
   cancelToken: source.token
@@ -689,7 +689,7 @@ In a browser, you can use the [`URLSearchParams`](https://developer.mozilla.org/
 const params = new URLSearchParams();
 params.append('param1', 'value1');
 params.append('param2', 'value2');
-axios.post('/foo', params);
+axios.postDO('/foo', params);
 ```
 
 > Note that `URLSearchParams` is not supported by all browsers (see [caniuse.com](http://www.caniuse.com/#feat=urlsearchparams)), but there is a [polyfill](https://github.com/WebReflection/url-search-params) available (make sure to polyfill the global environment).
@@ -698,7 +698,7 @@ Alternatively, you can encode data using the [`qs`](https://github.com/ljharb/qs
 
 ```js
 const qs = require('qs');
-axios.post('/foo', qs.stringify({ 'bar': 123 }));
+axios.postDO('/foo', qs.stringify({ 'bar': 123 }));
 ```
 
 Or in another way (ES6),
@@ -723,7 +723,7 @@ In node.js, you can use the [`querystring`](https://nodejs.org/api/querystring.h
 
 ```js
 const querystring = require('querystring');
-axios.post('http://something.com/', querystring.stringify({ foo: 'bar' }));
+axios.postDO('http://something.com/', querystring.stringify({ foo: 'bar' }));
 ```
 
 or ['URLSearchParams'](https://nodejs.org/api/url.html#url_class_urlsearchparams) from ['url module'](https://nodejs.org/api/url.html) as follows:
@@ -731,7 +731,7 @@ or ['URLSearchParams'](https://nodejs.org/api/url.html#url_class_urlsearchparams
 ```js
 const url = require('url');
 const params = new url.URLSearchParams({ foo: 'bar' });
-axios.post('http://something.com/', params.toString());
+axios.postDO('http://something.com/', params.toString());
 ```
 
 You can also use the [`qs`](https://github.com/ljharb/qs) library.
@@ -751,7 +751,7 @@ form.append('my_field', 'my value');
 form.append('my_buffer', new Buffer(10));
 form.append('my_file', fs.createReadStream('/foo/bar.jpg'));
 
-axios.post('https://example.com', form, { headers: form.getHeaders() })
+axios.postDO('https://example.com', form, { headers: form.getHeaders() })
 ```
 
 Alternatively, use an interceptor:

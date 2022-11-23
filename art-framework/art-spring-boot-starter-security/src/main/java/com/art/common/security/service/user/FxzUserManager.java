@@ -19,8 +19,8 @@ package com.art.common.security.service.user;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.art.common.core.constant.SecurityConstants;
 import com.art.system.entity.SystemUser;
-import com.art.system.feign.RemoteMenuService;
-import com.art.system.feign.RemoteUserService;
+import com.art.system.api.menu.MenuServiceApi;
+import com.art.system.api.user.UserServiceApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +33,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FxzUserManager {
 
-	private final RemoteUserService userService;
+	private final UserServiceApi userService;
 
-	private final RemoteMenuService menuService;
+	private final MenuServiceApi menuService;
 
 	public SystemUser findByName(String username) {
 		return userService.findByName(username, SecurityConstants.FROM_IN);

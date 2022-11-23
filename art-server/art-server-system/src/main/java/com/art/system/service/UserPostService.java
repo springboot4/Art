@@ -19,8 +19,8 @@ package com.art.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.dto.UserPostDto;
-import com.art.system.entity.UserPost;
+import com.art.system.api.user.UserPostDTO;
+import com.art.system.dao.dataobject.UserPostDO;
 
 import java.util.List;
 
@@ -30,32 +30,32 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-05
  */
-public interface UserPostService extends IService<UserPost> {
+public interface UserPostService extends IService<UserPostDO> {
 
 	/**
 	 * 添加
 	 */
-	Boolean addUserPost(UserPostDto userPostDto);
+	Boolean addUserPost(UserPostDTO userPostDto);
 
 	/**
 	 * 修改
 	 */
-	Boolean updateUserPost(UserPostDto userPostDto);
+	Boolean updateUserPost(UserPostDTO userPostDto);
 
 	/**
 	 * 分页
 	 */
-	IPage<UserPost> pageUserPost(Page<UserPost> pageParam, UserPost userPost);
+	IPage<UserPostDO> pageUserPost(Page<UserPostDO> pageParam, UserPostDO userPostDO);
 
 	/**
 	 * 获取单条
 	 */
-	UserPost findById(Long id);
+	UserPostDO findById(Long id);
 
 	/**
 	 * 获取全部
 	 */
-	List<UserPost> findAll();
+	List<UserPostDO> findAll();
 
 	/**
 	 * 删除
