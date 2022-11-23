@@ -74,17 +74,17 @@
                 <a class="ant-dropdown-link">
                   <a-icon type="ellipsis" />
                 </a>
-                <a-menuDO slot="overlay">
-                  <a-menuDO-item>
-                    <a href="javascript:;">1st menuDO item</a>
-                  </a-menuDO-item>
-                  <a-menuDO-item>
-                    <a href="javascript:;">2nd menuDO item</a>
-                  </a-menuDO-item>
-                  <a-menuDO-item>
-                    <a href="javascript:;">3rd menuDO item</a>
-                  </a-menuDO-item>
-                </a-menuDO>
+                <a-menu slot="overlay">
+                  <a-menu-item>
+                    <a href="javascript:;">1st menu item</a>
+                  </a-menu-item>
+                  <a-menu-item>
+                    <a href="javascript:;">2nd menu item</a>
+                  </a-menu-item>
+                  <a-menu-item>
+                    <a href="javascript:;">3rd menu item</a>
+                  </a-menu-item>
+                </a-menu>
               </a-dropdown>
             </template>
             <div class="">

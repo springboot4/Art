@@ -96,7 +96,7 @@ const orgTree = () => {
   }])
 }
 
-const roleDO = () => {
+const role = () => {
   return builder({
     'data': [{
       'id': 'admin',
@@ -267,7 +267,7 @@ const roleDO = () => {
       },
       {
         'roleId': 'admin',
-        'permissionId': 'roleDO',
+        'permissionId': 'role',
         'permissionName': '角色管理',
         'actions': '[{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"edit","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]',
         'actionEntitySet': [{
@@ -489,7 +489,7 @@ const roleDO = () => {
       },
       {
         'roleId': 'admin',
-        'permissionId': 'roleDO',
+        'permissionId': 'role',
         'permissionName': '角色管理',
         'actions': '[{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"edit","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]',
         'actionEntitySet': [{
@@ -647,7 +647,7 @@ const roleDO = () => {
       },
       {
         'roleId': 'user',
-        'permissionId': 'roleDO',
+        'permissionId': 'role',
         'permissionName': '角色管理',
         'actions': '[]',
         'actionEntitySet': [],
@@ -778,7 +778,7 @@ const permissionNoPager = () => {
     ]
   },
   {
-    'id': 'roleDO',
+    'id': 'role',
     'name': '角色管理',
     'describe': null,
     'status': 1,
@@ -926,7 +926,7 @@ const permissions = () => {
       ]
     },
     {
-      'id': 'roleDO',
+      'id': 'role',
       'name': '角色管理',
       'describe': null,
       'status': 1,
@@ -984,6 +984,6 @@ const permissions = () => {
 }
 
 Mock.mock(/\/org\/tree/, 'get', orgTree)
-Mock.mock(/\/roleDO/, 'get', roleDO)
+Mock.mock(/\/role/, 'get', role)
 Mock.mock(/\/permission\/no-pager/, 'get', permissionNoPager)
 Mock.mock(/\/permission/, 'get', permissions)

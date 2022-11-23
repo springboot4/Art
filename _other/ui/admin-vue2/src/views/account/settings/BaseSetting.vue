@@ -71,7 +71,7 @@ import AvatarModal from './AvatarModal'
 import { handleImg } from '@/utils/util'
 import { updateById } from '@/api/sys/user'
 import { validateEmailRule, validateMobileRule } from '@/utils/validate'
-import { getDictItemsByType } from '@/api/sys/dictDO'
+import { getDictItemsByType } from '@/api/sys/dict'
 
 export default {
   components: {

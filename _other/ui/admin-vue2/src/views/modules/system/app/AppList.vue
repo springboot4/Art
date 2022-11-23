@@ -33,7 +33,7 @@
         </a-popconfirm>
       </template>
     </f-table>
-    <sys-appDO-edit
+    <sys-app-edit
       ref="sysAppEdit"
       @ok="handleOk"/>
   </a-card>
@@ -41,7 +41,7 @@
 
 <script>
 import { tableObj } from './template'
-import { page, del } from '@/api/sys/appDO'
+import { page, del } from '@/api/sys/app'
 import SysAppEdit from './AppEdit'
 import { TableMixin } from '@/mixins/TableMixin'
 

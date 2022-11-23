@@ -44,17 +44,17 @@
           <a class="ant-dropdown-link">
             更多 <a-icon type="down" />
           </a>
-          <a-menuDO slot="overlay">
-            <a-menuDO-item>
+          <a-menu slot="overlay">
+            <a-menu-item>
               <a href="javascript:;">详情</a>
-            </a-menuDO-item>
-            <a-menuDO-item>
+            </a-menu-item>
+            <a-menu-item>
               <a href="javascript:;">禁用</a>
-            </a-menuDO-item>
-            <a-menuDO-item>
+            </a-menu-item>
+            <a-menu-item>
               <a href="javascript:;">删除</a>
-            </a-menuDO-item>
-          </a-menuDO>
+            </a-menu-item>
+          </a-menu>
         </a-dropdown>
       </span>
     </s-table>

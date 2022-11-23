@@ -54,7 +54,7 @@ export default {
       this.activeKey = this.fullPathList[this.fullPathList.length - 1]
     },
 
-    // content menuDO
+    // content menu
     closeThat (e) {
       // 判断是否为最后一个标签页，如果是最后一个，则无法被关闭
       if (this.fullPathList.length > 1) {
@@ -100,20 +100,20 @@ export default {
     },
     renderTabPaneMenu (e) {
       return (
-        <a-menuDO {...{ on: { click: ({ key, item, domEvent }) => { this.closeMenuClick(key, e) } } }}>
-          <a-menuDO-item key="closeThat">关闭当前标签</a-menuDO-item>
-          <a-menuDO-item key="closeRight">关闭右侧</a-menuDO-item>
-          <a-menuDO-item key="closeLeft">关闭左侧</a-menuDO-item>
-          <a-menuDO-item key="closeAll">关闭全部</a-menuDO-item>
-        </a-menuDO>
+        <a-menu {...{ on: { click: ({ key, item, domEvent }) => { this.closeMenuClick(key, e) } } }}>
+          <a-menu-item key="closeThat">关闭当前标签</a-menu-item>
+          <a-menu-item key="closeRight">关闭右侧</a-menu-item>
+          <a-menu-item key="closeLeft">关闭左侧</a-menu-item>
+          <a-menu-item key="closeAll">关闭全部</a-menu-item>
+        </a-menu>
       )
     },
     // render
     renderTabPane (title, keyPath) {
-      const menuDO = this.renderTabPaneMenu(keyPath)
+      const menu = this.renderTabPaneMenu(keyPath)
 
       return (
-        <a-dropdown overlay={menuDO} trigger={['contextmenu']}>
+        <a-dropdown overlay={menu} trigger={['contextmenu']}>
           <span style={{ userSelect: 'none' }}>{ title }</span>
         </a-dropdown>
       )

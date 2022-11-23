@@ -32,8 +32,8 @@
         prop="picUrl"
       >
         <a-upload
-          name="fileDO"
-          action="/api/system/fileDO/add"
+          name="file"
+          action="/api/system/file/add"
           :headers="headers"
           list-type="picture-card"
           class="avatar-uploader"
@@ -79,7 +79,7 @@
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
 import { listAttributes } from '@/api/mall/product/attribute'
-import { add as addFile } from '@/api/sys/fileDO'
+import { add as addFile } from '@/api/sys/file'
 
 export default {
   name: 'GoodsCategorySpec',
@@ -191,12 +191,12 @@ export default {
         this.$refs.form.resetFields()
       })
     },
-    uploadFunc (fileDO) {
+    uploadFunc (file) {
       const formData = new FormData()
-      formData.append('fileDO', fileDO.fileDO)
+      formData.append('file', file.file)
       addFile(formData).then(res => {
         this.form.picUrl = res.data.data.url
-        fileDO.status = 'done'
+        file.status = 'done'
         this.$message.success('上传成功')
       }).catch(_ => {
         this.$message.error('上传失败')

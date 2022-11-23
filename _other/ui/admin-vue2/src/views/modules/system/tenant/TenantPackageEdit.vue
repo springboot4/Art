@@ -63,8 +63,8 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { add, get, update } from '@/api/sys/tenantPackageDO'
-import { getAllMenuTree } from '@/api/sys/menuDO'
+import { add, get, update } from '@/api/sys/tenantPackage'
+import { getAllMenuTree } from '@/api/sys/menu'
 
 export default {
   name: 'SystemPackageEdit',

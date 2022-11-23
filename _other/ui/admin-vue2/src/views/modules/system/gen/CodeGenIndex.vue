@@ -46,7 +46,7 @@
 import ShowCode from './ShowCode'
 import { TableMixin } from '@/mixins/TableMixin'
 import { tableObj } from './template'
-import RoleAddOrUpdate from '../roleDO/RoleAddOrUpdate'
+import RoleAddOrUpdate from '../role/RoleAddOrUpdate'
 import { genCodeZip, PageDataTable } from '@/api/sysTool/genCode'
 import { listDs } from '@/api/sysTool/datasourceConf'
 

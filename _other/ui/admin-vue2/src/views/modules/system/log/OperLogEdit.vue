@@ -134,7 +134,7 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { add, get, update } from '@/api/sys/operLogDO'
+import { add, get, update } from '@/api/sys/operLog'
 
 export default {
   name: 'OperLogEdit',

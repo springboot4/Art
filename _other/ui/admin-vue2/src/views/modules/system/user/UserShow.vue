@@ -39,7 +39,7 @@
           <a-tag v-if="form.status==='1'" color="pink">正常</a-tag>
         </a-form-model-item>
         <a-form-model-item label="角色列表">
-          <a-tag color="green" v-for="o in roleDOS" :key="o">{{ o }}</a-tag>
+          <a-tag color="green" v-for="o in roles" :key="o">{{ o }}</a-tag>
         </a-form-model-item>
         <a-form-model-item label="岗位列表">
           <a-tag color="cyan" v-for="o in posts" :key="o">{{ o }}</a-tag>
@@ -62,7 +62,7 @@ export default {
     return {
       userStatusCode: 'UserStatusCode',
       form: {},
-      roleDOS: [],
+      roles: [],
       posts: [],
       dataScopes: [],
       deptList: []
@@ -73,7 +73,7 @@ export default {
       this.form = row
 
       if (row.roleName) {
-        this.roleDOS = row.roleName && row.roleName.split(',')
+        this.roles = row.roleName && row.roleName.split(',')
       }
       if (row.postName) {
         this.posts = row.postName && row.postName.split(',')

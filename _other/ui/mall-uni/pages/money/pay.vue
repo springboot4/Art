@@ -1,5 +1,5 @@
 <template>
-  <view class="appDO">
+  <view class="app">
     <view class="price-box">
       <text>支付金额</text>
       <text class="price">{{ payAmount / 100 }}</text>
@@ -95,7 +95,7 @@ export default {
 </script>
 
 <style lang="scss">
-.appDO {
+.app {
   width: 100%;
 }
 

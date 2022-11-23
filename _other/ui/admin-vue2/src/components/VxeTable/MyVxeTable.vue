@@ -98,7 +98,7 @@
                       </span>
 
                       <!--如果是字典类型，那么过滤出字典内容-->
-                      <span v-if="['dictDO'].includes(column.type)">
+                      <span v-if="['dict'].includes(column.type)">
                         <span>{{ scope.row[column.field] | dictFilter(column.options) }}</span>
                       </span>
 
@@ -160,7 +160,7 @@
               </span>
 
               <!--如果是字典类型，那么过滤出字典内容-->
-              <span v-if="['dictDO'].includes(column.type)">
+              <span v-if="['dict'].includes(column.type)">
                 <span>{{ scope.row[column.field] | dictFilter(column.options) }}</span>
               </span>
 
