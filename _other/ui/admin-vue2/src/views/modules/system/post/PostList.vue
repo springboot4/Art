@@ -46,7 +46,7 @@
 
 <script>
 import { tableObj } from './Posttemplate'
-import { page, del } from '@/api/sys/postDO'
+import { page, del } from '@/api/sys/post'
 import PostEdit from './PostEdit'
 import { TableMixin } from '@/mixins/TableMixin'
 

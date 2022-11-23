@@ -66,10 +66,10 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { getUserMenuTree } from '@/api/sys/menuDO'
-import { addRole, editRole, getRoleById } from '@/api/sys/roleDO'
-import { getDictItemsByType } from '@/api/sys/dictDO'
-import { getDeptTree } from '@/api/sys/deptDO'
+import { getUserMenuTree } from '@/api/sys/menu'
+import { addRole, editRole, getRoleById } from '@/api/sys/role'
+import { getDictItemsByType } from '@/api/sys/dict'
+import { getDeptTree } from '@/api/sys/dept'
 
 export default {
   name: 'RoleAddOrUpdate',
@@ -78,7 +78,7 @@ export default {
     return {
       confirmDirty: false,
       dictTypes: [],
-      roleDOList: [],
+      roleList: [],
       deptList: [],
       treeData: [],
       deptTree: [],

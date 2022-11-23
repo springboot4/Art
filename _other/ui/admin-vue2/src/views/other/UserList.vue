@@ -42,12 +42,12 @@
         <a-row
           :gutter="24"
           :style="{ marginBottom: '12px' }">
-          <a-col :span="12" v-for="(roleDO, index) in record.permissions" :key="index" :style="{ marginBottom: '12px', height: '23px' }">
+          <a-col :span="12" v-for="(role, index) in record.permissions" :key="index" :style="{ marginBottom: '12px', height: '23px' }">
             <a-col :lg="4" :md="24">
-              <span>{{ roleDO.permissionName }}：</span>
+              <span>{{ role.permissionName }}：</span>
             </a-col>
-            <a-col :lg="20" :md="24" v-if="roleDO.actionList && roleDO.actionList.length > 0">
-              <a-tag color="cyan" v-for="action in roleDO.actionList" :key="action">{{ action | permissionFilter }}</a-tag>
+            <a-col :lg="20" :md="24" v-if="role.actionList && role.actionList.length > 0">
+              <a-tag color="cyan" v-for="action in role.actionList" :key="action">{{ action | permissionFilter }}</a-tag>
             </a-col>
             <a-col :span="20" v-else>-</a-col>
           </a-col>
@@ -62,17 +62,17 @@
           <a class="ant-dropdown-link">
             更多 <a-icon type="down" />
           </a>
-          <a-menuDO slot="overlay">
-            <a-menuDO-item>
+          <a-menu slot="overlay">
+            <a-menu-item>
               <a href="javascript:;">详情</a>
-            </a-menuDO-item>
-            <a-menuDO-item>
+            </a-menu-item>
+            <a-menu-item>
               <a href="javascript:;">禁用</a>
-            </a-menuDO-item>
-            <a-menuDO-item>
+            </a-menu-item>
+            <a-menu-item>
               <a href="javascript:;">删除</a>
-            </a-menuDO-item>
-          </a-menuDO>
+            </a-menu-item>
+          </a-menu>
         </a-dropdown>
       </span>
     </s-table>

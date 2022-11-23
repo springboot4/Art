@@ -38,7 +38,7 @@
             @change="handleChange"
             v-model="form.roleId"
           >
-            <a-select-option v-for="item in roleDOList" :key="item.roleId">
+            <a-select-option v-for="item in roleList" :key="item.roleId">
               {{ item.roleName }}
             </a-select-option>
           </a-select>
@@ -76,11 +76,11 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { getAllRole } from '@/api/sys/roleDO'
+import { getAllRole } from '@/api/sys/role'
 import { addUser } from '@/api/sys/user'
-import { getDeptTree } from '@/api/sys/deptDO'
+import { getDeptTree } from '@/api/sys/dept'
 import { validateEmail, validateMobile } from '@/utils/validate'
-import { findAll } from '@/api/sys/postDO'
+import { findAll } from '@/api/sys/post'
 
 export default {
   name: 'UserAdd',
@@ -89,7 +89,7 @@ export default {
     return {
       confirmDirty: false,
       postList: [],
-      roleDOList: [],
+      roleList: [],
       deptList: [],
       treeData: [],
       tempDeptId: undefined,
@@ -116,7 +116,7 @@ export default {
       this.postList = res.data
     })
     getAllRole().then(res => {
-      this.roleDOList = res.data
+      this.roleList = res.data
     })
     getDeptTree().then(res => {
       this.treeData.push(this.buildTree(res.data))

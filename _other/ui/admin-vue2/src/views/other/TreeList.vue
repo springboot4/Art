@@ -28,17 +28,17 @@
               <a class="ant-dropdown-link">
                 更多 <a-icon type="down" />
               </a>
-              <a-menuDO slot="overlay">
-                <a-menuDO-item>
+              <a-menu slot="overlay">
+                <a-menu-item>
                   <a href="javascript:;">详情</a>
-                </a-menuDO-item>
-                <a-menuDO-item v-if="$auth('table.disable')">
+                </a-menu-item>
+                <a-menu-item v-if="$auth('table.disable')">
                   <a href="javascript:;">禁用</a>
-                </a-menuDO-item>
-                <a-menuDO-item v-if="$auth('table.delete')">
+                </a-menu-item>
+                <a-menu-item v-if="$auth('table.delete')">
                   <a href="javascript:;">删除</a>
-                </a-menuDO-item>
-              </a-menuDO>
+                </a-menu-item>
+              </a-menu>
             </a-dropdown>
           </span>
         </s-table>
@@ -156,7 +156,7 @@ export default {
 <style lang="less">
   .custom-tree {
 
-    /deep/ .ant-menuDO-item-group-title {
+    /deep/ .ant-menu-item-group-title {
       position: relative;
       &:hover {
         .btn {
@@ -165,7 +165,7 @@ export default {
       }
     }
 
-    /deep/ .ant-menuDO-item {
+    /deep/ .ant-menu-item {
       &:hover {
         .btn {
           display: block;

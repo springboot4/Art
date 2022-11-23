@@ -2,7 +2,7 @@
   <a-card :bordered="false" :style="{ height: '100%' }">
     <a-row :gutter="24">
       <a-col :md="4">
-        <a-list itemLayout="vertical" :dataSource="roleDOS">
+        <a-list itemLayout="vertical" :dataSource="roles">
           <a-list-item slot="renderItem" slot-scope="item, index" :key="index">
             <a-list-item-meta :style="{ marginBottom: '0' }">
               <span slot="description" style="text-align: center; display: block">{{ item.describe }}</span>
@@ -23,7 +23,7 @@
             </a-form-item>
 
             <a-form-item label="角色名称">
-              <a-input v-decorator="[ 'name', {rules: [{ required: true, message: 'Please input roleDO name!' }]} ]" placeholder="请填写角色名称" />
+              <a-input v-decorator="[ 'name', {rules: [{ required: true, message: 'Please input role name!' }]} ]" placeholder="请填写角色名称" />
             </a-form-item>
 
             <a-form-item label="状态">
@@ -34,7 +34,7 @@
             </a-form-item>
 
             <a-form-item label="备注说明">
-              <a-textarea :row="3" v-decorator="[ 'describe', {rules: [{ required: true, message: 'Please input roleDO name!' }]} ]" placeholder="请填写角色名称" />
+              <a-textarea :row="3" v-decorator="[ 'describe', {rules: [{ required: true, message: 'Please input role name!' }]} ]" placeholder="请填写角色名称" />
             </a-form-item>
 
             <a-form-item label="拥有权限">
@@ -66,7 +66,7 @@
 import pick from 'lodash.pick'
 import { getRoleList, getPermissions } from '@/api/manage'
 import { actionToObject } from '@/utils/permissions'
-import { baseMixin } from '@/store/appDO-mixin'
+import { baseMixin } from '@/store/app-mixin'
 
 export default {
   name: 'RoleList',
@@ -77,19 +77,19 @@ export default {
       form: this.$form.createForm(this),
       mdl: {},
 
-      roleDOS: [],
+      roles: [],
       permissions: []
     }
   },
   created () {
     getRoleList().then((res) => {
-      this.roleDOS = res.result.data
-      this.roleDOS.push({
+      this.roles = res.result.data
+      this.roles.push({
         id: '-1',
         name: '新增角色',
         describe: '新增一个角色'
       })
-      console.log('this.roleDOS', this.roleDOS)
+      console.log('this.roles', this.roles)
     })
     this.loadPermissions()
   },

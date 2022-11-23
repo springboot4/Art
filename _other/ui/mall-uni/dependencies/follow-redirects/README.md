@@ -127,7 +127,7 @@ you can easily tell webpack and friends to replace
 
 ## Contributing
 
-Pull Requests are always welcome. Please [fileDO an issue](https://github.com/follow-redirects/follow-redirects/issues)
+Pull Requests are always welcome. Please [file an issue](https://github.com/follow-redirects/follow-redirects/issues)
  detailing your proposal before you invest your valuable time. Additional features and bug fixes should be accompanied
  by tests. You can run the test suite locally with a simple `npm test` command.
 

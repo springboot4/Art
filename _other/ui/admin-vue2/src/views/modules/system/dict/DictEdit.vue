@@ -67,7 +67,7 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { add, get, getDictItemsByType, update } from '@/api/sys/dictDO'
+import { add, get, getDictItemsByType, update } from '@/api/sys/dict'
 
 export default {
   name: 'DictEdit',

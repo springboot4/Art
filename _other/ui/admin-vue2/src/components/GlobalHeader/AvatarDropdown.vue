@@ -8,21 +8,21 @@
       <span>{{ currentUser.username }}</span>
     </span>
     <template v-slot:overlay>
-      <a-menuDO class="ant-pro-drop-down menuDO" :selected-keys="[]">
-        <a-menuDO-item v-if="menuDO" key="center" @click="handleToCenter">
+      <a-menu class="ant-pro-drop-down menu" :selected-keys="[]">
+        <a-menu-item v-if="menu" key="center" @click="handleToCenter">
           <a-icon type="user" />
           个人中心
-        </a-menuDO-item>
-        <a-menuDO-item v-if="menuDO" key="settings" @click="handleToSettings">
+        </a-menu-item>
+        <a-menu-item v-if="menu" key="settings" @click="handleToSettings">
           <a-icon type="setting" />
           个人设置
-        </a-menuDO-item>
-        <a-menuDO-divider v-if="menuDO" />
-        <a-menuDO-item key="logout" @click="handleLogout">
+        </a-menu-item>
+        <a-menu-divider v-if="menu" />
+        <a-menu-item key="logout" @click="handleLogout">
           <a-icon type="logout" />
           退出登录
-        </a-menuDO-item>
-      </a-menuDO>
+        </a-menu-item>
+      </a-menu>
     </template>
   </a-dropdown>
   <span v-else>
@@ -40,7 +40,7 @@ export default {
       type: Object,
       default: () => null
     },
-    menuDO: {
+    menu: {
       type: Boolean,
       default: true
     }
@@ -75,7 +75,7 @@ export default {
     margin-right: 8px;
   }
 
-  /deep/ .ant-dropdown-menuDO-item {
+  /deep/ .ant-dropdown-menu-item {
     min-width: 160px;
   }
 }
