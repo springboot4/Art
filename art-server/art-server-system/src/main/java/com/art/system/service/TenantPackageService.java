@@ -16,10 +16,10 @@
 
 package com.art.system.service;
 
+import com.art.system.dao.dataobject.TenantPackageDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.entity.TenantPackage;
 import com.art.system.param.TenantPackageParam;
 
 import java.util.List;
@@ -30,32 +30,32 @@ import java.util.List;
  * @author fxz
  * @date 2022-10-01
  */
-public interface TenantPackageService extends IService<TenantPackage> {
+public interface TenantPackageService extends IService<TenantPackageDO> {
 
 	/**
 	 * 添加
 	 */
-	Boolean addTenantPackage(TenantPackage tenantPackage);
+	Boolean addTenantPackage(TenantPackageDO tenantPackageDO);
 
 	/**
 	 * 更新租户套餐信息
 	 */
-	Boolean updateTenantPackage(TenantPackage tenantPackage);
+	Boolean updateTenantPackage(TenantPackageDO tenantPackageDO);
 
 	/**
 	 * 分页查询租户套餐信息
 	 */
-	IPage<TenantPackage> pageTenantPackage(Page<TenantPackage> pageParam, TenantPackageParam param);
+	IPage<TenantPackageDO> pageTenantPackage(Page<TenantPackageDO> pageParam, TenantPackageParam param);
 
 	/**
 	 * 获取单条
 	 */
-	TenantPackage findById(Long id);
+	TenantPackageDO findById(Long id);
 
 	/**
 	 * 获取全部
 	 */
-	List<TenantPackage> findAll();
+	List<TenantPackageDO> findAll();
 
 	/**
 	 * 删除
@@ -67,6 +67,6 @@ public interface TenantPackageService extends IService<TenantPackage> {
 	 * @param packageId 套餐id
 	 * @return 套餐信息
 	 */
-	TenantPackage validTenantPackage(Long packageId);
+	TenantPackageDO validTenantPackage(Long packageId);
 
 }

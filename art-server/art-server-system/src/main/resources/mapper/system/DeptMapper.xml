@@ -3,7 +3,7 @@
   ~ COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
+  ~ you may not use this fileDO except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
   ~     http://www.apache.org/licenses/LICENSE-2.0
@@ -16,9 +16,9 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.art.system.mapper.DeptMapper">
+<mapper namespace="com.art.system.dao.mysql.DeptMapper">
 
-    <resultMap id="dept" type="com.art.system.entity.Dept">
+    <resultMap id="deptBO" type="com.art.system.core.bo.DeptBO">
         <id column="dept_id" property="deptId"/>
         <result column="parent_id" property="parentId"/>
         <result column="dept_name" property="deptName"/>
@@ -28,7 +28,7 @@
         <collection property="children" column="{DEPT_ID = DEPT_ID}" select="getDeptByPid"/>
     </resultMap>
 
-    <select id="getDeptsByParentId" resultMap="dept">
+    <select id="getDeptsByParentId" resultMap="deptBO">
         select dept_id,
                parent_id,
                dept_name,
@@ -40,7 +40,7 @@
     </select>
 
     <!--获取部门树-->
-    <select id="getDeptTree" resultMap="dept">
+    <select id="getDeptTree" resultMap="deptBO">
         select dept_id,
                parent_id,
                dept_name,
@@ -51,7 +51,7 @@
         WHERE dept_id = 0
     </select>
 
-    <select id="getDeptByPid" resultMap="dept">
+    <select id="getDeptByPid" resultMap="deptBO">
         select dept_id,
                parent_id,
                dept_name,

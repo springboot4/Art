@@ -16,11 +16,9 @@
 
 package com.art.system.service;
 
+import com.art.system.api.app.dto.AppDTO;
+import com.art.system.api.app.dto.AppPageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.entity.App;
-import com.art.system.param.AppParam;
 
 import java.util.List;
 
@@ -30,36 +28,36 @@ import java.util.List;
  * @author fxz
  * @date 2022-09-12
  */
-public interface AppService extends IService<App> {
+public interface AppService {
 
-	/**
-	 * 添加
-	 */
-	Boolean addSysApp(App app);
+    /**
+     * 添加
+     */
+    Boolean addApp(AppDTO appDTO);
 
-	/**
-	 * 修改
-	 */
-	Boolean updateSysApp(App app);
+    /**
+     * 修改
+     */
+    Boolean updateApp(AppDTO appDTO);
 
-	/**
-	 * 分页
-	 */
-	IPage<App> pageSysApp(Page<App> pageParam, AppParam appParam);
+    /**
+     * 分页
+     */
+    IPage<AppDTO> pageApp(AppPageDTO appPageDTO);
 
-	/**
-	 * 获取单条
-	 */
-	App findById(Long id);
+    /**
+     * 获取单条
+     */
+    AppDTO findById(Long id);
 
-	/**
-	 * 获取全部
-	 */
-	List<App> findAll();
+    /**
+     * 获取全部
+     */
+    List<AppDTO> findAll();
 
-	/**
-	 * 删除
-	 */
-	Boolean deleteSysApp(Long id);
+    /**
+     * 删除
+     */
+    Boolean deleteApp(Long id);
 
 }

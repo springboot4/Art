@@ -37,7 +37,7 @@
         </a-popconfirm>
       </template>
     </f-table>
-    <tenant-package-edit
+    <tenantDO-package-edit
       ref="packageEdit"
       @ok="handleOk" />
   </a-card>
@@ -45,8 +45,8 @@
 
 <script>
 import { tableObj } from './TenantPackageTemplate'
-import { del, page } from '@/api/sys/tenantPackage'
-import TenantPackageEdit from '@/views/modules/system/tenant/TenantPackageEdit'
+import { del, page } from '@/api/sys/tenantPackageDO'
+import TenantPackageEdit from '@/views/modules/system/tenantDO/TenantPackageEdit'
 import { TableMixin } from '@/mixins/TableMixin'
 
 export default {

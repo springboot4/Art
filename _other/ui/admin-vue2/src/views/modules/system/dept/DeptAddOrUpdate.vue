@@ -29,7 +29,7 @@
             :keykey="'deptId'"
             :val="'deptName'"
             :disabled="editable|| showable"
-            :dicUrl="'/system/dept/getDeptTree'"
+            :dicUrl="'/system/deptDO/getDeptTree'"
             v-decorator="['parentId',{rules: [{required: true, message: '请选择上级部门!'}]}]"
           >
           </biz-select-tree>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { addDept, getDeptById, updateDept } from '@/api/sys/dept'
+import { addDept, getDeptById, updateDept } from '@/api/sys/deptDO'
 import pick from 'lodash.pick'
 import { FormMixin } from '@/mixins/FormMixin'
 

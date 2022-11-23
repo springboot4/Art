@@ -21,21 +21,18 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.amazonaws.services.s3.model.S3Object;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.file.OssProperties;
 import com.art.common.file.service.OssTemplate;
-import com.art.common.mp.result.Result;
-import com.art.system.dto.FileDto;
-import com.art.system.entity.File;
-import com.art.system.mapper.FileMapper;
+import com.art.system.api.file.dto.FileDTO;
+import com.art.system.api.file.dto.FilePageDTO;
+import com.art.system.core.convert.FileConvert;
+import com.art.system.dao.dataobject.FileDO;
+import com.art.system.manager.FileManager;
 import com.art.system.service.FileService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,121 +50,116 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements FileService {
+public class FileServiceImpl implements FileService {
 
-	private final FileMapper fileMapper;
+    private final FileManager fileManager;
 
-	private final OssProperties ossProperties;
+    private final OssProperties ossProperties;
 
-	private final OssTemplate minioTemplate;
+    private final OssTemplate minioTemplate;
 
-	/**
-	 * 上传文件
-	 */
-	@Override
-	public Result<Object> addFile(MultipartFile file) {
-		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+    /**
+     * 上传文件
+     */
+    @Override
+    public Object addFile(MultipartFile file) {
+        String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+        Map<String, String> resultMap = new HashMap<>(4);
 
-		Map<String, String> resultMap = new HashMap<>(4);
+        resultMap.put("bucketName", ossProperties.getBucketName());
+        resultMap.put("fileName", fileName);
+        resultMap.put("url", String.format("/system/file/%s/%s", ossProperties.getBucketName(), fileName));
 
-		resultMap.put("bucketName", ossProperties.getBucketName());
-		resultMap.put("fileName", fileName);
-		resultMap.put("url", String.format("/system/file/%s/%s", ossProperties.getBucketName(), fileName));
+        try {
+            minioTemplate.putObject(ossProperties.getBucketName(), fileName, file.getInputStream(),
+                    file.getContentType());
+            // 记录到数据库
+            fileLog(file, fileName);
+        } catch (Exception e) {
+            log.error("上传失败", e);
+            return null;
+        }
 
-		try {
-			minioTemplate.putObject(ossProperties.getBucketName(), fileName, file.getInputStream(),
-					file.getContentType());
-			// 记录到数据库
-			fileLog(file, fileName);
-		}
-		catch (Exception e) {
-			log.error("上传失败", e);
-			return Result.failed();
-		}
+        return resultMap;
+    }
 
-		return Result.success(resultMap);
-	}
+    /**
+     * 文件管理数据记录 收集管理追踪文件
+     *
+     * @param file     上传文件格式
+     * @param fileName 文件名
+     */
+    private void fileLog(MultipartFile file, String fileName) {
+        FileDO fileDO = FileDO.builder()
+                .fileName(fileName)
+                .original(file.getOriginalFilename())
+                .fileSize(file.getSize())
+                .type(FileUtil.extName(file.getOriginalFilename()))
+                .bucketName(ossProperties.getBucketName())
+                .build();
 
-	/**
-	 * 文件管理数据记录,收集管理追踪文件
-	 * @param file 上传文件格式
-	 * @param fileName 文件名
-	 */
-	private void fileLog(MultipartFile file, String fileName) {
-		File sysFile = new File();
+        fileManager.saveFile(fileDO);
+    }
 
-		sysFile.setFileName(fileName);
-		sysFile.setOriginal(file.getOriginalFilename());
-		sysFile.setFileSize(file.getSize());
-		sysFile.setType(FileUtil.extName(file.getOriginalFilename()));
-		sysFile.setBucketName(ossProperties.getBucketName());
+    /**
+     * 修改
+     */
+    @Override
+    public Boolean updateFile(FileDTO fileDto) {
+        return fileManager.updateFileById(fileDto) > 0;
+    }
 
-		this.save(sysFile);
-	}
+    /**
+     * 分页
+     */
+    @Override
+    public IPage<FileDTO> pageFile(FilePageDTO filePageDTO) {
+        return FileConvert.INSTANCE.convert(fileManager.pageFile(filePageDTO));
+    }
 
-	/**
-	 * 修改
-	 */
-	@Override
-	public Boolean updateFile(FileDto fileDto) {
-		File file = new File();
-		BeanUtils.copyProperties(fileDto, file);
-		fileMapper.updateById(file);
-		return Boolean.TRUE;
-	}
+    /**
+     * 获取单条
+     */
+    @Override
+    public FileDTO findById(Long id) {
+        return FileConvert.INSTANCE.convert(fileManager.getFileById(id));
+    }
 
-	/**
-	 * 分页
-	 */
-	@Override
-	public IPage<File> pageFile(Page<File> pageParam, File file) {
-		return fileMapper.selectPage(pageParam, Wrappers.emptyWrapper());
-	}
+    /**
+     * 获取全部
+     */
+    @Override
+    public List<FileDTO> findAll() {
+        return FileConvert.INSTANCE.convert(fileManager.listFile());
+    }
 
-	/**
-	 * 获取单条
-	 */
-	@Override
-	public File findById(Long id) {
-		return fileMapper.selectById(id);
-	}
+    /**
+     * 删除文件
+     */
+    @SneakyThrows
+    @Override
+    public Boolean deleteFile(Long id) {
+        FileDO fileDO = fileManager.getFileById(id);
+        minioTemplate.removeObject(fileDO.getBucketName(), fileDO.getFileName());
+        return fileManager.deleteFileById(id) > 0;
+    }
 
-	/**
-	 * 获取全部
-	 */
-	@Override
-	public List<File> findAll() {
-		return fileMapper.selectList(Wrappers.emptyWrapper());
-	}
+    /**
+     * 下载文件
+     *
+     * @param bucket   桶名称
+     * @param fileName 文件名
+     * @param response 响应
+     */
 
-	/**
-	 * 删除文件
-	 */
-	@SneakyThrows
-	@Override
-	public Boolean deleteFile(Long id) {
-		File file = fileMapper.selectById(id);
-		minioTemplate.removeObject(file.getBucketName(), file.getFileName());
-		fileMapper.deleteById(id);
-		return Boolean.TRUE;
-	}
-
-	/**
-	 * 下载文件
-	 * @param bucket 桶名称
-	 * @param fileName 文件名
-	 * @param response 响应
-	 */
-
-	@Override
-	public void getFile(String bucket, String fileName, HttpServletResponse response) {
-		try (S3Object s3Object = minioTemplate.getObject(bucket, fileName)) {
-			response.setContentType("application/octet-stream; charset=UTF-8");
-			IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
-		}
-		catch (Exception e) {
-			log.error("文件读取异常: {}", e.getLocalizedMessage());
-		}
-	}
+    @Override
+    public void getFile(String bucket, String fileName, HttpServletResponse response) {
+        try (S3Object s3Object = minioTemplate.getObject(bucket, fileName)) {
+            response.setContentType("application/octet-stream; charset=UTF-8");
+            IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
+        } catch (Exception e) {
+            log.error("文件读取异常: {}", e.getLocalizedMessage());
+        }
+    }
 
 }

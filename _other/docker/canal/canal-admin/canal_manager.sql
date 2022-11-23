@@ -2,7 +2,7 @@
  * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this fileDO except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
@@ -107,7 +107,7 @@ CREATE TABLE `canal_user` (
   `username` varchar(31) NOT NULL,
   `password` varchar(128) NOT NULL,
   `name` varchar(31) NOT NULL,
-  `roles` varchar(31) NOT NULL,
+  `roleDOS` varchar(31) NOT NULL,
   `introduction` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

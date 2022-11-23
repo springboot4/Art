@@ -3,7 +3,7 @@
   ~ COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
+  ~ you may not use this fileDO except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
   ~     http://www.apache.org/licenses/LICENSE-2.0
@@ -16,10 +16,10 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.art.system.mapper.UserMapper">
+<mapper namespace="com.art.system.dao.mysql.UserMapper">
 
     <!--分页查找用户详细信息-->
-    <select id="findUserDetailPage"  resultType="com.art.system.entity.SystemUser">
+    <select id="findUserDetailPage"  resultType="com.art.system.dao.dataobject.SystemUserDO">
         SELECT
         u.user_id userId,
         u.username,
@@ -64,7 +64,7 @@
     </select>
 
     <!--根据用户id获取用户信息-->
-    <select id="getUserById" resultType="com.art.system.entity.SystemUser">
+    <select id="getUserById" resultType="com.art.system.dao.dataobject.SystemUserDO">
         SELECT
         u.user_id userId,
         u.username,
@@ -97,7 +97,7 @@
     </select>
 
     <!--通过用户名查找用户信息-->
-    <select id="findByName" parameterType="string" resultType="com.art.system.entity.SystemUser">
+    <select id="findByName" parameterType="string" resultType="com.art.system.dao.dataobject.SystemUserDO">
         SELECT u.user_id                 userId,
                u.username,
                u.email,
@@ -125,7 +125,7 @@
     </select>
 
     <!--通过用户名查找用户信息-->
-    <select id="findByMobile" parameterType="string" resultType="com.art.system.entity.SystemUser">
+    <select id="findByMobile" parameterType="string" resultType="com.art.system.dao.dataobject.SystemUserDO">
         SELECT u.user_id                 userId,
                u.username,
                u.email,

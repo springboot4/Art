@@ -16,12 +16,12 @@
 
 package com.art.system.service;
 
+import com.art.system.api.dict.dto.DictItemDTO;
+import com.art.system.api.dict.dto.DictItemExistsDTO;
+import com.art.system.api.dict.dto.DictItemPageDTO;
+import com.art.system.dao.dataobject.DictItemDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.common.mp.result.Result;
-import com.art.system.dto.DictItemDto;
-import com.art.system.entity.DictItem;
 
 import java.util.List;
 
@@ -31,45 +31,43 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-04
  */
-public interface DictItemService extends IService<DictItem> {
+public interface DictItemService extends IService<DictItemDO> {
 
-	/**
-	 * 添加
-	 */
-	Boolean addDictItem(DictItemDto dictItemDto);
+    /**
+     * 添加
+     */
+    Boolean addDictItem(DictItemDTO dictItemDto);
 
-	/**
-	 * 修改
-	 */
-	Result<Void> updateDictItem(DictItemDto dictItemDto);
+    /**
+     * 修改
+     */
+    Boolean updateDictItem(DictItemDTO dictItemDto);
 
-	/**
-	 * 分页
-	 */
-	IPage<DictItem> pageDictItem(Page<DictItem> pageParam, DictItem dictItem);
+    /**
+     * 分页
+     */
+    IPage<DictItemDTO> pageDictItem(DictItemPageDTO dictItemPageDTO);
 
-	/**
-	 * 获取单条
-	 */
-	DictItem findById(Long id);
+    /**
+     * 获取单条
+     */
+    DictItemDTO findById(Long id);
 
-	/**
-	 * 获取全部
-	 */
-	List<DictItem> findAll();
+    /**
+     * 获取全部
+     */
+    List<DictItemDTO> findAll();
 
-	/**
-	 * 删除
-	 */
-	Result<Void> deleteDictItem(Long id);
+    /**
+     * 删除
+     */
+    Boolean deleteDictItem(Long id);
 
-	/**
-	 * 校验字典项编码是否已经被使用
-	 * @param id 字典项id
-	 * @param dictId 字典id
-	 * @param value 字典项编码
-	 * @return true or false
-	 */
-	Boolean itemExistsByCode(Long id, Long dictId, String value);
+    /**
+     * 校验字典项编码是否已经被使用
+     *
+     * @return true or false
+     */
+    Boolean itemExistsByCode(DictItemExistsDTO dictItemExistsDTO);
 
 }

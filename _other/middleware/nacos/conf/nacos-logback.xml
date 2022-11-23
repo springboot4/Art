@@ -3,7 +3,7 @@
   ~ COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
+  ~ you may not use this fileDO except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
   ~     http://www.apache.org/licenses/LICENSE-2.0
@@ -22,7 +22,7 @@
 
     <appender name="cmdb-main"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${nacos.home}/logs/cmdb-main.log</file>
+        <fileDO>${nacos.home}/logs/cmdb-main.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${nacos.home}/logs/cmdb-main.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -46,7 +46,7 @@
 
     <appender name="naming-server"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/naming-server.log</file>
+        <fileDO>${LOG_HOME}/naming-server.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/naming-server.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -70,7 +70,7 @@
 
     <appender name="naming-raft"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/naming-raft.log</file>
+        <fileDO>${LOG_HOME}/naming-raft.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/naming-raft.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -95,7 +95,7 @@
 
     <appender name="naming-distro"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/naming-distro.log</file>
+        <fileDO>${LOG_HOME}/naming-distro.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/naming-distro.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -119,7 +119,7 @@
 
     <appender name="naming-event"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/naming-event.log</file>
+        <fileDO>${LOG_HOME}/naming-event.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/naming-event.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -143,7 +143,7 @@
 
     <appender name="naming-push"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/naming-push.log</file>
+        <fileDO>${LOG_HOME}/naming-push.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/naming-push.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -159,7 +159,7 @@
     </appender>
     <appender name="naming-rt"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/naming-rt.log</file>
+        <fileDO>${LOG_HOME}/naming-rt.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/naming-rt.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -176,7 +176,7 @@
 
     <appender name="naming-performance"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/naming-performance.log</file>
+        <fileDO>${LOG_HOME}/naming-performance.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/naming-performance.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -194,7 +194,7 @@
     <!--config module logback config-->
     <appender name="dumpFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/config-dump.log</file>
+        <fileDO>${LOG_HOME}/config-dump.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/config-dump.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -210,7 +210,7 @@
     </appender>
     <appender name="pullFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/config-pull.log</file>
+        <fileDO>${LOG_HOME}/config-pull.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/config-pull.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -226,7 +226,7 @@
     </appender>
     <appender name="fatalFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/config-fatal.log</file>
+        <fileDO>${LOG_HOME}/config-fatal.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/config-fatal.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -242,7 +242,7 @@
     </appender>
     <appender name="memoryFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/config-memory.log</file>
+        <fileDO>${LOG_HOME}/config-memory.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/config-memory.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -258,7 +258,7 @@
     </appender>
     <appender name="pullCheckFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/config-pull-check.log</file>
+        <fileDO>${LOG_HOME}/config-pull-check.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/config-pull-check.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -275,7 +275,7 @@
 
     <appender name="clientLog"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/config-client-request.log</file>
+        <fileDO>${LOG_HOME}/config-client-request.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/config-client-request.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -292,7 +292,7 @@
 
     <appender name="traceLog"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/config-trace.log</file>
+        <fileDO>${LOG_HOME}/config-trace.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/config-trace.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -309,7 +309,7 @@
 
     <appender name="notifyLog"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/config-notify.log</file>
+        <fileDO>${LOG_HOME}/config-notify.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/config-notify.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -326,7 +326,7 @@
 
     <appender name="startLog"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/config-server.log</file>
+        <fileDO>${LOG_HOME}/config-server.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/config-server.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -343,7 +343,7 @@
 
     <appender name="rootFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/nacos.log</file>
+        <fileDO>${LOG_HOME}/nacos.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/nacos.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -360,7 +360,7 @@
 
     <appender name="nacos-address"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/nacos-address.log</file>
+        <fileDO>${LOG_HOME}/nacos-address.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/nacos-address.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -377,7 +377,7 @@
 
     <appender name="istio-main"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/istio-main.log</file>
+        <fileDO>${LOG_HOME}/istio-main.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/istio-main.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -394,7 +394,7 @@
 
     <appender name="core-auth"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/core-auth.log</file>
+        <fileDO>${LOG_HOME}/core-auth.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/core-auth.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -411,7 +411,7 @@
 
     <appender name="protocol-raft"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/protocol-raft.log</file>
+        <fileDO>${LOG_HOME}/protocol-raft.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/protocol-raft.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -428,7 +428,7 @@
 
     <appender name="protocol-distro"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/protocol-distro.log</file>
+        <fileDO>${LOG_HOME}/protocol-distro.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/protocol-distro.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -445,7 +445,7 @@
 
     <appender name="nacos-cluster"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/nacos-cluster.log</file>
+        <fileDO>${LOG_HOME}/nacos-cluster.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/nacos-cluster.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -462,7 +462,7 @@
 
     <appender name="alipay-jraft"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_HOME}/alipay-jraft.log</file>
+        <fileDO>${LOG_HOME}/alipay-jraft.log</fileDO>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_HOME}/alipay-jraft.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
@@ -624,7 +624,7 @@
         <level value="INFO"/>
     </logger>
 
-    <logger name="com.alibaba.nacos.sys.file.WatchFileCenter">
+    <logger name="com.alibaba.nacos.sys.fileDO.WatchFileCenter">
         <appender-ref ref="CONSOLE"/>
         <level value="INFO"/>
     </logger>

@@ -16,10 +16,10 @@
 
 package com.art.system.controller;
 
+import com.art.system.dao.dataobject.TenantPackageDO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.art.common.mp.result.PageResult;
 import com.art.common.mp.result.Result;
-import com.art.system.entity.TenantPackage;
 import com.art.system.param.TenantPackageParam;
 import com.art.system.service.TenantPackageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,8 +48,8 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "保存租户套餐信息")
 	@PostMapping(value = "/add")
-	public Result<Boolean> add(@RequestBody TenantPackage tenantPackage) {
-		return Result.success(tenantPackageService.addTenantPackage(tenantPackage));
+	public Result<Boolean> add(@RequestBody TenantPackageDO tenantPackageDO) {
+		return Result.success(tenantPackageService.addTenantPackage(tenantPackageDO));
 	}
 
 	/**
@@ -57,8 +57,8 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "更新租户套餐信息")
 	@PostMapping(value = "/update")
-	public Result<Boolean> update(@RequestBody TenantPackage tenantPackage) {
-		return Result.success(tenantPackageService.updateTenantPackage(tenantPackage));
+	public Result<Boolean> update(@RequestBody TenantPackageDO tenantPackageDO) {
+		return Result.success(tenantPackageService.updateTenantPackage(tenantPackageDO));
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "获取单条租户套餐信息")
 	@GetMapping(value = "/findById")
-	public Result<TenantPackage> findById(Long id) {
+	public Result<TenantPackageDO> findById(Long id) {
 		return Result.success(tenantPackageService.findById(id));
 	}
 
@@ -84,7 +84,7 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "获取全部租户套餐信息")
 	@GetMapping(value = "/findAll")
-	public Result<List<TenantPackage>> findAll() {
+	public Result<List<TenantPackageDO>> findAll() {
 		return Result.success(tenantPackageService.findAll());
 	}
 
@@ -93,8 +93,8 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "分页查询租户套餐信息")
 	@GetMapping(value = "/page")
-	public Result<PageResult<TenantPackage>> pageTenantPackage(Page<TenantPackage> pageParam,
-			TenantPackageParam param) {
+	public Result<PageResult<TenantPackageDO>> pageTenantPackage(Page<TenantPackageDO> pageParam,
+                                                                 TenantPackageParam param) {
 		return Result.success(PageResult.success(tenantPackageService.pageTenantPackage(pageParam, param)));
 	}
 

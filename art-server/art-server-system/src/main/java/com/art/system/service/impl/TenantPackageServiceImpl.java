@@ -18,15 +18,15 @@ package com.art.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.StrPool;
+import com.art.system.dao.dataobject.TenantDO;
+import com.art.system.dao.dataobject.TenantPackageDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.core.enums.GlobalStatusEnum;
 import com.art.common.core.exception.FxzException;
-import com.art.system.entity.Tenant;
-import com.art.system.entity.TenantPackage;
-import com.art.system.mapper.TenantPackageMapper;
+import com.art.system.dao.mysql.TenantPackageMapper;
 import com.art.system.param.TenantPackageParam;
 import com.art.system.service.TenantPackageService;
 import com.art.system.service.TenantService;
@@ -48,7 +48,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, TenantPackage>
+public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, TenantPackageDO>
 		implements TenantPackageService {
 
 	@Resource
@@ -60,8 +60,8 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 * 添加
 	 */
 	@Override
-	public Boolean addTenantPackage(TenantPackage tenantPackage) {
-		tenantPackageMapper.insert(tenantPackage);
+	public Boolean addTenantPackage(TenantPackageDO tenantPackageDO) {
+		tenantPackageMapper.insert(tenantPackageDO);
 		return Boolean.TRUE;
 	}
 
@@ -69,25 +69,25 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 * 更新租户套餐信息
 	 */
 	@Override
-	public Boolean updateTenantPackage(TenantPackage tenantPackage) {
+	public Boolean updateTenantPackage(TenantPackageDO tenantPackageDO) {
 		// 校验套餐是否存在
-		TenantPackage packageExists = validTenantPackageExists(tenantPackage.getId());
+		TenantPackageDO packageExists = validTenantPackageExists(tenantPackageDO.getId());
 
 		// 更新套餐信息
-		tenantPackageMapper.updateById(tenantPackage);
+		tenantPackageMapper.updateById(tenantPackageDO);
 
 		// 租户原菜单信息
-		String[] newMenus = tenantPackage.getMenuIds().split(StrPool.COMMA);
+		String[] newMenus = tenantPackageDO.getMenuIds().split(StrPool.COMMA);
 		// 更新后的菜单信息
 		String[] oldMenus = packageExists.getMenuIds().split(StrPool.COMMA);
 
 		// 菜单信息变化 则更新租户下的角色菜单信息
 		if (!CollUtil.isEqualList(Arrays.asList(newMenus), Arrays.asList(oldMenus))) {
 			// 本套餐下的所有租户
-			List<Tenant> tenants = tenantService.getTenantListByPackageId(tenantPackage.getId());
+			List<TenantDO> tenantDOS = tenantService.getTenantListByPackageId(tenantPackageDO.getId());
 
 			// 遍历所有租户 更新租户下的角色菜单信息
-			tenants.forEach(t -> tenantService.updateTenantRoleMenu(t.getId(), Arrays.asList(newMenus)));
+			tenantDOS.forEach(t -> tenantService.updateTenantRoleMenu(t.getId(), Arrays.asList(newMenus)));
 		}
 
 		return Boolean.TRUE;
@@ -116,17 +116,17 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 * @return 套餐信息
 	 */
 	@Override
-	public TenantPackage validTenantPackage(Long packageId) {
-		TenantPackage tenantPackage = this.getById(packageId);
+	public TenantPackageDO validTenantPackage(Long packageId) {
+		TenantPackageDO tenantPackageDO = this.getById(packageId);
 
-		if (Objects.isNull(tenantPackage)) {
+		if (Objects.isNull(tenantPackageDO)) {
 			throw new FxzException("租户套餐不存在！");
 		}
-		else if (GlobalStatusEnum.DISABLE.getValue().equals(tenantPackage.getStatus())) {
+		else if (GlobalStatusEnum.DISABLE.getValue().equals(tenantPackageDO.getStatus())) {
 			throw new FxzException("套餐未开启！");
 		}
 
-		return tenantPackage;
+		return tenantPackageDO;
 	}
 
 	/**
@@ -134,19 +134,19 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 * @param id 套餐id
 	 * @return 租户套餐
 	 */
-	private TenantPackage validTenantPackageExists(Long id) {
-		TenantPackage tenantPackage = this.getById(id);
-		if (Objects.isNull(tenantPackage)) {
+	private TenantPackageDO validTenantPackageExists(Long id) {
+		TenantPackageDO tenantPackageDO = this.getById(id);
+		if (Objects.isNull(tenantPackageDO)) {
 			throw new FxzException("套餐信息不存在！更新失败！");
 		}
 
-		return tenantPackage;
+		return tenantPackageDO;
 	}
 
 	private void validTenantPackageUsed(Long id) {
-		Tenant tenant = tenantService
-				.getOne(Wrappers.<Tenant>lambdaQuery().eq(Tenant::getPackageId, id).last("limit 1"));
-		if (Objects.nonNull(tenant)) {
+		TenantDO tenantDO = tenantService
+				.getOne(Wrappers.<TenantDO>lambdaQuery().eq(TenantDO::getPackageId, id).last("limit 1"));
+		if (Objects.nonNull(tenantDO)) {
 			throw new FxzException("套餐信息使用！");
 		}
 	}
@@ -155,7 +155,7 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 * 分页查询租户套餐信息
 	 */
 	@Override
-	public IPage<TenantPackage> pageTenantPackage(Page<TenantPackage> pageParam, TenantPackageParam param) {
+	public IPage<TenantPackageDO> pageTenantPackage(Page<TenantPackageDO> pageParam, TenantPackageParam param) {
 		return tenantPackageMapper.selectPage(pageParam, param.lambdaQuery());
 	}
 
@@ -163,7 +163,7 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 * 获取单条
 	 */
 	@Override
-	public TenantPackage findById(Long id) {
+	public TenantPackageDO findById(Long id) {
 		return tenantPackageMapper.selectById(id);
 	}
 
@@ -171,7 +171,7 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 * 获取全部
 	 */
 	@Override
-	public List<TenantPackage> findAll() {
+	public List<TenantPackageDO> findAll() {
 		return tenantPackageMapper.selectList(Wrappers.emptyWrapper());
 	}
 

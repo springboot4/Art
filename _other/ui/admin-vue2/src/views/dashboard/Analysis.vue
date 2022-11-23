@@ -109,14 +109,14 @@
               <a class="ant-dropdown-link" href="#">
                 <a-icon type="ellipsis" />
               </a>
-              <a-menu slot="overlay">
-                <a-menu-item>
+              <a-menuDO slot="overlay">
+                <a-menuDO-item>
                   <a href="javascript:;">操作一</a>
-                </a-menu-item>
-                <a-menu-item>
+                </a-menuDO-item>
+                <a-menuDO-item>
                   <a href="javascript:;">操作二</a>
-                </a-menu-item>
-              </a-menu>
+                </a-menuDO-item>
+              </a-menuDO>
             </a-dropdown>
             <a-row :gutter="68">
               <a-col :xs="24" :sm="12" :style="{ marginBottom: ' 24px'}">
@@ -172,14 +172,14 @@
               <span class="dashboard-analysis-iconGroup">
                 <a-dropdown :trigger="['click']" placement="bottomLeft">
                   <a-icon type="ellipsis" class="ant-dropdown-link" />
-                  <a-menu slot="overlay">
-                    <a-menu-item>
+                  <a-menuDO slot="overlay">
+                    <a-menuDO-item>
                       <a href="javascript:;">操作一</a>
-                    </a-menu-item>
-                    <a-menu-item>
+                    </a-menuDO-item>
+                    <a-menuDO-item>
                       <a href="javascript:;">操作二</a>
-                    </a-menu-item>
-                  </a-menu>
+                    </a-menuDO-item>
+                  </a-menuDO>
                 </a-dropdown>
               </span>
               <div class="analysis-salesTypeRadio">
@@ -226,7 +226,7 @@ import {
   NumberInfo,
   MiniSmoothArea
 } from '@/components'
-import { baseMixin } from '@/store/app-mixin'
+import { baseMixin } from '@/store/appDO-mixin'
 
 const barData = []
 const barData2 = []

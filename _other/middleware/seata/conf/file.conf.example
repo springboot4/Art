@@ -31,17 +31,17 @@ transport {
 
 ## transaction log store, only used in server side
 store {
-  ## store mode: file、db
-  mode = "file"
-  ## file store property
-  file {
+  ## store mode: fileDO、db
+  mode = "fileDO"
+  ## fileDO store property
+  fileDO {
     ## store location dir
     dir = "sessionStore"
     # branch session size , if exceeded first try compress lockkey, still exceeded throws exceptions
     maxBranchSessionSize = 16384
     # globe session size , if exceeded throws exceptions
     maxGlobalSessionSize = 512
-    # file buffer size , if exceeded allocate new buffer
+    # fileDO buffer size , if exceeded allocate new buffer
     fileWriteBufferCacheSize = 16384
     # when recover batch read size
     sessionReloadReadSize = 100

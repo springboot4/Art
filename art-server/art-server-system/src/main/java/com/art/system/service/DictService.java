@@ -16,13 +16,10 @@
 
 package com.art.system.service;
 
+import com.art.system.api.dict.dto.DictDTO;
+import com.art.system.api.dict.dto.DictItemDTO;
+import com.art.system.api.dict.dto.DictPageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.common.mp.result.Result;
-import com.art.system.dto.DictDto;
-import com.art.system.entity.Dict;
-import com.art.system.entity.DictItem;
 
 import java.util.List;
 
@@ -32,43 +29,44 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-04
  */
-public interface DictService extends IService<Dict> {
+public interface DictService {
 
-	/**
-	 * 添加
-	 */
-	Boolean addDict(DictDto dictDto);
+    /**
+     * 添加
+     */
+    Boolean addDict(DictDTO dictDto);
 
-	/**
-	 * 修改
-	 */
-	Result<Void> updateDict(DictDto dictDto);
+    /**
+     * 修改
+     */
+    Boolean updateDict(DictDTO dictDto);
 
-	/**
-	 * 分页
-	 */
-	IPage<Dict> pageDict(Page<Dict> pageParam, Dict dict);
+    /**
+     * 分页
+     */
+    IPage<DictDTO> pageDict(DictPageDTO dictPageDTO);
 
-	/**
-	 * 获取单条
-	 */
-	Dict findById(Long id);
+    /**
+     * 获取单条
+     */
+    DictDTO findById(Long id);
 
-	/**
-	 * 获取全部
-	 */
-	List<Dict> findAll();
+    /**
+     * 获取全部
+     */
+    List<DictDTO> findAll();
 
-	/**
-	 * 删除
-	 */
-	Result<Void> deleteDict(Long id);
+    /**
+     * 删除
+     */
+    Boolean deleteDict(Long id);
 
-	/**
-	 * 根据字典类型获取字典下的所有字典项
-	 * @param type 字典类型
-	 * @return 字典项
-	 */
-	List<DictItem> getDictItemsByType(String type);
+    /**
+     * 根据字典类型获取字典下的所有字典项
+     *
+     * @param type 字典类型
+     * @return 字典项
+     */
+    List<DictItemDTO> getDictItemsByType(String type);
 
 }

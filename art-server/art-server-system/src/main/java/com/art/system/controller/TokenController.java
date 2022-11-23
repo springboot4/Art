@@ -20,7 +20,7 @@ import com.art.common.log.annotation.OperLogAnn;
 import com.art.common.log.enums.BusinessType;
 import com.art.common.mp.result.PageResult;
 import com.art.common.mp.result.Result;
-import com.art.system.feign.RemoteTokenService;
+import com.art.system.api.token.TokenServiceApi;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ import java.util.Map;
 @RestController
 public class TokenController {
 
-	private final RemoteTokenService remoteTokenService;
+	private final TokenServiceApi tokenServiceApi;
 
 	/**
 	 * 删除token
@@ -51,7 +51,7 @@ public class TokenController {
 	@SneakyThrows
 	@DeleteMapping("/token/{token}")
 	public Result<Void> removeToken(@PathVariable("token") String token) {
-		return remoteTokenService.removeToken(token);
+		return tokenServiceApi.removeToken(token);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class TokenController {
 	@Operation(summary = "分页查询token")
 	@GetMapping("/token/page")
 	public Result<PageResult> tokenList(@RequestParam Map<String, Object> params) {
-		return remoteTokenService.tokenList(params);
+		return tokenServiceApi.tokenList(params);
 	}
 
 }

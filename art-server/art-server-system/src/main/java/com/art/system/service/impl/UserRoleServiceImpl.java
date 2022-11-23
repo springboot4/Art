@@ -17,9 +17,9 @@
 package com.art.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.art.system.entity.UserRole;
-import com.art.system.mapper.UserRoleMapper;
-import com.art.system.service.IUserRoleService;
+import com.art.system.dao.dataobject.UserRoleDO;
+import com.art.system.dao.mysql.UserRoleMapper;
+import com.art.system.service.UserRoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("userRoleService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements IUserRoleService {
+public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRoleDO> implements UserRoleService {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)

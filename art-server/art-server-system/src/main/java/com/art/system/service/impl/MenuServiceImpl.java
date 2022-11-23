@@ -16,19 +16,22 @@
 
 package com.art.system.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.convert.Convert;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.core.entity.router.VueRouter;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.util.TreeUtil;
-import com.art.common.redis.constant.CacheConstants;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
-import com.art.system.entity.Menu;
-import com.art.system.mapper.MenuMapper;
-import com.art.system.service.IMenuService;
+import com.art.system.api.dict.dto.MenuDTO;
+import com.art.system.core.convert.MenuConvert;
+import com.art.system.dao.dataobject.MenuDO;
+import com.art.system.dao.dataobject.SystemUserDO;
+import com.art.system.dao.redis.menu.MenuRedisKeyConstants;
+import com.art.system.manager.AppManager;
+import com.art.system.manager.MenuManager;
+import com.art.system.manager.UserManager;
+import com.art.system.service.MenuService;
+import com.art.system.service.RoleService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -36,10 +39,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -49,106 +50,139 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service("menuService")
+@RequiredArgsConstructor
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
+public class MenuServiceImpl implements MenuService {
 
-	@Override
-	public Set<String> findUserPermissions(String username) {
-		List<Menu> userPermissions = this.baseMapper.findUserPermissions(username);
-		return userPermissions.stream().map(Menu::getPerms).collect(Collectors.toSet());
-	}
+    private final MenuManager menuManager;
 
-	@Override
-	public List<VueRouter<Menu>> getUserRouters(String username) {
-		// 指定用户名角色下的所有菜单
-		List<Menu> menus = this.baseMapper.findUserMenus(username);
+    private final AppManager appManager;
 
-		// 根据菜单构建VueRouter
-		List<VueRouter<Menu>> routes = menus.stream().map(Menu::toVueRouter).collect(Collectors.toList());
+    private final UserManager userManager;
 
-		// 构建树形VueRouter
-		return TreeUtil.buildVueRouter(routes);
-	}
+    private final RoleService roleService;
 
-	/**
-	 * 获取全部的树形菜单信息(包括按钮)
-	 * @return 树形菜单信息
-	 */
-	@Cacheable(value = CacheConstants.GLOBALLY + "menu", unless = "#result==null")
-	@Override
-	public List<VueRouter<Menu>> getAllMenuTree() {
-		return this.baseMapper.getMenuByPid(0L);
-	}
+    @Override
+    public Set<String> findUserPermissions(String username) {
+        List<MenuDTO> userPermissions = menuManager.findUserPermissions(username);
+        return userPermissions.stream().map(MenuDTO::getPerms).collect(Collectors.toSet());
+    }
 
-	/**
-	 * 获取菜单下拉框
-	 * @return 树形菜单下拉框
-	 */
-	@Override
-	public List<VueRouter<Menu>> getTreeSelect() {
-		FxzAuthUser user = SecurityUtil.getUser();
-		if (Objects.isNull(user)) {
-			throw new FxzException("用户未登录！");
-		}
+    @Override
+    public List<VueRouter<MenuDTO>> getUserRouters(String username) {
+        // 指定用户名角色下的所有菜单
+        List<MenuDO> menuDOList = menuManager.findUserMenus(username);
 
-		List<VueRouter<Menu>> allMenuTree = this.getUserRouters(user.getUsername());
+        // 根据菜单构建VueRouter
+        List<VueRouter<MenuDO>> routes = menuDOList.stream().map(MenuDO::toVueRouter).collect(Collectors.toList());
 
-		VueRouter<Menu> router = new VueRouter<Menu>().setId("0").setTitle("顶级菜单").setChildren(allMenuTree);
+        // 构建树形VueRouter
+        return MenuConvert.INSTANCE.convert(TreeUtil.buildVueRouter(routes));
+    }
 
-		List<VueRouter<Menu>> result = new ArrayList<>();
-		result.add(router);
+    /**
+     * 获取全部的树形菜单信息(包括按钮)
+     *
+     * @return 树形菜单信息
+     */
+    @Cacheable(value = MenuRedisKeyConstants.CACHE_NAMES, unless = "#result==null")
+    @Override
+    public List<VueRouter<MenuDTO>> getAllMenuTree() {
+        return MenuConvert.INSTANCE.convert(menuManager.getMenuByPid(0L));
+    }
 
-		return result;
-	}
+    /**
+     * 获取菜单下拉框
+     *
+     * @return 树形菜单下拉框
+     */
+    @Override
+    public List<VueRouter<MenuDTO>> getTreeSelect() {
+        FxzAuthUser user = SecurityUtil.getUser();
+        if (Objects.isNull(user)) {
+            throw new FxzException("用户未登录！");
+        }
 
-	/**
-	 * 保存路由信息
-	 * @param vueRouter
-	 */
-	@Override
-	public void saveMenu(VueRouter vueRouter) {
-		Menu menu = new Menu();
+        List<VueRouter<MenuDTO>> allMenuTree = this.getUserRouters(user.getUsername());
 
-		menu.setHidden(vueRouter.getHidden());
-		menu.setParentId(Convert.toLong(vueRouter.getParentId()));
-		menu.setPerms(vueRouter.getPerms());
-		menu.setTitle(vueRouter.getTitle());
-		menu.setKeepAlive(Convert.toInt(vueRouter.getKeepAlive()));
-		menu.setType(vueRouter.getType());
-		menu.setName(vueRouter.getName());
-		menu.setComponent(vueRouter.getComponent());
-		menu.setPath(vueRouter.getPath());
-		menu.setIcon(vueRouter.getIcon());
-		menu.setRedirect(vueRouter.getRedirect());
-		menu.setOrderNum(Convert.toInt(vueRouter.getOrderNum()));
-		menu.setApplication(vueRouter.getApplication());
+        VueRouter<MenuDTO> router = new VueRouter<MenuDTO>().setId("0").setTitle("顶级菜单").setChildren(allMenuTree);
 
-		this.baseMapper.insert(menu);
-	}
+        List<VueRouter<MenuDTO>> result = new ArrayList<>();
+        result.add(router);
+        return result;
+    }
 
-	/**
-	 * 根据id查询路由信息
-	 * @param id
-	 * @return
-	 */
-	@Cacheable(value = CacheConstants.GLOBALLY + "menu", key = "#id", unless = "#result==null")
-	@Override
-	public VueRouter getMenuById(Long id) {
-		Menu menu = this.getById(id);
-		return menu.toVueRouter();
-	}
+    /**
+     * 保存路由信息
+     *
+     * @param vueRouter
+     */
+    @Override
+    public void saveMenu(VueRouter vueRouter) {
+        menuManager.saveMenu(vueRouter);
+    }
 
-	/**
-	 * 更新路由
-	 */
-	@CacheEvict(value = CacheConstants.GLOBALLY + "menu", key = "#vueRouter.id")
-	@Override
-	public void updateMenu(VueRouter vueRouter) {
-		Menu menu = new Menu();
-		BeanUtil.copyProperties(vueRouter, menu);
-		this.updateById(menu);
-		this.update(Wrappers.<Menu>lambdaUpdate().eq(Menu::getParentId, menu.getId()).set(Menu::getApplication,
-				menu.getApplication()));
-	}
+    /**
+     * 根据id查询路由信息
+     *
+     * @param id
+     * @return
+     */
+    @Cacheable(value = MenuRedisKeyConstants.CACHE_NAMES, key = "#id", unless = "#result==null")
+    @Override
+    public VueRouter getMenuById(Long id) {
+        MenuDO menuDO = menuManager.getMenuById(id);
+        return menuDO.toVueRouter();
+    }
+
+    /**
+     * 更新路由
+     */
+    @CacheEvict(value = MenuRedisKeyConstants.CACHE_NAMES, key = "#vueRouter.id")
+    @Override
+    public void updateMenu(VueRouter vueRouter) {
+        MenuDO menuDO = MenuConvert.INSTANCE.convert(vueRouter);
+        menuManager.updateMenuById(menuDO);
+        menuManager.updateMenuAppByPId(menuDO.getId(), menuDO.getApplication());
+    }
+
+    @Override
+    public Map<String, Object> getUserRoutersAndAuthority() {
+        // 返回结果集
+        Map<String, Object> result = new HashMap<>(4);
+
+        Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
+            // 构建用户路由对象
+            CompletableFuture<Void> routes = CompletableFuture
+                    .runAsync(() -> result.put("routes", getUserRouters(userName)));
+            // 封装用户权限信息
+            CompletableFuture<Void> permissions = CompletableFuture
+                    .runAsync(() -> result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray()));
+            // 封装应用信息
+            CompletableFuture<Void> apps = CompletableFuture
+                    .runAsync(() -> result.put("apps", appManager.listApp()));
+
+            // 异步执行
+            CompletableFuture.allOf(routes, permissions, apps).join();
+        });
+
+        return result;
+    }
+
+    @Override
+    public List<VueRouter<MenuDTO>> getUserMenuTree(Long userId) {
+        SystemUserDO user = userManager.getUserById(userId);
+
+        if (roleService.isSuperAdmin(user.getRoleId())) {
+            return getAllMenuTree();
+        } else {
+            return getUserRouters(user.getUsername());
+        }
+    }
+
+    @Override
+    public void removeById(Long id) {
+        menuManager.deleteMenuById(id);
+    }
 
 }

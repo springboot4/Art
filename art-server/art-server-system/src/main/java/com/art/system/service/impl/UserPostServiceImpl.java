@@ -20,9 +20,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.art.system.dto.UserPostDto;
-import com.art.system.entity.UserPost;
-import com.art.system.mapper.UserPostMapper;
+import com.art.system.api.user.UserPostDTO;
+import com.art.system.dao.dataobject.UserPostDO;
+import com.art.system.dao.mysql.UserPostMapper;
 import com.art.system.service.UserPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> implements UserPostService {
+public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPostDO> implements UserPostService {
 
 	private final UserPostMapper userPostMapper;
 
@@ -48,10 +48,10 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
 	 * 添加
 	 */
 	@Override
-	public Boolean addUserPost(UserPostDto userPostDto) {
-		UserPost userPost = new UserPost();
-		BeanUtils.copyProperties(userPostDto, userPost);
-		userPostMapper.insert(userPost);
+	public Boolean addUserPost(UserPostDTO userPostDto) {
+		UserPostDO userPostDO = new UserPostDO();
+		BeanUtils.copyProperties(userPostDto, userPostDO);
+		userPostMapper.insert(userPostDO);
 		return Boolean.TRUE;
 	}
 
@@ -59,10 +59,10 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
 	 * 修改
 	 */
 	@Override
-	public Boolean updateUserPost(UserPostDto userPostDto) {
-		UserPost userPost = new UserPost();
-		BeanUtils.copyProperties(userPostDto, userPost);
-		userPostMapper.updateById(userPost);
+	public Boolean updateUserPost(UserPostDTO userPostDto) {
+		UserPostDO userPostDO = new UserPostDO();
+		BeanUtils.copyProperties(userPostDto, userPostDO);
+		userPostMapper.updateById(userPostDO);
 		return Boolean.TRUE;
 	}
 
@@ -70,7 +70,7 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
 	 * 分页
 	 */
 	@Override
-	public IPage<UserPost> pageUserPost(Page<UserPost> pageParam, UserPost userPost) {
+	public IPage<UserPostDO> pageUserPost(Page<UserPostDO> pageParam, UserPostDO userPostDO) {
 		return userPostMapper.selectPage(pageParam, Wrappers.emptyWrapper());
 	}
 
@@ -78,7 +78,7 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
 	 * 获取单条
 	 */
 	@Override
-	public UserPost findById(Long id) {
+	public UserPostDO findById(Long id) {
 		return userPostMapper.selectById(id);
 	}
 
@@ -86,7 +86,7 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPost> i
 	 * 获取全部
 	 */
 	@Override
-	public List<UserPost> findAll() {
+	public List<UserPostDO> findAll() {
 		return userPostMapper.selectList(Wrappers.emptyWrapper());
 	}
 

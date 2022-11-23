@@ -87,7 +87,7 @@
           @tabChange="key => handleTabChange(key, 'noTitleKey')"
         >
           <article-page v-if="noTitleKey === 'article'"></article-page>
-          <app-page v-else-if="noTitleKey === 'app'"></app-page>
+          <appDO-page v-else-if="noTitleKey === 'appDO'"></appDO-page>
           <project-page v-else-if="noTitleKey === 'project'"></project-page>
         </a-card>
       </a-col>
@@ -150,7 +150,7 @@ export default {
           tab: '文章(8)'
         }, */
         {
-          key: 'app',
+          key: 'appDO',
           tab: '应用(8)'
         }
         /* {
@@ -158,7 +158,7 @@ export default {
           tab: '项目(8)'
         } */
       ],
-      noTitleKey: 'app'
+      noTitleKey: 'appDO'
     }
   },
   computed: {

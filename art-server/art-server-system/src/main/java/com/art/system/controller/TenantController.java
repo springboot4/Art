@@ -20,10 +20,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.art.common.mp.result.PageResult;
 import com.art.common.mp.result.Result;
 import com.art.common.security.annotation.Ojbk;
-import com.art.system.entity.Tenant;
+import com.art.system.dao.dataobject.TenantDO;
 import com.art.system.param.TenantParam;
 import com.art.system.service.TenantService;
-import com.art.system.vo.TenantVO;
+import com.art.system.core.vo.TenantVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -81,8 +81,8 @@ public class TenantController {
 	 */
 	@Operation(summary = "修改租户信息")
 	@PostMapping(value = "/update")
-	public Result update(@RequestBody Tenant tenant) {
-		return Result.success(tenantService.updateSysTenant(tenant));
+	public Result update(@RequestBody TenantDO tenantDO) {
+		return Result.success(tenantService.updateSysTenant(tenantDO));
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class TenantController {
 	 */
 	@Operation(summary = "根据id查询租户信息")
 	@GetMapping(value = "/findById")
-	public Result<Tenant> findById(Long id) {
+	public Result<TenantDO> findById(Long id) {
 		return Result.success(tenantService.findById(id));
 	}
 
@@ -118,7 +118,7 @@ public class TenantController {
 	 */
 	@Operation(summary = "获取全部租户信息")
 	@GetMapping(value = "/findAll")
-	public Result<List<Tenant>> findAll() {
+	public Result<List<TenantDO>> findAll() {
 		return Result.success(tenantService.findAll());
 	}
 
@@ -127,7 +127,7 @@ public class TenantController {
 	 */
 	@Operation(summary = "分页查询租户列表")
 	@GetMapping(value = "/page")
-	public Result<PageResult<Tenant>> pageSysTenant(Page pageParam, TenantParam param) {
+	public Result<PageResult<TenantDO>> pageSysTenant(Page pageParam, TenantParam param) {
 		return Result.success(PageResult.success(tenantService.pageSysTenant(pageParam, param)));
 	}
 

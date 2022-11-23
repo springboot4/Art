@@ -8,9 +8,9 @@
     @cancel="handleOk"
   >
     <a-upload
-      name="file"
+      name="fileDO"
       :multiple="false"
-      action="/api/system/file/add"
+      action="/api/system/fileDO/add"
       :headers="headers"
       :fileList="fileList"
       @change="handleChange"
@@ -29,7 +29,7 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { get } from '@/api/sys/file'
+import { get } from '@/api/sys/fileDO'
 import Vue from 'vue'
 import { ACCESS_TOKEN, TENANT_ID } from '@/store/mutation-types'
 
@@ -61,13 +61,13 @@ export default {
   methods: {
     handleChange (info) {
       this.fileList = info.fileList
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList)
+      if (info.fileDO.status !== 'uploading') {
+        console.log(info.fileDO, info.fileList)
       }
-      if (info.file.status === 'done') {
-        this.$message.success(`${info.file.name} 上传成功!`)
-      } else if (info.file.status === 'error') {
-        this.$message.error(`${info.file.name}  上传失败!`)
+      if (info.fileDO.status === 'done') {
+        this.$message.success(`${info.fileDO.name} 上传成功!`)
+      } else if (info.fileDO.status === 'error') {
+        this.$message.error(`${info.fileDO.name}  上传失败!`)
       }
     },
     edit (id, type) {

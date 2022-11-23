@@ -3,39 +3,39 @@
     <a-card :bordered="false" :bodyStyle="{ padding: '16px 0', height: '100%' }" :style="{ height: '100%' }">
       <div class="account-settings-info-main" :class="{ 'mobile': isMobile }">
         <div class="account-settings-info-left">
-          <a-menu
+          <a-menuDO
             :mode="isMobile ? 'horizontal' : 'inline'"
             :style="{ border: '0', width: isMobile ? '560px' : 'auto'}"
             :selectedKeys="selectedKeys"
             type="inner"
             @openChange="onOpenChange"
           >
-            <a-menu-item key="/account/settings/base">
+            <a-menuDO-item key="/account/settings/base">
               <router-link :to="{ name: 'BaseSettings' }">
                 基本设置
               </router-link>
-            </a-menu-item>
-            <!--            <a-menu-item key="/account/settings/security">
+            </a-menuDO-item>
+            <!--            <a-menuDO-item key="/account/settings/security">
               <router-link :to="{ name: 'SecuritySettings' }">
                 安全设置
               </router-link>
-            </a-menu-item>
-            <a-menu-item key="/account/settings/custom">
+            </a-menuDO-item>
+            <a-menuDO-item key="/account/settings/custom">
               <router-link :to="{ name: 'CustomSettings' }">
                 个性化
               </router-link>
-            </a-menu-item>
-            <a-menu-item key="/account/settings/binding">
+            </a-menuDO-item>
+            <a-menuDO-item key="/account/settings/binding">
               <router-link :to="{ name: 'BindingSettings' }">
                 账户绑定
               </router-link>
-            </a-menu-item>
-            <a-menu-item key="/account/settings/notification">
+            </a-menuDO-item>
+            <a-menuDO-item key="/account/settings/notification">
               <router-link :to="{ name: 'NotificationSettings' }">
                 新消息通知
               </router-link>
-            </a-menu-item>-->
-          </a-menu>
+            </a-menuDO-item>-->
+          </a-menuDO>
         </div>
         <div class="account-settings-info-right">
           <div class="account-settings-info-title">
@@ -50,7 +50,7 @@
 
 <script>
 import { RouteView } from '@/layouts'
-import { baseMixin } from '@/store/app-mixin'
+import { baseMixin } from '@/store/appDO-mixin'
 import BaseSetting from '@/views/account/settings/BaseSetting'
 export default {
   components: {

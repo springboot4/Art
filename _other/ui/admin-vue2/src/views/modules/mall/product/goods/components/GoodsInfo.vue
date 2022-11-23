@@ -41,8 +41,8 @@
             :span="8">
             <a-card size="small">
               <a-upload
-                name="file"
-                action="/api/system/file/add"
+                name="fileDO"
+                action="/api/system/fileDO/add"
                 :headers="headers"
                 list-type="picture-card"
                 class="avatar-uploader"
@@ -93,7 +93,7 @@
 import QuillEditor from '@/components/Editor/QuillEditor'
 import { FormMixin } from '@/mixins/FormMixin'
 import { list } from '@/api/mall/product/category'
-import { add as addFile } from '@/api/sys/file'
+import { add as addFile } from '@/api/sys/fileDO'
 import { findAll } from '@/api/mall/product/brand'
 
 export default {
@@ -171,13 +171,13 @@ export default {
       this.$message.success('删除图片成功')
       this.$set(this.pictures, index, { url: undefined })
     },
-    uploadFunc (file, index) {
-      file = file[0]
+    uploadFunc (fileDO, index) {
+      fileDO = fileDO[0]
       const formData = new FormData()
-      formData.append('file', file.file)
+      formData.append('fileDO', fileDO.fileDO)
       addFile(formData).then(res => {
         this.pictures[index].url = res.data.data.url
-        file.status = 'done'
+        fileDO.status = 'done'
         this.$message.success('上传成功')
       }).catch(_ => {
         this.$message.error('上传失败')

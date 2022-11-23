@@ -26,7 +26,7 @@
               type="text"
               placeholder="租户"
               v-decorator="[
-                'tenant',
+                'tenantDO',
                 {rules: [{ required: true, message: '请输入正确租户信息' }, { validator: handleTenantIdByName }], validateTrigger: 'blur'}
               ]"
             >
@@ -87,7 +87,7 @@
               type="text"
               placeholder="租户"
               v-decorator="[
-                'tenant',
+                'tenantDO',
                 {rules: [{ required: true, message: '请输入正确租户信息' }, { validator: handleTenantIdByName }], validateTrigger: 'blur'}
               ]"
             >
@@ -187,7 +187,7 @@ import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
 import { getSmsCaptcha } from '@/api/login'
 import Verify from '@/components/verifition/Verify'
-import { getTenantIdByName } from '@/api/sys/tenant'
+import { getTenantIdByName } from '@/api/sys/tenantDO'
 import Vue from 'vue'
 import { TENANT_ID } from '@/store/mutation-types'
 

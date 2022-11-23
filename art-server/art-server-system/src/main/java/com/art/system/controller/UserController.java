@@ -25,10 +25,10 @@ import com.art.common.security.annotation.Ojbk;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.common.tenant.aspect.IgnoreTenant;
-import com.art.system.dto.UserInfoDto;
-import com.art.system.entity.SystemUser;
-import com.art.system.entity.UserInfo;
-import com.art.system.service.IUserService;
+import com.art.system.api.user.UserInfoDTO;
+import com.art.system.dao.dataobject.SystemUserDO;
+import com.art.system.api.user.UserInfo;
+import com.art.system.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -52,14 +52,14 @@ import javax.validation.constraints.NotBlank;
 @RequiredArgsConstructor
 public class UserController {
 
-	private final IUserService userService;
+	private final UserService userService;
 
 	/**
 	 * 根据id获取用户信息
 	 */
 	@Operation(summary = "根据id获取用户信息")
 	@GetMapping("/getUserById/{id}")
-	public Result<SystemUser> getUserById(@PathVariable("id") Long id) {
+	public Result<SystemUserDO> getUserById(@PathVariable("id") Long id) {
 		return Result.success(userService.getUserById(id));
 	}
 
@@ -69,7 +69,7 @@ public class UserController {
 	@Operation(summary = "分页查询用户信息")
 	@GetMapping
 	@PreAuthorize("@ps.hasPermission('sys:user:view')")
-	public Result<PageResult<SystemUser>> userList(PageParam pageParam, UserInfoDto userInfoDto) {
+	public Result<PageResult<SystemUserDO>> userList(PageParam pageParam, UserInfoDTO userInfoDto) {
 		return Result.success(PageResult.success(userService.findUserDetail(userInfoDto, pageParam)));
 	}
 
@@ -79,14 +79,14 @@ public class UserController {
 	@Operation(summary = "添加用户")
 	@PostMapping
 	@PreAuthorize("@ps.hasPermission('sys:user:add')")
-	public void addUser(@RequestBody SystemUser user) {
+	public void addUser(@RequestBody SystemUserDO user) {
 		this.userService.createUser(user);
 	}
 
 	@Operation(summary = "更新用户")
 	@PutMapping
 	@PreAuthorize("@ps.hasPermission('sys:user:update')")
-	public void updateUser(@RequestBody SystemUser user) {
+	public void updateUser(@RequestBody SystemUserDO user) {
 		this.userService.updateUser(user);
 	}
 
@@ -108,7 +108,7 @@ public class UserController {
 	@Ojbk(inner = true)
 	@IgnoreTenant
 	@GetMapping("/findByName/{username}")
-	public SystemUser findByName(@PathVariable("username") String username) {
+	public SystemUserDO findByName(@PathVariable("username") String username) {
 		return this.userService.findByName(username);
 	}
 
@@ -120,7 +120,7 @@ public class UserController {
 	@Operation(summary = "通过手机号查找用户信息")
 	@Ojbk(inner = true)
 	@GetMapping("/findByMobile/{mobile}")
-	public SystemUser findByMobile(@PathVariable("mobile") String mobile) {
+	public SystemUserDO findByMobile(@PathVariable("mobile") String mobile) {
 		return this.userService.findByMobile(mobile);
 
 	}
@@ -134,9 +134,9 @@ public class UserController {
 		FxzAuthUser user = SecurityUtil.getUser();
 
 		// 查询用户信息
-		SystemUser systemUser = userService.getById(user.getUserId());
+		SystemUserDO systemUserDO = userService.getById(user.getUserId());
 
-		return Result.success(userService.findUserInfo(systemUser));
+		return Result.success(userService.findUserInfo(systemUserDO));
 	}
 
 }

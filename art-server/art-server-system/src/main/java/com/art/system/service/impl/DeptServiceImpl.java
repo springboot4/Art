@@ -16,22 +16,24 @@
 
 package com.art.system.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.core.exception.FxzException;
 import com.art.common.dataPermission.annotation.DataPermission;
-import com.art.common.redis.constant.CacheConstants;
-import com.art.system.entity.Dept;
-import com.art.system.mapper.DeptMapper;
-import com.art.system.service.IDeptService;
+import com.art.system.api.dept.dto.DeptDTO;
+import com.art.system.core.bo.DeptBO;
+import com.art.system.core.convert.DeptConvert;
+import com.art.system.dao.redis.dept.DeptRedisKeyConstants;
+import com.art.system.manager.DeptManager;
+import com.art.system.service.DeptService;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Fxz
@@ -40,69 +42,85 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements IDeptService {
+public class DeptServiceImpl implements DeptService {
 
-	/**
-	 * 获取部门树
-	 */
-	@Override
-	public Dept getDeptTree() {
-		return this.baseMapper.getDeptTree();
-	}
+    private final DeptManager deptManager;
 
-	/**
-	 * 根据id删除部门
-	 */
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public Boolean delete(Long id) throws FxzException {
-		// 判断是否存在下级
-		Long count = this.getBaseMapper().selectCount(Wrappers.<Dept>lambdaQuery().eq(Dept::getParentId, id));
-		if (count > 0) {
-			throw new FxzException("存在子部门,无法直接删除");
-		}
+    /**
+     * 获取部门树
+     */
+    @Override
+    public DeptDTO getDeptTree() {
+        return DeptConvert.INSTANCE.convert(deptManager.getDeptTree());
+    }
 
-		// 删除数据
-		return this.getBaseMapper().deleteById(id) > 0;
-	}
+    /**
+     * 根据id删除部门
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean deleteById(Long id) throws FxzException {
+        // 判断是否存在下级部门
+        Boolean exists = deptManager.existsSubordinate(id);
+        if (exists) {
+            throw new FxzException("存在子部门,无法删除！");
+        }
 
-	/**
-	 * 保存部门信息
-	 */
-	@Override
-	public Boolean addDept(Dept dept) {
-		return this.getBaseMapper().insert(dept) > 0;
-	}
+        // 删除部门
+        return deptManager.deleteById(id) > 0;
+    }
 
-	/**
-	 * 根据Pid查询下级部门 避免数据权限查询时循环调用
-	 */
-	@DataPermission(enable = false)
-	@Cacheable(value = CacheConstants.GLOBALLY + "dept:", key = "#pId", unless = "#result==null")
-	@Override
-	public List<Dept> getDeptsByParentId(Long pId) {
-		Dept dept = this.baseMapper.getDeptsByParentId(pId);
+    /**
+     * 保存部门信息
+     */
+    @Override
+    public Boolean addDept(DeptDTO deptDTO) {
+        return deptManager.addDept(deptDTO) > 0;
+    }
 
-		return treeToList(dept);
-	}
+    @Override
+    public DeptDTO getDeptById(Long id) {
+        return DeptConvert.INSTANCE.convert(deptManager.getDeptById(id));
+    }
 
-	private List<Dept> treeToList(Dept dept) {
-		LinkedList<Dept> list = new LinkedList<>();
-		list.add(dept);
+    @Override
+    public Boolean updateById(DeptDTO deptDTO) {
+        return deptManager.updateById(deptDTO) > 0;
+    }
 
-		List<Dept> children = dept.getChildren();
-		if (CollectionUtils.isEmpty(children)) {
-			return list;
-		}
+    /**
+     * 根据Pid查询下级部门 避免数据权限查询时循环调用
+     */
+    @DataPermission(enable = false)
+    @Cacheable(value = DeptRedisKeyConstants.CACHE_NAMES, key = "#pId", unless = "#result==null")
+    @Override
+    public List<DeptDTO> getDeptsByParentId(Long pId) {
+        DeptBO deptBO = deptManager.getDeptsByParentId(pId);
 
-		children.forEach(item -> {
-			List<Dept> depts = treeToList(item);
-			if (CollectionUtils.isNotEmpty(depts)) {
-				list.addAll(depts);
-			}
-		});
+        return DeptConvert.INSTANCE.convert(treeToList(deptBO));
+    }
 
-		return list;
-	}
+    private List<DeptBO> treeToList(DeptBO deptBO) {
+        if (Objects.isNull(deptBO)) {
+            return new ArrayList<>(0);
+        }
+
+        LinkedList<DeptBO> result = new LinkedList<>();
+        result.add(deptBO);
+
+        List<DeptBO> children = deptBO.getChildren();
+        if (CollectionUtils.isEmpty(children)) {
+            return result;
+        }
+
+        children.forEach(item -> {
+            List<DeptBO> boList = treeToList(item);
+            if (CollectionUtils.isNotEmpty(boList)) {
+                result.addAll(boList);
+            }
+        });
+
+        return result;
+    }
 
 }
