@@ -17,7 +17,7 @@
 package com.art.common.tenant.service;
 
 import com.art.common.core.exception.FxzException;
-import com.art.system.feign.RemoteTenantService;
+import com.art.system.api.tenant.TenantServiceApi;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 
@@ -35,11 +35,11 @@ public class TenantValidService {
 
 	private static final FxzException SERVICE_EXCEPTION_NULL = new FxzException("无异常信息");
 
-	public TenantValidService(RemoteTenantService remoteTenantService) {
+	public TenantValidService(TenantServiceApi tenantServiceApi) {
 		this.validTenantCache = Caffeine.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES)
 				.expireAfterWrite(1, TimeUnit.MINUTES).build(id -> {
 					try {
-						remoteTenantService.validTenant(id);
+						tenantServiceApi.validTenant(id);
 						return SERVICE_EXCEPTION_NULL;
 					}
 					catch (FxzException e) {

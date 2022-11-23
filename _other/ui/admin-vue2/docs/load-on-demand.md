@@ -17,7 +17,7 @@
    ```ecmascript 6
    module.exports = {
      presets: [
-       '@vue/app'
+       '@vue/appDO'
      ],
      plugins: [
        [ "import", {
@@ -81,7 +81,7 @@
    
    new Vue({
      render: h => h(App),
-   }).$mount('#app')
+   }).$mount('#appDO')
 
    ```
 

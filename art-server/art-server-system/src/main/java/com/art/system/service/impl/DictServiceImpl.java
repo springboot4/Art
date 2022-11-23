@@ -16,22 +16,20 @@
 
 package com.art.system.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.core.enums.DictTypeEnum;
-import com.art.common.mp.result.Result;
-import com.art.system.dto.DictDto;
-import com.art.system.entity.Dict;
-import com.art.system.entity.DictItem;
-import com.art.system.mapper.DictMapper;
-import com.art.system.service.DictItemService;
+import com.art.common.core.exception.FxzException;
+import com.art.system.api.dict.dto.DictDTO;
+import com.art.system.api.dict.dto.DictItemDTO;
+import com.art.system.api.dict.dto.DictPageDTO;
+import com.art.system.core.convert.DictConvert;
+import com.art.system.core.convert.DictItemConvert;
+import com.art.system.dao.dataobject.DictDO;
+import com.art.system.manager.DictItemManager;
+import com.art.system.manager.DictManager;
 import com.art.system.service.DictService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,89 +43,81 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
+public class DictServiceImpl implements DictService {
 
-	private final DictMapper dictMapper;
+    private final DictManager dictManager;
 
-	private final DictItemService dictItemService;
+    private final DictItemManager dictItemManager;
 
-	/**
-	 * 添加
-	 */
-	@Override
-	public Boolean addDict(DictDto dictDto) {
-		Dict dict = new Dict();
-		BeanUtils.copyProperties(dictDto, dict);
-		dictMapper.insert(dict);
-		return Boolean.TRUE;
-	}
+    /**
+     * 添加
+     */
+    @Override
+    public Boolean addDict(DictDTO dictDto) {
+        return dictManager.addDict(dictDto) > 0;
+    }
 
-	/**
-	 * 修改
-	 */
-	@Override
-	public Result<Void> updateDict(DictDto dictDto) {
-		if (DictTypeEnum.SYSTEM.getType().equals(dictDto.getSystemFlag())) {
-			return Result.failed("系统内置字典，不可修改!");
-		}
-		Dict dict = new Dict();
-		BeanUtils.copyProperties(dictDto, dict);
-		dictMapper.updateById(dict);
-		return Result.success();
-	}
+    /**
+     * 修改
+     */
+    @Override
+    public Boolean updateDict(DictDTO dictDto) {
+        if (DictTypeEnum.SYSTEM.getType().equals(dictDto.getSystemFlag())) {
+            throw new FxzException("系统内置字典，不可修改!");
+        }
 
-	/**
-	 * 分页
-	 */
-	@Override
-	public IPage<Dict> pageDict(Page<Dict> pageParam, Dict dict) {
-		return dictMapper.selectPage(pageParam,
-				Wrappers.<Dict>lambdaQuery().like(StringUtils.isNotBlank(dict.getType()), Dict::getType, dict.getType())
-						.eq(StringUtils.isNotBlank(dict.getSystemFlag()), Dict::getSystemFlag, dict.getSystemFlag()));
-	}
+        return dictManager.updateById(dictDto) > 0;
+    }
 
-	/**
-	 * 获取单条
-	 */
-	@Override
-	public Dict findById(Long id) {
-		return dictMapper.selectById(id);
-	}
+    /**
+     * 分页
+     */
+    @Override
+    public IPage<DictDTO> pageDict(DictPageDTO dictPageDTO) {
+        return DictConvert.INSTANCE.convert(dictManager.pageDict(dictPageDTO));
+    }
 
-	/**
-	 * 获取全部
-	 */
-	@Override
-	public List<Dict> findAll() {
-		return dictMapper.selectList(Wrappers.emptyWrapper());
-	}
+    /**
+     * 获取单条
+     */
+    @Override
+    public DictDTO findById(Long id) {
+        return DictConvert.INSTANCE.convert(dictManager.getDictById(id));
+    }
 
-	/**
-	 * 删除
-	 */
-	@Override
-	public Result<Void> deleteDict(Long id) {
-		Dict dict = this.getById(id);
-		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag())) {
-			return Result.failed("系统内置字典，不可删除!");
-		}
+    /**
+     * 获取全部
+     */
+    @Override
+    public List<DictDTO> findAll() {
+        return DictConvert.INSTANCE.convert(dictManager.listDict());
+    }
 
-		// 删除所有字典项
-		dictItemService.remove(Wrappers.<DictItem>lambdaQuery().eq(DictItem::getDictId, id));
-		// 删除字典
-		dictMapper.deleteById(id);
-		return Result.success();
-	}
+    /**
+     * 删除
+     */
+    @Override
+    public Boolean deleteDict(Long id) {
+        DictDO dictDO = dictManager.getDictById(id);
+        if (DictTypeEnum.SYSTEM.getType().equals(dictDO.getSystemFlag())) {
+            throw new FxzException("系统内置字典，不可删除!");
+        }
 
-	/**
-	 * 根据字典类型获取字典下的所有字典项
-	 * @param type 字典类型
-	 * @return 字典项
-	 */
-	@Override
-	public List<DictItem> getDictItemsByType(String type) {
-		return dictItemService
-				.list(Wrappers.<DictItem>lambdaQuery().eq(DictItem::getType, type).orderByAsc(DictItem::getSortOrder));
-	}
+        // 删除所有字典项
+        dictItemManager.deleteDictItemByDictId(id);
+        // 删除字典
+        return dictManager.deleteDictById(id) > 0;
+    }
+
+    /**
+     * 根据字典类型获取字典下的所有字典项
+     *
+     * @param type 字典类型
+     * @return 字典项
+     */
+    @Override
+    public List<DictItemDTO> getDictItemsByType(String type) {
+        return DictItemConvert.INSTANCE.convertList(dictItemManager.getDictItemsByType(type));
+    }
 
 }

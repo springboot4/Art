@@ -19,8 +19,8 @@ package com.art.common.security.listener;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.art.common.security.entity.FxzAuthUser;
-import com.art.system.dto.OperLogDto;
-import com.art.system.feign.RemoteLogService;
+import com.art.system.api.log.dto.OperLogDTO;
+import com.art.system.api.log.LogServiceApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -39,7 +39,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class AuthenticationEventListener {
 
-	private final RemoteLogService remoteLogService;
+	private final LogServiceApi logServiceApi;
 
 	@EventListener(AuthenticationSuccessEvent.class)
 	public void onAuthenticationSuccessEvent(AuthenticationSuccessEvent event) {
@@ -51,7 +51,7 @@ public class AuthenticationEventListener {
 						.getRequestAttributes();
 				HttpServletRequest request = requestAttributes.getRequest();
 
-				OperLogDto logDto = new OperLogDto();
+				OperLogDTO logDto = new OperLogDTO();
 				logDto.setTitle("用户登录");
 				logDto.setUpdateTime(LocalDateTime.now());
 				logDto.setStatus(0);
@@ -61,7 +61,7 @@ public class AuthenticationEventListener {
 				logDto.setOperParam(authentication.getName());
 				logDto.setBusinessType(4);
 				logDto.setRequestMethod(request.getMethod());
-				remoteLogService.add(logDto);
+				logServiceApi.add(logDto);
 				log.info("登陆成功:{}", authentication.getName());
 			}
 		}

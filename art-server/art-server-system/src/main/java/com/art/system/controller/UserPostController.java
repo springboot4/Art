@@ -19,8 +19,8 @@ package com.art.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.art.common.mp.result.PageResult;
 import com.art.common.mp.result.Result;
-import com.art.system.dto.UserPostDto;
-import com.art.system.entity.UserPost;
+import com.art.system.api.user.UserPostDTO;
+import com.art.system.dao.dataobject.UserPostDO;
 import com.art.system.service.UserPostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,7 +48,7 @@ public class UserPostController {
 	 */
 	@Operation(summary = "添加")
 	@PostMapping(value = "/add")
-	public Result<Boolean> add(@RequestBody UserPostDto userPostDto) {
+	public Result<Boolean> add(@RequestBody UserPostDTO userPostDto) {
 		return Result.success(userPostService.addUserPost(userPostDto));
 	}
 
@@ -57,7 +57,7 @@ public class UserPostController {
 	 */
 	@Operation(summary = "修改")
 	@PostMapping(value = "/update")
-	public Result<Boolean> update(@RequestBody UserPostDto userPostDto) {
+	public Result<Boolean> update(@RequestBody UserPostDTO userPostDto) {
 		return Result.success(userPostService.updateUserPost(userPostDto));
 	}
 
@@ -75,7 +75,7 @@ public class UserPostController {
 	 */
 	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
-	public Result<UserPost> findById(Long id) {
+	public Result<UserPostDO> findById(Long id) {
 		return Result.success(userPostService.findById(id));
 	}
 
@@ -84,7 +84,7 @@ public class UserPostController {
 	 */
 	@Operation(summary = "获取全部")
 	@GetMapping(value = "/findAll")
-	public Result<List<UserPost>> findAll() {
+	public Result<List<UserPostDO>> findAll() {
 		return Result.success(userPostService.findAll());
 	}
 
@@ -93,8 +93,8 @@ public class UserPostController {
 	 */
 	@Operation(summary = "分页")
 	@GetMapping(value = "/page")
-	public Result<PageResult<UserPost>> pageUserPost(Page<UserPost> pageParam, UserPost userPost) {
-		return Result.success(PageResult.success(userPostService.pageUserPost(pageParam, userPost)));
+	public Result<PageResult<UserPostDO>> pageUserPost(Page<UserPostDO> pageParam, UserPostDO userPostDO) {
+		return Result.success(PageResult.success(userPostService.pageUserPost(pageParam, userPostDO)));
 	}
 
 }

@@ -216,11 +216,11 @@ export default {
       this.$store.dispatch('ToggleTheme', theme)
     },
     doCopy () {
-      // get current settings from mixin or this.$store.state.app, pay attention to the property name
+      // get current settings from mixin or this.$store.state.appDO, pay attention to the property name
       const text = `export default {
   primaryColor: '${this.primaryColor}', // primary color of fxz-cloud
-  navTheme: '${this.navTheme}', // theme for nav menu
-  layout: '${this.layoutMode}', // nav menu position: sidemenu or topmenu
+  navTheme: '${this.navTheme}', // theme for nav menuDO
+  layout: '${this.layoutMode}', // nav menuDO position: sidemenu or topmenu
   contentWidth: '${this.contentWidth}', // layout of content: Fluid or Fixed, only works when layout is topmenu
   fixedHeader: ${this.fixedHeader}, // sticky header
   fixSiderbar: ${this.fixSiderbar}, // sticky siderbar

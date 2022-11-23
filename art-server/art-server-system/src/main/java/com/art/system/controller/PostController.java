@@ -16,11 +16,11 @@
 
 package com.art.system.controller;
 
+import com.art.system.dao.dataobject.PostDO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.art.common.mp.result.PageResult;
 import com.art.common.mp.result.Result;
-import com.art.system.dto.PostDto;
-import com.art.system.entity.Post;
+import com.art.system.api.post.PostDTO;
 import com.art.system.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,7 +48,7 @@ public class PostController {
 	 */
 	@Operation(summary = "添加")
 	@PostMapping(value = "/add")
-	public Result<Boolean> add(@RequestBody PostDto postDto) {
+	public Result<Boolean> add(@RequestBody PostDTO postDto) {
 		return Result.success(postService.addPost(postDto));
 	}
 
@@ -57,7 +57,7 @@ public class PostController {
 	 */
 	@Operation(summary = "修改")
 	@PostMapping(value = "/update")
-	public Result<Boolean> update(@RequestBody PostDto postDto) {
+	public Result<Boolean> update(@RequestBody PostDTO postDto) {
 		return Result.success(postService.updatePost(postDto));
 	}
 
@@ -75,7 +75,7 @@ public class PostController {
 	 */
 	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
-	public Result<Post> findById(Long id) {
+	public Result<PostDO> findById(Long id) {
 		return Result.success(postService.findById(id));
 	}
 
@@ -84,7 +84,7 @@ public class PostController {
 	 */
 	@Operation(summary = "获取全部")
 	@GetMapping(value = "/findAll")
-	public Result<List<Post>> findAll() {
+	public Result<List<PostDO>> findAll() {
 		return Result.success(postService.findAll());
 	}
 
@@ -93,8 +93,8 @@ public class PostController {
 	 */
 	@Operation(summary = "分页")
 	@GetMapping(value = "/page")
-	public Result<PageResult<Post>> pagePost(Page<Post> pageParam, Post post) {
-		return Result.success(PageResult.success(postService.pagePost(pageParam, post)));
+	public Result<PageResult<PostDO>> pagePost(Page<PostDO> pageParam, PostDO postDO) {
+		return Result.success(PageResult.success(postService.pagePost(pageParam, postDO)));
 	}
 
 }

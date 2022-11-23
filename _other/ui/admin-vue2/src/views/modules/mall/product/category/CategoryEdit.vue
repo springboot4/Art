@@ -34,8 +34,8 @@
         prop="iconUrl"
       >
         <a-upload
-          name="file"
-          action="/api/system/file/add"
+          name="fileDO"
+          action="/api/system/fileDO/add"
           :headers="headers"
           list-type="picture-card"
           class="avatar-uploader"
@@ -75,7 +75,7 @@
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
 import { add, get, update } from '@/api/mall/product/category'
-import { add as addFile } from '@/api/sys/file'
+import { add as addFile } from '@/api/sys/fileDO'
 import { handleImg } from '@/utils/util'
 
 export default {
@@ -109,14 +109,14 @@ export default {
     }
   },
   methods: {
-    uploadFunc (file) {
+    uploadFunc (fileDO) {
       const formData = new FormData()
-      formData.append('file', file.file)
+      formData.append('fileDO', fileDO.fileDO)
       addFile(formData).then(res => {
         this.form.iconUrl = res.data.data.url
         this.options.img = res.data.data.url
         handleImg(res.data.data.url, 'iconUrl')
-        file.status = 'done'
+        fileDO.status = 'done'
         this.$message.success('上传成功')
       }).catch(_ => {
         this.$message.error('上传失败')

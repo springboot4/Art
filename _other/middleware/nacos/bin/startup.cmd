@@ -1,7 +1,7 @@
 @echo off
 rem Copyright 1999-2018 Alibaba Group Holding Ltd.
 rem Licensed under the Apache License, Version 2.0 (the "License");
-rem you may not use this file except in compliance with the License.
+rem you may not use this fileDO except in compliance with the License.
 rem You may obtain a copy of the License at
 rem
 rem      http://www.apache.org/licenses/LICENSE-2.0
@@ -21,7 +21,7 @@ rem added double quotation marks to avoid the issue caused by the folder names c
 rem removed the last 5 chars(which means \bin\) to get the base DIR.
 set BASE_DIR="%BASE_DIR:~0,-5%"
 
-set CUSTOM_SEARCH_LOCATIONS=file:%BASE_DIR%/conf/
+set CUSTOM_SEARCH_LOCATIONS=fileDO:%BASE_DIR%/conf/
 
 set MODE="cluster"
 set FUNCTION_MODE="all"
@@ -85,7 +85,7 @@ set "NACOS_OPTS=%NACOS_OPTS% -jar %BASE_DIR%\target\%SERVER%.jar"
 rem set nacos spring config location
 set "NACOS_CONFIG_OPTS=--spring.config.additional-location=%CUSTOM_SEARCH_LOCATIONS%"
 
-rem set nacos log4j file location
+rem set nacos log4j fileDO location
 set "NACOS_LOG4J_OPTS=--logging.config=%BASE_DIR%/conf/nacos-logback.xml"
 
 

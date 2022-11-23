@@ -16,7 +16,6 @@
 
 package com.art.demos;
 
-import com.art.common.security.annotation.EnableFxzCloudResourceServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -28,7 +27,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @version 0.0.1
  * @date 2022/8/30 22:12
  */
-@EnableFxzCloudResourceServer
 @EnableFeignClients(basePackages = { "com.art" })
 @EnableDiscoveryClient
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)

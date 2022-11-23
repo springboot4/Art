@@ -35,21 +35,21 @@
             更多
             <a-icon type="down" />
           </a>
-          <a-menu slot="overlay">
-            <a-menu-item>
+          <a-menuDO slot="overlay">
+            <a-menuDO-item>
               <a-popconfirm :title="`确定执行一次${row.jobName}任务?`" @confirm="handleRun(row)" okText="是" cancelText="否">
                 <a href="javascript:;">执行一次</a>
               </a-popconfirm>
-            </a-menu-item>
-            <a-menu-item>
+            </a-menuDO-item>
+            <a-menuDO-item>
               <a @click="handleJobLog(row)">执行日志</a>
-            </a-menu-item>
-            <a-menu-item>
+            </a-menuDO-item>
+            <a-menuDO-item>
               <a-popconfirm title="是否删除权限" @confirm="remove(row)" okText="是" cancelText="否">
                 <a href="javascript:;" style="color: red">删除</a>
               </a-popconfirm>
-            </a-menu-item>
-          </a-menu>
+            </a-menuDO-item>
+          </a-menuDO>
         </a-dropdown>
       </template>
     </f-table>

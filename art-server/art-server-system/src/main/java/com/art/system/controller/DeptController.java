@@ -17,8 +17,9 @@
 package com.art.system.controller;
 
 import com.art.common.mp.result.Result;
-import com.art.system.entity.Dept;
-import com.art.system.service.IDeptService;
+import com.art.system.api.dept.dto.DeptDTO;
+import com.art.system.dao.redis.dept.DeptRedisKeyConstants;
+import com.art.system.service.DeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -38,57 +39,57 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class DeptController {
 
-	private final IDeptService deptService;
+    private final DeptService deptService;
 
-	/**
-	 * 获取部门树
-	 */
-	@Operation(summary = "获取部门树")
-	@Cacheable(value = "fxz_cloud:dept", key = "'deptTree'", unless = "#result.data==null")
-	@GetMapping("/getDeptTree")
-	public Result<Dept> getDeptTree() {
-		return Result.success(deptService.getDeptTree());
-	}
+    /**
+     * 获取部门树
+     */
+    @Operation(summary = "获取部门树")
+    @Cacheable(value = DeptRedisKeyConstants.CACHE_NAMES, key = DeptRedisKeyConstants.DEPT_TREE, unless = "#result.data==null")
+    @GetMapping("/getDeptTree")
+    public Result<DeptDTO> getDeptTree() {
+        return Result.success(deptService.getDeptTree());
+    }
 
-	/**
-	 * 根据id删除部门
-	 */
-	@Operation(summary = "根据id删除部门")
-	@CacheEvict(value = "fxz_cloud:dept", allEntries = true)
-	@SneakyThrows
-	@DeleteMapping("/deleteById/{id}")
-	public Result<Void> deleteById(@PathVariable("id") Long id) {
-		return Result.judge(deptService.delete(id));
-	}
+    /**
+     * 根据id删除部门
+     */
+    @Operation(summary = "根据id删除部门")
+    @CacheEvict(value = DeptRedisKeyConstants.CACHE_NAMES, allEntries = true)
+    @SneakyThrows
+    @DeleteMapping("/deleteById/{id}")
+    public Result<Void> deleteById(@PathVariable("id") Long id) {
+        return Result.judge(deptService.deleteById(id));
+    }
 
-	/**
-	 * 保存部门信息
-	 */
-	@Operation(summary = "保存部门信息")
-	@CacheEvict(value = "fxz_cloud:dept", allEntries = true)
-	@PostMapping("/addDept")
-	public Result<Void> addDept(@RequestBody Dept dept) {
-		return Result.judge(deptService.addDept(dept));
-	}
+    /**
+     * 保存部门信息
+     */
+    @Operation(summary = "保存部门信息")
+    @CacheEvict(value = DeptRedisKeyConstants.CACHE_NAMES, allEntries = true)
+    @PostMapping("/addDept")
+    public Result<Void> addDept(@RequestBody DeptDTO deptDTO) {
+        return Result.judge(deptService.addDept(deptDTO));
+    }
 
-	/**
-	 * 根据id获取部门数据
-	 */
-	@Operation(summary = "根据id获取部门数据")
-	@Cacheable(value = "fxz_cloud:dept", key = "#id", unless = "#result.data==null")
-	@GetMapping("/getDeptById/{id}")
-	public Result<Dept> getDeptById(@PathVariable("id") Long id) {
-		return Result.success(deptService.getById(id));
-	}
+    /**
+     * 根据id获取部门数据
+     */
+    @Operation(summary = "根据id获取部门数据")
+    @Cacheable(value = DeptRedisKeyConstants.CACHE_NAMES, key = "#id", unless = "#result.data==null")
+    @GetMapping("/getDeptById/{id}")
+    public Result<DeptDTO> getDeptById(@PathVariable("id") Long id) {
+        return Result.success(deptService.getDeptById(id));
+    }
 
-	/**
-	 * 更新部门信息(父机构ID 不能修改)
-	 */
-	@Operation(summary = "更新部门信息(父机构ID 不能修改)")
-	@CacheEvict(value = "fxz_cloud:dept", allEntries = true)
-	@PutMapping("/updateDept")
-	public Result<Void> updateDept(@RequestBody Dept dept) {
-		return Result.judge(deptService.updateById(dept));
-	}
+    /**
+     * 更新部门信息
+     */
+    @Operation(summary = "更新部门信息")
+    @CacheEvict(value = DeptRedisKeyConstants.CACHE_NAMES, allEntries = true)
+    @PutMapping("/updateDept")
+    public Result<Void> updateDept(@RequestBody DeptDTO deptDTO) {
+        return Result.judge(deptService.updateById(deptDTO));
+    }
 
 }

@@ -9,7 +9,7 @@
       ref="table"
     >
       <template v-slot:buttons>
-        <a-button @click="addData" icon="plus" type="primary" v-action="'sys:menu:save'">新建</a-button>
+        <a-button @click="addData" icon="plus" type="primary" v-action="'sys:menuDO:save'">新建</a-button>
       </template>
       <span slot="type" slot-scope="{ row,text }">
         <span v-show="String(text) === '0'">菜单</span>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { delObj, getUserMenuTree } from '@/api/sys/menu'
+import { delObj, getUserMenuTree } from '@/api/sys/menuDO'
 import permissionAddOrUpdate from './permissionAddOrUpdate'
 import { tableObj } from './template'
 import { TableMixin } from '@/mixins/TableMixin'

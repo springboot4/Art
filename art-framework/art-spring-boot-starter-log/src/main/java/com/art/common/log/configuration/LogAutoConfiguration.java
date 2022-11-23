@@ -18,7 +18,7 @@ package com.art.common.log.configuration;
 
 import com.art.common.log.aspect.LogAspect;
 import com.art.common.log.service.AsyncLogService;
-import com.art.system.feign.RemoteLogService;
+import com.art.system.api.log.LogServiceApi;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -33,8 +33,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class LogAutoConfiguration {
 
 	@Bean
-	public AsyncLogService asyncLogService(RemoteLogService remoteLogService) {
-		return new AsyncLogService(remoteLogService);
+	public AsyncLogService asyncLogService(LogServiceApi logServiceApi) {
+		return new AsyncLogService(logServiceApi);
 	}
 
 	@Bean

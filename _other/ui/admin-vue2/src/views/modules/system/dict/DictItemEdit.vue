@@ -85,7 +85,7 @@
 
 <script>
 import { FormMixin } from '@/mixins/FormMixin'
-import { itemAdd, itemGet, itemUpdate, itemExistsByCode } from '@/api/sys/dictItem'
+import { itemAdd, itemGet, itemUpdate, itemExistsByCode } from '@/api/sys/dictItemDO'
 
 export default {
   name: 'DictItemEdit',

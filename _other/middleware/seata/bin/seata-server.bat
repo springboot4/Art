@@ -2,7 +2,7 @@
 @REM  Copyright 2001-2006 The Apache Software Foundation.
 @REM
 @REM  Licensed under the Apache License, Version 2.0 (the "License");
-@REM  you may not use this file except in compliance with the License.
+@REM  you may not use this fileDO except in compliance with the License.
 @REM  You may obtain a copy of the License at
 @REM
 @REM       http://www.apache.org/licenses/LICENSE-2.0

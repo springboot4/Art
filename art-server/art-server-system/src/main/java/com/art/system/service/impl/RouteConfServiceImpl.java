@@ -21,11 +21,11 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.mq.redis.core.RedisMQTemplate;
-import com.art.system.dto.FilterDefinitionDto;
-import com.art.system.dto.PredicateDefinitionDto;
-import com.art.system.entity.RouteConf;
-import com.art.system.mapper.RouteConfMapper;
-import com.art.system.mq.RouteMessage;
+import com.art.system.api.route.FilterDefinitionDTO;
+import com.art.system.api.route.PredicateDefinitionDTO;
+import com.art.system.dao.dataobject.RouteConfDO;
+import com.art.system.dao.mysql.RouteConfMapper;
+import com.art.system.core.mq.RouteMessage;
 import com.art.system.service.RouteConfService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf> implements RouteConfService {
+public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConfDO> implements RouteConfService {
 
 	private final RedisMQTemplate redisMQTemplate;
 
@@ -57,9 +57,9 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	 * 添加路由信息
 	 */
 	@Override
-	public Boolean addRouteConf(RouteConf routeConf) {
+	public Boolean addRouteConf(RouteConfDO routeConfDO) {
 		// 保存路由信息
-		this.save(routeConf);
+		this.save(routeConfDO);
 
 		// 通知mq
 		this.sendMq();
@@ -73,7 +73,7 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	@Override
 	public Boolean updateRouteConf(JSONArray routeConf) {
 		// 构建路由信息
-		List<RouteConf> list = routeConf.stream().map(this::buildRouteConf).collect(Collectors.toList());
+		List<RouteConfDO> list = routeConf.stream().map(this::buildRouteConf).collect(Collectors.toList());
 
 		// 删掉所有路由信息
 		this.remove(Wrappers.emptyWrapper());
@@ -105,7 +105,7 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	 * 获取单条路由信息
 	 */
 	@Override
-	public RouteConf findById(Long id) {
+	public RouteConfDO findById(Long id) {
 		return this.getById(id);
 	}
 
@@ -113,7 +113,7 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	 * 查询所有路由信息
 	 */
 	@Override
-	public List<RouteConf> findAll() {
+	public List<RouteConfDO> findAll() {
 		return routeConfMapper.findAll();
 	}
 
@@ -124,31 +124,31 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	/**
 	 * 构建路由信息
 	 */
-	private RouteConf buildRouteConf(Object value) {
-		RouteConf r = new RouteConf();
+	private RouteConfDO buildRouteConf(Object value) {
+		RouteConfDO r = new RouteConfDO();
 
 		Map<String, Object> map = (Map) value;
 
 		PropertyMapper mapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
-		mapper.from(map.get(RouteConf.Fields.name)).whenNonNull().as(String::valueOf).to(r::setName);
+		mapper.from(map.get(RouteConfDO.Fields.name)).whenNonNull().as(String::valueOf).to(r::setName);
 
-		mapper.from(map.get(RouteConf.Fields.routeId)).whenNonNull().as(String::valueOf).to(r::setRouteId);
+		mapper.from(map.get(RouteConfDO.Fields.routeId)).whenNonNull().as(String::valueOf).to(r::setRouteId);
 
-		mapper.from(map.get(RouteConf.Fields.uri)).whenNonNull().as(String::valueOf).as(URI::create).as(String::valueOf)
+		mapper.from(map.get(RouteConfDO.Fields.uri)).whenNonNull().as(String::valueOf).as(URI::create).as(String::valueOf)
 				.to(r::setUri);
 
-		mapper.from(map.get(RouteConf.Fields.sortOrder)).whenNonNull().as(String::valueOf).as(Integer::parseInt)
+		mapper.from(map.get(RouteConfDO.Fields.sortOrder)).whenNonNull().as(String::valueOf).as(Integer::parseInt)
 				.to(r::setSortOrder);
 
-		mapper.from(map.get(RouteConf.Fields.metadata)).whenNonNull().as(String::valueOf)
+		mapper.from(map.get(RouteConfDO.Fields.metadata)).whenNonNull().as(String::valueOf)
 				.as(v -> JSONUtil.toBean(v, Map.class)).as(JSONUtil::toJsonStr).to(r::setMetadata);
 
-		mapper.from(map.get(RouteConf.Fields.filters)).whenNonNull().as(JSONArray::new)
-				.as(v -> v.toList(FilterDefinitionDto.class)).as(JSONUtil::toJsonStr).to(r::setFilters);
+		mapper.from(map.get(RouteConfDO.Fields.filters)).whenNonNull().as(JSONArray::new)
+				.as(v -> v.toList(FilterDefinitionDTO.class)).as(JSONUtil::toJsonStr).to(r::setFilters);
 
-		mapper.from(map.get(RouteConf.Fields.predicates)).whenNonNull().as(JSONArray::new)
-				.as(v -> v.toList(PredicateDefinitionDto.class)).as(JSONUtil::toJsonStr).to(r::setPredicates);
+		mapper.from(map.get(RouteConfDO.Fields.predicates)).whenNonNull().as(JSONArray::new)
+				.as(v -> v.toList(PredicateDefinitionDTO.class)).as(JSONUtil::toJsonStr).to(r::setPredicates);
 
 		return r;
 	}

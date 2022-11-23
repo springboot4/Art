@@ -1,7 +1,7 @@
 @echo off
 rem Copyright 1999-2018 Alibaba Group Holding Ltd.
 rem Licensed under the Apache License, Version 2.0 (the "License");
-rem you may not use this file except in compliance with the License.
+rem you may not use this fileDO except in compliance with the License.
 rem You may obtain a copy of the License at
 rem
 rem      http://www.apache.org/licenses/LICENSE-2.0
