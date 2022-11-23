@@ -23,8 +23,8 @@ import com.art.common.mp.result.Result;
 import com.art.common.security.annotation.Ojbk;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
-import com.art.system.entity.Role;
-import com.art.system.service.IRoleService;
+import com.art.system.dao.dataobject.RoleDO;
+import com.art.system.service.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -45,14 +45,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleController {
 
-	private final IRoleService roleService;
+	private final RoleService roleService;
 
 	/**
 	 * 获取所有角色
 	 */
 	@Operation(summary = "获取所有角色")
 	@GetMapping("/getAllRole")
-	public Result<List<Role>> getAllRole() {
+	public Result<List<RoleDO>> getAllRole() {
 		return Result.success(roleService.getAllRole());
 	}
 
@@ -70,8 +70,8 @@ public class RoleController {
 	 */
 	@Operation(summary = "添加角色")
 	@PostMapping("/addRole")
-	public Result<Role> addRole(@RequestBody Role role) {
-		return Result.success(roleService.addRole(role));
+	public Result<RoleDO> addRole(@RequestBody RoleDO roleDO) {
+		return Result.success(roleService.addRole(roleDO));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class RoleController {
 	 */
 	@Operation(summary = "根据id获取角色信息")
 	@GetMapping("/getRoleById/{id}")
-	public Result<Role> getRoleById(@PathVariable("id") Long id) {
+	public Result<RoleDO> getRoleById(@PathVariable("id") Long id) {
 		return Result.success(roleService.getRoleById(id));
 	}
 
@@ -88,8 +88,8 @@ public class RoleController {
 	 */
 	@Operation(summary = "修改角色信息")
 	@PutMapping("/editRole")
-	public Result<Void> editRole(@RequestBody Role role) {
-		return Result.judge(roleService.editRole(role));
+	public Result<Void> editRole(@RequestBody RoleDO roleDO) {
+		return Result.judge(roleService.editRole(roleDO));
 	}
 
 	/**

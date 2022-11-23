@@ -23,7 +23,6 @@ import com.art.common.lock.factory.RedissonLockServiceFactory;
 import com.art.common.lock.lockresolver.impl.ExpressionDistributedLockKeyResolver;
 import com.art.common.lock.service.RedissonService;
 import com.art.common.mp.result.Result;
-import com.art.common.security.annotation.Ojbk;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
+
+;
 
 /**
  * @author Fxz
@@ -55,7 +56,6 @@ public class RedissonController {
 	 * 测试声明式加锁
 	 */
 	@DistributedLock(lockName = "reentrant", lockType = RedissonLockType.REENTRANT)
-	@Ojbk
 	@SneakyThrows
 	@GetMapping("/reentrantAnn")
 	public Result<String> reentrantAnn() {
@@ -68,7 +68,6 @@ public class RedissonController {
 	 * 测试声明式加锁 不指定锁名称
 	 */
 	@DistributedLock(lockType = RedissonLockType.REENTRANT)
-	@Ojbk
 	@SneakyThrows
 	@GetMapping("/reentrantAnnNo")
 	public Result<String> reentrantAnnNo() {
@@ -82,7 +81,6 @@ public class RedissonController {
 	 */
 	@DistributedLock(lockName = "#name", lockType = RedissonLockType.REENTRANT,
 			lockResolver = ExpressionDistributedLockKeyResolver.class)
-	@Ojbk
 	@SneakyThrows
 	@GetMapping("/reentrantAnnSpel")
 	public Result<String> reentrantAnnSpel(String name) {
@@ -97,7 +95,6 @@ public class RedissonController {
 	 */
 	@DistributedLock(lockName = "#name", lockType = RedissonLockType.READ,
 			lockResolver = ExpressionDistributedLockKeyResolver.class)
-	@Ojbk
 	@SneakyThrows
 	@GetMapping("/readAnn")
 	public Result<String> readAnn(String name) {
@@ -112,7 +109,6 @@ public class RedissonController {
 	 */
 	@DistributedLock(lockName = "#name", lockType = RedissonLockType.WRITE,
 			lockResolver = ExpressionDistributedLockKeyResolver.class)
-	@Ojbk
 	@SneakyThrows
 	@GetMapping("/writeAnn")
 	public Result<String> writeAnn(String name) {
@@ -122,7 +118,6 @@ public class RedissonController {
 		return Result.success(LocalDateTime.now().toString());
 	}
 
-	@Ojbk
 	@SneakyThrows
 	@GetMapping("/reentrant")
 	public Result<String> reentrant() {
@@ -137,7 +132,6 @@ public class RedissonController {
 		return Result.success(LocalDateTime.now().toString());
 	}
 
-	@Ojbk
 	@SneakyThrows
 	@GetMapping("/read")
 	public Result<String> read() {
@@ -152,7 +146,6 @@ public class RedissonController {
 		return Result.success(LocalDateTime.now().toString());
 	}
 
-	@Ojbk
 	@SneakyThrows
 	@GetMapping("/write")
 	public Result<String> writeService() {

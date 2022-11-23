@@ -16,11 +16,11 @@
 
 package com.art.system.service;
 
+import com.art.system.api.log.dto.OperLogDTO;
+import com.art.system.api.log.dto.OperLogPageDTO;
+import com.art.system.dao.dataobject.OperLogDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.dto.OperLogDto;
-import com.art.system.entity.OperLog;
 
 import java.util.List;
 
@@ -30,36 +30,36 @@ import java.util.List;
  * @author fxz
  * @date 2022-04-07
  */
-public interface OperLogService extends IService<OperLog> {
+public interface OperLogService extends IService<OperLogDO> {
 
-	/**
-	 * 添加
-	 */
-	Boolean addOperLog(OperLogDto operLogDto);
+    /**
+     * 添加
+     */
+    Boolean addOperLog(OperLogDTO operLogDto);
 
-	/**
-	 * 修改
-	 */
-	Boolean updateOperLog(OperLogDto operLogDto);
+    /**
+     * 修改
+     */
+    Boolean updateOperLog(OperLogDTO operLogDto);
 
-	/**
-	 * 分页
-	 */
-	IPage<OperLog> pageOperLog(Page<OperLog> pageParam, OperLog operLog);
+    /**
+     * 分页
+     */
+    IPage<OperLogDTO> pageOperLog(OperLogPageDTO operLogPageDTO);
 
-	/**
-	 * 获取单条
-	 */
-	OperLog findById(Long id);
+    /**
+     * 获取单条
+     */
+    OperLogDTO findById(Long id);
 
-	/**
-	 * 获取全部
-	 */
-	List<OperLog> findAll();
+    /**
+     * 获取全部
+     */
+    List<OperLogDTO> findAll();
 
-	/**
-	 * 删除
-	 */
-	Boolean deleteOperLog(Long id);
+    /**
+     * 删除
+     */
+    Boolean deleteOperLog(Long id);
 
 }

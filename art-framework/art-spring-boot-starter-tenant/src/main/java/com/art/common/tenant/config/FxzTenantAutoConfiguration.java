@@ -29,7 +29,7 @@ import com.art.common.tenant.context.TenantContextWebFilter;
 import com.art.common.tenant.mp.TenantDatabaseHandler;
 import com.art.common.tenant.security.TenantSecurityWebFilter;
 import com.art.common.tenant.service.TenantValidService;
-import com.art.system.feign.RemoteTenantService;
+import com.art.system.api.tenant.TenantServiceApi;
 import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -122,8 +122,8 @@ public class FxzTenantAutoConfiguration {
 	 * 租户信息校验
 	 */
 	@Bean
-	public TenantValidService tenantValidService(RemoteTenantService remoteTenantService) {
-		return new TenantValidService(remoteTenantService);
+	public TenantValidService tenantValidService(TenantServiceApi tenantServiceApi) {
+		return new TenantValidService(tenantServiceApi);
 	}
 
 }

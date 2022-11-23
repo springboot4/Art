@@ -43,10 +43,10 @@
           </div>
           <div slot="actions">
             <a-dropdown>
-              <a-menu slot="overlay">
-                <a-menu-item><a>编辑</a></a-menu-item>
-                <a-menu-item><a>删除</a></a-menu-item>
-              </a-menu>
+              <a-menuDO slot="overlay">
+                <a-menuDO-item><a>编辑</a></a-menuDO-item>
+                <a-menuDO-item><a>删除</a></a-menuDO-item>
+              </a-menuDO>
               <a>更多<a-icon type="down"/></a>
             </a-dropdown>
           </div>

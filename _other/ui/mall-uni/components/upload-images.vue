@@ -93,7 +93,7 @@ export default {
 				});
 			}
 		},
-		uploadImage: function(file){
+		uploadImage: function(fileDO){
 			return new Promise((resolve, reject)=> {
 				//发送给后端的附加参数
 				const formData = {
@@ -101,8 +101,8 @@ export default {
 				};
 				this.uploadTask = uni.uploadFile({
 					url: this.url, 
-					filePath: file,
-					name: 'file',
+					filePath: fileDO,
+					name: 'fileDO',
 					formData: formData,
 					success(uploadFileResult){
 						const uploadFileRes = JSON.parse(uploadFileResult.data) || {};

@@ -16,25 +16,20 @@
 
 package com.art.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.art.common.log.enums.BusinessType;
-import com.art.common.mp.base.BaseCreateEntity;
-import com.art.system.dto.OperLogDto;
-import com.art.system.entity.OperLog;
-import com.art.system.mapper.OperLogMapper;
+import com.art.system.api.log.dto.OperLogDTO;
+import com.art.system.api.log.dto.OperLogPageDTO;
+import com.art.system.core.convert.OperLogConvert;
+import com.art.system.dao.dataobject.OperLogDO;
+import com.art.system.dao.mysql.OperLogMapper;
+import com.art.system.manager.OperLogManager;
 import com.art.system.service.OperLogService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 操作日志记录
@@ -45,74 +40,56 @@ import java.util.Objects;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OperLogServiceImpl extends ServiceImpl<OperLogMapper, OperLog> implements OperLogService {
+public class OperLogServiceImpl extends ServiceImpl<OperLogMapper, OperLogDO> implements OperLogService {
 
-	private final OperLogMapper operLogMapper;
+    private final OperLogManager operLogManager;
 
-	/**
-	 * 添加
-	 */
-	@Override
-	public Boolean addOperLog(OperLogDto operLogDto) {
-		log.info("保存日志");
-		OperLog operLog = new OperLog();
-		BeanUtils.copyProperties(operLogDto, operLog);
-		operLogMapper.insert(operLog);
-		return Boolean.TRUE;
-	}
+    /**
+     * 添加
+     */
+    @Override
+    public Boolean addOperLog(OperLogDTO operLogDto) {
+        return operLogManager.addOperLog(operLogDto) > 0;
+    }
 
-	/**
-	 * 修改
-	 */
-	@Override
-	public Boolean updateOperLog(OperLogDto operLogDto) {
-		OperLog operLog = new OperLog();
-		BeanUtils.copyProperties(operLogDto, operLog);
-		operLogMapper.updateById(operLog);
-		return Boolean.TRUE;
-	}
+    /**
+     * 修改
+     */
+    @Override
+    public Boolean updateOperLog(OperLogDTO operLogDto) {
+        return operLogManager.updateOperLogById(operLogDto) > 0;
+    }
 
-	/**
-	 * 分页
-	 */
-	@Override
-	public IPage<OperLog> pageOperLog(Page<OperLog> pageParam, OperLog operLog) {
-		QueryWrapper<OperLog> queryWrapper = Wrappers.query();
-		if (Objects.isNull(operLog.getBusinessType())) {
-			queryWrapper.ne(StringUtils.camelToUnderline(OperLog.Fields.businessType), BusinessType.GRANT);
-		}
-		else {
-			queryWrapper.eq(StringUtils.camelToUnderline(OperLog.Fields.businessType), operLog.getBusinessType());
-		}
-		queryWrapper.like(StringUtils.isNotBlank(operLog.getTitle()), OperLog.Fields.title, operLog.getTitle())
-				.orderByDesc(StringUtils.camelToUnderline(BaseCreateEntity.Fields.createTime));
+    /**
+     * 分页
+     */
+    @Override
+    public IPage<OperLogDTO> pageOperLog(OperLogPageDTO operLogPageDTO) {
+        return OperLogConvert.INSTANCE.convert(operLogManager.pageOperLog(operLogPageDTO));
+    }
 
-		return operLogMapper.selectPage(pageParam, queryWrapper);
-	}
+    /**
+     * 获取单条
+     */
+    @Override
+    public OperLogDTO findById(Long id) {
+        return OperLogConvert.INSTANCE.convert(operLogManager.selectOperLogById(id));
+    }
 
-	/**
-	 * 获取单条
-	 */
-	@Override
-	public OperLog findById(Long id) {
-		return operLogMapper.selectById(id);
-	}
+    /**
+     * 获取全部
+     */
+    @Override
+    public List<OperLogDTO> findAll() {
+        return OperLogConvert.INSTANCE.convert(operLogManager.listOperLog());
+    }
 
-	/**
-	 * 获取全部
-	 */
-	@Override
-	public List<OperLog> findAll() {
-		return operLogMapper.selectList(Wrappers.emptyWrapper());
-	}
-
-	/**
-	 * 删除
-	 */
-	@Override
-	public Boolean deleteOperLog(Long id) {
-		operLogMapper.deleteById(id);
-		return Boolean.TRUE;
-	}
+    /**
+     * 删除
+     */
+    @Override
+    public Boolean deleteOperLog(Long id) {
+        return operLogManager.deleteOperLogById(id) > 0;
+    }
 
 }

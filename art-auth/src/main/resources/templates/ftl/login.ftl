@@ -16,7 +16,7 @@
 
 <body class="sign_body">
 <div class="container form-margin-top">
-    <form class="form-signin" action="/token/form" method="post">
+    <form class="form-signin" action="/token/form" method="postDO">
         <h2 class="form-signin-heading" align="center">统一认证系统</h2>
         <input type="hidden" name="clientId" class="form-control" value=" " placeholder="所属客户端" >
         <input type="text" name="username" class="form-control form-margin-top" placeholder="账号" required autofocus>

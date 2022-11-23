@@ -19,8 +19,8 @@
     <a-row>
       <a-col style="text-align:center">
         <a-upload
-          name="file"
-          action="/api/system/file/add"
+          name="fileDO"
+          action="/api/system/fileDO/add"
           :headers="headers"
           :customRequest="uploadFunc"
           :showUploadList="false">
@@ -34,7 +34,7 @@
 <script>
 import Vue from 'vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
-import { add } from '@/api/sys/file'
+import { add } from '@/api/sys/fileDO'
 import { handleImg } from '@/utils/util'
 
 export default {
@@ -60,13 +60,13 @@ export default {
     }
   },
   methods: {
-    uploadFunc (file) {
+    uploadFunc (fileDO) {
       const formData = new FormData()
-      formData.append('file', file.file)
+      formData.append('fileDO', fileDO.fileDO)
       add(formData).then(res => {
         this.options.url = res.data.data.url
          handleImg(res.data.data.url, 'touxiang')
-        file.status = 'done'
+        fileDO.status = 'done'
         this.$message.success('上传成功')
       }).catch(_ => {
         this.$message.error('上传失败')

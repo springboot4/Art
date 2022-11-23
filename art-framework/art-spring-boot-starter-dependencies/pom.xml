@@ -3,7 +3,7 @@
   ~ COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
+  ~ you may not use this fileDO except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
   ~     http://www.apache.org/licenses/LICENSE-2.0
@@ -34,6 +34,7 @@
         <dynamic-ds.version>3.5.1</dynamic-ds.version>
         <aws.version>1.11.543</aws.version>
         <doc.version>1.6.11</doc.version>
+        <swagger.version>2.2.2</swagger.version>
         <knife4j.version>3.0.3</knife4j.version>
         <captcha.version>1.3.0</captcha.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
@@ -55,6 +56,11 @@
     <!-- 定义全局jar版本-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>

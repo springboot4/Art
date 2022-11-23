@@ -16,6 +16,13 @@
 
 package com.art.system.service.impl;
 
+import com.art.common.core.param.PageParam;
+import com.art.common.redis.constant.CacheConstants;
+import com.art.system.dao.dataobject.*;
+import com.art.system.dao.mysql.UserMapper;
+import com.art.system.api.user.UserInfo;
+import com.art.system.api.user.UserInfoDTO;
+import com.art.system.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -24,12 +31,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.art.common.core.param.PageParam;
-import com.art.common.redis.constant.CacheConstants;
-import com.art.system.dto.UserInfoDto;
-import com.art.system.entity.*;
-import com.art.system.mapper.UserMapper;
-import com.art.system.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -50,39 +51,39 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> implements IUserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUserDO> implements UserService {
 
 	@Resource
 	private TenantService tenantService;
 
 	private final UserPostService userPostService;
 
-	private final IUserRoleService userRoleService;
+	private final UserRoleService userRoleService;
 
-	private final IRoleMenuService roleMenuService;
+	private final RoleMenuService roleMenuService;
 
-	private final IMenuService menuService;
+	private final MenuService menuService;
 
 	private final PasswordEncoder passwordEncoder;
 
 	@Override
-	public IPage<SystemUser> findUserDetail(UserInfoDto user, PageParam pageParam) {
-		Page<SystemUser> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
+	public IPage<SystemUserDO> findUserDetail(UserInfoDTO user, PageParam pageParam) {
+		Page<SystemUserDO> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
 		return this.baseMapper.findUserDetailPage(page, user);
 	}
 
 	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#user.userId+':userInfo'")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public SystemUser createUser(SystemUser user) {
+	public SystemUserDO createUser(SystemUserDO user) {
 		// 校验租户账号额度
 		tenantService.validCount();
 
 		// 设置用户默认头像
-		user.setAvatar(SystemUser.DEFAULT_AVATAR);
+		user.setAvatar(SystemUserDO.DEFAULT_AVATAR);
 
 		// 设置用户密码
-		user.setPassword((Objects.isNull(user.getPassword()) ? passwordEncoder.encode(SystemUser.DEFAULT_PASSWORD)
+		user.setPassword((Objects.isNull(user.getPassword()) ? passwordEncoder.encode(SystemUserDO.DEFAULT_PASSWORD)
 				: passwordEncoder.encode(user.getPassword())));
 
 		// 保存用户信息
@@ -100,7 +101,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	@CacheEvict(value = CacheConstants.GLOBALLY + "user", key = "#user.userId+':userInfo'")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void updateUser(SystemUser user) {
+	public void updateUser(SystemUserDO user) {
 		// 更新用户
 		if (StringUtils.isNotBlank(user.getPassword())) {
 			user.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
@@ -113,8 +114,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 		updateById(user);
 
 		if (StringUtils.isBlank(user.getAvatar())) {
-			userRoleService.remove(new LambdaQueryWrapper<UserRole>().eq(UserRole::getUserId, user.getUserId()));
-			userPostService.remove(new LambdaQueryWrapper<UserPost>().eq(UserPost::getUserId, user.getUserId()));
+			userRoleService.remove(new LambdaQueryWrapper<UserRoleDO>().eq(UserRoleDO::getUserId, user.getUserId()));
+			userPostService.remove(new LambdaQueryWrapper<UserPostDO>().eq(UserPostDO::getUserId, user.getUserId()));
 
 			// 保存角色信息
 			setUserRoles(user);
@@ -139,7 +140,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	 */
 	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#id+':userInfo'")
 	@Override
-	public SystemUser getUserById(Long id) {
+	public SystemUserDO getUserById(Long id) {
 		return this.baseMapper.getUserById(id);
 	}
 
@@ -148,7 +149,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	 */
 	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#username+':userInfo'")
 	@Override
-	public SystemUser findByName(String username) {
+	public SystemUserDO findByName(String username) {
 		return this.baseMapper.findByName(username);
 	}
 
@@ -156,35 +157,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	 * 获取用户全部信息
 	 */
 	@Override
-	public UserInfo findUserInfo(SystemUser systemUser) {
+	public UserInfo findUserInfo(SystemUserDO systemUserDO) {
 		UserInfo userInfo = new UserInfo();
 
 		// 设置用户信息
-		userInfo.setSysUser(systemUser);
+		userInfo.setSysUser(systemUserDO);
 
 		// 查询用户角色信息
-		List<UserRole> userRoles = userRoleService
-				.list(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUserId, systemUser.getUserId()));
-		if (CollectionUtils.isEmpty(userRoles)) {
+		List<UserRoleDO> userRoleDOS = userRoleService
+				.list(Wrappers.<UserRoleDO>lambdaQuery().eq(UserRoleDO::getUserId, systemUserDO.getUserId()));
+		if (CollectionUtils.isEmpty(userRoleDOS)) {
 			return userInfo;
 		}
 
 		// 查询角色菜单信息
-		List<RoleMenu> roleMenus = roleMenuService.list(Wrappers.<RoleMenu>lambdaQuery().in(RoleMenu::getRoleId,
-				userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toSet())));
-		if (CollectionUtils.isEmpty(roleMenus)) {
+		List<RoleMenuDO> roleMenuDOS = roleMenuService.list(Wrappers.<RoleMenuDO>lambdaQuery().in(RoleMenuDO::getRoleId,
+				userRoleDOS.stream().map(UserRoleDO::getRoleId).collect(Collectors.toSet())));
+		if (CollectionUtils.isEmpty(roleMenuDOS)) {
 			return userInfo;
 		}
 
 		// 查询菜单信息
-		List<Menu> menus = menuService.list(Wrappers.<Menu>lambdaQuery().in(Menu::getId,
-				roleMenus.stream().map(RoleMenu::getMenuId).collect(Collectors.toSet())));
-		if (CollectionUtils.isEmpty(menus)) {
+		List<MenuDO> menuDOS = menuService.list(Wrappers.<MenuDO>lambdaQuery().in(MenuDO::getId,
+				roleMenuDOS.stream().map(RoleMenuDO::getMenuId).collect(Collectors.toSet())));
+		if (CollectionUtils.isEmpty(menuDOS)) {
 			return userInfo;
 		}
 
 		// 设置用户权限标识
-		List<String> permissions = menus.stream().map(Menu::getPerms).distinct().collect(Collectors.toList());
+		List<String> permissions = menuDOS.stream().map(MenuDO::getPerms).distinct().collect(Collectors.toList());
 		userInfo.setPermissions(permissions);
 
 		return userInfo;
@@ -196,7 +197,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	 * @return 用户信息
 	 */
 	@Override
-	public SystemUser findByMobile(String mobile) {
+	public SystemUserDO findByMobile(String mobile) {
 		return this.baseMapper.findByMobile(mobile);
 	}
 
@@ -204,13 +205,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	 * 保存用户的岗位信息
 	 * @param user 用户信息
 	 */
-	private void setUserPosts(SystemUser user) {
+	private void setUserPosts(SystemUserDO user) {
 		if (StringUtils.isBlank(user.getPostId())) {
 			return;
 		}
 
-		List<UserPost> list = Arrays.stream(user.getPostId().split(StringPool.COMMA)).map(postId -> {
-			UserPost up = new UserPost();
+		List<UserPostDO> list = Arrays.stream(user.getPostId().split(StringPool.COMMA)).map(postId -> {
+			UserPostDO up = new UserPostDO();
 			up.setUserId(user.getUserId());
 			up.setPostId(Long.valueOf(postId));
 			return up;
@@ -223,13 +224,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUser> impleme
 	 * 保存用户的角色信息
 	 * @param user 用户信息
 	 */
-	private void setUserRoles(SystemUser user) {
+	private void setUserRoles(SystemUserDO user) {
 		if (StringUtils.isBlank(user.getRoleId())) {
 			return;
 		}
 
-		List<UserRole> list = Arrays.stream(user.getRoleId().split(StringPool.COMMA)).map(roleId -> {
-			UserRole ur = new UserRole();
+		List<UserRoleDO> list = Arrays.stream(user.getRoleId().split(StringPool.COMMA)).map(roleId -> {
+			UserRoleDO ur = new UserRoleDO();
 			ur.setUserId(user.getUserId());
 			ur.setRoleId(Long.valueOf(roleId));
 			return ur;

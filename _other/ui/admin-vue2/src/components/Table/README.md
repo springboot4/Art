@@ -113,17 +113,17 @@ Table 重封装组件说明
         <a class="ant-dropdown-link">
           更多 <a-icon type="down"/>
         </a>
-        <a-menu slot="overlay">
-          <a-menu-item>
-            <a href="javascript:;">1st menu item</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="javascript:;">2nd menu item</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="javascript:;">3rd menu item</a>
-          </a-menu-item>
-        </a-menu>
+        <a-menuDO slot="overlay">
+          <a-menuDO-item>
+            <a href="javascript:;">1st menuDO item</a>
+          </a-menuDO-item>
+          <a-menuDO-item>
+            <a href="javascript:;">2nd menuDO item</a>
+          </a-menuDO-item>
+          <a-menuDO-item>
+            <a href="javascript:;">3rd menuDO item</a>
+          </a-menuDO-item>
+        </a-menuDO>
       </a-dropdown>
     </span>
   </s-table>

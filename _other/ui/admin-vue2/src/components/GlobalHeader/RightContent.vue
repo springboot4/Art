@@ -1,6 +1,6 @@
 <template>
   <div :class="wrpCls">
-    <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
+    <avatar-dropdown :menuDO="showMenu" :current-user="currentUser" :class="prefixCls" />
   </div>
 </template>
 

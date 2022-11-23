@@ -16,12 +16,12 @@
 
 package com.art.system.service;
 
+import com.art.system.dao.dataobject.TenantDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.entity.Tenant;
 import com.art.system.param.TenantParam;
-import com.art.system.vo.TenantVO;
+import com.art.system.core.vo.TenantVO;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import java.util.List;
  * @author fxz
  * @date 2022-10-01
  */
-public interface TenantService extends IService<Tenant> {
+public interface TenantService extends IService<TenantDO> {
 
 	/**
 	 * 校验租户信息是否合法
@@ -50,7 +50,7 @@ public interface TenantService extends IService<Tenant> {
 	 * @param id 租户id
 	 * @return 租户信息
 	 */
-	Tenant findById(Long id);
+	TenantDO findById(Long id);
 
 	/**
 	 * 根据name查询租户Id
@@ -66,17 +66,17 @@ public interface TenantService extends IService<Tenant> {
 	/**
 	 * 修改
 	 */
-	Boolean updateSysTenant(Tenant tenant);
+	Boolean updateSysTenant(TenantDO tenantDO);
 
 	/**
 	 * 分页查询租户信息
 	 */
-	IPage<Tenant> pageSysTenant(Page pageParam, TenantParam param);
+	IPage<TenantDO> pageSysTenant(Page pageParam, TenantParam param);
 
 	/**
 	 * 获取全部
 	 */
-	List<Tenant> findAll();
+	List<TenantDO> findAll();
 
 	/**
 	 * 删除
@@ -88,7 +88,7 @@ public interface TenantService extends IService<Tenant> {
 	 * @param packageId 套餐id
 	 * @return 指定套餐下的所有租户
 	 */
-	List<Tenant> getTenantListByPackageId(Long packageId);
+	List<TenantDO> getTenantListByPackageId(Long packageId);
 
 	/**
 	 * 更新指定租户的角色菜单信息

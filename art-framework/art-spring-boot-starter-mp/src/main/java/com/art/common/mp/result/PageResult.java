@@ -47,11 +47,11 @@ public class PageResult<T> implements Serializable {
 	public static <T> PageResult<T> success(IPage<T> page) {
 		PageResult<T> result = new PageResult<>();
 		result.setCode(ResultCode.SUCCESS.getCode());
+		result.setMsg(ResultCode.SUCCESS.getMsg());
 		result.setRecords(page.getRecords());
 		result.setTotal(page.getTotal());
 		result.setCurrent(page.getCurrent());
 		result.setSize(page.getSize());
-		result.setMsg(ResultCode.SUCCESS.getMsg());
 		return result;
 	}
 

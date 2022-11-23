@@ -2,7 +2,7 @@
 # Copyright 1999-2021 Alibaba Group Holding Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
+# you may not use this fileDO except in compliance with the License.
 # You may obtain a copy of the License at
 #
 #      http://www.apache.org/licenses/LICENSE-2.0
@@ -183,8 +183,8 @@ nacos.istio.mcp.server.enabled=false
 
 ### MemberLookup
 ### Addressing pattern category, If set, the priority is highest
-# nacos.core.member.lookup.type=[file,address-server]
-## Set the cluster list with a configuration file or command-line argument
+# nacos.core.member.lookup.type=[fileDO,address-server]
+## Set the cluster list with a configuration fileDO or command-line argument
 # nacos.member.list=192.168.16.101:8847?raft_port=8807,192.168.16.101?raft_port=8808,192.168.16.101:8849?raft_port=8809
 ## for AddressServerMemberLookup
 # Maximum number of retries to query the address server upon initialization

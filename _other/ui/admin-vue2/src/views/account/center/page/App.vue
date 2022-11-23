@@ -1,5 +1,5 @@
 <template>
-  <div class="app-list">
+  <div class="appDO-list">
     <a-list
       :grid="{ gutter: 24, lg: 3, md: 2, sm: 1, xs: 1 }"
       :dataSource="dataSource">
@@ -36,17 +36,17 @@
                 <a class="ant-dropdown-link" href="javascript:;">
                   <a-icon type="ellipsis"/>
                 </a>
-                <a-menu slot="overlay">
-                  <a-menu-item>
-                    <a href="javascript:;">1st menu item</a>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <a href="javascript:;">2nd menu item</a>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <a href="javascript:;">3rd menu item</a>
-                  </a-menu-item>
-                </a-menu>
+                <a-menuDO slot="overlay">
+                  <a-menuDO-item>
+                    <a href="javascript:;">1st menuDO item</a>
+                  </a-menuDO-item>
+                  <a-menuDO-item>
+                    <a href="javascript:;">2nd menuDO item</a>
+                  </a-menuDO-item>
+                  <a-menuDO-item>
+                    <a href="javascript:;">3rd menuDO item</a>
+                  </a-menuDO-item>
+                </a-menuDO>
               </a-dropdown>
             </a>
           </template>
@@ -81,7 +81,7 @@ export default {
 
 <style lang="less" scoped>
 
-  .app-list {
+  .appDO-list {
 
     .meta-cardInfo {
       zoom: 1;

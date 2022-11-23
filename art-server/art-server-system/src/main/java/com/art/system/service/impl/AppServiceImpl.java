@@ -16,14 +16,12 @@
 
 package com.art.system.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.art.system.entity.App;
-import com.art.system.mapper.AppMapper;
-import com.art.system.param.AppParam;
+import com.art.system.api.app.dto.AppDTO;
+import com.art.system.api.app.dto.AppPageDTO;
+import com.art.system.core.convert.AppConvert;
+import com.art.system.manager.AppManager;
 import com.art.system.service.AppService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,59 +37,56 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppService {
+public class AppServiceImpl implements AppService {
 
-	private final AppMapper appMapper;
+    private final AppManager appManager;
 
-	/**
-	 * 添加
-	 */
-	@Override
-	public Boolean addSysApp(App app) {
-		appMapper.insert(app);
-		return Boolean.TRUE;
-	}
+    /**
+     * 添加
+     */
+    @Override
+    public Boolean addApp(AppDTO appDTO) {
+        return appManager.addApp(appDTO) > 0;
+    }
 
-	/**
-	 * 修改
-	 */
-	@Override
-	public Boolean updateSysApp(App app) {
-		appMapper.updateById(app);
-		return Boolean.TRUE;
-	}
+    /**
+     * 修改
+     */
+    @Override
+    public Boolean updateApp(AppDTO appDTO) {
+        return appManager.updateAppById(appDTO) > 0;
+    }
 
-	/**
-	 * 分页
-	 */
-	@Override
-	public IPage<App> pageSysApp(Page<App> pageParam, AppParam appParam) {
-		return appMapper.selectPage(pageParam, appParam.lambdaQuery());
-	}
+    /**
+     * 分页
+     */
+    @Override
+    public IPage<AppDTO> pageApp(AppPageDTO appPageDTO) {
+        return AppConvert.INSTANCE.convertPage(appManager.pageApp(appPageDTO));
+    }
 
-	/**
-	 * 获取单条
-	 */
-	@Override
-	public App findById(Long id) {
-		return appMapper.selectById(id);
-	}
+    /**
+     * 获取单条
+     */
+    @Override
+    public AppDTO findById(Long id) {
+        return AppConvert.INSTANCE.convert(appManager.findById(id));
+    }
 
-	/**
-	 * 获取全部
-	 */
-	@Override
-	public List<App> findAll() {
-		return appMapper.selectList(Wrappers.<App>lambdaQuery().orderByAsc(App::getSort));
-	}
+    /**
+     * 获取全部
+     */
+    @Override
+    public List<AppDTO> findAll() {
+        return AppConvert.INSTANCE.convertList(appManager.listApp());
+    }
 
-	/**
-	 * 删除
-	 */
-	@Override
-	public Boolean deleteSysApp(Long id) {
-		appMapper.deleteById(id);
-		return Boolean.TRUE;
-	}
+    /**
+     * 删除
+     */
+    @Override
+    public Boolean deleteApp(Long id) {
+        return appManager.deleteAppById(id) > 0;
+    }
 
 }

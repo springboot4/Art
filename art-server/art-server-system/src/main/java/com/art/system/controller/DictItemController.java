@@ -16,11 +16,11 @@
 
 package com.art.system.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.art.common.mp.result.PageResult;
 import com.art.common.mp.result.Result;
-import com.art.system.dto.DictItemDto;
-import com.art.system.entity.DictItem;
+import com.art.system.api.dict.dto.DictItemDTO;
+import com.art.system.api.dict.dto.DictItemExistsDTO;
+import com.art.system.api.dict.dto.DictItemPageDTO;
 import com.art.system.service.DictItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,68 +41,66 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DictItemController {
 
-	private final DictItemService dictItemService;
+    private final DictItemService dictItemService;
 
-	/**
-	 * 添加
-	 */
-	@Operation(summary = "添加")
-	@PostMapping(value = "/add")
-	public Result<Boolean> add(@RequestBody DictItemDto dictItemDto) {
-		return Result.success(dictItemService.addDictItem(dictItemDto));
-	}
+    /**
+     * 添加
+     */
+    @Operation(summary = "添加")
+    @PostMapping(value = "/add")
+    public Result<Void> add(@RequestBody DictItemDTO dictItemDto) {
+        return Result.judge(dictItemService.addDictItem(dictItemDto));
+    }
 
-	/**
-	 * 修改
-	 */
-	@Operation(summary = "修改")
-	@PostMapping(value = "/update")
-	public Result<Void> update(@RequestBody DictItemDto dictItemDto) {
-		return dictItemService.updateDictItem(dictItemDto);
-	}
+    /**
+     * 修改
+     */
+    @Operation(summary = "修改")
+    @PostMapping(value = "/update")
+    public Result<Void> update(@RequestBody DictItemDTO dictItemDto) {
+        return Result.judge(dictItemService.updateDictItem(dictItemDto));
+    }
 
-	/**
-	 * 删除
-	 */
-	@DeleteMapping(value = "/delete")
-	public Result<Void> delete(Long id) {
-		return dictItemService.deleteDictItem(id);
-	}
+    /**
+     * 删除
+     */
+    @DeleteMapping(value = "/delete")
+    public Result<Void> delete(Long id) {
+        return Result.judge(dictItemService.deleteDictItem(id));
+    }
 
-	/**
-	 * 获取单条
-	 */
-	@GetMapping(value = "/findById")
-	public Result<DictItem> findById(Long id) {
-		return Result.success(dictItemService.findById(id));
-	}
+    /**
+     * 获取单条
+     */
+    @GetMapping(value = "/findById")
+    public Result<DictItemDTO> findById(Long id) {
+        return Result.success(dictItemService.findById(id));
+    }
 
-	/**
-	 * 获取全部
-	 */
-	@GetMapping(value = "/findAll")
-	public Result<List<DictItem>> findAll() {
-		return Result.success(dictItemService.findAll());
-	}
+    /**
+     * 获取全部
+     */
+    @GetMapping(value = "/findAll")
+    public Result<List<DictItemDTO>> findAll() {
+        return Result.success(dictItemService.findAll());
+    }
 
-	/**
-	 * 分页
-	 */
-	@GetMapping(value = "/page")
-	public Result<PageResult<DictItem>> pageDictItem(Page<DictItem> pageParam, DictItem dictItem) {
-		return Result.success(PageResult.success(dictItemService.pageDictItem(pageParam, dictItem)));
-	}
+    /**
+     * 分页
+     */
+    @GetMapping(value = "/page")
+    public Result<PageResult<DictItemDTO>> pageDictItem(DictItemPageDTO dictItemPageDTO) {
+        return Result.success(PageResult.success(dictItemService.pageDictItem(dictItemPageDTO)));
+    }
 
-	/**
-	 * 校验字典项编码是否已经被使用
-	 * @param id 字典项id
-	 * @param dictId 字典id
-	 * @param value 字典项编码
-	 * @return true or false
-	 */
-	@GetMapping("/itemExistsByCode")
-	public Result<Boolean> itemExistsByCode(Long id, Long dictId, String value) {
-		return Result.success(dictItemService.itemExistsByCode(id, dictId, value));
-	}
+    /**
+     * 校验字典项编码是否已经被使用
+     *
+     * @return true or false
+     */
+    @GetMapping("/itemExistsByCode")
+    public Result<Boolean> itemExistsByCode(DictItemExistsDTO dictItemExistsDTO) {
+        return Result.success(dictItemService.itemExistsByCode(dictItemExistsDTO));
+    }
 
 }

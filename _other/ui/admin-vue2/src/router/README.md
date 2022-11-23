@@ -38,7 +38,7 @@ const routerObject = {
 | 参数                | 说明                                                         | 类型    | 默认值 |
 | ------------------- | ------------------------------------------------------------ | ------- | ------ |
 | title               | 路由标题, 用于显示面包屑, 页面标题 *推荐设置                 | string  | -      |
-| icon                | 路由在 menu 上显示的图标                                     | [string,svg]  | -      |
+| icon                | 路由在 menuDO 上显示的图标                                     | [string,svg]  | -      |
 | keepAlive           | 缓存该路由                                                   | boolean | false  |
 | target              | 菜单链接跳转目标（参考 html a 标记）                          | string | -  |
 | hidden              | 配合`hideChildrenInMenu`使用，用于隐藏菜单时，提供递归到父菜单显示 选中菜单项_（可参考 个人页 配置方式）_ | boolean | false  |

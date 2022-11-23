@@ -16,8 +16,8 @@
 
 package com.art.system.service.impl;
 
-import com.art.system.entity.SystemUser;
-import com.art.system.mapper.DemoMapper;
+import com.art.system.dao.dataobject.SystemUserDO;
+import com.art.system.dao.mysql.DemoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class DemoService {
 
 	public void queryDatabase() {
 		List<Map<String, String>> slave = demoMapper.selectTest("test_slave", "slave");
-		List<SystemUser> master = demoMapper.selectUser("sys_user", "master");
+		List<SystemUserDO> master = demoMapper.selectUser("sys_user", "master");
 		log.info("slave:{}", slave);
 		log.info("master:{}", master);
 	}

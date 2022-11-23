@@ -27,7 +27,7 @@
         >
           <biz-select-tree
             :disabled="showable"
-            :dicUrl="'/system/menu/getTreeSelect'"
+            :dicUrl="'/system/menuDO/getTreeSelect'"
             v-decorator="['parentId',{rules: [{required: true, message: '请选择上级菜单!'}]}]"
           >
           </biz-select-tree>
@@ -42,8 +42,8 @@
             @change="handleChangeMenu"
             v-decorator="['type', { rules: [{ required: true, message: '请选择菜单类型!' }] }]"
           >
-            <a-select-option :key="dict.value" v-for="dict in typeDict">
-              {{ dict.label }}
+            <a-select-option :key="dictDO.value" v-for="dictDO in typeDict">
+              {{ dictDO.label }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -56,8 +56,8 @@
             :disabled="showable"
             v-decorator="['application', { rules: [{ required: true, message: '请选择所属应用!' }] }]"
           >
-            <a-select-option :key="app.id" v-for="app in appList">
-              {{ app.name }}
+            <a-select-option :key="appDO.id" v-for="appDO in appList">
+              {{ appDO.name }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -192,10 +192,10 @@
 
 <script>
 import pick from 'lodash.pick'
-import { addObj, putObj, getObj } from '@/api/sys/menu'
+import { addObj, putObj, getObj } from '@/api/sys/menuDO'
 import { FormMixin } from '@/mixins/FormMixin'
 import IconSelector from '@/components/IconSelector'
-import { findAll } from '@/api/sys/app'
+import { findAll } from '@/api/sys/appDO'
 
 const isOrNoList = [
   {
