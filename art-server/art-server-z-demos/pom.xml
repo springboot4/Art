@@ -30,6 +30,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-mq-rabbit</artifactId>
+        </dependency>
+
         <!-- 单元测试-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -37,10 +42,10 @@
         </dependency>
 
         <!--mongoDb-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
+<!--        </dependency>-->
 
         <!--nacos配置中心-->
         <dependency>
@@ -73,10 +78,10 @@
         </dependency>
 
         <!--测试:es模块-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-es</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.art</groupId>-->
+<!--            <artifactId>art-spring-boot-starter-es</artifactId>-->
+<!--        </dependency>-->
 
         <!--jackson序列化-->
         <dependency>
