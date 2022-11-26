@@ -51,9 +51,9 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
           ├── admin-vue2 -- 管理员界面
           ├── mall-uni   -- 商城小程序界面
 ```
-## 目录结构规范
+## 📖目录结构规范
 
-项目中使用的是阿里的规范（详细可看https://github.com/alibaba/p3c 这里面的[Java开发手册（嵩山版）.pdf](https://github.com/alibaba/p3c/blob/master/Java开发手册（嵩山版）.pdf)），同时使用插件进行规约扫描
+项目中使用的是阿里的规范（详细可看https://github.com/alibaba/p3c 这里面的[Java开发手册（黄山版）.pdf](https://github.com/alibaba/p3c/blob/master/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C(%E9%BB%84%E5%B1%B1%E7%89%88).pdf)），同时使用插件进行规约扫描
 
 我们先来看下规范当中的目录结构
 
@@ -125,7 +125,7 @@ SaaS多租户，自定义租户套餐.<br/>
 低耦合，秒上手，稳得很！
 ## ❓其他功能
 过于先进，不便展示。欢迎下载源码研究🧐欢迎star
-## 依赖版本
+## 🍓依赖版本
 
 | 依赖                   | 版本         |
 |----------------------|------------|
