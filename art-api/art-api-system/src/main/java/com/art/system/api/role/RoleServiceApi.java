@@ -17,8 +17,8 @@
 package com.art.system.api.role;
 
 import com.art.common.core.constant.FxzServerConstant;
-import com.art.common.core.entity.DeptDataPermissionRespDTO;
-import com.art.common.mp.result.Result;
+import com.art.common.core.entity.DeptDataPermissionRespEntity;
+import com.art.common.core.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -34,6 +34,6 @@ public interface RoleServiceApi {
 	 * 获取当前用户角色下的数据权限
 	 */
 	@GetMapping("/role/getDataPermission")
-	Result<DeptDataPermissionRespDTO> getDataPermission();
+	Result<DeptDataPermissionRespEntity> getDataPermission();
 
 }

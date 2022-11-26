@@ -16,11 +16,10 @@
 
 package com.art.system.controller;
 
-import com.art.system.dao.dataobject.TenantPackageDO;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
-import com.art.system.param.TenantPackageParam;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
+import com.art.system.api.tenant.dto.TenantPackageDTO;
+import com.art.system.api.tenant.dto.TenantPackagePageDTO;
 import com.art.system.service.TenantPackageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,8 +47,8 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "保存租户套餐信息")
 	@PostMapping(value = "/add")
-	public Result<Boolean> add(@RequestBody TenantPackageDO tenantPackageDO) {
-		return Result.success(tenantPackageService.addTenantPackage(tenantPackageDO));
+	public Result<Boolean> add(@RequestBody TenantPackageDTO tenantPackageDTO) {
+		return Result.success(tenantPackageService.addTenantPackage(tenantPackageDTO));
 	}
 
 	/**
@@ -57,8 +56,8 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "更新租户套餐信息")
 	@PostMapping(value = "/update")
-	public Result<Boolean> update(@RequestBody TenantPackageDO tenantPackageDO) {
-		return Result.success(tenantPackageService.updateTenantPackage(tenantPackageDO));
+	public Result<Boolean> update(@RequestBody TenantPackageDTO tenantPackageDTO) {
+		return Result.success(tenantPackageService.updateTenantPackage(tenantPackageDTO));
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "获取单条租户套餐信息")
 	@GetMapping(value = "/findById")
-	public Result<TenantPackageDO> findById(Long id) {
+	public Result<TenantPackageDTO> findById(Long id) {
 		return Result.success(tenantPackageService.findById(id));
 	}
 
@@ -84,7 +83,7 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "获取全部租户套餐信息")
 	@GetMapping(value = "/findAll")
-	public Result<List<TenantPackageDO>> findAll() {
+	public Result<List<TenantPackageDTO>> findAll() {
 		return Result.success(tenantPackageService.findAll());
 	}
 
@@ -93,9 +92,8 @@ public class TenantPackageController {
 	 */
 	@Operation(summary = "分页查询租户套餐信息")
 	@GetMapping(value = "/page")
-	public Result<PageResult<TenantPackageDO>> pageTenantPackage(Page<TenantPackageDO> pageParam,
-                                                                 TenantPackageParam param) {
-		return Result.success(PageResult.success(tenantPackageService.pageTenantPackage(pageParam, param)));
+	public Result<PageResult<TenantPackageDTO>> pageTenantPackage(TenantPackagePageDTO tenantPackagePageDTO) {
+		return Result.success(PageResult.success(tenantPackageService.pageTenantPackage(tenantPackagePageDTO)));
 	}
 
 }

@@ -22,8 +22,8 @@ import com.art.common.gateway.dynamic.route.FxzRouteDefinition;
 import com.art.common.gateway.dynamic.route.FxzRouteDefinitionRepository;
 import com.art.common.mq.redis.stream.AbstractStreamMessageListener;
 import com.art.common.redis.constant.CacheConstants;
-import com.art.system.entity.RouteConf;
-import com.art.system.mq.RouteMessage;
+import com.art.system.api.route.dto.RouteConfDTO;
+import com.art.system.api.route.mq.RouteMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
@@ -54,8 +54,8 @@ public class RouteMessageConsumer extends AbstractStreamMessageListener<RouteMes
 		// 清空缓存中的路由信息
 		redisTemplate.delete(CacheConstants.ROUTE_KEY);
 
-		log.info("接收到redis stream消息，缓存路由信息到redis {}", message.getRouteConfList());
-		List<RouteConf> routeConfList = message.getRouteConfList();
+		log.info("接收到redis stream消息，缓存路由信息到redis {}", message.getRouteConfDOList());
+		List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
 
 		routeConfList.stream().forEach(sys -> {
 			FxzRouteDefinition fxzRouteDefinition = new FxzRouteDefinition();

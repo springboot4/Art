@@ -16,12 +16,12 @@
 
 package com.art.gen.controller;
 
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
+import com.art.gen.dao.dataobject.DatasourceConfDO;
+import com.art.gen.service.impl.MyDatasourceConfServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
-import com.art.gen.entity.DatasourceConf;
-import com.art.gen.service.impl.MyDatasourceConfServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +45,7 @@ public class DatasourceConfController {
 	 * @param datasourceConf 数据源信息
 	 */
 	@PostMapping("/addDs")
-	public Result<Boolean> addDs(@RequestBody DatasourceConf datasourceConf) {
+	public Result<Boolean> addDs(@RequestBody DatasourceConfDO datasourceConf) {
 		return Result.judge(datasourceConfService.addDs(datasourceConf));
 	}
 
@@ -64,7 +64,7 @@ public class DatasourceConfController {
 	 * @return ture Or false
 	 */
 	@PostMapping("/update")
-	public Result<Boolean> updateDsConf(@RequestBody DatasourceConf datasourceConf) {
+	public Result<Boolean> updateDsConf(@RequestBody DatasourceConfDO datasourceConf) {
 		return Result.judge(datasourceConfService.updateDsConf(datasourceConf));
 	}
 
@@ -74,7 +74,7 @@ public class DatasourceConfController {
 	 * @return 数据源信息
 	 */
 	@GetMapping("/findById")
-	public Result<DatasourceConf> findById(@RequestParam("id") Long id) {
+	public Result<DatasourceConfDO> findById(@RequestParam("id") Long id) {
 		return Result.success(datasourceConfService.findBtId(id));
 	}
 
@@ -84,8 +84,8 @@ public class DatasourceConfController {
 	 * @return 分页数据
 	 */
 	@GetMapping(value = "/page")
-	public Result<PageResult<DatasourceConf>> page(Page<DatasourceConf> page) {
-		Page<DatasourceConf> result = datasourceConfService.pageDataSourceConf(page, Wrappers.emptyWrapper());
+	public Result<PageResult<DatasourceConfDO>> page(Page<DatasourceConfDO> page) {
+		Page<DatasourceConfDO> result = datasourceConfService.pageDataSourceConf(page, Wrappers.emptyWrapper());
 		return Result.success(PageResult.success(result));
 	}
 
@@ -93,7 +93,7 @@ public class DatasourceConfController {
 	 * 查询所有数据源信息
 	 */
 	@GetMapping("/listDs")
-	public Result<List<DatasourceConf>> listDs() {
+	public Result<List<DatasourceConfDO>> listDs() {
 		return Result.success(datasourceConfService.listDs());
 	}
 

@@ -16,8 +16,8 @@
 
 package com.art.system.controller;
 
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
 import com.art.common.security.annotation.Ojbk;
 import com.art.system.api.log.dto.OperLogDTO;
 import com.art.system.api.log.dto.OperLogPageDTO;
@@ -41,61 +41,61 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OperLogController {
 
-    private final OperLogService operLogService;
+	private final OperLogService operLogService;
 
-    /**
-     * 保存日志
-     */
-    @Operation(summary = "保存日志")
-    @Ojbk
-    @PostMapping(value = "/add")
-    public void add(@RequestBody OperLogDTO operLogDto) {
-        operLogService.addOperLog(operLogDto);
-    }
+	/**
+	 * 保存日志
+	 */
+	@Operation(summary = "保存日志")
+	@Ojbk
+	@PostMapping(value = "/add")
+	public void add(@RequestBody OperLogDTO operLogDto) {
+		operLogService.addOperLog(operLogDto);
+	}
 
-    /**
-     * 修改
-     */
-    @Operation(summary = "修改")
-    @PostMapping(value = "/update")
-    public Result<Boolean> update(@RequestBody OperLogDTO operLogDto) {
-        return Result.success(operLogService.updateOperLog(operLogDto));
-    }
+	/**
+	 * 修改
+	 */
+	@Operation(summary = "修改")
+	@PostMapping(value = "/update")
+	public Result<Boolean> update(@RequestBody OperLogDTO operLogDto) {
+		return Result.success(operLogService.updateOperLog(operLogDto));
+	}
 
-    /**
-     * 删除
-     */
-    @Operation(summary = "删除")
-    @DeleteMapping(value = "/delete")
-    public Result<Boolean> delete(Long id) {
-        return Result.judge(operLogService.deleteOperLog(id));
-    }
+	/**
+	 * 删除
+	 */
+	@Operation(summary = "删除")
+	@DeleteMapping(value = "/delete")
+	public Result<Boolean> delete(Long id) {
+		return Result.judge(operLogService.deleteOperLog(id));
+	}
 
-    /**
-     * 获取单条
-     */
-    @Operation(summary = "获取单条")
-    @GetMapping(value = "/findById")
-    public Result<OperLogDTO> findById(Long id) {
-        return Result.success(operLogService.findById(id));
-    }
+	/**
+	 * 获取单条
+	 */
+	@Operation(summary = "获取单条")
+	@GetMapping(value = "/findById")
+	public Result<OperLogDTO> findById(Long id) {
+		return Result.success(operLogService.findById(id));
+	}
 
-    /**
-     * 获取全部
-     */
-    @Operation(summary = "获取全部")
-    @GetMapping(value = "/findAll")
-    public Result<List<OperLogDTO>> findAll() {
-        return Result.success(operLogService.findAll());
-    }
+	/**
+	 * 获取全部
+	 */
+	@Operation(summary = "获取全部")
+	@GetMapping(value = "/findAll")
+	public Result<List<OperLogDTO>> findAll() {
+		return Result.success(operLogService.findAll());
+	}
 
-    /**
-     * 分页
-     */
-    @Operation(summary = "分页")
-    @GetMapping(value = "/page")
-    public Result<PageResult<OperLogDTO>> pageOperLog(OperLogPageDTO operLogPageDTO) {
-        return Result.success(PageResult.success(operLogService.pageOperLog(operLogPageDTO)));
-    }
+	/**
+	 * 分页
+	 */
+	@Operation(summary = "分页")
+	@GetMapping(value = "/page")
+	public Result<PageResult<OperLogDTO>> pageOperLog(OperLogPageDTO operLogPageDTO) {
+		return Result.success(PageResult.success(operLogService.pageOperLog(operLogPageDTO)));
+	}
 
 }

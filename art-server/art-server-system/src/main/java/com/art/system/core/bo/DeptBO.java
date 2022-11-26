@@ -30,51 +30,51 @@ import java.util.List;
 @Data
 public class DeptBO implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    /**
-     * 部门id
-     */
-    private Long deptId;
+	/**
+	 * 部门id
+	 */
+	private Long deptId;
 
-    /**
-     * 上级部门id
-     */
-    private Long parentId;
+	/**
+	 * 上级部门id
+	 */
+	private Long parentId;
 
-    /**
-     * 部门名称
-     */
-    private String deptName;
+	/**
+	 * 部门名称
+	 */
+	private String deptName;
 
-    /**
-     * 排序
-     */
-    private Double orderNum;
+	/**
+	 * 排序
+	 */
+	private Double orderNum;
 
-    /**
-     * 子部门id
-     */
-    private List<DeptBO> children;
+	/**
+	 * 子部门id
+	 */
+	private List<DeptBO> children;
 
-    /**
-     * 创建者
-     */
-    private String createBy;
+	/**
+	 * 创建者
+	 */
+	private String createBy;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
+	/**
+	 * 创建时间
+	 */
+	private LocalDateTime createTime;
 
-    /**
-     * 更新者
-     */
-    private String updateBy;
+	/**
+	 * 更新者
+	 */
+	private String updateBy;
 
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
+	/**
+	 * 更新时间
+	 */
+	private LocalDateTime updateTime;
 
 }

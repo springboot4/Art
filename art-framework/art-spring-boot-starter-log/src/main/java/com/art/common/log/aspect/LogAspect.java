@@ -19,13 +19,13 @@ package com.art.common.log.aspect;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.art.common.core.result.Result;
 import com.art.common.core.util.WebUtil;
 import com.art.common.log.annotation.OperLogAnn;
 import com.art.common.log.enums.BusinessStatus;
 import com.art.common.log.service.AsyncLogService;
-import com.art.common.mp.result.Result;
-import com.art.system.entity.OperLog;
+import com.art.system.api.log.dto.OperLogDTO;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +57,7 @@ public class LogAspect {
 	@SuppressWarnings("unchecked")
 	@Around("@annotation(operLogAnn)")
 	public Result<Object> around(ProceedingJoinPoint point, OperLogAnn operLogAnn) {
-		OperLog operLog = new OperLog();
+		OperLogDTO operLog = new OperLogDTO();
 		buildLog(point, operLogAnn, operLog);
 
 		Long startTime = System.currentTimeMillis();
@@ -83,7 +83,7 @@ public class LogAspect {
 		return result;
 	}
 
-	private void buildLog(JoinPoint point, OperLogAnn operLogAnn, OperLog operLog) {
+	private void buildLog(JoinPoint point, OperLogAnn operLogAnn, OperLogDTO operLog) {
 		HttpServletRequest request = WebUtil.getRequest();
 
 		// 模块名
@@ -124,7 +124,7 @@ public class LogAspect {
 				.setRequestMethod(requestMethod).setOperParam(param).setBusinessType(businessType);
 	}
 
-	private void handleException(OperLog operLog, String msg) {
+	private void handleException(OperLogDTO operLog, String msg) {
 		operLog.setStatus(BusinessStatus.FAIL.getValue());
 		operLog.setErrorMsg(StringUtils.substring(msg, 0, 2000));
 	}

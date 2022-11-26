@@ -30,26 +30,26 @@ import lombok.Data;
 @TableName("sys_app")
 public class AppDO extends BaseIdEntity {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    /**
-     * 应用名称
-     */
-    private String name;
+	/**
+	 * 应用名称
+	 */
+	private String name;
 
-    /**
-     * 应用编码
-     */
-    private String code;
+	/**
+	 * 应用编码
+	 */
+	private String code;
 
-    /**
-     * 图标
-     */
-    private String icon;
+	/**
+	 * 图标
+	 */
+	private String icon;
 
-    /**
-     * 排序
-     */
-    private Integer sort;
+	/**
+	 * 排序
+	 */
+	private Integer sort;
 
 }

@@ -82,6 +82,11 @@
             <artifactId>art-api-system</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-api-auth</artifactId>
+        </dependency>
+
         <!--banner信息-->
         <dependency>
             <groupId>com.art</groupId>

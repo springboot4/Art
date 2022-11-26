@@ -29,20 +29,20 @@ import java.io.Serializable;
 @Data
 public class FilePageDTO extends BasePageEntity implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    private Long id;
+	private Long id;
 
-    private String fileName;
+	private String fileName;
 
-    private String bucketName;
+	private String bucketName;
 
-    private String original;
+	private String original;
 
-    private String type;
+	private String type;
 
-    private Long fileSize;
+	private Long fileSize;
 
-    private String delFlag;
+	private String delFlag;
 
 }

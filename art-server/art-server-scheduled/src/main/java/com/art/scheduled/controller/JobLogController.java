@@ -17,9 +17,9 @@
 package com.art.scheduled.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
-import com.art.scheduled.entity.JobLog;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
+import com.art.scheduled.core.entity.JobLog;
 import com.art.scheduled.service.JobLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

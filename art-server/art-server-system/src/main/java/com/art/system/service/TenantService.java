@@ -16,12 +16,9 @@
 
 package com.art.system.service;
 
-import com.art.system.dao.dataobject.TenantDO;
+import com.art.system.api.tenant.dto.TenantDTO;
+import com.art.system.api.tenant.dto.TenantPageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.param.TenantParam;
-import com.art.system.core.vo.TenantVO;
 
 import java.util.List;
 
@@ -31,7 +28,7 @@ import java.util.List;
  * @author fxz
  * @date 2022-10-01
  */
-public interface TenantService extends IService<TenantDO> {
+public interface TenantService {
 
 	/**
 	 * 校验租户信息是否合法
@@ -46,49 +43,35 @@ public interface TenantService extends IService<TenantDO> {
 	List<Long> getTenantIds();
 
 	/**
-	 * 根据id查询租户信息
-	 * @param id 租户id
-	 * @return 租户信息
-	 */
-	TenantDO findById(Long id);
-
-	/**
 	 * 根据name查询租户Id
 	 */
 	Long findTenantIdById(String name);
 
 	/**
 	 * 保存租户信息
-	 * @param tenant 租户视图信息
+	 * @param tenant 租户信息
 	 */
-	Boolean addSysTenant(TenantVO tenant);
+	Boolean addSysTenant(TenantDTO tenant);
 
 	/**
 	 * 修改
 	 */
-	Boolean updateSysTenant(TenantDO tenantDO);
+	Boolean updateSysTenant(TenantDTO tenantDTO);
 
 	/**
 	 * 分页查询租户信息
 	 */
-	IPage<TenantDO> pageSysTenant(Page pageParam, TenantParam param);
+	IPage<TenantDTO> pageSysTenant(TenantPageDTO pageDTO);
 
 	/**
 	 * 获取全部
 	 */
-	List<TenantDO> findAll();
+	List<TenantDTO> findAll();
 
 	/**
 	 * 删除
 	 */
 	Boolean deleteSysTenant(Long id);
-
-	/**
-	 * 获取指定套餐下的所有租户
-	 * @param packageId 套餐id
-	 * @return 指定套餐下的所有租户
-	 */
-	List<TenantDO> getTenantListByPackageId(Long packageId);
 
 	/**
 	 * 更新指定租户的角色菜单信息
@@ -101,5 +84,12 @@ public interface TenantService extends IService<TenantDO> {
 	 * 校验租户下账号数量
 	 */
 	void validCount();
+
+	/**
+	 * 根据id查询租户信息
+	 * @param id 租户id
+	 * @return 租户信息
+	 */
+	TenantDTO findById(Long id);
 
 }

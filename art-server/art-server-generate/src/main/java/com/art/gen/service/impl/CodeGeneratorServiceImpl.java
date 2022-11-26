@@ -21,15 +21,15 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
-import com.art.gen.config.GenConfig;
-import com.art.gen.dto.CodeGenPreview;
-import com.art.gen.entity.CodeGenColumn;
-import com.art.gen.entity.DatabaseColumn;
-import com.art.gen.entity.DatabaseTable;
-import com.art.gen.enums.CodeGenColumnTypeEnum;
-import com.art.gen.enums.CodeGenTemplateVmEnum;
+import com.art.gen.core.config.GenConfig;
+import com.art.gen.core.enums.CodeGenColumnTypeEnum;
+import com.art.gen.core.enums.CodeGenTemplateVmEnum;
+import com.art.gen.core.util.VelocityInitializer;
+import com.art.gen.dao.dataobject.CodeGenColumnDO;
+import com.art.gen.dao.dataobject.DatabaseColumnDO;
+import com.art.gen.dao.dataobject.DatabaseTableDO;
+import com.art.gen.core.dto.CodeGenPreviewDTO;
 import com.art.gen.service.CodeGeneratorService;
-import com.art.gen.util.VelocityInitializer;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -69,7 +69,7 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 	 * @return 预览代码
 	 */
 	@Override
-	public List<CodeGenPreview> codeGenPreview(String tableName, String dsName) {
+	public List<CodeGenPreviewDTO> codeGenPreview(String tableName, String dsName) {
 		VelocityInitializer.initVelocity();
 
 		// 获取生成代码所用的数据
@@ -80,7 +80,7 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 			StringWriter sw = new StringWriter();
 			Template template = Velocity.getTemplate(vmEnum.getPath(), CharsetUtil.UTF_8);
 			template.merge(context, sw);
-			return new CodeGenPreview().setName(vmEnum.getName()).setContent(sw.toString());
+			return new CodeGenPreviewDTO().setName(vmEnum.getName()).setContent(sw.toString());
 		}).collect(Collectors.toList());
 	}
 
@@ -90,14 +90,14 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 	 */
 	private Map<String, Object> getCodeGenInfo(String tableName, String dsName) {
 		// 获取表的基本信息
-		DatabaseTable databaseTable = databaseTableService.findByTableName(tableName, dsName);
+		DatabaseTableDO databaseTable = databaseTableService.findByTableName(tableName, dsName);
 		// 获取表的列信息
-		List<DatabaseColumn> databaseColumns = databaseTableService.findColumnByTableName(tableName, dsName);
+		List<DatabaseColumnDO> databaseColumns = databaseTableService.findColumnByTableName(tableName, dsName);
 
 		Map<String, Object> map = new HashMap<>(16);
 
 		// 数据库字段转实体
-		List<CodeGenColumn> columns = databaseColumns.stream().map(databaseColumn -> new CodeGenColumn()
+		List<CodeGenColumnDO> columns = databaseColumns.stream().map(databaseColumn -> new CodeGenColumnDO()
 				// 备注
 				.setComments(databaseColumn.getColumnComment())
 				// 数据库字段类型转java数据类型
@@ -128,16 +128,16 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
 		// 将代码放入压缩包内
-		for (CodeGenPreview codeGenPreview : this.codeGenPreview(tableName, dsName)) {
+		for (CodeGenPreviewDTO codeGenPreviewDTO : this.codeGenPreview(tableName, dsName)) {
 			// 添加到zip
-			CodeGenTemplateVmEnum vmEnum = CodeGenTemplateVmEnum.findByName(codeGenPreview.getName());
+			CodeGenTemplateVmEnum vmEnum = CodeGenTemplateVmEnum.findByName(codeGenPreviewDTO.getName());
 			String fileName = tableToJava(tableName) + vmEnum.getFileSuffixName();
 			// js后缀特殊处理
 			if (vmEnum.getFileSuffixName().equals(".js") || vmEnum.getFileSuffixName().equals(".ts")) {
 				fileName = StrUtil.lowerFirst(tableToJava(fileName));
 			}
 			zip.putNextEntry(new ZipEntry(fileName));
-			IOUtils.write(codeGenPreview.getContent(), zip, CharsetUtil.UTF_8);
+			IOUtils.write(codeGenPreviewDTO.getContent(), zip, CharsetUtil.UTF_8);
 			zip.flush();
 			zip.closeEntry();
 		}

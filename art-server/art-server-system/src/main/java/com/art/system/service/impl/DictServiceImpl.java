@@ -45,79 +45,78 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DictServiceImpl implements DictService {
 
-    private final DictManager dictManager;
+	private final DictManager dictManager;
 
-    private final DictItemManager dictItemManager;
+	private final DictItemManager dictItemManager;
 
-    /**
-     * 添加
-     */
-    @Override
-    public Boolean addDict(DictDTO dictDto) {
-        return dictManager.addDict(dictDto) > 0;
-    }
+	/**
+	 * 添加
+	 */
+	@Override
+	public Boolean addDict(DictDTO dictDto) {
+		return dictManager.addDict(dictDto) > 0;
+	}
 
-    /**
-     * 修改
-     */
-    @Override
-    public Boolean updateDict(DictDTO dictDto) {
-        if (DictTypeEnum.SYSTEM.getType().equals(dictDto.getSystemFlag())) {
-            throw new FxzException("系统内置字典，不可修改!");
-        }
+	/**
+	 * 修改
+	 */
+	@Override
+	public Boolean updateDict(DictDTO dictDto) {
+		if (DictTypeEnum.SYSTEM.getType().equals(dictDto.getSystemFlag())) {
+			throw new FxzException("系统内置字典，不可修改!");
+		}
 
-        return dictManager.updateById(dictDto) > 0;
-    }
+		return dictManager.updateById(dictDto) > 0;
+	}
 
-    /**
-     * 分页
-     */
-    @Override
-    public IPage<DictDTO> pageDict(DictPageDTO dictPageDTO) {
-        return DictConvert.INSTANCE.convert(dictManager.pageDict(dictPageDTO));
-    }
+	/**
+	 * 分页
+	 */
+	@Override
+	public IPage<DictDTO> pageDict(DictPageDTO dictPageDTO) {
+		return DictConvert.INSTANCE.convert(dictManager.pageDict(dictPageDTO));
+	}
 
-    /**
-     * 获取单条
-     */
-    @Override
-    public DictDTO findById(Long id) {
-        return DictConvert.INSTANCE.convert(dictManager.getDictById(id));
-    }
+	/**
+	 * 获取单条
+	 */
+	@Override
+	public DictDTO findById(Long id) {
+		return DictConvert.INSTANCE.convert(dictManager.getDictById(id));
+	}
 
-    /**
-     * 获取全部
-     */
-    @Override
-    public List<DictDTO> findAll() {
-        return DictConvert.INSTANCE.convert(dictManager.listDict());
-    }
+	/**
+	 * 获取全部
+	 */
+	@Override
+	public List<DictDTO> findAll() {
+		return DictConvert.INSTANCE.convert(dictManager.listDict());
+	}
 
-    /**
-     * 删除
-     */
-    @Override
-    public Boolean deleteDict(Long id) {
-        DictDO dictDO = dictManager.getDictById(id);
-        if (DictTypeEnum.SYSTEM.getType().equals(dictDO.getSystemFlag())) {
-            throw new FxzException("系统内置字典，不可删除!");
-        }
+	/**
+	 * 删除
+	 */
+	@Override
+	public Boolean deleteDict(Long id) {
+		DictDO dictDO = dictManager.getDictById(id);
+		if (DictTypeEnum.SYSTEM.getType().equals(dictDO.getSystemFlag())) {
+			throw new FxzException("系统内置字典，不可删除!");
+		}
 
-        // 删除所有字典项
-        dictItemManager.deleteDictItemByDictId(id);
-        // 删除字典
-        return dictManager.deleteDictById(id) > 0;
-    }
+		// 删除所有字典项
+		dictItemManager.deleteDictItemByDictId(id);
+		// 删除字典
+		return dictManager.deleteDictById(id) > 0;
+	}
 
-    /**
-     * 根据字典类型获取字典下的所有字典项
-     *
-     * @param type 字典类型
-     * @return 字典项
-     */
-    @Override
-    public List<DictItemDTO> getDictItemsByType(String type) {
-        return DictItemConvert.INSTANCE.convertList(dictItemManager.getDictItemsByType(type));
-    }
+	/**
+	 * 根据字典类型获取字典下的所有字典项
+	 * @param type 字典类型
+	 * @return 字典项
+	 */
+	@Override
+	public List<DictItemDTO> getDictItemsByType(String type) {
+		return DictItemConvert.INSTANCE.convertList(dictItemManager.getDictItemsByType(type));
+	}
 
 }

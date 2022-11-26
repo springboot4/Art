@@ -17,9 +17,9 @@
 package com.art.gen.controller;
 
 import com.art.common.core.param.PageParam;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
-import com.art.gen.entity.DatabaseTable;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
+import com.art.gen.dao.dataobject.DatabaseTableDO;
 import com.art.gen.service.impl.DatabaseTableServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,7 +47,7 @@ public class DatabaseTableController {
 	 * @return 分页信息
 	 */
 	@GetMapping("/page")
-	public Result<PageResult<DatabaseTable>> page(PageParam pageParam, DatabaseTable param, String dsName) {
+	public Result<PageResult<DatabaseTableDO>> page(PageParam pageParam, DatabaseTableDO param, String dsName) {
 		return Result.success(PageResult.success(databaseTableService.page(pageParam, param, dsName)));
 	}
 

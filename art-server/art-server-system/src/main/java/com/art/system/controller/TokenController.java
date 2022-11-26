@@ -16,11 +16,11 @@
 
 package com.art.system.controller;
 
+import com.art.auth.api.token.TokenServiceApi;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
 import com.art.common.log.annotation.OperLogAnn;
 import com.art.common.log.enums.BusinessType;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
-import com.art.system.api.token.TokenServiceApi;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

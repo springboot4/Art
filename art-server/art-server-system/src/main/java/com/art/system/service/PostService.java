@@ -30,34 +30,34 @@ import java.util.List;
  */
 public interface PostService {
 
-    /**
-     * 添加
-     */
-    Boolean addPost(PostDTO postDto);
+	/**
+	 * 添加
+	 */
+	Boolean addPost(PostDTO postDto);
 
-    /**
-     * 修改
-     */
-    Boolean updatePost(PostDTO postDto);
+	/**
+	 * 修改
+	 */
+	Boolean updatePost(PostDTO postDto);
 
-    /**
-     * 获取单条
-     */
-    PostDTO findById(Long id);
+	/**
+	 * 获取单条
+	 */
+	PostDTO findById(Long id);
 
-    /**
-     * 获取全部
-     */
-    List<PostDTO> findAll();
+	/**
+	 * 获取全部
+	 */
+	List<PostDTO> findAll();
 
-    /**
-     * 删除
-     */
-    Boolean deletePost(Long id);
+	/**
+	 * 删除
+	 */
+	Boolean deletePost(Long id);
 
-    /**
-     * 分页
-     */
-    IPage<PostDTO> pagePost(PostPageDTO postPageDTO);
+	/**
+	 * 分页
+	 */
+	IPage<PostDTO> pagePost(PostPageDTO postPageDTO);
 
 }

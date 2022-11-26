@@ -42,39 +42,43 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class OperLogManager {
 
-    private final OperLogMapper operLogMapper;
+	private final OperLogMapper operLogMapper;
 
-    public Integer addOperLog(OperLogDTO operLogDto) {
-        return operLogMapper.insert(OperLogConvert.INSTANCE.convert(operLogDto));
-    }
+	public Integer addOperLog(OperLogDTO operLogDto) {
+		return operLogMapper.insert(OperLogConvert.INSTANCE.convert(operLogDto));
+	}
 
-    public Integer updateOperLogById(OperLogDTO operLogDto) {
-        return operLogMapper.updateById(OperLogConvert.INSTANCE.convert(operLogDto));
-    }
+	public Integer updateOperLogById(OperLogDTO operLogDto) {
+		return operLogMapper.updateById(OperLogConvert.INSTANCE.convert(operLogDto));
+	}
 
-    public Integer deleteOperLogById(Long id) {
-        return operLogMapper.deleteById(id);
-    }
+	public Integer deleteOperLogById(Long id) {
+		return operLogMapper.deleteById(id);
+	}
 
-    public OperLogDO selectOperLogById(Long id) {
-        return operLogMapper.selectById(id);
-    }
+	public OperLogDO selectOperLogById(Long id) {
+		return operLogMapper.selectById(id);
+	}
 
-    public List<OperLogDO> listOperLog() {
-        return operLogMapper.selectList(Wrappers.emptyWrapper());
-    }
+	public List<OperLogDO> listOperLog() {
+		return operLogMapper.selectList(Wrappers.emptyWrapper());
+	}
 
-    public Page<OperLogDO> pageOperLog(OperLogPageDTO operLogPageDTO) {
-        QueryWrapper<OperLogDO> queryWrapper = Wrappers.query();
-        if (Objects.isNull(operLogPageDTO.getBusinessType())) {
-            queryWrapper.ne(StringUtils.camelToUnderline(OperLogDO.Fields.businessType), BusinessType.GRANT);
-        } else {
-            queryWrapper.eq(StringUtils.camelToUnderline(OperLogDO.Fields.businessType), operLogPageDTO.getBusinessType());
-        }
-        queryWrapper.like(StringUtils.isNotBlank(operLogPageDTO.getTitle()), OperLogDO.Fields.title, operLogPageDTO.getTitle())
-                .orderByDesc(StringUtils.camelToUnderline(BaseCreateEntity.Fields.createTime));
+	public Page<OperLogDO> pageOperLog(OperLogPageDTO operLogPageDTO) {
+		QueryWrapper<OperLogDO> queryWrapper = Wrappers.query();
+		if (Objects.isNull(operLogPageDTO.getBusinessType())) {
+			queryWrapper.ne(StringUtils.camelToUnderline(OperLogDO.Fields.businessType), BusinessType.GRANT);
+		}
+		else {
+			queryWrapper.eq(StringUtils.camelToUnderline(OperLogDO.Fields.businessType),
+					operLogPageDTO.getBusinessType());
+		}
+		queryWrapper
+				.like(StringUtils.isNotBlank(operLogPageDTO.getTitle()), OperLogDO.Fields.title,
+						operLogPageDTO.getTitle())
+				.orderByDesc(StringUtils.camelToUnderline(BaseCreateEntity.Fields.createTime));
 
-        return operLogMapper.selectPage(Page.of(operLogPageDTO.getCurrent(), operLogPageDTO.getSize()), queryWrapper);
-    }
+		return operLogMapper.selectPage(Page.of(operLogPageDTO.getCurrent(), operLogPageDTO.getSize()), queryWrapper);
+	}
 
 }

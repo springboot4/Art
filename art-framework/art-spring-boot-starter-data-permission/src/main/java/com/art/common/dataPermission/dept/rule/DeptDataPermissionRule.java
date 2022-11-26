@@ -18,14 +18,13 @@ package com.art.common.dataPermission.dept.rule;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.art.common.core.entity.DeptDataPermissionRespDTO;
+import com.art.common.core.entity.DeptDataPermissionRespEntity;
 import com.art.common.dataPermission.dept.service.DeptDataPermissionService;
 import com.art.common.dataPermission.rule.DataPermissionRule;
-import com.art.common.mp.base.BaseCreateEntity;
 import com.art.common.mp.utils.MyBatisUtils;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
+import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Alias;
@@ -111,7 +110,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 		}
 
 		// 获得用户的数据权限
-		DeptDataPermissionRespDTO deptDataPermission = deptDataPermissionService.getDeptDataPermission(loginUser);
+		DeptDataPermissionRespEntity deptDataPermission = deptDataPermissionService.getDeptDataPermission(loginUser);
 		if (Objects.isNull(deptDataPermission)) {
 			log.info("获取用户:{} 数据权限为 null", loginUser);
 			throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) 未返回数据权限", loginUser.getUserId(),
@@ -204,14 +203,14 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 	/**
 	 * entityClass对应的表 以DEPT_COLUMN_NAME为查询条件
 	 */
-	public void addDeptColumn(Class<? extends BaseCreateEntity> entityClass) {
+	public void addDeptColumn(Class<? extends Object> entityClass) {
 		addDeptColumn(entityClass, DEPT_COLUMN_NAME);
 	}
 
 	/**
 	 * entityClass对应的表 以columnName列为查询条件
 	 */
-	public void addDeptColumn(Class<? extends BaseCreateEntity> entityClass, String columnName) {
+	public void addDeptColumn(Class<? extends Object> entityClass, String columnName) {
 		// 获取实体类对应的表名
 		String tableName = TableInfoHelper.getTableInfo(entityClass).getTableName();
 		addDeptColumn(tableName, columnName);
@@ -228,14 +227,14 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 	/**
 	 * entityClass对应的实体类以USER_COLUMN_NAME列来查询
 	 */
-	public void addUserColumn(Class<? extends BaseCreateEntity> entityClass) {
+	public void addUserColumn(Class<? extends Object> entityClass) {
 		addUserColumn(entityClass, USER_COLUMN_NAME);
 	}
 
 	/**
 	 * entityClass对应的表 以columnName列为查询条件
 	 */
-	public void addUserColumn(Class<? extends BaseCreateEntity> entityClass, String columnName) {
+	public void addUserColumn(Class<? extends Object> entityClass, String columnName) {
 		// 获取实体类对应的表名
 		String tableName = TableInfoHelper.getTableInfo(entityClass).getTableName();
 		addUserColumn(tableName, columnName);

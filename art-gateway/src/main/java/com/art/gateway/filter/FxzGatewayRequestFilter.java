@@ -17,7 +17,7 @@
 package com.art.gateway.filter;
 
 import com.art.common.core.constant.FxzConstant;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import com.art.gateway.properties.FxzGatewayProperties;
 import com.art.gateway.util.WebFluxUtil;
 import lombok.RequiredArgsConstructor;

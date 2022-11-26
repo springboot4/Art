@@ -32,14 +32,14 @@ import java.util.List;
 @Mapper
 public interface PostConvert {
 
-    PostConvert INSTANCE = Mappers.getMapper(PostConvert.class);
+	PostConvert INSTANCE = Mappers.getMapper(PostConvert.class);
 
-    PostDO convert(PostDTO postDTO);
+	PostDO convert(PostDTO postDTO);
 
-    PostDTO convert(PostDO postDO);
+	PostDTO convert(PostDO postDO);
 
-    List<PostDTO> convert(List<PostDO> postDOList);
+	List<PostDTO> convert(List<PostDO> postDOList);
 
-    Page<PostDTO> convert(Page<PostDO> postDOList);
+	Page<PostDTO> convert(Page<PostDO> postDOList);
 
 }

@@ -32,12 +32,12 @@ import java.util.List;
 @Mapper
 public interface MenuConvert {
 
-    MenuConvert INSTANCE = Mappers.getMapper(MenuConvert.class);
+	MenuConvert INSTANCE = Mappers.getMapper(MenuConvert.class);
 
-    List<VueRouter<MenuDTO>> convert(List<VueRouter<MenuDO>> list);
+	List<VueRouter<MenuDTO>> convert(List<VueRouter<MenuDO>> list);
 
-    MenuDO convert(VueRouter vueRouter);
+	MenuDO convert(VueRouter vueRouter);
 
-    List<MenuDTO> convertList(List<MenuDO> menuDOList);
+	List<MenuDTO> convertList(List<MenuDO> menuDOList);
 
 }

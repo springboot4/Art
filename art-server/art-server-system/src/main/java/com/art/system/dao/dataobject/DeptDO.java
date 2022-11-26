@@ -33,27 +33,27 @@ import java.io.Serializable;
 @TableName("sys_dept")
 public class DeptDO extends BaseCreateEntity implements Serializable {
 
-    private static final long serialVersionUID = -7139055608314923987L;
+	private static final long serialVersionUID = -7139055608314923987L;
 
-    /**
-     * 部门id
-     */
-    @TableId(type = IdType.AUTO)
-    private Long deptId;
+	/**
+	 * 部门id
+	 */
+	@TableId(type = IdType.AUTO)
+	private Long deptId;
 
-    /**
-     * 上级部门id
-     */
-    private Long parentId;
+	/**
+	 * 上级部门id
+	 */
+	private Long parentId;
 
-    /**
-     * 部门名称
-     */
-    private String deptName;
+	/**
+	 * 部门名称
+	 */
+	private String deptName;
 
-    /**
-     * 排序
-     */
-    private Double orderNum;
+	/**
+	 * 排序
+	 */
+	private Double orderNum;
 
 }
