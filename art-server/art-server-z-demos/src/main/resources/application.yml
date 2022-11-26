@@ -4,11 +4,11 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: ${NACOS_HOST:61.153.186.23}:8848
+        server-addr: ${NACOS_HOST:fxz-nacos}:8848
       discovery:
-        server-addr: ${NACOS_HOST:61.153.186.23}:8848
-      password: nacos
+        server-addr: ${NACOS_HOST:fxz-nacos}:8848
       username: nacos
+      password: nacos
   config:
     import:
       - optional:nacos:${spring.application.name}.yaml

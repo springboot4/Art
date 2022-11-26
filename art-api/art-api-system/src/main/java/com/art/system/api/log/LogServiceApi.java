@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(contextId = "logServiceApi", value = FxzServerConstant.FXZ_SERVER_SYSTEM)
 public interface LogServiceApi {
 
-    /**
-     * 日志保存
-     */
-    @PostMapping(value = "/operLog/add")
-    void add(@RequestBody OperLogDTO operLogDto);
+	/**
+	 * 日志保存
+	 */
+	@PostMapping(value = "/operLog/add")
+	void add(@RequestBody OperLogDTO operLogDto);
 
 }

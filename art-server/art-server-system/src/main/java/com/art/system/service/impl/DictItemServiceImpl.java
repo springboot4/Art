@@ -24,12 +24,10 @@ import com.art.system.api.dict.dto.DictItemPageDTO;
 import com.art.system.core.convert.DictItemConvert;
 import com.art.system.dao.dataobject.DictDO;
 import com.art.system.dao.dataobject.DictItemDO;
-import com.art.system.dao.mysql.DictItemMapper;
 import com.art.system.manager.DictItemManager;
 import com.art.system.manager.DictManager;
 import com.art.system.service.DictItemService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,94 +43,94 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItemDO> implements DictItemService {
+public class DictItemServiceImpl implements DictItemService {
 
-    private final DictItemManager dictItemManager;
+	private final DictItemManager dictItemManager;
 
-    private final DictManager dictManager;
+	private final DictManager dictManager;
 
-    /**
-     * 添加
-     */
-    @Override
-    public Boolean addDictItem(DictItemDTO dictItemDto) {
-        return dictItemManager.addDictItem(DictItemConvert.INSTANCE.convert(dictItemDto)) > 0;
-    }
+	/**
+	 * 添加
+	 */
+	@Override
+	public Boolean addDictItem(DictItemDTO dictItemDto) {
+		return dictItemManager.addDictItem(DictItemConvert.INSTANCE.convert(dictItemDto)) > 0;
+	}
 
-    /**
-     * 修改
-     */
-    @Override
-    public Boolean updateDictItem(DictItemDTO dictItemDto) {
-        DictDO dictDO = dictManager.getDictById(dictItemDto.getDictId());
-        if (DictTypeEnum.SYSTEM.getType().equals(dictDO.getSystemFlag())) {
-            throw new FxzException("系统内置字典，不可修改!");
-        }
+	/**
+	 * 修改
+	 */
+	@Override
+	public Boolean updateDictItem(DictItemDTO dictItemDto) {
+		DictDO dictDO = dictManager.getDictById(dictItemDto.getDictId());
+		if (DictTypeEnum.SYSTEM.getType().equals(dictDO.getSystemFlag())) {
+			throw new FxzException("系统内置字典，不可修改!");
+		}
 
-        return dictItemManager.updateDictItemById(DictItemConvert.INSTANCE.convert(dictItemDto)) > 0;
-    }
+		return dictItemManager.updateDictItemById(DictItemConvert.INSTANCE.convert(dictItemDto)) > 0;
+	}
 
-    /**
-     * 分页
-     */
-    @Override
-    public IPage<DictItemDTO> pageDictItem(DictItemPageDTO dictItemPageDTO) {
-        return DictItemConvert.INSTANCE.convert(dictItemManager.pageDictItem(dictItemPageDTO));
-    }
+	/**
+	 * 分页
+	 */
+	@Override
+	public IPage<DictItemDTO> pageDictItem(DictItemPageDTO dictItemPageDTO) {
+		return DictItemConvert.INSTANCE.convert(dictItemManager.pageDictItem(dictItemPageDTO));
+	}
 
-    /**
-     * 获取单条
-     */
-    @Override
-    public DictItemDTO findById(Long id) {
-        return DictItemConvert.INSTANCE.convert(dictItemManager.getDictItemById(id));
-    }
+	/**
+	 * 获取单条
+	 */
+	@Override
+	public DictItemDTO findById(Long id) {
+		return DictItemConvert.INSTANCE.convert(dictItemManager.getDictItemById(id));
+	}
 
-    /**
-     * 获取全部
-     */
-    @Override
-    public List<DictItemDTO> findAll() {
-        return DictItemConvert.INSTANCE.convertList(dictItemManager.listDictItem());
-    }
+	/**
+	 * 获取全部
+	 */
+	@Override
+	public List<DictItemDTO> findAll() {
+		return DictItemConvert.INSTANCE.convertList(dictItemManager.listDictItem());
+	}
 
-    /**
-     * 删除
-     */
-    @Override
-    public Boolean deleteDictItem(Long id) {
-        DictItemDO item = dictItemManager.getDictItemById(id);
-        DictDO dictDO = dictManager.getDictById(item.getDictId());
-        if (DictTypeEnum.SYSTEM.getType().equals(dictDO.getSystemFlag())) {
-            throw new FxzException("系统内置字典，不可删除!");
-        }
+	/**
+	 * 删除
+	 */
+	@Override
+	public Boolean deleteDictItem(Long id) {
+		DictItemDO item = dictItemManager.getDictItemById(id);
+		DictDO dictDO = dictManager.getDictById(item.getDictId());
+		if (DictTypeEnum.SYSTEM.getType().equals(dictDO.getSystemFlag())) {
+			throw new FxzException("系统内置字典，不可删除!");
+		}
 
-        return dictItemManager.deleteDictItemByItemId(id) > 0;
-    }
+		return dictItemManager.deleteDictItemByItemId(id) > 0;
+	}
 
-    /**
-     * 校验字典项编码是否已经被使用 新增且编码被使用、修改且编码被别的字典项使用 true 其他条件下返回false
-     *
-     * @return true or false
-     */
-    @Override
-    public Boolean itemExistsByCode(DictItemExistsDTO dictItemExistsDTO) {
-        // 查询此字典下 该编码是否已经使用
-        Boolean existsDictItem = dictItemManager.existsDictItem(dictItemExistsDTO);
+	/**
+	 * 校验字典项编码是否已经被使用 新增且编码被使用、修改且编码被别的字典项使用 true 其他条件下返回false
+	 * @return true or false
+	 */
+	@Override
+	public Boolean itemExistsByCode(DictItemExistsDTO dictItemExistsDTO) {
+		// 查询此字典下 该编码是否已经使用
+		Boolean existsDictItem = dictItemManager.existsDictItem(dictItemExistsDTO);
 
-        // 如果已经被使用 判断此次是否允许操作
-        if (existsDictItem) {
-            if (dictItemExistsDTO.getId() == null) {
-                // 如果是新增 则不可以新增
-                return Boolean.TRUE;
-            } else {
-                DictItemDO dictItemDO = dictItemManager.getDictItemById(dictItemExistsDTO.getId());
-                // 如果是修改 判断id是否和使用此编码的字典项相同
-                return !(dictItemExistsDTO.getId().equals(dictItemDO.getId()));
-            }
-        }
+		// 如果已经被使用 判断此次是否允许操作
+		if (existsDictItem) {
+			if (dictItemExistsDTO.getId() == null) {
+				// 如果是新增 则不可以新增
+				return Boolean.TRUE;
+			}
+			else {
+				DictItemDO dictItemDO = dictItemManager.getDictItemById(dictItemExistsDTO.getId());
+				// 如果是修改 判断id是否和使用此编码的字典项相同
+				return !(dictItemExistsDTO.getId().equals(dictItemDO.getId()));
+			}
+		}
 
-        return Boolean.FALSE;
-    }
+		return Boolean.FALSE;
+	}
 
 }

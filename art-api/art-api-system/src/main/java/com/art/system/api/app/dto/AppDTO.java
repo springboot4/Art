@@ -35,28 +35,28 @@ import java.io.Serializable;
 @Schema(title = "系统应用")
 public class AppDTO implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    @Schema(description = "主键")
-    @NotNull(message = "主键不能为空!", groups = ValidationGroup.update.class)
-    private Long id;
+	@Schema(description = "主键")
+	@NotNull(message = "主键不能为空!", groups = ValidationGroup.update.class)
+	private Long id;
 
-    @Schema(description = "应用名称")
-    @Size(min = 1, max = 10, message = "应用名称长度在1-10之间!", groups = ValidationGroup.add.class)
-    @NotNull(message = "应用名称不能为空!", groups = ValidationGroup.add.class)
-    private String name;
+	@Schema(description = "应用名称")
+	@Size(min = 1, max = 10, message = "应用名称长度在1-10之间!", groups = ValidationGroup.add.class)
+	@NotNull(message = "应用名称不能为空!", groups = ValidationGroup.add.class)
+	private String name;
 
-    @Schema(description = "应用编码")
-    @Size(min = 1, max = 10, message = "应用编码长度在1-10之间!", groups = ValidationGroup.add.class)
-    @NotNull(message = "应用编码不能为空!", groups = ValidationGroup.add.class)
-    private String code;
+	@Schema(description = "应用编码")
+	@Size(min = 1, max = 10, message = "应用编码长度在1-10之间!", groups = ValidationGroup.add.class)
+	@NotNull(message = "应用编码不能为空!", groups = ValidationGroup.add.class)
+	private String code;
 
-    @Schema(description = "图标")
-    @NotNull(message = "图标不能为空!", groups = ValidationGroup.add.class)
-    private String icon;
+	@Schema(description = "图标")
+	@NotNull(message = "图标不能为空!", groups = ValidationGroup.add.class)
+	private String icon;
 
-    @Schema(description = "排序")
-    @NotNull(message = "排序不能为空!", groups = ValidationGroup.add.class)
-    private Integer sort;
+	@Schema(description = "排序")
+	@NotNull(message = "排序不能为空!", groups = ValidationGroup.add.class)
+	private Integer sort;
 
 }

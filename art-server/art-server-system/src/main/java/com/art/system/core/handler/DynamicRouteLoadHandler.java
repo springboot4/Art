@@ -17,7 +17,7 @@
 package com.art.system.core.handler;
 
 import com.art.common.mq.redis.core.RedisMQTemplate;
-import com.art.system.core.mq.RouteMessage;
+import com.art.system.api.route.mq.RouteMessage;
 import com.art.system.service.RouteConfService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +53,7 @@ public class DynamicRouteLoadHandler implements InitializingBean {
 	@EventListener({ WebServerInitializedEvent.class })
 	public void loadRouteToRedis() {
 		// 发送消息告诉网关加载路由信息
-		redisMQTemplate.send(new RouteMessage(routeConfService.list()));
+		redisMQTemplate.send(new RouteMessage(routeConfService.findAll()));
 	}
 
 }

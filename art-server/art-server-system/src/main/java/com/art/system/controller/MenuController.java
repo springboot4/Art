@@ -18,7 +18,7 @@ package com.art.system.controller;
 
 import com.art.common.core.entity.router.VueRouter;
 import com.art.common.core.exception.FxzException;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import com.art.common.security.annotation.Ojbk;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
@@ -49,109 +49,102 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class MenuController {
 
-    private final MenuService menuService;
+	private final MenuService menuService;
 
-    /**
-     * 获取用户路由信息和用户权限信息
-     */
-    @Operation(summary = "获取用户路由信息和用户权限信息")
-    @GetMapping("/nav")
-    public Result<Map<String, Object>> getUserRoutersAndAuthority() {
-        return Result.success(menuService.getUserRoutersAndAuthority());
-    }
+	/**
+	 * 获取用户路由信息和用户权限信息
+	 */
+	@Operation(summary = "获取用户路由信息和用户权限信息")
+	@GetMapping("/nav")
+	public Result<Map<String, Object>> getUserRoutersAndAuthority() {
+		return Result.success(menuService.getUserRoutersAndAuthority());
+	}
 
-    /**
-     * 获取用户角色下的所有树形菜单信息(包括按钮)
-     *
-     * @return 用户角色下的树形菜单信息
-     */
-    @Operation(summary = "获取用户角色下的所有树形菜单信息(包括按钮)")
-    @GetMapping("/getUserMenuTree")
-    public Result<List<VueRouter<MenuDTO>>> getUserMenuTree() {
-        FxzAuthUser authUser = SecurityUtil.getUser();
-        if (Objects.isNull(authUser)) {
-            throw new FxzException("用户未登录！");
-        }
+	/**
+	 * 获取用户角色下的所有树形菜单信息(包括按钮)
+	 * @return 用户角色下的树形菜单信息
+	 */
+	@Operation(summary = "获取用户角色下的所有树形菜单信息(包括按钮)")
+	@GetMapping("/getUserMenuTree")
+	public Result<List<VueRouter<MenuDTO>>> getUserMenuTree() {
+		FxzAuthUser authUser = SecurityUtil.getUser();
+		if (Objects.isNull(authUser)) {
+			throw new FxzException("用户未登录！");
+		}
 
-        return Result.success(menuService.getUserMenuTree(authUser.getUserId()));
-    }
+		return Result.success(menuService.getUserMenuTree(authUser.getUserId()));
+	}
 
-    /**
-     * 获取全部的树形菜单信息(包括按钮)
-     *
-     * @return 树形菜单信息
-     */
-    @Operation(summary = "获取全部的树形菜单信息(包括按钮)")
-    @GetMapping("/getAllMenuTree")
-    public Result<List<VueRouter<MenuDTO>>> getAllMenuTree() {
-        return Result.success(this.menuService.getAllMenuTree());
-    }
+	/**
+	 * 获取全部的树形菜单信息(包括按钮)
+	 * @return 树形菜单信息
+	 */
+	@Operation(summary = "获取全部的树形菜单信息(包括按钮)")
+	@GetMapping("/getAllMenuTree")
+	public Result<List<VueRouter<MenuDTO>>> getAllMenuTree() {
+		return Result.success(this.menuService.getAllMenuTree());
+	}
 
-    /**
-     * 获取菜单下拉框
-     *
-     * @return 树形菜单下拉框
-     */
-    @Operation(summary = "获取菜单下拉框")
-    @GetMapping("/getTreeSelect")
-    public Result<List<VueRouter<MenuDTO>>> getTreeSelect() {
-        return Result.success(this.menuService.getTreeSelect());
-    }
+	/**
+	 * 获取菜单下拉框
+	 * @return 树形菜单下拉框
+	 */
+	@Operation(summary = "获取菜单下拉框")
+	@GetMapping("/getTreeSelect")
+	public Result<List<VueRouter<MenuDTO>>> getTreeSelect() {
+		return Result.success(this.menuService.getTreeSelect());
+	}
 
-    /**
-     * 保存路由信息
-     *
-     * @param vueRouter 路由信息
-     */
-    @Operation(summary = "保存路由信息")
-    @PostMapping("/save")
-    public void saveMenu(@RequestBody VueRouter vueRouter) {
-        this.menuService.saveMenu(vueRouter);
-    }
+	/**
+	 * 保存路由信息
+	 * @param vueRouter 路由信息
+	 */
+	@Operation(summary = "保存路由信息")
+	@PostMapping("/save")
+	public void saveMenu(@RequestBody VueRouter vueRouter) {
+		this.menuService.saveMenu(vueRouter);
+	}
 
-    /**
-     * 根据id删除路由信息
-     *
-     * @param id
-     */
-    @Operation(summary = "根据id删除路由信息")
-    @DeleteMapping("/delete/{id}")
-    public void deleteMenu(@PathVariable("id") Long id) {
-        this.menuService.removeById(id);
-    }
+	/**
+	 * 根据id删除路由信息
+	 * @param id
+	 */
+	@Operation(summary = "根据id删除路由信息")
+	@DeleteMapping("/delete/{id}")
+	public void deleteMenu(@PathVariable("id") Long id) {
+		this.menuService.removeById(id);
+	}
 
-    /**
-     * 根据id查询路由信息
-     *
-     * @param id
-     * @return
-     */
-    @Operation(summary = "根据id查询路由信息")
-    @GetMapping("/getMenuById/{id}")
-    public Result<VueRouter> getMenuById(@PathVariable("id") Long id) {
-        return Result.success(this.menuService.getMenuById(id));
-    }
+	/**
+	 * 根据id查询路由信息
+	 * @param id
+	 * @return
+	 */
+	@Operation(summary = "根据id查询路由信息")
+	@GetMapping("/getMenuById/{id}")
+	public Result<VueRouter> getMenuById(@PathVariable("id") Long id) {
+		return Result.success(this.menuService.getMenuById(id));
+	}
 
-    /**
-     * 更新路由
-     */
-    @Operation(summary = "更新路由")
-    @PostMapping("/update")
-    public void updateMenu(@RequestBody VueRouter vueRouter) {
-        this.menuService.updateMenu(vueRouter);
-    }
+	/**
+	 * 更新路由
+	 */
+	@Operation(summary = "更新路由")
+	@PostMapping("/update")
+	public void updateMenu(@RequestBody VueRouter vueRouter) {
+		this.menuService.updateMenu(vueRouter);
+	}
 
-    /**
-     * 通过用户名查询权限信息
-     *
-     * @param username 用户名称
-     * @return 权限信息
-     */
-    @Operation(summary = "通过用户名查询权限信息")
-    @Ojbk(inner = true)
-    @GetMapping("/findUserPermissions/{username}")
-    public Set<String> findUserPermissions(@PathVariable("username") String username) {
-        return menuService.findUserPermissions(username);
-    }
+	/**
+	 * 通过用户名查询权限信息
+	 * @param username 用户名称
+	 * @return 权限信息
+	 */
+	@Operation(summary = "通过用户名查询权限信息")
+	@Ojbk(inner = true)
+	@GetMapping("/findUserPermissions/{username}")
+	public Set<String> findUserPermissions(@PathVariable("username") String username) {
+		return menuService.findUserPermissions(username);
+	}
 
 }

@@ -18,7 +18,7 @@ package com.art.common.tenant.security;
 
 import cn.hutool.core.collection.CollUtil;
 import com.art.common.core.util.FxzUtil;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.common.tenant.config.FxzTenantProperties;

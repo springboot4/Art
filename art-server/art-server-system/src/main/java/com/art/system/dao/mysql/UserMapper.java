@@ -16,11 +16,10 @@
 
 package com.art.system.dao.mysql;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.art.system.api.user.dto.SystemUserPageDTO;
 import com.art.system.dao.dataobject.SystemUserDO;
-import com.art.system.api.user.UserInfoDTO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -39,7 +38,7 @@ public interface UserMapper extends BaseMapper<SystemUserDO> {
 	 * @return Ipage
 	 */
 	@SuppressWarnings("all")
-	IPage<SystemUserDO> findUserDetailPage(Page page, @Param("user") UserInfoDTO user);
+	Page<SystemUserDO> findUserDetailPage(Page page, @Param("user") SystemUserPageDTO user);
 
 	/**
 	 * 根据用户id获取用户信息

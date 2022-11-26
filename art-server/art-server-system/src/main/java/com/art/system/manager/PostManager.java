@@ -39,33 +39,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostManager {
 
-    private final PostMapper postMapper;
+	private final PostMapper postMapper;
 
-    public Integer addPost(PostDTO postDto) {
-        return postMapper.insert(PostConvert.INSTANCE.convert(postDto));
-    }
+	public Integer addPost(PostDTO postDto) {
+		return postMapper.insert(PostConvert.INSTANCE.convert(postDto));
+	}
 
-    public Integer updatePostById(PostDTO postDto) {
-        return postMapper.updateById(PostConvert.INSTANCE.convert(postDto));
-    }
+	public Integer updatePostById(PostDTO postDto) {
+		return postMapper.updateById(PostConvert.INSTANCE.convert(postDto));
+	}
 
-    public Integer deletePostById(Long id) {
-        return postMapper.deleteById(id);
-    }
+	public Integer deletePostById(Long id) {
+		return postMapper.deleteById(id);
+	}
 
-    public PostDO getPostById(Long id) {
-        return postMapper.selectById(id);
-    }
+	public PostDO getPostById(Long id) {
+		return postMapper.selectById(id);
+	}
 
-    public List<PostDO> listPost() {
-        return postMapper.selectList(Wrappers.emptyWrapper());
-    }
+	public List<PostDO> listPost() {
+		return postMapper.selectList(Wrappers.emptyWrapper());
+	}
 
-    public Page<PostDO> pagePost(PostPageDTO postPageDTO) {
-        LambdaQueryWrapper<PostDO> wrapper = Wrappers.<PostDO>lambdaQuery()
-                .like(StringUtils.isNotBlank(postPageDTO.getPostCode()), PostDO::getPostCode, postPageDTO.getPostCode())
-                .like(StringUtils.isNotBlank(postPageDTO.getPostName()), PostDO::getPostName, postPageDTO.getPostName());
-        return postMapper.selectPage(Page.of(postPageDTO.getCurrent(), postPageDTO.getSize()), wrapper);
-    }
+	public Page<PostDO> pagePost(PostPageDTO postPageDTO) {
+		LambdaQueryWrapper<PostDO> wrapper = Wrappers.<PostDO>lambdaQuery()
+				.like(StringUtils.isNotBlank(postPageDTO.getPostCode()), PostDO::getPostCode, postPageDTO.getPostCode())
+				.like(StringUtils.isNotBlank(postPageDTO.getPostName()), PostDO::getPostName,
+						postPageDTO.getPostName());
+		return postMapper.selectPage(Page.of(postPageDTO.getCurrent(), postPageDTO.getSize()), wrapper);
+	}
 
 }

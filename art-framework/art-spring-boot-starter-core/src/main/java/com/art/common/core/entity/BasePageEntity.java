@@ -30,18 +30,18 @@ import java.io.Serializable;
 @Schema(title = "分页参数")
 public class BasePageEntity implements Serializable {
 
-    private static final long serialVersionUID = 7489222986629492487L;
+	private static final long serialVersionUID = 7489222986629492487L;
 
-    /**
-     * 当前页
-     */
-    @Schema(description = "当前页",defaultValue = "1")
-    private int current = 1;
+	/**
+	 * 当前页
+	 */
+	@Schema(description = "当前页", defaultValue = "1")
+	private int current = 1;
 
-    /**
-     * 每页显示条数，默认 10
-     */
-    @Schema(description = "每页记录数",defaultValue = "10")
-    private int size = 10;
+	/**
+	 * 每页显示条数，默认 10
+	 */
+	@Schema(description = "每页记录数", defaultValue = "10")
+	private int size = 10;
 
 }

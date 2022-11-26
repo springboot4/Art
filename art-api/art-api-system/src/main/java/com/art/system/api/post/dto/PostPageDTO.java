@@ -30,38 +30,38 @@ import java.time.LocalDateTime;
 @Data
 public class PostPageDTO extends BasePageEntity implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    private Long postId;
+	private Long postId;
 
-    private String postCode;
+	private String postCode;
 
-    private String postName;
+	private String postName;
 
-    private Integer postSort;
+	private Integer postSort;
 
-    private String delFlag;
+	private String delFlag;
 
-    private String description;
+	private String description;
 
-    /**
-     * 创建者
-     */
-    private String createBy;
+	/**
+	 * 创建者
+	 */
+	private String createBy;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
+	/**
+	 * 创建时间
+	 */
+	private LocalDateTime createTime;
 
-    /**
-     * 更新者
-     */
-    private String updateBy;
+	/**
+	 * 更新者
+	 */
+	private String updateBy;
 
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
+	/**
+	 * 更新时间
+	 */
+	private LocalDateTime updateTime;
 
 }

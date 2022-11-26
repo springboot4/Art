@@ -28,7 +28,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableFxzCloudResourceServer
 @EnableFeignClients(basePackages = { "com.art" })
-@MapperScan("com.art.system.mapper")
+@MapperScan("com.art.system.dao.mysql")
 @EnableDiscoveryClient
 @SpringBootApplication
 public class ArtSystemApplication {

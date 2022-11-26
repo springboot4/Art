@@ -17,7 +17,7 @@
 package com.art.common.core.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 

@@ -16,7 +16,7 @@
 
 package com.art.common.security.handler;
 
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import com.art.common.core.util.FxzUtil;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;

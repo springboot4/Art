@@ -18,18 +18,18 @@ package com.art.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.StrPool;
-import com.art.system.dao.dataobject.TenantDO;
-import com.art.system.dao.dataobject.TenantPackageDO;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.core.enums.GlobalStatusEnum;
 import com.art.common.core.exception.FxzException;
-import com.art.system.dao.mysql.TenantPackageMapper;
-import com.art.system.param.TenantPackageParam;
+import com.art.system.api.tenant.dto.TenantPackageDTO;
+import com.art.system.api.tenant.dto.TenantPackagePageDTO;
+import com.art.system.core.convert.TenantPackageConvert;
+import com.art.system.dao.dataobject.TenantDO;
+import com.art.system.dao.dataobject.TenantPackageDO;
+import com.art.system.manager.TenantManager;
+import com.art.system.manager.TenantPackageManager;
 import com.art.system.service.TenantPackageService;
 import com.art.system.service.TenantService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,46 +48,46 @@ import java.util.Objects;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, TenantPackageDO>
-		implements TenantPackageService {
+public class TenantPackageServiceImpl implements TenantPackageService {
 
 	@Resource
 	private TenantService tenantService;
 
-	private final TenantPackageMapper tenantPackageMapper;
+	private final TenantManager tenantManager;
+
+	private final TenantPackageManager tenantPackageManager;
 
 	/**
 	 * 添加
 	 */
 	@Override
-	public Boolean addTenantPackage(TenantPackageDO tenantPackageDO) {
-		tenantPackageMapper.insert(tenantPackageDO);
-		return Boolean.TRUE;
+	public Boolean addTenantPackage(TenantPackageDTO tenantPackageDTO) {
+		return tenantPackageManager.addTenantPackage(tenantPackageDTO) > 0;
 	}
 
 	/**
 	 * 更新租户套餐信息
 	 */
 	@Override
-	public Boolean updateTenantPackage(TenantPackageDO tenantPackageDO) {
+	public Boolean updateTenantPackage(TenantPackageDTO tenantPackageDTO) {
 		// 校验套餐是否存在
-		TenantPackageDO packageExists = validTenantPackageExists(tenantPackageDO.getId());
+		TenantPackageDO packageExists = validTenantPackageExists(tenantPackageDTO.getId());
 
 		// 更新套餐信息
-		tenantPackageMapper.updateById(tenantPackageDO);
+		tenantPackageManager.updateTenantPackageById(tenantPackageDTO);
 
 		// 租户原菜单信息
-		String[] newMenus = tenantPackageDO.getMenuIds().split(StrPool.COMMA);
+		String[] newMenus = tenantPackageDTO.getMenuIds().split(StrPool.COMMA);
 		// 更新后的菜单信息
 		String[] oldMenus = packageExists.getMenuIds().split(StrPool.COMMA);
 
 		// 菜单信息变化 则更新租户下的角色菜单信息
 		if (!CollUtil.isEqualList(Arrays.asList(newMenus), Arrays.asList(oldMenus))) {
 			// 本套餐下的所有租户
-			List<TenantDO> tenantDOS = tenantService.getTenantListByPackageId(tenantPackageDO.getId());
+			List<TenantDO> tenantDOList = tenantManager.getTenantListByPackageId(tenantPackageDTO.getId());
 
 			// 遍历所有租户 更新租户下的角色菜单信息
-			tenantDOS.forEach(t -> tenantService.updateTenantRoleMenu(t.getId(), Arrays.asList(newMenus)));
+			tenantDOList.forEach(t -> tenantService.updateTenantRoleMenu(t.getId(), Arrays.asList(newMenus)));
 		}
 
 		return Boolean.TRUE;
@@ -105,9 +105,7 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 		validTenantPackageUsed(id);
 
 		// 删除套餐信息
-		tenantPackageMapper.deleteById(id);
-
-		return Boolean.TRUE;
+		return tenantPackageManager.deleteTenantPackageById(id) > 0;
 	}
 
 	/**
@@ -117,8 +115,7 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 */
 	@Override
 	public TenantPackageDO validTenantPackage(Long packageId) {
-		TenantPackageDO tenantPackageDO = this.getById(packageId);
-
+		TenantPackageDO tenantPackageDO = tenantPackageManager.getTenantPackageById(packageId);
 		if (Objects.isNull(tenantPackageDO)) {
 			throw new FxzException("租户套餐不存在！");
 		}
@@ -135,7 +132,7 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 * @return 租户套餐
 	 */
 	private TenantPackageDO validTenantPackageExists(Long id) {
-		TenantPackageDO tenantPackageDO = this.getById(id);
+		TenantPackageDO tenantPackageDO = tenantPackageManager.getTenantPackageById(id);
 		if (Objects.isNull(tenantPackageDO)) {
 			throw new FxzException("套餐信息不存在！更新失败！");
 		}
@@ -143,10 +140,9 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 		return tenantPackageDO;
 	}
 
-	private void validTenantPackageUsed(Long id) {
-		TenantDO tenantDO = tenantService
-				.getOne(Wrappers.<TenantDO>lambdaQuery().eq(TenantDO::getPackageId, id).last("limit 1"));
-		if (Objects.nonNull(tenantDO)) {
+	private void validTenantPackageUsed(Long packageId) {
+		Boolean res = tenantManager.validTenantPackageUsed(packageId);
+		if (Objects.nonNull(res)) {
 			throw new FxzException("套餐信息使用！");
 		}
 	}
@@ -155,24 +151,24 @@ public class TenantPackageServiceImpl extends ServiceImpl<TenantPackageMapper, T
 	 * 分页查询租户套餐信息
 	 */
 	@Override
-	public IPage<TenantPackageDO> pageTenantPackage(Page<TenantPackageDO> pageParam, TenantPackageParam param) {
-		return tenantPackageMapper.selectPage(pageParam, param.lambdaQuery());
+	public IPage<TenantPackageDTO> pageTenantPackage(TenantPackagePageDTO tenantPackagePageDTO) {
+		return TenantPackageConvert.INSTANCE.convert(tenantPackageManager.pageTenantPackage(tenantPackagePageDTO));
 	}
 
 	/**
 	 * 获取单条
 	 */
 	@Override
-	public TenantPackageDO findById(Long id) {
-		return tenantPackageMapper.selectById(id);
+	public TenantPackageDTO findById(Long id) {
+		return TenantPackageConvert.INSTANCE.convert(tenantPackageManager.getTenantPackageById(id));
 	}
 
 	/**
 	 * 获取全部
 	 */
 	@Override
-	public List<TenantPackageDO> findAll() {
-		return tenantPackageMapper.selectList(Wrappers.emptyWrapper());
+	public List<TenantPackageDTO> findAll() {
+		return TenantPackageConvert.INSTANCE.convert(tenantPackageManager.listTenantPackage());
 	}
 
 }

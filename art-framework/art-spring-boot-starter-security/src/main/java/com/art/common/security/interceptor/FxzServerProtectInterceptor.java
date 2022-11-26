@@ -18,7 +18,7 @@ package com.art.common.security.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.art.common.core.constant.FxzConstant;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.util.Base64Utils;

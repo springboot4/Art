@@ -18,8 +18,8 @@ package com.art.system.controller;
 
 import com.art.common.log.annotation.OperLogAnn;
 import com.art.common.log.enums.BusinessType;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
 import com.art.system.api.dict.dto.DictDTO;
 import com.art.system.api.dict.dto.DictItemDTO;
 import com.art.system.api.dict.dto.DictPageDTO;

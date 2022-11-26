@@ -35,6 +35,11 @@
             <artifactId>art-spring-boot-starter-mq-rabbit</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-core</artifactId>
+        </dependency>
+
         <!-- 单元测试-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

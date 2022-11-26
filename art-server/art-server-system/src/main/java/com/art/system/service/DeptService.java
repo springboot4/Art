@@ -28,40 +28,38 @@ import java.util.List;
  */
 public interface DeptService {
 
-    /**
-     * 获取部门树
-     */
-    DeptDTO getDeptTree();
+	/**
+	 * 获取部门树
+	 */
+	DeptDTO getDeptTree();
 
-    /**
-     * 根据id删除部门
-     */
-    Boolean deleteById(Long id) throws FxzException;
+	/**
+	 * 根据id删除部门
+	 */
+	Boolean deleteById(Long id) throws FxzException;
 
-    /**
-     * 保存部门信息
-     */
-    Boolean addDept(DeptDTO deptDTO);
+	/**
+	 * 保存部门信息
+	 */
+	Boolean addDept(DeptDTO deptDTO);
 
-    /**
-     * 根据Pid查询下级部门
-     */
-    List<DeptDTO> getDeptsByParentId(Long pId);
+	/**
+	 * 根据Pid查询下级部门
+	 */
+	List<DeptDTO> getDeptsByParentId(Long pId);
 
-    /**
-     * 根据id查询dept
-     *
-     * @param id deptId
-     * @return dept
-     */
-    DeptDTO getDeptById(Long id);
+	/**
+	 * 根据id查询dept
+	 * @param id deptId
+	 * @return dept
+	 */
+	DeptDTO getDeptById(Long id);
 
-    /**
-     * 根据id更新部门
-     *
-     * @param deptDTO deptDto
-     * @return 是否更新成功
-     */
-    Boolean updateById(DeptDTO deptDTO);
+	/**
+	 * 根据id更新部门
+	 * @param deptDTO deptDto
+	 * @return 是否更新成功
+	 */
+	Boolean updateById(DeptDTO deptDTO);
 
 }

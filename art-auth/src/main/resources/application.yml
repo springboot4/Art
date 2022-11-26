@@ -7,6 +7,8 @@ spring:
         server-addr: ${NACOS_HOST:fxz-nacos}:8848
       discovery:
         server-addr: ${NACOS_HOST:fxz-nacos}:8848
+      username: nacos
+      password: nacos
   config:
     import:
       - optional:nacos:${spring.application.name}.yaml

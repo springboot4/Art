@@ -30,9 +30,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>art-api-auth</module>
         <module>art-api-system</module>
-        <module>art-api-generate</module>
-        <module>art-api-scheduled</module>
     </modules>
 
 </project>

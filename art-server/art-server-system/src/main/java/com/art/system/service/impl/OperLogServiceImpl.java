@@ -19,12 +19,9 @@ package com.art.system.service.impl;
 import com.art.system.api.log.dto.OperLogDTO;
 import com.art.system.api.log.dto.OperLogPageDTO;
 import com.art.system.core.convert.OperLogConvert;
-import com.art.system.dao.dataobject.OperLogDO;
-import com.art.system.dao.mysql.OperLogMapper;
 import com.art.system.manager.OperLogManager;
 import com.art.system.service.OperLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,56 +37,56 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OperLogServiceImpl extends ServiceImpl<OperLogMapper, OperLogDO> implements OperLogService {
+public class OperLogServiceImpl implements OperLogService {
 
-    private final OperLogManager operLogManager;
+	private final OperLogManager operLogManager;
 
-    /**
-     * 添加
-     */
-    @Override
-    public Boolean addOperLog(OperLogDTO operLogDto) {
-        return operLogManager.addOperLog(operLogDto) > 0;
-    }
+	/**
+	 * 添加
+	 */
+	@Override
+	public Boolean addOperLog(OperLogDTO operLogDto) {
+		return operLogManager.addOperLog(operLogDto) > 0;
+	}
 
-    /**
-     * 修改
-     */
-    @Override
-    public Boolean updateOperLog(OperLogDTO operLogDto) {
-        return operLogManager.updateOperLogById(operLogDto) > 0;
-    }
+	/**
+	 * 修改
+	 */
+	@Override
+	public Boolean updateOperLog(OperLogDTO operLogDto) {
+		return operLogManager.updateOperLogById(operLogDto) > 0;
+	}
 
-    /**
-     * 分页
-     */
-    @Override
-    public IPage<OperLogDTO> pageOperLog(OperLogPageDTO operLogPageDTO) {
-        return OperLogConvert.INSTANCE.convert(operLogManager.pageOperLog(operLogPageDTO));
-    }
+	/**
+	 * 分页
+	 */
+	@Override
+	public IPage<OperLogDTO> pageOperLog(OperLogPageDTO operLogPageDTO) {
+		return OperLogConvert.INSTANCE.convert(operLogManager.pageOperLog(operLogPageDTO));
+	}
 
-    /**
-     * 获取单条
-     */
-    @Override
-    public OperLogDTO findById(Long id) {
-        return OperLogConvert.INSTANCE.convert(operLogManager.selectOperLogById(id));
-    }
+	/**
+	 * 获取单条
+	 */
+	@Override
+	public OperLogDTO findById(Long id) {
+		return OperLogConvert.INSTANCE.convert(operLogManager.selectOperLogById(id));
+	}
 
-    /**
-     * 获取全部
-     */
-    @Override
-    public List<OperLogDTO> findAll() {
-        return OperLogConvert.INSTANCE.convert(operLogManager.listOperLog());
-    }
+	/**
+	 * 获取全部
+	 */
+	@Override
+	public List<OperLogDTO> findAll() {
+		return OperLogConvert.INSTANCE.convert(operLogManager.listOperLog());
+	}
 
-    /**
-     * 删除
-     */
-    @Override
-    public Boolean deleteOperLog(Long id) {
-        return operLogManager.deleteOperLogById(id) > 0;
-    }
+	/**
+	 * 删除
+	 */
+	@Override
+	public Boolean deleteOperLog(Long id) {
+		return operLogManager.deleteOperLogById(id) > 0;
+	}
 
 }

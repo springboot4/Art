@@ -16,8 +16,8 @@
 
 package com.art.gen.service;
 
-import com.art.gen.entity.DatabaseColumn;
-import com.art.gen.entity.DatabaseTable;
+import com.art.gen.dao.dataobject.DatabaseColumnDO;
+import com.art.gen.dao.dataobject.DatabaseTableDO;
 
 import java.util.List;
 
@@ -31,11 +31,11 @@ public interface DatabaseTableService {
 	/**
 	 * 获取表基本信息
 	 */
-	DatabaseTable findByTableName(String tableName, String dsName);
+	DatabaseTableDO findByTableName(String tableName, String dsName);
 
 	/**
 	 * 获取表的列信息
 	 */
-	List<DatabaseColumn> findColumnByTableName(String tableName, String dsName);
+	List<DatabaseColumnDO> findColumnByTableName(String tableName, String dsName);
 
 }

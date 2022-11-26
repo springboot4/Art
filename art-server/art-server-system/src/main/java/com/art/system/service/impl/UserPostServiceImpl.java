@@ -16,19 +16,18 @@
 
 package com.art.system.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.art.system.api.user.UserPostDTO;
+import com.art.system.api.user.dto.UserPostDTO;
+import com.art.system.api.user.dto.UserPostPageDTO;
+import com.art.system.core.convert.UserPostConvert;
 import com.art.system.dao.dataobject.UserPostDO;
-import com.art.system.dao.mysql.UserPostMapper;
+import com.art.system.manager.UserPostManager;
 import com.art.system.service.UserPostService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,18 +39,17 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPostDO> implements UserPostService {
+public class UserPostServiceImpl implements UserPostService {
 
-	private final UserPostMapper userPostMapper;
+	private final UserPostManager userPostManager;
 
 	/**
 	 * 添加
 	 */
 	@Override
 	public Boolean addUserPost(UserPostDTO userPostDto) {
-		UserPostDO userPostDO = new UserPostDO();
-		BeanUtils.copyProperties(userPostDto, userPostDO);
-		userPostMapper.insert(userPostDO);
+		UserPostDO postDO = UserPostConvert.INSTANCE.convert(userPostDto);
+		userPostManager.addUserPosts(Collections.singletonList(postDO));
 		return Boolean.TRUE;
 	}
 
@@ -60,34 +58,31 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPostDO>
 	 */
 	@Override
 	public Boolean updateUserPost(UserPostDTO userPostDto) {
-		UserPostDO userPostDO = new UserPostDO();
-		BeanUtils.copyProperties(userPostDto, userPostDO);
-		userPostMapper.updateById(userPostDO);
-		return Boolean.TRUE;
+		return userPostManager.updateUserPostById(UserPostConvert.INSTANCE.convert(userPostDto)) > 0;
 	}
 
 	/**
 	 * 分页
 	 */
 	@Override
-	public IPage<UserPostDO> pageUserPost(Page<UserPostDO> pageParam, UserPostDO userPostDO) {
-		return userPostMapper.selectPage(pageParam, Wrappers.emptyWrapper());
+	public IPage<UserPostDTO> pageUserPost(UserPostPageDTO pageDTO) {
+		return UserPostConvert.INSTANCE.convert(userPostManager.pageUserPost(pageDTO));
 	}
 
 	/**
 	 * 获取单条
 	 */
 	@Override
-	public UserPostDO findById(Long id) {
-		return userPostMapper.selectById(id);
+	public UserPostDTO findById(Long id) {
+		return UserPostConvert.INSTANCE.convert(userPostManager.getUserPostById(id));
 	}
 
 	/**
 	 * 获取全部
 	 */
 	@Override
-	public List<UserPostDO> findAll() {
-		return userPostMapper.selectList(Wrappers.emptyWrapper());
+	public List<UserPostDTO> findAll() {
+		return UserPostConvert.INSTANCE.convert(userPostManager.listUserPost());
 	}
 
 	/**
@@ -95,8 +90,7 @@ public class UserPostServiceImpl extends ServiceImpl<UserPostMapper, UserPostDO>
 	 */
 	@Override
 	public Boolean deleteUserPost(Long id) {
-		userPostMapper.deleteById(id);
-		return Boolean.TRUE;
+		return userPostManager.deleteUserPostByrId(id) > 0;
 	}
 
 }

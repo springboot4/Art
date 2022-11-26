@@ -30,11 +30,11 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface DeptMapper extends BaseMapper<DeptDO> {
 
-    /**
-     * 获取部门树
-     */
-    DeptBO getDeptTree();
+	/**
+	 * 获取部门树
+	 */
+	DeptBO getDeptTree();
 
-    DeptBO getDeptsByParentId(@Param("pId") Long pId);
+	DeptBO getDeptsByParentId(@Param("pId") Long pId);
 
 }

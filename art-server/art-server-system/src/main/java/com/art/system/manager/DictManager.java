@@ -39,34 +39,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DictManager {
 
-    private final DictMapper dictMapper;
+	private final DictMapper dictMapper;
 
-    public Integer addDict(DictDTO dictDto) {
-        return dictMapper.insert(DictConvert.INSTANCE.convert(dictDto));
-    }
+	public Integer addDict(DictDTO dictDto) {
+		return dictMapper.insert(DictConvert.INSTANCE.convert(dictDto));
+	}
 
-    public Integer updateById(DictDTO dictDto) {
-        return dictMapper.updateById(DictConvert.INSTANCE.convert(dictDto));
-    }
+	public Integer updateById(DictDTO dictDto) {
+		return dictMapper.updateById(DictConvert.INSTANCE.convert(dictDto));
+	}
 
-    public DictDO getDictById(Long id) {
-        return dictMapper.selectById(id);
-    }
+	public DictDO getDictById(Long id) {
+		return dictMapper.selectById(id);
+	}
 
-    public Integer deleteDictById(Long id) {
-        return dictMapper.deleteById(id);
-    }
+	public Integer deleteDictById(Long id) {
+		return dictMapper.deleteById(id);
+	}
 
-    public List<DictDO> listDict() {
-        return dictMapper.selectList(Wrappers.emptyWrapper());
-    }
+	public List<DictDO> listDict() {
+		return dictMapper.selectList(Wrappers.emptyWrapper());
+	}
 
-    public Page<DictDO> pageDict(DictPageDTO dictPageDTO) {
-        LambdaQueryWrapper<DictDO> wrapper = Wrappers.<DictDO>lambdaQuery().
-                like(StringUtils.isNotBlank(dictPageDTO.getType()), DictDO::getType, dictPageDTO.getType())
-                .eq(StringUtils.isNotBlank(dictPageDTO.getSystemFlag()), DictDO::getSystemFlag, dictPageDTO.getSystemFlag());
+	public Page<DictDO> pageDict(DictPageDTO dictPageDTO) {
+		LambdaQueryWrapper<DictDO> wrapper = Wrappers.<DictDO>lambdaQuery()
+				.like(StringUtils.isNotBlank(dictPageDTO.getType()), DictDO::getType, dictPageDTO.getType())
+				.eq(StringUtils.isNotBlank(dictPageDTO.getSystemFlag()), DictDO::getSystemFlag,
+						dictPageDTO.getSystemFlag());
 
-        return dictMapper.selectPage(Page.of(dictPageDTO.getCurrent(), dictPageDTO.getSize()), wrapper);
-    }
+		return dictMapper.selectPage(Page.of(dictPageDTO.getCurrent(), dictPageDTO.getSize()), wrapper);
+	}
 
 }

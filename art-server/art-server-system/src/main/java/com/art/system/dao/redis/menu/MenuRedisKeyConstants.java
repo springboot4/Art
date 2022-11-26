@@ -25,9 +25,8 @@ import com.art.common.redis.constant.CacheConstants;
  */
 public interface MenuRedisKeyConstants {
 
-    String PREFIX = "menu";
+	String PREFIX = "menu";
 
-
-    String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
+	String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
 
 }
