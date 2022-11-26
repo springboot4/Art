@@ -18,25 +18,23 @@ package com.art.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.StrPool;
-import com.art.system.dao.dataobject.RoleDO;
-import com.art.system.dao.dataobject.TenantDO;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.core.enums.GlobalStatusEnum;
 import com.art.common.core.enums.RoleAdminEnum;
 import com.art.common.core.exception.FxzException;
 import com.art.common.dataPermission.enums.DataScopeEnum;
 import com.art.common.tenant.context.TenantContextHolder;
 import com.art.common.tenant.util.TenantUtils;
-import com.art.system.dao.dataobject.SystemUserDO;
+import com.art.system.api.role.dto.RoleDTO;
+import com.art.system.api.tenant.dto.TenantDTO;
+import com.art.system.api.tenant.dto.TenantPageDTO;
+import com.art.system.api.user.dto.SystemUserDTO;
+import com.art.system.core.convert.TenantConvert;
+import com.art.system.dao.dataobject.TenantDO;
 import com.art.system.dao.dataobject.TenantPackageDO;
-import com.art.system.dao.mysql.TenantMapper;
-import com.art.system.param.TenantParam;
+import com.art.system.manager.TenantManager;
 import com.art.system.service.TenantPackageService;
 import com.art.system.service.TenantService;
-import com.art.system.core.vo.TenantVO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -58,7 +56,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> implements TenantService {
+public class TenantServiceImpl implements TenantService {
 
 	@Resource
 	private TenantPackageService tenantPackageService;
@@ -68,13 +66,15 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 
 	private final RoleServiceImpl roleService;
 
+	private final TenantManager tenantManager;
+
 	/**
 	 * 校验租户信息是否合法
 	 * @param id 租户id
 	 */
 	@Override
 	public void validTenant(Long id) {
-		TenantDO tenantDO = findById(id);
+		TenantDO tenantDO = tenantManager.getTenantById(id);
 
 		if (Objects.isNull(tenantDO)) {
 			throw new FxzException("租户信息不存在!");
@@ -93,21 +93,21 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 	 */
 	@Override
 	public List<Long> getTenantIds() {
-		return this.list().stream().map(TenantDO::getId).collect(Collectors.toList());
+		return tenantManager.listTenant().stream().map(TenantDO::getId).collect(Collectors.toList());
 	}
 
 	/**
 	 * 保存租户信息
-	 * @param tenant 租户视图信息
+	 * @param tenant 租户信息
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Boolean addSysTenant(TenantVO tenant) {
+	public Boolean addSysTenant(TenantDTO tenant) {
 		// 检查套餐信息
 		TenantPackageDO tenantPackageDO = tenantPackageService.validTenantPackage(tenant.getPackageId());
 
 		// 保存租户信息
-		this.save(tenant);
+		tenantManager.addTenant(tenant);
 
 		TenantUtils.run(tenant.getId(), () -> {
 			// 根据套餐信息为新租户新建一个角色
@@ -117,8 +117,8 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 			Long userId = createUser(roleId, tenant);
 
 			// 更新租户管理员id
-			this.update(Wrappers.<TenantDO>lambdaUpdate().eq(TenantDO::getId, tenant.getId()).set(TenantDO::getTenantAdminId,
-					userId));
+
+			tenantManager.updateTenantAdmin(tenant.getId(), userId);
 		});
 
 		return Boolean.TRUE;
@@ -130,11 +130,11 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 	 * @param tenant 租户信息
 	 * @return userId
 	 */
-	private Long createUser(Long roleId, TenantVO tenant) {
+	private Long createUser(Long roleId, TenantDTO tenant) {
 		// 创建用户
-		SystemUserDO systemUserDO = new SystemUserDO().setUsername(tenant.getUsername()).setPassword(tenant.getPassword())
-				.setMobile(tenant.getTenantAdminMobile()).setUsername(tenant.getTenantAdminName())
-				.setRoleId(String.valueOf(roleId));
+		SystemUserDTO systemUserDO = new SystemUserDTO().setUsername(tenant.getUsername())
+				.setPassword(tenant.getPassword()).setMobile(tenant.getTenantAdminMobile())
+				.setUsername(tenant.getTenantAdminName()).setRoleId(String.valueOf(roleId));
 
 		return userService.createUser(systemUserDO).getUserId();
 	}
@@ -146,21 +146,11 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 	 */
 	private Long createRole(TenantPackageDO tenantPackageDO) {
 		// 生成租户管理员角色角色
-		RoleDO roleDO = new RoleDO().setRoleName(RoleAdminEnum.TENANT_ADMIN.getDescription())
+		RoleDTO roleDTO = new RoleDTO().setRoleName(RoleAdminEnum.TENANT_ADMIN.getDescription())
 				.setCode(RoleAdminEnum.TENANT_ADMIN.getType()).setRemark("系统生成租户管理员角色")
 				.setMenuId(tenantPackageDO.getMenuIds()).setDataScope(DataScopeEnum.ALL.getScope());
 
-		return roleService.addRole(roleDO).getRoleId();
-	}
-
-	/**
-	 * 根据id查询租户信息
-	 * @param id 租户id
-	 * @return 租户信息
-	 */
-	@Override
-	public TenantDO findById(Long id) {
-		return this.getById(id);
+		return roleService.addRole(roleDTO).getRoleId();
 	}
 
 	/**
@@ -168,7 +158,7 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 	 */
 	@Override
 	public Long findTenantIdById(String name) {
-		TenantDO tenantDO = this.getOne(Wrappers.<TenantDO>lambdaQuery().eq(TenantDO::getName, name).last("limit 1"));
+		TenantDO tenantDO = tenantManager.getTenantByName(name);
 		if (Objects.isNull(tenantDO)) {
 			return null;
 		}
@@ -185,18 +175,7 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 			throw new FxzException("系统内置租户，不允许删除");
 		}
 
-		this.removeById(id);
-		return Boolean.TRUE;
-	}
-
-	/**
-	 * 获取指定套餐下的所有租户
-	 * @param packageId 套餐id
-	 * @return 指定套餐下的所有租户
-	 */
-	@Override
-	public List<TenantDO> getTenantListByPackageId(Long packageId) {
-		return this.list(Wrappers.<TenantDO>lambdaQuery().eq(TenantDO::getPackageId, packageId));
+		return tenantManager.deleteTenantById(id) > 0;
 	}
 
 	/**
@@ -208,9 +187,9 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 	public void updateTenantRoleMenu(Long id, List<String> menus) {
 		TenantUtils.run(id, () -> {
 			// 本租户下的所有角色
-			List<RoleDO> roleDOList = roleService.list();
+			List<RoleDTO> roleDTOList = roleService.getAllRole();
 
-			roleDOList.forEach(r -> {
+			roleDTOList.forEach(r -> {
 				if (Objects.equals(r.getCode(), RoleAdminEnum.TENANT_ADMIN.getType())) {
 					// 租户管理员 则直接赋值新菜单
 					r.setMenuId(String.join(StrPool.COMMA, menus));
@@ -234,11 +213,21 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 	public void validCount() {
 		long count = userService.count();
 		Long tenantId = TenantContextHolder.getTenantId();
-		TenantDO tenantDO = this.getById(tenantId);
+		TenantDO tenantDO = tenantManager.getTenantById(tenantId);
 
 		if (Objects.isNull(tenantDO) || count > tenantDO.getAccountCount()) {
 			throw new FxzException("租户账号数量超过额度！");
 		}
+	}
+
+	/**
+	 * 根据id查询租户信息
+	 * @param id 租户id
+	 * @return 租户信息
+	 */
+	@Override
+	public TenantDTO findById(Long id) {
+		return TenantConvert.INSTANCE.convert(tenantManager.getTenantById(id));
 	}
 
 	/**
@@ -254,25 +243,24 @@ public class TenantServiceImpl extends ServiceImpl<TenantMapper, TenantDO> imple
 	 * 修改租户信息
 	 */
 	@Override
-	public Boolean updateSysTenant(TenantDO tenantDO) {
-		this.updateById(tenantDO);
-		return Boolean.TRUE;
+	public Boolean updateSysTenant(TenantDTO tenantDTO) {
+		return tenantManager.updateTenant(tenantDTO) > 0;
 	}
 
 	/**
 	 * 分页查询租户信息
 	 */
 	@Override
-	public IPage<TenantDO> pageSysTenant(Page pageParam, TenantParam param) {
-		return this.page(pageParam, param.lambdaQuery());
+	public IPage<TenantDTO> pageSysTenant(TenantPageDTO pageDTO) {
+		return TenantConvert.INSTANCE.convert(tenantManager.pageTenant(pageDTO));
 	}
 
 	/**
 	 * 获取全部
 	 */
 	@Override
-	public List<TenantDO> findAll() {
-		return this.list(Wrappers.emptyWrapper());
+	public List<TenantDTO> findAll() {
+		return TenantConvert.INSTANCE.convert(tenantManager.listTenant());
 	}
 
 }

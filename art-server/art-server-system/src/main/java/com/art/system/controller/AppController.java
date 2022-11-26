@@ -18,8 +18,8 @@ package com.art.system.controller;
 
 import com.art.common.core.util.ValidationUtil;
 import com.art.common.core.validator.ValidationGroup;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
 import com.art.system.api.app.dto.AppDTO;
 import com.art.system.api.app.dto.AppPageDTO;
 import com.art.system.service.AppService;
@@ -42,63 +42,63 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppController {
 
-    private final AppService appService;
+	private final AppService appService;
 
-    /**
-     * 分页
-     */
-    @Operation(summary = "分页")
-    @GetMapping(value = "/page")
-    public Result<PageResult<AppDTO>> pageSysApp(AppPageDTO appPageDTO) {
-        ValidationUtil.validateParam(appPageDTO, ValidationGroup.query.class);
-        return Result.success(PageResult.success(appService.pageApp(appPageDTO)));
-    }
+	/**
+	 * 分页
+	 */
+	@Operation(summary = "分页")
+	@GetMapping(value = "/page")
+	public Result<PageResult<AppDTO>> pageSysApp(AppPageDTO appPageDTO) {
+		ValidationUtil.validateParam(appPageDTO, ValidationGroup.query.class);
+		return Result.success(PageResult.success(appService.pageApp(appPageDTO)));
+	}
 
-    /**
-     * 添加
-     */
-    @Operation(summary = "添加")
-    @PostMapping(value = "/add")
-    public Result<Void> add(@RequestBody AppDTO appDTO) {
-        ValidationUtil.validateParam(appDTO, ValidationGroup.add.class);
-        return Result.judge(appService.addApp(appDTO));
-    }
+	/**
+	 * 添加
+	 */
+	@Operation(summary = "添加")
+	@PostMapping(value = "/add")
+	public Result<Void> add(@RequestBody AppDTO appDTO) {
+		ValidationUtil.validateParam(appDTO, ValidationGroup.add.class);
+		return Result.judge(appService.addApp(appDTO));
+	}
 
-    /**
-     * 修改
-     */
-    @Operation(summary = "修改")
-    @PostMapping(value = "/update")
-    public Result<Void> update(@RequestBody AppDTO appDTO) {
-        ValidationUtil.validateParam(appDTO, ValidationGroup.update.class);
-        return Result.judge(appService.updateApp(appDTO));
-    }
+	/**
+	 * 修改
+	 */
+	@Operation(summary = "修改")
+	@PostMapping(value = "/update")
+	public Result<Void> update(@RequestBody AppDTO appDTO) {
+		ValidationUtil.validateParam(appDTO, ValidationGroup.update.class);
+		return Result.judge(appService.updateApp(appDTO));
+	}
 
-    /**
-     * 删除
-     */
-    @Operation(summary = "删除")
-    @DeleteMapping(value = "/delete")
-    public Result<Void> delete(Long id) {
-        return Result.judge(appService.deleteApp(id));
-    }
+	/**
+	 * 删除
+	 */
+	@Operation(summary = "删除")
+	@DeleteMapping(value = "/delete")
+	public Result<Void> delete(Long id) {
+		return Result.judge(appService.deleteApp(id));
+	}
 
-    /**
-     * 获取单条
-     */
-    @Operation(summary = "获取单条")
-    @GetMapping(value = "/findById")
-    public Result<AppDTO> findById(Long id) {
-        return Result.success(appService.findById(id));
-    }
+	/**
+	 * 获取单条
+	 */
+	@Operation(summary = "获取单条")
+	@GetMapping(value = "/findById")
+	public Result<AppDTO> findById(Long id) {
+		return Result.success(appService.findById(id));
+	}
 
-    /**
-     * 获取全部
-     */
-    @Operation(summary = "获取全部")
-    @GetMapping(value = "/findAll")
-    public Result<List<AppDTO>> findAll() {
-        return Result.success(appService.findAll());
-    }
+	/**
+	 * 获取全部
+	 */
+	@Operation(summary = "获取全部")
+	@GetMapping(value = "/findAll")
+	public Result<List<AppDTO>> findAll() {
+		return Result.success(appService.findAll());
+	}
 
 }

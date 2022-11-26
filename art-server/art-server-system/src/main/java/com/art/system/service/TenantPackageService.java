@@ -16,11 +16,10 @@
 
 package com.art.system.service;
 
+import com.art.system.api.tenant.dto.TenantPackageDTO;
+import com.art.system.api.tenant.dto.TenantPackagePageDTO;
 import com.art.system.dao.dataobject.TenantPackageDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.param.TenantPackageParam;
 
 import java.util.List;
 
@@ -30,32 +29,32 @@ import java.util.List;
  * @author fxz
  * @date 2022-10-01
  */
-public interface TenantPackageService extends IService<TenantPackageDO> {
+public interface TenantPackageService {
 
 	/**
 	 * 添加
 	 */
-	Boolean addTenantPackage(TenantPackageDO tenantPackageDO);
+	Boolean addTenantPackage(TenantPackageDTO tenantPackageDTO);
 
 	/**
 	 * 更新租户套餐信息
 	 */
-	Boolean updateTenantPackage(TenantPackageDO tenantPackageDO);
+	Boolean updateTenantPackage(TenantPackageDTO tenantPackageDTO);
 
 	/**
 	 * 分页查询租户套餐信息
 	 */
-	IPage<TenantPackageDO> pageTenantPackage(Page<TenantPackageDO> pageParam, TenantPackageParam param);
+	IPage<TenantPackageDTO> pageTenantPackage(TenantPackagePageDTO tenantPackagePageDTO);
 
 	/**
 	 * 获取单条
 	 */
-	TenantPackageDO findById(Long id);
+	TenantPackageDTO findById(Long id);
 
 	/**
 	 * 获取全部
 	 */
-	List<TenantPackageDO> findAll();
+	List<TenantPackageDTO> findAll();
 
 	/**
 	 * 删除

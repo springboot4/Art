@@ -16,10 +16,17 @@
 
 package com.art.system.manager;
 
+import com.art.system.api.user.dto.SystemUserDTO;
+import com.art.system.api.user.dto.SystemUserPageDTO;
+import com.art.system.core.convert.UserConvert;
 import com.art.system.dao.dataobject.SystemUserDO;
 import com.art.system.dao.mysql.UserMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author Fxz
@@ -30,9 +37,43 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserManager {
 
-    private final UserMapper userMapper;
+	private final UserMapper userMapper;
 
-    public SystemUserDO getUserById(Long id) {
-        return userMapper.getUserById(id);
-    }
+	public SystemUserDO getUserById(Long id) {
+		return userMapper.getUserById(id);
+	}
+
+	public SystemUserDO getUserByName(String username) {
+		return userMapper.findByName(username);
+	}
+
+	public Page<SystemUserDTO> pageUser(SystemUserPageDTO userPageDTO) {
+		return UserConvert.INSTANCE.convert(
+				userMapper.findUserDetailPage(Page.of(userPageDTO.getCurrent(), userPageDTO.getSize()), userPageDTO));
+	}
+
+	/**
+	 * 获取当前租户下的所有用户数
+	 * @return 当前租户下的所有用户数
+	 */
+	public long count() {
+		return userMapper.selectCount(Wrappers.emptyWrapper());
+	}
+
+	public void addUser(SystemUserDTO user) {
+		userMapper.insert(UserConvert.INSTANCE.convert(user));
+	}
+
+	public void updateUserById(SystemUserDTO user) {
+		userMapper.updateById(UserConvert.INSTANCE.convert(user));
+	}
+
+	public void deleteUserByIds(List<String> ids) {
+		userMapper.deleteBatchIds(ids);
+	}
+
+	public SystemUserDO getUserByMobile(String mobile) {
+		return userMapper.findByMobile(mobile);
+	}
+
 }

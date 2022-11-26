@@ -17,15 +17,15 @@
 package com.art.gen.service.impl;
 
 import cn.hutool.core.lang.Assert;
+import com.art.gen.dao.dataobject.DatasourceConfDO;
+import com.art.gen.dao.mysql.DatasourceConfMapper;
+import com.art.gen.service.MyDatasourceConfService;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.gen.entity.DatasourceConf;
-import com.art.gen.mapper.DatasourceConfMapper;
-import com.art.gen.service.MyDatasourceConfService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
@@ -62,8 +62,8 @@ public class MyDatasourceConfServiceImpl implements MyDatasourceConfService {
 	 * @return
 	 */
 	@Override
-	public Page<DatasourceConf> pageDataSourceConf(Page<DatasourceConf> page,
-			QueryWrapper<DatasourceConf> emptyWrapper) {
+	public Page<DatasourceConfDO> pageDataSourceConf(Page<DatasourceConfDO> page,
+			QueryWrapper<DatasourceConfDO> emptyWrapper) {
 		return datasourceConfMapper.selectPage(page, emptyWrapper);
 	}
 
@@ -72,7 +72,7 @@ public class MyDatasourceConfServiceImpl implements MyDatasourceConfService {
 	 * @param datasourceConf 数据源信息
 	 */
 	@Override
-	public Boolean addDs(DatasourceConf datasourceConf) {
+	public Boolean addDs(DatasourceConfDO datasourceConf) {
 		// 校验配置合法性
 		Assert.isTrue(checkDataSource(datasourceConf), "数据源信息错误，连接失败!");
 
@@ -91,7 +91,7 @@ public class MyDatasourceConfServiceImpl implements MyDatasourceConfService {
 	 * @return ture Or false
 	 */
 	@Override
-	public Boolean updateDsConf(DatasourceConf datasourceConf) {
+	public Boolean updateDsConf(DatasourceConfDO datasourceConf) {
 		// 校验配置合法性
 		Assert.isTrue(checkDataSource(datasourceConf), "数据源信息错误，连接失败!");
 
@@ -114,7 +114,7 @@ public class MyDatasourceConfServiceImpl implements MyDatasourceConfService {
 	@Override
 	public Boolean delete(Long id) {
 		// 查询数据源信息
-		DatasourceConf datasourceConf = datasourceConfMapper.selectById(id);
+		DatasourceConfDO datasourceConf = datasourceConfMapper.selectById(id);
 
 		// 移除数据源
 		DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
@@ -128,7 +128,7 @@ public class MyDatasourceConfServiceImpl implements MyDatasourceConfService {
 	 * 查询所有数据源信息
 	 */
 	@Override
-	public List<DatasourceConf> listDs() {
+	public List<DatasourceConfDO> listDs() {
 		return datasourceConfMapper.selectList(Wrappers.emptyWrapper());
 	}
 
@@ -138,7 +138,7 @@ public class MyDatasourceConfServiceImpl implements MyDatasourceConfService {
 	 * @return 数据源信息
 	 */
 	@Override
-	public DatasourceConf findBtId(Long id) {
+	public DatasourceConfDO findBtId(Long id) {
 		return datasourceConfMapper.selectById(id);
 	}
 
@@ -146,7 +146,7 @@ public class MyDatasourceConfServiceImpl implements MyDatasourceConfService {
 	 * 添加动态数据源 通用数据源会根据maven中配置的连接池根据顺序依次选择。 默认的顺序为druid>hikaricp>beecp>dbcp>spring basic
 	 * @param conf 数据源信息
 	 */
-	public void addDynamicDataSource(DatasourceConf conf) {
+	public void addDynamicDataSource(DatasourceConfDO conf) {
 		DataSourceProperty dataSourceProperty = new DataSourceProperty();
 		dataSourceProperty.setPoolName(conf.getName());
 		dataSourceProperty.setUrl(conf.getUrl());
@@ -165,7 +165,7 @@ public class MyDatasourceConfServiceImpl implements MyDatasourceConfService {
 	 * @param conf 数据源信息
 	 * @return 有效/无效
 	 */
-	public Boolean checkDataSource(DatasourceConf conf) {
+	public Boolean checkDataSource(DatasourceConfDO conf) {
 		try {
 			DriverManager.getConnection(conf.getUrl(), conf.getUsername(), conf.getPassword());
 		}

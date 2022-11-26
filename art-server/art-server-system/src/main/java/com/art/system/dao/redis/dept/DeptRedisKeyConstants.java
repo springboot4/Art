@@ -25,10 +25,10 @@ import com.art.common.redis.constant.CacheConstants;
  */
 public interface DeptRedisKeyConstants {
 
-    String PREFIX = "dept";
+	String PREFIX = "dept";
 
-    String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
+	String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
 
-    String DEPT_TREE = "deptTree";
+	String DEPT_TREE = "deptTree";
 
 }

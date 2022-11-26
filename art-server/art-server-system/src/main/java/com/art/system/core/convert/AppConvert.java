@@ -32,14 +32,14 @@ import java.util.List;
 @Mapper
 public interface AppConvert {
 
-    AppConvert INSTANCE = Mappers.getMapper(AppConvert.class);
+	AppConvert INSTANCE = Mappers.getMapper(AppConvert.class);
 
-    Page<AppDTO> convertPage(Page<AppDO> appDO);
+	Page<AppDTO> convertPage(Page<AppDO> appDO);
 
-    List<AppDTO> convertList(List<AppDO> appDO);
+	List<AppDTO> convertList(List<AppDO> appDO);
 
-    AppDTO convert(AppDO appDO);
+	AppDTO convert(AppDO appDO);
 
-    AppDO convert(AppDTO appDTO);
+	AppDO convert(AppDTO appDTO);
 
 }

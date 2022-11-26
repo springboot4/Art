@@ -29,24 +29,24 @@ import java.io.Serializable;
 @Data
 public class DictItemPageDTO extends BasePageEntity implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    private Long id;
+	private Long id;
 
-    private Long dictId;
+	private Long dictId;
 
-    private String value;
+	private String value;
 
-    private String label;
+	private String label;
 
-    private String type;
+	private String type;
 
-    private String description;
+	private String description;
 
-    private Integer sortOrder;
+	private Integer sortOrder;
 
-    private String remark;
+	private String remark;
 
-    private String delFlag;
+	private String delFlag;
 
 }

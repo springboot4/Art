@@ -44,83 +44,83 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class DeptServiceImpl implements DeptService {
 
-    private final DeptManager deptManager;
+	private final DeptManager deptManager;
 
-    /**
-     * 获取部门树
-     */
-    @Override
-    public DeptDTO getDeptTree() {
-        return DeptConvert.INSTANCE.convert(deptManager.getDeptTree());
-    }
+	/**
+	 * 获取部门树
+	 */
+	@Override
+	public DeptDTO getDeptTree() {
+		return DeptConvert.INSTANCE.convert(deptManager.getDeptTree());
+	}
 
-    /**
-     * 根据id删除部门
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteById(Long id) throws FxzException {
-        // 判断是否存在下级部门
-        Boolean exists = deptManager.existsSubordinate(id);
-        if (exists) {
-            throw new FxzException("存在子部门,无法删除！");
-        }
+	/**
+	 * 根据id删除部门
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public Boolean deleteById(Long id) throws FxzException {
+		// 判断是否存在下级部门
+		Boolean exists = deptManager.existsSubordinate(id);
+		if (exists) {
+			throw new FxzException("存在子部门,无法删除！");
+		}
 
-        // 删除部门
-        return deptManager.deleteById(id) > 0;
-    }
+		// 删除部门
+		return deptManager.deleteById(id) > 0;
+	}
 
-    /**
-     * 保存部门信息
-     */
-    @Override
-    public Boolean addDept(DeptDTO deptDTO) {
-        return deptManager.addDept(deptDTO) > 0;
-    }
+	/**
+	 * 保存部门信息
+	 */
+	@Override
+	public Boolean addDept(DeptDTO deptDTO) {
+		return deptManager.addDept(deptDTO) > 0;
+	}
 
-    @Override
-    public DeptDTO getDeptById(Long id) {
-        return DeptConvert.INSTANCE.convert(deptManager.getDeptById(id));
-    }
+	@Override
+	public DeptDTO getDeptById(Long id) {
+		return DeptConvert.INSTANCE.convert(deptManager.getDeptById(id));
+	}
 
-    @Override
-    public Boolean updateById(DeptDTO deptDTO) {
-        return deptManager.updateById(deptDTO) > 0;
-    }
+	@Override
+	public Boolean updateById(DeptDTO deptDTO) {
+		return deptManager.updateById(deptDTO) > 0;
+	}
 
-    /**
-     * 根据Pid查询下级部门 避免数据权限查询时循环调用
-     */
-    @DataPermission(enable = false)
-    @Cacheable(value = DeptRedisKeyConstants.CACHE_NAMES, key = "#pId", unless = "#result==null")
-    @Override
-    public List<DeptDTO> getDeptsByParentId(Long pId) {
-        DeptBO deptBO = deptManager.getDeptsByParentId(pId);
+	/**
+	 * 根据Pid查询下级部门 避免数据权限查询时循环调用
+	 */
+	@DataPermission(enable = false)
+	@Cacheable(value = DeptRedisKeyConstants.CACHE_NAMES, key = "#pId", unless = "#result==null")
+	@Override
+	public List<DeptDTO> getDeptsByParentId(Long pId) {
+		DeptBO deptBO = deptManager.getDeptsByParentId(pId);
 
-        return DeptConvert.INSTANCE.convert(treeToList(deptBO));
-    }
+		return DeptConvert.INSTANCE.convert(treeToList(deptBO));
+	}
 
-    private List<DeptBO> treeToList(DeptBO deptBO) {
-        if (Objects.isNull(deptBO)) {
-            return new ArrayList<>(0);
-        }
+	private List<DeptBO> treeToList(DeptBO deptBO) {
+		if (Objects.isNull(deptBO)) {
+			return new ArrayList<>(0);
+		}
 
-        LinkedList<DeptBO> result = new LinkedList<>();
-        result.add(deptBO);
+		LinkedList<DeptBO> result = new LinkedList<>();
+		result.add(deptBO);
 
-        List<DeptBO> children = deptBO.getChildren();
-        if (CollectionUtils.isEmpty(children)) {
-            return result;
-        }
+		List<DeptBO> children = deptBO.getChildren();
+		if (CollectionUtils.isEmpty(children)) {
+			return result;
+		}
 
-        children.forEach(item -> {
-            List<DeptBO> boList = treeToList(item);
-            if (CollectionUtils.isNotEmpty(boList)) {
-                result.addAll(boList);
-            }
-        });
+		children.forEach(item -> {
+			List<DeptBO> boList = treeToList(item);
+			if (CollectionUtils.isNotEmpty(boList)) {
+				result.addAll(boList);
+			}
+		});
 
-        return result;
-    }
+		return result;
+	}
 
 }

@@ -16,21 +16,19 @@
 
 package com.art.system.service.impl;
 
-import com.art.common.core.param.PageParam;
-import com.art.common.redis.constant.CacheConstants;
+import com.art.system.api.user.dto.SystemUserDTO;
+import com.art.system.api.user.dto.SystemUserPageDTO;
+import com.art.system.api.user.dto.UserInfo;
+import com.art.system.core.convert.UserConvert;
 import com.art.system.dao.dataobject.*;
-import com.art.system.dao.mysql.UserMapper;
-import com.art.system.api.user.UserInfo;
-import com.art.system.api.user.UserInfoDTO;
-import com.art.system.service.*;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.art.system.dao.redis.user.UserRedisConstants;
+import com.art.system.manager.*;
+import com.art.system.service.TenantService;
+import com.art.system.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -41,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -51,31 +50,32 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUserDO> implements UserService {
+public class UserServiceImpl implements UserService {
 
 	@Resource
 	private TenantService tenantService;
 
-	private final UserPostService userPostService;
+	private final UserPostManager userPostManager;
 
-	private final UserRoleService userRoleService;
+	private final UserRoleManager userRoleManager;
 
-	private final RoleMenuService roleMenuService;
+	private final RoleMenuManager roleMenuManager;
 
-	private final MenuService menuService;
+	private final MenuManager menuManager;
+
+	private final UserManager userManager;
 
 	private final PasswordEncoder passwordEncoder;
 
 	@Override
-	public IPage<SystemUserDO> findUserDetail(UserInfoDTO user, PageParam pageParam) {
-		Page<SystemUserDO> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
-		return this.baseMapper.findUserDetailPage(page, user);
+	public IPage<SystemUserDTO> pageUser(SystemUserPageDTO userPageDTO) {
+		return userManager.pageUser(userPageDTO);
 	}
 
-	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#user.userId+':userInfo'")
+	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#user.userId")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public SystemUserDO createUser(SystemUserDO user) {
+	public SystemUserDTO createUser(SystemUserDTO user) {
 		// 校验租户账号额度
 		tenantService.validCount();
 
@@ -87,7 +87,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUserDO> imple
 				: passwordEncoder.encode(user.getPassword())));
 
 		// 保存用户信息
-		save(user);
+		userManager.addUser(user);
 
 		// 保存用户角色
 		setUserRoles(user);
@@ -98,10 +98,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUserDO> imple
 		return user;
 	}
 
-	@CacheEvict(value = CacheConstants.GLOBALLY + "user", key = "#user.userId+':userInfo'")
+	@CacheEvict(value = UserRedisConstants.USER_INFO, key = "#user.userId")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void updateUser(SystemUserDO user) {
+	public void updateUser(SystemUserDTO user) {
 		// 更新用户
 		if (StringUtils.isNotBlank(user.getPassword())) {
 			user.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
@@ -111,11 +111,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUserDO> imple
 		}
 
 		user.setUsername(null);
-		updateById(user);
+		userManager.updateUserById(user);
 
 		if (StringUtils.isBlank(user.getAvatar())) {
-			userRoleService.remove(new LambdaQueryWrapper<UserRoleDO>().eq(UserRoleDO::getUserId, user.getUserId()));
-			userPostService.remove(new LambdaQueryWrapper<UserPostDO>().eq(UserPostDO::getUserId, user.getUserId()));
+			// 根据用户id删除用户角色信息
+			userRoleManager.deleteUserRolesByUserIds(Collections.singletonList(user.getUserId().toString()));
+			// 根据用户id删除用户岗位信息
+			userPostManager.deleteUserPostByUserId(user.getUserId());
 
 			// 保存角色信息
 			setUserRoles(user);
@@ -129,63 +131,62 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUserDO> imple
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteUsers(String[] userIds) {
 		// 删除用户
-		removeByIds(Arrays.asList(userIds));
+		userManager.deleteUserByIds(Arrays.asList(userIds));
 
 		// 删除用户角色
-		this.userRoleService.deleteUserRolesByUserId(userIds);
+		userRoleManager.deleteUserRolesByUserIds(Arrays.asList(userIds));
 	}
 
 	/**
 	 * 根据用户id获取用户信息
 	 */
-	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#id+':userInfo'")
+	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#id")
 	@Override
-	public SystemUserDO getUserById(Long id) {
-		return this.baseMapper.getUserById(id);
+	public SystemUserDTO getUserById(Long id) {
+		return UserConvert.INSTANCE.convert(userManager.getUserById(id));
 	}
 
 	/**
 	 * 通过用户名查找用户信息
 	 */
-	@Cacheable(value = CacheConstants.GLOBALLY + "user", key = "#username+':userInfo'")
+	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#username")
 	@Override
-	public SystemUserDO findByName(String username) {
-		return this.baseMapper.findByName(username);
+	public SystemUserDTO findByName(String username) {
+		return UserConvert.INSTANCE.convert(userManager.getUserByName(username));
 	}
 
 	/**
 	 * 获取用户全部信息
 	 */
 	@Override
-	public UserInfo findUserInfo(SystemUserDO systemUserDO) {
+	public UserInfo findUserInfo(SystemUserDTO userDTO) {
 		UserInfo userInfo = new UserInfo();
 
 		// 设置用户信息
-		userInfo.setSysUser(systemUserDO);
+		userInfo.setSysUser(userDTO);
 
 		// 查询用户角色信息
-		List<UserRoleDO> userRoleDOS = userRoleService
-				.list(Wrappers.<UserRoleDO>lambdaQuery().eq(UserRoleDO::getUserId, systemUserDO.getUserId()));
-		if (CollectionUtils.isEmpty(userRoleDOS)) {
+		List<UserRoleDO> userRoleDOList = userRoleManager.getUserRoleByUserId(userDTO.getUserId());
+		if (CollectionUtils.isEmpty(userRoleDOList)) {
 			return userInfo;
 		}
 
 		// 查询角色菜单信息
-		List<RoleMenuDO> roleMenuDOS = roleMenuService.list(Wrappers.<RoleMenuDO>lambdaQuery().in(RoleMenuDO::getRoleId,
-				userRoleDOS.stream().map(UserRoleDO::getRoleId).collect(Collectors.toSet())));
-		if (CollectionUtils.isEmpty(roleMenuDOS)) {
+		List<Long> roleIds = userRoleDOList.stream().map(UserRoleDO::getRoleId).collect(Collectors.toList());
+		List<RoleMenuDO> roleMenuDOList = roleMenuManager.getRoleMenuByRoleIds(roleIds);
+		if (CollectionUtils.isEmpty(roleMenuDOList)) {
 			return userInfo;
 		}
 
 		// 查询菜单信息
-		List<MenuDO> menuDOS = menuService.list(Wrappers.<MenuDO>lambdaQuery().in(MenuDO::getId,
-				roleMenuDOS.stream().map(RoleMenuDO::getMenuId).collect(Collectors.toSet())));
-		if (CollectionUtils.isEmpty(menuDOS)) {
+		List<Long> menuIds = roleMenuDOList.stream().map(RoleMenuDO::getMenuId).collect(Collectors.toList());
+		List<MenuDO> menuDOList = menuManager.getMenuByIds(menuIds);
+		if (CollectionUtils.isEmpty(menuDOList)) {
 			return userInfo;
 		}
 
 		// 设置用户权限标识
-		List<String> permissions = menuDOS.stream().map(MenuDO::getPerms).distinct().collect(Collectors.toList());
+		List<String> permissions = menuDOList.stream().map(MenuDO::getPerms).distinct().collect(Collectors.toList());
 		userInfo.setPermissions(permissions);
 
 		return userInfo;
@@ -197,15 +198,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUserDO> imple
 	 * @return 用户信息
 	 */
 	@Override
-	public SystemUserDO findByMobile(String mobile) {
-		return this.baseMapper.findByMobile(mobile);
+	public SystemUserDTO findByMobile(String mobile) {
+		return UserConvert.INSTANCE.convert(userManager.getUserByMobile(mobile));
+	}
+
+	/**
+	 * 获取当前租户下的所有用户数
+	 * @return 当前租户下的所有用户数
+	 */
+	@Override
+	public long count() {
+		return userManager.count();
 	}
 
 	/**
 	 * 保存用户的岗位信息
 	 * @param user 用户信息
 	 */
-	private void setUserPosts(SystemUserDO user) {
+	private void setUserPosts(SystemUserDTO user) {
 		if (StringUtils.isBlank(user.getPostId())) {
 			return;
 		}
@@ -217,14 +227,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUserDO> imple
 			return up;
 		}).collect(Collectors.toList());
 
-		userPostService.saveBatch(list);
+		userPostManager.addUserPosts(list);
 	}
 
 	/**
 	 * 保存用户的角色信息
 	 * @param user 用户信息
 	 */
-	private void setUserRoles(SystemUserDO user) {
+	private void setUserRoles(SystemUserDTO user) {
 		if (StringUtils.isBlank(user.getRoleId())) {
 			return;
 		}
@@ -236,7 +246,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, SystemUserDO> imple
 			return ur;
 		}).collect(Collectors.toList());
 
-		userRoleService.saveBatch(list);
+		userRoleManager.addUserRoles(list);
 	}
 
 }

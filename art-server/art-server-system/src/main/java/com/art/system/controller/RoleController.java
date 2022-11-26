@@ -16,19 +16,18 @@
 
 package com.art.system.controller;
 
-import com.art.common.core.entity.DeptDataPermissionRespDTO;
-import com.art.common.core.param.PageParam;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
+import com.art.common.core.entity.DeptDataPermissionRespEntity;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
 import com.art.common.security.annotation.Ojbk;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
-import com.art.system.dao.dataobject.RoleDO;
+import com.art.system.api.role.dto.RoleDTO;
+import com.art.system.api.role.dto.RolePageDTO;
 import com.art.system.service.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +38,6 @@ import java.util.List;
  * @date 2022-02-27 17:47
  */
 @Tag(name = "角色管理")
-@Slf4j
 @RestController
 @RequestMapping("/role")
 @RequiredArgsConstructor
@@ -52,7 +50,7 @@ public class RoleController {
 	 */
 	@Operation(summary = "获取所有角色")
 	@GetMapping("/getAllRole")
-	public Result<List<RoleDO>> getAllRole() {
+	public Result<List<RoleDTO>> getAllRole() {
 		return Result.success(roleService.getAllRole());
 	}
 
@@ -61,8 +59,8 @@ public class RoleController {
 	 */
 	@Operation(summary = "分页查询角色信息")
 	@GetMapping("/page")
-	public Result<PageResult<?>> pageRole(PageParam pageParam, String roleName) {
-		return Result.success(PageResult.success(roleService.PageRole(pageParam, roleName)));
+	public Result<PageResult<RoleDTO>> pageRole(RolePageDTO pageDTO) {
+		return Result.success(PageResult.success(roleService.pageRole(pageDTO)));
 	}
 
 	/**
@@ -70,8 +68,8 @@ public class RoleController {
 	 */
 	@Operation(summary = "添加角色")
 	@PostMapping("/addRole")
-	public Result<RoleDO> addRole(@RequestBody RoleDO roleDO) {
-		return Result.success(roleService.addRole(roleDO));
+	public Result<RoleDTO> addRole(@RequestBody RoleDTO roleDTO) {
+		return Result.success(roleService.addRole(roleDTO));
 	}
 
 	/**
@@ -79,7 +77,7 @@ public class RoleController {
 	 */
 	@Operation(summary = "根据id获取角色信息")
 	@GetMapping("/getRoleById/{id}")
-	public Result<RoleDO> getRoleById(@PathVariable("id") Long id) {
+	public Result<RoleDTO> getRoleById(@PathVariable("id") Long id) {
 		return Result.success(roleService.getRoleById(id));
 	}
 
@@ -88,8 +86,8 @@ public class RoleController {
 	 */
 	@Operation(summary = "修改角色信息")
 	@PutMapping("/editRole")
-	public Result<Void> editRole(@RequestBody RoleDO roleDO) {
-		return Result.judge(roleService.editRole(roleDO));
+	public Result<Void> editRole(@RequestBody RoleDTO roleDTO) {
+		return Result.judge(roleService.editRole(roleDTO));
 	}
 
 	/**
@@ -107,8 +105,9 @@ public class RoleController {
 	@Operation(summary = "获取当前用户角色下的数据权限")
 	@Ojbk
 	@GetMapping("/getDataPermission")
-	public Result<DeptDataPermissionRespDTO> getDataPermission() {
+	public Result<DeptDataPermissionRespEntity> getDataPermission() {
 		FxzAuthUser user = SecurityUtil.getUser();
+
 		return Result.success(roleService.getDataPermission(user));
 	}
 

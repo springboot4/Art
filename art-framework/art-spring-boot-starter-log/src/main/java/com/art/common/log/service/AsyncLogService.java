@@ -16,10 +16,8 @@
 
 package com.art.common.log.service;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.art.system.api.log.dto.OperLogDTO;
-import com.art.system.entity.OperLog;
 import com.art.system.api.log.LogServiceApi;
+import com.art.system.api.log.dto.OperLogDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -39,11 +37,9 @@ public class AsyncLogService {
 	 * 保存系统日志记录
 	 */
 	@Async
-	public void saveSysLog(OperLog operLog) {
+	public void saveSysLog(OperLogDTO operLog) {
 		log.info("调用异步方法:{}", Thread.currentThread().getId());
-		OperLogDTO operLogDto = new OperLogDTO();
-		BeanUtil.copyProperties(operLog, operLogDto);
-		logServiceApi.add(operLogDto);
+		logServiceApi.add(operLog);
 	}
 
 }

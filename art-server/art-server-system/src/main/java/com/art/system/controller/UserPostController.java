@@ -16,11 +16,10 @@
 
 package com.art.system.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
-import com.art.system.api.user.UserPostDTO;
-import com.art.system.dao.dataobject.UserPostDO;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
+import com.art.system.api.user.dto.UserPostDTO;
+import com.art.system.api.user.dto.UserPostPageDTO;
 import com.art.system.service.UserPostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -75,7 +74,7 @@ public class UserPostController {
 	 */
 	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
-	public Result<UserPostDO> findById(Long id) {
+	public Result<UserPostDTO> findById(Long id) {
 		return Result.success(userPostService.findById(id));
 	}
 
@@ -84,7 +83,7 @@ public class UserPostController {
 	 */
 	@Operation(summary = "获取全部")
 	@GetMapping(value = "/findAll")
-	public Result<List<UserPostDO>> findAll() {
+	public Result<List<UserPostDTO>> findAll() {
 		return Result.success(userPostService.findAll());
 	}
 
@@ -93,8 +92,8 @@ public class UserPostController {
 	 */
 	@Operation(summary = "分页")
 	@GetMapping(value = "/page")
-	public Result<PageResult<UserPostDO>> pageUserPost(Page<UserPostDO> pageParam, UserPostDO userPostDO) {
-		return Result.success(PageResult.success(userPostService.pageUserPost(pageParam, userPostDO)));
+	public Result<PageResult<UserPostDTO>> pageUserPost(UserPostPageDTO userPostPageDTO) {
+		return Result.success(PageResult.success(userPostService.pageUserPost(userPostPageDTO)));
 	}
 
 }

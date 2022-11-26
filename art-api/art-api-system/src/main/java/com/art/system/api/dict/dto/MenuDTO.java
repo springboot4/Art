@@ -32,130 +32,130 @@ import java.time.LocalDateTime;
 @Data
 public class MenuDTO implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    /**
-     * 主键
-     */
-    private Long id;
+	/**
+	 * 主键
+	 */
+	private Long id;
 
-    /**
-     * 一级菜单id
-     */
-    public static final long LEVEL_ONE_MENU = 0L;
+	/**
+	 * 一级菜单id
+	 */
+	public static final long LEVEL_ONE_MENU = 0L;
 
-    /**
-     * 菜单
-     */
-    public static final String TYPE_MENU = "0";
+	/**
+	 * 菜单
+	 */
+	public static final String TYPE_MENU = "0";
 
-    /**
-     * 按钮
-     */
-    public static final String TYPE_BUTTON = "1";
+	/**
+	 * 按钮
+	 */
+	public static final String TYPE_BUTTON = "1";
 
-    /**
-     * 上级菜单ID
-     */
-    private Long parentId;
+	/**
+	 * 上级菜单ID
+	 */
+	private Long parentId;
 
-    /**
-     * 菜单/按钮名称
-     */
-    private String name;
+	/**
+	 * 菜单/按钮名称
+	 */
+	private String name;
 
-    /**
-     * 菜单URL
-     */
-    private String path;
+	/**
+	 * 菜单URL
+	 */
+	private String path;
 
-    /**
-     * 重定向地址
-     */
-    private String redirect;
+	/**
+	 * 重定向地址
+	 */
+	private String redirect;
 
-    /**
-     * 对应 Vue组件
-     */
-    private String component;
+	/**
+	 * 对应 Vue组件
+	 */
+	private String component;
 
-    /**
-     * 权限标识
-     */
-    private String perms;
+	/**
+	 * 权限标识
+	 */
+	private String perms;
 
-    /**
-     * 图标
-     */
-    private String icon;
+	/**
+	 * 图标
+	 */
+	private String icon;
 
-    /**
-     * 类型 0菜单 1按钮
-     */
-    private String type;
+	/**
+	 * 类型 0菜单 1按钮
+	 */
+	private String type;
 
-    /**
-     * 是否缓存
-     */
-    private Integer keepAlive;
+	/**
+	 * 是否缓存
+	 */
+	private Integer keepAlive;
 
-    /**
-     * 排序
-     */
-    private Integer orderNum;
+	/**
+	 * 排序
+	 */
+	private Integer orderNum;
 
-    /**
-     * 是否隐藏(1 隐藏 0 不隐藏)
-     */
-    private String hidden;
+	/**
+	 * 是否隐藏(1 隐藏 0 不隐藏)
+	 */
+	private String hidden;
 
-    /**
-     * title
-     */
-    private String title;
+	/**
+	 * title
+	 */
+	private String title;
 
-    /**
-     * 应用id
-     */
-    private Long application;
+	/**
+	 * 应用id
+	 */
+	private Long application;
 
-    /**
-     * 创建者
-     */
-    private String createBy;
+	/**
+	 * 创建者
+	 */
+	private String createBy;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
+	/**
+	 * 创建时间
+	 */
+	private LocalDateTime createTime;
 
-    /**
-     * 更新者
-     */
-    private String updateBy;
+	/**
+	 * 更新者
+	 */
+	private String updateBy;
 
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
+	/**
+	 * 更新时间
+	 */
+	private LocalDateTime updateTime;
 
-    public VueRouter<MenuDTO> toVueRouter() {
-        VueRouter<MenuDTO> route = new VueRouter<>();
-        route.setId(this.getId().toString());
-        route.setParentId(this.getParentId().toString());
-        route.setPath(this.getPath());
-        route.setRedirect(this.getRedirect());
-        route.setComponent(this.getComponent());
-        route.setName(this.getName());
-        route.setHidden(this.getHidden());
-        route.setTitle(this.getTitle());
-        route.setPerms(this.getPerms());
-        route.setIcon(this.getIcon());
-        route.setApplication(this.getApplication());
-        route.setKeepAlive(this.getKeepAlive().toString());
-        route.setType(this.getType());
-        route.setOrderNum(Double.valueOf(this.getOrderNum()));
-        return route;
-    }
+	public VueRouter<MenuDTO> toVueRouter() {
+		VueRouter<MenuDTO> route = new VueRouter<>();
+		route.setId(this.getId().toString());
+		route.setParentId(this.getParentId().toString());
+		route.setPath(this.getPath());
+		route.setRedirect(this.getRedirect());
+		route.setComponent(this.getComponent());
+		route.setName(this.getName());
+		route.setHidden(this.getHidden());
+		route.setTitle(this.getTitle());
+		route.setPerms(this.getPerms());
+		route.setIcon(this.getIcon());
+		route.setApplication(this.getApplication());
+		route.setKeepAlive(this.getKeepAlive().toString());
+		route.setType(this.getType());
+		route.setOrderNum(Double.valueOf(this.getOrderNum()));
+		return route;
+	}
 
 }

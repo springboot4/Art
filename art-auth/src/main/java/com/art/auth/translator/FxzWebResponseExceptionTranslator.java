@@ -16,7 +16,7 @@
 
 package com.art.auth.translator;
 
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;

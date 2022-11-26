@@ -16,16 +16,9 @@
 
 package com.art.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.dao.dataobject.UserRoleDO;
-
 /**
  * @author fxz
  */
-public interface UserRoleService extends IService<UserRoleDO> {
-
-	void deleteUserRolesByRoleId(String[] roleIds);
-
-	void deleteUserRolesByUserId(String[] userIds);
+public interface UserRoleService {
 
 }

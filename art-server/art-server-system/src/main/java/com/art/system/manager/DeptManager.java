@@ -36,52 +36,50 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class DeptManager {
 
-    private final DeptMapper deptMapper;
+	private final DeptMapper deptMapper;
 
-    /**
-     * 当前部门是否存在下级部门
-     *
-     * @param id 部门id
-     * @return true表示存在下级部门 false表示不存在下级部门
-     */
-    public Boolean existsSubordinate(Long id) {
-        DeptDO deptDO = deptMapper.selectOne(Wrappers.<DeptDO>lambdaQuery().eq(DeptDO::getParentId, id).last("limit 1"));
-        return Objects.nonNull(deptDO);
-    }
+	/**
+	 * 当前部门是否存在下级部门
+	 * @param id 部门id
+	 * @return true表示存在下级部门 false表示不存在下级部门
+	 */
+	public Boolean existsSubordinate(Long id) {
+		DeptDO deptDO = deptMapper
+				.selectOne(Wrappers.<DeptDO>lambdaQuery().eq(DeptDO::getParentId, id).last("limit 1"));
+		return Objects.nonNull(deptDO);
+	}
 
-    /**
-     * 获取部门树
-     *
-     * @return 部门树
-     */
-    public DeptBO getDeptTree() {
-        return deptMapper.getDeptTree();
-    }
+	/**
+	 * 获取部门树
+	 * @return 部门树
+	 */
+	public DeptBO getDeptTree() {
+		return deptMapper.getDeptTree();
+	}
 
-    /**
-     * 根据部门id删除部门
-     *
-     * @param id 部门id
-     * @return 影响条数
-     */
-    public Integer deleteById(Long id) {
-        return deptMapper.deleteById(id);
-    }
+	/**
+	 * 根据部门id删除部门
+	 * @param id 部门id
+	 * @return 影响条数
+	 */
+	public Integer deleteById(Long id) {
+		return deptMapper.deleteById(id);
+	}
 
-    public Integer addDept(DeptDTO deptDTO) {
-        return deptMapper.insert(DeptConvert.INSTANCE.convert(deptDTO));
-    }
+	public Integer addDept(DeptDTO deptDTO) {
+		return deptMapper.insert(DeptConvert.INSTANCE.convert(deptDTO));
+	}
 
-    public DeptDO getDeptById(Long id) {
-        return deptMapper.selectById(id);
-    }
+	public DeptDO getDeptById(Long id) {
+		return deptMapper.selectById(id);
+	}
 
-    public Integer updateById(DeptDTO deptDTO) {
-        return deptMapper.updateById(DeptConvert.INSTANCE.convert(deptDTO));
-    }
+	public Integer updateById(DeptDTO deptDTO) {
+		return deptMapper.updateById(DeptConvert.INSTANCE.convert(deptDTO));
+	}
 
-    public DeptBO getDeptsByParentId(Long pId) {
-        return deptMapper.getDeptsByParentId(pId);
-    }
+	public DeptBO getDeptsByParentId(Long pId) {
+		return deptMapper.getDeptsByParentId(pId);
+	}
 
 }

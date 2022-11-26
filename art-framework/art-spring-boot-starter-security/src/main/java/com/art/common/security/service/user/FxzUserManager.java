@@ -16,11 +16,11 @@
 
 package com.art.common.security.service.user;
 
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.art.common.core.constant.SecurityConstants;
-import com.art.system.entity.SystemUser;
 import com.art.system.api.menu.MenuServiceApi;
+import com.art.system.api.user.dto.SystemUserDTO;
 import com.art.system.api.user.UserServiceApi;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,11 +37,11 @@ public class FxzUserManager {
 
 	private final MenuServiceApi menuService;
 
-	public SystemUser findByName(String username) {
+	public SystemUserDTO findByName(String username) {
 		return userService.findByName(username, SecurityConstants.FROM_IN);
 	}
 
-	public SystemUser findByMobile(String mobile) {
+	public SystemUserDTO findByMobile(String mobile) {
 		return userService.findByMobile(mobile, SecurityConstants.FROM_IN);
 	}
 

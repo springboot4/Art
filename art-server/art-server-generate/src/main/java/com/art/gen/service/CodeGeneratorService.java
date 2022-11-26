@@ -16,7 +16,7 @@
 
 package com.art.gen.service;
 
-import com.art.gen.dto.CodeGenPreview;
+import com.art.gen.core.dto.CodeGenPreviewDTO;
 
 import java.util.List;
 
@@ -32,6 +32,6 @@ public interface CodeGeneratorService {
 	 * @param tableName 表名
 	 * @return 预览代码
 	 */
-	List<CodeGenPreview> codeGenPreview(String tableName, String dsName);
+	List<CodeGenPreviewDTO> codeGenPreview(String tableName, String dsName);
 
 }

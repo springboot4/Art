@@ -32,14 +32,14 @@ import java.util.List;
 @Mapper
 public interface OperLogConvert {
 
-    OperLogConvert INSTANCE = Mappers.getMapper(OperLogConvert.class);
+	OperLogConvert INSTANCE = Mappers.getMapper(OperLogConvert.class);
 
-    OperLogDO convert(OperLogDTO operLogDTO);
+	OperLogDO convert(OperLogDTO operLogDTO);
 
-    OperLogDTO convert(OperLogDO operLogDO);
+	OperLogDTO convert(OperLogDO operLogDO);
 
-    List<OperLogDTO> convert(List<OperLogDO> list);
+	List<OperLogDTO> convert(List<OperLogDO> list);
 
-    Page<OperLogDTO> convert(Page<OperLogDO> list);
+	Page<OperLogDTO> convert(Page<OperLogDO> list);
 
 }

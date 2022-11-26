@@ -54,135 +54,131 @@ import java.util.stream.Collectors;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class MenuServiceImpl implements MenuService {
 
-    private final MenuManager menuManager;
+	private final MenuManager menuManager;
 
-    private final AppManager appManager;
+	private final AppManager appManager;
 
-    private final UserManager userManager;
+	private final UserManager userManager;
 
-    private final RoleService roleService;
+	private final RoleService roleService;
 
-    @Override
-    public Set<String> findUserPermissions(String username) {
-        List<MenuDTO> userPermissions = menuManager.findUserPermissions(username);
-        return userPermissions.stream().map(MenuDTO::getPerms).collect(Collectors.toSet());
-    }
+	@Override
+	public Set<String> findUserPermissions(String username) {
+		List<MenuDTO> userPermissions = menuManager.findUserPermissions(username);
+		return userPermissions.stream().map(MenuDTO::getPerms).collect(Collectors.toSet());
+	}
 
-    @Override
-    public List<VueRouter<MenuDTO>> getUserRouters(String username) {
-        // 指定用户名角色下的所有菜单
-        List<MenuDO> menuDOList = menuManager.findUserMenus(username);
+	@Override
+	public List<VueRouter<MenuDTO>> getUserRouters(String username) {
+		// 指定用户名角色下的所有菜单
+		List<MenuDO> menuDOList = menuManager.findUserMenus(username);
 
-        // 根据菜单构建VueRouter
-        List<VueRouter<MenuDO>> routes = menuDOList.stream().map(MenuDO::toVueRouter).collect(Collectors.toList());
+		// 根据菜单构建VueRouter
+		List<VueRouter<MenuDO>> routes = menuDOList.stream().map(MenuDO::toVueRouter).collect(Collectors.toList());
 
-        // 构建树形VueRouter
-        return MenuConvert.INSTANCE.convert(TreeUtil.buildVueRouter(routes));
-    }
+		// 构建树形VueRouter
+		return MenuConvert.INSTANCE.convert(TreeUtil.buildVueRouter(routes));
+	}
 
-    /**
-     * 获取全部的树形菜单信息(包括按钮)
-     *
-     * @return 树形菜单信息
-     */
-    @Cacheable(value = MenuRedisKeyConstants.CACHE_NAMES, unless = "#result==null")
-    @Override
-    public List<VueRouter<MenuDTO>> getAllMenuTree() {
-        return MenuConvert.INSTANCE.convert(menuManager.getMenuByPid(0L));
-    }
+	/**
+	 * 获取全部的树形菜单信息(包括按钮)
+	 * @return 树形菜单信息
+	 */
+	@Cacheable(value = MenuRedisKeyConstants.CACHE_NAMES, unless = "#result==null")
+	@Override
+	public List<VueRouter<MenuDTO>> getAllMenuTree() {
+		return MenuConvert.INSTANCE.convert(menuManager.getMenuByPid(0L));
+	}
 
-    /**
-     * 获取菜单下拉框
-     *
-     * @return 树形菜单下拉框
-     */
-    @Override
-    public List<VueRouter<MenuDTO>> getTreeSelect() {
-        FxzAuthUser user = SecurityUtil.getUser();
-        if (Objects.isNull(user)) {
-            throw new FxzException("用户未登录！");
-        }
+	/**
+	 * 获取菜单下拉框
+	 * @return 树形菜单下拉框
+	 */
+	@Override
+	public List<VueRouter<MenuDTO>> getTreeSelect() {
+		FxzAuthUser user = SecurityUtil.getUser();
+		if (Objects.isNull(user)) {
+			throw new FxzException("用户未登录！");
+		}
 
-        List<VueRouter<MenuDTO>> allMenuTree = this.getUserRouters(user.getUsername());
+		List<VueRouter<MenuDTO>> allMenuTree = this.getUserRouters(user.getUsername());
 
-        VueRouter<MenuDTO> router = new VueRouter<MenuDTO>().setId("0").setTitle("顶级菜单").setChildren(allMenuTree);
+		VueRouter<MenuDTO> router = new VueRouter<MenuDTO>().setId("0").setTitle("顶级菜单").setChildren(allMenuTree);
 
-        List<VueRouter<MenuDTO>> result = new ArrayList<>();
-        result.add(router);
-        return result;
-    }
+		List<VueRouter<MenuDTO>> result = new ArrayList<>();
+		result.add(router);
+		return result;
+	}
 
-    /**
-     * 保存路由信息
-     *
-     * @param vueRouter
-     */
-    @Override
-    public void saveMenu(VueRouter vueRouter) {
-        menuManager.saveMenu(vueRouter);
-    }
+	/**
+	 * 保存路由信息
+	 * @param vueRouter
+	 */
+	@Override
+	public void saveMenu(VueRouter vueRouter) {
+		menuManager.saveMenu(vueRouter);
+	}
 
-    /**
-     * 根据id查询路由信息
-     *
-     * @param id
-     * @return
-     */
-    @Cacheable(value = MenuRedisKeyConstants.CACHE_NAMES, key = "#id", unless = "#result==null")
-    @Override
-    public VueRouter getMenuById(Long id) {
-        MenuDO menuDO = menuManager.getMenuById(id);
-        return menuDO.toVueRouter();
-    }
+	/**
+	 * 根据id查询路由信息
+	 * @param id
+	 * @return
+	 */
+	@Cacheable(value = MenuRedisKeyConstants.CACHE_NAMES, key = "#id", unless = "#result==null")
+	@Override
+	public VueRouter getMenuById(Long id) {
+		MenuDO menuDO = menuManager.getMenuById(id);
+		return menuDO.toVueRouter();
+	}
 
-    /**
-     * 更新路由
-     */
-    @CacheEvict(value = MenuRedisKeyConstants.CACHE_NAMES, key = "#vueRouter.id")
-    @Override
-    public void updateMenu(VueRouter vueRouter) {
-        MenuDO menuDO = MenuConvert.INSTANCE.convert(vueRouter);
-        menuManager.updateMenuById(menuDO);
-        menuManager.updateMenuAppByPId(menuDO.getId(), menuDO.getApplication());
-    }
+	/**
+	 * 更新路由
+	 */
+	@CacheEvict(value = MenuRedisKeyConstants.CACHE_NAMES, key = "#vueRouter.id")
+	@Override
+	public void updateMenu(VueRouter vueRouter) {
+		MenuDO menuDO = MenuConvert.INSTANCE.convert(vueRouter);
+		menuManager.updateMenuById(menuDO);
+		menuManager.updateMenuAppByPId(menuDO.getId(), menuDO.getApplication());
+	}
 
-    @Override
-    public Map<String, Object> getUserRoutersAndAuthority() {
-        // 返回结果集
-        Map<String, Object> result = new HashMap<>(4);
+	@Override
+	public Map<String, Object> getUserRoutersAndAuthority() {
+		// 返回结果集
+		Map<String, Object> result = new HashMap<>(4);
 
-        Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
-            // 构建用户路由对象
-            CompletableFuture<Void> routes = CompletableFuture
-                    .runAsync(() -> result.put("routes", getUserRouters(userName)));
-            // 封装用户权限信息
-            CompletableFuture<Void> permissions = CompletableFuture
-                    .runAsync(() -> result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray()));
-            // 封装应用信息
-            CompletableFuture<Void> apps = CompletableFuture
-                    .runAsync(() -> result.put("apps", appManager.listApp()));
+		Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
+			// 构建用户路由对象
+			CompletableFuture<Void> routes = CompletableFuture
+					.runAsync(() -> result.put("routes", getUserRouters(userName)));
+			// 封装用户权限信息
+			CompletableFuture<Void> permissions = CompletableFuture
+					.runAsync(() -> result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray()));
+			// 封装应用信息
+			CompletableFuture<Void> apps = CompletableFuture.runAsync(() -> result.put("apps", appManager.listApp()));
 
-            // 异步执行
-            CompletableFuture.allOf(routes, permissions, apps).join();
-        });
+			// 异步执行
+			CompletableFuture.allOf(routes, permissions, apps).join();
+		});
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public List<VueRouter<MenuDTO>> getUserMenuTree(Long userId) {
-        SystemUserDO user = userManager.getUserById(userId);
+	@Override
+	public List<VueRouter<MenuDTO>> getUserMenuTree(Long userId) {
+		SystemUserDO user = userManager.getUserById(userId);
 
-        if (roleService.isSuperAdmin(user.getRoleId())) {
-            return getAllMenuTree();
-        } else {
-            return getUserRouters(user.getUsername());
-        }
-    }
+		if (roleService.isSuperAdmin(user.getRoleId())) {
+			return getAllMenuTree();
+		}
+		else {
+			return getUserRouters(user.getUsername());
+		}
+	}
 
-    @Override
-    public void removeById(Long id) {
-        menuManager.deleteMenuById(id);
-    }
+	@Override
+	public void removeById(Long id) {
+		menuManager.deleteMenuById(id);
+	}
 
 }

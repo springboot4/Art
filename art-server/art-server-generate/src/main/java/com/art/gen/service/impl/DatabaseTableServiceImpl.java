@@ -16,6 +16,11 @@
 
 package com.art.gen.service.impl;
 
+import com.art.common.core.param.PageParam;
+import com.art.gen.dao.dataobject.DatabaseColumnDO;
+import com.art.gen.dao.dataobject.DatabaseTableDO;
+import com.art.gen.dao.mysql.DatabaseTableMapper;
+import com.art.gen.service.DatabaseTableService;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -23,11 +28,6 @@ import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.core.param.PageParam;
-import com.art.gen.entity.DatabaseColumn;
-import com.art.gen.entity.DatabaseTable;
-import com.art.gen.mapper.DatabaseTableMapper;
-import com.art.gen.service.DatabaseTableService;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.springframework.stereotype.Service;
@@ -50,7 +50,7 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
 	 */
 	@DS("#last")
 	@Override
-	public DatabaseTable findByTableName(String tableName, String dsName) {
+	public DatabaseTableDO findByTableName(String tableName, String dsName) {
 		return databaseTableMapper.findByTableName(tableName);
 	}
 
@@ -59,7 +59,7 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
 	 */
 	@DS("#last")
 	@Override
-	public List<DatabaseColumn> findColumnByTableName(String tableName, String dsName) {
+	public List<DatabaseColumnDO> findColumnByTableName(String tableName, String dsName) {
 		return databaseTableMapper.findColumnByTableName(tableName);
 	}
 
@@ -71,13 +71,14 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
 	 * @return 分页信息
 	 */
 	@DS("#last")
-	public IPage<DatabaseTable> page(PageParam pageParam, DatabaseTable param, String dsName) {
-		Page<DatabaseTable> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
+	public IPage<DatabaseTableDO> page(PageParam pageParam, DatabaseTableDO param, String dsName) {
+		Page<DatabaseTableDO> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
 		// 实体类entity及其字段没有缓存或者说指定字段没有缓存
 		// https://blog.csdn.net/qq_36491545/article/details/109091325
-		TableInfoHelper.initTableInfo(new MapperBuilderAssistant(new MybatisConfiguration(), ""), DatabaseTable.class);
-		return databaseTableMapper.page(page, Wrappers.<DatabaseTable>lambdaQuery()
-				.like(StringUtils.isNotEmpty(param.getTableName()), DatabaseTable::getTableName, param.getTableName()));
+		TableInfoHelper.initTableInfo(new MapperBuilderAssistant(new MybatisConfiguration(), ""),
+				DatabaseTableDO.class);
+		return databaseTableMapper.page(page, Wrappers.<DatabaseTableDO>lambdaQuery().like(
+				StringUtils.isNotEmpty(param.getTableName()), DatabaseTableDO::getTableName, param.getTableName()));
 	}
 
 }

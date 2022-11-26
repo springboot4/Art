@@ -18,7 +18,7 @@ package com.art.common.core.handler;
 
 import com.art.common.core.exception.FxzAuthException;
 import com.art.common.core.exception.FxzException;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
