@@ -40,71 +40,64 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AppManager {
 
-    private final AppMapper appMapper;
+	private final AppMapper appMapper;
 
-    /**
-     * 分页查询appDO
-     *
-     * @param appPageDTO 分页参数
-     * @return appDO
-     */
-    public Page<AppDO> pageApp(AppPageDTO appPageDTO) {
-        LambdaQueryWrapper<AppDO> wrapper = Wrappers.<AppDO>lambdaQuery()
-                .like(StrUtil.isNotBlank(appPageDTO.getName()), AppDO::getName, appPageDTO.getName())
-                .like(StrUtil.isNotBlank(appPageDTO.getCode()), AppDO::getCode, appPageDTO.getCode())
-                .eq(Objects.nonNull(appPageDTO.getId()), AppDO::getId, appPageDTO.getId())
-                .orderByAsc(AppDO::getSort);
+	/**
+	 * 分页查询appDO
+	 * @param appPageDTO 分页参数
+	 * @return appDO
+	 */
+	public Page<AppDO> pageApp(AppPageDTO appPageDTO) {
+		LambdaQueryWrapper<AppDO> wrapper = Wrappers.<AppDO>lambdaQuery()
+				.like(StrUtil.isNotBlank(appPageDTO.getName()), AppDO::getName, appPageDTO.getName())
+				.like(StrUtil.isNotBlank(appPageDTO.getCode()), AppDO::getCode, appPageDTO.getCode())
+				.eq(Objects.nonNull(appPageDTO.getId()), AppDO::getId, appPageDTO.getId()).orderByAsc(AppDO::getSort);
 
-        return appMapper.selectPage(Page.of(appPageDTO.getCurrent(), appPageDTO.getSize()), wrapper);
-    }
+		return appMapper.selectPage(Page.of(appPageDTO.getCurrent(), appPageDTO.getSize()), wrapper);
+	}
 
-    /**
-     * 列出所有appDO
-     *
-     * @return 所有appDO
-     */
-    public List<AppDO> listApp() {
-        return appMapper.selectList(Wrappers.<AppDO>lambdaQuery().orderByAsc(AppDO::getSort));
-    }
+	/**
+	 * 列出所有appDO
+	 * @return 所有appDO
+	 */
+	public List<AppDO> listApp() {
+		return appMapper.selectList(Wrappers.<AppDO>lambdaQuery().orderByAsc(AppDO::getSort));
+	}
 
-    /**
-     * 根据Id删除appDO
-     *
-     * @param id 主键
-     * @return 影响行数
-     */
-    public Integer deleteAppById(Long id) {
-        return appMapper.deleteById(id);
-    }
+	/**
+	 * 根据Id删除appDO
+	 * @param id 主键
+	 * @return 影响行数
+	 */
+	public Integer deleteAppById(Long id) {
+		return appMapper.deleteById(id);
+	}
 
-    /**
-     * 根据id更新appDO
-     *
-     * @param appDTO appDTO
-     * @return 影响条数
-     */
-    public Integer updateAppById(AppDTO appDTO) {
-        return appMapper.updateById(AppConvert.INSTANCE.convert(appDTO));
-    }
+	/**
+	 * 根据id更新appDO
+	 * @param appDTO appDTO
+	 * @return 影响条数
+	 */
+	public Integer updateAppById(AppDTO appDTO) {
+		return appMapper.updateById(AppConvert.INSTANCE.convert(appDTO));
+	}
 
-    /**
-     * 新增appDO
-     *
-     * @param appDTO appDTO
-     * @return 影响条数
-     */
-    public Integer addApp(AppDTO appDTO) {
-        return appMapper.insert(AppConvert.INSTANCE.convert(appDTO));
-    }
+	/**
+	 * 新增appDO
+	 * @param appDTO appDTO
+	 * @return 影响条数
+	 */
+	public Integer addApp(AppDTO appDTO) {
+		return appMapper.insert(AppConvert.INSTANCE.convert(appDTO));
+	}
 
-    /**
-     * 根据id查询appDO
-     *
-     * @param id 主键
-     * @return appDO
-     */
-    public AppDO findById(Long id) {
-        return appMapper.selectById(id);
-    }
+	/**
+	 * 根据id查询appDO
+	 * @param id 主键
+	 * @return appDO
+	 */
+	public AppDO findById(Long id) {
+		return appMapper.selectById(id);
+	}
 
 }

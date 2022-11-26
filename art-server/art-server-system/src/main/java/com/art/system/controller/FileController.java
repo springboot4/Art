@@ -18,8 +18,8 @@ package com.art.system.controller;
 
 import com.art.common.log.annotation.OperLogAnn;
 import com.art.common.log.enums.BusinessType;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
 import com.art.common.security.annotation.Ojbk;
 import com.art.system.api.file.dto.FileDTO;
 import com.art.system.api.file.dto.FilePageDTO;
@@ -45,75 +45,74 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileController {
 
-    private final FileService fileService;
+	private final FileService fileService;
 
-    /**
-     * 上传文件
-     */
-    @Operation(summary = "上传文件")
-    @OperLogAnn(title = "文件管理", businessType = BusinessType.INSERT)
-    @PostMapping(value = "/add")
-    public Result<Object> add(@RequestPart("file") MultipartFile file) {
-        return Result.success(fileService.addFile(file));
-    }
+	/**
+	 * 上传文件
+	 */
+	@Operation(summary = "上传文件")
+	@OperLogAnn(title = "文件管理", businessType = BusinessType.INSERT)
+	@PostMapping(value = "/add")
+	public Result<Object> add(@RequestPart("file") MultipartFile file) {
+		return Result.success(fileService.addFile(file));
+	}
 
-    /**
-     * 下载文件
-     *
-     * @param bucket   桶名称
-     * @param fileName 文件名
-     * @param response 响应
-     */
-    @Operation(summary = "下载文件")
-    @Ojbk
-    @GetMapping("/{bucket}/{fileName}")
-    public void file(@PathVariable String bucket, @PathVariable String fileName, HttpServletResponse response) {
-        fileService.getFile(bucket, fileName, response);
-    }
+	/**
+	 * 下载文件
+	 * @param bucket 桶名称
+	 * @param fileName 文件名
+	 * @param response 响应
+	 */
+	@Operation(summary = "下载文件")
+	@Ojbk
+	@GetMapping("/{bucket}/{fileName}")
+	public void file(@PathVariable String bucket, @PathVariable String fileName, HttpServletResponse response) {
+		fileService.getFile(bucket, fileName, response);
+	}
 
-    /**
-     * 修改
-     */
-    @Operation(summary = "修改")
-    @PostMapping(value = "/update")
-    public Result<Boolean> update(@RequestBody FileDTO fileDto) {
-        return Result.success(fileService.updateFile(fileDto));
-    }
+	/**
+	 * 修改
+	 */
+	@Operation(summary = "修改")
+	@PostMapping(value = "/update")
+	public Result<Boolean> update(@RequestBody FileDTO fileDto) {
+		return Result.success(fileService.updateFile(fileDto));
+	}
 
-    /**
-     * 删除
-     */
-    @Operation(summary = "删除")
-    @DeleteMapping(value = "/delete")
-    public Result<Boolean> delete(Long id) {
-        return Result.judge(fileService.deleteFile(id));
-    }
+	/**
+	 * 删除
+	 */
+	@Operation(summary = "删除")
+	@DeleteMapping(value = "/delete")
+	public Result<Boolean> delete(Long id) {
+		return Result.judge(fileService.deleteFile(id));
+	}
 
-    /**
-     * 获取单条
-     */
-    @Operation(summary = "获取单条")
-    @GetMapping(value = "/findById")
-    public Result<FileDTO> findById(Long id) {
-        return Result.success(fileService.findById(id));
-    }
+	/**
+	 * 获取单条
+	 */
+	@Operation(summary = "获取单条")
+	@GetMapping(value = "/findById")
+	public Result<FileDTO> findById(Long id) {
+		return Result.success(fileService.findById(id));
+	}
 
-    /**
-     * 获取全部
-     */
-    @Operation(summary = "获取全部")
-    @GetMapping(value = "/findAll")
-    public Result<List<FileDTO>> findAll() {
-        return Result.success(fileService.findAll());
-    }
+	/**
+	 * 获取全部
+	 */
+	@Operation(summary = "获取全部")
+	@GetMapping(value = "/findAll")
+	public Result<List<FileDTO>> findAll() {
+		return Result.success(fileService.findAll());
+	}
 
-    /**
-     * 分页
-     */
-    @Operation(summary = "分页")
-    @GetMapping(value = "/page")
-    public Result<PageResult<FileDTO>> pageFile(FilePageDTO filePageDTO) {
-        return Result.success(PageResult.success(fileService.pageFile(filePageDTO)));
-    }
+	/**
+	 * 分页
+	 */
+	@Operation(summary = "分页")
+	@GetMapping(value = "/page")
+	public Result<PageResult<FileDTO>> pageFile(FilePageDTO filePageDTO) {
+		return Result.success(PageResult.success(fileService.pageFile(filePageDTO)));
+	}
 
 }

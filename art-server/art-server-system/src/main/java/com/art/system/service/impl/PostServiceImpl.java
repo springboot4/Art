@@ -40,52 +40,57 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private final PostManager postManager;
+	private final PostManager postManager;
 
-    /**
-     * 添加
-     */
-    @Override
-    public Boolean addPost(PostDTO postDto) {
-        return postManager.addPost(postDto) > 0;
-    }
+	/**
+	 * 添加
+	 */
+	@Override
+	public Boolean addPost(PostDTO postDto) {
+		return postManager.addPost(postDto) > 0;
+	}
 
-    /**
-     * 修改
-     */
-    @Override
-    public Boolean updatePost(PostDTO postDto) {
-        return postManager.updatePostById(postDto) > 0;
-    }
+	/**
+	 * 修改
+	 */
+	@Override
+	public Boolean updatePost(PostDTO postDto) {
+		return postManager.updatePostById(postDto) > 0;
+	}
 
-    /**
-     * 获取单条
-     */
-    @Override
-    public PostDTO findById(Long id) {
-        return PostConvert.INSTANCE.convert(postManager.getPostById(id));
-    }
+	/**
+	 * 获取单条
+	 */
+	@Override
+	public PostDTO findById(Long id) {
+		return PostConvert.INSTANCE.convert(postManager.getPostById(id));
+	}
 
-    /**
-     * 获取全部
-     */
-    @Override
-    public List<PostDTO> findAll() {
-        return PostConvert.INSTANCE.convert(postManager.listPost());
-    }
+	/**
+	 * 获取全部
+	 */
+	@Override
+	public List<PostDTO> findAll() {
+		return PostConvert.INSTANCE.convert(postManager.listPost());
+	}
 
-    /**
-     * 删除
-     */
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public Boolean deletePost(Long id) {
-        return postManager.deletePostById(id) > 0;
-    }
+	/**
+	 * 删除
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public Boolean deletePost(Long id) {
+		return postManager.deletePostById(id) > 0;
+	}
 
-    @Override
-    public Page<PostDTO> pagePost(PostPageDTO postPageDTO) {
-        return PostConvert.INSTANCE.convert(postManager.pagePost(postPageDTO));
-    }
+	/**
+	 * 分页
+	 * @param postPageDTO 分页参数
+	 * @return 分页数据
+	 */
+	@Override
+	public Page<PostDTO> pagePost(PostPageDTO postPageDTO) {
+		return PostConvert.INSTANCE.convert(postManager.pagePost(postPageDTO));
+	}
 
 }

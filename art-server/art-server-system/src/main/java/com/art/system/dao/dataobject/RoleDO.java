@@ -16,12 +16,11 @@
 
 package com.art.system.dao.dataobject;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.art.common.core.enums.RoleAdminEnum;
 import com.art.common.mp.base.BaseCreateEntity;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -72,11 +71,5 @@ public class RoleDO extends BaseCreateEntity implements Serializable {
 	 * 租户id
 	 */
 	private Long tenantId;
-
-	/**
-	 * 角色拥有的菜单id
-	 */
-	@TableField(exist = false)
-	private String menuId;
 
 }

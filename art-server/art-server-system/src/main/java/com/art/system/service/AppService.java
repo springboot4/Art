@@ -30,34 +30,34 @@ import java.util.List;
  */
 public interface AppService {
 
-    /**
-     * 添加
-     */
-    Boolean addApp(AppDTO appDTO);
+	/**
+	 * 添加
+	 */
+	Boolean addApp(AppDTO appDTO);
 
-    /**
-     * 修改
-     */
-    Boolean updateApp(AppDTO appDTO);
+	/**
+	 * 修改
+	 */
+	Boolean updateApp(AppDTO appDTO);
 
-    /**
-     * 分页
-     */
-    IPage<AppDTO> pageApp(AppPageDTO appPageDTO);
+	/**
+	 * 分页
+	 */
+	IPage<AppDTO> pageApp(AppPageDTO appPageDTO);
 
-    /**
-     * 获取单条
-     */
-    AppDTO findById(Long id);
+	/**
+	 * 获取单条
+	 */
+	AppDTO findById(Long id);
 
-    /**
-     * 获取全部
-     */
-    List<AppDTO> findAll();
+	/**
+	 * 获取全部
+	 */
+	List<AppDTO> findAll();
 
-    /**
-     * 删除
-     */
-    Boolean deleteApp(Long id);
+	/**
+	 * 删除
+	 */
+	Boolean deleteApp(Long id);
 
 }

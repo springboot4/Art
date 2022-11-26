@@ -30,49 +30,50 @@ import java.time.LocalDateTime;
 @Data
 public class OperLogPageDTO extends BasePageEntity implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    private Long id;
+	private Long id;
 
-    private String title;
+	private String title;
 
-    private Integer businessType;
+	private Integer businessType;
 
-    private String method;
+	private String method;
 
-    private String requestMethod;
+	private String requestMethod;
 
-    private String operName;
+	private String operName;
 
-    private String operUrl;
+	private String operUrl;
 
-    private String operIp;
+	private String operIp;
 
-    private String operParam;
+	private String operParam;
 
-    private Integer status;
+	private Integer status;
 
-    private String errorMsg;
+	private String errorMsg;
 
-    private Long time;
+	private Long time;
 
-    /**
-     * 创建者
-     */
-    private String createBy;
+	/**
+	 * 创建者
+	 */
+	private String createBy;
 
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
+	/**
+	 * 创建时间
+	 */
+	private LocalDateTime createTime;
 
-    /**
-     * 更新者
-     */
-    private String updateBy;
+	/**
+	 * 更新者
+	 */
+	private String updateBy;
 
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
+	/**
+	 * 更新时间
+	 */
+	private LocalDateTime updateTime;
+
 }

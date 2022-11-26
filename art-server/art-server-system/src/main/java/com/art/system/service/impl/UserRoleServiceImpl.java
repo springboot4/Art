@@ -16,10 +16,9 @@
 
 package com.art.system.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.art.system.dao.dataobject.UserRoleDO;
-import com.art.system.dao.mysql.UserRoleMapper;
+import com.art.system.manager.UserRoleManager;
 import com.art.system.service.UserRoleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,20 +26,11 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author fxz
  */
+@RequiredArgsConstructor
 @Service("userRoleService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRoleDO> implements UserRoleService {
+public class UserRoleServiceImpl implements UserRoleService {
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void deleteUserRolesByRoleId(String[] roleIds) {
-		this.baseMapper.deleteByRoleId(roleIds);
-	}
-
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void deleteUserRolesByUserId(String[] userIds) {
-		this.baseMapper.deleteByUserId(userIds);
-	}
+	private final UserRoleManager userRoleManager;
 
 }

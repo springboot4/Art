@@ -16,7 +16,7 @@
 
 package com.art.system.controller;
 
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import com.art.common.security.annotation.Ojbk;
 import com.art.common.sms.service.AliyunSmsService;
 import io.swagger.v3.oas.annotations.Operation;

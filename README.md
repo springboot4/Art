@@ -51,31 +51,32 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
           ├── admin-vue2 -- 管理员界面
           ├── mall-uni   -- 商城小程序界面
 ```
+## 目录结构规范
 
-## 🍺加入我们
-qq交流群:932249645
-<p>
-<img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png" width = "330" height = "500"/>
-</p>
-微信交流群:
-<p>
-<img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/HmxY0q.png" width = "330" height = "500"/>
-</p>
-二维码过期可加本人微信:
-<p>
-<img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png" width = "330" height = "500"/>
-</p>
+项目中使用的是阿里的规范（详细可看https://github.com/alibaba/p3c 这里面的[Java开发手册（嵩山版）.pdf](https://github.com/alibaba/p3c/blob/master/Java开发手册（嵩山版）.pdf)），同时使用插件进行规约扫描
 
-## 🍬说明文档
-[🍓🍓🍓配套文档 fxzcloud.gitee.io/docs](https://fxzcloud.gitee.io/docs/)
+我们先来看下规范当中的目录结构
 
+![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/Ql0Dur.png)
+
+- 开放 API 层：可直接封装 Service 接口暴露成 RPC 接口；通过 Web 封装成 http 接口；网关控制层等。
+- 终端显示层：各个端的模板渲染并执行显示的层。
+- Web 层：主要是对访问控制进行转发，各类基本参数校验，或者不复用的业务简单处理等。
+- Service 层：相对具体的业务逻辑服务层。
+- Manager 层：通用业务处理层，它有如下特征：
+    -  1） 对第三方平台封装的层，预处理返回结果及转化异常信息，适配上层接口。
+    -  2） 对 Service 层通用能力的下沉，如缓存方案、中间件通用处理。
+    -  3） 与 DAO 层交互，对多个 DAO 的组合复用。
+- DAO 层：数据访问层，与底层 MySQL、Oracle、Hbase、OB 等进行数据交互。
+- 第三方服务：包括其它部门 RPC 服务接口，基础平台，其它公司的 HTTP 接口，如淘宝开放平台、支 付宝付款服务、高德地图服务等。
+- 外部数据接口：外部（应用）数据存储服务提供的接口，多见于数据迁移场景中。
 
 ## 💻系统应用
 RBAC&数据权限，角色支持多种数据权限设定，支持自定义进行拓展。
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/PUVhgr.png)<br/>
+![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/v5m3e1.png)<br/>
 SaaS多租户，自定义租户套餐.<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/uEiiVg.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/YrMBP4.png)
+![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/IQ7uvi.png)
+![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/mPf6tH.png)
 ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/Wb1Xck.png)<br/>
 动态网关，网关支持通过前端动态配置，不需要在nacos中维护路由信息，修改自动加载，无需重启服务。<br/>
 ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/ZOGHdk.png)<br/>
@@ -127,9 +128,28 @@ SaaS多租户，自定义租户套餐.<br/>
 ## 依赖版本
 
 | 依赖                   | 版本         |
-| ---------------------- |------------|
-| Spring Boot            | 2.7.0      |
-| Spring Cloud           | 2021.0.1   |
-| Spring Cloud Alibaba   | 2021.0.1.0 |
-| Mybatis Plus           | 3.5.1      |
-| hutool                 | 5.8.9      |
+|----------------------|------------|
+| Spring Boot          | 2.7.0      |
+| Spring Cloud         | 2021.0.1   |
+| Spring Cloud Alibaba | 2021.0.1.0 |
+| Mybatis Plus         | 3.5.1      |
+| Hutool               | 5.8.9      |
+
+
+
+## 🍺加入我们
+qq交流群:932249645
+<p>
+<img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png" width = "330" height = "500"/>
+</p>
+微信交流群:
+<p>
+<img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/dlSOnC.jpg" width = "330" height = "500"/>
+</p>
+二维码过期可加本人微信:
+<p>
+<img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png" width = "330" height = "500"/>
+</p>
+
+## 🍬说明文档
+[🍓🍓🍓配套文档 fxzcloud.gitee.io/docs](https://fxzcloud.gitee.io/docs/)

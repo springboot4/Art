@@ -18,14 +18,14 @@ package com.art.system.service.impl;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.art.common.mq.redis.core.RedisMQTemplate;
-import com.art.system.api.route.FilterDefinitionDTO;
-import com.art.system.api.route.PredicateDefinitionDTO;
+import com.art.system.api.route.dto.FilterDefinitionDTO;
+import com.art.system.api.route.dto.PredicateDefinitionDTO;
+import com.art.system.api.route.dto.RouteConfDTO;
+import com.art.system.core.convert.RouteConfConvert;
+import com.art.system.api.route.mq.RouteMessage;
 import com.art.system.dao.dataobject.RouteConfDO;
-import com.art.system.dao.mysql.RouteConfMapper;
-import com.art.system.core.mq.RouteMessage;
+import com.art.system.manager.RouteConfManager;
 import com.art.system.service.RouteConfService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,19 +47,19 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConfDO> implements RouteConfService {
+public class RouteConfServiceImpl implements RouteConfService {
 
 	private final RedisMQTemplate redisMQTemplate;
 
-	private final RouteConfMapper routeConfMapper;
+	private final RouteConfManager routeConfManager;
 
 	/**
 	 * 添加路由信息
 	 */
 	@Override
-	public Boolean addRouteConf(RouteConfDO routeConfDO) {
+	public Boolean addRouteConf(RouteConfDTO routeConfDTO) {
 		// 保存路由信息
-		this.save(routeConfDO);
+		routeConfManager.addRouteConf(routeConfDTO);
 
 		// 通知mq
 		this.sendMq();
@@ -73,13 +73,13 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	@Override
 	public Boolean updateRouteConf(JSONArray routeConf) {
 		// 构建路由信息
-		List<RouteConfDO> list = routeConf.stream().map(this::buildRouteConf).collect(Collectors.toList());
+		List<RouteConfDTO> list = routeConf.stream().map(this::buildRouteConf).collect(Collectors.toList());
 
 		// 删掉所有路由信息
-		this.remove(Wrappers.emptyWrapper());
+		routeConfManager.deleteRouteConf();
 
 		// 保存路由信息
-		this.saveBatch(list);
+		list.forEach(routeConfManager::addRouteConf);
 
 		// 通知网关加载路由
 		this.sendMq();
@@ -93,7 +93,7 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	@Override
 	public Boolean deleteRouteConf(Long id) {
 		// 删除路由信息
-		this.removeById(id);
+		routeConfManager.deleteRouteConfById(id);
 
 		// 发送消息到mq
 		this.sendMq();
@@ -105,27 +105,27 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 	 * 获取单条路由信息
 	 */
 	@Override
-	public RouteConfDO findById(Long id) {
-		return this.getById(id);
+	public RouteConfDTO findById(Long id) {
+		return RouteConfConvert.INSTANCE.convert(routeConfManager.getRouteCongById(id));
 	}
 
 	/**
 	 * 查询所有路由信息
 	 */
 	@Override
-	public List<RouteConfDO> findAll() {
-		return routeConfMapper.findAll();
+	public List<RouteConfDTO> findAll() {
+		return RouteConfConvert.INSTANCE.convert(routeConfManager.listRouteConf());
 	}
 
 	private void sendMq() {
-		redisMQTemplate.send(new RouteMessage(this.list()));
+		redisMQTemplate.send(new RouteMessage(findAll()));
 	}
 
 	/**
 	 * 构建路由信息
 	 */
-	private RouteConfDO buildRouteConf(Object value) {
-		RouteConfDO r = new RouteConfDO();
+	private RouteConfDTO buildRouteConf(Object value) {
+		RouteConfDTO r = new RouteConfDTO();
 
 		Map<String, Object> map = (Map) value;
 
@@ -135,8 +135,8 @@ public class RouteConfServiceImpl extends ServiceImpl<RouteConfMapper, RouteConf
 
 		mapper.from(map.get(RouteConfDO.Fields.routeId)).whenNonNull().as(String::valueOf).to(r::setRouteId);
 
-		mapper.from(map.get(RouteConfDO.Fields.uri)).whenNonNull().as(String::valueOf).as(URI::create).as(String::valueOf)
-				.to(r::setUri);
+		mapper.from(map.get(RouteConfDO.Fields.uri)).whenNonNull().as(String::valueOf).as(URI::create)
+				.as(String::valueOf).to(r::setUri);
 
 		mapper.from(map.get(RouteConfDO.Fields.sortOrder)).whenNonNull().as(String::valueOf).as(Integer::parseInt)
 				.to(r::setSortOrder);

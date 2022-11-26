@@ -31,42 +31,41 @@ import java.util.List;
  */
 public interface DictService {
 
-    /**
-     * 添加
-     */
-    Boolean addDict(DictDTO dictDto);
+	/**
+	 * 添加
+	 */
+	Boolean addDict(DictDTO dictDto);
 
-    /**
-     * 修改
-     */
-    Boolean updateDict(DictDTO dictDto);
+	/**
+	 * 修改
+	 */
+	Boolean updateDict(DictDTO dictDto);
 
-    /**
-     * 分页
-     */
-    IPage<DictDTO> pageDict(DictPageDTO dictPageDTO);
+	/**
+	 * 分页
+	 */
+	IPage<DictDTO> pageDict(DictPageDTO dictPageDTO);
 
-    /**
-     * 获取单条
-     */
-    DictDTO findById(Long id);
+	/**
+	 * 获取单条
+	 */
+	DictDTO findById(Long id);
 
-    /**
-     * 获取全部
-     */
-    List<DictDTO> findAll();
+	/**
+	 * 获取全部
+	 */
+	List<DictDTO> findAll();
 
-    /**
-     * 删除
-     */
-    Boolean deleteDict(Long id);
+	/**
+	 * 删除
+	 */
+	Boolean deleteDict(Long id);
 
-    /**
-     * 根据字典类型获取字典下的所有字典项
-     *
-     * @param type 字典类型
-     * @return 字典项
-     */
-    List<DictItemDTO> getDictItemsByType(String type);
+	/**
+	 * 根据字典类型获取字典下的所有字典项
+	 * @param type 字典类型
+	 * @return 字典项
+	 */
+	List<DictItemDTO> getDictItemsByType(String type);
 
 }

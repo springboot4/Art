@@ -28,12 +28,12 @@ import java.io.Serializable;
 @Data
 public class DictItemExistsDTO implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    private Long id;
+	private Long id;
 
-    private Long dictId;
+	private Long dictId;
 
-    private String value;
+	private String value;
 
 }

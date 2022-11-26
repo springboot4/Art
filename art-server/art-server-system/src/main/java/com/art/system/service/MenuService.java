@@ -30,65 +30,58 @@ import java.util.Set;
  */
 public interface MenuService {
 
-    /**
-     * 通过用户名查询用户权限信息
-     *
-     * @param username 用户名
-     * @return 权限信息
-     */
-    Set<String> findUserPermissions(String username);
+	/**
+	 * 通过用户名查询用户权限信息
+	 * @param username 用户名
+	 * @return 权限信息
+	 */
+	Set<String> findUserPermissions(String username);
 
-    /**
-     * 通过用户名创建对应的 Vue路由信息
-     *
-     * @param username 用户名
-     * @return 路由信息
-     */
-    List<VueRouter<MenuDTO>> getUserRouters(String username);
+	/**
+	 * 通过用户名创建对应的 Vue路由信息
+	 * @param username 用户名
+	 * @return 路由信息
+	 */
+	List<VueRouter<MenuDTO>> getUserRouters(String username);
 
-    /**
-     * 获取全部的树形菜单信息(包括按钮)
-     *
-     * @return 树形菜单信息
-     */
-    List<VueRouter<MenuDTO>> getAllMenuTree();
+	/**
+	 * 获取全部的树形菜单信息(包括按钮)
+	 * @return 树形菜单信息
+	 */
+	List<VueRouter<MenuDTO>> getAllMenuTree();
 
-    /**
-     * 获取菜单下拉框
-     *
-     * @return 树形菜单下拉框
-     */
-    List<VueRouter<MenuDTO>> getTreeSelect();
+	/**
+	 * 获取菜单下拉框
+	 * @return 树形菜单下拉框
+	 */
+	List<VueRouter<MenuDTO>> getTreeSelect();
 
-    /**
-     * 保存路由信息
-     *
-     * @param vueRouter
-     */
-    void saveMenu(VueRouter vueRouter);
+	/**
+	 * 保存路由信息
+	 * @param vueRouter
+	 */
+	void saveMenu(VueRouter vueRouter);
 
-    /**
-     * 根据id查询路由信息
-     *
-     * @param id
-     * @return
-     */
-    VueRouter getMenuById(Long id);
+	/**
+	 * 根据id查询路由信息
+	 * @param id
+	 * @return
+	 */
+	VueRouter getMenuById(Long id);
 
-    /**
-     * 更新路由
-     */
-    void updateMenu(VueRouter vueRouter);
+	/**
+	 * 更新路由
+	 */
+	void updateMenu(VueRouter vueRouter);
 
-    /**
-     * 获取用户路由以及权限信息
-     *
-     * @return 用户路由以及权限信息
-     */
-    Map<String, Object> getUserRoutersAndAuthority();
+	/**
+	 * 获取用户路由以及权限信息
+	 * @return 用户路由以及权限信息
+	 */
+	Map<String, Object> getUserRoutersAndAuthority();
 
-    List<VueRouter<MenuDTO>> getUserMenuTree(Long userId);
+	List<VueRouter<MenuDTO>> getUserMenuTree(Long userId);
 
-    void removeById(Long id);
+	void removeById(Long id);
 
 }

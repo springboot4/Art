@@ -18,7 +18,7 @@ package com.art.gateway.handler;
 
 import cn.hutool.core.util.IdUtil;
 import com.art.common.core.constant.FxzConstant;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.Result;
 import com.art.gateway.component.EasyCaptchaProducer;
 import com.art.gateway.enums.CodeTypeEnum;
 import com.wf.captcha.base.Captcha;

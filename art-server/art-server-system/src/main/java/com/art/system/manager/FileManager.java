@@ -37,30 +37,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileManager {
 
-    private final FileMapper fileMapper;
+	private final FileMapper fileMapper;
 
-    public void saveFile(FileDO fileDO) {
-        fileMapper.insert(fileDO);
-    }
+	public void saveFile(FileDO fileDO) {
+		fileMapper.insert(fileDO);
+	}
 
-    public Integer updateFileById(FileDTO fileDto) {
-        return fileMapper.updateById(FileConvert.INSTANCE.convert(fileDto));
-    }
+	public Integer updateFileById(FileDTO fileDto) {
+		return fileMapper.updateById(FileConvert.INSTANCE.convert(fileDto));
+	}
 
-    public FileDO getFileById(Long id) {
-        return fileMapper.selectById(id);
-    }
+	public FileDO getFileById(Long id) {
+		return fileMapper.selectById(id);
+	}
 
-    public Integer deleteFileById(Long id) {
-        return fileMapper.deleteById(id);
-    }
+	public Integer deleteFileById(Long id) {
+		return fileMapper.deleteById(id);
+	}
 
-    public List<FileDO> listFile() {
-        return fileMapper.selectList(Wrappers.emptyWrapper());
-    }
+	public List<FileDO> listFile() {
+		return fileMapper.selectList(Wrappers.emptyWrapper());
+	}
 
-    public Page<FileDO> pageFile(FilePageDTO filePageDTO) {
-        return fileMapper.selectPage(Page.of(filePageDTO.getCurrent(), filePageDTO.getSize()), Wrappers.emptyWrapper());
-    }
+	public Page<FileDO> pageFile(FilePageDTO filePageDTO) {
+		return fileMapper.selectPage(Page.of(filePageDTO.getCurrent(), filePageDTO.getSize()), Wrappers.emptyWrapper());
+	}
 
 }

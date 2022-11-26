@@ -16,39 +16,34 @@
 
 package com.art.system.service;
 
+import com.art.system.api.user.dto.SystemUserDTO;
+import com.art.system.api.user.dto.SystemUserPageDTO;
+import com.art.system.api.user.dto.UserInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.common.core.param.PageParam;
-import com.art.system.api.user.UserInfoDTO;
-import com.art.system.dao.dataobject.SystemUserDO;
-import com.art.system.api.user.UserInfo;
 
 /**
  * @author Fxz
  * @version 0.0.1
  * @date 2021-11-28 18:44
  */
-public interface UserService extends IService<SystemUserDO> {
+public interface UserService {
 
 	/**
-	 * 查找用户详细信息
-	 * @param page request
-	 * @param user 用户查询对象，用于传递查询条件
-	 * @return IPage
+	 * 分页
 	 */
-	IPage<SystemUserDO> findUserDetail(UserInfoDTO user, PageParam page);
+	IPage<SystemUserDTO> pageUser(SystemUserPageDTO userPageDTO);
 
 	/**
 	 * 新增用户
 	 * @param user user
 	 */
-	SystemUserDO createUser(SystemUserDO user);
+	SystemUserDTO createUser(SystemUserDTO user);
 
 	/**
 	 * 修改用户
 	 * @param user user
 	 */
-	void updateUser(SystemUserDO user);
+	void updateUser(SystemUserDTO user);
 
 	/**
 	 * 删除用户
@@ -59,23 +54,29 @@ public interface UserService extends IService<SystemUserDO> {
 	/**
 	 * 根据用户id获取用户信息
 	 */
-	SystemUserDO getUserById(Long id);
+	SystemUserDTO getUserById(Long id);
 
 	/**
 	 * 通过用户名查找用户信息
 	 */
-	SystemUserDO findByName(String username);
+	SystemUserDTO findByName(String username);
 
 	/**
 	 * 获取用户全部信息
 	 */
-	UserInfo findUserInfo(SystemUserDO systemUserDO);
+	UserInfo findUserInfo(SystemUserDTO user);
 
 	/**
 	 * 通过手机号查找用户信息
 	 * @param mobile 手机号
 	 * @return 用户信息
 	 */
-	SystemUserDO findByMobile(String mobile);
+	SystemUserDTO findByMobile(String mobile);
+
+	/**
+	 * 获取当前租户下的所有用户数
+	 * @return 当前租户下的所有用户数
+	 */
+	long count();
 
 }

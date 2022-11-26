@@ -29,18 +29,18 @@ import java.io.Serializable;
 @Data
 public class DictPageDTO extends BasePageEntity implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    private Long id;
+	private Long id;
 
-    private String type;
+	private String type;
 
-    private String description;
+	private String description;
 
-    private String remark;
+	private String remark;
 
-    private String systemFlag;
+	private String systemFlag;
 
-    private String delFlag;
+	private String delFlag;
 
 }

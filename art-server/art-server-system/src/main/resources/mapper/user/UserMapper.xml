@@ -124,7 +124,7 @@
                , u.last_login_time, u.update_time, u.description, u.avatar
     </select>
 
-    <!--通过用户名查找用户信息-->
+    <!--通过手机号查找用户信息-->
     <select id="findByMobile" parameterType="string" resultType="com.art.system.dao.dataobject.SystemUserDO">
         SELECT u.user_id                 userId,
                u.username,

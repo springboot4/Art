@@ -17,8 +17,7 @@
 package com.art.system.service;
 
 import cn.hutool.json.JSONArray;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.system.dao.dataobject.RouteConfDO;
+import com.art.system.api.route.dto.RouteConfDTO;
 
 import java.util.List;
 
@@ -28,12 +27,12 @@ import java.util.List;
  * @author fxz
  * @date 2022-08-20
  */
-public interface RouteConfService extends IService<RouteConfDO> {
+public interface RouteConfService {
 
 	/**
 	 * 添加路由信息
 	 */
-	Boolean addRouteConf(RouteConfDO routeConfDO);
+	Boolean addRouteConf(RouteConfDTO routeConfDTO);
 
 	/**
 	 * 修改路由信息
@@ -48,11 +47,11 @@ public interface RouteConfService extends IService<RouteConfDO> {
 	/**
 	 * 获取单条路由信息
 	 */
-	RouteConfDO findById(Long id);
+	RouteConfDTO findById(Long id);
 
 	/**
 	 * 查询所有路由信息
 	 */
-	List<RouteConfDO> findAll();
+	List<RouteConfDTO> findAll();
 
 }

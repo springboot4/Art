@@ -16,8 +16,8 @@
 
 package com.art.gen.controller;
 
-import com.art.common.mp.result.Result;
-import com.art.gen.dto.CodeGenPreview;
+import com.art.common.core.result.Result;
+import com.art.gen.core.dto.CodeGenPreviewDTO;
 import com.art.gen.service.impl.CodeGeneratorServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +48,7 @@ public class CodeGeneratorController {
 	 * @return 预览代码
 	 */
 	@GetMapping("/codeGenPreview")
-	public Result<List<CodeGenPreview>> codeGenPreview(@RequestParam("tableName") String tableName,
+	public Result<List<CodeGenPreviewDTO>> codeGenPreview(@RequestParam("tableName") String tableName,
 			@RequestParam("dsName") String dsName) {
 		return Result.success(codeGeneratorService.codeGenPreview(tableName, dsName));
 	}

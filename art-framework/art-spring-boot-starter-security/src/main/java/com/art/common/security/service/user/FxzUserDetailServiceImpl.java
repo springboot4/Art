@@ -20,7 +20,7 @@ import com.art.common.core.constant.SecurityConstants;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.service.FxzUserDetailsService;
 import com.art.common.security.util.SecurityUtil;
-import com.art.system.entity.SystemUser;
+import com.art.system.api.user.dto.SystemUserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -64,12 +64,12 @@ public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 		return getUserDetails(fxzUserManager.findByMobile(mobile));
 	}
 
-	private UserDetails getUserDetails(SystemUser systemUser) {
+	private UserDetails getUserDetails(SystemUserDTO systemUser) {
 		if (Objects.nonNull(systemUser)) {
 			String permissions = fxzUserManager.findUserPermissions(systemUser.getUsername());
 
 			boolean notLocked = false;
-			if (StringUtils.equals(SystemUser.STATUS_VALID, systemUser.getStatus())) {
+			if (StringUtils.equals(SystemUserDTO.STATUS_VALID, systemUser.getStatus())) {
 				notLocked = true;
 			}
 

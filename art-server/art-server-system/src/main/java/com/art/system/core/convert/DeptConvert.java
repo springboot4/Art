@@ -32,14 +32,14 @@ import java.util.List;
 @Mapper
 public interface DeptConvert {
 
-    DeptConvert INSTANCE = Mappers.getMapper(DeptConvert.class);
+	DeptConvert INSTANCE = Mappers.getMapper(DeptConvert.class);
 
-    DeptDTO convert(DeptDO deptDO);
+	DeptDTO convert(DeptDO deptDO);
 
-    DeptDTO convert(DeptBO deptBO);
+	DeptDTO convert(DeptBO deptBO);
 
-    List<DeptDTO> convert(List<DeptBO> deptBOList);
+	List<DeptDTO> convert(List<DeptBO> deptBOList);
 
-    DeptDO convert(DeptDTO deptDTO);
+	DeptDO convert(DeptDTO deptDTO);
 
 }

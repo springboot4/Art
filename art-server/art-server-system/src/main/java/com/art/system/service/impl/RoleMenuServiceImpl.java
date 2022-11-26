@@ -16,9 +16,6 @@
 
 package com.art.system.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.art.system.dao.dataobject.RoleMenuDO;
-import com.art.system.dao.mysql.RoleMenuMapper;
 import com.art.system.service.RoleMenuService;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +25,6 @@ import org.springframework.stereotype.Service;
  * @date 2022-02-28 18:34
  */
 @Service
-public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenuDO> implements RoleMenuService {
+public class RoleMenuServiceImpl implements RoleMenuService {
 
 }

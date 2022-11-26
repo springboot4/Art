@@ -38,51 +38,51 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class DictItemManager {
 
-    private final DictItemMapper dictItemMapper;
+	private final DictItemMapper dictItemMapper;
 
-    public void deleteDictItemByDictId(Long id) {
-        dictItemMapper.delete(Wrappers.<DictItemDO>lambdaQuery().eq(DictItemDO::getDictId, id));
-    }
+	public void deleteDictItemByDictId(Long id) {
+		dictItemMapper.delete(Wrappers.<DictItemDO>lambdaQuery().eq(DictItemDO::getDictId, id));
+	}
 
-    public List<DictItemDO> getDictItemsByType(String type) {
-        return dictItemMapper.selectList(Wrappers.<DictItemDO>lambdaQuery().eq(DictItemDO::getType, type).orderByAsc(DictItemDO::getSortOrder));
-    }
+	public List<DictItemDO> getDictItemsByType(String type) {
+		return dictItemMapper.selectList(
+				Wrappers.<DictItemDO>lambdaQuery().eq(DictItemDO::getType, type).orderByAsc(DictItemDO::getSortOrder));
+	}
 
-    public Integer addDictItem(DictItemDO dictItemDO) {
-        return dictItemMapper.insert(dictItemDO);
-    }
+	public Integer addDictItem(DictItemDO dictItemDO) {
+		return dictItemMapper.insert(dictItemDO);
+	}
 
-    public Integer updateDictItemById(DictItemDO dictItemDO) {
-        return dictItemMapper.updateById(dictItemDO);
-    }
+	public Integer updateDictItemById(DictItemDO dictItemDO) {
+		return dictItemMapper.updateById(dictItemDO);
+	}
 
-    public DictItemDO getDictItemById(Long id) {
-        return dictItemMapper.selectById(id);
-    }
+	public DictItemDO getDictItemById(Long id) {
+		return dictItemMapper.selectById(id);
+	}
 
-    public Integer deleteDictItemByItemId(Long id) {
-        return dictItemMapper.deleteById(id);
-    }
+	public Integer deleteDictItemByItemId(Long id) {
+		return dictItemMapper.deleteById(id);
+	}
 
-    public List<DictItemDO> listDictItem() {
-        return dictItemMapper.selectList(Wrappers.emptyWrapper());
-    }
+	public List<DictItemDO> listDictItem() {
+		return dictItemMapper.selectList(Wrappers.emptyWrapper());
+	}
 
-    public Page<DictItemDO> pageDictItem(DictItemPageDTO dictItemPageDTO) {
-        LambdaQueryWrapper<DictItemDO> wrapper = Wrappers.<DictItemDO>lambdaQuery()
-                .eq(dictItemPageDTO.getDictId() != null, DictItemDO::getDictId, dictItemPageDTO.getDictId())
-                .orderByAsc(DictItemDO::getSortOrder);
+	public Page<DictItemDO> pageDictItem(DictItemPageDTO dictItemPageDTO) {
+		LambdaQueryWrapper<DictItemDO> wrapper = Wrappers.<DictItemDO>lambdaQuery()
+				.eq(dictItemPageDTO.getDictId() != null, DictItemDO::getDictId, dictItemPageDTO.getDictId())
+				.orderByAsc(DictItemDO::getSortOrder);
 
-        return dictItemMapper.selectPage(Page.of(dictItemPageDTO.getCurrent(), dictItemPageDTO.getSize()), wrapper);
-    }
+		return dictItemMapper.selectPage(Page.of(dictItemPageDTO.getCurrent(), dictItemPageDTO.getSize()), wrapper);
+	}
 
-    public Boolean existsDictItem(DictItemExistsDTO dictItemExistsDTO) {
-        DictItemDO dictItemDO = dictItemMapper.selectOne(Wrappers.<DictItemDO>lambdaQuery()
-                .eq(DictItemDO::getDictId, dictItemExistsDTO.getDictId())
-                .eq(DictItemDO::getValue, dictItemExistsDTO.getValue())
-                .last("limit 1"));
+	public Boolean existsDictItem(DictItemExistsDTO dictItemExistsDTO) {
+		DictItemDO dictItemDO = dictItemMapper
+				.selectOne(Wrappers.<DictItemDO>lambdaQuery().eq(DictItemDO::getDictId, dictItemExistsDTO.getDictId())
+						.eq(DictItemDO::getValue, dictItemExistsDTO.getValue()).last("limit 1"));
 
-        return Objects.nonNull(dictItemDO);
-    }
+		return Objects.nonNull(dictItemDO);
+	}
 
 }

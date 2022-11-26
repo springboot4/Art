@@ -18,7 +18,7 @@ package com.art.system.api.user;
 
 import com.art.common.core.constant.FxzServerConstant;
 import com.art.common.core.constant.SecurityConstants;
-import com.art.system.entity.SystemUser;
+import com.art.system.api.user.dto.SystemUserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +38,7 @@ public interface UserServiceApi {
 	 * @return 用户信息
 	 */
 	@GetMapping("/user/findByName/{username}")
-	SystemUser findByName(@PathVariable("username") String username,
+	SystemUserDTO findByName(@PathVariable("username") String username,
 			@RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
@@ -47,6 +47,7 @@ public interface UserServiceApi {
 	 * @return 用户信息
 	 */
 	@GetMapping("/user/findByMobile/{mobile}")
-	SystemUser findByMobile(@PathVariable("mobile") String mobile, @RequestHeader(SecurityConstants.FROM) String from);
+	SystemUserDTO findByMobile(@PathVariable("mobile") String mobile,
+			@RequestHeader(SecurityConstants.FROM) String from);
 
 }

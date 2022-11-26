@@ -18,8 +18,10 @@ package com.art.system.dao.dataobject;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.art.common.mp.base.MpEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 文件管理
@@ -27,6 +29,8 @@ import lombok.Data;
  * @author fxz
  * @date 2022-04-04
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Data
 @TableName("sys_file")

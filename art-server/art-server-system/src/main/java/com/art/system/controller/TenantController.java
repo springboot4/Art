@@ -16,14 +16,12 @@
 
 package com.art.system.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.mp.result.PageResult;
-import com.art.common.mp.result.Result;
+import com.art.common.core.result.PageResult;
+import com.art.common.core.result.Result;
 import com.art.common.security.annotation.Ojbk;
-import com.art.system.dao.dataobject.TenantDO;
-import com.art.system.param.TenantParam;
+import com.art.system.api.tenant.dto.TenantDTO;
+import com.art.system.api.tenant.dto.TenantPageDTO;
 import com.art.system.service.TenantService;
-import com.art.system.core.vo.TenantVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -68,11 +66,11 @@ public class TenantController {
 
 	/**
 	 * 保存租户信息
-	 * @param tenant 租户视图信息
+	 * @param tenant 租户信息
 	 */
 	@Operation(summary = "保存租户信息")
 	@PostMapping(value = "/add")
-	public Result<Boolean> add(@RequestBody TenantVO tenant) {
+	public Result<Boolean> add(@RequestBody TenantDTO tenant) {
 		return Result.success(tenantService.addSysTenant(tenant));
 	}
 
@@ -81,8 +79,8 @@ public class TenantController {
 	 */
 	@Operation(summary = "修改租户信息")
 	@PostMapping(value = "/update")
-	public Result update(@RequestBody TenantDO tenantDO) {
-		return Result.success(tenantService.updateSysTenant(tenantDO));
+	public Result<Void> update(@RequestBody TenantDTO tenantDTO) {
+		return Result.judge(tenantService.updateSysTenant(tenantDTO));
 	}
 
 	/**
@@ -90,7 +88,7 @@ public class TenantController {
 	 */
 	@Operation(summary = "删除租户信息")
 	@DeleteMapping(value = "/delete")
-	public Result delete(Long id) {
+	public Result<Void> delete(Long id) {
 		return Result.judge(tenantService.deleteSysTenant(id));
 	}
 
@@ -99,14 +97,14 @@ public class TenantController {
 	 */
 	@Operation(summary = "根据id查询租户信息")
 	@GetMapping(value = "/findById")
-	public Result<TenantDO> findById(Long id) {
+	public Result<TenantDTO> findById(Long id) {
 		return Result.success(tenantService.findById(id));
 	}
 
 	/**
-	 * 根据name查询租户信息
+	 * 根据name查询租户Id
 	 */
-	@Operation(summary = "根据name查询租户信息")
+	@Operation(summary = "根据name查询租户Id")
 	@Ojbk
 	@GetMapping(value = "/findIdByName")
 	public Result<Long> findTenantIdById(String name) {
@@ -118,7 +116,7 @@ public class TenantController {
 	 */
 	@Operation(summary = "获取全部租户信息")
 	@GetMapping(value = "/findAll")
-	public Result<List<TenantDO>> findAll() {
+	public Result<List<TenantDTO>> findAll() {
 		return Result.success(tenantService.findAll());
 	}
 
@@ -127,8 +125,8 @@ public class TenantController {
 	 */
 	@Operation(summary = "分页查询租户列表")
 	@GetMapping(value = "/page")
-	public Result<PageResult<TenantDO>> pageSysTenant(Page pageParam, TenantParam param) {
-		return Result.success(PageResult.success(tenantService.pageSysTenant(pageParam, param)));
+	public Result<PageResult<TenantDTO>> pageSysTenant(TenantPageDTO pageDTO) {
+		return Result.success(PageResult.success(tenantService.pageSysTenant(pageDTO)));
 	}
 
 }

@@ -32,14 +32,14 @@ import java.util.List;
 @Mapper
 public interface DictConvert {
 
-    DictConvert INSTANCE = Mappers.getMapper(DictConvert.class);
+	DictConvert INSTANCE = Mappers.getMapper(DictConvert.class);
 
-    DictDTO convert(DictDO dictDO);
+	DictDTO convert(DictDO dictDO);
 
-    DictDO convert(DictDTO dictDTO);
+	DictDO convert(DictDTO dictDTO);
 
-    List<DictDTO> convert(List<DictDO> dictDOList);
+	List<DictDTO> convert(List<DictDO> dictDOList);
 
-    Page<DictDTO> convert(Page<DictDO> dictDOList);
+	Page<DictDTO> convert(Page<DictDO> dictDOList);
 
 }

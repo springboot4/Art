@@ -16,12 +16,11 @@
 
 package com.art.system.service;
 
-import com.art.system.dao.dataobject.RoleDO;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.art.common.core.entity.DeptDataPermissionRespDTO;
-import com.art.common.core.param.PageParam;
+import com.art.common.core.entity.DeptDataPermissionRespEntity;
 import com.art.common.security.entity.FxzAuthUser;
+import com.art.system.api.role.dto.RoleDTO;
+import com.art.system.api.role.dto.RolePageDTO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 
@@ -30,27 +29,27 @@ import java.util.List;
  * @version 0.0.1
  * @date 2022-02-27 17:47
  */
-public interface RoleService extends IService<RoleDO> {
+public interface RoleService {
 
 	/**
 	 * 分页查询角色信息
 	 */
-	IPage<?> PageRole(PageParam pageParam, String roleName);
+	IPage<RoleDTO> pageRole(RolePageDTO pageDTO);
 
 	/**
 	 * 添加角色信息
 	 */
-	RoleDO addRole(RoleDO roleDO);
+	RoleDTO addRole(RoleDTO roleDTO);
 
 	/**
 	 * 根据id获取角色信息
 	 */
-	RoleDO getRoleById(Long id);
+	RoleDTO getRoleById(Long id);
 
 	/**
 	 * 修改角色信息
 	 */
-	Boolean editRole(RoleDO roleDO);
+	Boolean editRole(RoleDTO roleDTO);
 
 	/**
 	 * 删除角色信息
@@ -60,7 +59,7 @@ public interface RoleService extends IService<RoleDO> {
 	/**
 	 * 获取当前用户角色下的数据权限
 	 */
-	DeptDataPermissionRespDTO getDataPermission(FxzAuthUser user);
+	DeptDataPermissionRespEntity getDataPermission(FxzAuthUser user);
 
 	/**
 	 * 是否是超级管理员
@@ -71,6 +70,6 @@ public interface RoleService extends IService<RoleDO> {
 	/**
 	 * 获取所有角色
 	 */
-	List<RoleDO> getAllRole();
+	List<RoleDTO> getAllRole();
 
 }

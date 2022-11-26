@@ -32,14 +32,14 @@ import java.util.List;
 @Mapper
 public interface FileConvert {
 
-    FileConvert INSTANCE = Mappers.getMapper(FileConvert.class);
+	FileConvert INSTANCE = Mappers.getMapper(FileConvert.class);
 
-    FileDO convert(FileDTO fileDTO);
+	FileDO convert(FileDTO fileDTO);
 
-    FileDTO convert(FileDO fileDO);
+	FileDTO convert(FileDO fileDO);
 
-    List<FileDTO> convert(List<FileDO> fileDOList);
+	List<FileDTO> convert(List<FileDO> fileDOList);
 
-    Page<FileDTO> convert(Page<FileDO> fileDOList);
+	Page<FileDTO> convert(Page<FileDO> fileDOList);
 
 }
