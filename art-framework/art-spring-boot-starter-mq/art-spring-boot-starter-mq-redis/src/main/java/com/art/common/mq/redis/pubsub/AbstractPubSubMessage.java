@@ -14,15 +14,25 @@
  * limitations under the License.
  */
 
-package com.art.common.mq.redis.message;
+package com.art.common.mq.redis.pubsub;
+
+import com.art.common.mq.redis.message.AbstractRedisMessage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * redis 消息抽象基类
+ * 发布订阅消息抽象类
  *
  * @author Fxz
  * @version 0.0.1
- * @date 2022/6/30 16:16
+ * @date 2022/11/27 21:46
  */
-public abstract class AbstractRedisMessage {
+public abstract class AbstractPubSubMessage extends AbstractRedisMessage {
+
+	/**
+	 * 获取发布订阅的主题
+	 * @return 发布订阅的主题
+	 */
+	@JsonIgnore
+	public abstract String getTopic();
 
 }

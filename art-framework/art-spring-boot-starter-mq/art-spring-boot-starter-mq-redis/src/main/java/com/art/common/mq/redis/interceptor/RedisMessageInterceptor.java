@@ -25,16 +25,12 @@ import com.art.common.mq.redis.message.AbstractRedisMessage;
  */
 public interface RedisMessageInterceptor {
 
-	default void sendMessageBefore(AbstractRedisMessage message) {
-	}
+	void sendMessageBefore(AbstractRedisMessage message);
 
-	default void sendMessageAfter(AbstractRedisMessage message) {
-	}
+	void sendMessageAfter(AbstractRedisMessage message);
 
-	default void consumeMessageBefore(AbstractRedisMessage message) {
-	}
+	void consumeMessageBefore(AbstractRedisMessage message);
 
-	default void consumeMessageAfter(AbstractRedisMessage message) {
-	}
+	void consumeMessageAfter(AbstractRedisMessage message);
 
 }
