@@ -16,6 +16,7 @@
 
 package com.art.common.jackson.util;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -41,6 +42,14 @@ public class JacksonUtil {
 	@SneakyThrows
 	public static String toJsonString(Object object) {
 		return objectMapper.writeValueAsString(object);
+	}
+
+	@SneakyThrows
+	public static <T> T parseObject(byte[] bytes, Class<T> clazz) {
+		if (ArrayUtil.isEmpty(bytes)) {
+			return null;
+		}
+		return objectMapper.readValue(bytes, clazz);
 	}
 
 	@SneakyThrows
