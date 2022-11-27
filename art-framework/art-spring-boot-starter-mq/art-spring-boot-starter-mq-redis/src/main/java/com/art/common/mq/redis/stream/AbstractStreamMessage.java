@@ -16,8 +16,8 @@
 
 package com.art.common.mq.redis.stream;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.art.common.mq.redis.message.AbstractRedisMessage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Redis Stream Message 抽象类
@@ -27,9 +27,8 @@ import com.art.common.mq.redis.message.AbstractRedisMessage;
 public abstract class AbstractStreamMessage extends AbstractRedisMessage {
 
 	/**
-	 * 获得 Redis Stream Key
-	 * @return Channel
-	 * @JsonIgnore 避免序列化。原因是，Redis 发布 Channel 消息的时候，已经会指定。
+	 * 获得 Stream Key
+	 * @return Stream Key
 	 */
 	@JsonIgnore
 	public abstract String getStreamKey();
