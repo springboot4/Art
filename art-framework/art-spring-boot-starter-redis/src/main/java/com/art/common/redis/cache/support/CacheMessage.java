@@ -16,7 +16,7 @@
 
 package com.art.common.redis.cache.support;
 
-import com.art.common.mq.redis.stream.AbstractStreamMessage;
+import com.art.common.mq.redis.pubsub.AbstractPubSubMessage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CacheMessage extends AbstractStreamMessage implements Serializable {
+public class CacheMessage extends AbstractPubSubMessage implements Serializable {
 
 	private static final long serialVersionUID = 3987211310442078199L;
 
@@ -38,8 +38,8 @@ public class CacheMessage extends AbstractStreamMessage implements Serializable 
 	private Object key;
 
 	@Override
-	public String getStreamKey() {
-		return "cache:redis:caffeine:topic";
+	public String getTopic() {
+		return "cache.redis.caffeine.topic";
 	}
 
 }
