@@ -19,8 +19,9 @@ package com.art.system.controller;
 import com.art.common.Idempotent.annotation.Idempotent;
 import com.art.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolver;
 import com.art.common.core.exception.ErrorCodes;
-import com.art.common.core.util.MsgUtils;
 import com.art.common.core.result.Result;
+import com.art.common.core.util.MsgUtils;
+import com.art.common.lock.utils.RedissonUtils;
 import com.art.common.mq.redis.core.RedisMQTemplate;
 import com.art.common.redis.cache.support.CacheMessage;
 import com.art.common.security.annotation.Ojbk;
@@ -33,10 +34,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RateType;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CompletableFuture;
@@ -62,11 +65,34 @@ public class DemoController {
 
 	private final RedisMQTemplate redisMQTemplate;
 
+	@Operation(summary = "限流器")
+	@Ojbk
+	@GetMapping("/redisson/rateLimiter")
+	public Result<Long> rateLimiter() {
+		return Result.success(RedissonUtils.rateLimiter("demo.rateLimiter", RateType.OVERALL, 2, 20));
+	}
+
+	@Operation(summary = "向topic发布消息")
+	@Ojbk
+	@GetMapping("/pubsub/pub")
+	public Result<Void> pubTopic(@RequestParam("topic") String topic, @RequestParam("msg") String msg) {
+		RedissonUtils.publish(topic, msg);
+		return Result.success();
+	}
+
+	@Operation(summary = "手动订阅频道")
+	@Ojbk
+	@GetMapping("/pubsub/sub")
+	public Result<Void> subTopic(@RequestParam("topic") String topic) {
+		RedissonUtils.subscribe(topic, String.class, (channel, msg) -> log.info("接收到消息:{},{}", channel, msg));
+		return Result.success();
+	}
+
 	@Operation(summary = "清除缓存")
 	@Ojbk
 	@CacheEvict(value = "demo", key = "#id")
 	@GetMapping("/cache/evict")
-	public Result<String> CacheEvict(Long id) {
+	public Result<String> cacheEvict(Long id) {
 		redisMQTemplate.send(new CacheMessage());
 		return Result.success(id.toString());
 	}

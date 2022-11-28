@@ -17,14 +17,19 @@
 package com.art.common.redis.config;
 
 import com.art.common.redis.service.RedisService;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -41,13 +46,37 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 		"com.art.common.mq.redis.core.RedisMQTemplate" })
 public class RedisTemplateConfig {
 
+	@Bean
+	@Primary
+	@ConfigurationProperties(prefix = "spring.redis.lettuce.pool")
+	public GenericObjectPoolConfig<LettucePoolingClientConfiguration> genericObjectPoolConfig() {
+		return new GenericObjectPoolConfig<>();
+	}
+
+	@Primary
+	@Bean
+	public LettuceConnectionFactory redisTemplateLocal(
+			GenericObjectPoolConfig<LettucePoolingClientConfiguration> genericObjectPoolConfig,
+			RedisProperties redisProperties) {
+		RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+		configuration.setHostName(redisProperties.getHost());
+		configuration.setPort(redisProperties.getPort());
+		configuration.setDatabase(redisProperties.getDatabase());
+		configuration.setPassword(redisProperties.getPassword());
+
+		LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration
+				.builder().poolConfig(genericObjectPoolConfig).commandTimeout(redisProperties.getTimeout());
+
+		return new LettuceConnectionFactory(configuration, builder.build());
+	}
+
 	/**
 	 * 创建 RedisTemplate 设置序列化方式
 	 */
 	@Primary
 	@Bean
 	@ConditionalOnClass(RedisOperations.class)
-	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
+	public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory factory) {
 		// 创建 RedisTemplate 对象
 		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		// 设置 RedisConnection 工厂。
