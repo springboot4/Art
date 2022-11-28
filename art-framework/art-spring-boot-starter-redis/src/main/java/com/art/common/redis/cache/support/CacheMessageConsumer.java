@@ -16,7 +16,7 @@
 
 package com.art.common.redis.cache.support;
 
-import com.art.common.mq.redis.stream.AbstractStreamMessageListener;
+import com.art.common.mq.redis.pubsub.AbstractPubSubMessageListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,13 +25,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class CacheMessageConsumer extends AbstractStreamMessageListener<CacheMessage> {
+public class CacheMessageConsumer extends AbstractPubSubMessageListener<CacheMessage> {
 
 	private final RedisCaffeineCacheManager redisCaffeineCacheManager;
 
 	@Override
 	public void onMessage(CacheMessage cacheMessage) {
-		log.info("接收到redis stream消息，清空本地缓存，缓存名称:{}, key:{}", cacheMessage.getCacheName(), cacheMessage.getKey());
+		log.info("接收到redis topic消息，清空本地缓存，缓存名称:{}, key:{}", cacheMessage.getCacheName(), cacheMessage.getKey());
 		redisCaffeineCacheManager.clearLocal(cacheMessage.getCacheName(), cacheMessage.getKey());
 	}
 

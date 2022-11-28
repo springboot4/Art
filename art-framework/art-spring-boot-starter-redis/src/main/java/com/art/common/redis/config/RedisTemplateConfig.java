@@ -16,7 +16,6 @@
 
 package com.art.common.redis.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.art.common.redis.service.RedisService;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -43,12 +42,12 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 public class RedisTemplateConfig {
 
 	/**
-	 * 创建 RedisTemplate Bean，设置序列化方式
+	 * 创建 RedisTemplate 设置序列化方式
 	 */
 	@Primary
 	@Bean
 	@ConditionalOnClass(RedisOperations.class)
-	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory, ObjectMapper objectMapper) {
+	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
 		// 创建 RedisTemplate 对象
 		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		// 设置 RedisConnection 工厂。
