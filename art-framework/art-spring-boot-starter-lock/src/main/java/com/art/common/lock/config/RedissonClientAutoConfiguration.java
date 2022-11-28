@@ -28,6 +28,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
 import java.util.Objects;
 
@@ -47,6 +48,7 @@ public class RedissonClientAutoConfiguration {
 
 	private final RedisProperties redisProperties;
 
+	@Primary
 	@Bean
 	public RedissonClient redissonClient() {
 		Config config = new Config();

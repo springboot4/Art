@@ -87,10 +87,10 @@
             <artifactId>art-api-auth</artifactId>
         </dependency>
 
-        <!--banner信息-->
+        <!--测试:分布式锁-->
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-banner</artifactId>
+            <artifactId>art-spring-boot-starter-lock</artifactId>
         </dependency>
 
         <!--测试:xxl-job-->
@@ -165,7 +165,7 @@
             <artifactId>art-spring-boot-starter-file</artifactId>
         </dependency>
 
-        <!--多级缓存、分布式锁-->
+        <!--多级缓存-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-redis</artifactId>
@@ -175,6 +175,12 @@
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!--banner信息-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-banner</artifactId>
         </dependency>
 
     </dependencies>
