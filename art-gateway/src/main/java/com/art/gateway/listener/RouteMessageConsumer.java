@@ -20,7 +20,7 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 import com.art.common.gateway.dynamic.route.FxzRouteDefinition;
 import com.art.common.gateway.dynamic.route.FxzRouteDefinitionRepository;
-import com.art.common.mq.redis.stream.AbstractStreamMessageListener;
+import com.art.common.mq.redis.pubsub.AbstractPubSubMessageListener;
 import com.art.common.redis.constant.CacheConstants;
 import com.art.system.api.route.dto.RouteConfDTO;
 import com.art.system.api.route.mq.RouteMessage;
@@ -43,7 +43,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class RouteMessageConsumer extends AbstractStreamMessageListener<RouteMessage> {
+public class RouteMessageConsumer extends AbstractPubSubMessageListener<RouteMessage> {
 
 	private final RedisTemplate redisTemplate;
 
@@ -54,7 +54,7 @@ public class RouteMessageConsumer extends AbstractStreamMessageListener<RouteMes
 		// 清空缓存中的路由信息
 		redisTemplate.delete(CacheConstants.ROUTE_KEY);
 
-		log.info("接收到redis stream消息，缓存路由信息到redis {}", message.getRouteConfDOList());
+		log.info("接收到redis topic消息，缓存路由信息到redis {}", message.getRouteConfDOList());
 		List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
 
 		routeConfList.stream().forEach(sys -> {

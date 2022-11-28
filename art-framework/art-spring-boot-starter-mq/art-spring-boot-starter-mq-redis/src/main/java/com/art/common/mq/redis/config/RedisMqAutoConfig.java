@@ -53,7 +53,7 @@ import java.util.Properties;
 public class RedisMqAutoConfig {
 
 	/**
-	 * redis消息队列操作类
+	 * Redis消息队列操作类
 	 */
 	@Bean
 	public RedisMQTemplate redisMQTemplate(StringRedisTemplate redisTemplate,
@@ -69,12 +69,12 @@ public class RedisMqAutoConfig {
 	@Bean
 	public StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, String>> options() {
 		return StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
+				// 读取超时时间
+				.pollTimeout(Duration.ofSeconds(3))
 				// 每次最多拉取多少条消息
 				.batchSize(10)
 				// 目标类型 我们手动序列化为String
-				.targetType(String.class)
-				// 读取超时时间
-				.pollTimeout(Duration.ofSeconds(3)).build();
+				.targetType(String.class).build();
 	}
 
 	/**
@@ -97,7 +97,13 @@ public class RedisMqAutoConfig {
 		// 注册监听器 消费对应的 Stream 主题
 		listeners.parallelStream().forEach(listener -> {
 			// 创建 listener 对应的消费者分组
-			redisTemplate.opsForStream().createGroup(listener.getStreamKey(), listener.getGroup());
+			try {
+				redisTemplate.opsForStream().createGroup(listener.getStreamKey(), listener.getGroup());
+			}
+			catch (Exception e) {
+				log.info("消费者组已存在 不在重复创建");
+			}
+
 			// 设置 listener 对应的 redisTemplate
 			listener.setRedisMQTemplate(redisMQTemplate);
 			// 设置 Consumer 监听
@@ -116,6 +122,9 @@ public class RedisMqAutoConfig {
 		return container;
 	}
 
+	/**
+	 * 创建发布订阅消费容器
+	 */
 	@Bean
 	public RedisMessageListenerContainer redisMessageListenerContainer(RedisMQTemplate redisMQTemplate,
 			List<AbstractPubSubMessageListener<?>> listeners) {

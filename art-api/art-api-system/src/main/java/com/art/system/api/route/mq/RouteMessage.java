@@ -16,7 +16,7 @@
 
 package com.art.system.api.route.mq;
 
-import com.art.common.mq.redis.stream.AbstractStreamMessage;
+import com.art.common.mq.redis.pubsub.AbstractPubSubMessage;
 import com.art.system.api.route.dto.RouteConfDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,15 +33,15 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RouteMessage extends AbstractStreamMessage implements Serializable {
+public class RouteMessage extends AbstractPubSubMessage implements Serializable {
 
 	private static final long serialVersionUID = -1L;
 
 	List<RouteConfDTO> routeConfDOList;
 
 	@Override
-	public String getStreamKey() {
-		return "route:redis:gateway:topic";
+	public String getTopic() {
+		return "route.redis.gateway.topic";
 	}
 
 }
