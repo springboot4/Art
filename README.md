@@ -1,7 +1,7 @@
 ![logo](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/d9Qz42.svg)
 ##  🚀项目介绍
 Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。致力于打造成一款具有影响力的微服务开发平台。
- 
+
 
 ## 🪜项目结构
 ```lua
@@ -73,54 +73,34 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 ## 💻系统应用
 RBAC&数据权限，角色支持多种数据权限设定，支持自定义进行拓展。
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/v5m3e1.png)<br/>
-SaaS多租户，自定义租户套餐.<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/IQ7uvi.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/mPf6tH.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/Wb1Xck.png)<br/>
-动态网关，网关支持通过前端动态配置，不需要在nacos中维护路由信息，修改自动加载，无需重启服务。<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/ZOGHdk.png)<br/>
 
-动态数据源&代码生成,支持动态添加数据源与项目基础crud代码生成。<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/UCiIcm.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/DR2mTD.png)<br/>
-支持多种登录方式,可自定义进行拓展。<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/6Mr28s.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/3Z3LIE.png)<br/>
-字典管理<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/OZSRwm.png)<br/>
-强退用户<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/q49Fii.png)<br/>
-审计日志<br/>
+| RBAC&数据权限                     | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/v5m3e1.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/Wb1Xck.png) |
+| --------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 多租户                            | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/IQ7uvi.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/mPf6tH.png) |
+| 动态网关&字典管理                 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/ZOGHdk.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/OZSRwm.png) |
+| 动态数据源&代码生成,              | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/UCiIcm.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/DR2mTD.png) |
+| 支持多种登录方式,可自定义进行拓展 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/6Mr28s.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/3Z3LIE.png) |
+| 强退用户&审计日志                 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/q49Fii.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/q49Fii.png) |
 
-## ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/IcEOnf.png)<br/>🎁商城应用
 
-<br/>秒杀活动<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/WbsMOF.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/xzQlSf.png)
-<br/>优惠券活动<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/eQpsqF.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/a2FHWN.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/9V94xp.png)
-<br/>商品检索<br/>
+## 🎁商城应用
 
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/CKYzR4.png)
-<br/>订单管理<br/>
+| 秒杀活动          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/WbsMOF.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/xzQlSf.png) |
+| ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 优惠券活动        | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/eQpsqF.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/a2FHWN.png) |
+| 商品检索          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/9V94xp.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/CKYzR4.png) |
+| 订单管理&会员管理 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/Xw6k8N.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/feS6Ao.png) |
 
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/Xw6k8N.png)
-<br/>会员管理<br/>
 
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/feS6Ao.png)
+
 ## 📱移动端展示
 
-支持多种登录方式<br/>
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/uod52k.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/miu152.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/cYEjX8.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/pwUEN0.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/qip5o6.png)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/3sTPGv.png)
-## 🔍说明
+| 支持多种登录方式 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/uod52k.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/miu152.png) |
+| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 商品详情         | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/cYEjX8.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/pwUEN0.png) |
+| 购物车           | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/qip5o6.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/3sTPGv.png) |
+
+## 🔍项目说明
 脚手架与商城为两个单独项目，功能可按需引入。如仅需脚手架功能，可轻松去除。<br/>
 低耦合，秒上手，稳得很！
 ## ❓其他功能
