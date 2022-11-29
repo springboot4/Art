@@ -72,7 +72,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 - 外部数据接口：外部（应用）数据存储服务提供的接口，多见于数据迁移场景中。
 
 ## 💻系统应用
- 
+
 | RBAC&数据权限                     | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/v5m3e1.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/Wb1Xck.png) |
 | --------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 多租户                            | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/IQ7uvi.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/mPf6tH.png) |
@@ -117,18 +117,12 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 
 ## 🍺加入我们
-qq交流群:932249645
-<p>
-<img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png" width = "330" height = "500"/>
-</p>
-微信交流群:
-<p>
-<img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/dlSOnC.jpg" width = "330" height = "500"/>
-</p>
-二维码过期可加本人微信:
-<p>
-<img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png" width = "330" height = "500"/>
-</p>
+| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/dlSOnC.jpg) |
+| ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) |                                                              |
+
+ 
+
 
 ## 🍬说明文档
 [🍓🍓🍓配套文档 fxzcloud.gitee.io/docs](https://fxzcloud.gitee.io/docs/)
