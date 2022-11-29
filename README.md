@@ -72,8 +72,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 - 外部数据接口：外部（应用）数据存储服务提供的接口，多见于数据迁移场景中。
 
 ## 💻系统应用
-RBAC&数据权限，角色支持多种数据权限设定，支持自定义进行拓展。
-
+ 
 | RBAC&数据权限                     | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/v5m3e1.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/Wb1Xck.png) |
 | --------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 多租户                            | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/IQ7uvi.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/mPf6tH.png) |
