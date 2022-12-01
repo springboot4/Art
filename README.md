@@ -1,6 +1,6 @@
 ![logo](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/d9Qz42.svg)
 ##  🚀项目介绍
-Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。致力于打造成一款具有影响力的微服务开发平台。
+Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 
 
 ## 🪜项目结构
@@ -126,3 +126,6 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 ## 🍬说明文档
 [🍓🍓🍓配套文档 fxzcloud.gitee.io/docs](https://fxzcloud.gitee.io/docs/)
+
+## 🤝鸣谢
+感谢 [![jetbrains](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/12/01/DGnop3.png)](https://www.jetbrains.com/)提供的免费License
