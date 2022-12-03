@@ -32,7 +32,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
-  `dept_id` bigint NOT NULL AUTO_INCREMENT COMMENT '部门ID',
+  `dept_id` bigint NOT NULL  COMMENT '部门ID',
   `parent_id` bigint NOT NULL COMMENT '上级部门ID',
   `dept_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '部门名称',
   `order_num` double(20,0) DEFAULT NULL COMMENT '排序',
@@ -41,7 +41,7 @@ CREATE TABLE `sys_dept` (
   `create_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COMMENT='部门表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='部门表';
 
 -- ----------------------------
 -- Records of sys_dept
@@ -172,7 +172,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '菜单/按钮ID',
+  `id` bigint NOT NULL COMMENT '菜单/按钮ID',
   `parent_id` bigint NOT NULL COMMENT '上级菜单ID',
   `title` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT 'title',
   `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜单/按钮名称',
@@ -191,7 +191,7 @@ CREATE TABLE `sys_menu` (
   `hidden` char(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT '0' COMMENT '是否隐藏(1 隐藏 0 不隐藏)',
   `application` bigint DEFAULT NULL COMMENT '应用id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=100051 DEFAULT CHARSET=utf8mb3 COMMENT='菜单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='菜单表';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -6714,7 +6714,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_tenant`;
 CREATE TABLE `sys_tenant` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '租户id',
+  `id` bigint NOT NULL  COMMENT '租户id',
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '租户名',
   `tenant_admin_id` bigint DEFAULT NULL COMMENT '当前租户管理员id',
   `tenant_admin_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '当前租户管理员姓名',
@@ -6729,7 +6729,7 @@ CREATE TABLE `sys_tenant` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '0-正常，1-删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1576530912007237636 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
 
 -- ----------------------------
 -- Records of sys_tenant
@@ -6738,6 +6738,7 @@ BEGIN;
 INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 1, 'fxz', '19812341234', 0, 0, '2023-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2022-10-30 10:58:31', b'0');
 INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1576530912007237634, '测试租户', 5, '老六', '16601231234', 0, 1576530575020077058, '2022-10-30 00:00:00', 100, 'fxz', '2022-10-02 19:13:55', 'fxz', '2022-10-02 19:13:55', b'0');
 COMMIT;
+
 
 -- ----------------------------
 -- Table structure for sys_tenant_package
