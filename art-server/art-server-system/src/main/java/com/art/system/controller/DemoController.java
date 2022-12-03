@@ -55,113 +55,113 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class DemoController {
 
-    private final Sequence fxzSequence;
+	private final Sequence fxzSequence;
 
-    private final Sequence cloudSequence;
+	private final Sequence cloudSequence;
 
-    private final UserWsNoticeService userWsNoticeService;
+	private final UserWsNoticeService userWsNoticeService;
 
-    private final RedisMQTemplate redisMQTemplate;
+	private final RedisMQTemplate redisMQTemplate;
 
-    @Operation(summary = "限流器")
-    @Ojbk
-    @GetMapping("/redisson/rateLimiter")
-    public Result<Long> rateLimiter() {
-        return Result.success(RedissonUtils.rateLimiter("demo.rateLimiter", RateType.OVERALL, 2, 20));
-    }
+	@Operation(summary = "限流器")
+	@Ojbk
+	@GetMapping("/redisson/rateLimiter")
+	public Result<Long> rateLimiter() {
+		return Result.success(RedissonUtils.rateLimiter("demo.rateLimiter", RateType.OVERALL, 2, 20));
+	}
 
-    @Operation(summary = "向topic发布消息")
-    @Ojbk
-    @GetMapping("/pubsub/pub")
-    public Result<Void> pubTopic(@RequestParam("topic") String topic, @RequestParam("msg") String msg) {
-        RedissonUtils.publish(topic, msg);
-        return Result.success();
-    }
+	@Operation(summary = "向topic发布消息")
+	@Ojbk
+	@GetMapping("/pubsub/pub")
+	public Result<Void> pubTopic(@RequestParam("topic") String topic, @RequestParam("msg") String msg) {
+		RedissonUtils.publish(topic, msg);
+		return Result.success();
+	}
 
-    @Operation(summary = "手动订阅频道")
-    @Ojbk
-    @GetMapping("/pubsub/sub")
-    public Result<Void> subTopic(@RequestParam("topic") String topic) {
-        RedissonUtils.subscribe(topic, String.class, (channel, msg) -> log.info("接收到消息:{},{}", channel, msg));
-        return Result.success();
-    }
+	@Operation(summary = "手动订阅频道")
+	@Ojbk
+	@GetMapping("/pubsub/sub")
+	public Result<Void> subTopic(@RequestParam("topic") String topic) {
+		RedissonUtils.subscribe(topic, String.class, (channel, msg) -> log.info("接收到消息:{},{}", channel, msg));
+		return Result.success();
+	}
 
-    @Operation(summary = "清除缓存")
-    @Ojbk
-    @CacheEvict(value = "demo", key = "#id")
-    @GetMapping("/cache/evict")
-    public Result<String> cacheEvict(Long id) {
-        redisMQTemplate.send(new CacheMessage());
-        return Result.success(id.toString());
-    }
+	@Operation(summary = "清除缓存")
+	@Ojbk
+	@CacheEvict(value = "demo", key = "#id")
+	@GetMapping("/cache/evict")
+	public Result<String> cacheEvict(Long id) {
+		redisMQTemplate.send(new CacheMessage());
+		return Result.success(id.toString());
+	}
 
-    @Ojbk
-    @Cacheable(value = "demo", key = "#id")
-    @GetMapping("/cache/demo")
-    public Result<String> get(Long id) {
-        return Result.success(id.toString());
-    }
+	@Ojbk
+	@Cacheable(value = "demo", key = "#id")
+	@GetMapping("/cache/demo")
+	public Result<String> get(Long id) {
+		return Result.success(id.toString());
+	}
 
-    @Ojbk
-    @GetMapping("/websocket")
-    public Result<Void> websocket() {
-        userWsNoticeService.sendMessageByAll("全体起立！");
-        return Result.success();
-    }
+	@Ojbk
+	@GetMapping("/websocket")
+	public Result<Void> websocket() {
+		userWsNoticeService.sendMessageByAll("全体起立！");
+		return Result.success();
+	}
 
-    @SneakyThrows
-    @Ojbk
-    @GetMapping("/seqTestZdy")
-    public Result<String> seqTestZdy() {
-        return Result.success(fxzSequence.nextValue("fxz") + ":" + cloudSequence.nextValue("cloud"));
-    }
+	@SneakyThrows
+	@Ojbk
+	@GetMapping("/seqTestZdy")
+	public Result<String> seqTestZdy() {
+		return Result.success(fxzSequence.nextValue("fxz") + ":" + cloudSequence.nextValue("cloud"));
+	}
 
-    @GetMapping("/security/inheritable")
-    public Result<FxzAuthUser> securityInheritable() {
-        AtomicReference<FxzAuthUser> user = new AtomicReference<>();
+	@GetMapping("/security/inheritable")
+	public Result<FxzAuthUser> securityInheritable() {
+		AtomicReference<FxzAuthUser> user = new AtomicReference<>();
 
-        user.set(SecurityUtil.getUser());
-        log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
+		user.set(SecurityUtil.getUser());
+		log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
 
-        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.runAsync(() -> {
-            user.set(SecurityUtil.getUser());
-            log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
-        });
+		CompletableFuture<Void> voidCompletableFuture = CompletableFuture.runAsync(() -> {
+			user.set(SecurityUtil.getUser());
+			log.info("user:{},Thread:{}", user, Thread.currentThread().getId());
+		});
 
-        voidCompletableFuture.join();
+		voidCompletableFuture.join();
 
-        return Result.success(user.get());
-    }
+		return Result.success(user.get());
+	}
 
-    @Ojbk
-    @GetMapping("/messageTest")
-    public Result<String> messageTest() {
-        return Result.failed(MsgUtils.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
-    }
+	@Ojbk
+	@GetMapping("/messageTest")
+	public Result<String> messageTest() {
+		return Result.failed(MsgUtils.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
+	}
 
-    @Idempotent(timeout = 10, message = "别发请求，等我执行完")
-    @Ojbk
-    @PostMapping("/idempotentObj")
-    public Result<Void> idempotentObj(@RequestBody SystemUserDTO user) {
-        log.info("方法执行");
-        return Result.success();
-    }
+	@Idempotent(timeout = 10, message = "别发请求，等我执行完")
+	@Ojbk
+	@PostMapping("/idempotentObj")
+	public Result<Void> idempotentObj(@RequestBody SystemUserDTO user) {
+		log.info("方法执行");
+		return Result.success();
+	}
 
-    @Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class, key = "#str")
-    @Ojbk
-    @GetMapping("/idempotent")
-    public Result<Void> testIdempotent(String str) {
-        log.info("方法执行");
-        return Result.success();
-    }
+	@Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class, key = "#str")
+	@Ojbk
+	@GetMapping("/idempotent")
+	public Result<Void> testIdempotent(String str) {
+		log.info("方法执行");
+		return Result.success();
+	}
 
-    @Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class, key = "#str",
-            delKey = true)
-    @Ojbk
-    @GetMapping("/idempotentDel")
-    public Result<Void> idempotentDel(String str) {
-        log.info("方法执行且执行完自动删除key");
-        return Result.success();
-    }
+	@Idempotent(timeout = 10, message = "别发请求，等我执行完", keyResolver = ExpressionIdempotentKeyResolver.class, key = "#str",
+			delKey = true)
+	@Ojbk
+	@GetMapping("/idempotentDel")
+	public Result<Void> idempotentDel(String str) {
+		log.info("方法执行且执行完自动删除key");
+		return Result.success();
+	}
 
 }
