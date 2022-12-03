@@ -24,14 +24,17 @@
         <version>0.0.1</version>
     </parent>
 
-    <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>art-spring-boot-starter-mq</artifactId>
-    <description>消息队列操作模块</description>
+    <description>rabbit-mq模块</description>
+    <artifactId>art-spring-boot-starter-mq-rabbit</artifactId>
 
-    <modules>
-        <module>art-spring-boot-starter-mq-rabbit</module>
-        <module>art-spring-boot-starter-mq-redis</module>
-    </modules>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
