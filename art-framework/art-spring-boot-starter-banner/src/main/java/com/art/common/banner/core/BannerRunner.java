@@ -39,7 +39,7 @@ public class BannerRunner implements ApplicationRunner {
 	public void run(ApplicationArguments args) {
 		ThreadUtil.execute(() -> {
 			ThreadUtil.sleep(3, TimeUnit.SECONDS);
-			log.info("" + "\n" + "项目启动成功！" + "\n" + "服务:{}" + "\n" + "接口文档:http://fxz-gateway:8301/doc.html", appName);
+			log.info("" + "\n" + "项目启动成功！" + "\n" + "服务:{}" + "\n" + "项目文档:http://fxz-gateway:8301", appName);
 		});
 	}
 
