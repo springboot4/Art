@@ -27,6 +27,7 @@
     <artifactId>art-spring-boot-starter-dependencies</artifactId>
 
     <properties>
+        <mysql.version>8.0.31</mysql.version>
         <jakarta.version>2.0.1</jakarta.version>
         <es-java.version>7.17.3</es-java.version>
         <redisson.version>3.17.0</redisson.version>
@@ -56,6 +57,11 @@
     <!-- 定义全局jar版本-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
