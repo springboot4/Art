@@ -48,9 +48,7 @@ public class RedissonUtils {
 		if (rateLimiter.tryAcquire()) {
 			return rateLimiter.availablePermits();
 		}
-		else {
-			return -1L;
-		}
+		return -1L;
 	}
 
 	/**
