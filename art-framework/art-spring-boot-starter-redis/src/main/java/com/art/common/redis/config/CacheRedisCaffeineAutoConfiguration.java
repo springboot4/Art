@@ -20,7 +20,7 @@ import com.art.common.mq.redis.core.RedisMQTemplate;
 import com.art.common.redis.cache.properties.CacheRedisCaffeineProperties;
 import com.art.common.redis.cache.support.CacheMessageConsumer;
 import com.art.common.redis.cache.support.RedisCaffeineCacheManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
@@ -31,13 +31,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 /**
  * @author fxz
  */
+@RequiredArgsConstructor
 @AutoConfiguration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties(CacheRedisCaffeineProperties.class)
 public class CacheRedisCaffeineAutoConfiguration {
 
-	@Autowired
-	private CacheRedisCaffeineProperties cacheRedisCaffeineProperties;
+	private final CacheRedisCaffeineProperties cacheRedisCaffeineProperties;
 
 	@Bean
 	public RedisCaffeineCacheManager cacheManager(RedisTemplate redisTemplate, RedisMQTemplate redisMQTemplate) {
