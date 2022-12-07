@@ -25,8 +25,8 @@ export const tableObj = {
       field: 'jobGroup'
     },
     {
-      title: '调用目标字符串',
-      field: 'invokeTarget'
+      title: '方法执行参数',
+      field: 'parameters'
     },
     {
       title: 'cron执行表达式',

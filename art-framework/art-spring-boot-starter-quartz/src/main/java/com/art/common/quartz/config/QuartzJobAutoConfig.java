@@ -14,17 +14,24 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.param;
+package com.art.common.quartz.config;
 
-import lombok.Data;
+import com.art.common.quartz.core.scheduler.JobScheduler;
+import org.quartz.Scheduler;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
 
 /**
- * 定时任务调度表
- *
- * @author fxz
- * @date 2022-04-03
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/12/7 10:43
  */
-@Data
-public class JobParam {
+@AutoConfiguration
+public class QuartzJobAutoConfig {
+
+	@Bean
+	public JobScheduler jobScheduler(Scheduler scheduler) {
+		return new JobScheduler(scheduler);
+	}
 
 }
