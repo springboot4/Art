@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.utils;
-
-import com.art.scheduled.core.entity.SysJob;
-import org.quartz.JobExecutionContext;
+package com.art.common.quartz.core.job;
 
 /**
- * 定时任务处理（允许并发执行）
+ * 干活的
  *
- * @author fxz
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/12/7 11:51
  */
-public class QuartzJobExecution extends AbstractQuartzJob {
+public interface ArtJob {
 
-	@Override
-	protected void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception {
-		JobInvokeUtil.invokeMethod(sysJob);
-	}
+	/**
+	 * 任务逻辑
+	 * @param parameter 方法执行所需参数
+	 */
+	void execute(String parameter);
 
 }

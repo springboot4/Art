@@ -17,7 +17,7 @@
 package com.art.scheduled.core.entity;
 
 import com.art.common.mp.base.BaseCreateEntity;
-import com.art.scheduled.core.constant.ScheduleConstants;
+import com.art.common.quartz.core.constants.ScheduleConstants;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -52,9 +52,9 @@ public class SysJob extends BaseCreateEntity {
 	private String jobGroup;
 
 	/**
-	 * 调用目标字符串
+	 * 执行参数
 	 */
-	private String invokeTarget;
+	private String parameters;
 
 	/**
 	 * cron执行表达式
@@ -65,11 +65,6 @@ public class SysJob extends BaseCreateEntity {
 	 * cron计划策略
 	 */
 	private String misfirePolicy = ScheduleConstants.MISFIRE_DEFAULT;
-
-	/**
-	 * 是否并发执行（0允许 1禁止）
-	 */
-	private String concurrent;
 
 	/**
 	 * 任务状态（0正常 1暂停）

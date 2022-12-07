@@ -19,19 +19,19 @@
       </a-form-model-item>
       <a-form-model-item label="任务名称" prop="jobName">
         <a-input v-model="form.jobName" v-if="!showable" />
-        <span v-else>form.jobName</span>
+        <span v-else>{{form.jobName}}</span>
       </a-form-model-item>
       <a-form-model-item label="任务分组" prop="jobGroup">
         <a-input v-model="form.jobGroup" v-if="!showable"/>
-        <span v-else>form.jobGroup</span>
+        <span v-else>{{form.jobGroup}}</span>
       </a-form-model-item>
-      <a-form-model-item label="调用方法" prop="invokeTarget">
-        <a-input v-model="form.invokeTarget" v-if="!showable"/>
-        <span v-else>form.invokeTarget</span>
+      <a-form-model-item label="执行参数" prop="parameters">
+        <a-input v-model="form.parameters" v-if="!showable"/>
+        <span v-else>{{form.parameters}}</span>
       </a-form-model-item>
       <a-form-model-item label="corn表达式" prop="cronExpression">
         <a-input v-model="form.cronExpression" v-if="!showable"/>
-        <span v-else>form.cronExpression</span>
+        <span v-else>{{form.cronExpression}}</span>
       </a-form-model-item>
       <a-form-model-item label="执行策略" prop="misfirePolicy">
         <a-radio-group default-value="0" button-style="solid" v-model="form.misfirePolicy" v-if="!showable">
@@ -43,16 +43,6 @@
           <a-tag v-if="form.misfirePolicy==='1'" color="#87d068">立即执行</a-tag>
           <a-tag v-if="form.misfirePolicy==='2'" color="#87d068">执行一次</a-tag>
           <a-tag v-if="form.misfirePolicy==='3'" color="#87d068">放弃执行</a-tag>
-        </span>
-      </a-form-model-item>
-      <a-form-model-item label="是否并发" prop="concurrent">
-        <a-radio-group default-value="1" button-style="solid" v-model="form.concurrent" v-if="!showable">
-          <a-radio-button value="0">允许</a-radio-button>
-          <a-radio-button value="1">禁止</a-radio-button>
-        </a-radio-group>
-        <span v-else>
-          <a-tag v-if="form.concurrent==='0'" color="#87d068">允许</a-tag>
-          <a-tag v-if="form.concurrent==='1'" color="#f50">禁止</a-tag>
         </span>
       </a-form-model-item>
       <a-form-model-item label="状态" prop="status">
@@ -86,10 +76,9 @@ export default {
         jobId: '',
         jobName: '',
         jobGroup: '',
-        invokeTarget: '',
+        parameters: '',
         cronExpression: '',
         misfirePolicy: '',
-        concurrent: '',
         status: ''
       },
       rules: {
@@ -99,7 +88,7 @@ export default {
         jobGroup: [
           { required: true, message: '请选择任务分组', trigger: 'blur' }
         ],
-        invokeTarget: [
+        parameters: [
           { required: true, message: '请输入调用方法', trigger: 'blur' }
         ],
         cronExpression: [
@@ -107,9 +96,6 @@ export default {
         ],
         misfirePolicy: [
           { required: true, message: '请选择执行策略', trigger: 'blur' }
-        ],
-        concurrent: [
-          { required: true, message: '请选择是否并发', trigger: 'blur' }
         ],
         status: [
           { required: true, message: '请选择任务状态', trigger: 'blur' }

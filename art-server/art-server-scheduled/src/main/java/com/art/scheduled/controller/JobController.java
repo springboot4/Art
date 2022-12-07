@@ -17,15 +17,13 @@
 package com.art.scheduled.controller;
 
 import cn.hutool.core.lang.Assert;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.core.constant.FxzConstant;
 import com.art.common.core.result.PageResult;
 import com.art.common.core.result.Result;
+import com.art.common.quartz.core.utils.CronUtils;
 import com.art.scheduled.core.entity.SysJob;
 import com.art.scheduled.service.JobService;
-import com.art.scheduled.core.utils.CronUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -87,16 +85,6 @@ public class JobController {
 
 	private void validJob(SysJob sysJob) {
 		Assert.isTrue(CronUtils.isValid(sysJob.getCronExpression()), "新增任务'" + sysJob.getJobName() + "'失败，Cron表达式不正确");
-		Assert.isTrue(!StringUtils.containsIgnoreCase(sysJob.getInvokeTarget(), FxzConstant.LOOKUP_RMI),
-				"新增任务'" + sysJob.getJobName() + "'失败，目标字符串不允许'rmi'调用");
-		Assert.isTrue(
-				!(StringUtils.containsIgnoreCase(sysJob.getInvokeTarget(), FxzConstant.LOOKUP_LDAPS)
-						|| StringUtils.containsIgnoreCase(sysJob.getInvokeTarget(), FxzConstant.LOOKUP_LDAP)),
-				"新增任务'" + sysJob.getJobName() + "'失败，目标字符串不允许'ldap(s)'调用");
-		Assert.isTrue(
-				!(StringUtils.containsIgnoreCase(sysJob.getInvokeTarget(), FxzConstant.HTTP)
-						|| StringUtils.containsIgnoreCase(sysJob.getInvokeTarget(), FxzConstant.HTTPS)),
-				"新增任务'" + sysJob.getJobName() + "'失败，目标字符串不允许'http(s)'调用");
 	}
 
 }

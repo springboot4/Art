@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.utils;
+package com.art.scheduled.core.job;
 
-import com.art.scheduled.core.entity.SysJob;
-import org.quartz.DisallowConcurrentExecution;
-import org.quartz.JobExecutionContext;
+import com.art.common.quartz.core.job.ArtJob;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 /**
- * 定时任务处理（禁止并发执行）
- *
- * @author fxz
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/12/7 11:53
  */
-@DisallowConcurrentExecution
-public class QuartzDisallowConcurrentExecution extends AbstractQuartzJob {
+@Slf4j
+@Component("demoJob")
+public class DemoJob implements ArtJob {
 
 	@Override
-	protected void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception {
-		JobInvokeUtil.invokeMethod(sysJob);
+	public void execute(String parameter) {
+		log.info("demoJob执行,方法参数:{},时间:{}", parameter, LocalDateTime.now());
 	}
 
 }
