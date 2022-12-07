@@ -19,7 +19,7 @@
 <mapper namespace="com.art.system.dao.mysql.RoleMapper">
 
     <!--根据id获取角色信息-->
-    <select id="getRoleById" resultType="com.art.system.dao.dataobject.RoleDO">
+    <select id="getRoleById" resultType="com.art.system.core.bo.RoleBO">
         SELECT
             r.role_id,
             r.role_name,

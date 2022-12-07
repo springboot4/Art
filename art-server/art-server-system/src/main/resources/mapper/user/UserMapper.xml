@@ -74,12 +74,11 @@
         u.create_time createTime,
         u.ssex sex,
         u.dept_id deptId,
-        u.last_login_time lastLoginTime,
         u.update_time updateTime,
         u.description,
         u.avatar,
         u.tenant_id   tenantId,
-        d.dept_name deptName,
+        any_value(d.dept_name) deptName,
         GROUP_CONCAT(distinct r.role_id) roleId,
         GROUP_CONCAT(distinct r.ROLE_NAME) roleName,
         GROUP_CONCAT(distinct p.post_id) postId,
@@ -93,7 +92,7 @@
         LEFT JOIN sys_post p ON p.post_id = up.post_id
         WHERE u.STATUS = 1 AND u.user_id = #{id}
         group by u.username,u.user_id,u.email,u.mobile,u.status,u.create_time,u.ssex,
-        u.dept_id,u.last_login_time,u.update_time,u.description,u.avatar
+        u.dept_id,u.update_time,u.description,u.avatar
     </select>
 
     <!--通过用户名查找用户信息-->
