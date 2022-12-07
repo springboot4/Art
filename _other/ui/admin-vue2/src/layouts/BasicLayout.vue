@@ -106,7 +106,7 @@ export default {
       isMobile: false,
 
       // 开启websocket
-      enableWebSocket: false
+      enableWebSocket: true
     }
   },
   computed: {
