@@ -4,7 +4,7 @@
 
 <script>
 import Vue from 'vue'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import {ACCESS_TOKEN, TENANT_ID} from '@/store/mutation-types'
 
 export default {
   props: {
@@ -13,7 +13,7 @@ export default {
       type: String
     }
   },
-  data () {
+  data() {
     return {
       webSocket: {}, // webSocket实例
       lockReconnect: false, // 重连锁，避免多次重连
@@ -24,16 +24,19 @@ export default {
         timeout: 10 * 1000, // 响应超时时间
         pingTimeoutObj: null, // 延时发送心跳的定时器
         pongTimeoutObj: null, // 接收心跳响应的定时器
-        pingMessage: JSON.stringify({ type: 'ping' }) // 心跳请求信息
+        pingMessage: JSON.stringify({type: 'ping'}) // 心跳请求信息
       }
     }
   },
   computed: {
-    token () {
+    token() {
       return Vue.ls.get(ACCESS_TOKEN)
+    },
+    tenant() {
+      return Vue.ls.get(TENANT_ID)
     }
   },
-  created () {
+  created() {
     this.initWebSocket()
   },
   destroyed: function () {
@@ -44,10 +47,10 @@ export default {
     /**
      * 初始化 weoSocket
      */
-    initWebSocket () {
+    initWebSocket() {
       // ws地址
       const host = '127.0.0.1:8201'
-      const wsUri = `ws://${host}${this.uri}?access_token=${this.token}`
+      const wsUri = `ws://${host}${this.uri}?access_token=${this.token}&TENANT-ID=${this.tenant}`
       // 建立连接
       this.webSocket = new WebSocket(wsUri)
       // 连接成功
@@ -62,7 +65,7 @@ export default {
     /**
      * 重新连接
      */
-    reconnect () {
+    reconnect() {
       if (!this.token) {
         return
       }
@@ -87,7 +90,7 @@ export default {
     /**
      * 开启心跳
      */
-    startHeartbeat () {
+    startHeartbeat() {
       const webSocket = this.webSocket
       const heartbeat = this.heartbeat
       // 清空定时器
@@ -111,7 +114,7 @@ export default {
     /**
      * 连接成功事件
      */
-    onOpen () {
+    onOpen() {
       console.log('WebSocket connection success')
       // 开启心跳
       this.startHeartbeat()
@@ -121,9 +124,10 @@ export default {
      * 连接失败事件
      * @param e
      */
-    onError (e) {
+    onError(e) {
       // 错误
       console.log(`WebSocket connection error：${e}`)
+      console.log(e)
       // 重连
       this.reconnect()
     },
@@ -131,7 +135,7 @@ export default {
      * 连接关闭事件
      * @param e
      */
-    onClose (e) {
+    onClose(e) {
       // 关闭
       console.log(`WebSocket connection closed：${e}`)
       // 重连
@@ -141,7 +145,7 @@ export default {
      * 接收服务器推送的信息
      * @param msgEvent
      */
-    onMessage (msgEvent) {
+    onMessage(msgEvent) {
       // 收到服务器信息，心跳重置并发送
       this.startHeartbeat()
       const text = msgEvent.data
@@ -160,7 +164,7 @@ export default {
      * 数据发送
      * @param msg
      */
-    send (msg) {
+    send(msg) {
       // 数据发送
       this.webSocket.send(msg)
     }

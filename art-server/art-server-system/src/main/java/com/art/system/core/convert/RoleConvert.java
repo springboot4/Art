@@ -17,6 +17,7 @@
 package com.art.system.core.convert;
 
 import com.art.system.api.role.dto.RoleDTO;
+import com.art.system.core.bo.RoleBO;
 import com.art.system.dao.dataobject.RoleDO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.mapstruct.Mapper;
@@ -37,6 +38,8 @@ public interface RoleConvert {
 	RoleDO convert(RoleDTO roleDTO);
 
 	RoleDTO convert(RoleDO roleDO);
+
+	RoleDTO convert(RoleBO roleBO);
 
 	List<RoleDTO> convert(List<RoleDO> roleDO);
 

@@ -18,6 +18,7 @@ package com.art.system.manager;
 
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;
+import com.art.system.core.bo.RoleBO;
 import com.art.system.core.convert.RoleConvert;
 import com.art.system.dao.dataobject.RoleDO;
 import com.art.system.dao.mysql.RoleMapper;
@@ -62,8 +63,8 @@ public class RoleManager {
 		return count != 1 ? null : roleDO.getRoleId();
 	}
 
-	public RoleDO getRoleById(Long id) {
-		return roleMapper.selectById(id);
+	public RoleBO getRoleById(Long id) {
+		return roleMapper.getRoleById(id);
 	}
 
 	public void updateRoleById(RoleDTO roleDTO) {

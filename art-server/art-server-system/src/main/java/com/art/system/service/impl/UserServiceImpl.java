@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService {
 		return userManager.pageUser(userPageDTO);
 	}
 
-	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#user.userId")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public SystemUserDTO createUser(SystemUserDTO user) {
@@ -140,7 +139,7 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * 根据用户id获取用户信息
 	 */
-	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#id")
+	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#id", unless = "#result==null")
 	@Override
 	public SystemUserDTO getUserById(Long id) {
 		return UserConvert.INSTANCE.convert(userManager.getUserById(id));
