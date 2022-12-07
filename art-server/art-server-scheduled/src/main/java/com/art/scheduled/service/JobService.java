@@ -16,14 +16,14 @@
 
 package com.art.scheduled.service;
 
-import com.art.common.core.result.PageResult;
 import com.art.common.quartz.core.constants.ScheduleConstants;
 import com.art.common.quartz.core.scheduler.JobScheduler;
-import com.art.scheduled.core.entity.SysJob;
-import com.art.scheduled.dao.mysql.JobMapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.art.scheduled.core.convert.JobConvert;
+import com.art.scheduled.core.dto.JobDTO;
+import com.art.scheduled.core.dto.JobPageDTO;
+import com.art.scheduled.dao.dataobject.JobDO;
+import com.art.scheduled.manager.JobManager;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class JobService {
 
-	private final JobMapper jobMapper;
+	private final JobManager jobManager;
 
 	private final JobScheduler jobScheduler;
 
@@ -48,34 +48,34 @@ public class JobService {
 	 * 添加任务
 	 */
 	@SneakyThrows
-	public SysJob add(SysJob sysJob) {
+	public JobDTO add(JobDTO dto) {
 		// 保存数据库
-		jobMapper.insert(sysJob);
+		jobManager.add(dto);
 
 		// 创建定时任务
-		jobScheduler.add(sysJob.getJobId(), sysJob.getJobGroup(), sysJob.getParameters(), sysJob.getJobName(),
-				sysJob.getCronExpression(), sysJob.getMisfirePolicy());
+		jobScheduler.add(dto.getJobId(), dto.getJobGroup(), dto.getParameters(), dto.getJobName(),
+				dto.getCronExpression(), dto.getMisfirePolicy());
 
 		// 更改job状态
-		changeStatus(sysJob.getJobId(), sysJob.getJobGroup(), sysJob.getStatus());
+		changeStatus(dto.getJobId(), dto.getJobGroup(), dto.getStatus());
 
-		return sysJob;
+		return dto;
 	}
 
 	/**
 	 * 更新任务
 	 */
 	@SneakyThrows
-	public SysJob update(SysJob sysJob) {
-		jobMapper.updateById(sysJob);
+	public JobDTO update(JobDTO dto) {
+		jobManager.update(dto);
 
-		jobScheduler.update(sysJob.getJobId(), sysJob.getJobGroup(), sysJob.getParameters(), sysJob.getJobName(),
-				sysJob.getCronExpression(), sysJob.getMisfirePolicy());
+		jobScheduler.update(dto.getJobId(), dto.getJobGroup(), dto.getParameters(), dto.getJobName(),
+				dto.getCronExpression(), dto.getMisfirePolicy());
 
 		// 更改job状态
-		changeStatus(sysJob.getJobId(), sysJob.getJobGroup(), sysJob.getStatus());
+		changeStatus(dto.getJobId(), dto.getJobGroup(), dto.getStatus());
 
-		return sysJob;
+		return dto;
 	}
 
 	/**
@@ -83,26 +83,26 @@ public class JobService {
 	 */
 	@SneakyThrows
 	public Boolean deleteByJobId(Long id) {
-		SysJob sysJob = jobMapper.selectById(id);
-		int count = jobMapper.deleteById(id);
+		JobDO jobDO = jobManager.findById(id);
+		int count = jobManager.deleteById(id);
 		if (count > 0) {
-			jobScheduler.delete(sysJob.getJobId(), sysJob.getJobGroup());
+			jobScheduler.delete(jobDO.getJobId(), jobDO.getJobGroup());
 		}
-		return jobMapper.deleteById(id) > 0;
+		return Boolean.TRUE;
 	}
 
 	/**
 	 * 定时任务状态修改
 	 */
 	@SneakyThrows
-	public Boolean changeStatus(SysJob job) {
+	public Boolean changeStatus(JobDTO dto) {
 		// 更新数据库
-		int rows = jobMapper.updateById(job);
+		jobManager.update(dto);
 
 		// 更改job状态
-		changeStatus(job.getJobId(), job.getJobGroup(), job.getStatus());
+		changeStatus(dto.getJobId(), dto.getJobGroup(), dto.getStatus());
 
-		return rows > 0;
+		return Boolean.TRUE;
 	}
 
 	private void changeStatus(Long jobId, String jobGroup, String status) {
@@ -136,24 +136,22 @@ public class JobService {
 	 * 定时任务立即执行一次
 	 */
 	@SneakyThrows
-	public void run(SysJob job) {
-		jobScheduler.trigger(job.getJobId(), job.getJobGroup());
+	public void run(JobDTO dto) {
+		jobScheduler.trigger(dto.getJobId(), dto.getJobGroup());
 	}
 
 	/**
 	 * 分页
 	 */
-	public PageResult<SysJob> page(Page<SysJob> page, SysJob sysJob) {
-		Page<SysJob> pageResult = jobMapper.selectPage(page, Wrappers.<SysJob>lambdaQuery()
-				.like(StringUtils.isNotBlank(sysJob.getJobName()), SysJob::getJobName, sysJob.getJobName()));
-		return PageResult.success(pageResult);
+	public IPage<JobDTO> page(JobPageDTO page) {
+		return JobConvert.INSTANCE.convertPage(jobManager.page(page));
 	}
 
 	/**
 	 * 获取单条
 	 */
-	public SysJob findById(Long id) {
-		return jobMapper.selectById(id);
+	public JobDTO findById(Long id) {
+		return JobConvert.INSTANCE.convert(jobManager.findById(id));
 	}
 
 }

@@ -14,19 +14,28 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.dao.mysql;
+package com.art.scheduled.core.convert;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.art.scheduled.core.dto.JobLogDTO;
 import com.art.scheduled.dao.dataobject.JobLogDO;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 /**
- * 定时任务调度日志表
- *
- * @author fxz
- * @date 2022-04-03
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/12/7 21:25
  */
 @Mapper
-public interface JobLogMapper extends BaseMapper<JobLogDO> {
+public interface JobLogConvert {
+
+	JobLogConvert INSTANCE = Mappers.getMapper(JobLogConvert.class);
+
+	JobLogDO convert(JobLogDTO jobLogDTO);
+
+	JobLogDTO convert(JobLogDO jobLogDO);
+
+	Page<JobLogDTO> convertPage(Page<JobLogDO> page);
 
 }

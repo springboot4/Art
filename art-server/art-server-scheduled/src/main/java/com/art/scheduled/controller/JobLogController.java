@@ -16,13 +16,15 @@
 
 package com.art.scheduled.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.art.common.core.result.PageResult;
 import com.art.common.core.result.Result;
-import com.art.scheduled.core.entity.JobLog;
+import com.art.scheduled.core.dto.JobLogDTO;
+import com.art.scheduled.core.dto.JobLogPageDTO;
 import com.art.scheduled.service.JobLogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 定时任务调度日志
@@ -37,34 +39,14 @@ public class JobLogController {
 
 	private final JobLogService jobLogService;
 
-	@PostMapping(value = "/add")
-	public Result add(@RequestBody JobLog param) {
-		return Result.success(jobLogService.add(param));
-	}
-
-	@PostMapping(value = "/update")
-	public Result update(@RequestBody JobLog param) {
-		return Result.success(jobLogService.update(param));
-	}
-
-	@DeleteMapping(value = "/delete")
-	public Result delete(Long id) {
-		return Result.judge(true);
-	}
-
 	@GetMapping(value = "/findById")
-	public Result findById(Long id) {
+	public Result<JobLogDTO> findById(Long id) {
 		return Result.success(jobLogService.findById(id));
 	}
 
-	@GetMapping(value = "/findAll")
-	public Result findAll() {
-		return Result.success(jobLogService.findAll());
-	}
-
 	@GetMapping(value = "/page")
-	public Result<PageResult<JobLog>> page(Page<JobLog> page, JobLog jobLog) {
-		return Result.success(jobLogService.page(page, jobLog));
+	public Result<PageResult<JobLogDTO>> page(JobLogPageDTO pageDTO) {
+		return Result.success(PageResult.success(jobLogService.page(pageDTO)));
 	}
 
 }
