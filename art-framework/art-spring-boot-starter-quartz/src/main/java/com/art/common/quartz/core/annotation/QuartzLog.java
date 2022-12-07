@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.param;
+package com.art.common.quartz.core.annotation;
 
-import lombok.Data;
+import java.lang.annotation.*;
 
 /**
- * 定时任务调度日志表
+ * 是否记录Quartz日志
  *
- * @author fxz
- * @date 2022-04-03
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/12/7 21:08
  */
-@Data
-public class JobLogParam {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface QuartzLog {
 
-	private Long id;
+	/**
+	 * 是否记录日志 (true:记录 false:不记录)
+	 * @return true:记录 false:不记录
+	 */
+	boolean enable() default false;
 
 }

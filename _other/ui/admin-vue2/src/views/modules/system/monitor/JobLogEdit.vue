@@ -18,28 +18,10 @@
         <a-input v-model="form.id" :disabled="showable" />
       </a-form-model-item>
       <a-form-model-item
-        label="任务日志ID"
-        prop="jobLogId"
-      >
-        {{ form.jobLogId }}
-      </a-form-model-item>
-      <a-form-model-item
         label="任务名称"
         prop="jobName"
       >
         {{ form.jobName }}
-      </a-form-model-item>
-      <a-form-model-item
-        label="任务组名"
-        prop="jobGroup"
-      >
-        {{ form.jobGroup }}
-      </a-form-model-item>
-      <a-form-model-item
-        label="方法执行参数"
-        prop="parameters"
-      >
-        {{ form.parameters }}
       </a-form-model-item>
       <a-form-model-item
         label="日志信息"
@@ -70,7 +52,8 @@
 
     <template v-slot:footer>
       <a-button key="cancel" @click="handleCancel">取消</a-button>
-      <a-button v-if="!showable" key="forward" :loading="confirmLoading" type="primary" @click="handleOk">保存</a-button>
+      <a-button v-if="!showable" key="forward" :loading="confirmLoading" type="primary" @click="handleOk">保存
+      </a-button>
     </template>
   </a-modal>
 </template>
@@ -86,10 +69,7 @@ export default {
     return {
       form: {
         id: null,
-        jobLogId: null,
         jobName: null,
-        jobGroup: null,
-        parameters: null,
         jobMessage: null,
         status: null,
         exceptionInfo: null,

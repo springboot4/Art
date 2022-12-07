@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.dto;
-
-import com.art.scheduled.core.entity.SysJob;
-import lombok.Data;
+package com.art.common.quartz.core.service;
 
 /**
- * 定时任务调度表
- *
- * @author fxz
- * @date 2022-04-03
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/12/7 20:29
  */
-@Data
-public class SysJobDto extends SysJob {
+public interface ArtJobLogService {
 
-	private static final long serialVersionUID = -1L;
+	/**
+	 * 保存job执行日志
+	 * @param jobBeanName jobBeanName
+	 * @param jobMessage job日志信息
+	 * @param ex 异常信息
+	 */
+	void addJobLog(String jobBeanName, String jobMessage, String ex);
 
 }

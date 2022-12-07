@@ -75,7 +75,7 @@ export default {
       this.$refs.jobLogEdit.init(record.id, 'edit')
     },
     show (record) {
-      this.$refs.jobLogEdit.init(record.jobLogId, 'show')
+      this.$refs.jobLogEdit.init(record.id, 'show')
     },
     remove (record) {
       del(record.id).then(_ => {
