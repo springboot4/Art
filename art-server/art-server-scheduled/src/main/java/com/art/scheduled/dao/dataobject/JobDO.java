@@ -14,35 +14,32 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.entity;
+package com.art.scheduled.dao.dataobject;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.art.common.mp.base.BaseCreateEntity;
+import com.art.common.quartz.core.constants.ScheduleConstants;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 /**
- * 定时任务调度日志表
+ * 定时任务调度表
  *
  * @author fxz
  * @date 2022-04-03
  */
 @Data
-@TableName("sys_job_log")
-public class JobLog implements Serializable {
+@TableName("sys_job")
+public class JobDO extends BaseCreateEntity {
 
 	private static final long serialVersionUID = -1L;
 
 	/**
-	 * ID
+	 * 任务ID
 	 */
-	@TableId
-	private Long jobLogId;
+	@TableId(type = IdType.AUTO)
+	private Long jobId;
 
 	/**
 	 * 任务名称
@@ -55,41 +52,28 @@ public class JobLog implements Serializable {
 	private String jobGroup;
 
 	/**
-	 * 调用目标字符串
+	 * 执行参数
 	 */
-	private String invokeTarget;
+	private String parameters;
 
 	/**
-	 * 日志信息
+	 * cron执行表达式
 	 */
-	private String jobMessage;
+	private String cronExpression;
 
 	/**
-	 * 执行状态（0正常 1失败）
+	 * cron计划策略
+	 */
+	private String misfirePolicy = ScheduleConstants.MISFIRE_DEFAULT;
+
+	/**
+	 * 任务状态（0正常 1暂停）
 	 */
 	private String status;
 
 	/**
-	 * 异常信息
+	 * 备注信息
 	 */
-	private String exceptionInfo;
-
-	/**
-	 * 创建时间
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	private LocalDateTime createTime;
-
-	/**
-	 * 开始时间
-	 */
-	@TableField(exist = false)
-	private Date startTime;
-
-	/**
-	 * 停止时间
-	 */
-	@TableField(exist = false)
-	private Date stopTime;
+	private String remark;
 
 }

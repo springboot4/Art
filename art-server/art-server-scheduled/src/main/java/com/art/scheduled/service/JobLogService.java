@@ -16,17 +16,16 @@
 
 package com.art.scheduled.service;
 
+import com.art.common.quartz.core.service.ArtJobLogService;
+import com.art.scheduled.core.convert.JobLogConvert;
+import com.art.scheduled.core.dto.JobLogDTO;
+import com.art.scheduled.core.dto.JobLogPageDTO;
+import com.art.scheduled.manager.JobLogManager;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.core.result.PageResult;
-import com.art.scheduled.core.entity.JobLog;
-import com.art.scheduled.dao.mysql.JobLogMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 定时任务调度日志表
@@ -37,56 +36,35 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class JobLogService {
+public class JobLogService implements ArtJobLogService {
 
-	private final JobLogMapper jobLogMapper;
-
-	/**
-	 * 添加
-	 */
-	public JobLog add(JobLog param) {
-		jobLogMapper.insert(param);
-		return param;
-	}
+	private final JobLogManager jobLogManager;
 
 	/**
-	 * 修改
+	 * 保存job执行日志
+	 * @param jobBeanName jobBeanName
+	 * @param jobMessage job日志信息
+	 * @param ex 异常信息
 	 */
-	public JobLog update(JobLog param) {
-		jobLogMapper.updateById(param);
-		return param;
+	@Override
+	public void addJobLog(String jobBeanName, String jobMessage, String ex) {
+		JobLogDTO dto = new JobLogDTO().setJobName(jobBeanName).setJobMessage(jobMessage).setExceptionInfo(ex)
+				.setStatus(StringUtils.isBlank(ex) ? "0" : "1");
+		jobLogManager.addJobLog(dto);
 	}
 
 	/**
 	 * 分页
 	 */
-	public PageResult<JobLog> page(Page<JobLog> page, JobLog jobLog) {
-		return PageResult.success(jobLogMapper.selectPage(page,
-				Wrappers.<JobLog>lambdaQuery()
-						.eq(StringUtils.isNotBlank(jobLog.getJobName()), JobLog::getJobName, jobLog.getJobName())
-						.eq(StringUtils.isNotBlank(jobLog.getJobGroup()), JobLog::getJobGroup, jobLog.getJobGroup())));
+	public IPage<JobLogDTO> page(JobLogPageDTO pageDTO) {
+		return JobLogConvert.INSTANCE.convertPage(jobLogManager.page(pageDTO));
 	}
 
 	/**
 	 * 获取单条
 	 */
-	public JobLog findById(Long id) {
-		return jobLogMapper.selectById(id);
-	}
-
-	/**
-	 * 获取全部
-	 */
-	public List<JobLog> findAll() {
-		return jobLogMapper.selectList(Wrappers.emptyWrapper());
-	}
-
-	/**
-	 * 保存job执行日志
-	 * @param jobLog job执行信息
-	 */
-	public void addJobLog(JobLog jobLog) {
-		jobLogMapper.insert(jobLog);
+	public JobLogDTO findById(Long id) {
+		return JobLogConvert.INSTANCE.convert(jobLogManager.findById(id));
 	}
 
 }

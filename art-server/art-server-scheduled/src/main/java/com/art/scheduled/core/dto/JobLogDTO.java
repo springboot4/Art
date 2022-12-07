@@ -14,32 +14,25 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.entity;
+package com.art.scheduled.core.dto;
 
-import com.art.common.mp.base.BaseCreateEntity;
-import com.art.common.quartz.core.constants.ScheduleConstants;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
- * 定时任务调度表
+ * 定时任务调度日志表
  *
  * @author fxz
  * @date 2022-04-03
  */
 @Data
-@TableName("sys_job")
-public class SysJob extends BaseCreateEntity {
+public class JobLogDTO implements Serializable {
 
 	private static final long serialVersionUID = -1L;
 
-	/**
-	 * 任务ID
-	 */
-	@TableId(type = IdType.AUTO)
-	private Long jobId;
+	private Long id;
 
 	/**
 	 * 任务名称
@@ -47,33 +40,23 @@ public class SysJob extends BaseCreateEntity {
 	private String jobName;
 
 	/**
-	 * 任务组名
+	 * 日志信息
 	 */
-	private String jobGroup;
+	private String jobMessage;
 
 	/**
-	 * 执行参数
-	 */
-	private String parameters;
-
-	/**
-	 * cron执行表达式
-	 */
-	private String cronExpression;
-
-	/**
-	 * cron计划策略
-	 */
-	private String misfirePolicy = ScheduleConstants.MISFIRE_DEFAULT;
-
-	/**
-	 * 任务状态（0正常 1暂停）
+	 * 执行状态（0正常 1失败）
 	 */
 	private String status;
 
 	/**
-	 * 备注信息
+	 * 异常信息
 	 */
-	private String remark;
+	private String exceptionInfo;
+
+	/**
+	 * 创建时间
+	 */
+	private LocalDateTime createTime;
 
 }

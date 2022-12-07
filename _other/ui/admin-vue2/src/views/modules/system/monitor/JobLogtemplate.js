@@ -17,20 +17,8 @@
 export const tableObj = {
   columns: [
     {
-      title: '任务日志ID',
-      field: 'jobLogId'
-    },
-    {
       title: '任务名称',
       field: 'jobName'
-    },
-    {
-      title: '任务组名',
-      field: 'jobGroup'
-    },
-    {
-      title: '方法执行参数',
-      field: 'parameters'
     },
     {
       title: '日志信息',

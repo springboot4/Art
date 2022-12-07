@@ -20,9 +20,9 @@ import cn.hutool.core.lang.Assert;
 import com.art.common.core.result.PageResult;
 import com.art.common.core.result.Result;
 import com.art.common.quartz.core.utils.CronUtils;
-import com.art.scheduled.core.entity.SysJob;
+import com.art.scheduled.core.dto.JobDTO;
+import com.art.scheduled.core.dto.JobPageDTO;
 import com.art.scheduled.service.JobService;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,15 +40,15 @@ public class JobController {
 	private final JobService jobService;
 
 	@PostMapping(value = "/add")
-	public Result<SysJob> add(@RequestBody SysJob sysJob) {
-		validJob(sysJob);
-		return Result.success(jobService.add(sysJob));
+	public Result<JobDTO> add(@RequestBody JobDTO dto) {
+		validJob(dto);
+		return Result.success(jobService.add(dto));
 	}
 
 	@PostMapping(value = "/update")
-	public Result<SysJob> update(@RequestBody SysJob sysJob) {
-		validJob(sysJob);
-		return Result.success(jobService.update(sysJob));
+	public Result<JobDTO> update(@RequestBody JobDTO dto) {
+		validJob(dto);
+		return Result.success(jobService.update(dto));
 	}
 
 	@DeleteMapping(value = "/delete")
@@ -57,34 +57,34 @@ public class JobController {
 	}
 
 	@GetMapping(value = "/findById")
-	public Result<SysJob> findById(Long id) {
+	public Result<JobDTO> findById(Long id) {
 		return Result.success(jobService.findById(id));
 	}
 
 	@GetMapping(value = "/page")
-	public Result<PageResult<SysJob>> page(Page<SysJob> page, SysJob sysJob) {
-		return Result.success(jobService.page(page, sysJob));
+	public Result<PageResult<JobDTO>> page(JobPageDTO page) {
+		return Result.success(PageResult.success(jobService.page(page)));
 	}
 
 	/**
 	 * 定时任务状态修改
 	 */
 	@PutMapping("/changeStatus")
-	public Result<Boolean> changeStatus(@RequestBody SysJob job) {
-		return Result.success(jobService.changeStatus(job));
+	public Result<Boolean> changeStatus(@RequestBody JobDTO dto) {
+		return Result.success(jobService.changeStatus(dto));
 	}
 
 	/**
 	 * 定时任务立即执行一次
 	 */
 	@PutMapping("/run")
-	public Result<Void> run(@RequestBody SysJob job) {
-		jobService.run(job);
+	public Result<Void> run(@RequestBody JobDTO dto) {
+		jobService.run(dto);
 		return Result.success();
 	}
 
-	private void validJob(SysJob sysJob) {
-		Assert.isTrue(CronUtils.isValid(sysJob.getCronExpression()), "新增任务'" + sysJob.getJobName() + "'失败，Cron表达式不正确");
+	private void validJob(JobDTO dto) {
+		Assert.isTrue(CronUtils.isValid(dto.getCronExpression()), "新增任务'" + dto.getJobName() + "'失败，Cron表达式不正确");
 	}
 
 }

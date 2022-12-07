@@ -14,20 +14,28 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.dto;
+package com.art.scheduled.core.convert;
 
-import com.art.scheduled.core.entity.JobLog;
-import lombok.Data;
+import com.art.scheduled.core.dto.JobDTO;
+import com.art.scheduled.dao.dataobject.JobDO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 /**
- * 定时任务调度日志表
- *
- * @author fxz
- * @date 2022-04-03
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/12/7 21:43
  */
-@Data
-public class JobLogDto extends JobLog {
+@Mapper
+public interface JobConvert {
 
-	private static final long serialVersionUID = -1L;
+	JobConvert INSTANCE = Mappers.getMapper(JobConvert.class);
+
+	JobDO convert(JobDTO dto);
+
+	JobDTO convert(JobDO jobDO);
+
+	Page<JobDTO> convertPage(Page<JobDO> page);
 
 }
