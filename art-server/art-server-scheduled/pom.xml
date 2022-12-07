@@ -49,15 +49,20 @@
 
         <!-- Quartz -->
         <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.mchange</groupId>
-                    <artifactId>c3p0</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-quartz</artifactId>
+            <version>0.0.1</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.quartz-scheduler</groupId>-->
+<!--            <artifactId>quartz</artifactId>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.mchange</groupId>-->
+<!--                    <artifactId>c3p0</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -68,11 +73,6 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-api-scheduled</artifactId>
         </dependency>
 
         <!--banner信息-->

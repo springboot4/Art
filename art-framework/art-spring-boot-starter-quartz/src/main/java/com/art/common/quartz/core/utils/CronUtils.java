@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.utils;
+package com.art.common.quartz.core.utils;
 
 import org.quartz.CronExpression;
 

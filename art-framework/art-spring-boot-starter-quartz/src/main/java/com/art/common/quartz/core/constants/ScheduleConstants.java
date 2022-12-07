@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.scheduled.core.constant;
+package com.art.common.quartz.core.constants;
 
 import lombok.Getter;
 
@@ -23,44 +23,44 @@ import lombok.Getter;
  *
  * @author fxz
  */
-public class ScheduleConstants {
+public interface ScheduleConstants {
 
-	public static final String TASK_CLASS_NAME = "TASK_CLASS_NAME";
+	String PARAMETER = "PARAMETER";
 
-	/**
-	 * 执行目标key
-	 */
-	public static final String TASK_PROPERTIES = "TASK_PROPERTIES";
+	String JOB_BEAN_NAME = "JOB_BEAN_NAME";
+
+	String TASK_CLASS_NAME = "TASK_CLASS_NAME";
 
 	/**
 	 * 默认
 	 */
-	public static final String MISFIRE_DEFAULT = "0";
+	String MISFIRE_DEFAULT = "0";
 
 	/**
 	 * 立即触发执行
 	 */
-	public static final String MISFIRE_IGNORE_MISFIRES = "1";
+	String MISFIRE_IGNORE_MISFIRES = "1";
 
 	/**
 	 * 触发一次执行
 	 */
-	public static final String MISFIRE_FIRE_AND_PROCEED = "2";
+	String MISFIRE_FIRE_AND_PROCEED = "2";
 
 	/**
 	 * 不触发立即执行
 	 */
-	public static final String MISFIRE_DO_NOTHING = "3";
+	String MISFIRE_DO_NOTHING = "3";
 
 	/**
 	 * 定时任务状态
 	 */
-	public enum Status {
+	enum Status {
 
 		/**
 		 * 正常
 		 */
 		NORMAL("0"),
+
 		/**
 		 * 暂停
 		 */
@@ -70,6 +70,29 @@ public class ScheduleConstants {
 		private final String value;
 
 		Status(String value) {
+			this.value = value;
+		}
+
+	}
+
+	/**
+	 * 是否允许并发（0允许 1禁止）
+	 */
+	enum Concurrent {
+
+		/**
+		 * 允许
+		 */
+		Concurrent("0"),
+		/**
+		 * 不允许
+		 */
+		DisallowConcurrent("1");
+
+		@Getter
+		private final String value;
+
+		Concurrent(String value) {
 			this.value = value;
 		}
 

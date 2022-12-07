@@ -55,6 +55,7 @@
         <module>art-spring-boot-starter-captcha</module>
         <module>art-spring-boot-starter-tenant</module>
         <module>art-spring-boot-starter-banner</module>
+        <module>art-spring-boot-starter-quartz</module>
     </modules>
 
 </project>
