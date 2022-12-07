@@ -16,22 +16,17 @@
 
 package com.art.scheduled.service;
 
+import com.art.common.core.result.PageResult;
+import com.art.common.quartz.core.constants.ScheduleConstants;
+import com.art.common.quartz.core.scheduler.JobScheduler;
+import com.art.scheduled.core.entity.SysJob;
+import com.art.scheduled.dao.mysql.JobMapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.core.exception.TaskException;
-import com.art.common.core.result.PageResult;
-import com.art.scheduled.core.constant.ScheduleConstants;
-import com.art.scheduled.core.entity.SysJob;
-import com.art.scheduled.dao.mysql.JobMapper;
-import com.art.scheduled.core.utils.ScheduleUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.JobDataMap;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -45,51 +40,104 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class JobService {
 
-	private final Scheduler scheduler;
-
 	private final JobMapper jobMapper;
+
+	private final JobScheduler jobScheduler;
 
 	/**
 	 * 添加任务
 	 */
 	@SneakyThrows
 	public SysJob add(SysJob sysJob) {
-		sysJob.setStatus(ScheduleConstants.Status.PAUSE.getValue());
-		int count = jobMapper.insert(sysJob);
-		if (count > 0) {
-			// 创建定时任务
-			ScheduleUtils.createScheduleJob(scheduler, sysJob);
-		}
+		// 保存数据库
+		jobMapper.insert(sysJob);
+
+		// 创建定时任务
+		jobScheduler.add(sysJob.getJobId(), sysJob.getJobGroup(), sysJob.getParameters(), sysJob.getJobName(),
+				sysJob.getCronExpression(), sysJob.getMisfirePolicy());
+
+		// 更改job状态
+		changeStatus(sysJob.getJobId(), sysJob.getJobGroup(), sysJob.getStatus());
+
 		return sysJob;
 	}
 
 	/**
-	 * 修改
+	 * 更新任务
 	 */
 	@SneakyThrows
-	public SysJob update(SysJob param) {
-		SysJob properties = jobMapper.selectById(param.getJobId());
-		int count = jobMapper.updateById(param);
-		if (count > 0) {
-			updateSchedulerJob(param, properties.getJobGroup());
-		}
-		return param;
+	public SysJob update(SysJob sysJob) {
+		jobMapper.updateById(sysJob);
+
+		jobScheduler.update(sysJob.getJobId(), sysJob.getJobGroup(), sysJob.getParameters(), sysJob.getJobName(),
+				sysJob.getCronExpression(), sysJob.getMisfirePolicy());
+
+		// 更改job状态
+		changeStatus(sysJob.getJobId(), sysJob.getJobGroup(), sysJob.getStatus());
+
+		return sysJob;
 	}
 
 	/**
-	 * 更新任务
-	 * @param job 任务对象
-	 * @param jobGroup 任务组名
+	 * 根据id删除任务
 	 */
-	public void updateSchedulerJob(SysJob job, String jobGroup) throws SchedulerException, TaskException {
-		Long jobId = job.getJobId();
-		// 判断是否存在
-		JobKey jobKey = ScheduleUtils.getJobKey(jobId, jobGroup);
-		if (scheduler.checkExists(jobKey)) {
-			// 防止创建时存在数据问题 先移除，然后在执行创建操作
-			scheduler.deleteJob(jobKey);
+	@SneakyThrows
+	public Boolean deleteByJobId(Long id) {
+		SysJob sysJob = jobMapper.selectById(id);
+		int count = jobMapper.deleteById(id);
+		if (count > 0) {
+			jobScheduler.delete(sysJob.getJobId(), sysJob.getJobGroup());
 		}
-		ScheduleUtils.createScheduleJob(scheduler, job);
+		return jobMapper.deleteById(id) > 0;
+	}
+
+	/**
+	 * 定时任务状态修改
+	 */
+	@SneakyThrows
+	public Boolean changeStatus(SysJob job) {
+		// 更新数据库
+		int rows = jobMapper.updateById(job);
+
+		// 更改job状态
+		changeStatus(job.getJobId(), job.getJobGroup(), job.getStatus());
+
+		return rows > 0;
+	}
+
+	private void changeStatus(Long jobId, String jobGroup, String status) {
+		if (ScheduleConstants.Status.NORMAL.getValue().equals(status)) {
+			resumeJob(jobId, jobGroup);
+		}
+		else if (ScheduleConstants.Status.PAUSE.getValue().equals(status)) {
+			pauseJob(jobId, jobGroup);
+		}
+	}
+
+	/**
+	 * 暂停任务
+	 * @param jobId jobId
+	 * @param jobGroup job分组
+	 */
+	public void pauseJob(Long jobId, String jobGroup) {
+		jobScheduler.pause(jobId, jobGroup);
+	}
+
+	/**
+	 * 恢复任务
+	 * @param jobId jobId
+	 * @param jobGroup job分组
+	 */
+	public void resumeJob(Long jobId, String jobGroup) {
+		jobScheduler.resumeJob(jobId, jobGroup);
+	}
+
+	/**
+	 * 定时任务立即执行一次
+	 */
+	@SneakyThrows
+	public void run(SysJob job) {
+		jobScheduler.trigger(job.getJobId(), job.getJobGroup());
 	}
 
 	/**
@@ -106,83 +154,6 @@ public class JobService {
 	 */
 	public SysJob findById(Long id) {
 		return jobMapper.selectById(id);
-	}
-
-	/**
-	 * 根据id删除任务
-	 */
-	@SneakyThrows
-	public Boolean deleteByJobId(Long id) {
-		SysJob sysJob = jobMapper.selectById(id);
-		Long jobId = sysJob.getJobId();
-		String jobGroup = sysJob.getJobGroup();
-		int count = jobMapper.deleteById(id);
-		if (count > 0) {
-			scheduler.deleteJob(ScheduleUtils.getJobKey(jobId, jobGroup));
-		}
-		return jobMapper.deleteById(id) > 0;
-	}
-
-	/**
-	 * 定时任务状态修改
-	 */
-	@SneakyThrows
-	public Boolean changeStatus(SysJob job) {
-		SysJob newJob = jobMapper.selectById(job.getJobId());
-		newJob.setStatus(job.getStatus());
-		int rows = 0;
-		String status = job.getStatus();
-		if (ScheduleConstants.Status.NORMAL.getValue().equals(status)) {
-			rows = resumeJob(job);
-		}
-		else if (ScheduleConstants.Status.PAUSE.getValue().equals(status)) {
-			rows = pauseJob(job);
-		}
-		return rows > 0;
-	}
-
-	/**
-	 * 暂停任务
-	 * @param job 调度信息
-	 */
-	public int pauseJob(SysJob job) throws SchedulerException {
-		Long jobId = job.getJobId();
-		String jobGroup = job.getJobGroup();
-		job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
-		int rows = jobMapper.updateById(job);
-		if (rows > 0) {
-			scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
-		}
-		return rows;
-	}
-
-	/**
-	 * 恢复任务
-	 * @param job 调度信息
-	 */
-	public int resumeJob(SysJob job) throws SchedulerException {
-		Long jobId = job.getJobId();
-		String jobGroup = job.getJobGroup();
-		job.setStatus(ScheduleConstants.Status.NORMAL.getValue());
-		int rows = jobMapper.updateById(job);
-		if (rows > 0) {
-			scheduler.resumeJob(ScheduleUtils.getJobKey(jobId, jobGroup));
-		}
-		return rows;
-	}
-
-	/**
-	 * 定时任务立即执行一次
-	 */
-	@SneakyThrows
-	public void run(SysJob job) {
-		Long jobId = job.getJobId();
-		String jobGroup = job.getJobGroup();
-		SysJob properties = jobMapper.selectById(job.getJobId());
-		// 参数
-		JobDataMap dataMap = new JobDataMap();
-		dataMap.put(ScheduleConstants.TASK_PROPERTIES, properties);
-		scheduler.triggerJob(ScheduleUtils.getJobKey(jobId, jobGroup), dataMap);
 	}
 
 }

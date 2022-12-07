@@ -36,10 +36,10 @@
         {{ form.jobGroup }}
       </a-form-model-item>
       <a-form-model-item
-        label="调用目标字符串"
-        prop="invokeTarget"
+        label="方法执行参数"
+        prop="parameters"
       >
-        {{ form.invokeTarget }}
+        {{ form.parameters }}
       </a-form-model-item>
       <a-form-model-item
         label="日志信息"
@@ -89,7 +89,7 @@ export default {
         jobLogId: null,
         jobName: null,
         jobGroup: null,
-        invokeTarget: null,
+        parameters: null,
         jobMessage: null,
         status: null,
         exceptionInfo: null,
