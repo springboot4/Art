@@ -17,7 +17,7 @@
 package com.art.scheduled.dao.mysql;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.art.scheduled.core.entity.SysJob;
+import com.art.scheduled.dao.dataobject.JobDO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -27,6 +27,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2022-04-03
  */
 @Mapper
-public interface JobMapper extends BaseMapper<SysJob> {
+public interface JobMapper extends BaseMapper<JobDO> {
 
 }

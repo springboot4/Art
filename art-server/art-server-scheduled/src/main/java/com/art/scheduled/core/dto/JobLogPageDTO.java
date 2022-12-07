@@ -14,31 +14,49 @@
  * limitations under the License.
  */
 
-package com.art.common.quartz.config;
+package com.art.scheduled.core.dto;
 
-import com.art.common.quartz.core.aspect.ArtJobLogAspect;
-import com.art.common.quartz.core.scheduler.JobScheduler;
-import com.art.common.quartz.core.service.ArtJobLogService;
-import org.quartz.Scheduler;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Bean;
+import com.art.common.core.entity.BasePageEntity;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2022/12/7 10:43
+ * @date 2022/12/7 21:28
  */
-@AutoConfiguration
-public class QuartzJobAutoConfig {
+@Data
+public class JobLogPageDTO extends BasePageEntity implements Serializable {
 
-	@Bean
-	public JobScheduler jobScheduler(Scheduler scheduler) {
-		return new JobScheduler(scheduler);
-	}
+	private static final long serialVersionUID = -1L;
 
-	@Bean
-	public ArtJobLogAspect artJobLogAspect(ArtJobLogService artJobLogService) {
-		return new ArtJobLogAspect(artJobLogService);
-	}
+	private Long id;
+
+	/**
+	 * 任务名称
+	 */
+	private String jobName;
+
+	/**
+	 * 日志信息
+	 */
+	private String jobMessage;
+
+	/**
+	 * 执行状态（0正常 1失败）
+	 */
+	private String status;
+
+	/**
+	 * 异常信息
+	 */
+	private String exceptionInfo;
+
+	/**
+	 * 创建时间
+	 */
+	private LocalDateTime createTime;
 
 }
