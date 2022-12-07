@@ -16,6 +16,7 @@
 
 package com.art.system.dao.mysql;
 
+import com.art.system.core.bo.RoleBO;
 import com.art.system.dao.dataobject.RoleDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,6 +32,6 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
 	/**
 	 * 根据id获取角色信息
 	 */
-	RoleDO getRoleById(Long id);
+	RoleBO getRoleById(Long id);
 
 }

@@ -28,6 +28,7 @@ import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;
 import com.art.system.api.user.dto.SystemUserDTO;
+import com.art.system.core.bo.RoleBO;
 import com.art.system.core.convert.RoleConvert;
 import com.art.system.dao.dataobject.RoleDO;
 import com.art.system.dao.dataobject.RoleMenuDO;
@@ -137,8 +138,8 @@ public class RoleServiceImpl implements RoleService {
 	@CacheEvict(value = RoleRedisConstants.CACHE_NAMES, key = "#id")
 	@Override
 	public Boolean deleteRoleById(Long id) {
-		RoleDO roleDO = roleManager.getRoleById(id);
-		if (RoleAdminEnum.isAdmin(roleDO.getCode())) {
+		RoleBO roleBO = roleManager.getRoleById(id);
+		if (RoleAdminEnum.isAdmin(roleBO.getCode())) {
 			throw new FxzException("管理员角色不可删除！");
 		}
 

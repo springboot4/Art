@@ -18,11 +18,11 @@ package com.art.common.security.util;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.art.common.core.constant.SecurityConstants;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.util.WebUtil;
 import com.art.common.security.entity.FxzAuthUser;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.logging.log4j.util.Strings;
@@ -135,7 +135,12 @@ public class SecurityUtil {
 	 */
 	public static Long getTenantId(HttpServletRequest request) {
 		String header = request.getHeader("TENANT-ID");
-		return Objects.nonNull(header) ? Long.valueOf(header) : null;
+		String parameter = request.getParameter("TENANT-ID");
+
+		if (Objects.isNull(header) && Objects.isNull(parameter)) {
+			return null;
+		}
+		return Objects.nonNull(header) ? Long.valueOf(header) : Long.valueOf(parameter);
 	}
 
 }

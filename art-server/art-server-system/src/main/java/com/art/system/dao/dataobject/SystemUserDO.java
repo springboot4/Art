@@ -17,15 +17,16 @@
 package com.art.system.dao.dataobject;
 
 import cn.hutool.core.date.DatePattern;
+import com.art.common.core.annotation.CheckMobileValid;
+import com.art.common.core.enums.SensitiveType;
+import com.art.common.core.sensitive.SensitiveInfo;
+import com.art.common.mp.base.BaseCreateEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.art.common.core.annotation.CheckMobileValid;
-import com.art.common.core.enums.SensitiveType;
-import com.art.common.core.sensitive.SensitiveInfo;
-import com.art.common.mp.base.BaseCreateEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -39,6 +40,7 @@ import java.util.Date;
  * @version 0.0.1
  * @date 2021-11-28 15:22
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @TableName("sys_user")
 public class SystemUserDO extends BaseCreateEntity {
