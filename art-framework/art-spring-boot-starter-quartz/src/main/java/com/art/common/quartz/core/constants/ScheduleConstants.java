@@ -75,27 +75,4 @@ public interface ScheduleConstants {
 
 	}
 
-	/**
-	 * 是否允许并发（0允许 1禁止）
-	 */
-	enum Concurrent {
-
-		/**
-		 * 允许
-		 */
-		Concurrent("0"),
-		/**
-		 * 不允许
-		 */
-		DisallowConcurrent("1");
-
-		@Getter
-		private final String value;
-
-		Concurrent(String value) {
-			this.value = value;
-		}
-
-	}
-
 }
