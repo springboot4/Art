@@ -46,7 +46,6 @@ public class JobExecuteHandler extends QuartzJobBean {
 		jobBeanName = context.getMergedJobDataMap().getString(JOB_BEAN_NAME);
 		parameter = context.getMergedJobDataMap().getString(PARAMETER);
 
-		// todo 记录执行日志
 		this.doExecute();
 	}
 
