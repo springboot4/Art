@@ -63,6 +63,13 @@ public class DemoController {
 
 	private final RedisMQTemplate redisMQTemplate;
 
+	@Operation(summary = "xss过滤简易demo")
+	@Ojbk
+	@GetMapping("/xss")
+	public Result<String> xss(@RequestParam("value") String value) {
+		return Result.success(value);
+	}
+
 	@Operation(summary = "限流器")
 	@Ojbk
 	@GetMapping("/redisson/rateLimiter")
