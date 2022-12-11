@@ -56,7 +56,7 @@ public class ArtJobLogAspect {
 			// 方法执行
 			o = pjp.proceed();
 
-			if (quartzLog.enable()) {
+			if (quartzLog.log()) {
 				// 结束时间
 				LocalDateTime endTime = LocalDateTime.now();
 
@@ -69,7 +69,7 @@ public class ArtJobLogAspect {
 			}
 		}
 		catch (Throwable e) {
-			if (quartzLog.enable()) {
+			if (quartzLog.log()) {
 				artJobLogService.addJobLog(beanName, null, e.getLocalizedMessage());
 			}
 			throw new RuntimeException(e);
