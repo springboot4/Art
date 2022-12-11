@@ -19,11 +19,9 @@ package com.art.common.quartz.core.annotation;
 import java.lang.annotation.*;
 
 /**
- * 是否记录Quartz日志
- *
  * @author Fxz
  * @version 0.0.1
- * @date 2022/12/7 21:08
+ * @date 2022/12/11 12:09
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -34,6 +32,6 @@ public @interface QuartzLog {
 	 * 是否记录日志 (true:记录 false:不记录)
 	 * @return true:记录 false:不记录
 	 */
-	boolean enable() default false;
+	boolean log() default false;
 
 }
