@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
  * @date 2022/12/7 11:53
  */
 @Slf4j
-@QuartzLog(enable = true)
+@QuartzLog(log = true)
 @Component("demoJob")
 public class DemoJob implements ArtJob {
 
