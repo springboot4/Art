@@ -16,14 +16,13 @@
 
 package com.art.common.quartz.core.aspect;
 
-import com.art.common.quartz.core.annotation.QuartzLog;
+import com.art.common.quartz.core.annotation.ArtQuartzJob;
 import com.art.common.quartz.core.service.ArtJobLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -47,16 +46,15 @@ public class ArtJobLogAspect {
 
 		Class<?> clazz = pjp.getTarget().getClass();
 
-		QuartzLog quartzLog = clazz.getAnnotation(QuartzLog.class);
-		Component component = clazz.getAnnotation(Component.class);
-		String beanName = component.value();
+		ArtQuartzJob quartzJob = clazz.getAnnotation(ArtQuartzJob.class);
+		String beanName = quartzJob.name();
 
 		Object o;
 		try {
 			// 方法执行
 			o = pjp.proceed();
 
-			if (quartzLog.log()) {
+			if (quartzJob.log()) {
 				// 结束时间
 				LocalDateTime endTime = LocalDateTime.now();
 
@@ -69,7 +67,7 @@ public class ArtJobLogAspect {
 			}
 		}
 		catch (Throwable e) {
-			if (quartzLog.log()) {
+			if (quartzJob.log()) {
 				artJobLogService.addJobLog(beanName, null, e.getLocalizedMessage());
 			}
 			throw new RuntimeException(e);
