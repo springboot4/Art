@@ -16,10 +16,9 @@
 
 package com.art.scheduled.core.job;
 
-import com.art.common.quartz.core.annotation.QuartzLog;
+import com.art.common.quartz.core.annotation.ArtQuartzJob;
 import com.art.common.quartz.core.job.ArtJob;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -29,8 +28,7 @@ import java.time.LocalDateTime;
  * @date 2022/12/7 11:53
  */
 @Slf4j
-@QuartzLog(log = true)
-@Component("demoJob")
+@ArtQuartzJob(log = true, name = "demoJob")
 public class DemoJob implements ArtJob {
 
 	@Override

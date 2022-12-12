@@ -19,14 +19,21 @@ package com.art.common.quartz.core.annotation;
 import java.lang.annotation.*;
 
 /**
+ * 标识一个QuartzJob类
  * @author Fxz
  * @version 0.0.1
- * @date 2022/12/11 12:09
+ * @date 2022/12/12 17:11
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface QuartzLog {
+public @interface ArtQuartzJob {
+
+	/**
+	 * jobName
+	 * @return jobName
+	 */
+	String name() default "";
 
 	/**
 	 * 是否记录日志 (true:记录 false:不记录)
