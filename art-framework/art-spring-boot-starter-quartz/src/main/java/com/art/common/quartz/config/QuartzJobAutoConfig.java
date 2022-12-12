@@ -19,6 +19,7 @@ package com.art.common.quartz.config;
 import com.art.common.quartz.core.aspect.ArtJobLogAspect;
 import com.art.common.quartz.core.scheduler.JobScheduler;
 import com.art.common.quartz.core.service.ArtJobLogService;
+import com.art.common.quartz.core.support.QuartzJobExporter;
 import org.quartz.Scheduler;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,11 @@ import org.springframework.context.annotation.Bean;
  */
 @AutoConfiguration
 public class QuartzJobAutoConfig {
+
+	@Bean
+	public QuartzJobExporter quartzJobExporter() {
+		return new QuartzJobExporter();
+	}
 
 	@Bean
 	public JobScheduler jobScheduler(Scheduler scheduler) {
