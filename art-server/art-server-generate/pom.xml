@@ -48,11 +48,6 @@
 
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-api-generate</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-banner</artifactId>
         </dependency>
 
@@ -69,6 +64,12 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
         </dependency>
 
     </dependencies>
