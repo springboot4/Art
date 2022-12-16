@@ -1,2 +1,2 @@
 com.art.common.mp.config.MybatisPlusAutoConfiguration
-com.art.common.mp.encrypt.EncryptAutoConfig
+com.art.common.mp.core.encrypt.config.EncryptAutoConfig

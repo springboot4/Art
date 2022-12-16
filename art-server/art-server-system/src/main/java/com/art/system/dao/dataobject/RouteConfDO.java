@@ -18,7 +18,7 @@ package com.art.system.dao.dataobject;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.art.common.mp.base.BaseDelEntity;
+import com.art.common.mp.core.base.BaseDelEntity;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 
