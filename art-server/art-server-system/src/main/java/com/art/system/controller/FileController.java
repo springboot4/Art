@@ -16,8 +16,8 @@
 
 package com.art.system.controller;
 
-import com.art.common.log.annotation.OperLogAnn;
-import com.art.common.log.enums.BusinessType;
+import com.art.common.log.core.annotation.OperLogAnn;
+import com.art.common.log.core.enums.BusinessType;
 import com.art.common.core.result.PageResult;
 import com.art.common.core.result.Result;
 import com.art.common.security.annotation.Ojbk;

@@ -19,7 +19,7 @@ package com.art.system.dao.dataobject;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.art.common.core.entity.router.VueRouter;
-import com.art.common.mp.base.BaseEntity;
+import com.art.common.mp.core.base.BaseEntity;
 import lombok.Data;
 
 import java.io.Serializable;
