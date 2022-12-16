@@ -21,7 +21,7 @@ import cn.hutool.core.util.StrUtil;
 import com.art.common.core.entity.DeptDataPermissionRespEntity;
 import com.art.common.dataPermission.dept.service.DeptDataPermissionService;
 import com.art.common.dataPermission.rule.DataPermissionRule;
-import com.art.common.mp.utils.MyBatisUtils;
+import com.art.common.mp.core.utils.MyBatisUtils;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;

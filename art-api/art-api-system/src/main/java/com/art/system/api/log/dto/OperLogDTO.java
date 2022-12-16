@@ -16,7 +16,7 @@
 
 package com.art.system.api.log.dto;
 
-import com.art.common.mp.base.BaseCreateEntity;
+import com.art.common.mp.core.base.BaseCreateEntity;
 import lombok.Data;
 
 /**

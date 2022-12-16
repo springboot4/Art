@@ -22,7 +22,7 @@ import com.art.common.dataPermission.db.DataPermissionDatabaseInterceptor;
 import com.art.common.dataPermission.factory.DataPermissionRuleFactory;
 import com.art.common.dataPermission.factory.DataPermissionRuleFactoryImpl;
 import com.art.common.dataPermission.rule.DataPermissionRule;
-import com.art.common.mp.utils.MyBatisUtils;
+import com.art.common.mp.core.utils.MyBatisUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 

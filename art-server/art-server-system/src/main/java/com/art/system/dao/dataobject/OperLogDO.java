@@ -17,8 +17,8 @@
 package com.art.system.dao.dataobject;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.art.common.mp.base.BaseEntity;
-import com.art.common.mp.encrypt.annotation.EncryptionData;
+import com.art.common.mp.core.base.BaseEntity;
+import com.art.common.mp.core.encrypt.core.annotation.EncryptionData;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 
