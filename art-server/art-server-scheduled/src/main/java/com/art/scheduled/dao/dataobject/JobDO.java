@@ -16,7 +16,7 @@
 
 package com.art.scheduled.dao.dataobject;
 
-import com.art.common.mp.base.BaseCreateEntity;
+import com.art.common.mp.core.base.BaseCreateEntity;
 import com.art.common.quartz.core.constants.ScheduleConstants;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

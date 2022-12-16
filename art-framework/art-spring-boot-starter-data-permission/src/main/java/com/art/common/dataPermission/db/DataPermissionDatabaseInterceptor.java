@@ -25,7 +25,7 @@ import com.art.common.dataPermission.factory.DataPermissionRuleFactory;
 import com.art.common.dataPermission.local.DataPermissionRuleContextHolder;
 import com.art.common.dataPermission.local.MappedStatementCache;
 import com.art.common.dataPermission.rule.DataPermissionRule;
-import com.art.common.mp.utils.MyBatisUtils;
+import com.art.common.mp.core.utils.MyBatisUtils;
 import lombok.RequiredArgsConstructor;
 import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;

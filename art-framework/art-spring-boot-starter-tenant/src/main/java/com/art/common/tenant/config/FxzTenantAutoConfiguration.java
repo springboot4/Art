@@ -18,7 +18,7 @@ package com.art.common.tenant.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
-import com.art.common.mp.utils.MyBatisUtils;
+import com.art.common.mp.core.utils.MyBatisUtils;
 import com.art.common.mq.redis.core.RedisMQTemplate;
 import com.art.common.redis.cache.properties.CacheRedisCaffeineProperties;
 import com.art.common.redis.cache.support.RedisCaffeineCacheManager;

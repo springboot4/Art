@@ -20,7 +20,7 @@ import cn.hutool.core.date.DatePattern;
 import com.art.common.core.annotation.CheckMobileValid;
 import com.art.common.core.enums.SensitiveType;
 import com.art.common.core.sensitive.SensitiveInfo;
-import com.art.common.mp.base.BaseCreateEntity;
+import com.art.common.mp.core.base.BaseCreateEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

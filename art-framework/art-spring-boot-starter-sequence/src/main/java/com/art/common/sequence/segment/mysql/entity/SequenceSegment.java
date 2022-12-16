@@ -19,7 +19,7 @@ package com.art.common.sequence.segment.mysql.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.art.common.mp.base.BaseCreateEntity;
+import com.art.common.mp.core.base.BaseCreateEntity;
 import lombok.Data;
 
 /**
