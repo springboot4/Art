@@ -20,7 +20,6 @@ import cn.hutool.extra.spring.SpringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -33,7 +32,6 @@ import java.time.LocalDateTime;
  * @date 2022/11/24 14:45
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class RabbitHealthCheckProducer implements Runnable, Serializable {
 
