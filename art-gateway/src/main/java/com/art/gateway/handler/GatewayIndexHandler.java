@@ -27,8 +27,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Nonnull;
-
 /**
  * 网关默认首页
  *
@@ -45,9 +43,8 @@ public class GatewayIndexHandler implements HandlerFunction<ServerResponse> {
 
 	private String version;
 
-	@Nonnull
 	@Override
-	public Mono<ServerResponse> handle(@Nonnull ServerRequest request) {
+	public Mono<ServerResponse> handle(ServerRequest request) {
 		String sb = "<div style='color: red'>" + name + " gateway started!</div>" + "<br/>" + "author: " + author
 				+ "<br/>" + "version: " + version + "<br/>" + "<div><ul>"
 				+ "<li>Knife4j: <a href='doc.html' target='_blank'>Knife4j</a></li>"
