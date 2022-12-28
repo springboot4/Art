@@ -38,13 +38,14 @@
         <swagger.version>2.2.2</swagger.version>
         <knife4j.version>3.0.3</knife4j.version>
         <captcha.version>1.3.0</captcha.version>
+        <commons-io.version>1.3.2</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <fastjson.version>1.2.62</fastjson.version>
         <spring-boot-admin.version>2.6.3</spring-boot-admin.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <sentinel.version>1.6.3</sentinel.version>
         <velocity.version>2.3</velocity.version>
-        <hutool.version>5.8.9</hutool.version>
+        <hutool.version>5.8.11</hutool.version>
         <seata.version>1.4.2</seata.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
@@ -329,6 +330,11 @@
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-parameter-flow-control</artifactId>
                 <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.velocity</groupId>

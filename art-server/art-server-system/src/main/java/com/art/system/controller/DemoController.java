@@ -28,7 +28,6 @@ import com.art.common.security.annotation.Ojbk;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.common.sequence.service.Sequence;
-import com.art.common.websocket.service.UserWsNoticeService;
 import com.art.system.api.user.dto.SystemUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -58,8 +57,6 @@ public class DemoController {
 	private final Sequence fxzSequence;
 
 	private final Sequence cloudSequence;
-
-	private final UserWsNoticeService userWsNoticeService;
 
 	private final RedisMQTemplate redisMQTemplate;
 
@@ -107,13 +104,6 @@ public class DemoController {
 	@GetMapping("/cache/demo")
 	public Result<String> get(Long id) {
 		return Result.success(id.toString());
-	}
-
-	@Ojbk
-	@GetMapping("/websocket")
-	public Result<Void> websocket() {
-		userWsNoticeService.sendMessageByAll("全体起立！");
-		return Result.success();
 	}
 
 	@SneakyThrows
