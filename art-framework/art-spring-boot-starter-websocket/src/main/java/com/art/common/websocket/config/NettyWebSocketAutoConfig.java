@@ -14,32 +14,24 @@
  * limitations under the License.
  */
 
-package com.art.common.mp.core.encrypt.config;
+package com.art.common.websocket.config;
 
-import com.art.common.mp.core.encrypt.core.interceptor.DecryptInterceptor;
-import com.art.common.mp.core.encrypt.core.interceptor.EncryptInterceptor;
-import com.art.common.mp.core.encrypt.core.propertie.EncryptProperties;
+import com.art.common.websocket.core.support.WebSocketEndpointExporter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ResourceLoader;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2022/9/15 14:09
+ * @date 2022/12/27 19:02
  */
 @AutoConfiguration
-@EnableConfigurationProperties(EncryptProperties.class)
-public class EncryptAutoConfig {
+public class NettyWebSocketAutoConfig {
 
 	@Bean
-	public DecryptInterceptor decryptInterceptor(EncryptProperties encryptProperties) {
-		return new DecryptInterceptor(encryptProperties);
-	}
-
-	@Bean
-	public EncryptInterceptor encryptInterceptor(EncryptProperties encryptProperties) {
-		return new EncryptInterceptor(encryptProperties);
+	public WebSocketEndpointExporter webSocketEndpointExporter(ResourceLoader resourceLoader) {
+		return new WebSocketEndpointExporter(resourceLoader);
 	}
 
 }

@@ -26,7 +26,6 @@ import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +37,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2022/11/24 14:45
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 @RabbitListener(bindings = @QueueBinding(value = @Queue(),
 		exchange = @Exchange(value = "exchange1", type = ExchangeTypes.FANOUT)), ackMode = "MANUAL")
