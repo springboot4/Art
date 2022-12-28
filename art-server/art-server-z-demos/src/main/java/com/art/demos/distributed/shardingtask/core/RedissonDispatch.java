@@ -25,7 +25,6 @@ import org.redisson.api.RScheduledExecutorService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +36,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2022/11/24 10:56
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class RedissonDispatch implements ApplicationRunner {
 

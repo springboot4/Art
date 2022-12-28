@@ -48,58 +48,58 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @RequiredArgsConstructor
-@Intercepts(@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class}))
+@Intercepts(@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }))
 public class DecryptInterceptor implements Interceptor {
 
-    private final EncryptProperties encryptProperties;
+	private final EncryptProperties encryptProperties;
 
-    @Override
-    public Object intercept(Invocation invocation) throws Throwable {
-        Object result = invocation.proceed();
-        // 未开启字段加解密
-        if (!encryptProperties.isEnableFieldDecrypt()) {
-            return result;
-        }
+	@Override
+	public Object intercept(Invocation invocation) throws Throwable {
+		Object result = invocation.proceed();
+		// 未开启字段加解密
+		if (!encryptProperties.isEnableFieldDecrypt()) {
+			return result;
+		}
 
-        return this.aesDecrypt(result);
-    }
+		return this.aesDecrypt(result);
+	}
 
-    private Object aesDecrypt(Object obj) {
-        // 查询结果为集合
-        if (obj instanceof List<?>) {
-            return ((ArrayList<?>) obj).stream().peek(o -> {
-                if (Objects.nonNull(o)) {
-                    // 过滤出需要加解密的字段
-                    Field[] fields = ReflectUtil.getFields(o.getClass(),
-                            field -> Objects.nonNull(field.getAnnotation(EncryptionData.class)));
-                    // 通过反射对字段进行aes解密
-                    Arrays.stream(fields).forEach(f -> ReflectUtil.setFieldValue(o, f,
-                            this.aesDecryptValue(ReflectUtil.getFieldValue(o, f))));
-                }
-            }).collect(Collectors.toList());
-        }
+	private Object aesDecrypt(Object obj) {
+		// 查询结果为集合
+		if (obj instanceof List<?>) {
+			return ((ArrayList<?>) obj).stream().peek(o -> {
+				if (Objects.nonNull(o)) {
+					// 过滤出需要加解密的字段
+					Field[] fields = ReflectUtil.getFields(o.getClass(),
+							field -> Objects.nonNull(field.getAnnotation(EncryptionData.class)));
+					// 通过反射对字段进行aes解密
+					Arrays.stream(fields).forEach(f -> ReflectUtil.setFieldValue(o, f,
+							this.aesDecryptValue(ReflectUtil.getFieldValue(o, f))));
+				}
+			}).collect(Collectors.toList());
+		}
 
-        // 查询结果为对象 过滤出需要加解密的字段
-        Field[] fields = ReflectUtil.getFields(obj.getClass(),
-                field -> Objects.nonNull(field.getAnnotation(EncryptionData.class)));
-        // 通过反射对字段进行aes解密
-        Arrays.stream(fields).forEach(
-                f -> ReflectUtil.setFieldValue(obj, f, this.aesDecryptValue(ReflectUtil.getFieldValue(obj, f))));
+		// 查询结果为对象 过滤出需要加解密的字段
+		Field[] fields = ReflectUtil.getFields(obj.getClass(),
+				field -> Objects.nonNull(field.getAnnotation(EncryptionData.class)));
+		// 通过反射对字段进行aes解密
+		Arrays.stream(fields).forEach(
+				f -> ReflectUtil.setFieldValue(obj, f, this.aesDecryptValue(ReflectUtil.getFieldValue(obj, f))));
 
-        return obj;
-    }
+		return obj;
+	}
 
-    /**
-     * aes解密
-     */
-    public Object aesDecryptValue(Object fieldValue) {
-        // 只对字符串类型进行处理
-        if (fieldValue instanceof String) {
-            AES aes = SecureUtil.aes(encryptProperties.getFieldDecryptKey().getBytes(StandardCharsets.UTF_8));
-            return new String(aes.decrypt(Base64.decode((String) fieldValue)), StandardCharsets.UTF_8);
-        }
+	/**
+	 * aes解密
+	 */
+	public Object aesDecryptValue(Object fieldValue) {
+		// 只对字符串类型进行处理
+		if (fieldValue instanceof String) {
+			AES aes = SecureUtil.aes(encryptProperties.getFieldDecryptKey().getBytes(StandardCharsets.UTF_8));
+			return new String(aes.decrypt(Base64.decode((String) fieldValue)), StandardCharsets.UTF_8);
+		}
 
-        return fieldValue;
-    }
+		return fieldValue;
+	}
 
 }

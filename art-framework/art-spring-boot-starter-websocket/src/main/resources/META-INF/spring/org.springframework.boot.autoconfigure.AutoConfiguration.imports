@@ -1,1 +1,1 @@
-com.art.common.websocket.WebSocketConfig
+com.art.common.websocket.config.NettyWebSocketAutoConfig
