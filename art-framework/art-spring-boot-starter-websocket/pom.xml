@@ -30,14 +30,31 @@
 
     <dependencies>
 
+<!--        <dependency>-->
+<!--            <groupId>com.art</groupId>-->
+<!--            <artifactId>art-spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-http</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-security</artifactId>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
