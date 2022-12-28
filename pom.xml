@@ -34,9 +34,9 @@
     </modules>
 
     <properties>
-        <spring-boot.version>2.7.0</spring-boot.version>
-        <spring-cloud.version>2021.0.1</spring-cloud.version>
-        <com-alibaba-cloud.version>2021.0.1.0</com-alibaba-cloud.version>
+        <spring-boot.version>2.7.7</spring-boot.version>
+        <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <com-alibaba-cloud.version>2021.0.4.0</com-alibaba-cloud.version>
         <jasypt.version>2.1.0</jasypt.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <maven.compiler.source>8</maven.compiler.source>
