@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.demos.distributed.lock.controller;
+package com.art.demos.core.distributed.lock.controller;
 
 import com.art.common.core.result.Result;
 import com.art.common.lock.annotation.DistributedLock;

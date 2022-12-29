@@ -16,4 +16,4 @@
 /**
  * redisson调度代替xxl-job分片demo
  */
-package com.art.demos.distributed.shardingtask;
+package com.art.demos.core.distributed.shardingtask;

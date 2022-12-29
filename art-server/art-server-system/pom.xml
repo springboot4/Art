@@ -29,28 +29,6 @@
 
     <dependencies>
 
-        <!--        <dependency>-->
-        <!--            <groupId>com.alibaba.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>-->
-        <!--            <exclusions>-->
-        <!--                <exclusion>-->
-        <!--                    <groupId>com.alibaba.csp</groupId>-->
-        <!--                    <artifactId>sentinel-core</artifactId>-->
-        <!--                </exclusion>-->
-        <!--            </exclusions>-->
-        <!--        </dependency>-->
-
-        <!--        <dependency>-->
-        <!--            <groupId>com.alibaba.csp</groupId>-->
-        <!--            <artifactId>sentinel-core</artifactId>-->
-        <!--            <version>1.8.3</version>-->
-        <!--        </dependency>-->
-
-        <!--        <dependency>-->
-        <!--            <groupId>com.alibaba.csp</groupId>-->
-        <!--            <artifactId>sentinel-datasource-nacos</artifactId>-->
-        <!--        </dependency>-->
-
         <!--nacos配置中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -82,51 +60,10 @@
             <artifactId>art-api-system</artifactId>
         </dependency>
 
+        <!--接口api-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-api-auth</artifactId>
-        </dependency>
-
-        <!--测试:xss过滤-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-xss</artifactId>
-        </dependency>
-
-        <!--测试:分布式锁-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-lock</artifactId>
-        </dependency>
-
-        <!--测试:xxl-job-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-xxl-job</artifactId>
-        </dependency>
-
-        <!--测试:es模块-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-es</artifactId>
-        </dependency>
-
-        <!--测试:发号器模块-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-sequence</artifactId>
-        </dependency>
-
-        <!--测试:websocket-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-websocket</artifactId>
-        </dependency>
-
-        <!--测试:rabbitmq-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-mq-rabbit</artifactId>
         </dependency>
 
         <!--多租户支持-->
@@ -151,12 +88,6 @@
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-data-permission</artifactId>
-        </dependency>
-
-        <!--id幂等性-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-idempotent</artifactId>
         </dependency>
 
         <!--日志-->
