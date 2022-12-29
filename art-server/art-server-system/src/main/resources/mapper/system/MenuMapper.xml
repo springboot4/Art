@@ -37,30 +37,30 @@
 
     <!--通过用户名查询权限信息-->
     <select id="findUserPermissions" resultType="com.art.system.dao.dataobject.MenuDO">
-        select distinct m.perms
-        from sys_role r
-                 left join sys_user_role ur on (r.role_id = ur.role_id)
-                 left join sys_user u on (u.user_id = ur.user_id)
-                 left join sys_role_menu rm on (rm.role_id = r.role_id)
-                 left join sys_menu m on (m.id = rm.menu_id)
-        where u.username = #{userName}
-          and m.perms is not null
-          and m.perms &lt;&gt; ''
+        select distinct sm.perms
+        from sys_role sr
+                 left join sys_user_role sur on (sr.role_id = sur.role_id)
+                 left join sys_user su on (su.user_id = sur.user_id)
+                 left join sys_role_menu srm on (srm.role_id = sr.role_id)
+                 left join sys_menu sm on (sm.id = srm.menu_id)
+        where su.username = #{userName}
+          and sm.perms is not null
+          and sm.perms &lt;&gt; ''
     </select>
 
     <!--通过用户名查询菜单信息-->
     <select id="findUserMenus" resultType="com.art.system.dao.dataobject.MenuDO">
-        select m.*
-        from sys_menu m
-        where m.type &lt;&gt; 1
-          and m.id in
-              (select distinct rm.menu_id
-               from sys_role_menu rm
-                        left join sys_role r on (rm.role_id = r.role_id)
-                        left join sys_user_role ur on (ur.role_id = r.role_id)
-                        left join sys_user u on (u.user_id = ur.user_id)
-               where u.username = #{userName})
-        order by m.order_num
+        select sm.*
+        from sys_menu sm
+        where sm.type &lt;&gt; 1
+          and sm.id in
+              (select distinct srm.menu_id
+               from sys_role_menu srm
+                        left join sys_role sr on (srm.role_id = sr.role_id)
+                        left join sys_user_role sur on (sur.role_id = sr.role_id)
+                        left join sys_user su on (su.user_id = sur.user_id)
+               where su.username = #{userName})
+        order by sm.order_num
     </select>
 
     <!--根据父节点id查询路由信息-->
