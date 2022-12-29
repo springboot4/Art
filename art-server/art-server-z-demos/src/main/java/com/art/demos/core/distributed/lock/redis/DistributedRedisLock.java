@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.art.demos.distributed.lock.redis;
+package com.art.demos.core.distributed.lock.redis;
 
 import cn.hutool.core.text.StrPool;
-import com.art.demos.distributed.lock.redis.constant.RedisConstant;
+import com.art.demos.core.distributed.lock.redis.constant.RedisConstant;
 import lombok.SneakyThrows;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;

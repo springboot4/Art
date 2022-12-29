@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.art.demos.distributed.lock.client;
+package com.art.demos.core.distributed.lock.client;
 
-import com.art.demos.distributed.lock.redis.DistributedRedisLock;
+import com.art.demos.core.distributed.lock.redis.DistributedRedisLock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;

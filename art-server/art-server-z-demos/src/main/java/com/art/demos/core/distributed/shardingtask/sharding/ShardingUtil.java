@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.art.demos.distributed.shardingtask.sharding;
+package com.art.demos.core.distributed.shardingtask.sharding;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.art.demos.distributed.shardingtask.core.RedissonDispatch;
+import com.art.demos.core.distributed.shardingtask.core.RedissonDispatch;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.redis.core.StringRedisTemplate;

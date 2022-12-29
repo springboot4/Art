@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.art.demos.distributed.shardingtask.core;
+package com.art.demos.core.distributed.shardingtask.core;
 
 import cn.hutool.core.lang.UUID;
-import com.art.demos.distributed.shardingtask.task.RabbitHealthCheckProducer;
+import com.art.demos.core.distributed.shardingtask.task.RabbitHealthCheckProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

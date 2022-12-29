@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.demos.distributed.shardingtask.task;
+package com.art.demos.core.distributed.shardingtask.task;
 
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.RequiredArgsConstructor;
