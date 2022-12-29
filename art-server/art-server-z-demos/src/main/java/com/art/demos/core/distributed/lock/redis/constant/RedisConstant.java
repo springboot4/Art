@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.demos.distributed.lock.redis.constant;
+package com.art.demos.core.distributed.lock.redis.constant;
 
 /**
  * @author Fxz

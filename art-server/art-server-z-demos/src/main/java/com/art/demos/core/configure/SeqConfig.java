@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.system.core.configure;
+package com.art.demos.core.configure;
 
 import com.art.common.sequence.segment.SeqSegmentConfig;
 import com.art.common.sequence.segment.SeqSegmentManager;
