@@ -49,19 +49,19 @@ public class QuartzJobUtils {
 	 */
 	public static CronScheduleBuilder handleCronScheduleMisfirePolicy(String misfirePolicy, CronScheduleBuilder cb) {
 		switch (misfirePolicy) {
-		case ScheduleConstants.MISFIRE_IGNORE_MISFIRES:
-			// 立即触发执行
-			return cb.withMisfireHandlingInstructionIgnoreMisfires();
-		case ScheduleConstants.MISFIRE_FIRE_AND_PROCEED:
-			// 触发一次执行
-			return cb.withMisfireHandlingInstructionFireAndProceed();
-		case ScheduleConstants.MISFIRE_DO_NOTHING:
-			// 不触发立即执行
-			return cb.withMisfireHandlingInstructionDoNothing();
-		case ScheduleConstants.MISFIRE_DEFAULT:
-		default:
-			// 默认触发策略
-			return cb;
+			case ScheduleConstants.MISFIRE_IGNORE_MISFIRES:
+				// 立即触发执行
+				return cb.withMisfireHandlingInstructionIgnoreMisfires();
+			case ScheduleConstants.MISFIRE_FIRE_AND_PROCEED:
+				// 触发一次执行
+				return cb.withMisfireHandlingInstructionFireAndProceed();
+			case ScheduleConstants.MISFIRE_DO_NOTHING:
+				// 不触发立即执行
+				return cb.withMisfireHandlingInstructionDoNothing();
+			case ScheduleConstants.MISFIRE_DEFAULT:
+			default:
+				// 默认触发策略
+				return cb;
 		}
 	}
 
