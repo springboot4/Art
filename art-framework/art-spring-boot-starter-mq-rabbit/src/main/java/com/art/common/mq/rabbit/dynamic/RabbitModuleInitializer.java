@@ -140,23 +140,23 @@ public class RabbitModuleInitializer implements SmartInitializingSingleton {
 		Map<String, Object> arguments = exchangeInfo.getArguments();
 
 		switch (exchangeType) {
-		case DIRECT:
-			// 直连交换机
-			exchange = new DirectExchange(exchangeName, isDurable, isAutoDelete, arguments);
-			break;
-		case TOPIC:
-			// 主题交换机
-			exchange = new TopicExchange(exchangeName, isDurable, isAutoDelete, arguments);
-			break;
-		case FANOUT:
-			// 扇形交换机
-			exchange = new FanoutExchange(exchangeName, isDurable, isAutoDelete, arguments);
-			break;
-		case HEADERS:
-			// 头交换机
-			exchange = new HeadersExchange(exchangeName, isDurable, isAutoDelete, arguments);
-		default:
-			break;
+			case DIRECT:
+				// 直连交换机
+				exchange = new DirectExchange(exchangeName, isDurable, isAutoDelete, arguments);
+				break;
+			case TOPIC:
+				// 主题交换机
+				exchange = new TopicExchange(exchangeName, isDurable, isAutoDelete, arguments);
+				break;
+			case FANOUT:
+				// 扇形交换机
+				exchange = new FanoutExchange(exchangeName, isDurable, isAutoDelete, arguments);
+				break;
+			case HEADERS:
+				// 头交换机
+				exchange = new HeadersExchange(exchangeName, isDurable, isAutoDelete, arguments);
+			default:
+				break;
 		}
 
 		return exchange;
