@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.art.demos.distributed.shardingtask.task;
+package com.art.demos.core.distributed.shardingtask.task;
 
-import com.art.demos.distributed.shardingtask.core.RedissonDispatch;
-import com.art.demos.distributed.shardingtask.sharding.ShardingUtil;
+import com.art.demos.core.distributed.shardingtask.sharding.ShardingUtil;
+import com.art.demos.core.distributed.shardingtask.core.RedissonDispatch;
 import com.rabbitmq.client.Channel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

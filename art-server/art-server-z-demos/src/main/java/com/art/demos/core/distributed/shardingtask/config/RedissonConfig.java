@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.demos.distributed.shardingtask.config;
+package com.art.demos.core.distributed.shardingtask.config;
 
 import org.redisson.api.ExecutorOptions;
 import org.redisson.api.RScheduledExecutorService;
