@@ -38,14 +38,13 @@ public enum CodeGenColumnTypeEnum {
 	/**
 	 * 数据库字段与java数据类型的映射
 	 */
-	TINYINT("tinyint", "Integer"), SMALLINT("smallint", "Integer"), MEDIUMINT("mediumint", "Integer"), INT("int",
-			"Integer"), INTEGER("integer", "Integer"), BIGINT("bigint", "Long"), FLOAT("float", "Float"), DOUBLE(
-					"double", "Double"), DECIMAL("decimal", "BigDecimal"), BIT("bit", "Boolean"), CHAR("char",
-							"String"), VARCHAR("varchar", "String"), TINYTEXT("tinytext", "String"), TEXT("text",
-									"String"), MEDIUMTEXT("mediumtext", "String"), LONGTEXT("longtext",
-											"String"), DATE("date", "LocalDate"), DATETIME("datetime",
-													"LocalDateTime"), TIME("time", "LocalTime"), TIMESTAMP("timestamp",
-															"LocalDateTime"), JSON("json", "String");
+	TINYINT("tinyint", "Integer"), SMALLINT("smallint", "Integer"), MEDIUMINT("mediumint", "Integer"),
+	INT("int", "Integer"), INTEGER("integer", "Integer"), BIGINT("bigint", "Long"), FLOAT("float", "Float"),
+	DOUBLE("double", "Double"), DECIMAL("decimal", "BigDecimal"), BIT("bit", "Boolean"), CHAR("char", "String"),
+	VARCHAR("varchar", "String"), TINYTEXT("tinytext", "String"), TEXT("text", "String"),
+	MEDIUMTEXT("mediumtext", "String"), LONGTEXT("longtext", "String"), DATE("date", "LocalDate"),
+	DATETIME("datetime", "LocalDateTime"), TIME("time", "LocalTime"), TIMESTAMP("timestamp", "LocalDateTime"),
+	JSON("json", "String");
 
 	private final String columnType;
 

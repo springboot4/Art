@@ -79,17 +79,17 @@ public class MyWebSocket {
 		if (evt instanceof IdleStateEvent) {
 			IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
 			switch (idleStateEvent.state()) {
-			case READER_IDLE:
-				System.out.println("read idle");
-				break;
-			case WRITER_IDLE:
-				System.out.println("write idle");
-				break;
-			case ALL_IDLE:
-				System.out.println("all idle");
-				break;
-			default:
-				break;
+				case READER_IDLE:
+					System.out.println("read idle");
+					break;
+				case WRITER_IDLE:
+					System.out.println("write idle");
+					break;
+				case ALL_IDLE:
+					System.out.println("all idle");
+					break;
+				default:
+					break;
 			}
 		}
 	}

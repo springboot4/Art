@@ -66,40 +66,40 @@ public class CityValidator implements ConstraintValidator<CheckCityValid, String
 		List<CityEntity> cityJson = JSONUtil.toList(jsonStr, CityEntity.class);
 		CityEntity entity;
 		switch (type) {
-		case PROVINCE: {
-			entity = cityJson.stream().filter(item -> inputValue.equals(item.getName()) && item.getParent() == null)
-					.findFirst().orElse(null);
-			break;
-		}
-		default:
-		case CITY: {
-			entity = cityJson.stream().filter(item -> {
-				// 找出名字相符且有父节点的entity
-				if (inputValue.equals(item.getName()) && item.getParent() != null) {
-					// 找出没有父节点的父节点
-					CityEntity parentEntity = cityJson.stream()
-							.filter(parent -> item.getParent().equals(parent.getValue()) && parent.getParent() == null)
-							.findFirst().orElse(null);
-					return parentEntity != null;
-				}
-				return false;
-			}).findFirst().orElse(null);
-			break;
-		}
-		case AREA: {
-			entity = cityJson.stream().filter(item -> {
-				// 找出名字相符且有父节点的entity
-				if (inputValue.equals(item.getName()) && item.getParent() != null) {
-					// 找出有父节点的父节点
-					CityEntity parentEntity = cityJson.stream()
-							.filter(parent -> item.getParent().equals(parent.getValue()) && parent.getParent() != null)
-							.findFirst().orElse(null);
-					return parentEntity != null;
-				}
-				return false;
-			}).findFirst().orElse(null);
-			break;
-		}
+			case PROVINCE: {
+				entity = cityJson.stream().filter(item -> inputValue.equals(item.getName()) && item.getParent() == null)
+						.findFirst().orElse(null);
+				break;
+			}
+			default:
+			case CITY: {
+				entity = cityJson.stream().filter(item -> {
+					// 找出名字相符且有父节点的entity
+					if (inputValue.equals(item.getName()) && item.getParent() != null) {
+						// 找出没有父节点的父节点
+						CityEntity parentEntity = cityJson.stream().filter(
+								parent -> item.getParent().equals(parent.getValue()) && parent.getParent() == null)
+								.findFirst().orElse(null);
+						return parentEntity != null;
+					}
+					return false;
+				}).findFirst().orElse(null);
+				break;
+			}
+			case AREA: {
+				entity = cityJson.stream().filter(item -> {
+					// 找出名字相符且有父节点的entity
+					if (inputValue.equals(item.getName()) && item.getParent() != null) {
+						// 找出有父节点的父节点
+						CityEntity parentEntity = cityJson.stream().filter(
+								parent -> item.getParent().equals(parent.getValue()) && parent.getParent() != null)
+								.findFirst().orElse(null);
+						return parentEntity != null;
+					}
+					return false;
+				}).findFirst().orElse(null);
+				break;
+			}
 		}
 		return entity != null;
 	}
