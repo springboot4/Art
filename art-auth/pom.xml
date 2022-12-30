@@ -29,13 +29,6 @@
 
     <dependencies>
 
-        <!-- 如果需要多用户体系支持商城，则引入此依赖，不需要注释掉即可-->
-<!--        <dependency>-->
-<!--            <groupId>com.art</groupId>-->
-<!--            <artifactId>support</artifactId>-->
-<!--            <version>0.0.1</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
