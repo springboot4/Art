@@ -17,6 +17,8 @@
 package com.art.common.dataPermission.dept.service;
 
 import com.art.common.core.entity.DeptDataPermissionRespEntity;
+import com.art.common.core.exception.FxzException;
+import com.art.common.core.result.ResultOpt;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.system.api.role.RoleServiceApi;
 import lombok.RequiredArgsConstructor;
@@ -39,10 +41,11 @@ public class DeptDataPermissionService {
 	 * @return 部门数据权限
 	 */
 	public DeptDataPermissionRespEntity getDeptDataPermission(FxzAuthUser loginUser) {
-		log.info("查询用户:{}的数据权限", loginUser);
-		DeptDataPermissionRespEntity respDTO = roleServiceApi.getDataPermission().getData();
-		log.info("数据权限是:{}", respDTO);
-		return respDTO;
+		log.info("查询用户:{}的数据权限", loginUser.getUsername());
+
+		ResultOpt<DeptDataPermissionRespEntity> opt = ResultOpt.ofNullable(roleServiceApi.getDataPermission());
+		return opt.assertSuccess(r -> new FxzException(String.format("查询数据权限接口失败:%s", loginUser.getUsername())))
+				.consumerData(d -> log.info("数据权限是:{}", d)).peek().getData();
 	}
 
 }
