@@ -70,11 +70,11 @@ public class Result<T> implements Serializable {
 		return status ? success() : failed();
 	}
 
-	private static <T> Result<T> result(IResultCode resultCode, T data) {
+	public static <T> Result<T> result(IResultCode resultCode, T data) {
 		return result(resultCode.getCode(), resultCode.getMsg(), data);
 	}
 
-	private static <T> Result<T> result(String code, String msg, T data) {
+	public static <T> Result<T> result(String code, String msg, T data) {
 		return new Result<T>().setCode(code).setData(data).setMsg(msg);
 	}
 
