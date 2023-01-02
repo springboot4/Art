@@ -277,9 +277,8 @@ public class ResultOpt<T> {
 	 * 消费数据,注意此方法保证数据可用
 	 * @param consumer 消费函数
 	 */
-	public ResultOpt<T> consumerData(Consumer<? super T> consumer) {
+	public void consumerData(Consumer<? super T> consumer) {
 		consumer.accept(result.getData());
-		return this;
 	}
 
 	/**
@@ -287,19 +286,17 @@ public class ResultOpt<T> {
 	 * @param consumer 消费函数
 	 * @param codes 期望code集合 匹配任意一个则调用消费函数
 	 */
-	public ResultOpt<T> consumerDataOnCode(Consumer<? super T> consumer, String... codes) {
+	public void consumerDataOnCode(Consumer<? super T> consumer, String... codes) {
 		consumerDataIf(o -> Arrays.stream(codes).anyMatch(c -> result.getCode().equals(c)), consumer);
-		return this;
 	}
 
 	/**
 	 * 条件消费
 	 * @param consumer 消费函数
 	 */
-	public ResultOpt<T> consumerDataIfSuccess(Consumer<? super T> consumer) {
+	public void consumerDataIfSuccess(Consumer<? super T> consumer) {
 		Predicate<Result<T>> success = r -> ResultCode.SUCCESS.getCode().equals(r.getCode());
 		consumerDataIf(success, consumer);
-		return this;
 	}
 
 	/**
@@ -307,12 +304,10 @@ public class ResultOpt<T> {
 	 * @param predicate 断言函数
 	 * @param consumer 消费函数,断言函数返回{@code true}时被调用
 	 */
-	public ResultOpt<T> consumerDataIf(Predicate<? super Result<T>> predicate, Consumer<? super T> consumer) {
+	public void consumerDataIf(Predicate<? super Result<T>> predicate, Consumer<? super T> consumer) {
 		if (predicate.test(result)) {
 			consumer.accept(result.getData());
 		}
-
-		return this;
 	}
 
 }
