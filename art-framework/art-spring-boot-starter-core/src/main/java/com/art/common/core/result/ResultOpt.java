@@ -265,6 +265,8 @@ public class ResultOpt<T> {
 	 * @return 返回新实例
 	 */
 	public <U> ResultOpt<U> mapIf(Predicate<? super Result<T>> predicate, Function<? super T, ? extends U> mapper) {
+		Objects.requireNonNull(predicate);
+
 		if (predicate.test(result)) {
 			return empty();
 		}
