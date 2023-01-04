@@ -107,8 +107,8 @@ public class UserController {
 	@Ojbk
 	@IgnoreTenant
 	@GetMapping("/findByName/{username}")
-	public SystemUserDTO findByName(@PathVariable("username") String username) {
-		return this.userService.findByName(username);
+	public Result<SystemUserDTO> findByName(@PathVariable("username") String username) {
+		return Result.success(this.userService.findByName(username));
 	}
 
 	/**
@@ -119,8 +119,8 @@ public class UserController {
 	@Operation(summary = "通过手机号查找用户信息")
 	@Ojbk(inner = true)
 	@GetMapping("/findByMobile/{mobile}")
-	public SystemUserDTO findByMobile(@PathVariable("mobile") String mobile) {
-		return this.userService.findByMobile(mobile);
+	public Result<SystemUserDTO> findByMobile(@PathVariable("mobile") String mobile) {
+		return Result.success(this.userService.findByMobile(mobile));
 
 	}
 
