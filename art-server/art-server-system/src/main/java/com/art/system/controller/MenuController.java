@@ -23,6 +23,7 @@ import com.art.common.security.annotation.Ojbk;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.system.api.dict.dto.MenuDTO;
+import com.art.system.dao.dataobject.MenuDO;
 import com.art.system.service.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -122,7 +123,7 @@ public class MenuController {
 	 */
 	@Operation(summary = "根据id查询路由信息")
 	@GetMapping("/getMenuById/{id}")
-	public Result<VueRouter> getMenuById(@PathVariable("id") Long id) {
+	public Result<VueRouter<MenuDO>> getMenuById(@PathVariable("id") Long id) {
 		return Result.success(this.menuService.getMenuById(id));
 	}
 
@@ -143,8 +144,8 @@ public class MenuController {
 	@Operation(summary = "通过用户名查询权限信息")
 	@Ojbk(inner = true)
 	@GetMapping("/findUserPermissions/{username}")
-	public Set<String> findUserPermissions(@PathVariable("username") String username) {
-		return menuService.findUserPermissions(username);
+	public Result<Set<String>> findUserPermissions(@PathVariable("username") String username) {
+		return Result.success(menuService.findUserPermissions(username));
 	}
 
 }

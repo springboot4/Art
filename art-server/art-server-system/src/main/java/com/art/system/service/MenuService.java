@@ -18,6 +18,7 @@ package com.art.system.service;
 
 import com.art.common.core.entity.router.VueRouter;
 import com.art.system.api.dict.dto.MenuDTO;
+import com.art.system.dao.dataobject.MenuDO;
 
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,7 @@ public interface MenuService {
 	 * @param id
 	 * @return
 	 */
-	VueRouter getMenuById(Long id);
+	VueRouter<MenuDO> getMenuById(Long id);
 
 	/**
 	 * 更新路由

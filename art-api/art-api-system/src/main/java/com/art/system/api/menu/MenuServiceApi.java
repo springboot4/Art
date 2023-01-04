@@ -18,6 +18,7 @@ package com.art.system.api.menu;
 
 import com.art.common.core.constant.FxzServerConstant;
 import com.art.common.core.constant.SecurityConstants;
+import com.art.common.core.result.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,7 @@ public interface MenuServiceApi {
 	 * @return 权限信息
 	 */
 	@GetMapping("/menu/findUserPermissions/{username}")
-	Set<String> findUserPermissions(@PathVariable("username") String username,
+	Result<Set<String>> findUserPermissions(@PathVariable("username") String username,
 			@RequestHeader(SecurityConstants.FROM) String from);
 
 }
