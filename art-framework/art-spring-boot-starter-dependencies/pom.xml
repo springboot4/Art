@@ -210,11 +210,6 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-banner</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.github.binarywang</groupId>
                 <artifactId>weixin-java-miniapp</artifactId>
                 <version>${weixin-java.version}</version>

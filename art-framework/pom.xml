@@ -54,7 +54,6 @@
         <module>art-spring-boot-starter-xxl-job</module>
         <module>art-spring-boot-starter-captcha</module>
         <module>art-spring-boot-starter-tenant</module>
-        <module>art-spring-boot-starter-banner</module>
         <module>art-spring-boot-starter-quartz</module>
         <module>art-spring-boot-starter-xss</module>
     </modules>

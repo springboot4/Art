@@ -53,11 +53,6 @@
 
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-banner</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-database</artifactId>
         </dependency>
 
