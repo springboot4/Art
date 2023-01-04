@@ -64,12 +64,6 @@
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
-        <!--banner信息-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-banner</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-core</artifactId>

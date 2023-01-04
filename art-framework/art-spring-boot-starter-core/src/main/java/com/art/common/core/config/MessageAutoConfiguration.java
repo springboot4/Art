@@ -14,24 +14,29 @@
  * limitations under the License.
  */
 
-package com.art.common.banner.config;
+package com.art.common.core.config;
 
-import com.art.common.banner.core.BannerRunner;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2022/11/15 14:55
+ * @date 2022/5/13 23:10
  */
 @AutoConfiguration
-public class BannerAutoConfiguration {
+public class MessageAutoConfiguration {
 
+	/**
+	 * 国际化文件配置
+	 */
 	@Bean
-	public BannerRunner bannerRunner(@Value("${spring.application.name}") String appName) {
-		return new BannerRunner(appName);
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasename("classpath:i18n/messages");
+		return messageSource;
 	}
 
 }

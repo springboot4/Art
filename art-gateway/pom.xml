@@ -69,12 +69,6 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
-        <!--banner信息-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-banner</artifactId>
-        </dependency>
-
         <!--验证码依赖-->
         <dependency>
             <groupId>com.art</groupId>
