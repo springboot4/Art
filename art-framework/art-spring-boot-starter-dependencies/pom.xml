@@ -31,7 +31,7 @@
         <jakarta.version>2.0.1</jakarta.version>
         <es-java.version>7.17.3</es-java.version>
         <redisson.version>3.17.0</redisson.version>
-        <myabtis-plus.version>3.5.3</myabtis-plus.version>
+        <myabtis-plus.version>3.5.3.1</myabtis-plus.version>
         <dynamic-ds.version>3.5.1</dynamic-ds.version>
         <aws.version>1.11.543</aws.version>
         <doc.version>1.6.11</doc.version>
