@@ -17,12 +17,16 @@
 package com.art.common.security.service.user;
 
 import com.art.common.core.constant.SecurityConstants;
+import com.art.common.core.exception.FxzException;
+import com.art.common.core.result.ResultOpt;
 import com.art.system.api.menu.MenuServiceApi;
-import com.art.system.api.user.dto.SystemUserDTO;
 import com.art.system.api.user.UserServiceApi;
+import com.art.system.api.user.dto.SystemUserDTO;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 /**
  * @author Fxz
@@ -38,15 +42,29 @@ public class FxzUserManager {
 	private final MenuServiceApi menuService;
 
 	public SystemUserDTO findByName(String username) {
-		return userService.findByName(username, SecurityConstants.FROM_IN);
+		// @formatter:off
+		return ResultOpt.ofNullable(userService.findByName(username, SecurityConstants.FROM_IN))
+				.assertSuccess(r -> new FxzException(String.format("根据用户名查询用户失败:%s,%s", username, r.getMsg())))
+				.peek().getData();
+		// @formatter:on
 	}
 
 	public SystemUserDTO findByMobile(String mobile) {
-		return userService.findByMobile(mobile, SecurityConstants.FROM_IN);
+		// @formatter:off
+		return ResultOpt.ofNullable(userService.findByMobile(mobile, SecurityConstants.FROM_IN))
+				.assertSuccess(r -> new FxzException(String.format("根据手机号查询用户失败:%s,%s", mobile, r.getMsg())))
+				.peek().getData();
+		// @formatter:on
 	}
 
 	public String findUserPermissions(String username) {
-		return String.join(StringPool.COMMA, menuService.findUserPermissions(username, SecurityConstants.FROM_IN));
+		// @formatter:off
+		Set<String> permissions = ResultOpt.ofNullable(menuService.findUserPermissions(username, SecurityConstants.FROM_IN))
+				.assertSuccess(r -> new FxzException(String.format("查询用户权限失败:%s,%s", username, r.getMsg())))
+				.peek().getData();
+		// @formatter:on
+
+		return String.join(StringPool.COMMA, permissions);
 	}
 
 }
