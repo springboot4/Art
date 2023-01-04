@@ -143,7 +143,7 @@ public class ResultOpt<T> {
 	 * @return 包裹里元素的值不存在 则为 {@code true}，否则为{@code false}
 	 */
 	public boolean isEmpty() {
-		return result == null;
+		return Objects.isNull(result);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class ResultOpt<T> {
 	 * @return 返回ture表示相等
 	 */
 	public boolean codeEquals(String code) {
-		return result.getCode().equals(code);
+		return !isEmpty() && result.getCode().equals(code);
 	}
 
 	/**
