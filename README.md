@@ -117,7 +117,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 | Spring Boot          | 2.7.7      |
 | Spring Cloud         | 2021.0.5   |
 | Spring Cloud Alibaba | 2021.0.4.0 |
-| Mybatis Plus         | 3.5.3      |
+| Mybatis Plus         | 3.5.3.1    |
 | Hutool               | 5.8.11     |
 
 
