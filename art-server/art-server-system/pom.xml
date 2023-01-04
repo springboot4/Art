@@ -114,12 +114,6 @@
             <artifactId>art-spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!--banner信息-->
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-banner</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
