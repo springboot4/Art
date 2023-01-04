@@ -126,7 +126,7 @@ public class MenuServiceImpl implements MenuService {
 	 */
 	@Cacheable(value = MenuRedisKeyConstants.CACHE_NAMES, key = "#id", unless = "#result==null")
 	@Override
-	public VueRouter getMenuById(Long id) {
+	public VueRouter<MenuDO> getMenuById(Long id) {
 		MenuDO menuDO = menuManager.getMenuById(id);
 		return menuDO.toVueRouter();
 	}
