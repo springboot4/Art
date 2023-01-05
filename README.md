@@ -122,7 +122,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 
 ## 🍺加入我们
-| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/12/28/RvWZOM.jpg) |
+| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/01/05/FUrtHE.jpg) |
 | ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) |                                                              |
 
