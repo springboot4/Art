@@ -27,7 +27,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * 开启和Web相关的安全配置
@@ -41,7 +41,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
-	private final Map<String, AuthenticationProvider> authenticationProviderMap;
+	private final List<AuthenticationProvider> authenticationProviderMap;
 
 	/**
 	 * 必须注入 AuthenticationManager，不然oauth 无法处理四种授权方式
@@ -54,9 +54,18 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.requestMatchers().antMatchers("/token/**", "/oauth/**").and().authorizeRequests().antMatchers("/oauth/**")
-				.authenticated().and().formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
-				.permitAll().and().csrf().disable();
+		// @formatter:off
+        http
+                .requestMatchers()
+                    .antMatchers("/token/**", "/oauth/**")
+                    .and()
+                .authorizeRequests()
+                    .antMatchers("/oauth/**").authenticated()
+                    .and()
+                .formLogin().loginPage("/token/login").loginProcessingUrl("/token/form").permitAll()
+                    .and()
+                .csrf().disable();
+        // @formatter:on
 	}
 
 	/**
@@ -70,7 +79,7 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) {
-		authenticationProviderMap.values().forEach(auth::authenticationProvider);
+		authenticationProviderMap.forEach(auth::authenticationProvider);
 	}
 
 }

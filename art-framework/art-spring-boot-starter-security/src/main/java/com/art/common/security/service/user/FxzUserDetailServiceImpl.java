@@ -68,10 +68,7 @@ public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 		if (Objects.nonNull(systemUser)) {
 			String permissions = fxzUserManager.findUserPermissions(systemUser.getUsername());
 
-			boolean notLocked = false;
-			if (StringUtils.equals(SystemUserDTO.STATUS_VALID, systemUser.getStatus())) {
-				notLocked = true;
-			}
+			boolean notLocked = StringUtils.equals(SystemUserDTO.STATUS_VALID, systemUser.getStatus());
 
 			FxzAuthUser authUser = new FxzAuthUser(systemUser.getUsername(), systemUser.getPassword(), true, true, true,
 					notLocked, AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
