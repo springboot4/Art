@@ -41,10 +41,9 @@ public class DeptDataPermissionService {
 	 * @return 部门数据权限
 	 */
 	public DeptDataPermissionRespEntity getDeptDataPermission(FxzAuthUser loginUser) {
-		ResultOpt<DeptDataPermissionRespEntity> opt = ResultOpt.ofNullable(roleServiceApi.getDataPermission());
-
 		// @formatter:off
-		return opt.assertSuccess(r -> new FxzException(String.format("查询数据权限接口失败:%s", loginUser.getUsername())))
+		return ResultOpt.ofNullable(roleServiceApi.getDataPermission())
+				.assertSuccess(r -> new FxzException(String.format("查询数据权限接口失败:%s", loginUser.getUsername())))
 				.peek(d -> log.info("数据权限是:{}", d)).getData();
 		// @formatter:on
 	}
