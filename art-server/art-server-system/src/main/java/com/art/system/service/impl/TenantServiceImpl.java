@@ -117,7 +117,6 @@ public class TenantServiceImpl implements TenantService {
 			Long userId = createUser(roleId, tenant);
 
 			// 更新租户管理员id
-
 			tenantManager.updateTenantAdmin(tenant.getId(), userId);
 		});
 

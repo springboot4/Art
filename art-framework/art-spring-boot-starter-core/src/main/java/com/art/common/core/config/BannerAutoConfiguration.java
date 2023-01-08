@@ -17,9 +17,9 @@
 package com.art.common.core.config;
 
 import com.art.common.core.banner.BannerRunner;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 
 /**
  * @author Fxz
@@ -30,8 +30,8 @@ import org.springframework.context.annotation.Bean;
 public class BannerAutoConfiguration {
 
 	@Bean
-	public BannerRunner bannerRunner(@Value("${spring.application.name}") String appName) {
-		return new BannerRunner(appName);
+	public BannerRunner bannerRunner(Environment environment) {
+		return new BannerRunner(environment);
 	}
 
 }
