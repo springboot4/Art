@@ -21,6 +21,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.core.env.Environment;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,10 +36,13 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class BannerRunner implements ApplicationRunner {
 
-	private final String appName;
+	private final Environment environment;
 
 	@Override
 	public void run(ApplicationArguments args) {
+		BindResult<String> bind = Binder.get(environment).bind("spring.application.name", String.class);
+		String appName = bind.get();
+
 		ThreadUtil.execute(() -> {
 			ThreadUtil.sleep(3, TimeUnit.SECONDS);
 			log.info("" + "\n" + "项目启动成功！" + "\n" + "服务:{}" + "\n" + "项目文档:http://fxz-gateway:8301", appName);

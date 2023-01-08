@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class RedissonConfig {
 
-	@Bean
+	@Bean(destroyMethod = "")
 	public RScheduledExecutorService rScheduledExecutorService(RedissonClient redissonClient,
 			ConfigurableListableBeanFactory beanFactory) {
 		// 指定重新尝试执行任务的时间间隔 设定为0则不进行重试
