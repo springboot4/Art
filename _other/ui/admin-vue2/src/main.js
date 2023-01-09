@@ -39,10 +39,10 @@ import 'xe-utils'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/index.css'
 
-import KFormDesign from 'k-form-design'
+// import KFormDesign from 'k-form-design'
 import 'k-form-design/lib/k-form-design.css'
 
-Vue.use(KFormDesign)
+// Vue.use(KFormDesign)
 Vue.config.productionTip = false // 这里有多个样式，自己可以根据需要切换
 Vue.use(VueAxios)
 Vue.use(VXETable)
