@@ -96,10 +96,7 @@ public class MenuServiceImpl implements MenuService {
 	 */
 	@Override
 	public List<VueRouter<MenuDTO>> getTreeSelect() {
-		FxzAuthUser user = SecurityUtil.getUser();
-		if (Objects.isNull(user)) {
-			throw new FxzException("用户未登录！");
-		}
+		FxzAuthUser user = Optional.ofNullable(SecurityUtil.getUser()).orElseThrow(() -> new FxzException("用户未登录！"));
 
 		List<VueRouter<MenuDTO>> allMenuTree = this.getUserRouters(user.getUsername());
 

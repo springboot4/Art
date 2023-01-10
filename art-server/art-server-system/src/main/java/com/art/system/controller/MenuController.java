@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -68,10 +68,8 @@ public class MenuController {
 	@Operation(summary = "获取用户角色下的所有树形菜单信息(包括按钮)")
 	@GetMapping("/getUserMenuTree")
 	public Result<List<VueRouter<MenuDTO>>> getUserMenuTree() {
-		FxzAuthUser authUser = SecurityUtil.getUser();
-		if (Objects.isNull(authUser)) {
-			throw new FxzException("用户未登录！");
-		}
+		FxzAuthUser authUser = Optional.ofNullable(SecurityUtil.getUser())
+				.orElseThrow(() -> new FxzException("用户未登录！"));
 
 		return Result.success(menuService.getUserMenuTree(authUser.getUserId()));
 	}
