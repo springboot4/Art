@@ -17,6 +17,7 @@
 package com.art.common.dataPermission.dept.rule;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.StrUtil;
 import com.art.common.core.entity.DeptDataPermissionRespEntity;
 import com.art.common.dataPermission.dept.service.DeptDataPermissionService;
@@ -110,12 +111,8 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 		}
 
 		// 获得用户的数据权限
-		DeptDataPermissionRespEntity deptDataPermission = deptDataPermissionService.getDeptDataPermission(loginUser);
-		if (Objects.isNull(deptDataPermission)) {
-			log.info("获取用户:{} 数据权限为 null", loginUser);
-			throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) 未返回数据权限", loginUser.getUserId(),
-					tableName, tableAlias.getName()));
-		}
+		DeptDataPermissionRespEntity deptDataPermission = Opt
+				.of(deptDataPermissionService.getDeptDataPermission(loginUser)).get();
 
 		// 可查看全部 不拼接条件
 		if (deptDataPermission.getAll()) {
