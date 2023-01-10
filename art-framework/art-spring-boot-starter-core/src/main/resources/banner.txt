@@ -14,7 +14,6 @@ ${AnsiColor.BRIGHT_YELLOW}
     (                  趁早转行                  )
      )      < http://gitee.com/fxzcloud/>      (
     '-------------------------------------------'
-${AnsiColor.BRIGHT_RED}
-${spring.application.name}
+Application Name: ${spring.application.name}
 Spring Boot Version: ${spring-boot.version}
-
+${AnsiColor.DEFAULT}
