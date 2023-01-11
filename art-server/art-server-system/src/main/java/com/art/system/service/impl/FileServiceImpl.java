@@ -18,16 +18,18 @@ package com.art.system.service.impl;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.amazonaws.services.s3.model.S3Object;
-import com.art.common.file.OssProperties;
-import com.art.common.file.service.OssTemplate;
+import com.art.common.file.core.OssProperties;
+import com.art.common.file.core.OssTemplate;
 import com.art.system.api.file.dto.FileDTO;
 import com.art.system.api.file.dto.FilePageDTO;
 import com.art.system.core.convert.FileConvert;
 import com.art.system.dao.dataobject.FileDO;
 import com.art.system.manager.FileManager;
+import com.art.system.manager.OssManager;
 import com.art.system.service.FileService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +39,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 文件管理表
@@ -52,6 +54,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
 
+	private final OssManager ossManager;
+
 	private final FileManager fileManager;
 
 	private final OssProperties ossProperties;
@@ -62,17 +66,19 @@ public class FileServiceImpl implements FileService {
 	 * 上传文件
 	 */
 	@Override
-	public Object addFile(MultipartFile file) {
-		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
-		Map<String, String> resultMap = new HashMap<>(4);
+	public Dict addFile(MultipartFile file) {
+		String fileName = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + StrUtil.SLASH + IdUtil.simpleUUID()
+				+ StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 
-		resultMap.put("bucketName", ossProperties.getBucketName());
-		resultMap.put("fileName", fileName);
-		resultMap.put("url", String.format("/system/file/%s/%s", ossProperties.getBucketName(), fileName));
+		Dict res = Dict.create();
+		res.put("bucketName", ossProperties.getBucketName());
+		res.put("fileName", fileName);
+		res.put("url", String.format("/system/file/%s/%s", ossProperties.getBucketName(), fileName));
 
 		try {
-			minioTemplate.putObject(ossProperties.getBucketName(), fileName, file.getInputStream(),
+			String location = ossManager.partUpload(ossProperties.getBucketName(), fileName, file.getBytes(),
 					file.getContentType());
+			log.info("分片上传完成:{}", location);
 			// 记录到数据库
 			fileLog(file, fileName);
 		}
@@ -81,7 +87,7 @@ public class FileServiceImpl implements FileService {
 			return null;
 		}
 
-		return resultMap;
+		return res;
 	}
 
 	/**
@@ -146,7 +152,6 @@ public class FileServiceImpl implements FileService {
 	 * @param fileName 文件名
 	 * @param response 响应
 	 */
-
 	@Override
 	public void getFile(String bucket, String fileName, HttpServletResponse response) {
 		try (S3Object s3Object = minioTemplate.getObject(bucket, fileName)) {

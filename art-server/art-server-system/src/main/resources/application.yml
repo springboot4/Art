@@ -15,7 +15,7 @@ spring:
       - optional:nacos:fxz-application-common.yaml
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 100MB
+      max-file-size: 100MB # 单个文件上传大小
+      max-request-size: 100MB # 总文件上传大小
   main:
     allow-circular-references: true
