@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.art.common.file;
+package com.art.common.file.config;
 
-import com.art.common.file.service.OssTemplate;
+import com.art.common.file.core.OssProperties;
+import com.art.common.file.core.OssTemplate;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -32,12 +32,9 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties({ OssProperties.class })
 public class OssAutoConfiguration {
 
-	private final OssProperties properties;
-
 	@Bean
-	@ConditionalOnMissingBean(OssTemplate.class)
 	@ConditionalOnProperty(name = "oss.enable", havingValue = "true", matchIfMissing = true)
-	public OssTemplate ossTemplate() {
+	public OssTemplate ossTemplate(OssProperties properties) {
 		return new OssTemplate(properties);
 	}
 

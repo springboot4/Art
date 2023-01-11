@@ -70,8 +70,8 @@ export default {
     },
     downFile (row) {
       downBlobFile(
-        '/system/file/' + row.bucketName + '/' + row.fileName,
-        this.queryParam,
+        '/system/file/download',
+        row.bucketName,
         row.fileName
       )
     },

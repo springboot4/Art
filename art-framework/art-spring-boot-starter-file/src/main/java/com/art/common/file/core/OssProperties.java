@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.art.common.file.core;
+
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 /**
- * redisson调度代替xxl-job分片demo
+ * @author fxz
  */
-package com.art.demos.core.distributed.shardingtask;
+@Data
+@ConfigurationProperties(prefix = "oss")
+public class OssProperties {
+
+	private String endpoint;
+
+	private Boolean pathStyleAccess = true;
+
+	private String accessKey;
+
+	private String secretKey;
+
+	private String bucketName = "fxzCloud";
+
+}

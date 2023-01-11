@@ -16,6 +16,7 @@
 
 package com.art.system.service;
 
+import cn.hutool.core.lang.Dict;
 import com.art.system.api.file.dto.FileDTO;
 import com.art.system.api.file.dto.FilePageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -35,7 +36,7 @@ public interface FileService {
 	/**
 	 * 上传文件
 	 */
-	Object addFile(MultipartFile file);
+	Dict addFile(MultipartFile file);
 
 	/**
 	 * 修改
