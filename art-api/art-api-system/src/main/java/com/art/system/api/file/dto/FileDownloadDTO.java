@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package com.art.common.file;
+package com.art.system.api.file.dto;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.io.Serializable;
 
 /**
- * @author fxz
+ * @author Fxz
+ * @version 1.0
+ * @date 2023/1/11 19:49
  */
 @Data
-@ConfigurationProperties(prefix = "oss")
-public class OssProperties {
+public class FileDownloadDTO implements Serializable {
 
-	private String endpoint;
+	private static final long serialVersionUID = -1L;
 
-	private Boolean pathStyleAccess = true;
+	private String bucket;
 
-	private String accessKey;
-
-	private String secretKey;
-
-	private String bucketName = "fxzCloud";
+	private String fileName;
 
 }
