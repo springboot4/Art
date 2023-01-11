@@ -26,7 +26,7 @@ const request = axios.create({
   // API 请求的默认前缀
   baseURL: process.env.VUE_APP_API_BASE_URL,
   // baseURL: 'http://127.0.0.1:8301',
-  timeout: 6000 // 请求超时时间
+  timeout: 60000 // 请求超时时间
 })
 
 // 异常拦截处理器

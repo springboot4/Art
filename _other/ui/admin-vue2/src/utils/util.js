@@ -111,16 +111,19 @@ export function removeLoadingAnimate (id = '', timeout = 1500) {
 /**
  *
  * @param url 目标下载接口
- * @param query 查询参数
+ * @param bucket 桶名称
  * @param fileName 文件名称
  * @returns {*}
  */
-export function downBlobFile (url, query, fileName) {
+export function downBlobFile (url, bucket, fileName) {
   return axios({
     url: url,
-    method: 'get',
+    method: 'post',
     responseType: 'blob',
-    params: query
+    data: {
+      bucket,
+      fileName
+    }
   }).then(response => {
     // 处理返回的文件流
     const blob = response
