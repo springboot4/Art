@@ -16,15 +16,23 @@
 
 package com.art.common.file.core;
 
+import com.amazonaws.ClientConfiguration;
 import com.amazonaws.HttpMethod;
+import com.amazonaws.Protocol;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.Duration;
@@ -40,7 +48,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OssTemplate {
 
-	private final AmazonS3 amazonS3;
+	private final OssProperties properties;
 
 	/**
 	 * 初始化分片上传请求
@@ -50,7 +58,7 @@ public class OssTemplate {
 	 * @return uploadId
 	 */
 	public String initiateMultipartUpload(String bucketName, String objectName, ObjectMetadata objectMetadata) {
-		InitiateMultipartUploadResult initiateMultipartUploadResult = amazonS3.initiateMultipartUpload(
+		InitiateMultipartUploadResult initiateMultipartUploadResult = getAmazonS3().initiateMultipartUpload(
 				new InitiateMultipartUploadRequest(bucketName, objectName).withObjectMetadata(objectMetadata));
 		return initiateMultipartUploadResult.getUploadId();
 	}
@@ -61,17 +69,24 @@ public class OssTemplate {
 	 * @param objectName 文件路径
 	 * @param uploadId 分片标识
 	 * @param partNumber 分片号
-	 * @param fileOffset 起始偏移量
-	 * @param file 文件
+	 * @param stream InputStream
 	 * @param partSize 分片大小
 	 * @return {@link PartETag}
 	 */
-	public PartETag uploadPart(String bucketName, String objectName, String uploadId, int partNumber, long fileOffset,
-			File file, long partSize) {
-		UploadPartRequest uploadRequest = new UploadPartRequest().withBucketName(bucketName).withKey(objectName)
-				.withUploadId(uploadId).withPartNumber(partNumber).withFileOffset(fileOffset).withFile(file)
-				.withPartSize(partSize);
-		UploadPartResult result = amazonS3.uploadPart(uploadRequest);
+	@SneakyThrows
+	public PartETag uploadPart(String bucketName, String objectName, String uploadId, int partNumber,
+			InputStream stream, long partSize) {
+		// @formatter:off
+        UploadPartRequest uploadRequest = new UploadPartRequest()
+                .withBucketName(bucketName)
+                .withUploadId(uploadId)
+                .withKey(objectName)
+                .withPartNumber(partNumber)
+                .withPartSize(partSize)
+                .withInputStream(stream);
+        // @formatter:on
+		UploadPartResult result = getAmazonS3().uploadPart(uploadRequest);
+
 		return result.getPartETag();
 	}
 
@@ -84,7 +99,7 @@ public class OssTemplate {
 	 */
 	public List<PartSummary> listParts(String bucketName, String objectName, String uploadId) {
 		ListPartsRequest listPartsRequest = new ListPartsRequest(bucketName, objectName, uploadId);
-		PartListing partListing = amazonS3.listParts(listPartsRequest);
+		PartListing partListing = getAmazonS3().listParts(listPartsRequest);
 		return partListing.getParts();
 	}
 
@@ -100,7 +115,7 @@ public class OssTemplate {
 			List<PartETag> parts) {
 		CompleteMultipartUploadRequest completeMultipartUploadRequest = new CompleteMultipartUploadRequest()
 				.withUploadId(uploadId).withKey(objectName).withBucketName(bucketName).withPartETags(parts);
-		return amazonS3.completeMultipartUpload(completeMultipartUploadRequest);
+		return getAmazonS3().completeMultipartUpload(completeMultipartUploadRequest);
 	}
 
 	/**
@@ -110,7 +125,7 @@ public class OssTemplate {
 	 * @param objectName 文件路径
 	 */
 	public void abortMultipartUpload(String uploadId, String bucketName, String objectName) {
-		amazonS3.abortMultipartUpload(new AbortMultipartUploadRequest(bucketName, objectName, uploadId));
+		getAmazonS3().abortMultipartUpload(new AbortMultipartUploadRequest(bucketName, objectName, uploadId));
 	}
 
 	/**
@@ -159,7 +174,7 @@ public class OssTemplate {
 		objectMetadata.setContentType(contentType);
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
 
-		return amazonS3.putObject(bucketName, objectName, byteArrayInputStream, objectMetadata);
+		return getAmazonS3().putObject(bucketName, objectName, byteArrayInputStream, objectMetadata);
 
 	}
 
@@ -172,7 +187,7 @@ public class OssTemplate {
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/download-objects.html"/>
 	 */
 	public S3Object getObject(String bucketName, String objectName) {
-		return amazonS3.getObject(new GetObjectRequest(bucketName, objectName));
+		return getAmazonS3().getObject(new GetObjectRequest(bucketName, objectName));
 	}
 
 	/**
@@ -182,7 +197,7 @@ public class OssTemplate {
 	 * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObject"/>
 	 */
 	public void removeObject(String bucketName, String objectName) {
-		amazonS3.deleteObject(new DeleteObjectRequest(bucketName, objectName));
+		getAmazonS3().deleteObject(new DeleteObjectRequest(bucketName, objectName));
 	}
 
 	/**
@@ -194,7 +209,7 @@ public class OssTemplate {
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/ListingKeysUsingAPIs.html"/>
 	 */
 	public List<S3ObjectSummary> getAllObjectsByPrefix(String bucketName, String prefix) {
-		ObjectListing res = amazonS3.listObjects(bucketName, prefix);
+		ObjectListing res = getAmazonS3().listObjects(bucketName, prefix);
 		return res.getObjectSummaries();
 	}
 
@@ -249,7 +264,7 @@ public class OssTemplate {
 			params.forEach(request::addRequestParameter);
 		}
 
-		URL url = amazonS3.generatePresignedUrl(request);
+		URL url = getAmazonS3().generatePresignedUrl(request);
 		return url.toString();
 	}
 
@@ -260,8 +275,8 @@ public class OssTemplate {
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/create-bucket-overview.html"/>
 	 */
 	public void createBucket(String bucketName) {
-		if (!amazonS3.doesBucketExistV2(bucketName)) {
-			amazonS3.createBucket(new CreateBucketRequest(bucketName));
+		if (!getAmazonS3().doesBucketExistV2(bucketName)) {
+			getAmazonS3().createBucket(new CreateBucketRequest(bucketName));
 		}
 	}
 
@@ -269,7 +284,7 @@ public class OssTemplate {
 	 * 列出桶
 	 */
 	public List<Bucket> getAllBuckets() {
-		return amazonS3.listBuckets();
+		return getAmazonS3().listBuckets();
 	}
 
 	/**
@@ -277,7 +292,7 @@ public class OssTemplate {
 	 * @param bucketName bucket名称
 	 */
 	public Optional<Bucket> getBucket(String bucketName) {
-		return amazonS3.listBuckets().stream().filter(b -> b.getName().equals(bucketName)).findFirst();
+		return getAmazonS3().listBuckets().stream().filter(b -> b.getName().equals(bucketName)).findFirst();
 	}
 
 	/**
@@ -285,7 +300,25 @@ public class OssTemplate {
 	 * @param bucketName bucket名称
 	 */
 	public void removeBucket(String bucketName) {
-		amazonS3.deleteBucket(new DeleteBucketRequest(bucketName));
+		getAmazonS3().deleteBucket(new DeleteBucketRequest(bucketName));
+	}
+
+	private AmazonS3 getAmazonS3() {
+		// 客户端配置
+		ClientConfiguration clientConfiguration = new ClientConfiguration();
+		clientConfiguration.setProtocol(Protocol.HTTP);
+
+		// 端点配置
+		AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(
+				properties.getEndpoint(), Region.getRegion(Regions.CN_NORTH_1).getName());
+
+		// 凭证配置
+		AWSCredentials awsCredentials = new BasicAWSCredentials(properties.getAccessKey(), properties.getSecretKey());
+
+		return AmazonS3Client.builder().withEndpointConfiguration(endpointConfiguration)
+				.withClientConfiguration(clientConfiguration)
+				.withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+				.withPathStyleAccessEnabled(properties.getPathStyleAccess()).build();
 	}
 
 }
