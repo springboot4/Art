@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.art.common.lock.annotation;
+package com.art.common.lock.core.annotation;
 
-import com.art.common.lock.constant.RedissonLockType;
-import com.art.common.lock.lockresolver.DistributedLockResolver;
-import com.art.common.lock.lockresolver.impl.DefaultDistributedLockKeyResolver;
+import com.art.common.lock.core.constant.RedissonLockType;
+import com.art.common.lock.core.lockresolver.DistributedLockResolver;
+import com.art.common.lock.core.lockresolver.impl.DefaultDistributedLockKeyResolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

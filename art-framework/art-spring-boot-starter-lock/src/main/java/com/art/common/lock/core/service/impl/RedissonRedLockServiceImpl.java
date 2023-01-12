@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.art.common.lock.service.impl;
+package com.art.common.lock.core.service.impl;
 
-import com.art.common.lock.constant.RedissonLockType;
-import com.art.common.lock.entity.LockEntity;
-import com.art.common.lock.service.RedissonService;
+import com.art.common.lock.core.constant.RedissonLockType;
+import com.art.common.lock.core.entity.LockEntity;
+import com.art.common.lock.core.service.RedissonService;
 import lombok.RequiredArgsConstructor;
 import org.redisson.RedissonRedLock;
 import org.redisson.api.RLock;

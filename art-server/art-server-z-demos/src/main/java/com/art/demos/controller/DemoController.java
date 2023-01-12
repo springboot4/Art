@@ -21,7 +21,7 @@ import com.art.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolve
 import com.art.common.core.exception.ErrorCodes;
 import com.art.common.core.result.Result;
 import com.art.common.core.util.MsgUtils;
-import com.art.common.lock.utils.RedissonUtils;
+import com.art.common.lock.core.utils.RedissonUtils;
 import com.art.common.mq.redis.core.RedisMQTemplate;
 import com.art.common.redis.cache.support.CacheMessage;
 import com.art.common.sequence.service.Sequence;
