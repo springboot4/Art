@@ -17,12 +17,12 @@
 package com.art.demos.core.distributed.lock.controller;
 
 import com.art.common.core.result.Result;
-import com.art.common.lock.annotation.DistributedLock;
-import com.art.common.lock.constant.RedissonLockType;
-import com.art.common.lock.entity.LockEntity;
-import com.art.common.lock.factory.RedissonLockServiceFactory;
-import com.art.common.lock.lockresolver.impl.ExpressionDistributedLockKeyResolver;
-import com.art.common.lock.service.RedissonService;
+import com.art.common.lock.core.annotation.DistributedLock;
+import com.art.common.lock.core.constant.RedissonLockType;
+import com.art.common.lock.core.entity.LockEntity;
+import com.art.common.lock.core.factory.RedissonLockServiceFactory;
+import com.art.common.lock.core.lockresolver.impl.ExpressionDistributedLockKeyResolver;
+import com.art.common.lock.core.service.RedissonService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
