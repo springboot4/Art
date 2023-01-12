@@ -76,7 +76,7 @@ public class FileServiceImpl implements FileService {
 		res.put("url", String.format("/system/file/%s/%s", ossProperties.getBucketName(), fileName));
 
 		try {
-			String location = ossManager.partUpload(ossProperties.getBucketName(), fileName, file.getBytes(),
+			String location = ossManager.partUpload(ossProperties.getBucketName(), fileName, file.getInputStream(),
 					file.getContentType());
 			log.info("分片上传完成:{}", location);
 			// 记录到数据库
