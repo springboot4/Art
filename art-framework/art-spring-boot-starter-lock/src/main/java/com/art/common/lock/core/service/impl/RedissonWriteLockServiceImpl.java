@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package com.art.common.lock.service.impl;
+package com.art.common.lock.core.service.impl;
 
-import com.art.common.lock.constant.RedissonLockType;
-import com.art.common.lock.entity.LockEntity;
-import com.art.common.lock.service.RedissonService;
+import com.art.common.lock.core.constant.RedissonLockType;
+import com.art.common.lock.core.entity.LockEntity;
+import com.art.common.lock.core.service.RedissonService;
 import lombok.RequiredArgsConstructor;
-import org.redisson.api.RLock;
+import org.redisson.api.RReadWriteLock;
 import org.redisson.api.RedissonClient;
 
 /**
- * redisson公平锁封装
- *
  * @author Fxz
  * @version 0.0.1
- * @date 2022/9/4 17:11
+ * @date 2022/9/4 17:47
  */
 @RequiredArgsConstructor
-public class RedissonFairLockServiceImpl implements RedissonService {
+public class RedissonWriteLockServiceImpl implements RedissonService {
 
 	private final RedissonClient redissonClient;
 
@@ -41,11 +39,12 @@ public class RedissonFairLockServiceImpl implements RedissonService {
 	@Override
 	public boolean lock(LockEntity lockEntity) {
 		// 获取锁
-		RLock rLock = redissonClient.getFairLock(lockEntity.getLockName());
+		RReadWriteLock rLock = redissonClient.getReadWriteLock(lockEntity.getLockName());
 
 		try {
 			// 加锁
-			return rLock.tryLock(lockEntity.getWaitTime(), lockEntity.getLeaseTime(), lockEntity.getTimeUnit());
+			return rLock.writeLock().tryLock(lockEntity.getWaitTime(), lockEntity.getLeaseTime(),
+					lockEntity.getTimeUnit());
 		}
 		catch (Exception e) {
 			return false;
@@ -58,11 +57,11 @@ public class RedissonFairLockServiceImpl implements RedissonService {
 	@Override
 	public void unlock(LockEntity lockEntity) {
 		// 获取锁
-		RLock rLock = redissonClient.getFairLock(lockEntity.getLockName());
+		RReadWriteLock rLock = redissonClient.getReadWriteLock(lockEntity.getLockName());
 
-		if (rLock.isHeldByCurrentThread()) {
-			// 解锁
-			rLock.unlockAsync();
+		if (rLock.writeLock().isHeldByCurrentThread()) {
+			// 释放锁
+			rLock.writeLock().unlockAsync();
 		}
 	}
 
@@ -71,7 +70,7 @@ public class RedissonFairLockServiceImpl implements RedissonService {
 	 */
 	@Override
 	public RedissonLockType lockType() {
-		return RedissonLockType.FAIR;
+		return RedissonLockType.WRITE;
 	}
 
 }

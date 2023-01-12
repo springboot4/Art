@@ -16,9 +16,9 @@
 
 package com.art.common.lock.config;
 
-import com.art.common.lock.aspect.DistributedLockAspect;
-import com.art.common.lock.lockresolver.impl.DefaultDistributedLockKeyResolver;
-import com.art.common.lock.lockresolver.impl.ExpressionDistributedLockKeyResolver;
+import com.art.common.lock.core.aspect.DistributedLockAspect;
+import com.art.common.lock.core.lockresolver.impl.DefaultDistributedLockKeyResolver;
+import com.art.common.lock.core.lockresolver.impl.ExpressionDistributedLockKeyResolver;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 

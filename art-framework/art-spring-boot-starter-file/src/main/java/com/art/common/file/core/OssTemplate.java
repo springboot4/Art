@@ -16,22 +16,12 @@
 
 package com.art.common.file.core;
 
-import com.amazonaws.ClientConfiguration;
 import com.amazonaws.HttpMethod;
-import com.amazonaws.Protocol;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.InitializingBean;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -48,11 +38,9 @@ import java.util.Optional;
  * @author fxz
  */
 @RequiredArgsConstructor
-public class OssTemplate implements InitializingBean {
+public class OssTemplate {
 
-	private final OssProperties properties;
-
-	private AmazonS3 amazonS3;
+	private final AmazonS3 amazonS3;
 
 	/**
 	 * 初始化分片上传请求
@@ -67,6 +55,17 @@ public class OssTemplate implements InitializingBean {
 		return initiateMultipartUploadResult.getUploadId();
 	}
 
+	/**
+	 * 分片上传
+	 * @param bucketName 桶名称
+	 * @param objectName 文件路径
+	 * @param uploadId 分片标识
+	 * @param partNumber 分片号
+	 * @param fileOffset 起始偏移量
+	 * @param file 文件
+	 * @param partSize 分片大小
+	 * @return {@link PartETag}
+	 */
 	public PartETag uploadPart(String bucketName, String objectName, String uploadId, int partNumber, long fileOffset,
 			File file, long partSize) {
 		UploadPartRequest uploadRequest = new UploadPartRequest().withBucketName(bucketName).withKey(objectName)
@@ -287,25 +286,6 @@ public class OssTemplate implements InitializingBean {
 	 */
 	public void removeBucket(String bucketName) {
 		amazonS3.deleteBucket(new DeleteBucketRequest(bucketName));
-	}
-
-	@Override
-	public void afterPropertiesSet() {
-		// 客户端配置
-		ClientConfiguration clientConfiguration = new ClientConfiguration();
-		clientConfiguration.setProtocol(Protocol.HTTP);
-
-		// 端点配置
-		AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(
-				properties.getEndpoint(), Region.getRegion(Regions.CN_NORTH_1).getName());
-
-		// 凭证配置
-		AWSCredentials awsCredentials = new BasicAWSCredentials(properties.getAccessKey(), properties.getSecretKey());
-
-		amazonS3 = AmazonS3Client.builder().withEndpointConfiguration(endpointConfiguration)
-				.withClientConfiguration(clientConfiguration)
-				.withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-				.withPathStyleAccessEnabled(properties.getPathStyleAccess()).build();
 	}
 
 }

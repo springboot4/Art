@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,25 @@
  * limitations under the License.
  */
 
-package com.art.common.lock.service.impl;
+package com.art.common.lock.core.service.impl;
 
-import com.art.common.lock.constant.RedissonLockType;
-import com.art.common.lock.entity.LockEntity;
-import com.art.common.lock.service.RedissonService;
+import com.art.common.lock.core.constant.RedissonLockType;
+import com.art.common.lock.core.entity.LockEntity;
+import com.art.common.lock.core.service.RedissonService;
 import lombok.RequiredArgsConstructor;
+import org.redisson.RedissonMultiLock;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
 /**
- * redisson可重入锁封装
+ * redisson联锁封装
  *
  * @author Fxz
  * @version 0.0.1
- * @date 2022/9/4 17:43
+ * @date 2022/9/4 17:26
  */
 @RequiredArgsConstructor
-public class RedissonReentrantLockServiceImpl implements RedissonService {
+public class RedissonMultiLockServiceImpl implements RedissonService {
 
 	private final RedissonClient redissonClient;
 
@@ -41,11 +42,12 @@ public class RedissonReentrantLockServiceImpl implements RedissonService {
 	@Override
 	public boolean lock(LockEntity lockEntity) {
 		// 获取锁
-		RLock rLock = redissonClient.getLock(lockEntity.getLockName());
+		RLock[] locks = lockEntity.getKeyList().stream().map(redissonClient::getLock).toArray(RLock[]::new);
+		RedissonMultiLock lock = new RedissonMultiLock(locks);
 
 		try {
-			// 释放锁
-			return rLock.tryLock(lockEntity.getWaitTime(), lockEntity.getLeaseTime(), lockEntity.getTimeUnit());
+			// 加锁
+			return lock.tryLock(lockEntity.getWaitTime(), lockEntity.getLeaseTime(), lockEntity.getTimeUnit());
 		}
 		catch (Exception e) {
 			return false;
@@ -58,12 +60,11 @@ public class RedissonReentrantLockServiceImpl implements RedissonService {
 	@Override
 	public void unlock(LockEntity lockEntity) {
 		// 获取锁
-		RLock rLock = redissonClient.getLock(lockEntity.getLockName());
+		RLock[] locks = lockEntity.getKeyList().stream().map(redissonClient::getLock).toArray(RLock[]::new);
+		RedissonMultiLock lock = new RedissonMultiLock(locks);
 
-		if (rLock.isHeldByCurrentThread()) {
-			// 释放锁
-			rLock.unlockAsync();
-		}
+		// 解锁
+		lock.unlock();
 	}
 
 	/**
@@ -71,7 +72,7 @@ public class RedissonReentrantLockServiceImpl implements RedissonService {
 	 */
 	@Override
 	public RedissonLockType lockType() {
-		return RedissonLockType.REENTRANT;
+		return RedissonLockType.MULTI;
 	}
 
 }
