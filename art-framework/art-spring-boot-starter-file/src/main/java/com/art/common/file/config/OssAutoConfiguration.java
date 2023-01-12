@@ -16,16 +16,6 @@
 
 package com.art.common.file.config;
 
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.Protocol;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.art.common.file.core.OssProperties;
 import com.art.common.file.core.OssTemplate;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -42,27 +32,8 @@ public class OssAutoConfiguration {
 
 	@Bean
 	@ConditionalOnProperty(name = "oss.enable", havingValue = "true", matchIfMissing = true)
-	public OssTemplate ossTemplate(AmazonS3 amazonS3) {
-		return new OssTemplate(amazonS3);
-	}
-
-	@Bean
-	public AmazonS3 amazonS3(OssProperties properties) {
-		// 客户端配置
-		ClientConfiguration clientConfiguration = new ClientConfiguration();
-		clientConfiguration.setProtocol(Protocol.HTTP);
-
-		// 端点配置
-		AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(
-				properties.getEndpoint(), Region.getRegion(Regions.CN_NORTH_1).getName());
-
-		// 凭证配置
-		AWSCredentials awsCredentials = new BasicAWSCredentials(properties.getAccessKey(), properties.getSecretKey());
-
-		return AmazonS3Client.builder().withEndpointConfiguration(endpointConfiguration)
-				.withClientConfiguration(clientConfiguration)
-				.withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-				.withPathStyleAccessEnabled(properties.getPathStyleAccess()).build();
+	public OssTemplate ossTemplate(OssProperties ossProperties) {
+		return new OssTemplate(ossProperties);
 	}
 
 }
