@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.art.common.lock.aspect;
+package com.art.common.lock.core.aspect;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.art.common.lock.annotation.DistributedLock;
-import com.art.common.lock.entity.LockEntity;
-import com.art.common.lock.factory.RedissonLockServiceFactory;
-import com.art.common.lock.lockresolver.DistributedLockResolver;
-import com.art.common.lock.service.RedissonService;
+import com.art.common.lock.core.annotation.DistributedLock;
+import com.art.common.lock.core.entity.LockEntity;
+import com.art.common.lock.core.factory.RedissonLockServiceFactory;
+import com.art.common.lock.core.lockresolver.DistributedLockResolver;
+import com.art.common.lock.core.service.RedissonService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
