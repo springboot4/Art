@@ -16,7 +16,6 @@
 
 package com.art.system.manager;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.amazonaws.services.s3.model.CompleteMultipartUploadResult;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -28,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -51,7 +50,7 @@ public class OssManager {
 
 	@SuppressWarnings("all")
 	@SneakyThrows
-	public String partUpload(String bucketName, String fileName, byte[] bytes, String contentType) {
+	public String partUpload(String bucketName, String fileName, InputStream stream, String contentType) {
 		// 元数据信息
 		ObjectMetadata objectMetadata = new ObjectMetadata();
 		objectMetadata.setContentType(contentType);
@@ -62,31 +61,27 @@ public class OssManager {
 		// 计算文件有多少个分片,默认分片大小5M。
 		long partSize = 5 * 1024 * 1024L;
 		// 文件大小
-		long fileLength = bytes.length;
+		long fileLength = stream.available();
 		// 分片数量
 		int partCount = (int) Math.ceil(1.0 * fileLength / partSize);
 		// 判断分片是否大于10000
 		if (partCount > MAX_PART_COUNT) {
 			throw new FxzException("Total parts count should not exceed 10000!");
 		}
-
-		File file = new File(fileName);
-		file = FileUtil.writeBytes(bytes, file);
-
+		// 多线程并发控制
 		CountDownLatch latch = new CountDownLatch(partCount);
+		// 分片标识
 		List<PartETag> eTagList = new ArrayList<>();
+
 		// 遍历分片上传
 		for (int i = 0; i < partCount; i++) {
-			long startPos = i * partSize;
-			long curPartSize = (i + 1 == partCount) ? (fileLength - startPos) : partSize;
-			executor.execute(new PartUploaderHandler(ossTemplate, bucketName, fileName, uploadId, i + 1, startPos,
-					curPartSize, file, eTagList, latch));
+			long curPartSize = (i + 1 == partCount) ? (fileLength - (i * partSize)) : partSize;
+			executor.execute(new PartUploaderHandler(ossTemplate, bucketName, fileName, uploadId, i + 1, curPartSize,
+					stream, eTagList, latch));
 		}
 
 		// 等待所有零件完成
 		latch.await();
-		// 删除临时文件
-		file.delete();
 
 		// 验证所有零件是否均已完成
 		if (eTagList.size() != partCount) {
