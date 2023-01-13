@@ -28,8 +28,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -71,7 +70,7 @@ public class OssManager {
 		// 多线程并发控制
 		CountDownLatch latch = new CountDownLatch(partCount);
 		// 分片标识
-		List<PartETag> eTagList = new ArrayList<>();
+		CopyOnWriteArrayList<PartETag> eTagList = new CopyOnWriteArrayList<>();
 
 		// 遍历分片上传
 		for (int i = 0; i < partCount; i++) {

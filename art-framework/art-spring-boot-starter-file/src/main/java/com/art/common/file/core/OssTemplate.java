@@ -175,7 +175,6 @@ public class OssTemplate {
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
 
 		return getAmazonS3().putObject(bucketName, objectName, byteArrayInputStream, objectMetadata);
-
 	}
 
 	/**
