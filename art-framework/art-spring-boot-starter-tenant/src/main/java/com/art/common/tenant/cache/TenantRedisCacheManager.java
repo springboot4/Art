@@ -18,8 +18,8 @@ package com.art.common.tenant.cache;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.art.common.mq.redis.core.RedisMQTemplate;
-import com.art.common.redis.cache.properties.CacheRedisCaffeineProperties;
-import com.art.common.redis.cache.support.RedisCaffeineCacheManager;
+import com.art.common.redis.core.cache.properties.CacheRedisCaffeineProperties;
+import com.art.common.redis.core.cache.support.RedisCaffeineCacheManager;
 import com.art.common.tenant.context.TenantContextHolder;
 import org.springframework.cache.Cache;
 import org.springframework.data.redis.core.RedisTemplate;

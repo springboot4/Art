@@ -16,7 +16,7 @@
 
 package com.art.common.redis.config;
 
-import com.art.common.redis.service.RedisService;
+import com.art.common.redis.core.util.RedisService;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -44,7 +44,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @AutoConfigureBefore(name = { "org.redisson.spring.starter.RedissonAutoConfiguration",
 		"org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration",
 		"com.art.common.mq.redis.core.RedisMQTemplate" })
-public class RedisTemplateConfig {
+public class RedisTemplateAutoConfiguration {
 
 	@Bean
 	@Primary

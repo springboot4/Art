@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package com.art.system.dao.redis.user;
+package com.art.common.redis.core.listener.consume;
 
-import com.art.common.redis.core.constant.CacheConstants;
+import org.springframework.lang.Nullable;
 
 /**
  * @author Fxz
- * @version 0.0.1
- * @date 2022/11/26 12:00
+ * @version 1.0
+ * @date 2023/1/15 21:09
  */
-public interface UserRedisConstants {
+public interface KeyEventMessageConsume {
 
-	String PREFIX = "user";
+	void consume(@Nullable String key);
 
-	String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
-
-	String USER_INFO = CACHE_NAMES + ":info";
+	boolean support(@Nullable String key);
 
 }

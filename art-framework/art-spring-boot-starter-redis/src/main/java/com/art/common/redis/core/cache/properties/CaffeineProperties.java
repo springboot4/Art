@@ -14,19 +14,39 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.listener.consume;
+package com.art.common.redis.core.cache.properties;
 
-import org.springframework.lang.Nullable;
+import lombok.Data;
 
 /**
- * @author Fxz
- * @version 1.0
- * @date 2023/1/15 21:09
+ * @author fxz
  */
-public interface KeyEventMessageConsume {
+@Data
+public class CaffeineProperties {
 
-	void consume(@Nullable String key);
+	/**
+	 * 访问后过期时间，单位毫秒
+	 */
+	private long expireAfterAccess;
 
-	boolean support(@Nullable String key);
+	/**
+	 * 写入后过期时间，单位毫秒
+	 */
+	private long expireAfterWrite;
+
+	/**
+	 * 写入后刷新时间，单位毫秒
+	 */
+	private long refreshAfterWrite;
+
+	/**
+	 * 初始化大小
+	 */
+	private int initialCapacity;
+
+	/**
+	 * 最大缓存对象个数，超过此数量时之前放入的缓存将失效
+	 */
+	private long maximumSize;
 
 }

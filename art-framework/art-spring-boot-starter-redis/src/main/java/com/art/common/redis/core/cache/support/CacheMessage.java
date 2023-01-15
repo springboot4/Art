@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,39 +14,32 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.cache.properties;
+package com.art.common.redis.core.cache.support;
 
+import com.art.common.mq.redis.pubsub.AbstractPubSubMessage;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @author fxz
  */
 @Data
-public class CaffeineProperties {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CacheMessage extends AbstractPubSubMessage implements Serializable {
 
-	/**
-	 * 访问后过期时间，单位毫秒
-	 */
-	private long expireAfterAccess;
+	private static final long serialVersionUID = 3987211310442078199L;
 
-	/**
-	 * 写入后过期时间，单位毫秒
-	 */
-	private long expireAfterWrite;
+	private String cacheName;
 
-	/**
-	 * 写入后刷新时间，单位毫秒
-	 */
-	private long refreshAfterWrite;
+	private Object key;
 
-	/**
-	 * 初始化大小
-	 */
-	private int initialCapacity;
-
-	/**
-	 * 最大缓存对象个数，超过此数量时之前放入的缓存将失效
-	 */
-	private long maximumSize;
+	@Override
+	public String getTopic() {
+		return "cache.redis.caffeine.topic";
+	}
 
 }

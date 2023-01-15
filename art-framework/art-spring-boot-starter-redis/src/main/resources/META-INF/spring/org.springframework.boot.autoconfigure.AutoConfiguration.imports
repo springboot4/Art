@@ -1,3 +1,4 @@
-com.art.common.redis.config.RedisTemplateConfig
-com.art.common.redis.util.BusinessNoGenerator
+com.art.common.redis.core.util.BusinessNoGenerator
+com.art.common.redis.config.RedisKeyEventAutoConfiguration
+com.art.common.redis.config.RedisTemplateAutoConfiguration
 com.art.common.redis.config.CacheRedisCaffeineAutoConfiguration
