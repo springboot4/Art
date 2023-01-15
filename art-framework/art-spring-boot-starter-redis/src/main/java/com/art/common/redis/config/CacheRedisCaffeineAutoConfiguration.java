@@ -17,9 +17,9 @@
 package com.art.common.redis.config;
 
 import com.art.common.mq.redis.core.RedisMQTemplate;
-import com.art.common.redis.cache.properties.CacheRedisCaffeineProperties;
-import com.art.common.redis.cache.support.CacheMessageConsumer;
-import com.art.common.redis.cache.support.RedisCaffeineCacheManager;
+import com.art.common.redis.core.cache.properties.CacheRedisCaffeineProperties;
+import com.art.common.redis.core.cache.support.CacheMessageConsumer;
+import com.art.common.redis.core.cache.support.RedisCaffeineCacheManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;

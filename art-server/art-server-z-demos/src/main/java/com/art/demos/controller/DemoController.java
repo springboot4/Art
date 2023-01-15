@@ -23,7 +23,7 @@ import com.art.common.core.result.Result;
 import com.art.common.core.util.MsgUtils;
 import com.art.common.lock.core.utils.RedissonUtils;
 import com.art.common.mq.redis.core.RedisMQTemplate;
-import com.art.common.redis.cache.support.CacheMessage;
+import com.art.common.redis.core.cache.support.CacheMessage;
 import com.art.common.sequence.service.Sequence;
 import com.art.system.api.user.dto.SystemUserDTO;
 import io.swagger.v3.oas.annotations.Operation;

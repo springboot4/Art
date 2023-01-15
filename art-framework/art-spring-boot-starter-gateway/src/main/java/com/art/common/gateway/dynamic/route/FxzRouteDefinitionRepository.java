@@ -16,7 +16,7 @@
 
 package com.art.common.gateway.dynamic.route;
 
-import com.art.common.redis.constant.CacheConstants;
+import com.art.common.redis.core.constant.CacheConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

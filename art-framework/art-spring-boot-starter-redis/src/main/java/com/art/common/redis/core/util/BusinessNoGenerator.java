@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.util;
+package com.art.common.redis.core.util;
 
 import cn.hutool.core.date.DatePattern;
 import com.art.common.core.constant.RedisConstant;
@@ -22,7 +22,6 @@ import com.art.common.core.enums.BusinessTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -37,7 +36,6 @@ import java.time.ZoneOffset;
 @Deprecated
 @SuppressWarnings("all")
 @RequiredArgsConstructor
-@Component
 @Slf4j
 public class BusinessNoGenerator {
 

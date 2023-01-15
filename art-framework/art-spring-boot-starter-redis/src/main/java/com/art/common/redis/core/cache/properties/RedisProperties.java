@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,32 +14,32 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.cache.support;
+package com.art.common.redis.core.cache.properties;
 
-import com.art.common.mq.redis.pubsub.AbstractPubSubMessage;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author fxz
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class CacheMessage extends AbstractPubSubMessage implements Serializable {
+public class RedisProperties {
 
-	private static final long serialVersionUID = 3987211310442078199L;
+	/**
+	 * 全局过期时间，单位毫秒，默认不过期
+	 */
+	private long defaultExpiration = 0;
 
-	private String cacheName;
+	/**
+	 * 每个cacheName的过期时间，单位毫秒，优先级比defaultExpiration高
+	 */
+	private Map<String, Long> expires = new HashMap<>();
 
-	private Object key;
-
-	@Override
-	public String getTopic() {
-		return "cache.redis.caffeine.topic";
-	}
+	/**
+	 * 缓存更新时通知其他节点的topic名称
+	 */
+	private String topic = "cache:redis:caffeine:topic";
 
 }

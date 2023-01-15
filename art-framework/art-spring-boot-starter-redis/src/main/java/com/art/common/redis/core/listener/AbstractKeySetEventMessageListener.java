@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.listener;
+package com.art.common.redis.core.listener;
 
 import org.springframework.data.redis.listener.KeyspaceEventMessageListener;
 import org.springframework.data.redis.listener.PatternTopic;

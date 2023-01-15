@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.constant;
+package com.art.common.redis.core.listener.consume;
 
 /**
  * @author Fxz
- * @version 0.0.1
- * @date 2022/8/20 12:06
+ * @version 1.0
+ * @date 2023/1/15 21:13
  */
-public interface CacheConstants {
+public interface KeySetEventMessageConsume extends KeyEventMessageConsume {
 
-	/**
-	 * 全局缓存标识
-	 */
-	String GLOBALLY = "fxz_cloud:";
+	@Override
+	void consume(String key);
 
-	/**
-	 * 网关路由
-	 */
-	String ROUTE_KEY = GLOBALLY + "gateway_route_key";
+	@Override
+	boolean support(String key);
 
 }
