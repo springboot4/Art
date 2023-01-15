@@ -14,48 +14,47 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.listener.impl;
+package com.art.common.redis.core.listener.impl;
 
-import com.art.common.redis.listener.AbstractKeyDeletedEventMessageListener;
-import com.art.common.redis.listener.consume.KeyDeletedEventMessageConsume;
+import com.art.common.redis.core.listener.AbstractKeySetEventMessageListener;
+import com.art.common.redis.core.listener.consume.KeySetEventMessageConsume;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.listener.KeyspaceEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
 /**
- * key删除事件监听
+ * key set事件监听
  *
  * @author Fxz
  * @version 1.0
- * @date 2023/1/15 20:55
+ * @date 2023/1/15 21:18
  */
 @Slf4j
-public class DefaultKeyDeletedEventMessageListener extends AbstractKeyDeletedEventMessageListener {
+public class DefaultKeySetEventMessageListener extends AbstractKeySetEventMessageListener {
 
-	private final List<KeyDeletedEventMessageConsume> keyDeletedEventMessageConsume;
+	private final List<KeySetEventMessageConsume> keySetEventMessageConsumes;
 
 	@Override
-	public void onMessage(Message message, @Nullable byte[] pattern) {
-		if (CollectionUtils.isEmpty(keyDeletedEventMessageConsume)) {
+	public void onMessage(Message message, byte[] pattern) {
+		if (CollectionUtils.isEmpty(keySetEventMessageConsumes)) {
 			return;
 		}
 
 		super.onMessage(message, pattern);
 
 		String key = message.toString();
-		for (KeyDeletedEventMessageConsume deletedEventMessageConsume : keyDeletedEventMessageConsume) {
-			if (deletedEventMessageConsume.support(key)) {
+		for (KeySetEventMessageConsume keySetEventMessageConsume : keySetEventMessageConsumes) {
+			if (keySetEventMessageConsume.support(key)) {
 				if (log.isDebugEnabled()) {
-					log.debug("{} handle key deleted event,the deleted key is {}",
-							deletedEventMessageConsume.getClass().getName(), key);
+					log.debug("{} handle key set event,the set key is {}",
+							keySetEventMessageConsume.getClass().getName(), key);
 				}
-				deletedEventMessageConsume.consume(key);
+				keySetEventMessageConsume.consume(key);
 			}
 		}
 	}
@@ -63,12 +62,11 @@ public class DefaultKeyDeletedEventMessageListener extends AbstractKeyDeletedEve
 	/**
 	 * Creates new {@link KeyspaceEventMessageListener}.
 	 * @param listenerContainer must not be {@literal null}.
-	 * @param keyDeletedEventMessageConsume {@link KeyDeletedEventMessageConsume}
 	 */
-	public DefaultKeyDeletedEventMessageListener(RedisMessageListenerContainer listenerContainer,
-			@Autowired(required = false) List<KeyDeletedEventMessageConsume> keyDeletedEventMessageConsume) {
+	public DefaultKeySetEventMessageListener(RedisMessageListenerContainer listenerContainer,
+			@Autowired(required = false) List<KeySetEventMessageConsume> keySetEventMessageConsumes) {
 		super(listenerContainer);
-		this.keyDeletedEventMessageConsume = keyDeletedEventMessageConsume;
+		this.keySetEventMessageConsumes = keySetEventMessageConsumes;
 	}
 
 }

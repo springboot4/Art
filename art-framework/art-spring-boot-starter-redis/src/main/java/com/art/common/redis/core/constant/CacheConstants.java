@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,32 +14,23 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.cache.properties;
-
-import lombok.Data;
-
-import java.util.HashMap;
-import java.util.Map;
+package com.art.common.redis.core.constant;
 
 /**
- * @author fxz
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/8/20 12:06
  */
-@Data
-public class RedisProperties {
+public interface CacheConstants {
 
 	/**
-	 * 全局过期时间，单位毫秒，默认不过期
+	 * 全局缓存标识
 	 */
-	private long defaultExpiration = 0;
+	String GLOBALLY = "fxz_cloud:";
 
 	/**
-	 * 每个cacheName的过期时间，单位毫秒，优先级比defaultExpiration高
+	 * 网关路由
 	 */
-	private Map<String, Long> expires = new HashMap<>();
-
-	/**
-	 * 缓存更新时通知其他节点的topic名称
-	 */
-	private String topic = "cache:redis:caffeine:topic";
+	String ROUTE_KEY = GLOBALLY + "gateway_route_key";
 
 }

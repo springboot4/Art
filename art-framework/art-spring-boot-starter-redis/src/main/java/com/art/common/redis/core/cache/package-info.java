@@ -14,19 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.listener.consume;
-
 /**
- * @author Fxz
- * @version 1.0
- * @date 2023/1/15 21:00
+ * redis + caffeine 实现多级缓存
  */
-public interface KeyDeletedEventMessageConsume extends KeyEventMessageConsume {
-
-	@Override
-	void consume(String key);
-
-	@Override
-	boolean support(String key);
-
-}
+package com.art.common.redis.core.cache;

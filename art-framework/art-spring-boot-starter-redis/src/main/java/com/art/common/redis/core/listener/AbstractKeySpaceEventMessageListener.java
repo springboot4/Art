@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.listener;
+package com.art.common.redis.core.listener;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
