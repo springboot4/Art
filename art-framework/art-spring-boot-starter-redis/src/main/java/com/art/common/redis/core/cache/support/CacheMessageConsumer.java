@@ -31,7 +31,9 @@ public class CacheMessageConsumer extends AbstractPubSubMessageListener<CacheMes
 
 	@Override
 	public void onMessage(CacheMessage cacheMessage) {
-		log.info("接收到redis topic消息，清空本地缓存，缓存名称:{}, key:{}", cacheMessage.getCacheName(), cacheMessage.getKey());
+		if (log.isDebugEnabled()) {
+			log.debug("接收到redis topic消息，清空本地缓存，缓存名称:{}, key:{}", cacheMessage.getCacheName(), cacheMessage.getKey());
+		}
 		redisCaffeineCacheManager.clearLocal(cacheMessage.getCacheName(), cacheMessage.getKey());
 	}
 
