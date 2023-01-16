@@ -1,7 +1,7 @@
 package com.art.system.core.handler;
 
 import com.amazonaws.services.s3.model.PartETag;
-import com.art.common.file.core.OssTemplate;
+import com.art.common.file.core.oss.OssFileStorage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
@@ -21,7 +21,7 @@ public class PartUploaderHandler implements Runnable {
 	/**
 	 * AmazonS3 Oss操作客户端
 	 */
-	private OssTemplate ossTemplate;
+	private OssFileStorage ossFileStorage;
 
 	/**
 	 * 桶名称
@@ -67,7 +67,7 @@ public class PartUploaderHandler implements Runnable {
 	@SneakyThrows
 	@Override
 	public void run() {
-		PartETag eTag = ossTemplate.uploadPart(bucketName, key, uploadId, partNumber, stream, partSize);
+		PartETag eTag = ossFileStorage.uploadPart(bucketName, key, uploadId, partNumber, stream, partSize);
 		this.eTagList.add(eTag);
 		latch.countDown();
 	}

@@ -22,8 +22,7 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.amazonaws.services.s3.model.S3Object;
-import com.art.common.file.core.OssProperties;
-import com.art.common.file.core.OssTemplate;
+import com.art.common.file.core.FileStorageProperties;
 import com.art.system.api.file.dto.FileDTO;
 import com.art.system.api.file.dto.FilePageDTO;
 import com.art.system.core.convert.FileConvert;
@@ -58,9 +57,7 @@ public class FileServiceImpl implements FileService {
 
 	private final FileManager fileManager;
 
-	private final OssProperties ossProperties;
-
-	private final OssTemplate minioTemplate;
+	private final FileStorageProperties ossProperties;
 
 	/**
 	 * 上传文件
@@ -69,15 +66,15 @@ public class FileServiceImpl implements FileService {
 	public Dict addFile(MultipartFile file) {
 		String fileName = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + StrUtil.SLASH + IdUtil.simpleUUID()
 				+ StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+		String bucketName = ossProperties.getOss().getBucketName();
 
 		Dict res = Dict.create();
-		res.put("bucketName", ossProperties.getBucketName());
+		res.put("bucketName", bucketName);
 		res.put("fileName", fileName);
-		res.put("url", String.format("/system/file/%s/%s", ossProperties.getBucketName(), fileName));
+		res.put("url", String.format("/system/file/%s/%s", bucketName, fileName));
 
 		try {
-			String location = ossManager.partUpload(ossProperties.getBucketName(), fileName, file.getInputStream(),
-					file.getContentType());
+			String location = ossManager.partUpload(bucketName, fileName, file.getInputStream(), file.getContentType());
 			log.info("分片上传完成:{}", location);
 			// 记录到数据库
 			fileLog(file, fileName);
@@ -98,7 +95,7 @@ public class FileServiceImpl implements FileService {
 	private void fileLog(MultipartFile file, String fileName) {
 		FileDO fileDO = FileDO.builder().fileName(fileName).original(file.getOriginalFilename())
 				.fileSize(file.getSize()).type(FileUtil.extName(file.getOriginalFilename()))
-				.bucketName(ossProperties.getBucketName()).build();
+				.bucketName(ossProperties.getOss().getBucketName()).build();
 
 		fileManager.saveFile(fileDO);
 	}
@@ -142,7 +139,7 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public Boolean deleteFile(Long id) {
 		FileDO fileDO = fileManager.getFileById(id);
-		minioTemplate.removeObject(fileDO.getBucketName(), fileDO.getFileName());
+		ossManager.removeObject(fileDO.getBucketName(), fileDO.getFileName());
 		return fileManager.deleteFileById(id) > 0;
 	}
 
@@ -154,7 +151,7 @@ public class FileServiceImpl implements FileService {
 	 */
 	@Override
 	public void getFile(String bucket, String fileName, HttpServletResponse response) {
-		try (S3Object s3Object = minioTemplate.getObject(bucket, fileName)) {
+		try (S3Object s3Object = ossManager.getObject(bucket, fileName)) {
 			response.setContentType("application/octet-stream; charset=UTF-8");
 			IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
 		}

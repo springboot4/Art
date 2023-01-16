@@ -20,8 +20,9 @@ import cn.hutool.core.thread.ThreadUtil;
 import com.amazonaws.services.s3.model.CompleteMultipartUploadResult;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PartETag;
+import com.amazonaws.services.s3.model.S3Object;
 import com.art.common.core.exception.FxzException;
-import com.art.common.file.core.OssTemplate;
+import com.art.common.file.core.oss.OssFileStorage;
 import com.art.system.core.handler.PartUploaderHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -43,7 +44,7 @@ public class OssManager {
 
 	private static final int MAX_PART_COUNT = 10000;
 
-	private final OssTemplate ossTemplate;
+	private final OssFileStorage ossFileStorage;
 
 	private final ThreadPoolExecutor executor = ThreadUtil.newExecutor(20, 20);
 
@@ -55,7 +56,7 @@ public class OssManager {
 		objectMetadata.setContentType(contentType);
 
 		// 初始化分片
-		String uploadId = ossTemplate.initiateMultipartUpload(bucketName, fileName, objectMetadata);
+		String uploadId = ossFileStorage.initiateMultipartUpload(bucketName, fileName, objectMetadata);
 
 		// 计算文件有多少个分片,默认分片大小5M。
 		long partSize = 5 * 1024 * 1024L;
@@ -75,7 +76,7 @@ public class OssManager {
 		// 遍历分片上传
 		for (int i = 0; i < partCount; i++) {
 			long curPartSize = (i + 1 == partCount) ? (fileLength - (i * partSize)) : partSize;
-			executor.execute(new PartUploaderHandler(ossTemplate, bucketName, fileName, uploadId, i + 1, curPartSize,
+			executor.execute(new PartUploaderHandler(ossFileStorage, bucketName, fileName, uploadId, i + 1, curPartSize,
 					stream, eTagList, latch));
 		}
 
@@ -84,13 +85,21 @@ public class OssManager {
 
 		// 验证所有零件是否均已完成
 		if (eTagList.size() != partCount) {
-			ossTemplate.abortMultipartUpload(uploadId, bucketName, fileName);
+			ossFileStorage.abortMultipartUpload(uploadId, bucketName, fileName);
 			throw new FxzException("部分分片上传未完成，分片上传失败！");
 		}
 
-		CompleteMultipartUploadResult result = ossTemplate.completeMultipartUpload(uploadId, bucketName, fileName,
+		CompleteMultipartUploadResult result = ossFileStorage.completeMultipartUpload(uploadId, bucketName, fileName,
 				eTagList);
 		return result.getLocation();
+	}
+
+	public void removeObject(String bucketName, String fileName) {
+		ossFileStorage.removeObject(bucketName, fileName);
+	}
+
+	public S3Object getObject(String bucket, String fileName) {
+		return ossFileStorage.getObject(bucket, fileName);
 	}
 
 }
