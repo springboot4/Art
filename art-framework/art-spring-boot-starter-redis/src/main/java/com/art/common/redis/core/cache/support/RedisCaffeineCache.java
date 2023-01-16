@@ -170,7 +170,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 		}
 
 		ReentrantLock lock = keyLockMap.computeIfAbsent(key.toString(), s -> {
-			log.trace("create lock for key : {}", s);
+			log.debug("create lock for key : {}", s);
 			return new ReentrantLock();
 		});
 
@@ -181,7 +181,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 				return (T) value;
 			}
 			value = valueLoader.call();
-			log.info("valueLoader.call()执行...");
+			log.debug("valueLoader.call()执行...");
 			Object storeValue = toStoreValue(value);
 			put(key, storeValue);
 			return (T) value;
@@ -280,14 +280,18 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 		Object cacheKey = getKey(key.toString());
 		Object value = caffeineCache.getIfPresent(key);
 		if (value != null) {
-			logger.info("从本地缓存caffeine中获取缓存，key: {}", cacheKey);
+			if (logger.isDebugEnabled()) {
+				logger.debug("从本地缓存caffeine中获取缓存，key: {}", cacheKey);
+			}
 			return value;
 		}
 
 		value = stringKeyRedisTemplate.opsForValue().get(cacheKey);
 
 		if (value != null) {
-			logger.info("从redis中获取缓存, key : {}", cacheKey);
+			if (logger.isDebugEnabled()) {
+				logger.debug("从redis中获取缓存, key : {}", cacheKey);
+			}
 			caffeineCache.put(key, value);
 		}
 		return value;
@@ -317,7 +321,9 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	 * @description 清理本地缓存
 	 */
 	public void clearLocal(Object key) {
-		logger.info("清理本地缓存 : {}", key);
+		if (logger.isDebugEnabled()) {
+			logger.debug("清理本地缓存 : {}", key);
+		}
 		if (key == null) {
 			caffeineCache.invalidateAll();
 		}

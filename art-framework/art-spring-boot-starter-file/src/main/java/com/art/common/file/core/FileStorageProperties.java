@@ -18,22 +18,43 @@ package com.art.common.file.core;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
- * @author fxz
+ * @author Fxz
+ * @version 1.0
+ * @date 2023/1/16 23:01
  */
 @Data
-@ConfigurationProperties(prefix = "oss")
-public class OssProperties {
+@ConfigurationProperties(prefix = "file.storage")
+public class FileStorageProperties {
 
-	private String endpoint;
+	@NestedConfigurationProperty
+	private OssProperties oss = new OssProperties();
 
-	private Boolean pathStyleAccess = true;
+	@NestedConfigurationProperty
+	private LocalProperties local = new LocalProperties();
 
-	private String accessKey;
+	@Data
+	public static class LocalProperties {
 
-	private String secretKey;
+		private String basePath = "/Users/fxz/file";
 
-	private String bucketName = "fxzCloud";
+	}
+
+	@Data
+	public static class OssProperties {
+
+		private String endpoint;
+
+		private Boolean pathStyleAccess = true;
+
+		private String accessKey;
+
+		private String secretKey;
+
+		private String bucketName = "fxzCloud";
+
+	}
 
 }
