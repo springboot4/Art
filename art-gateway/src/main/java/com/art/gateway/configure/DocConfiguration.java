@@ -16,8 +16,8 @@
 
 package com.art.gateway.configure;
 
+import com.art.common.doc.properties.DocProperties;
 import com.art.gateway.handler.GatewayIndexHandler;
-import com.art.gateway.properties.DocProperties;
 import org.springdoc.core.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.GroupedOpenApi;
 import org.springdoc.core.SwaggerUiConfigProperties;
