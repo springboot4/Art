@@ -32,7 +32,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
        ├── art-spring-boot-starter-mq-rabbit -- rabbitMq消息队列
        ├── art-spring-boot-starter-mq-redis -- redis轻量级消息队列
        ├── art-spring-boot-starter-quartz -- quartz定时任务
-       ├── art-spring-boot-starter-redis -- 多级缓存、分布式锁模块
+       ├── art-spring-boot-starter-redis -- 多级缓存、redis相关模块
        ├── art-spring-boot-starter-seata -- 分布式事务
        ├── art-spring-boot-starter-security -- 安全模块
        ├── art-spring-boot-starter-sequence -- 发号器（序列号生成器）
@@ -122,7 +122,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 
 ## 🍺加入我们
-| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/01/11/rZTN38.jpg) |
+| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/01/20/uyBhU3.jpg) |
 | ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) |                                                              |
 

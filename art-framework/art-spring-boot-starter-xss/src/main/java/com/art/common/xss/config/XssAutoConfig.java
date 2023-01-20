@@ -19,6 +19,7 @@ package com.art.common.xss.config;
 import com.art.common.xss.core.filter.XssFilter;
 import com.art.common.xss.core.propertie.XssProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.PathMatcher;
@@ -28,13 +29,9 @@ import org.springframework.util.PathMatcher;
  * @version 0.0.1
  * @date 2022/12/8 10:53
  */
+@EnableConfigurationProperties(XssProperties.class)
 @AutoConfiguration
 public class XssAutoConfig {
-
-	@Bean
-	public XssProperties xssProperties() {
-		return new XssProperties();
-	}
 
 	@Bean
 	public FilterRegistrationBean<XssFilter> xssFilter(XssProperties properties, PathMatcher pathMatcher) {
