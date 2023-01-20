@@ -566,27 +566,29 @@ COMMIT;
 -- ----------------------------
 -- Table structure for sys_tenant_package
 -- ----------------------------
+-- ----------------------------
 DROP TABLE IF EXISTS `sys_tenant_package`;
 CREATE TABLE `sys_tenant_package` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '套餐id',
-  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '套餐名',
-  `status` tinyint NOT NULL DEFAULT '0' COMMENT '套餐状态（0正常 1停用）',
-  `remark` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '备注',
-  `menu_ids` varchar(2048) CHARACTER z NOT NULL COMMENT '关联的菜单编号',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '0-正常，1-删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1576530575020077059 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户套餐表';
+                                      `id` bigint NOT NULL AUTO_INCREMENT COMMENT '套餐id',
+                                      `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '套餐名',
+                                      `status` tinyint NOT NULL DEFAULT '0' COMMENT '套餐状态（0正常 1停用）',
+                                      `remark` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '备注',
+                                      `menu_ids` varchar(2048) CHARACTER SET utf8mb4 NOT NULL COMMENT '关联的菜单编号',
+                                      `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建者',
+                                      `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                      `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '更新者',
+                                      `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                      `del_flag` bit(1) NOT NULL DEFAULT 0 COMMENT '0-正常，1-删除',
+                                      PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户套餐表';
 
 -- ----------------------------
 -- Records of sys_tenant_package
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1576530575020077058, '豪华套餐', 0, '豪华租户套餐', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021,20', 'fxz', '2022-10-02 19:12:34', 'fxz', '2022-10-03 12:25:10', b'0');
+INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1576530575020077058, '豪华套餐', 0, '豪华租户套餐', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021,20', 'fxz', '2022-10-02 19:12:34', 'fxz', '2022-10-03 12:25:10', 0);
 COMMIT;
+
 
 -- ----------------------------
 -- Table structure for sys_user
