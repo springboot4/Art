@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.art.common.core.sensitive;
+package com.art.common.sensitive.core.annotation.base;
 
+import com.art.common.sensitive.core.handler.base.SensitiveHandler;
+import com.art.common.sensitive.core.serializer.SensitiveInfoSerialize;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.art.common.core.enums.SensitiveType;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 数据脱敏
@@ -29,24 +32,13 @@ import java.lang.annotation.RetentionPolicy;
  * @author fxz
  * @date 2022/4/25
  */
+@Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @JacksonAnnotationsInside
 @JsonSerialize(using = SensitiveInfoSerialize.class)
 public @interface SensitiveInfo {
 
-	/**
-	 * 敏感信息类型
-	 */
-	SensitiveType value() default SensitiveType.OTHER;
-
-	/**
-	 * 敏感类型为其他可用 front – 保留：前面的front位数；从1开始
-	 */
-	int front() default 3;
-
-	/**
-	 * 敏感类型为其他可用 end – 保留：后面的end位数；从1开始
-	 */
-	int end() default 3;
+	@SuppressWarnings("rawtypes")
+	Class<? extends SensitiveHandler> handler();
 
 }

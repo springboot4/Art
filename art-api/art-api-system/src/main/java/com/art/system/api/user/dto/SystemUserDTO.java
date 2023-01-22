@@ -18,8 +18,8 @@ package com.art.system.api.user.dto;
 
 import cn.hutool.core.date.DatePattern;
 import com.art.common.core.annotation.CheckMobileValid;
-import com.art.common.core.enums.SensitiveType;
-import com.art.common.core.sensitive.SensitiveInfo;
+import com.art.common.sensitive.core.annotation.fixed.MobileSensitive;
+import com.art.common.sensitive.core.annotation.regex.EmailSensitive;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -85,14 +85,14 @@ public class SystemUserDTO implements Serializable {
 	/**
 	 * 邮箱
 	 */
-	@SensitiveInfo(SensitiveType.EMAIL)
+	@EmailSensitive
 	@Email(message = "{email}")
 	private String email;
 
 	/**
 	 * 联系电话
 	 */
-	@SensitiveInfo(SensitiveType.MOBILE_PHONE)
+	@MobileSensitive
 	@CheckMobileValid(message = "{mobile}")
 	private String mobile;
 
