@@ -18,9 +18,9 @@ package com.art.system.dao.dataobject;
 
 import cn.hutool.core.date.DatePattern;
 import com.art.common.core.annotation.CheckMobileValid;
-import com.art.common.core.enums.SensitiveType;
-import com.art.common.core.sensitive.SensitiveInfo;
 import com.art.common.mp.core.base.BaseCreateEntity;
+import com.art.common.sensitive.core.annotation.fixed.MobileSensitive;
+import com.art.common.sensitive.core.annotation.regex.EmailSensitive;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -92,14 +92,14 @@ public class SystemUserDO extends BaseCreateEntity {
 	/**
 	 * 邮箱
 	 */
-	@SensitiveInfo(SensitiveType.EMAIL)
+	@EmailSensitive
 	@Email(message = "{email}")
 	private String email;
 
 	/**
 	 * 联系电话
 	 */
-	@SensitiveInfo(SensitiveType.MOBILE_PHONE)
+	@MobileSensitive
 	@CheckMobileValid(message = "{mobile}")
 	private String mobile;
 
