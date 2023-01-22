@@ -16,7 +16,8 @@
 
 package com.art.common.redis.core.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.hutool.extra.spring.SpringUtil;
+import lombok.experimental.UtilityClass;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Arrays;
@@ -30,11 +31,11 @@ import java.util.concurrent.TimeUnit;
  * @version 0.0.1
  * @date 2021-11-28 16:23
  */
+@UtilityClass
 @SuppressWarnings("all")
 public class RedisService {
 
-	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
+	private RedisTemplate<String, Object> redisTemplate = SpringUtil.getBean(RedisTemplate.class);
 
 	/**
 	 * 指定缓存失效时间
