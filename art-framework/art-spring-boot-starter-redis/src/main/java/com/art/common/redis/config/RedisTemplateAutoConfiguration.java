@@ -16,11 +16,9 @@
 
 package com.art.common.redis.config;
 
-import com.art.common.redis.core.util.RedisService;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -91,12 +89,6 @@ public class RedisTemplateAutoConfiguration {
 		template.setHashValueSerializer(RedisSerializer.json());
 
 		return template;
-	}
-
-	@Bean
-	@ConditionalOnBean(name = "redisTemplate")
-	public RedisService redisService() {
-		return new RedisService();
 	}
 
 }

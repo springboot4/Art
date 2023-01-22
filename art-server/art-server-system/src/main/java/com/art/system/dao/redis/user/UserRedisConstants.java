@@ -16,7 +16,7 @@
 
 package com.art.system.dao.redis.user;
 
-import com.art.common.redis.core.constant.CacheConstants;
+import com.art.common.core.constant.CacheConstants;
 
 /**
  * @author Fxz

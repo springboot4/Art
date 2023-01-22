@@ -21,7 +21,7 @@ import cn.hutool.json.JSONUtil;
 import com.art.common.gateway.dynamic.route.FxzRouteDefinition;
 import com.art.common.gateway.dynamic.route.FxzRouteDefinitionRepository;
 import com.art.common.mq.redis.pubsub.AbstractPubSubMessageListener;
-import com.art.common.redis.core.constant.CacheConstants;
+import com.art.common.core.constant.CacheConstants;
 import com.art.system.api.route.dto.RouteConfDTO;
 import com.art.system.api.route.mq.RouteMessage;
 import lombok.RequiredArgsConstructor;
