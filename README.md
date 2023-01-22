@@ -35,6 +35,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
        ├── art-spring-boot-starter-redis -- 多级缓存、redis相关模块
        ├── art-spring-boot-starter-seata -- 分布式事务
        ├── art-spring-boot-starter-security -- 安全模块
+       ├── art-spring-boot-starter-sensitive -- 数据脱敏
        ├── art-spring-boot-starter-sequence -- 发号器（序列号生成器）
        ├── art-spring-boot-starter-sms -- 阿里云短信服务
        ├── art-spring-boot-starter-tenant -- SaaS多租户支持
