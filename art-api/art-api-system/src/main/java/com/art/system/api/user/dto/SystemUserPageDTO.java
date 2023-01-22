@@ -19,8 +19,6 @@ package com.art.system.api.user.dto;
 import cn.hutool.core.date.DatePattern;
 import com.art.common.core.annotation.CheckMobileValid;
 import com.art.common.core.entity.BasePageEntity;
-import com.art.common.core.enums.SensitiveType;
-import com.art.common.core.sensitive.SensitiveInfo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -71,14 +69,12 @@ public class SystemUserPageDTO extends BasePageEntity implements Serializable {
 	/**
 	 * 邮箱
 	 */
-	@SensitiveInfo(SensitiveType.EMAIL)
 	@Email(message = "{email}")
 	private String email;
 
 	/**
 	 * 联系电话
 	 */
-	@SensitiveInfo(SensitiveType.MOBILE_PHONE)
 	@CheckMobileValid(message = "{mobile}")
 	private String mobile;
 

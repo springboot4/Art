@@ -116,6 +116,11 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-sensitive</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-xss</artifactId>
                 <version>${project.version}</version>
             </dependency>
