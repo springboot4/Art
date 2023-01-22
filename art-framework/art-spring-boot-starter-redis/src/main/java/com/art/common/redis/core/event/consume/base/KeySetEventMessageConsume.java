@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.core.listener.consume;
+package com.art.common.redis.core.event.consume.base;
 
 /**
  * @author Fxz
  * @version 1.0
- * @date 2023/1/15 21:00
+ * @date 2023/1/15 21:13
  */
-public interface KeyDeletedEventMessageConsume extends KeyEventMessageConsume {
+public interface KeySetEventMessageConsume extends KeyEventMessageConsume {
 
 	@Override
 	void consume(String key);
