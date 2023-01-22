@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.core.listener.consume;
+package com.art.common.core.constant;
 
 /**
  * @author Fxz
- * @version 1.0
- * @date 2023/1/15 21:00
+ * @version 0.0.1
+ * @date 2022/8/20 12:06
  */
-public interface KeyExpiredEventMessageConsume extends KeyEventMessageConsume {
+public interface CacheConstants {
 
-	@Override
-	void consume(String key);
+	/**
+	 * 全局缓存标识
+	 */
+	String GLOBALLY = "fxz_cloud:";
 
-	@Override
-	boolean support(String key);
+	/**
+	 * 网关路由
+	 */
+	String ROUTE_KEY = GLOBALLY + "gateway_route_key";
 
 }

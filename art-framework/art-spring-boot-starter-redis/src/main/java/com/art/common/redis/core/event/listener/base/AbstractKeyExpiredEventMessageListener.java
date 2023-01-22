@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.core.listener;
+package com.art.common.redis.core.event.listener.base;
 
 import org.springframework.data.redis.listener.KeyspaceEventMessageListener;
 import org.springframework.data.redis.listener.PatternTopic;
@@ -22,26 +22,26 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.Topic;
 
 /**
- * key set事件监听
+ * key 过期事件监听
  *
  * @author Fxz
  * @version 1.0
- * @date 2023/1/15 20:52
+ * @date 2023/1/15 20:50
  */
-public abstract class AbstractKeySetEventMessageListener extends AbstractKeySpaceEventMessageListener {
+public abstract class AbstractKeyExpiredEventMessageListener extends AbstractKeySpaceEventMessageListener {
 
-	private static final Topic KEY_EVENT_SET_TOPIC = new PatternTopic("__keyevent@*__:set");
+	private static final Topic KEY_EVENT_EXPIRED_TOPIC = new PatternTopic("__keyevent@*__:expired");
 
 	@Override
 	public Topic getKeyEventTopic() {
-		return KEY_EVENT_SET_TOPIC;
+		return KEY_EVENT_EXPIRED_TOPIC;
 	}
 
 	/**
 	 * Creates new {@link KeyspaceEventMessageListener}.
 	 * @param listenerContainer must not be {@literal null}.
 	 */
-	public AbstractKeySetEventMessageListener(RedisMessageListenerContainer listenerContainer) {
+	public AbstractKeyExpiredEventMessageListener(RedisMessageListenerContainer listenerContainer) {
 		super(listenerContainer);
 	}
 

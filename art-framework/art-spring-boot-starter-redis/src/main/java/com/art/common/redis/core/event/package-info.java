@@ -14,19 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.core.listener.consume;
-
-import org.springframework.lang.Nullable;
-
 /**
- * @author Fxz
- * @version 1.0
- * @date 2023/1/15 21:09
+ * redis key 事件监听
  */
-public interface KeyEventMessageConsume {
-
-	void consume(@Nullable String key);
-
-	boolean support(@Nullable String key);
-
-}
+package com.art.common.redis.core.event;

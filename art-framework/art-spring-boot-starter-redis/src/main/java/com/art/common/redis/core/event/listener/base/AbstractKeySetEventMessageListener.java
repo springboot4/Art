@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.core.listener;
+package com.art.common.redis.core.event.listener.base;
 
 import org.springframework.data.redis.listener.KeyspaceEventMessageListener;
 import org.springframework.data.redis.listener.PatternTopic;
@@ -22,26 +22,26 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.Topic;
 
 /**
- * key 删除事件监听
+ * key set事件监听
  *
  * @author Fxz
  * @version 1.0
- * @date 2023/1/15 20:48
+ * @date 2023/1/15 20:52
  */
-public abstract class AbstractKeyDeletedEventMessageListener extends AbstractKeySpaceEventMessageListener {
+public abstract class AbstractKeySetEventMessageListener extends AbstractKeySpaceEventMessageListener {
 
-	private static final Topic KEY_EVENT_DELETED_TOPIC = new PatternTopic("__keyevent@*__:del");
+	private static final Topic KEY_EVENT_SET_TOPIC = new PatternTopic("__keyevent@*__:set");
 
 	@Override
 	public Topic getKeyEventTopic() {
-		return KEY_EVENT_DELETED_TOPIC;
+		return KEY_EVENT_SET_TOPIC;
 	}
 
 	/**
 	 * Creates new {@link KeyspaceEventMessageListener}.
 	 * @param listenerContainer must not be {@literal null}.
 	 */
-	public AbstractKeyDeletedEventMessageListener(RedisMessageListenerContainer listenerContainer) {
+	public AbstractKeySetEventMessageListener(RedisMessageListenerContainer listenerContainer) {
 		super(listenerContainer);
 	}
 

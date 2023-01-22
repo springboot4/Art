@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.art.common.redis.core.listener.impl;
+package com.art.common.redis.core.event.listener.impl;
 
-import com.art.common.redis.core.listener.AbstractKeyExpiredEventMessageListener;
-import com.art.common.redis.core.listener.consume.KeyExpiredEventMessageConsume;
+import com.art.common.redis.core.event.listener.base.AbstractKeyExpiredEventMessageListener;
+import com.art.common.redis.core.event.consume.base.KeyExpiredEventMessageConsume;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;

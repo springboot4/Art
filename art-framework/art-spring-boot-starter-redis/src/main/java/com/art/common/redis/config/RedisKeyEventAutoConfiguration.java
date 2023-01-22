@@ -16,15 +16,15 @@
 
 package com.art.common.redis.config;
 
-import com.art.common.redis.core.listener.AbstractKeyDeletedEventMessageListener;
-import com.art.common.redis.core.listener.AbstractKeyExpiredEventMessageListener;
-import com.art.common.redis.core.listener.AbstractKeySetEventMessageListener;
-import com.art.common.redis.core.listener.consume.KeyDeletedEventMessageConsume;
-import com.art.common.redis.core.listener.consume.KeyExpiredEventMessageConsume;
-import com.art.common.redis.core.listener.consume.KeySetEventMessageConsume;
-import com.art.common.redis.core.listener.impl.DefaultKeyDeletedEventMessageListener;
-import com.art.common.redis.core.listener.impl.DefaultKeyExpiredEventMessageListener;
-import com.art.common.redis.core.listener.impl.DefaultKeySetEventMessageListener;
+import com.art.common.redis.core.event.listener.base.AbstractKeyDeletedEventMessageListener;
+import com.art.common.redis.core.event.listener.base.AbstractKeyExpiredEventMessageListener;
+import com.art.common.redis.core.event.listener.base.AbstractKeySetEventMessageListener;
+import com.art.common.redis.core.event.consume.base.KeyDeletedEventMessageConsume;
+import com.art.common.redis.core.event.consume.base.KeyExpiredEventMessageConsume;
+import com.art.common.redis.core.event.consume.base.KeySetEventMessageConsume;
+import com.art.common.redis.core.event.listener.impl.DefaultKeyDeletedEventMessageListener;
+import com.art.common.redis.core.event.listener.impl.DefaultKeyExpiredEventMessageListener;
+import com.art.common.redis.core.event.listener.impl.DefaultKeySetEventMessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
