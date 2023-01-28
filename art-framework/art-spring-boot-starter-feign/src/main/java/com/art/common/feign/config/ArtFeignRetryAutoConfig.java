@@ -16,7 +16,7 @@
 
 package com.art.common.feign.config;
 
-import com.art.common.feign.core.aspect.FeignRetryAspect;
+import com.art.common.feign.core.aspect.ArtFeignRetryAspect;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -26,11 +26,11 @@ import org.springframework.context.annotation.Bean;
  * @date 2023/1/28 16:36
  */
 @AutoConfiguration
-public class FeignRetryAutoConfig {
+public class ArtFeignRetryAutoConfig {
 
 	@Bean
-	public FeignRetryAspect feignRetryAspect() {
-		return new FeignRetryAspect();
+	public ArtFeignRetryAspect feignRetryAspect() {
+		return new ArtFeignRetryAspect();
 	}
 
 }

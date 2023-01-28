@@ -7,21 +7,26 @@ import java.lang.annotation.Target;
 
 /**
  * 重试注解
+ *
+ * @author fxz
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FeignRetry {
+public @interface ArtFeignRetry {
 
 	/**
-	 * 重试策略
+	 * 重试策略 我们使用自定义的{@link ArtBackoff}
 	 */
-	Backoff backoff() default @Backoff();
+	ArtBackoff backoff() default @ArtBackoff();
 
 	/**
-	 * 最大尝试次数
+	 * 最大重试次数 默认3次
 	 */
 	int maxAttempt() default 3;
 
+	/**
+	 * 抛出指定异常才会重试
+	 */
 	Class<? extends Throwable>[] include() default {};
 
 }
