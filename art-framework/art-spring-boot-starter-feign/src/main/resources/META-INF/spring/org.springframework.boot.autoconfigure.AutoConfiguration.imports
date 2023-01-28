@@ -1,1 +1,1 @@
-com.art.common.feign.config.FeignRetryAutoConfig
+com.art.common.feign.config.ArtFeignRetryAutoConfig
