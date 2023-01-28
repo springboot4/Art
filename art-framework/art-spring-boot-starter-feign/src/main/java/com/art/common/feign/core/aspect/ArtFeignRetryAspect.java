@@ -16,7 +16,7 @@
 
 package com.art.common.feign.core.aspect;
 
-import com.art.common.feign.core.annotation.FeignRetry;
+import com.art.common.feign.core.annotation.ArtFeignRetry;
 import feign.RetryableException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -34,52 +34,55 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author fxz
+ */
 @Slf4j
 @Aspect
-public class FeignRetryAspect {
+public class ArtFeignRetryAspect {
 
-	@Around("@annotation(com.art.common.feign.core.annotation.FeignRetry)")
+	@Around("@annotation(com.art.common.feign.core.annotation.ArtFeignRetry)")
 	public Object retry(ProceedingJoinPoint joinPoint) throws Throwable {
 		Method method = getCurrentMethod(joinPoint);
-		FeignRetry feignRetry = method.getAnnotation(FeignRetry.class);
+		ArtFeignRetry artFeignRetry = method.getAnnotation(ArtFeignRetry.class);
 
 		RetryTemplate retryTemplate = new RetryTemplate();
 		// Setter for BackOffPolicy.
-		retryTemplate.setBackOffPolicy(prepareBackOffPolicy(feignRetry));
+		retryTemplate.setBackOffPolicy(prepareBackOffPolicy(artFeignRetry));
 		// Setter for RetryPolicy.
-		retryTemplate.setRetryPolicy(prepareSimpleRetryPolicy(feignRetry));
+		retryTemplate.setRetryPolicy(prepareSimpleRetryPolicy(artFeignRetry));
 
-		// 重试
+		// execute
 		return retryTemplate.execute(arg0 -> {
 			int retryCount = arg0.getRetryCount();
 			log.info("Sending request method: {}, max attempt: {}, delay: {}, retryCount: {}", method.getName(),
-					feignRetry.maxAttempt(), feignRetry.backoff().delay(), retryCount);
+					artFeignRetry.maxAttempt(), artFeignRetry.backoff().delay(), retryCount);
 			return joinPoint.proceed(joinPoint.getArgs());
 		});
 	}
 
-	private BackOffPolicy prepareBackOffPolicy(FeignRetry feignRetry) {
-		if (feignRetry.backoff().multiplier() != 0) {
+	private BackOffPolicy prepareBackOffPolicy(ArtFeignRetry artFeignRetry) {
+		if (artFeignRetry.backoff().multiplier() != 0) {
 			ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
-			backOffPolicy.setInitialInterval(feignRetry.backoff().delay());
-			backOffPolicy.setMaxInterval(feignRetry.backoff().maxDelay());
-			backOffPolicy.setMultiplier(feignRetry.backoff().multiplier());
+			backOffPolicy.setInitialInterval(artFeignRetry.backoff().delay());
+			backOffPolicy.setMaxInterval(artFeignRetry.backoff().maxDelay());
+			backOffPolicy.setMultiplier(artFeignRetry.backoff().multiplier());
 			return backOffPolicy;
 		}
 		else {
 			FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
-			fixedBackOffPolicy.setBackOffPeriod(feignRetry.backoff().delay());
+			fixedBackOffPolicy.setBackOffPeriod(artFeignRetry.backoff().delay());
 			return fixedBackOffPolicy;
 		}
 	}
 
-	private SimpleRetryPolicy prepareSimpleRetryPolicy(FeignRetry feignRetry) {
+	private SimpleRetryPolicy prepareSimpleRetryPolicy(ArtFeignRetry artFeignRetry) {
 		Map<Class<? extends Throwable>, Boolean> policyMap = new HashMap<>();
 		policyMap.put(RetryableException.class, true);
-		for (Class<? extends Throwable> t : feignRetry.include()) {
+		for (Class<? extends Throwable> t : artFeignRetry.include()) {
 			policyMap.put(t, true);
 		}
-		return new SimpleRetryPolicy(feignRetry.maxAttempt(), policyMap, true);
+		return new SimpleRetryPolicy(artFeignRetry.maxAttempt(), policyMap, true);
 	}
 
 	/**
