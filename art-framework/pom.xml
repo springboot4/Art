@@ -38,6 +38,7 @@
         <module>art-spring-boot-starter-file</module>
         <module>art-spring-boot-starter-lock</module>
         <module>art-spring-boot-starter-core</module>
+        <module>art-spring-boot-starter-feign</module>
         <module>art-spring-boot-starter-redis</module>
         <module>art-spring-boot-starter-gateway</module>
         <module>art-spring-boot-starter-security</module>
