@@ -39,7 +39,7 @@ public class RedissonUtils {
 	 * @param rateType 限流类型 (分布式 or jvm)
 	 * @param rate 令牌生产速率
 	 * @param rateInterval 时间间隔
-	 * @return -1表示失败 其他表示剩余令牌树
+	 * @return -1表示失败 其他表示剩余令牌数
 	 */
 	public static Long rateLimiter(String limiterKey, RateType rateType, int rate, int rateInterval) {
 		RRateLimiter rateLimiter = REDISSON_CLIENT.getRateLimiter(limiterKey);
