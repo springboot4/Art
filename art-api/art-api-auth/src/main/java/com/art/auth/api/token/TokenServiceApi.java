@@ -19,8 +19,8 @@ package com.art.auth.api.token;
 import com.art.common.core.constant.FxzServerConstant;
 import com.art.common.core.result.PageResult;
 import com.art.common.core.result.Result;
-import com.art.common.feign.core.annotation.Backoff;
-import com.art.common.feign.core.annotation.FeignRetry;
+import com.art.common.feign.core.annotation.ArtBackoff;
+import com.art.common.feign.core.annotation.ArtFeignRetry;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +46,7 @@ public interface TokenServiceApi {
 	/**
 	 * 分页查询token
 	 */
-	@FeignRetry(maxAttempt = 5, backoff = @Backoff(delay = 500L))
+	@ArtFeignRetry(maxAttempt = 5, backoff = @ArtBackoff(delay = 500L))
 	@PostMapping("/token/page")
 	Result<PageResult> tokenList(@RequestBody Map<String, Object> params);
 
