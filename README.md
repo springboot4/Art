@@ -22,6 +22,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
        ├── art-spring-boot-starter-dependencies -- 依赖管理
        ├── art-spring-boot-starter-doc -- 接口文档
        ├── art-spring-boot-starter-es -- es配置
+       ├── art-spring-boot-starter-feign -- feign拓展
        ├── art-spring-boot-starter-file -- 文件管理模块
        ├── art-spring-boot-starter-gateway -- 动态网关
        ├── art-spring-boot-starter-idempotency -- 幂等控制组件
@@ -123,7 +124,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 
 ## 🍺加入我们
-| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/01/20/uyBhU3.jpg) |
+| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/01/28/UazeyZ.jpg) |
 | ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) |                                                              |
 
