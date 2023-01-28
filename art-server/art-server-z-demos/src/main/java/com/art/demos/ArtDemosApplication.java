@@ -18,7 +18,6 @@ package com.art.demos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -27,7 +26,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @date 2022/8/30 22:12
  */
 @EnableFeignClients(basePackages = { "com.art" })
-@EnableDiscoveryClient
 @SpringBootApplication
 public class ArtDemosApplication {
 
