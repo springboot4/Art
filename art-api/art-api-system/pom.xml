@@ -30,8 +30,8 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-feign</artifactId>
         </dependency>
 
         <dependency>
