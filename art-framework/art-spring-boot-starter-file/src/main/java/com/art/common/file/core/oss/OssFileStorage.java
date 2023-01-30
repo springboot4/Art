@@ -24,8 +24,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -67,8 +69,10 @@ public class OssFileStorage {
 	 * @return {@link PartETag}
 	 */
 	@SneakyThrows
-	public PartETag uploadPart(String bucketName, String objectName, String uploadId, int partNumber,
-			InputStream stream, long partSize) {
+	public PartETag uploadPart(String bucketName, String objectName, String uploadId, int partNumber, File file,
+			long partSize, long startPos) {
+		InputStream stream = Files.newInputStream(file.toPath());
+
 		// @formatter:off
         UploadPartRequest uploadRequest = new UploadPartRequest()
                 .withBucketName(bucketName)
@@ -76,6 +80,7 @@ public class OssFileStorage {
                 .withKey(objectName)
                 .withPartNumber(partNumber)
                 .withPartSize(partSize)
+                .withFileOffset(startPos)
                 .withInputStream(stream);
         // @formatter:on
 		UploadPartResult result = amazonS3.uploadPart(uploadRequest);
