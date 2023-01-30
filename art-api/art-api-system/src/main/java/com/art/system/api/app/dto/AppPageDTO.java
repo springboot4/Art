@@ -16,11 +16,12 @@
 
 package com.art.system.api.app.dto;
 
-import com.art.common.core.validator.ValidationGroup;
 import com.art.common.core.entity.BasePageEntity;
+import com.art.common.core.validator.ValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,7 +33,8 @@ import java.io.Serializable;
  * @date 2022/11/23 00:07
  */
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(title = "系统应用分页查询")
 public class AppPageDTO extends BasePageEntity implements Serializable {
 
