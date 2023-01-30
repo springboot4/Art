@@ -18,8 +18,10 @@ package com.art.system.api.app.dto;
 
 import com.art.common.core.validator.ValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,6 +34,8 @@ import java.io.Serializable;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(title = "系统应用")
 public class AppDTO implements Serializable {
 
