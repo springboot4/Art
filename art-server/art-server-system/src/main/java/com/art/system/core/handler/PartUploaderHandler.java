@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
 
-import java.io.InputStream;
+import java.io.File;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 
@@ -51,7 +51,7 @@ public class PartUploaderHandler implements Runnable {
 	/**
 	 * InputStream
 	 */
-	private InputStream stream;
+	private File file;
 
 	/**
 	 * 需要保证线程安全
@@ -63,11 +63,16 @@ public class PartUploaderHandler implements Runnable {
 	 */
 	private final CountDownLatch latch;
 
+	/**
+	 * 偏移量
+	 */
+	private long startPos;
+
 	@SuppressWarnings("all")
 	@SneakyThrows
 	@Override
 	public void run() {
-		PartETag eTag = ossFileStorage.uploadPart(bucketName, key, uploadId, partNumber, stream, partSize);
+		PartETag eTag = ossFileStorage.uploadPart(bucketName, key, uploadId, partNumber, file, partSize, startPos);
 		this.eTagList.add(eTag);
 		latch.countDown();
 	}
