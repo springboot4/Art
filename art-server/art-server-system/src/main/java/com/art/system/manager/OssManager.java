@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
-import java.io.InputStream;
+import java.io.File;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -50,7 +50,7 @@ public class OssManager {
 
 	@SuppressWarnings("all")
 	@SneakyThrows
-	public String partUpload(String bucketName, String fileName, InputStream stream, String contentType) {
+	public String partUpload(String bucketName, String fileName, File file, String contentType) {
 		// 元数据信息
 		ObjectMetadata objectMetadata = new ObjectMetadata();
 		objectMetadata.setContentType(contentType);
@@ -61,7 +61,7 @@ public class OssManager {
 		// 计算文件有多少个分片,默认分片大小5M。
 		long partSize = 5 * 1024 * 1024L;
 		// 文件大小
-		long fileLength = stream.available();
+		long fileLength = file.length();
 		// 分片数量
 		int partCount = (int) Math.ceil(1.0 * fileLength / partSize);
 		// 判断分片是否大于10000
@@ -75,9 +75,10 @@ public class OssManager {
 
 		// 遍历分片上传
 		for (int i = 0; i < partCount; i++) {
+			long startPos = i * partSize;
 			long curPartSize = (i + 1 == partCount) ? (fileLength - (i * partSize)) : partSize;
 			executor.execute(new PartUploaderHandler(ossFileStorage, bucketName, fileName, uploadId, i + 1, curPartSize,
-					stream, eTagList, latch));
+					file, eTagList, latch, startPos));
 		}
 
 		// 等待所有零件完成
