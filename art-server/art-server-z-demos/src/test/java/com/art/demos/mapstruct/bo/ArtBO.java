@@ -16,14 +16,18 @@
 
 package com.art.demos.mapstruct.bo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Fxz
  * @version 0.0.1
  * @date 2022/11/22 21:16
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Data
 public class ArtBO {

@@ -16,9 +16,7 @@
 
 package com.art.demos.mapstruct.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -27,6 +25,8 @@ import java.util.List;
  * @version 0.0.1
  * @date 2022/11/22 21:15
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @Builder
 @Data
