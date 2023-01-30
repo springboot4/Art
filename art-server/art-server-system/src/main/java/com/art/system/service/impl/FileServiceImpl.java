@@ -38,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -73,8 +74,10 @@ public class FileServiceImpl implements FileService {
 		res.put("fileName", fileName);
 		res.put("url", String.format("/system/file/%s/%s", bucketName, fileName));
 
+		File tempFile = FileUtil.createTempFile(FileUtil.getTmpDir());
 		try {
-			String location = ossManager.partUpload(bucketName, fileName, file.getInputStream(), file.getContentType());
+			file.transferTo(tempFile);
+			String location = ossManager.partUpload(bucketName, fileName, tempFile, file.getContentType());
 			res.put("location", location);
 			log.info("分片上传完成:{}", location);
 			// 记录到数据库
@@ -83,6 +86,9 @@ public class FileServiceImpl implements FileService {
 		catch (Exception e) {
 			log.error("上传失败", e);
 			return null;
+		}
+		finally {
+			FileUtil.del(tempFile);
 		}
 
 		return res;
