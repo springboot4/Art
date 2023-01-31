@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author Fxz
@@ -62,5 +63,17 @@ public class AppDTO implements Serializable {
 	@Schema(description = "排序")
 	@NotNull(message = "排序不能为空!", groups = ValidationGroup.add.class)
 	private Integer sort;
+
+	@Schema(description = "创建者")
+	private String createBy;
+
+	@Schema(description = "创建时间")
+	private LocalDateTime createTime;
+
+	@Schema(description = "更新者")
+	private String updateBy;
+
+	@Schema(description = "更新时间")
+	private LocalDateTime updateTime;
 
 }
