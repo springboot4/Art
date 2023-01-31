@@ -39,6 +39,14 @@ export function updateById (data) {
   })
 }
 
+export function updateInfoById (data) {
+  return axios({
+    url: '/system/user/info',
+    method: 'PUT',
+    data: data
+  })
+}
+
 export function addUser (data) {
   return axios({
     url: '/system/user',
