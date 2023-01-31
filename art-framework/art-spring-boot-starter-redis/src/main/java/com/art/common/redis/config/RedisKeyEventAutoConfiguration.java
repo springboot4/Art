@@ -16,16 +16,16 @@
 
 package com.art.common.redis.config;
 
-import com.art.common.redis.core.event.listener.base.AbstractKeyDeletedEventMessageListener;
-import com.art.common.redis.core.event.listener.base.AbstractKeyExpiredEventMessageListener;
-import com.art.common.redis.core.event.listener.base.AbstractKeySetEventMessageListener;
 import com.art.common.redis.core.event.consume.base.KeyDeletedEventMessageConsume;
 import com.art.common.redis.core.event.consume.base.KeyExpiredEventMessageConsume;
 import com.art.common.redis.core.event.consume.base.KeySetEventMessageConsume;
+import com.art.common.redis.core.event.listener.base.AbstractKeyDeletedEventMessageListener;
+import com.art.common.redis.core.event.listener.base.AbstractKeyExpiredEventMessageListener;
+import com.art.common.redis.core.event.listener.base.AbstractKeySetEventMessageListener;
 import com.art.common.redis.core.event.listener.impl.DefaultKeyDeletedEventMessageListener;
 import com.art.common.redis.core.event.listener.impl.DefaultKeyExpiredEventMessageListener;
 import com.art.common.redis.core.event.listener.impl.DefaultKeySetEventMessageListener;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -59,7 +59,7 @@ public class RedisKeyEventAutoConfiguration {
 		@ConditionalOnMissingBean(name = "keyDeletedEventMessageListener")
 		public AbstractKeyDeletedEventMessageListener keyDeletedEventMessageListener(@Qualifier(
 				value = "keyDeleteEventRedisMessageListenerContainer") RedisMessageListenerContainer listenerContainer,
-				@Autowired(required = false) List<KeyDeletedEventMessageConsume> keyDeletedEventMessageConsume) {
+				ObjectProvider<List<KeyDeletedEventMessageConsume>> keyDeletedEventMessageConsume) {
 			return new DefaultKeyDeletedEventMessageListener(listenerContainer, keyDeletedEventMessageConsume);
 		}
 
@@ -80,7 +80,7 @@ public class RedisKeyEventAutoConfiguration {
 		@ConditionalOnMissingBean(name = "keySetEventMessageListener")
 		public AbstractKeySetEventMessageListener keySetEventMessageListener(@Qualifier(
 				value = "keySetEventRedisMessageListenerContainer") RedisMessageListenerContainer listenerContainer,
-				@Autowired(required = false) List<KeySetEventMessageConsume> keySetEventMessageConsumes) {
+				ObjectProvider<List<KeySetEventMessageConsume>> keySetEventMessageConsumes) {
 			return new DefaultKeySetEventMessageListener(listenerContainer, keySetEventMessageConsumes);
 		}
 
@@ -101,7 +101,7 @@ public class RedisKeyEventAutoConfiguration {
 		@ConditionalOnMissingBean(name = "keyExpiredEventMessageListener")
 		public AbstractKeyExpiredEventMessageListener keyExpiredEventMessageListener(@Qualifier(
 				value = "keyExpiredEventRedisMessageListenerContainer") RedisMessageListenerContainer listenerContainer,
-				@Autowired(required = false) List<KeyExpiredEventMessageConsume> keyExpiredEventMessageConsumes) {
+				ObjectProvider<List<KeyExpiredEventMessageConsume>> keyExpiredEventMessageConsumes) {
 			return new DefaultKeyExpiredEventMessageListener(listenerContainer, keyExpiredEventMessageConsumes);
 		}
 
