@@ -46,6 +46,12 @@ public interface UserService {
 	void updateUser(SystemUserDTO user);
 
 	/**
+	 * 修改用户基础信息
+	 * @param user user
+	 */
+	void updateUserInfo(SystemUserDTO user);
+
+	/**
 	 * 删除用户
 	 * @param userIds 用户 id数组
 	 */
