@@ -64,7 +64,7 @@ public class OssFileStorage {
 	 * @param objectName 文件路径
 	 * @param uploadId 分片标识
 	 * @param partNumber 分片号
-	 * @param stream InputStream
+	 * @param file 文件
 	 * @param partSize 分片大小
 	 * @return {@link PartETag}
 	 */
