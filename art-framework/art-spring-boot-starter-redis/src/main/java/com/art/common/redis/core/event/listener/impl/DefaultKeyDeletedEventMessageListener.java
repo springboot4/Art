@@ -16,16 +16,17 @@
 
 package com.art.common.redis.core.event.listener.impl;
 
-import com.art.common.redis.core.event.listener.base.AbstractKeyDeletedEventMessageListener;
 import com.art.common.redis.core.event.consume.base.KeyDeletedEventMessageConsume;
+import com.art.common.redis.core.event.listener.base.AbstractKeyDeletedEventMessageListener;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.listener.KeyspaceEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ import java.util.List;
 @Slf4j
 public class DefaultKeyDeletedEventMessageListener extends AbstractKeyDeletedEventMessageListener {
 
-	private final List<KeyDeletedEventMessageConsume> keyDeletedEventMessageConsume;
+	private List<KeyDeletedEventMessageConsume> keyDeletedEventMessageConsume;
 
 	@Override
 	public void onMessage(Message message, @Nullable byte[] pattern) {
@@ -63,12 +64,12 @@ public class DefaultKeyDeletedEventMessageListener extends AbstractKeyDeletedEve
 	/**
 	 * Creates new {@link KeyspaceEventMessageListener}.
 	 * @param listenerContainer must not be {@literal null}.
-	 * @param keyDeletedEventMessageConsume {@link KeyDeletedEventMessageConsume}
+	 * @param objectProvider {@link KeyDeletedEventMessageConsume}
 	 */
 	public DefaultKeyDeletedEventMessageListener(RedisMessageListenerContainer listenerContainer,
-			@Autowired(required = false) List<KeyDeletedEventMessageConsume> keyDeletedEventMessageConsume) {
+			ObjectProvider<List<KeyDeletedEventMessageConsume>> objectProvider) {
 		super(listenerContainer);
-		this.keyDeletedEventMessageConsume = keyDeletedEventMessageConsume;
+		objectProvider.ifAvailable(consumer -> this.keyDeletedEventMessageConsume = new ArrayList<>(consumer));
 	}
 
 }

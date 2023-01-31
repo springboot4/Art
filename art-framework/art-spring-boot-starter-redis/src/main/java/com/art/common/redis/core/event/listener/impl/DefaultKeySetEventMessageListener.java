@@ -16,15 +16,16 @@
 
 package com.art.common.redis.core.event.listener.impl;
 
-import com.art.common.redis.core.event.listener.base.AbstractKeySetEventMessageListener;
 import com.art.common.redis.core.event.consume.base.KeySetEventMessageConsume;
+import com.art.common.redis.core.event.listener.base.AbstractKeySetEventMessageListener;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.listener.KeyspaceEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ import java.util.List;
 @Slf4j
 public class DefaultKeySetEventMessageListener extends AbstractKeySetEventMessageListener {
 
-	private final List<KeySetEventMessageConsume> keySetEventMessageConsumes;
+	private List<KeySetEventMessageConsume> keySetEventMessageConsumes;
 
 	@Override
 	public void onMessage(Message message, byte[] pattern) {
@@ -64,9 +65,9 @@ public class DefaultKeySetEventMessageListener extends AbstractKeySetEventMessag
 	 * @param listenerContainer must not be {@literal null}.
 	 */
 	public DefaultKeySetEventMessageListener(RedisMessageListenerContainer listenerContainer,
-			@Autowired(required = false) List<KeySetEventMessageConsume> keySetEventMessageConsumes) {
+			ObjectProvider<List<KeySetEventMessageConsume>> objectProvider) {
 		super(listenerContainer);
-		this.keySetEventMessageConsumes = keySetEventMessageConsumes;
+		objectProvider.ifAvailable(consumer -> this.keySetEventMessageConsumes = new ArrayList<>(consumer));
 	}
 
 }
