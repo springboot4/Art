@@ -16,7 +16,7 @@
 
 package com.art.system.dao.dataobject;
 
-import com.art.common.mp.core.base.BaseIdEntity;
+import com.art.common.mp.core.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -28,7 +28,7 @@ import lombok.Data;
  */
 @Data
 @TableName("sys_app")
-public class AppDO extends BaseIdEntity {
+public class AppDO extends BaseEntity {
 
 	private static final long serialVersionUID = -1L;
 
