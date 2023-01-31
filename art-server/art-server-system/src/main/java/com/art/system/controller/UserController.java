@@ -89,6 +89,13 @@ public class UserController {
 		this.userService.updateUser(user);
 	}
 
+	@Operation(summary = "修改用户基础信息")
+	@PutMapping("/info")
+	@PreAuthorize("@ps.hasPermission('sys:user:update')")
+	public void updateUserInfo(@RequestBody SystemUserDTO user) {
+		this.userService.updateUserInfo(user);
+	}
+
 	/**
 	 * 删除用户
 	 */
