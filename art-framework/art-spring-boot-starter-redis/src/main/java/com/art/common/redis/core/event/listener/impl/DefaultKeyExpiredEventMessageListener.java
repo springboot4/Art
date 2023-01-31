@@ -16,15 +16,16 @@
 
 package com.art.common.redis.core.event.listener.impl;
 
-import com.art.common.redis.core.event.listener.base.AbstractKeyExpiredEventMessageListener;
 import com.art.common.redis.core.event.consume.base.KeyExpiredEventMessageConsume;
+import com.art.common.redis.core.event.listener.base.AbstractKeyExpiredEventMessageListener;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.listener.KeyspaceEventMessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ import java.util.List;
 @Slf4j
 public class DefaultKeyExpiredEventMessageListener extends AbstractKeyExpiredEventMessageListener {
 
-	private final List<KeyExpiredEventMessageConsume> keyExpiredEventMessageConsumes;
+	private List<KeyExpiredEventMessageConsume> keyExpiredEventMessageConsumes;
 
 	@Override
 	public void onMessage(Message message, byte[] pattern) {
@@ -64,9 +65,9 @@ public class DefaultKeyExpiredEventMessageListener extends AbstractKeyExpiredEve
 	 * @param listenerContainer must not be {@literal null}.
 	 */
 	public DefaultKeyExpiredEventMessageListener(RedisMessageListenerContainer listenerContainer,
-			@Autowired(required = false) List<KeyExpiredEventMessageConsume> keyExpiredEventMessageConsumes) {
+			ObjectProvider<List<KeyExpiredEventMessageConsume>> objectProvider) {
 		super(listenerContainer);
-		this.keyExpiredEventMessageConsumes = keyExpiredEventMessageConsumes;
+		objectProvider.ifAvailable(consumer -> this.keyExpiredEventMessageConsumes = new ArrayList<>(consumer));
 	}
 
 }
