@@ -101,17 +101,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUser(SystemUserDTO user) {
-		// 更新用户
-		if (StringUtils.isNotBlank(user.getPassword())) {
-			user.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
-		}
-		else {
-			user.setPassword(null);
-		}
+		// 更新用户基础信息
+		updateUserInfo(user);
 
-		user.setUsername(null);
-		userManager.updateUserById(user);
-
+		// todo 判断不应根据头像来判断
 		if (StringUtils.isBlank(user.getAvatar())) {
 			// 根据用户id删除用户角色信息
 			userRoleManager.deleteUserRolesByUserIds(Collections.singletonList(user.getUserId().toString()));
@@ -124,6 +117,22 @@ public class UserServiceImpl implements UserService {
 			// 保存岗位信息
 			setUserPosts(user);
 		}
+	}
+
+	@CacheEvict(value = UserRedisConstants.USER_INFO, key = "#user.userId")
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void updateUserInfo(SystemUserDTO user) {
+		// 更新用户
+		if (StringUtils.isNotBlank(user.getPassword())) {
+			user.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
+		}
+		else {
+			user.setPassword(null);
+		}
+
+		user.setUsername(null);
+		userManager.updateUserById(user);
 	}
 
 	@Override

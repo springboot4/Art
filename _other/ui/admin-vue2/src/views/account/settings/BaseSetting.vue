@@ -7,14 +7,14 @@
             label="电话"
             prop="mobile"
           >
-            <a-input placeholder="电话" v-model="form.mobile" />
+            <a-input placeholder="电话" v-model="form.mobile"/>
           </a-form-model-item>
 
           <a-form-model-item
             label="个人简介"
             prop="description"
           >
-            <a-textarea placeholder="个人简介" v-model="form.description" />
+            <a-textarea placeholder="个人简介" v-model="form.description"/>
           </a-form-model-item>
 
           <a-form-model-item
@@ -22,7 +22,7 @@
             :required="false"
             prop="email"
           >
-            <a-input placeholder="电子邮件" v-model="form.email" />
+            <a-input placeholder="电子邮件" v-model="form.email"/>
           </a-form-model-item>
 
           <a-form-model-item
@@ -30,7 +30,7 @@
             :required="false"
             prop="password"
           >
-            <a-input placeholder="密码" v-model="form.password" />
+            <a-input placeholder="密码" v-model="form.password"/>
           </a-form-model-item>
 
           <a-form-model-item
@@ -51,17 +51,17 @@
       </a-col>
       <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
         <div class="ant-upload-preview" @click="$refs.modal.edit(1)">
-          <a-icon type="cloud-upload-o" class="upload-icon" />
+          <a-icon type="cloud-upload-o" class="upload-icon"/>
           <div class="mask">
-            <a-icon type="plus" />
+            <a-icon type="plus"/>
           </div>
-          <img :src="option.img" id="myImgTouxiang" />
+          <img :src="option.img" id="myImgTouxiang"/>
         </div>
       </a-col>
 
     </a-row>
 
-    <avatar-modal ref="modal" @ok="setavatar" />
+    <avatar-modal ref="modal" @ok="setavatar"/>
 
   </div>
 </template>
@@ -69,7 +69,7 @@
 <script>
 import AvatarModal from './AvatarModal'
 import { handleImg } from '@/utils/util'
-import { updateById } from '@/api/sys/user'
+import { updateInfoById } from '@/api/sys/user'
 import { validateEmailRule, validateMobileRule } from '@/utils/validate'
 import { getDictItemsByType } from '@/api/sys/dict'
 
@@ -140,7 +140,7 @@ export default {
             this.form.email = undefined
           }
           this.confirmLoading = true
-          await updateById(this.form).then(res => {
+          await updateInfoById(this.form).then(res => {
             this.$message.success('更新成功')
           })
           setTimeout(() => {
