@@ -142,7 +142,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
 
 	private void validTenantPackageUsed(Long packageId) {
 		Boolean res = tenantManager.validTenantPackageUsed(packageId);
-		if (Objects.nonNull(res)) {
+		if (res) {
 			throw new FxzException("套餐信息使用！");
 		}
 	}

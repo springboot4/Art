@@ -51,6 +51,10 @@
           :options="statusEnum"
           v-model="form.status" />
       </a-form-model-item>
+      <a-form-model-item prop="createBy" hidden="true"/>
+      <a-form-model-item prop="createTime" hidden="true"/>
+      <a-form-model-item prop="updateBy" hidden="true"/>
+      <a-form-model-item prop="updateTime" hidden="true"/>
     </a-form-model>
 
     <template v-slot:footer>
