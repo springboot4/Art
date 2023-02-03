@@ -64,3 +64,5 @@ gen_code
 node_modules
 
 work
+
+.vscode

@@ -15,11 +15,13 @@
  */
 
 package com.art.system.dao.dataobject;
-
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.art.common.mp.core.base.BaseEntity;
 import com.art.common.mp.core.encrypt.core.annotation.EncryptionData;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
 /**
@@ -28,6 +30,8 @@ import lombok.experimental.FieldNameConstants;
  * @author fxz
  * @date 2022-04-07
  */
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @Data
 @FieldNameConstants
 @TableName("sys_oper_log")
