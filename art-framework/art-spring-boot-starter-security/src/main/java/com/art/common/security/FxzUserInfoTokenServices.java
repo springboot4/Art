@@ -16,9 +16,11 @@
 
 package com.art.common.security;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.json.JSONUtil;
-import com.art.common.security.entity.FxzAuthUser;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
@@ -40,10 +42,10 @@ import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.util.Assert;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.art.common.security.entity.FxzAuthUser;
+
+import cn.hutool.core.convert.Convert;
+import cn.hutool.json.JSONUtil;
 
 @SuppressWarnings({ "all" })
 public class FxzUserInfoTokenServices implements ResourceServerTokenServices {

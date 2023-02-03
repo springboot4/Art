@@ -18,6 +18,8 @@ package com.art.system.api.log.dto;
 
 import com.art.common.mp.core.base.BaseCreateEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * 操作日志记录
@@ -25,6 +27,8 @@ import lombok.Data;
  * @author fxz
  * @date 2022-04-07
  */
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class OperLogDTO extends BaseCreateEntity {
 

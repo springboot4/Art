@@ -16,10 +16,11 @@
 
 package com.art.common.security.service;
 
-import com.art.common.security.entity.FxzAuthUser;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.art.common.security.entity.FxzAuthUser;
 
 /**
  * @author fxz
@@ -44,11 +45,17 @@ public interface FxzUserDetailsService extends UserDetailsService, Ordered {
 	/**
 	 * 通过用户实体查询
 	 * @param fxzAuthUser user
+	 * @return 用户信息
 	 */
 	default UserDetails loadUserByUser(FxzAuthUser fxzAuthUser) {
 		return this.loadUserByUsername(fxzAuthUser.getUsername());
 	}
 
+	/**
+	 * 根据手机号查询用户信息
+	 * @param mobile 手机号
+	 * @return 用户信息
+	 */
 	UserDetails loadUserByMobile(String mobile);
 
 }
