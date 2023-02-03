@@ -16,23 +16,25 @@
 
 package com.art.common.security.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Collection;
+import java.util.Date;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * @author Fxz
  * @version 0.0.1
  * @date 2021-11-27 16:23
  */
+@Accessors(chain = true)
 @Getter
 @Setter
-public class FxzAuthUser extends User implements Serializable {
+public class FxzAuthUser extends User {
 
 	private static final long serialVersionUID = -6819532868284272852L;
 
@@ -70,6 +72,10 @@ public class FxzAuthUser extends User implements Serializable {
 			boolean credentialsNonExpired, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }
