@@ -18,14 +18,15 @@ package com.art.gateway.listener;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
+import com.art.common.core.constant.CacheConstants;
 import com.art.common.gateway.dynamic.route.FxzRouteDefinition;
 import com.art.common.gateway.dynamic.route.FxzRouteDefinitionRepository;
 import com.art.common.mq.redis.pubsub.AbstractPubSubMessageListener;
-import com.art.common.core.constant.CacheConstants;
 import com.art.system.api.route.dto.RouteConfDTO;
 import com.art.system.api.route.mq.RouteMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,12 +35,14 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 监听路由刷新事件
  *
  * @author fxz
  */
+@SuppressWarnings("unchecked")
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -54,26 +57,34 @@ public class RouteMessageConsumer extends AbstractPubSubMessageListener<RouteMes
 		// 清空缓存中的路由信息
 		redisTemplate.delete(CacheConstants.ROUTE_KEY);
 
-		log.info("接收到redis topic消息，缓存路由信息到redis {}", message.getRouteConfDOList());
+		if (log.isDebugEnabled()) {
+			log.debug("接收到redis topic消息，缓存路由信息到redis {}", message.getRouteConfDOList());
+		}
 		List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
 
-		routeConfList.stream().forEach(sys -> {
-			FxzRouteDefinition fxzRouteDefinition = new FxzRouteDefinition();
+		Map<String, FxzRouteDefinition> map = routeConfList.stream().map(this::convert)
+				.collect(Collectors.toMap(FxzRouteDefinition::getId, r -> r));
 
-			fxzRouteDefinition.setName(sys.getName());
-			fxzRouteDefinition.setId(sys.getRouteId());
-			fxzRouteDefinition.setUri(URI.create(sys.getUri()));
-			fxzRouteDefinition.setOrder(sys.getSortOrder());
-			JSONArray filterObj = JSONUtil.parseArray(sys.getFilters());
-			fxzRouteDefinition.setFilters(filterObj.toList(FilterDefinition.class));
-			JSONArray predicateObj = JSONUtil.parseArray(sys.getPredicates());
-			fxzRouteDefinition.setPredicates(predicateObj.toList(PredicateDefinition.class));
-			fxzRouteDefinition.setMetadata(JSONUtil.toBean(sys.getMetadata(), Map.class));
-
-			redisTemplate.opsForHash().put(CacheConstants.ROUTE_KEY, fxzRouteDefinition.getId(), fxzRouteDefinition);
-		});
-
+		redisTemplate.opsForHash().putAll(CacheConstants.ROUTE_KEY, map);
 		fxzRouteDefinitionRepository.publishEvent();
+	}
+
+	public FxzRouteDefinition convert(RouteConfDTO dto) {
+		FxzRouteDefinition routeDefinition = new FxzRouteDefinition();
+		PropertyMapper mapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+
+		mapper.from(dto.getName()).whenNonNull().to(routeDefinition::setName);
+		mapper.from(dto.getRouteId()).whenNonNull().to(routeDefinition::setId);
+		mapper.from(dto.getUri()).whenNonNull().as(URI::create).to(routeDefinition::setUri);
+		mapper.from(dto.getSortOrder()).whenNonNull().as(Integer::valueOf).to(routeDefinition::setOrder);
+		mapper.from(dto.getMetadata()).whenNonNull().as(v -> JSONUtil.toBean(v, Map.class))
+				.to(routeDefinition::setMetadata);
+		mapper.from(dto.getFilters()).whenNonNull().as(JSONArray::new).as(v -> v.toList(FilterDefinition.class))
+				.to(routeDefinition::setFilters);
+		mapper.from(dto.getPredicates()).whenNonNull().as(JSONArray::new).as(v -> v.toList(PredicateDefinition.class))
+				.to(routeDefinition::setPredicates);
+
+		return routeDefinition;
 	}
 
 }
