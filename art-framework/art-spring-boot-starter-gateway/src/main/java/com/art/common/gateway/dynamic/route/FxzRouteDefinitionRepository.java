@@ -53,7 +53,9 @@ public class FxzRouteDefinitionRepository implements RouteDefinitionRepository, 
 	@Override
 	public Flux<RouteDefinition> getRouteDefinitions() {
 		List<FxzRouteDefinition> values = redisTemplate.opsForHash().values(CacheConstants.ROUTE_KEY);
-		log.info("加载redis中路由: {} 条， {}", values.size(), values);
+		if (log.isDebugEnabled()) {
+			log.debug("加载redis中路由: {} 条， {}", values.size(), values);
+		}
 		return Flux.fromIterable(values);
 	}
 
@@ -81,7 +83,6 @@ public class FxzRouteDefinitionRepository implements RouteDefinitionRepository, 
 	private void saveRouteToRedis(RouteDefinition routeDefinition) {
 		FxzRouteDefinition fxzRouteDefinition = new FxzRouteDefinition();
 		BeanUtils.copyProperties(routeDefinition, fxzRouteDefinition);
-		log.info("保存路由信息到redis:{}", fxzRouteDefinition);
 		redisTemplate.opsForHash().put(CacheConstants.ROUTE_KEY, fxzRouteDefinition.getId(), fxzRouteDefinition);
 	}
 
@@ -89,7 +90,6 @@ public class FxzRouteDefinitionRepository implements RouteDefinitionRepository, 
 	 * 删除redis中的路由信息
 	 */
 	private void deleteRouteToRedis(String id) {
-		log.info("删除redis中的路由信息{}", id);
 		redisTemplate.opsForHash().delete(CacheConstants.ROUTE_KEY, id);
 	}
 

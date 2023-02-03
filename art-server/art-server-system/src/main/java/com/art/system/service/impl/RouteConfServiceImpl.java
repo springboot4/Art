@@ -73,7 +73,7 @@ public class RouteConfServiceImpl implements RouteConfService {
 	@Override
 	public Boolean updateRouteConf(JSONArray routeConf) {
 		// 构建路由信息
-		List<RouteConfDTO> list = routeConf.stream().map(this::buildRouteConf).collect(Collectors.toList());
+		List<RouteConfDTO> list = routeConf.stream().map(this::convert).collect(Collectors.toList());
 
 		// 删掉所有路由信息
 		routeConfManager.deleteRouteConf();
@@ -124,7 +124,7 @@ public class RouteConfServiceImpl implements RouteConfService {
 	/**
 	 * 构建路由信息
 	 */
-	private RouteConfDTO buildRouteConf(Object value) {
+	private RouteConfDTO convert(Object value) {
 		RouteConfDTO r = new RouteConfDTO();
 
 		Map<String, Object> map = (Map) value;
