@@ -18,6 +18,7 @@ package com.art.common.core.result;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -26,6 +27,7 @@ import java.io.Serializable;
  *
  * @author fxz
  **/
+@Accessors(chain = true)
 @NoArgsConstructor
 @Data
 public class Result<T> implements Serializable {

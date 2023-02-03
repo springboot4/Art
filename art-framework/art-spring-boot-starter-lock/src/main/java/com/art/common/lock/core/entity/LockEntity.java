@@ -17,6 +17,7 @@
 package com.art.common.lock.core.entity;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @version 0.0.1
  * @date 2022/9/4 17:17
  */
+@Accessors(chain = true)
 @Data
 public class LockEntity {
 
