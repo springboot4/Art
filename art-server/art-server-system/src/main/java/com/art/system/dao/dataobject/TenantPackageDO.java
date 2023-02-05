@@ -16,6 +16,7 @@
 
 package com.art.system.dao.dataobject;
 
+import com.art.common.core.constant.GlobalStatusEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.art.common.mp.core.base.MpEntity;
 import lombok.Data;
@@ -37,7 +38,7 @@ public class TenantPackageDO extends MpEntity {
 	/**
 	 * 套餐状态
 	 * <p>
-	 * 枚举 {@link com.art.common.core.enums.GlobalStatusEnum}
+	 * 枚举 {@link GlobalStatusEnum}
 	 */
 	private Integer status;
 

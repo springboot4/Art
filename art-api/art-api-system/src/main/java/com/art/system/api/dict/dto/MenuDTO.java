@@ -16,7 +16,7 @@
 
 package com.art.system.api.dict.dto;
 
-import com.art.common.core.entity.router.VueRouter;
+import com.art.common.core.model.VueRouter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 

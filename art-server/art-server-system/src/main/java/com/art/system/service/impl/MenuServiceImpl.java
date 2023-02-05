@@ -16,7 +16,7 @@
 
 package com.art.system.service.impl;
 
-import com.art.common.core.entity.router.VueRouter;
+import com.art.common.core.model.VueRouter;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.util.TreeUtil;
 import com.art.common.security.entity.FxzAuthUser;

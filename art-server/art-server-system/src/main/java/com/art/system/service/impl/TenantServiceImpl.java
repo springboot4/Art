@@ -18,8 +18,8 @@ package com.art.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.StrPool;
-import com.art.common.core.enums.GlobalStatusEnum;
-import com.art.common.core.enums.RoleAdminEnum;
+import com.art.common.core.constant.GlobalStatusEnum;
+import com.art.common.core.constant.RoleAdminEnum;
 import com.art.common.core.exception.FxzException;
 import com.art.common.dataPermission.enums.DataScopeEnum;
 import com.art.common.tenant.context.TenantContextHolder;

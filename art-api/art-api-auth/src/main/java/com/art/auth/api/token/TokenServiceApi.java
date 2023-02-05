@@ -17,8 +17,8 @@
 package com.art.auth.api.token;
 
 import com.art.common.core.constant.FxzServerConstant;
-import com.art.common.core.result.PageResult;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.PageResult;
+import com.art.common.core.model.Result;
 import com.art.common.feign.core.annotation.ArtBackoff;
 import com.art.common.feign.core.annotation.ArtFeignRetry;
 import org.springframework.cloud.openfeign.FeignClient;

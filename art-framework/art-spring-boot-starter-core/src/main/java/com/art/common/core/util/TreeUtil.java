@@ -17,7 +17,7 @@
 package com.art.common.core.util;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.art.common.core.entity.router.VueRouter;
+import com.art.common.core.model.VueRouter;
 
 import java.util.ArrayList;
 import java.util.List;

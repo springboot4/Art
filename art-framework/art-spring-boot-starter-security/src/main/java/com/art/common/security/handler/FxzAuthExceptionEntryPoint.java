@@ -16,8 +16,8 @@
 
 package com.art.common.security.handler;
 
-import com.art.common.core.result.Result;
-import com.art.common.core.util.FxzUtil;
+import com.art.common.core.model.Result;
+import com.art.common.core.util.WebUtil;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -42,7 +42,7 @@ public class FxzAuthExceptionEntryPoint implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException {
 
-		FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_UNAUTHORIZED,
+		WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_UNAUTHORIZED,
 				Result.failed("token无效"));
 	}
 

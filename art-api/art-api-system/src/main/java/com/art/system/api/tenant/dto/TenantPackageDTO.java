@@ -16,6 +16,7 @@
 
 package com.art.system.api.tenant.dto;
 
+import com.art.common.core.constant.GlobalStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -44,7 +45,7 @@ public class TenantPackageDTO implements Serializable {
 	/**
 	 * 套餐状态
 	 * <p>
-	 * 枚举 {@link com.art.common.core.enums.GlobalStatusEnum}
+	 * 枚举 {@link GlobalStatusEnum}
 	 */
 	private Integer status;
 

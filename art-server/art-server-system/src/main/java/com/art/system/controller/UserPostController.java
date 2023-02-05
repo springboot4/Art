@@ -16,8 +16,8 @@
 
 package com.art.system.controller;
 
-import com.art.common.core.result.PageResult;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.PageResult;
+import com.art.common.core.model.Result;
 import com.art.system.api.user.dto.UserPostDTO;
 import com.art.system.api.user.dto.UserPostPageDTO;
 import com.art.system.service.UserPostService;

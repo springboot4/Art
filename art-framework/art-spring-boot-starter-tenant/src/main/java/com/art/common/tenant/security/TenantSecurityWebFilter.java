@@ -17,8 +17,8 @@
 package com.art.common.tenant.security;
 
 import cn.hutool.core.collection.CollUtil;
-import com.art.common.core.util.FxzUtil;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.Result;
+import com.art.common.core.util.WebUtil;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.common.tenant.config.FxzTenantProperties;
@@ -68,7 +68,7 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 			// 当前url不放行且未带租户的编号 不允许访问
 			if (Objects.isNull(tenantId)) {
 				log.info("未传递租户编号");
-				FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
+				WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
 						Result.failed("租户信息未传递!"));
 				return;
 			}
@@ -78,14 +78,14 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 				tenantFrameworkService.validTenant(tenantId);
 			}
 			catch (Throwable ex) {
-				FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
+				WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
 						Result.failed(ex.getLocalizedMessage()));
 				return;
 			}
 
 			FxzAuthUser user = SecurityUtil.getUser();
 			if (Objects.isNull(user.getTenantId()) || !Objects.equals(tenantId, user.getTenantId())) {
-				FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
+				WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
 						Result.failed("无权访问该租户"));
 				return;
 			}

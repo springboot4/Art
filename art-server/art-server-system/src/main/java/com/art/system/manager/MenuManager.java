@@ -17,7 +17,7 @@
 package com.art.system.manager;
 
 import cn.hutool.core.convert.Convert;
-import com.art.common.core.entity.router.VueRouter;
+import com.art.common.core.model.VueRouter;
 import com.art.system.api.dict.dto.MenuDTO;
 import com.art.system.core.convert.MenuConvert;
 import com.art.system.dao.dataobject.MenuDO;

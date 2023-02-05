@@ -16,7 +16,7 @@
 
 package com.art.gen.controller;
 
-import com.art.common.core.result.Result;
+import com.art.common.core.model.Result;
 import com.art.gen.core.dto.CodeGenPreviewDTO;
 import com.art.gen.service.impl.CodeGeneratorServiceImpl;
 import lombok.RequiredArgsConstructor;

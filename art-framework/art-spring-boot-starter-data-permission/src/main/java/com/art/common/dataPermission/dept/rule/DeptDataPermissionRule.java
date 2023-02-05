@@ -19,7 +19,7 @@ package com.art.common.dataPermission.dept.rule;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.StrUtil;
-import com.art.common.core.entity.DeptDataPermissionRespEntity;
+import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.dataPermission.dept.service.DeptDataPermissionService;
 import com.art.common.dataPermission.rule.DataPermissionRule;
 import com.art.common.mp.core.utils.MyBatisUtils;

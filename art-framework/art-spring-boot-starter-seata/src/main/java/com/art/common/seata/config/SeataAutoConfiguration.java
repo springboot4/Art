@@ -16,7 +16,7 @@
 
 package com.art.common.seata.config;
 
-import com.art.common.core.factory.YamlPropertySourceFactory;
+import com.art.common.core.support.io.YamlPropertySourceFactory;
 import io.seata.spring.annotation.datasource.EnableAutoDataSourceProxy;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.PropertySource;

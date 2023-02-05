@@ -16,7 +16,7 @@
 
 package com.art.gen.service.impl;
 
-import com.art.common.core.param.PageParam;
+import com.art.common.core.model.PageParam;
 import com.art.gen.dao.dataobject.DatabaseColumnDO;
 import com.art.gen.dao.dataobject.DatabaseTableDO;
 import com.art.gen.dao.mysql.DatabaseTableMapper;

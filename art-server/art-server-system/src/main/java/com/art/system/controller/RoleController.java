@@ -16,9 +16,9 @@
 
 package com.art.system.controller;
 
-import com.art.common.core.entity.DeptDataPermissionRespEntity;
-import com.art.common.core.result.PageResult;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.DeptDataPermissionRespEntity;
+import com.art.common.core.model.PageResult;
+import com.art.common.core.model.Result;
 import com.art.common.security.annotation.Ojbk;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;

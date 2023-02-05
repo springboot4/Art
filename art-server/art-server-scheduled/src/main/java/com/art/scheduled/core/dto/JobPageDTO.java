@@ -16,7 +16,7 @@
 
 package com.art.scheduled.core.dto;
 
-import com.art.common.core.entity.BasePageEntity;
+import com.art.common.core.model.BasePageEntity;
 import com.art.common.quartz.core.constants.ScheduleConstants;
 import lombok.Data;
 
