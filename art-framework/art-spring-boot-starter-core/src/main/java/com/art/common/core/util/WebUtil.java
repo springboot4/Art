@@ -16,11 +16,16 @@
 
 package com.art.common.core.util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.art.common.core.model.Result;
 import lombok.experimental.UtilityClass;
+import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -43,6 +48,45 @@ public class WebUtil {
 	 */
 	public ServletRequestAttributes getRequestAttributes() {
 		return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+	}
+
+	/**
+	 * 设置响应
+	 * @param response HttpServletResponse
+	 * @param contentType content-type
+	 * @param status http状态码
+	 * @param value 响应内容
+	 * @throws IOException IOException
+	 */
+	public static void makeResponse(HttpServletResponse response, String contentType, int status, Object value)
+			throws IOException {
+		response.setContentType(contentType);
+		response.setStatus(status);
+		response.getOutputStream().write(JSONObject.toJSONString(value).getBytes());
+	}
+
+	/**
+	 * 设置失败响应
+	 * @param response HttpServletResponse
+	 * @param result 响应内容
+	 * @throws IOException IOException
+	 */
+	public static void makeFailureResponse(HttpServletResponse response, Result<Void> result) throws IOException {
+		makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, result);
+	}
+
+	/**
+	 * 设置成功响应
+	 * @param response HttpServletResponse
+	 * @param result 响应内容
+	 */
+	public static void makeSuccessResponse(HttpServletResponse response, Result<Object> result) throws IOException {
+		makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_OK, result);
+	}
+
+	public static boolean isAjaxRequest(HttpServletRequest request) {
+		return (request.getHeader("X-Requested-With") != null
+				&& "XMLHttpRequest".equals(request.getHeader("X-Requested-With")));
 	}
 
 }

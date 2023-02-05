@@ -16,7 +16,7 @@
 
 package com.art.system.api.log.dto;
 
-import com.art.common.core.entity.BasePageEntity;
+import com.art.common.core.model.BasePageEntity;
 import lombok.Data;
 
 import java.io.Serializable;

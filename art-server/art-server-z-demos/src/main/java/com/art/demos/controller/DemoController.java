@@ -18,9 +18,9 @@ package com.art.demos.controller;
 
 import com.art.common.Idempotent.annotation.Idempotent;
 import com.art.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolver;
-import com.art.common.core.exception.ErrorCodes;
-import com.art.common.core.result.Result;
-import com.art.common.core.util.MsgUtils;
+import com.art.common.core.constant.ErrorCodes;
+import com.art.common.core.model.Result;
+import com.art.common.core.util.MsgUtil;
 import com.art.common.lock.core.utils.RedissonUtils;
 import com.art.common.mq.redis.core.RedisMQTemplate;
 import com.art.common.redis.core.cache.support.CacheMessage;
@@ -102,7 +102,7 @@ public class DemoController {
 
 	@GetMapping("/messageTest")
 	public Result<String> messageTest() {
-		return Result.failed(MsgUtils.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
+		return Result.failed(MsgUtil.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
 	}
 
 	@Idempotent(timeout = 10, message = "别发请求，等我执行完")

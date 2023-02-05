@@ -16,7 +16,7 @@
 
 package com.art.system.service.impl;
 
-import com.art.common.core.enums.DictTypeEnum;
+import com.art.common.core.constant.DictTypeEnum;
 import com.art.common.core.exception.FxzException;
 import com.art.system.api.dict.dto.DictItemDTO;
 import com.art.system.api.dict.dto.DictItemExistsDTO;

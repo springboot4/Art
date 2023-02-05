@@ -1,8 +1,8 @@
 package com.art.${module}.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.art.common.core.result.PageResult;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.PageResult;
+import com.art.common.core.model.Result;
 import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -16,7 +16,7 @@
 
 package com.art.system.core.bo;
 
-import com.art.common.core.enums.RoleAdminEnum;
+import com.art.common.core.constant.RoleAdminEnum;
 import lombok.Data;
 
 import java.io.Serializable;
