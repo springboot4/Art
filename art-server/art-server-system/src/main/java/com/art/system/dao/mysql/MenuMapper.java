@@ -18,7 +18,7 @@ package com.art.system.dao.mysql;
 
 import com.art.system.dao.dataobject.MenuDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.art.common.core.entity.router.VueRouter;
+import com.art.common.core.model.VueRouter;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

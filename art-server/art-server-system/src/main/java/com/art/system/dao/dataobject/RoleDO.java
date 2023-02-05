@@ -16,7 +16,7 @@
 
 package com.art.system.dao.dataobject;
 
-import com.art.common.core.enums.RoleAdminEnum;
+import com.art.common.core.constant.RoleAdminEnum;
 import com.art.common.mp.core.base.BaseCreateEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

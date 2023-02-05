@@ -15,6 +15,7 @@
  */
 
 package com.art.system.dao.dataobject;
+
 import com.art.common.mp.core.base.BaseEntity;
 import com.art.common.mp.core.encrypt.core.annotation.EncryptionData;
 import com.baomidou.mybatisplus.annotation.TableName;

@@ -19,7 +19,7 @@ package com.art.common.log.core.aspect;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.Result;
 import com.art.common.core.util.WebUtil;
 import com.art.common.log.core.annotation.OperLogAnn;
 import com.art.common.log.core.service.AsyncLogService;

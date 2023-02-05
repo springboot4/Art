@@ -18,7 +18,7 @@ package com.art.common.security.service.user;
 
 import com.art.common.core.constant.SecurityConstants;
 import com.art.common.core.exception.FxzException;
-import com.art.common.core.result.ResultOpt;
+import com.art.common.core.model.ResultOpt;
 import com.art.system.api.menu.MenuServiceApi;
 import com.art.system.api.user.UserServiceApi;
 import com.art.system.api.user.dto.SystemUserDTO;

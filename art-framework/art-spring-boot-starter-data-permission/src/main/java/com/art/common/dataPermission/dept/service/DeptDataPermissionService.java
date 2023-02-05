@@ -16,9 +16,9 @@
 
 package com.art.common.dataPermission.dept.service;
 
-import com.art.common.core.entity.DeptDataPermissionRespEntity;
+import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.core.exception.FxzException;
-import com.art.common.core.result.ResultOpt;
+import com.art.common.core.model.ResultOpt;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.system.api.role.RoleServiceApi;
 import lombok.RequiredArgsConstructor;

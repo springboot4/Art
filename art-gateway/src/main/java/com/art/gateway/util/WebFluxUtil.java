@@ -17,7 +17,7 @@
 package com.art.gateway.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.Result;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

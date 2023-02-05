@@ -16,7 +16,7 @@
 
 package com.art.demos.core.distributed.lock.controller;
 
-import com.art.common.core.result.Result;
+import com.art.common.core.model.Result;
 import com.art.common.lock.core.annotation.DistributedLock;
 import com.art.common.lock.core.constant.RedissonLockType;
 import com.art.common.lock.core.entity.LockEntity;

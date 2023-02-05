@@ -16,7 +16,7 @@
 
 package com.art.common.core.annotation;
 
-import com.art.common.core.validator.MobileValidator;
+import com.art.common.core.support.validator.MobileValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

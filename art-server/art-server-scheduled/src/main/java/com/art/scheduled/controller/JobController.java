@@ -17,8 +17,8 @@
 package com.art.scheduled.controller;
 
 import cn.hutool.core.lang.Assert;
-import com.art.common.core.result.PageResult;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.PageResult;
+import com.art.common.core.model.Result;
 import com.art.common.quartz.core.utils.CronUtils;
 import com.art.scheduled.core.dto.JobDTO;
 import com.art.scheduled.core.dto.JobPageDTO;
