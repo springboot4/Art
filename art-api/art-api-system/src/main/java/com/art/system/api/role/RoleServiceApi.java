@@ -17,8 +17,8 @@
 package com.art.system.api.role;
 
 import com.art.common.core.constant.FxzServerConstant;
-import com.art.common.core.entity.DeptDataPermissionRespEntity;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.DeptDataPermissionRespEntity;
+import com.art.common.core.model.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

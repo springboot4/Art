@@ -17,9 +17,9 @@
 package com.art.system.controller;
 
 import com.art.common.core.util.ValidationUtil;
-import com.art.common.core.validator.ValidationGroup;
-import com.art.common.core.result.PageResult;
-import com.art.common.core.result.Result;
+import com.art.common.core.constant.ValidationGroup;
+import com.art.common.core.model.PageResult;
+import com.art.common.core.model.Result;
 import com.art.system.api.app.dto.AppDTO;
 import com.art.system.api.app.dto.AppPageDTO;
 import com.art.system.service.AppService;

@@ -18,7 +18,7 @@ package com.art.system.api.user.dto;
 
 import cn.hutool.core.date.DatePattern;
 import com.art.common.core.annotation.CheckMobileValid;
-import com.art.common.core.entity.BasePageEntity;
+import com.art.common.core.model.BasePageEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

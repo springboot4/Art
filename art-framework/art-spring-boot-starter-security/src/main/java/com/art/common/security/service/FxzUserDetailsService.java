@@ -30,6 +30,7 @@ public interface FxzUserDetailsService extends UserDetailsService, Ordered {
 	/**
 	 * 是否支持此客户端校验
 	 * @param clientId 目标客户端
+	 * @param grantType grantType
 	 * @return true/false
 	 */
 	boolean support(String clientId, String grantType);

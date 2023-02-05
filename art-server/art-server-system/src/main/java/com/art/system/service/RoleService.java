@@ -16,7 +16,7 @@
 
 package com.art.system.service;
 
-import com.art.common.core.entity.DeptDataPermissionRespEntity;
+import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;

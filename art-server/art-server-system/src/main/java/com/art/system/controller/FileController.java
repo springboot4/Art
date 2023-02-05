@@ -17,8 +17,8 @@
 package com.art.system.controller;
 
 import cn.hutool.core.lang.Dict;
-import com.art.common.core.result.PageResult;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.PageResult;
+import com.art.common.core.model.Result;
 import com.art.common.log.core.annotation.OperLogAnn;
 import com.art.common.log.core.enums.BusinessType;
 import com.art.system.api.file.dto.FileDTO;

@@ -16,7 +16,7 @@
 
 package com.art.scheduled.core.dto;
 
-import com.art.common.core.entity.BasePageEntity;
+import com.art.common.core.model.BasePageEntity;
 import lombok.Data;
 
 import java.io.Serializable;

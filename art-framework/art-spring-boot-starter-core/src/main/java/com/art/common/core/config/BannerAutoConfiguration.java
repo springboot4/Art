@@ -16,7 +16,7 @@
 
 package com.art.common.core.config;
 
-import com.art.common.core.banner.BannerRunner;
+import com.art.common.core.support.CustomizerBanner;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -30,8 +30,8 @@ import org.springframework.core.env.Environment;
 public class BannerAutoConfiguration {
 
 	@Bean
-	public BannerRunner bannerRunner(Environment environment) {
-		return new BannerRunner(environment);
+	public CustomizerBanner bannerRunner(Environment environment) {
+		return new CustomizerBanner(environment);
 	}
 
 }

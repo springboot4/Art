@@ -17,7 +17,7 @@
 package com.art.system.controller;
 
 import cn.hutool.json.JSONArray;
-import com.art.common.core.result.Result;
+import com.art.common.core.model.Result;
 import com.art.system.api.route.dto.RouteConfDTO;
 import com.art.system.service.RouteConfService;
 import io.swagger.v3.oas.annotations.Operation;

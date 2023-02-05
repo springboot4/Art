@@ -16,7 +16,7 @@
 
 package com.art.system.core.convert;
 
-import com.art.common.core.entity.router.VueRouter;
+import com.art.common.core.model.VueRouter;
 import com.art.system.api.dict.dto.MenuDTO;
 import com.art.system.dao.dataobject.MenuDO;
 import org.mapstruct.Mapper;

@@ -16,8 +16,8 @@
 
 package com.art.common.security.handler;
 
-import com.art.common.core.result.Result;
-import com.art.common.core.util.FxzUtil;
+import com.art.common.core.model.Result;
+import com.art.common.core.util.WebUtil;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -38,7 +38,7 @@ public class FxzAccessDeniedHandler implements AccessDeniedHandler {
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException {
-		FxzUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
+		WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
 				Result.failed("没有权限访问该资源"));
 	}
 
