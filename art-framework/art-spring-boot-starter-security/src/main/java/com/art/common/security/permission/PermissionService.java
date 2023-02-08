@@ -17,7 +17,6 @@
 package com.art.common.security.permission;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +25,7 @@ import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * @author fxz
@@ -48,18 +48,18 @@ public class PermissionService {
 	 * @return 是否
 	 */
 	public boolean hasAnyPermissions(String... permissions) {
-		// 如果为空，说明已经有权限
+		// 如果为空 说明有权限
 		if (ArrayUtil.isEmpty(permissions)) {
 			return true;
 		}
 
-		// 获得当前登录的角色。如果为空，说明没有权限
+		// 获得当前登录的角色 如果为空 说明没有权限
 		FxzAuthUser user = SecurityUtil.getUser();
-		if (ObjectUtil.isEmpty(user)) {
+		if (Objects.isNull(user)) {
 			return false;
 		}
 
-		Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+		Collection<? extends GrantedAuthority> authorities = SecurityUtil.getAuthorities();
 		return authorities.stream().map(GrantedAuthority::getAuthority).filter(StringUtils::hasText)
 				.anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
 	}

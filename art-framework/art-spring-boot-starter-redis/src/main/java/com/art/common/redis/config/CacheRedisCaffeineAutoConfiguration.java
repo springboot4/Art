@@ -31,11 +31,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
- * 多级缓存默认关闭
+ * 多级缓存
  *
  * @author fxz
  */
-@ConditionalOnProperty(prefix = "redis.cache.multi", name = "enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "redis.cache.multi", name = "enabled", havingValue = "true", matchIfMissing = true)
 @RequiredArgsConstructor
 @AutoConfiguration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
@@ -45,7 +45,7 @@ public class CacheRedisCaffeineAutoConfiguration {
 	private final CacheRedisCaffeineProperties cacheRedisCaffeineProperties;
 
 	@Bean
-	public CacheManager cacheManager(RedisTemplate redisTemplate, RedisMQTemplate redisMQTemplate) {
+	public CacheManager redisCaffeineCacheManager(RedisTemplate redisTemplate, RedisMQTemplate redisMQTemplate) {
 		return new RedisCaffeineCacheManager(cacheRedisCaffeineProperties, redisTemplate, redisMQTemplate);
 	}
 

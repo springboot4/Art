@@ -21,10 +21,8 @@ import com.art.system.api.route.mq.RouteMessage;
 import com.art.system.service.RouteConfService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.web.context.WebServerInitializedEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.core.annotation.Order;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,23 +33,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DynamicRouteLoadHandler implements InitializingBean {
+public class DynamicRouteLoadHandler implements ApplicationRunner {
 
 	private final RouteConfService routeConfService;
 
 	private final RedisMQTemplate redisMQTemplate;
 
-	@Override
-	public void afterPropertiesSet() {
-		loadRouteToRedis();
-	}
-
 	/**
 	 * 加载路由信息到redis
 	 */
-	@Order
-	@EventListener({ WebServerInitializedEvent.class })
-	public void loadRouteToRedis() {
+	@Override
+	public void run(ApplicationArguments args) {
 		// 发送消息告诉网关加载路由信息
 		redisMQTemplate.send(new RouteMessage(routeConfService.findAll()));
 	}
