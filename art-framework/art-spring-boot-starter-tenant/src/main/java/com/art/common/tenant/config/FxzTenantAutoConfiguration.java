@@ -44,6 +44,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import java.util.Objects;
 
@@ -110,7 +111,7 @@ public class FxzTenantAutoConfiguration {
 	/**
 	 * 多级缓存支持多租户
 	 */
-	@ConditionalOnProperty(prefix = "redis.cache.multi", name = "enabled", havingValue = "true", matchIfMissing = false)
+	@ConditionalOnProperty(prefix = "redis.cache.multi", name = "enabled", havingValue = "true", matchIfMissing = true)
 	@Bean
 	@Primary
 	public CacheManager cacheManager(CacheRedisCaffeineProperties cacheRedisCaffeineProperties,
@@ -118,13 +119,21 @@ public class FxzTenantAutoConfiguration {
 		return new TenantRedisCaffeineCacheManager(cacheRedisCaffeineProperties, redisTemplate, redisMQTemplate);
 	}
 
+	/**
+	 * 多级缓存不开启时生效
+	 */
+	@ConditionalOnProperty(prefix = "redis.cache.multi", name = "enabled", havingValue = "false",
+			matchIfMissing = false)
 	@Bean
 	@Primary
 	public RedisCacheManager redisCacheManager(RedisTemplate redisTemplate) {
 		RedisConnectionFactory connectionFactory = Objects.requireNonNull(redisTemplate.getConnectionFactory());
 		RedisCacheWriter cacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
 
-		return new TenantRedisCacheManager(cacheWriter, RedisCacheConfiguration.defaultCacheConfig());
+		RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+				.serializeValuesWith(
+						RedisSerializationContext.SerializationPair.fromSerializer(redisTemplate.getValueSerializer()));
+		return new TenantRedisCacheManager(cacheWriter, redisCacheConfiguration);
 	}
 
 	/**
