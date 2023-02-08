@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,28 +16,24 @@
 
 package com.art.common.tenant.cache;
 
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.art.common.mq.redis.core.RedisMQTemplate;
-import com.art.common.redis.core.cache.properties.CacheRedisCaffeineProperties;
-import com.art.common.redis.core.cache.support.RedisCaffeineCacheManager;
 import com.art.common.tenant.context.TenantContextHolder;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import org.springframework.cache.Cache;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.cache.RedisCacheWriter;
 
 import java.util.Objects;
 
 /**
- * redis key中拼接租户id
- *
  * @author Fxz
  * @version 0.0.1
- * @date 2022/10/1 12:18
+ * @date 2023/2/8 11:44
  */
-public class TenantRedisCacheManager extends RedisCaffeineCacheManager {
+public class TenantRedisCacheManager extends RedisCacheManager {
 
-	public TenantRedisCacheManager(CacheRedisCaffeineProperties cacheRedisCaffeineProperties,
-			RedisTemplate redisTemplate, RedisMQTemplate redisMQTemplate) {
-		super(cacheRedisCaffeineProperties, redisTemplate, redisMQTemplate);
+	public TenantRedisCacheManager(RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration) {
+		super(cacheWriter, defaultCacheConfiguration);
 	}
 
 	@Override

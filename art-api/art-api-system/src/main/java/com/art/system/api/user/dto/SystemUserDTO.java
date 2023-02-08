@@ -22,6 +22,7 @@ import com.art.common.sensitive.core.annotation.fixed.MobileSensitive;
 import com.art.common.sensitive.core.annotation.regex.EmailSensitive;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
@@ -36,6 +37,7 @@ import java.util.Date;
  * @version 0.0.1
  * @date 2022/11/26 15:51
  */
+@Accessors(chain = true)
 @Data
 public class SystemUserDTO implements Serializable {
 

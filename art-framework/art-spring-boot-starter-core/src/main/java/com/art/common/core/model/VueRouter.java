@@ -19,6 +19,7 @@ package com.art.common.core.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.List;
 /**
  * @author fxz
  */
+@Accessors(chain = true)
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VueRouter<T> implements Serializable {

@@ -23,14 +23,19 @@ import com.art.common.redis.core.cache.support.RedisCaffeineCacheManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
+ * 多级缓存默认关闭
+ *
  * @author fxz
  */
+@ConditionalOnProperty(prefix = "redis.cache.multi", name = "enabled", havingValue = "true", matchIfMissing = false)
 @RequiredArgsConstructor
 @AutoConfiguration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
@@ -40,13 +45,13 @@ public class CacheRedisCaffeineAutoConfiguration {
 	private final CacheRedisCaffeineProperties cacheRedisCaffeineProperties;
 
 	@Bean
-	public RedisCaffeineCacheManager cacheManager(RedisTemplate redisTemplate, RedisMQTemplate redisMQTemplate) {
+	public CacheManager cacheManager(RedisTemplate redisTemplate, RedisMQTemplate redisMQTemplate) {
 		return new RedisCaffeineCacheManager(cacheRedisCaffeineProperties, redisTemplate, redisMQTemplate);
 	}
 
 	@Bean
-	public CacheMessageConsumer cacheMessageConsumer(RedisCaffeineCacheManager redisCaffeineCacheManager) {
-		return new CacheMessageConsumer(redisCaffeineCacheManager);
+	public CacheMessageConsumer cacheMessageConsumer(CacheManager cacheManager) {
+		return new CacheMessageConsumer(cacheManager);
 	}
 
 }

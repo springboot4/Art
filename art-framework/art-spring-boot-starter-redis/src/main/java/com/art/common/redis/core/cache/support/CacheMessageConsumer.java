@@ -19,6 +19,7 @@ package com.art.common.redis.core.cache.support;
 import com.art.common.mq.redis.pubsub.AbstractPubSubMessageListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.CacheManager;
 
 /**
  * @author fxz
@@ -27,14 +28,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CacheMessageConsumer extends AbstractPubSubMessageListener<CacheMessage> {
 
-	private final RedisCaffeineCacheManager redisCaffeineCacheManager;
+	private final CacheManager cacheManager;
 
 	@Override
 	public void onMessage(CacheMessage cacheMessage) {
-		if (log.isDebugEnabled()) {
-			log.debug("接收到redis topic消息，清空本地缓存，缓存名称:{}, key:{}", cacheMessage.getCacheName(), cacheMessage.getKey());
+		if (cacheManager instanceof RedisCaffeineCacheManager) {
+			if (log.isDebugEnabled()) {
+				log.debug("接收到redis topic消息，清空本地缓存，缓存名称:{}, key:{}", cacheMessage.getCacheName(),
+						cacheMessage.getKey());
+			}
+			RedisCaffeineCacheManager redisCaffeineCacheManager = (RedisCaffeineCacheManager) cacheManager;
+			redisCaffeineCacheManager.clearLocal(cacheMessage.getCacheName(), cacheMessage.getKey());
+
 		}
-		redisCaffeineCacheManager.clearLocal(cacheMessage.getCacheName(), cacheMessage.getKey());
 	}
 
 }

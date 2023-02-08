@@ -240,7 +240,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 			stringKeyRedisTemplate.opsForValue().set(getKey(key.toString()), o);
 		}
 
-		push(new CacheMessage(this.name, key));
+		push(new CacheMessage(this.name, key.toString()));
 
 		caffeineCache.put(key, toStoreValue(value));
 	}
@@ -254,7 +254,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 		// 先清除redis中缓存数据，然后清除caffeine中的缓存，避免短时间内如果先清除caffeine缓存后其他请求会再从redis里加载到caffeine中
 		stringKeyRedisTemplate.delete(getKey(key.toString()));
 
-		push(new CacheMessage(this.name, key));
+		push(new CacheMessage(this.name, key.toString()));
 
 		caffeineCache.invalidate(key);
 	}
@@ -265,7 +265,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	@Override
 	public void clear() {
 		// 先清除redis中缓存数据，然后清除caffeine中的缓存，避免短时间内如果先清除caffeine缓存后其他请求会再从redis里加载到caffeine中
-		Set<String> keys = stringKeyRedisTemplate.keys(this.name.concat(":*"));
+		Set<String> keys = stringKeyRedisTemplate.keys(this.name.concat("*"));
 		for (String key : keys) {
 			stringKeyRedisTemplate.delete(key);
 		}

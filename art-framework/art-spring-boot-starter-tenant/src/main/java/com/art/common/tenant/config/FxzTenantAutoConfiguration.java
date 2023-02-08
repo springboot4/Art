@@ -16,29 +16,36 @@
 
 package com.art.common.tenant.config;
 
-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.art.common.mp.core.utils.MyBatisUtils;
 import com.art.common.mq.redis.core.RedisMQTemplate;
 import com.art.common.redis.core.cache.properties.CacheRedisCaffeineProperties;
-import com.art.common.redis.core.cache.support.RedisCaffeineCacheManager;
 import com.art.common.tenant.aspect.IgnoreTenantAspect;
 import com.art.common.tenant.cache.TenantRedisCacheManager;
+import com.art.common.tenant.cache.TenantRedisCaffeineCacheManager;
 import com.art.common.tenant.context.FeignTenantInterceptor;
 import com.art.common.tenant.context.TenantContextWebFilter;
 import com.art.common.tenant.mp.TenantDatabaseHandler;
 import com.art.common.tenant.security.TenantSecurityWebFilter;
 import com.art.common.tenant.service.TenantValidService;
 import com.art.system.api.tenant.TenantServiceApi;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.cache.RedisCacheWriter;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.Objects;
 
 /**
  * 多租户自动配置类
@@ -103,11 +110,21 @@ public class FxzTenantAutoConfiguration {
 	/**
 	 * 多级缓存支持多租户
 	 */
+	@ConditionalOnProperty(prefix = "redis.cache.multi", name = "enabled", havingValue = "true", matchIfMissing = false)
 	@Bean
 	@Primary
-	public RedisCaffeineCacheManager tenantRedisCacheManager(CacheRedisCaffeineProperties cacheRedisCaffeineProperties,
+	public CacheManager cacheManager(CacheRedisCaffeineProperties cacheRedisCaffeineProperties,
 			RedisTemplate redisTemplate, RedisMQTemplate redisMQTemplate) {
-		return new TenantRedisCacheManager(cacheRedisCaffeineProperties, redisTemplate, redisMQTemplate);
+		return new TenantRedisCaffeineCacheManager(cacheRedisCaffeineProperties, redisTemplate, redisMQTemplate);
+	}
+
+	@Bean
+	@Primary
+	public RedisCacheManager redisCacheManager(RedisTemplate redisTemplate) {
+		RedisConnectionFactory connectionFactory = Objects.requireNonNull(redisTemplate.getConnectionFactory());
+		RedisCacheWriter cacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
+
+		return new TenantRedisCacheManager(cacheWriter, RedisCacheConfiguration.defaultCacheConfig());
 	}
 
 	/**

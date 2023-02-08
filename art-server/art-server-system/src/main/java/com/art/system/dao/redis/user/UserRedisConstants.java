@@ -25,10 +25,10 @@ import com.art.common.core.constant.CacheConstants;
  */
 public interface UserRedisConstants {
 
-	String PREFIX = "user";
+	String PREFIX = "user:";
 
 	String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
 
-	String USER_INFO = CACHE_NAMES + ":info";
+	String USER_INFO = CACHE_NAMES + "info:";
 
 }
