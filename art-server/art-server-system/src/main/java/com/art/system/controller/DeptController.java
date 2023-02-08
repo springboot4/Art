@@ -45,7 +45,7 @@ public class DeptController {
 	 * 获取部门树
 	 */
 	@Operation(summary = "获取部门树")
-	@Cacheable(value = DeptRedisKeyConstants.CACHE_NAMES + DeptRedisKeyConstants.DEPT_TREE,
+	@Cacheable(value = DeptRedisKeyConstants.CACHE_NAMES, key = DeptRedisKeyConstants.DEPT_TREE_KEY,
 			unless = "#result.data==null")
 	@GetMapping("/getDeptTree")
 	public Result<DeptDTO> getDeptTree() {
