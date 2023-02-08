@@ -27,12 +27,14 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -51,10 +53,20 @@ public class SecurityUtil {
 	}
 
 	/**
+	 * 获取当前用户权限
+	 * @return 用户权限
+	 */
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Authentication authentication = getAuthentication();
+		return authentication.getAuthorities();
+	}
+
+	/**
 	 * 获取用户
 	 */
 	public FxzAuthUser getUser(Authentication authentication) {
 		Object principal = authentication.getPrincipal();
+
 		if (principal instanceof FxzAuthUser) {
 			return (FxzAuthUser) principal;
 		}
