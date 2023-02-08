@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  */
 @UtilityClass
 @SuppressWarnings("all")
-public class RedisService {
+public class RedisUtil {
 
 	private RedisTemplate<String, Object> redisTemplate = SpringUtil.getBean(RedisTemplate.class);
 
