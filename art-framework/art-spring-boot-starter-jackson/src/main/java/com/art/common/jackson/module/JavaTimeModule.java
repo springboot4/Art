@@ -38,11 +38,11 @@ import java.time.format.DateTimeFormatter;
 /**
  * @author fxz
  */
-public class FxzJavaTimeModule extends SimpleModule {
+public class JavaTimeModule extends SimpleModule {
 
 	private static final long serialVersionUID = -1L;
 
-	public FxzJavaTimeModule() {
+	public JavaTimeModule() {
 		super(PackageVersion.VERSION);
 
 		// yyyy-MM-dd HH:mm:ss
