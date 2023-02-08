@@ -18,6 +18,7 @@ package com.art.system.api.role.dto;
 
 import com.art.common.core.constant.RoleAdminEnum;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
  * @version 0.0.1
  * @date 2022/11/26 11:52
  */
+@Accessors(chain = true)
 @Data
 public class RoleDTO implements Serializable {
 
