@@ -25,12 +25,12 @@ import com.art.common.core.constant.CacheConstants;
  */
 public interface RoleRedisConstants {
 
-	String PREFIX = "role";
+	String PREFIX = "role:";
 
 	String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
 
-	String IS_SUPER_ADMIN = CACHE_NAMES + ":isSuperAdmin";
+	String IS_SUPER_ADMIN = CACHE_NAMES + "isSuperAdmin:";
 
-	String DATA_SCOPE = CACHE_NAMES + ":dataScope";
+	String DATA_SCOPE = CACHE_NAMES + "dataScope:";
 
 }
