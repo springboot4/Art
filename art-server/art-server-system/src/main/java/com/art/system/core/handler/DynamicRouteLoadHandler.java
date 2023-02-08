@@ -21,8 +21,7 @@ import com.art.system.api.route.mq.RouteMessage;
 import com.art.system.service.RouteConfService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,7 +32,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DynamicRouteLoadHandler implements ApplicationRunner {
+public class DynamicRouteLoadHandler implements SmartInitializingSingleton {
 
 	private final RouteConfService routeConfService;
 
@@ -43,8 +42,7 @@ public class DynamicRouteLoadHandler implements ApplicationRunner {
 	 * 加载路由信息到redis
 	 */
 	@Override
-	public void run(ApplicationArguments args) {
-		// 发送消息告诉网关加载路由信息
+	public void afterSingletonsInstantiated() {
 		redisMQTemplate.send(new RouteMessage(routeConfService.findAll()));
 	}
 
