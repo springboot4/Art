@@ -8,7 +8,6 @@ import lombok.SneakyThrows;
 
 import java.io.File;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * @author fxz
@@ -59,11 +58,6 @@ public class PartUploaderHandler implements Runnable {
 	private final CopyOnWriteArrayList<PartETag> eTagList;
 
 	/**
-	 * 并发控制
-	 */
-	private final CountDownLatch latch;
-
-	/**
 	 * 偏移量
 	 */
 	private long startPos;
@@ -74,7 +68,6 @@ public class PartUploaderHandler implements Runnable {
 	public void run() {
 		PartETag eTag = ossFileStorage.uploadPart(bucketName, key, uploadId, partNumber, file, partSize, startPos);
 		this.eTagList.add(eTag);
-		latch.countDown();
 	}
 
 }

@@ -29,8 +29,8 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -68,21 +68,23 @@ public class OssManager {
 		if (partCount > MAX_PART_COUNT) {
 			throw new FxzException("Total parts count should not exceed 10000!");
 		}
-		// 多线程并发控制
-		CountDownLatch latch = new CountDownLatch(partCount);
+
 		// 分片标识
 		CopyOnWriteArrayList<PartETag> eTagList = new CopyOnWriteArrayList<>();
+		// 多线程并发控制
+		CompletableFuture[] futures = new CompletableFuture[partCount];
 
 		// 遍历分片上传
 		for (int i = 0; i < partCount; i++) {
 			long startPos = i * partSize;
 			long curPartSize = (i + 1 == partCount) ? (fileLength - (i * partSize)) : partSize;
-			executor.execute(new PartUploaderHandler(ossFileStorage, bucketName, fileName, uploadId, i + 1, curPartSize,
-					file, eTagList, latch, startPos));
+			CompletableFuture<Void> future = CompletableFuture.runAsync(new PartUploaderHandler(ossFileStorage,
+					bucketName, fileName, uploadId, i + 1, curPartSize, file, eTagList, startPos));
+			futures[i] = future;
 		}
 
 		// 等待所有零件完成
-		latch.await();
+		CompletableFuture.allOf(futures).join();
 
 		// 验证所有零件是否均已完成
 		if (eTagList.size() != partCount) {
