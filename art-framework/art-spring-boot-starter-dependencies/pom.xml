@@ -191,12 +191,7 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-mq-redis</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-mq-rabbit</artifactId>
+                <artifactId>art-spring-boot-starter-rabbit</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -274,11 +269,6 @@
             <dependency>
                 <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-mp</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-mq</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

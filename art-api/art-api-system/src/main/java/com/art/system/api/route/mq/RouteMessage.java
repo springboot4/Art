@@ -16,7 +16,7 @@
 
 package com.art.system.api.route.mq;
 
-import com.art.common.mq.redis.pubsub.AbstractPubSubMessage;
+import com.art.common.redis.core.mq.pubsub.AbstractPubSubMessage;
 import com.art.system.api.route.dto.RouteConfDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;

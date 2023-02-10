@@ -16,7 +16,7 @@
 
 package com.art.common.redis.config;
 
-import com.art.common.mq.redis.core.RedisMQTemplate;
+import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.common.redis.core.cache.properties.CacheRedisCaffeineProperties;
 import com.art.common.redis.core.cache.support.CacheMessageConsumer;
 import com.art.common.redis.core.cache.support.RedisCaffeineCacheManager;

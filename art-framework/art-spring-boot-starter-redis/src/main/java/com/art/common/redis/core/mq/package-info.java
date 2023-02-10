@@ -13,33 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.art.common.redis.core.cache.support;
-
-import com.art.common.redis.core.mq.pubsub.AbstractPubSubMessage;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-
 /**
- * @author fxz
+ * redis消息封装
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class CacheMessage extends AbstractPubSubMessage implements Serializable {
-
-	private static final long serialVersionUID = 3987211310442078199L;
-
-	private String cacheName;
-
-	private Object key;
-
-	@Override
-	public String getTopic() {
-		return "cache.redis.caffeine.topic";
-	}
-
-}
+package com.art.common.redis.core.mq;

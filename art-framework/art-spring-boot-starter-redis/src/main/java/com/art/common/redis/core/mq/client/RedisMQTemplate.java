@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.art.common.mq.redis.core;
+package com.art.common.redis.core.mq.client;
 
 import com.art.common.jackson.util.JacksonUtil;
-import com.art.common.mq.redis.interceptor.RedisMessageInterceptor;
-import com.art.common.mq.redis.message.AbstractRedisMessage;
-import com.art.common.mq.redis.pubsub.AbstractPubSubMessage;
-import com.art.common.mq.redis.stream.AbstractStreamMessage;
+import com.art.common.redis.core.mq.interceptor.RedisMessageInterceptor;
+import com.art.common.redis.core.mq.message.AbstractRedisMessage;
+import com.art.common.redis.core.mq.pubsub.AbstractPubSubMessage;
+import com.art.common.redis.core.mq.stream.AbstractStreamMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.redis.connection.stream.ObjectRecord;
