@@ -42,7 +42,7 @@
 
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-mq-rabbit</artifactId>
+            <artifactId>art-spring-boot-starter-rabbit</artifactId>
         </dependency>
 
         <dependency>

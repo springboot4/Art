@@ -17,7 +17,7 @@
 package com.art.common.tenant.cache;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.art.common.mq.redis.core.RedisMQTemplate;
+import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.common.redis.core.cache.properties.CacheRedisCaffeineProperties;
 import com.art.common.redis.core.cache.support.RedisCaffeineCacheManager;
 import com.art.common.tenant.context.TenantContextHolder;

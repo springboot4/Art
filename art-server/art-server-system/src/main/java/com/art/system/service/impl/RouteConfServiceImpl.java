@@ -18,7 +18,7 @@ package com.art.system.service.impl;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
-import com.art.common.mq.redis.core.RedisMQTemplate;
+import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.system.api.route.dto.FilterDefinitionDTO;
 import com.art.system.api.route.dto.PredicateDefinitionDTO;
 import com.art.system.api.route.dto.RouteConfDTO;

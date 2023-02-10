@@ -25,24 +25,14 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>art-spring-boot-starter-mq-redis</artifactId>
-    <description>基于redis的stream类型实现的轻量级消息队列</description>
+    <description>rabbit-mq模块</description>
+    <artifactId>art-spring-boot-starter-rabbit</artifactId>
 
     <dependencies>
 
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-system</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-jackson</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
     </dependencies>

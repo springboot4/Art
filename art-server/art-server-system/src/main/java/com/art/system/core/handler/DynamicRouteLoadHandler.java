@@ -16,7 +16,7 @@
 
 package com.art.system.core.handler;
 
-import com.art.common.mq.redis.core.RedisMQTemplate;
+import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.system.api.route.mq.RouteMessage;
 import com.art.system.service.RouteConfService;
 import lombok.RequiredArgsConstructor;

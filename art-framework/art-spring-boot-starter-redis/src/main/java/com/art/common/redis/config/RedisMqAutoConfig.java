@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.art.common.mq.redis.config;
+package com.art.common.redis.config;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
-import com.art.common.mq.redis.core.RedisMQTemplate;
-import com.art.common.mq.redis.interceptor.RedisMessageInterceptor;
-import com.art.common.mq.redis.pubsub.AbstractPubSubMessageListener;
-import com.art.common.mq.redis.stream.AbstractStreamMessageListener;
+import com.art.common.redis.core.mq.client.RedisMQTemplate;
+import com.art.common.redis.core.mq.interceptor.RedisMessageInterceptor;
+import com.art.common.redis.core.mq.pubsub.AbstractPubSubMessageListener;
+import com.art.common.redis.core.mq.stream.AbstractStreamMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.connection.stream.Consumer;
@@ -48,6 +49,7 @@ import java.util.Properties;
  * @date 2022/6/30 16:10
  */
 @SuppressWarnings("all")
+@ConditionalOnProperty(prefix = "redis.mq", name = "enabled", havingValue = "true",matchIfMissing = true)
 @AutoConfiguration
 @Slf4j
 public class RedisMqAutoConfig {
