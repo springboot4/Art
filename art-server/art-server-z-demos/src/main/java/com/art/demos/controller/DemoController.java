@@ -22,7 +22,7 @@ import com.art.common.core.constant.ErrorCodes;
 import com.art.common.core.model.Result;
 import com.art.common.core.util.MsgUtil;
 import com.art.common.lock.core.utils.RedissonUtils;
-import com.art.common.mq.redis.core.RedisMQTemplate;
+import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.common.redis.core.cache.support.CacheMessage;
 import com.art.common.sequence.service.Sequence;
 import com.art.system.api.user.dto.SystemUserDTO;

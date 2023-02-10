@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,15 @@
  * limitations under the License.
  */
 
-package com.art.common.mq.redis.stream;
-
-import com.art.common.mq.redis.message.AbstractRedisMessage;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package com.art.common.redis.core.mq.message;
 
 /**
- * Redis Stream Message 抽象类
+ * redis 消息抽象基类
  *
- * @author fxz
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/6/30 16:16
  */
-public abstract class AbstractStreamMessage extends AbstractRedisMessage {
-
-	/**
-	 * 获得 Stream Key
-	 * @return Stream Key
-	 */
-	@JsonIgnore
-	public abstract String getStreamKey();
+public abstract class AbstractRedisMessage {
 
 }

@@ -30,8 +30,7 @@
 
     <modules>
         <module>art-spring-boot-starter-dependencies</module>
-        <module>art-spring-boot-starter-mq-redis</module>
-        <module>art-spring-boot-starter-mq-rabbit</module>
+        <module>art-spring-boot-starter-rabbit</module>
         <module>art-spring-boot-starter-mp</module>
         <module>art-spring-boot-starter-doc</module>
         <module>art-spring-boot-starter-log</module>
