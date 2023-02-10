@@ -1,3 +1,4 @@
+com.art.common.redis.config.RedisMqAutoConfig
 com.art.common.redis.config.RedisKeyEventAutoConfiguration
 com.art.common.redis.config.RedisTemplateAutoConfiguration
 com.art.common.redis.config.CacheRedisCaffeineAutoConfiguration

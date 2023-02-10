@@ -50,7 +50,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @AutoConfiguration
 @AutoConfigureBefore(name = { "org.redisson.spring.starter.RedissonAutoConfiguration",
 		"org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration",
-		"com.art.common.mq.redis.core.RedisMQTemplate" })
+		"com.art.common.redis.core.mq.client.RedisMQTemplate" })
 public class RedisTemplateAutoConfiguration {
 
 	@Bean

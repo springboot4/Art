@@ -17,7 +17,7 @@
 package com.art.common.tenant.config;
 
 import com.art.common.mp.core.utils.MyBatisUtils;
-import com.art.common.mq.redis.core.RedisMQTemplate;
+import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.common.redis.core.cache.properties.CacheRedisCaffeineProperties;
 import com.art.common.tenant.aspect.IgnoreTenantAspect;
 import com.art.common.tenant.cache.TenantRedisCacheManager;

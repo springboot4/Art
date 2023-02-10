@@ -16,7 +16,7 @@
 
 package com.art.common.redis.core.cache.support;
 
-import com.art.common.mq.redis.pubsub.AbstractPubSubMessageListener;
+import com.art.common.redis.core.mq.pubsub.AbstractPubSubMessageListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;

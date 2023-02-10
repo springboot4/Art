@@ -16,7 +16,7 @@
 
 package com.art.common.redis.core.cache.support;
 
-import com.art.common.mq.redis.core.RedisMQTemplate;
+import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.common.redis.core.cache.properties.CacheRedisCaffeineProperties;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;

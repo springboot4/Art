@@ -30,10 +30,9 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
        ├── art-spring-boot-starter-lock -- 分布式锁模块
        ├── art-spring-boot-starter-log -- 日志配置
        ├── art-spring-boot-starter-mp -- mybatis-plus配置
-       ├── art-spring-boot-starter-mq-rabbit -- rabbitMq消息队列
-       ├── art-spring-boot-starter-mq-redis -- redis轻量级消息队列
+       ├── art-spring-boot-starter-rabbit -- rabbitMq消息队列
        ├── art-spring-boot-starter-quartz -- quartz定时任务
-       ├── art-spring-boot-starter-redis -- 多级缓存、redis相关模块
+       ├── art-spring-boot-starter-redis -- 缓存、mq、key事件等封装
        ├── art-spring-boot-starter-seata -- 分布式事务
        ├── art-spring-boot-starter-security -- 安全模块
        ├── art-spring-boot-starter-sensitive -- 数据脱敏

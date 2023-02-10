@@ -46,7 +46,7 @@
 
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-mq-redis</artifactId>
+            <artifactId>art-spring-boot-starter-redis</artifactId>
             <optional>true</optional>
         </dependency>
 
