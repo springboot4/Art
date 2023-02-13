@@ -22,6 +22,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PartETag;
 import com.amazonaws.services.s3.model.S3Object;
 import com.art.common.core.exception.FxzException;
+import com.art.common.core.util.AsyncUtil;
 import com.art.common.file.core.oss.OssFileStorage;
 import com.art.system.core.handler.PartUploaderHandler;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,6 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -72,19 +72,18 @@ public class OssManager {
 		// 分片标识
 		CopyOnWriteArrayList<PartETag> eTagList = new CopyOnWriteArrayList<>();
 		// 多线程并发控制
-		CompletableFuture[] futures = new CompletableFuture[partCount];
+		Runnable[] runnables = new PartUploaderHandler[partCount];
 
 		// 遍历分片上传
 		for (int i = 0; i < partCount; i++) {
 			long startPos = i * partSize;
 			long curPartSize = (i + 1 == partCount) ? (fileLength - (i * partSize)) : partSize;
-			CompletableFuture<Void> future = CompletableFuture.runAsync(new PartUploaderHandler(ossFileStorage,
-					bucketName, fileName, uploadId, i + 1, curPartSize, file, eTagList, startPos));
-			futures[i] = future;
+			runnables[i] = new PartUploaderHandler(ossFileStorage, bucketName, fileName, uploadId, i + 1, curPartSize,
+					file, eTagList, startPos);
 		}
 
 		// 等待所有零件完成
-		CompletableFuture.allOf(futures).join();
+		AsyncUtil.parallel(runnables);
 
 		// 验证所有零件是否均已完成
 		if (eTagList.size() != partCount) {
