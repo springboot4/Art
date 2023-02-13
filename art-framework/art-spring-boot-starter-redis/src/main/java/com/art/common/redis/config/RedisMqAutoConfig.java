@@ -49,7 +49,7 @@ import java.util.Properties;
  * @date 2022/6/30 16:10
  */
 @SuppressWarnings("all")
-@ConditionalOnProperty(prefix = "redis.mq", name = "enabled", havingValue = "true",matchIfMissing = true)
+@ConditionalOnProperty(prefix = "redis.mq", name = "enabled", havingValue = "true", matchIfMissing = true)
 @AutoConfiguration
 @Slf4j
 public class RedisMqAutoConfig {
