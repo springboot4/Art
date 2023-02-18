@@ -192,7 +192,7 @@ export default {
       })
     },
     getImg (icon) {
-      return 'http://127.0.0.1:8301' + icon
+      return 'http://127.0.0.1:9999' + icon
     }
   }
 }

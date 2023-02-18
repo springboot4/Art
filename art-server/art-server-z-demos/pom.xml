@@ -83,7 +83,7 @@
         <!--测试:分布式锁模块-->
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-lock</artifactId>
+            <artifactId>art-spring-boot-starter-redisson</artifactId>
         </dependency>
 
         <!--测试:es模块-->

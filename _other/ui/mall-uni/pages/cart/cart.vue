@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     getImg(url){
-      const res = 'http:127.0.0.1:8301'+url;
+      const res = 'http:127.0.0.1:9999'+url;
       return res;
     },
     //请求数据
