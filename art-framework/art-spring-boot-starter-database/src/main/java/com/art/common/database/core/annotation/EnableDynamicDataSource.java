@@ -1,6 +1,6 @@
 
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,43 +15,24 @@
  * limitations under the License.
  */
 
-package com.art.common.database.constant;
+package com.art.common.database.core.annotation;
+
+import com.art.common.database.config.DynamicDataSourceAutoConfiguration;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
  * @author fxz
+ * @date 2022/3/30
  * <p>
- * 数据源相关常量
+ * 开启动态数据源
  */
-public interface DataSourceConstants {
-
-	/**
-	 * 数据源名称
-	 */
-	String DS_NAME = "name";
-
-	/**
-	 * 默认数据源（master）
-	 */
-	String DS_MASTER = "master";
-
-	/**
-	 * jdbcUrl
-	 */
-	String DS_JDBC_URL = "url";
-
-	/**
-	 * 数据库用户名
-	 */
-	String DS_USER_NAME = "username";
-
-	/**
-	 * 数据库密码
-	 */
-	String DS_USER_PWD = "password";
-
-	/**
-	 * 驱动包名称
-	 */
-	String DS_DRIVER_CLASS_NAME = "driver_class_name";
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@Import(DynamicDataSourceAutoConfiguration.class)
+public @interface EnableDynamicDataSource {
 
 }

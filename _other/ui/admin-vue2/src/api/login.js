@@ -48,7 +48,7 @@ export function login (parameter) {
     method: 'post',
     data: parameter,
     headers: {
-      // 'Authorization': 'Basic c3dhZ2dlcjoxMjM0NTY=' // swagger:123456 避免验证验证码 http://localhost:8301/auth/captcha?key=77777439生成验证码
+      // 'Authorization': 'Basic c3dhZ2dlcjoxMjM0NTY=' // swagger:123456 避免验证验证码 http://localhost:9999/auth/captcha?key=77777439生成验证码
       // fxz:123456
       'Authorization': 'Basic Znh6OjEyMzQ1Ng=='
     },

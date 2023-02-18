@@ -35,6 +35,7 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -63,7 +64,7 @@ public class RouteMessageConsumer extends AbstractPubSubMessageListener<RouteMes
 		List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
 
 		Map<String, FxzRouteDefinition> map = routeConfList.stream().map(this::convert)
-				.collect(Collectors.toMap(FxzRouteDefinition::getId, r -> r));
+				.collect(Collectors.toMap(FxzRouteDefinition::getId, Function.identity()));
 
 		redisTemplate.opsForHash().putAll(CacheConstants.ROUTE_KEY, map);
 		fxzRouteDefinitionRepository.publishEvent();
