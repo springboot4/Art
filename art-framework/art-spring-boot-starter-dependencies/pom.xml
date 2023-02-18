@@ -151,7 +151,7 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-lock</artifactId>
+                <artifactId>art-spring-boot-starter-redisson</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.art.common.database;
+package com.art.common.database.config;
 
 import com.baomidou.dynamic.datasource.processor.DsHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
-import com.art.common.database.config.DataSourceProperties;
-import com.art.common.database.config.DsLastParamProcessor;
-import com.art.common.database.config.JdbcDynamicDataSourceProvider;
+import com.art.common.database.core.config.DataSourceProperties;
+import com.art.common.database.core.config.DsLastParamProcessor;
+import com.art.common.database.core.config.JdbcDynamicDataSourceProvider;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;

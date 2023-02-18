@@ -1,6 +1,6 @@
 
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package com.art.common.database.config;
+package com.art.common.database.core.config;
 
+import com.art.common.database.core.constant.DataSourceConstants;
 import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
-import com.art.common.database.constant.DataSourceConstants;
 import org.jasypt.encryption.StringEncryptor;
 
 import java.sql.ResultSet;
