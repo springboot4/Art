@@ -16,7 +16,7 @@
 
 package com.art.gen;
 
-import com.art.common.database.annotation.EnableDynamicDataSource;
+import com.art.common.database.core.annotation.EnableDynamicDataSource;
 import com.art.common.security.annotation.EnableFxzCloudResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

@@ -1,6 +1,6 @@
 
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,42 +15,43 @@
  * limitations under the License.
  */
 
-package com.art.common.database.config;
-
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+package com.art.common.database.core.constant;
 
 /**
  * @author fxz
  * <p>
+ * 数据源相关常量
  */
-@Data
-@ConfigurationProperties("spring.datasource")
-public class DataSourceProperties {
+public interface DataSourceConstants {
 
 	/**
-	 * 用户名
+	 * 数据源名称
 	 */
-	private String username;
+	String DS_NAME = "name";
 
 	/**
-	 * 密码
+	 * 默认数据源（master）
 	 */
-	private String password;
+	String DS_MASTER = "master";
 
 	/**
 	 * jdbcUrl
 	 */
-	private String url;
+	String DS_JDBC_URL = "url";
 
 	/**
-	 * 驱动类型
+	 * 数据库用户名
 	 */
-	private String driverClassName;
+	String DS_USER_NAME = "username";
 
 	/**
-	 * 查询数据源的SQL
+	 * 数据库密码
 	 */
-	private String queryDsSql = "select * from gen_datasource_conf where del_flag = 0";
+	String DS_USER_PWD = "password";
+
+	/**
+	 * 驱动包名称
+	 */
+	String DS_DRIVER_CLASS_NAME = "driver_class_name";
 
 }

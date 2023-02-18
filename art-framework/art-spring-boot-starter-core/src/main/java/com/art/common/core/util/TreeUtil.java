@@ -18,16 +18,19 @@ package com.art.common.core.util;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.art.common.core.model.VueRouter;
+import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
  * @author fxz
  */
+@UtilityClass
 public class TreeUtil {
 
 	/**
@@ -47,7 +50,7 @@ public class TreeUtil {
 
 		List<VueRouter<T>> topRoutes = new ArrayList<>();
 		Map<String, VueRouter<T>> routerMap = routes.stream()
-				.collect(Collectors.toMap(VueRouter::getId, v -> v, (k1, k2) -> k2));
+				.collect(Collectors.toMap(VueRouter::getId, Function.identity()));
 
 		routes.forEach(route -> {
 			String parentId = route.getParentId();

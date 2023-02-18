@@ -60,7 +60,7 @@ public class DocProperties {
 	/**
 	 * 网关地址
 	 */
-	private String url = "http://fxz-gateway:8301";
+	private String url = "http://fxz-gateway:9999";
 
 	/**
 	 * 服务转发配置
