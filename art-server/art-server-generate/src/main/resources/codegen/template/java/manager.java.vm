@@ -1,0 +1,70 @@
+package com.art.${module}.dao;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Component
+@RequiredArgsConstructor
+public class ${className}Manager {
+
+    private final ${className}Mapper ${classname}Mapper;
+
+    /**
+     * 分页查询
+     * @param ${classname}PageDTO 分页参数
+     * @return 分页结果
+     */
+    public Page<${className}DO> page${className}(${className}PageDTO ${classname}PageDTO) {
+        return ${classname}Mapper.selectPage(Page.of(${classname}PageDTO.getCurrent(), ${classname}PageDTO.getSize()), Wrappers.emptyWrapper());
+    }
+
+    /**
+     * 列出所有
+     * @return 所有${classname}DO
+     */
+    public List<${className}DO> list${className}() {
+        return ${classname}Mapper.selectList(Wrappers.emptyWrapper());
+    }
+
+    /**
+     * 根据Id删除
+     * @param id 主键
+     * @return 影响行数
+     */
+    public Integer delete${className}ById(Long id) {
+        return ${classname}Mapper.deleteById(id);
+    }
+
+    /**
+     * 根据id更新
+     * @param ${classname}DTO ${classname}DTO
+     * @return 影响条数
+     */
+    public Integer update${className}ById(${className}DTO ${classname}DTO) {
+        return ${classname}Mapper.updateById(${className}Convert.INSTANCE.convert(${classname}DTO));
+    }
+
+    /**
+     * 新增
+     * @param ${classname}DTO ${classname}DTO
+     * @return 影响条数
+     */
+    public Integer add${className}(${className}DTO ${classname}DTO) {
+        return ${classname}Mapper.insert(${className}Convert.INSTANCE.convert(${classname}DTO));
+    }
+
+    /**
+     * 根据id查询
+     * @param id 主键
+     * @return ${className}DO
+     */
+    public ${className}DO findById(Long id) {
+        return ${classname}Mapper.selectById(id);
+    }
+
+}

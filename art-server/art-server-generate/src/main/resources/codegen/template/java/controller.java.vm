@@ -59,7 +59,7 @@ public class ${className}Controller {
     @Operation( summary = "获取单条")
     @GetMapping(value = "/findById")
     @PreAuthorize("@ps.hasPermission('${module}:${classname}:view')")
-    public Result<${className}> findById(Long id) {
+    public Result<${className}DTO> findById(Long id) {
         return Result.success(${classname}Service.findById(id));
     }
 
@@ -69,7 +69,7 @@ public class ${className}Controller {
     @Operation( summary = "获取全部")
     @GetMapping(value = "/findAll")
     @PreAuthorize("@ps.hasPermission('${module}:${classname}:view')")
-    public Result<List<${className}>> findAll() {
+    public Result<List<${className}DTO>> findAll() {
         return Result.success(${classname}Service.findAll());
     }
 
@@ -79,8 +79,8 @@ public class ${className}Controller {
     @Operation( summary = "分页")
     @GetMapping(value = "/page")
     @PreAuthorize("@ps.hasPermission('${module}:${classname}:view')")
-    public Result<PageResult<${className}>> page${className}(Page<${className}> pageParam, ${className} ${classname}) {
-        return Result.success(PageResult.success(${classname}Service.page${className}(pageParam, ${classname})));
+    public Result<PageResult<${className}DTO>> page${className}(${className}PageDTO ${classname}PageDTO) {
+        return Result.success(PageResult.success(${classname}Service.page${className}(${classname}PageDTO)));
     }
 
 }
