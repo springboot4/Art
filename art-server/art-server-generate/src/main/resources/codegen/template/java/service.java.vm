@@ -11,7 +11,7 @@ import java.util.List;
  * @author ${author}
  * @date ${datetime}
  */
-public interface ${className}Service extends IService <${className}> {
+public interface ${className}Service {
 
     /**
      * 添加
@@ -26,17 +26,17 @@ public interface ${className}Service extends IService <${className}> {
     /**
      * 分页
      */
-    IPage<${className}> page${className}(Page<${className}> pageParam, ${className} ${classname});
+    IPage<${className}DTO> page${className}(${className}PageDTO ${classname}PageDTO);
 
     /**
      * 获取单条
      */
-     ${className} findById(Long id);
+     ${className}DTO findById(Long id);
 
     /**
      * 获取全部
      */
-    List<${className}> findAll();
+    List<${className}DTO> findAll();
 
     /**
     * 删除

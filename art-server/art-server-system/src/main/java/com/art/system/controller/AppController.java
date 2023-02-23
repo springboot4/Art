@@ -60,7 +60,6 @@ public class AppController {
 	@Operation(summary = "添加")
 	@PostMapping(value = "/add")
 	public Result<Void> add(@RequestBody AppDTO appDTO) {
-		AppDTO appDTO1 = new AppDTO();
 		ValidationUtil.validateParam(appDTO, ValidationGroup.add.class);
 		return Result.judge(appService.addApp(appDTO));
 	}

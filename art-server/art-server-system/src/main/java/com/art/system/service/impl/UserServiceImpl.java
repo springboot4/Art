@@ -86,7 +86,8 @@ public class UserServiceImpl implements UserService {
 				: passwordEncoder.encode(user.getPassword())));
 
 		// 保存用户信息
-		userManager.addUser(user);
+		Long userId = userManager.addUser(user);
+		user.setUserId(userId);
 
 		// 保存用户角色
 		setUserRoles(user);

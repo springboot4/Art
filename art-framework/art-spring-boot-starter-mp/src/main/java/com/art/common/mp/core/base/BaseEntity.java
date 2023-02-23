@@ -20,8 +20,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
@@ -34,6 +33,8 @@ import java.time.LocalDateTime;
  * @version 0.0.1
  * @date 2022/10/25 15:26
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @FieldNameConstants

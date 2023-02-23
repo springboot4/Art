@@ -93,4 +93,13 @@ public class DeptController {
 		return Result.judge(deptService.updateById(deptDTO));
 	}
 
+	/**
+	 * 获取当前用户部门(包含父级)
+	 */
+	@Operation(summary = "获取当前用户部门(包含父级)")
+	@GetMapping("/getDeptNameByUserId")
+	public Result<String> getDeptNameByUserId() {
+		return Result.success(deptService.getDeptNameByUserId());
+	}
+
 }

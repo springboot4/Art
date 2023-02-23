@@ -62,4 +62,10 @@ public interface DeptService {
 	 */
 	Boolean updateById(DeptDTO deptDTO);
 
+	/**
+	 * 获取当前用户部门(包含父级)
+	 * @return 用户所处部门
+	 */
+	String getDeptNameByUserId();
+
 }

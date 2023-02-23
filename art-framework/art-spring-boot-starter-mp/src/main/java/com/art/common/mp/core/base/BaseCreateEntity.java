@@ -18,8 +18,7 @@ package com.art.common.mp.core.base;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
@@ -30,6 +29,8 @@ import java.time.LocalDateTime;
  *
  * @author fxz
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @FieldNameConstants
