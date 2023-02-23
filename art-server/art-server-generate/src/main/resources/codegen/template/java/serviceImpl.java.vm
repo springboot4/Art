@@ -18,19 +18,16 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ${className}ServiceImpl extends ServiceImpl <${className}Mapper, ${className}> implements ${className}Service {
+public class ${className}ServiceImpl implements ${className}Service {
 
-    private final ${className}Mapper ${classname}Mapper;
+    private final ${className}Manager ${classname}Manager;
 
     /**
      * 添加
      */
     @Override
     public Boolean add${className}(${className}DTO ${classname}DTO) {
-        ${className} ${classname} = new ${className}();
-        BeanUtils.copyProperties(${classname}DTO, ${classname});
-        ${classname}Mapper.insert(${classname});
-        return Boolean.TRUE;
+        return ${classname}Manager.add${className}(${classname}DTO) > 0;
     }
 
     /**
@@ -38,34 +35,31 @@ public class ${className}ServiceImpl extends ServiceImpl <${className}Mapper, ${
      */
     @Override
     public Boolean update${className}(${className}DTO ${classname}DTO) {
-        ${className} ${classname} =new ${className}();
-        BeanUtils.copyProperties(${classname}DTO, ${classname});
-        ${classname}Mapper.updateById(${classname});
-        return Boolean.TRUE;
+        return ${classname}Manager.update${className}ById(${classname}DTO) > 0;
     }
 
     /**
      * 分页
      */
     @Override
-    public IPage<${className}> page${className}(Page<${className}> pageParam, ${className} ${classname}) {
-        return ${classname}Mapper.selectPage(pageParam, Wrappers.emptyWrapper());
+    public IPage<${className}DTO> page${className}(${className}PageDTO ${classname}PageDTO) {
+        return ${className}Convert.INSTANCE.convertPage(${classname}Manager.page${className}(${classname}PageDTO));
     }
 
     /**
      * 获取单条
      */
     @Override
-    public ${className} findById(Long id) {
-        return ${classname}Mapper.selectById(id);
+    public ${className}DTO findById(Long id) {
+        return ${className}Convert.INSTANCE.convert(${classname}Manager.findById(id));
     }
 
     /**
      * 获取全部
      */
     @Override
-    public List<${className}> findAll() {
-        return ${classname}Mapper.selectList(Wrappers.emptyWrapper());
+    public List<${className}DTO> findAll() {
+        return ${className}Convert.INSTANCE.convertList(${classname}Manager.list${className}());
     }
 
     /**
@@ -73,8 +67,7 @@ public class ${className}ServiceImpl extends ServiceImpl <${className}Mapper, ${
     */
     @Override
     public Boolean delete${className}(Long id) {
-            ${classname}Mapper.deleteById(id);
-        return Boolean.TRUE;
+        return ${classname}Manager.delete${className}ById(id) > 0;
     }
 
 }

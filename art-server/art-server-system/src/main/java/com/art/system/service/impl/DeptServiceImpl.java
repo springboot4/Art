@@ -16,8 +16,11 @@
 
 package com.art.system.service.impl;
 
+import cn.hutool.core.lang.Opt;
 import com.art.common.core.exception.FxzException;
 import com.art.common.dataPermission.annotation.DataPermission;
+import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.util.SecurityUtil;
 import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.core.bo.DeptBO;
 import com.art.system.core.convert.DeptConvert;
@@ -86,6 +89,16 @@ public class DeptServiceImpl implements DeptService {
 	@Override
 	public Boolean updateById(DeptDTO deptDTO) {
 		return deptManager.updateById(deptDTO) > 0;
+	}
+
+	/**
+	 * 获取当前用户部门(包含父级)
+	 * @return 用户所处部门
+	 */
+	@Override
+	public String getDeptNameByUserId() {
+		FxzAuthUser user = Opt.of(SecurityUtil.getUser()).get();
+		return deptManager.getDeptNameByUserId(user.getDeptId());
 	}
 
 	/**

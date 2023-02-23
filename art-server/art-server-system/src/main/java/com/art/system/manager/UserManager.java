@@ -60,8 +60,10 @@ public class UserManager {
 		return userMapper.selectCount(Wrappers.emptyWrapper());
 	}
 
-	public void addUser(SystemUserDTO user) {
-		userMapper.insert(UserConvert.INSTANCE.convert(user));
+	public Long addUser(SystemUserDTO user) {
+		SystemUserDO userDO = UserConvert.INSTANCE.convert(user);
+		userMapper.insert(userDO);
+		return userDO.getUserId();
 	}
 
 	public void updateUserById(SystemUserDTO user) {
