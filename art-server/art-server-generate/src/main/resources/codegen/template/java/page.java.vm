@@ -1,7 +1,9 @@
 #set($excludeColumns = ["createTime","updateTime","createBy","updateBy"])
-package com.art.common.core.entity.${module};
+package com.art.common.core.${module}.mapper;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.art.common.mp.core.base.BaseCreateEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 
 /**
@@ -9,15 +11,18 @@ import lombok.Data;
  * @author ${author}
  * @date ${datetime}
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Schema(title = "${comments}")
 @Data
-@TableName("${tableName}")
-public class ${className}DO extends BaseEntity{
+public class ${className}PageDTO extends BasePageEntity {
 
     private static final long serialVersionUID = -1L;
 
 #foreach ($column in $columns)
     #if(!$excludeColumns.contains($column.name))
-/** $column.comments */
+    @Schema(description = "$column.comments")
     private $column.attrType $column.name;
     #end
 #end

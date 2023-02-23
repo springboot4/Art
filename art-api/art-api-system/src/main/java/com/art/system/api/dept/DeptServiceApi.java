@@ -14,35 +14,25 @@
  * limitations under the License.
  */
 
-package com.art.common.mp.core.base;
+package com.art.system.api.dept;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.*;
-import lombok.experimental.FieldNameConstants;
-
-import java.io.Serializable;
+import com.art.common.core.constant.FxzServerConstant;
+import com.art.common.core.model.Result;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * 数据库实体继承此类 数据库需含有以下字段
- *
  * @author Fxz
  * @version 0.0.1
- * @date 2022/10/25 15:11
+ * @date 2022-04-07 14:50
  */
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@FieldNameConstants
-public class BaseIdEntity implements Serializable {
-
-	private static final long serialVersionUID = -1L;
+@FeignClient(contextId = "deptServiceApi", value = FxzServerConstant.FXZ_SERVER_SYSTEM)
+public interface DeptServiceApi {
 
 	/**
-	 * 主键
+	 * 获取当前用户的部门名称
 	 */
-	@TableId(type = IdType.ASSIGN_ID)
-	private Long id;
+	@GetMapping(value = "/dept/getDeptNameByUserId")
+	Result<String> getDeptAllByUserId();
 
 }

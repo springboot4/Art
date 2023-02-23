@@ -1,0 +1,27 @@
+package com.art.${module}.core.convert;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Mapper
+public interface ${className}Convert {
+
+    ${className}Convert INSTANCE = Mappers.getMapper(${className}Convert.class);
+
+    Page<${className}DTO> convertPage(Page<${className}DO> ${classname}DO);
+
+    List<${className}DTO> convertList(List<${className}DO> ${classname}DO);
+
+    ${className}DTO convert(${className}DO ${classname}DO);
+
+    ${className}DO convert(${className}DTO ${classname}DTO);
+
+}

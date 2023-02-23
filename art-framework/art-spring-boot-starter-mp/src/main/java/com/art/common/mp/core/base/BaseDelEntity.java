@@ -17,8 +17,7 @@
 package com.art.common.mp.core.base;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
@@ -30,6 +29,8 @@ import java.io.Serializable;
  * @version 0.0.1
  * @date 2022/10/25 15:14
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @FieldNameConstants

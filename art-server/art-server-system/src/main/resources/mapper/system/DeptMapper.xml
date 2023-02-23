@@ -28,6 +28,27 @@
         <collection property="children" column="{DEPT_ID = DEPT_ID}" select="getDeptByPid"/>
     </resultMap>
 
+    <!--需要mysql8支持 -->
+    <select id="getDeptNameByUserId" resultType="String">
+        WITH RECURSIVE r_t AS (
+            SELECT
+                s1.dept_id,
+                s1.parent_id,
+                s1.dept_name
+            FROM
+                sys_dept s1
+            WHERE
+                s1.dept_id = #{deptId} UNION ALL
+            SELECT
+                s2.dept_id,
+                s2.parent_id,
+                CONCAT( s2.dept_name, '-', r_t.dept_name ) dept_name
+            FROM
+                sys_dept s2
+                    INNER JOIN r_t ON r_t.parent_id = s2.dept_id
+        ) SELECT	dept_name FROM	r_t ORDER BY LENGTH(dept_name) DESC LIMIT 1;
+    </select>
+
     <select id="getDeptsByParentId" resultMap="deptBO">
         select dept_id,
                parent_id,

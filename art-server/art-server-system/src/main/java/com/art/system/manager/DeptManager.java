@@ -82,4 +82,8 @@ public class DeptManager {
 		return deptMapper.getDeptsByParentId(pId);
 	}
 
+	public String getDeptNameByUserId(Long deptId) {
+		return deptMapper.getDeptNameByUserId(deptId);
+	}
+
 }

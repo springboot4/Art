@@ -36,41 +36,65 @@ public enum CodeGenTemplateVmEnum {
 	/**
 	 * 实体类
 	 */
-	ENTITY("entity", "codegen/template/java/entity.java.vm", ".java"),
+	ENTITY("entity", "codegen/template/java/entity.java.vm", "DO.java"),
+
+	/**
+	 * manager
+	 */
+	MANAGER("manager", "codegen/template/java/manager.java.vm", "Manager.java"),
+
 	/**
 	 * mapper
 	 */
 	MAPPER("mapper", "codegen/template/java/mapper.java.vm", "Mapper.java"),
+
 	/**
-	 * serviceImpl
+	 * service
 	 */
 	SERVICE("service", "codegen/template/java/service.java.vm", "Service.java"),
+
 	/**
 	 * serviceImpl
 	 */
 	SERVICEIMPL("serviceImpl", "codegen/template/java/serviceImpl.java.vm", "ServiceImpl.java"),
+
 	/**
 	 * controller
 	 */
 	CONTROLLER("controller", "codegen/template/java/controller.java.vm", "Controller.java"),
+
 	/**
 	 * dto
 	 */
 	DTO("dto", "codegen/template/java/dto.java.vm", "DTO.java"),
+
+	/**
+	 * page
+	 */
+	PAGE("page", "codegen/template/java/page.java.vm", "PageDTO.java"),
+
+	/**
+	 * convert
+	 */
+	CONVERT("convert", "codegen/template/java/convert.java.vm", "Convert.java"),
+
 	/**
 	 * api_vue2
 	 */
 	API_V2("api_v2", "codegen/template/vue2/api.js.vm", ".js"),
+
 	/**
 	 * list_vue2
 	 */
 	LIST_V2("list_v2", "codegen/template/vue2/list.vue.vm", "List.vue"),
+
 	/**
 	 * template_vue2
 	 */
 	TEMPLATE_V2("template_v2", "codegen/template/vue2/template.js.vm", "template.js"),
+
 	/**
-	 * edit_vue3
+	 * edit_vue2
 	 */
 	EDIT_V2("edit_v2", "codegen/template/vue2/edit.vue.vm", "Edit.vue");
 
