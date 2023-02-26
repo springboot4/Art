@@ -49,9 +49,10 @@ public class AppManager {
 	 */
 	public Page<AppDO> pageApp(AppPageDTO appPageDTO) {
 		LambdaQueryWrapper<AppDO> wrapper = Wrappers.<AppDO>lambdaQuery()
-				.like(StrUtil.isNotBlank(appPageDTO.getName()), AppDO::getName, appPageDTO.getName())
-				.like(StrUtil.isNotBlank(appPageDTO.getCode()), AppDO::getCode, appPageDTO.getCode())
-				.eq(Objects.nonNull(appPageDTO.getId()), AppDO::getId, appPageDTO.getId()).orderByAsc(AppDO::getSort);
+			.like(StrUtil.isNotBlank(appPageDTO.getName()), AppDO::getName, appPageDTO.getName())
+			.like(StrUtil.isNotBlank(appPageDTO.getCode()), AppDO::getCode, appPageDTO.getCode())
+			.eq(Objects.nonNull(appPageDTO.getId()), AppDO::getId, appPageDTO.getId())
+			.orderByAsc(AppDO::getSort);
 
 		return appMapper.selectPage(Page.of(appPageDTO.getCurrent(), appPageDTO.getSize()), wrapper);
 	}

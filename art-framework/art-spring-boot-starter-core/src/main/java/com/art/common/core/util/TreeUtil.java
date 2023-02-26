@@ -50,7 +50,7 @@ public class TreeUtil {
 
 		List<VueRouter<T>> topRoutes = new ArrayList<>();
 		Map<String, VueRouter<T>> routerMap = routes.stream()
-				.collect(Collectors.toMap(VueRouter::getId, Function.identity()));
+			.collect(Collectors.toMap(VueRouter::getId, Function.identity()));
 
 		routes.forEach(route -> {
 			String parentId = route.getParentId();

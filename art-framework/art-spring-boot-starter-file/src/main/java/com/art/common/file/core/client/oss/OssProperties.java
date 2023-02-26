@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,32 +14,21 @@
  * limitations under the License.
  */
 
-package com.art.common.quartz.core.annotation;
+package com.art.common.file.core.client.oss;
 
-import java.lang.annotation.*;
+import lombok.Data;
 
-/**
- * 标识一个QuartzJob类
- *
- * @author Fxz
- * @version 0.0.1
- * @date 2022/12/12 17:11
- */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface ArtQuartzJob {
+@Data
+public class OssProperties {
 
-	/**
-	 * jobName
-	 * @return jobName
-	 */
-	String name() default "";
+	private String endpoint;
 
-	/**
-	 * 是否记录日志 (true:记录 false:不记录)
-	 * @return true:记录 false:不记录
-	 */
-	boolean log() default false;
+	private Boolean pathStyleAccess = true;
+
+	private String accessKey;
+
+	private String secretKey;
+
+	private String bucketName = "fxzCloud";
 
 }

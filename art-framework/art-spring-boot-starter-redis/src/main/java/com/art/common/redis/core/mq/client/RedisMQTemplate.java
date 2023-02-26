@@ -58,8 +58,9 @@ public class RedisMQTemplate {
 			// 发送消息前拦截器处理
 			sendMessageBefore(message);
 			// 构建 ObjectRecord
-			ObjectRecord<String, String> record = StreamRecords.newRecord().ofObject(JacksonUtil.toJsonString(message))
-					.withStreamKey(message.getStreamKey());
+			ObjectRecord<String, String> record = StreamRecords.newRecord()
+				.ofObject(JacksonUtil.toJsonString(message))
+				.withStreamKey(message.getStreamKey());
 			// 发送消息
 			return redisTemplate.opsForStream().add(record);
 		}

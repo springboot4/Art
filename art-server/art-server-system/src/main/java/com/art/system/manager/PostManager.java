@@ -63,9 +63,8 @@ public class PostManager {
 
 	public Page<PostDO> pagePost(PostPageDTO postPageDTO) {
 		LambdaQueryWrapper<PostDO> wrapper = Wrappers.<PostDO>lambdaQuery()
-				.like(StringUtils.isNotBlank(postPageDTO.getPostCode()), PostDO::getPostCode, postPageDTO.getPostCode())
-				.like(StringUtils.isNotBlank(postPageDTO.getPostName()), PostDO::getPostName,
-						postPageDTO.getPostName());
+			.like(StringUtils.isNotBlank(postPageDTO.getPostCode()), PostDO::getPostCode, postPageDTO.getPostCode())
+			.like(StringUtils.isNotBlank(postPageDTO.getPostName()), PostDO::getPostName, postPageDTO.getPostName());
 		return postMapper.selectPage(Page.of(postPageDTO.getCurrent(), postPageDTO.getSize()), wrapper);
 	}
 

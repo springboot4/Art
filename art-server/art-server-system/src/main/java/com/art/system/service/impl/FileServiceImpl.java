@@ -22,7 +22,7 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.amazonaws.services.s3.model.S3Object;
-import com.art.common.file.core.FileStorageProperties;
+import com.art.common.file.core.propertie.FileStorageProperties;
 import com.art.system.api.file.dto.FileDTO;
 import com.art.system.api.file.dto.FilePageDTO;
 import com.art.system.core.convert.FileConvert;
@@ -100,9 +100,13 @@ public class FileServiceImpl implements FileService {
 	 * @param fileName 文件名
 	 */
 	private void fileLog(MultipartFile file, String fileName) {
-		FileDO fileDO = FileDO.builder().fileName(fileName).original(file.getOriginalFilename())
-				.fileSize(file.getSize()).type(FileUtil.extName(file.getOriginalFilename()))
-				.bucketName(ossProperties.getOss().getBucketName()).build();
+		FileDO fileDO = FileDO.builder()
+			.fileName(fileName)
+			.original(file.getOriginalFilename())
+			.fileSize(file.getSize())
+			.type(FileUtil.extName(file.getOriginalFilename()))
+			.bucketName(ossProperties.getOss().getBucketName())
+			.build();
 
 		fileManager.saveFile(fileDO);
 	}

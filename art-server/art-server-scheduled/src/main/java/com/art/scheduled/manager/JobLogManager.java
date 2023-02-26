@@ -49,7 +49,7 @@ public class JobLogManager {
 
 	public Page<JobLogDO> page(JobLogPageDTO pageDTO) {
 		LambdaQueryWrapper<JobLogDO> wrapper = Wrappers.<JobLogDO>lambdaQuery()
-				.eq(StringUtils.isNotBlank(pageDTO.getJobName()), JobLogDO::getJobName, pageDTO.getJobName());
+			.eq(StringUtils.isNotBlank(pageDTO.getJobName()), JobLogDO::getJobName, pageDTO.getJobName());
 
 		return jobLogMapper.selectPage(Page.of(pageDTO.getCurrent(), pageDTO.getSize()), wrapper);
 	}

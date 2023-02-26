@@ -56,8 +56,8 @@ public class AliyunSmsService {
 		// 随机生成6位的验证码
 		String code = RandomUtil.randomNumbers(6);
 		// 缓存生成的验证码
-		stringRedisTemplate.opsForValue().set(SecurityConstants.SMS_CODE_PREFIX + phoneNumber, code, 600,
-				TimeUnit.SECONDS);
+		stringRedisTemplate.opsForValue()
+			.set(SecurityConstants.SMS_CODE_PREFIX + phoneNumber, code, 600, TimeUnit.SECONDS);
 
 		DefaultProfile profile = DefaultProfile.getProfile(aliyunSmsProperties.getRegionId(),
 				aliyunSmsProperties.getAccessKeyId(), aliyunSmsProperties.getAccessKeySecret());

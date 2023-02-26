@@ -59,8 +59,10 @@ public class DocAutoConfiguration {
 		serverList.add(new Server().url(docProperties.getUrl() + "/" + path));
 
 		return new OpenAPI().servers(serverList)
-				.info(new Info().title(docProperties.getTitle()).description(docProperties.getDescription())
-						.version(docProperties.getVersion()).contact(new Contact().name(docProperties.getAuthor())));
+			.info(new Info().title(docProperties.getTitle())
+				.description(docProperties.getDescription())
+				.version(docProperties.getVersion())
+				.contact(new Contact().name(docProperties.getAuthor())));
 	}
 
 }

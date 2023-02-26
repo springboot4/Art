@@ -49,7 +49,7 @@ public class WebSocketEndpointEventServer {
 	 * websocket_request_param
 	 */
 	public static final AttributeKey<Map<String, List<String>>> REQUEST_PARAM = AttributeKey
-			.valueOf("WEBSOCKET_REQUEST_PARAM");
+		.valueOf("WEBSOCKET_REQUEST_PARAM");
 
 	/**
 	 * 路径和端点方法映射
@@ -67,7 +67,7 @@ public class WebSocketEndpointEventServer {
 	private final Set<WsPathMatcher> pathMatchers = new HashSet<>();
 
 	private static final InternalLogger INTERNAL_LOGGER = InternalLoggerFactory
-			.getInstance(WebSocketEndpointEventServer.class);
+		.getInstance(WebSocketEndpointEventServer.class);
 
 	public WebSocketEndpointEventServer(WebSocketEndpointMethodMapping methodMapping, WebSocketEndpointConfig config,
 			String path) {

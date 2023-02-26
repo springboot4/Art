@@ -46,6 +46,7 @@
         <sentinel.version>1.6.3</sentinel.version>
         <velocity.version>2.3</velocity.version>
         <hutool.version>5.8.11</hutool.version>
+        <commons-net.version>3.8.0</commons-net.version>
         <seata.version>1.4.2</seata.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
@@ -113,6 +114,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable-thread-local.version}</version>
+            </dependency>
+            <!-- ftp 连接 -->
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${commons-net.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>

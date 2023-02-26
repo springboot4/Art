@@ -44,7 +44,7 @@ public class DataPermissionCustomAdvice implements MethodInterceptor {
 	 * 方法无数据权限注解时 使用此进行占位
 	 */
 	static final DataPermission DATA_PERMISSION_NULL = DataPermissionCustomAdvice.class
-			.getAnnotation(DataPermission.class);
+		.getAnnotation(DataPermission.class);
 
 	private final Map<MethodClassKey, DataPermission> dataPermissionCache = new ConcurrentHashMap<>();
 

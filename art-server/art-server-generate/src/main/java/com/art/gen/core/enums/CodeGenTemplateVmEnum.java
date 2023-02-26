@@ -115,8 +115,10 @@ public enum CodeGenTemplateVmEnum {
 
 	@SneakyThrows
 	public static CodeGenTemplateVmEnum findByName(String name) {
-		return Arrays.stream(CodeGenTemplateVmEnum.values()).filter(e -> Objects.equals(name, e.getName())).findFirst()
-				.orElseThrow(() -> new FxzException("不支持的模板类型"));
+		return Arrays.stream(CodeGenTemplateVmEnum.values())
+			.filter(e -> Objects.equals(name, e.getName()))
+			.findFirst()
+			.orElseThrow(() -> new FxzException("不支持的模板类型"));
 	}
 
 }

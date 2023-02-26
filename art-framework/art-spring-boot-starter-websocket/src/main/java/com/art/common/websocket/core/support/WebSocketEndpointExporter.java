@@ -99,10 +99,10 @@ public class WebSocketEndpointExporter extends ApplicationObjectSupport
 
 		// 使用 @SpringBootApplication 的扫描路径
 		String[] springBootApplicationBeanName = applicationContext
-				.getBeanNamesForAnnotation(SpringBootApplication.class);
+			.getBeanNamesForAnnotation(SpringBootApplication.class);
 		Object springBootApplicationBean = applicationContext.getBean(springBootApplicationBeanName[0]);
 		SpringBootApplication springBootApplication = AnnotationUtils
-				.findAnnotation(springBootApplicationBean.getClass(), SpringBootApplication.class);
+			.findAnnotation(springBootApplicationBean.getClass(), SpringBootApplication.class);
 		assert springBootApplication != null;
 		if (springBootApplication.scanBasePackages().length != 0) {
 			basePackages = springBootApplication.scanBasePackages();
@@ -138,10 +138,10 @@ public class WebSocketEndpointExporter extends ApplicationObjectSupport
 				WebSocketEndpointEventServer webSocketEndpointEventServer = websocketServer.getEndpointServer();
 				StringJoiner stringJoiner = new StringJoiner(",");
 				webSocketEndpointEventServer.getPathMatcherSet()
-						.forEach(pathMatcher -> stringJoiner.add("'" + pathMatcher.getPattern() + "'"));
-				logger.info(
-						String.format("\033[34mNetty WebSocket started on port: %s with context path(s): %s .\033[0m",
-								webSocketEndpointEventServer.getPort(), stringJoiner));
+					.forEach(pathMatcher -> stringJoiner.add("'" + pathMatcher.getPattern() + "'"));
+				logger
+					.info(String.format("\033[34mNetty WebSocket started on port: %s with context path(s): %s .\033[0m",
+							webSocketEndpointEventServer.getPort(), stringJoiner));
 			}
 			catch (InterruptedException e) {
 				logger.error(String.format("websocket [%s] init fail", entry.getKey()), e);

@@ -96,16 +96,22 @@ public class FxzCloudSecurityProperties implements InitializingBean {
 			// 获取方法上边的注解 替代path variable 为 *
 			Ojbk method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Ojbk.class);
 			Optional.ofNullable(method)
-					.ifPresent(inner -> info.getPathPatternsCondition().getPatterns().stream()
-							.map(PathPattern::getPatternString).collect(Collectors.toSet())
-							.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+				.ifPresent(inner -> info.getPathPatternsCondition()
+					.getPatterns()
+					.stream()
+					.map(PathPattern::getPatternString)
+					.collect(Collectors.toSet())
+					.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
 			// 获取类上边的注解, 替代path variable 为 *
 			Ojbk controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Ojbk.class);
 			Optional.ofNullable(controller)
-					.ifPresent(inner -> info.getPathPatternsCondition().getPatterns().stream()
-							.map(PathPattern::getPatternString).collect(Collectors.toSet())
-							.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+				.ifPresent(inner -> info.getPathPatternsCondition()
+					.getPatterns()
+					.stream()
+					.map(PathPattern::getPatternString)
+					.collect(Collectors.toSet())
+					.forEach(url -> list.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
 		});
 

@@ -1,7 +1,7 @@
 package com.art.system.core.handler;
 
 import com.amazonaws.services.s3.model.PartETag;
-import com.art.common.file.core.oss.OssFileStorage;
+import com.art.common.file.core.client.oss.OssFileStorage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;

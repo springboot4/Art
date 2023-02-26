@@ -67,8 +67,10 @@ public class CityValidator implements ConstraintValidator<CheckCityValid, String
 		CityEntity entity;
 		switch (type) {
 			case PROVINCE: {
-				entity = cityJson.stream().filter(item -> inputValue.equals(item.getName()) && item.getParent() == null)
-						.findFirst().orElse(null);
+				entity = cityJson.stream()
+					.filter(item -> inputValue.equals(item.getName()) && item.getParent() == null)
+					.findFirst()
+					.orElse(null);
 				break;
 			}
 			default:
@@ -77,9 +79,10 @@ public class CityValidator implements ConstraintValidator<CheckCityValid, String
 					// 找出名字相符且有父节点的entity
 					if (inputValue.equals(item.getName()) && item.getParent() != null) {
 						// 找出没有父节点的父节点
-						CityEntity parentEntity = cityJson.stream().filter(
-								parent -> item.getParent().equals(parent.getValue()) && parent.getParent() == null)
-								.findFirst().orElse(null);
+						CityEntity parentEntity = cityJson.stream()
+							.filter(parent -> item.getParent().equals(parent.getValue()) && parent.getParent() == null)
+							.findFirst()
+							.orElse(null);
 						return parentEntity != null;
 					}
 					return false;
@@ -91,9 +94,10 @@ public class CityValidator implements ConstraintValidator<CheckCityValid, String
 					// 找出名字相符且有父节点的entity
 					if (inputValue.equals(item.getName()) && item.getParent() != null) {
 						// 找出有父节点的父节点
-						CityEntity parentEntity = cityJson.stream().filter(
-								parent -> item.getParent().equals(parent.getValue()) && parent.getParent() != null)
-								.findFirst().orElse(null);
+						CityEntity parentEntity = cityJson.stream()
+							.filter(parent -> item.getParent().equals(parent.getValue()) && parent.getParent() != null)
+							.findFirst()
+							.orElse(null);
 						return parentEntity != null;
 					}
 					return false;

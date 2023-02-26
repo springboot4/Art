@@ -112,7 +112,8 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 
 		// 获得用户的数据权限
 		DeptDataPermissionRespEntity deptDataPermission = Opt
-				.of(deptDataPermissionService.getDeptDataPermission(loginUser)).get();
+			.of(deptDataPermissionService.getDeptDataPermission(loginUser))
+			.get();
 
 		// 可查看全部 不拼接条件
 		if (deptDataPermission.getAll()) {
