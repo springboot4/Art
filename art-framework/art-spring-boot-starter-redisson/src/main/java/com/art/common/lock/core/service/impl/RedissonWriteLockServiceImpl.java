@@ -43,8 +43,8 @@ public class RedissonWriteLockServiceImpl implements RedissonService {
 
 		try {
 			// 加锁
-			return rLock.writeLock().tryLock(lockEntity.getWaitTime(), lockEntity.getLeaseTime(),
-					lockEntity.getTimeUnit());
+			return rLock.writeLock()
+				.tryLock(lockEntity.getWaitTime(), lockEntity.getLeaseTime(), lockEntity.getTimeUnit());
 		}
 		catch (Exception e) {
 			return false;

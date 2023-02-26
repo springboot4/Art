@@ -66,10 +66,10 @@ public abstract class BaseCanalBinlogEventProcessor<T> extends BaseParameterized
 			ModelTable modelTable = modelTableMetadata.getModelTable();
 			this.primaryKeyFunction = Optional.ofNullable(primaryKeyFunction()).orElse(BigIntPrimaryKeyTupleFunction.X);
 			this.commonEntryFunction = Optional.ofNullable(commonEntryFunction())
-					.orElse(ReflectionBinLogEntryFunction.of(modelKlass, modelTableMetadata));
+				.orElse(ReflectionBinLogEntryFunction.of(modelKlass, modelTableMetadata));
 			this.exceptionHandler = Optional.ofNullable(exceptionHandler()).orElse(ExceptionHandler.NO_OP);
 			this.parseResultInterceptors = Optional.ofNullable(parseResultInterceptors())
-					.orElse(parseResultInterceptorManager.getParseResultInterceptors(modelKlass));
+				.orElse(parseResultInterceptorManager.getParseResultInterceptors(modelKlass));
 			// 自注册
 			canalBinlogEventProcessorFactory.register(modelTable, this);
 
@@ -126,57 +126,57 @@ public abstract class BaseCanalBinlogEventProcessor<T> extends BaseParameterized
 
 	private void onParse(ModelTable modelTable) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onParse(modelTable)));
+			.ifPresent(items -> items.forEach(item -> item.onParse(modelTable)));
 	}
 
 	private void onParseFinish(ModelTable modelTable) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onParseFinish(modelTable)));
+			.ifPresent(items -> items.forEach(item -> item.onParseFinish(modelTable)));
 	}
 
 	private void onBeforeInsertProcess(ModelTable modelTable, T before, T after) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onBeforeInsertProcess(modelTable, before, after)));
+			.ifPresent(items -> items.forEach(item -> item.onBeforeInsertProcess(modelTable, before, after)));
 	}
 
 	private void onAfterInsertProcess(ModelTable modelTable, T before, T after) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onAfterInsertProcess(modelTable, before, after)));
+			.ifPresent(items -> items.forEach(item -> item.onAfterInsertProcess(modelTable, before, after)));
 	}
 
 	private void onBeforeUpdateProcess(ModelTable modelTable, T before, T after) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onBeforeUpdateProcess(modelTable, before, after)));
+			.ifPresent(items -> items.forEach(item -> item.onBeforeUpdateProcess(modelTable, before, after)));
 	}
 
 	private void onAfterUpdateProcess(ModelTable modelTable, T before, T after) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onAfterUpdateProcess(modelTable, before, after)));
+			.ifPresent(items -> items.forEach(item -> item.onAfterUpdateProcess(modelTable, before, after)));
 	}
 
 	private void onBeforeDeleteProcess(ModelTable modelTable, T before, T after) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onBeforeDeleteProcess(modelTable, before, after)));
+			.ifPresent(items -> items.forEach(item -> item.onBeforeDeleteProcess(modelTable, before, after)));
 	}
 
 	private void onAfterDeleteProcess(ModelTable modelTable, T before, T after) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onAfterDeleteProcess(modelTable, before, after)));
+			.ifPresent(items -> items.forEach(item -> item.onAfterDeleteProcess(modelTable, before, after)));
 	}
 
 	private void onBeforeDDLProcess(ModelTable modelTable, T before, T after, String sql) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onBeforeDDLProcess(modelTable, before, after, sql)));
+			.ifPresent(items -> items.forEach(item -> item.onBeforeDDLProcess(modelTable, before, after, sql)));
 	}
 
 	private void onAfterDDLProcess(ModelTable modelTable, T before, T after, String sql) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onAfterDDLProcess(modelTable, before, after, sql)));
+			.ifPresent(items -> items.forEach(item -> item.onAfterDDLProcess(modelTable, before, after, sql)));
 	}
 
 	private void onParseCompletion(ModelTable modelTable) {
 		Optional.ofNullable(parseResultInterceptors)
-				.ifPresent(items -> items.forEach(item -> item.onParseCompletion(modelTable)));
+			.ifPresent(items -> items.forEach(item -> item.onParseCompletion(modelTable)));
 	}
 
 	protected BasePrimaryKeyTupleFunction primaryKeyFunction() {

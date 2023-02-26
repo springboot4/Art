@@ -50,8 +50,9 @@ public class AjImageCodeCheckHandler implements HandlerFunction<ServerResponse> 
 
 		ResponseModel responseModel = captchaService.check(vo);
 
-		return ServerResponse.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-				.body(BodyInserters.fromValue(Result.success(responseModel)));
+		return ServerResponse.status(HttpStatus.OK)
+			.contentType(MediaType.APPLICATION_JSON)
+			.body(BodyInserters.fromValue(Result.success(responseModel)));
 	}
 
 }

@@ -16,8 +16,8 @@
 
 package com.art.system.service.impl;
 
-import com.art.common.core.model.VueRouter;
 import com.art.common.core.exception.FxzException;
+import com.art.common.core.model.VueRouter;
 import com.art.common.core.util.TreeUtil;
 import com.art.common.security.entity.FxzAuthUser;
 import com.art.common.security.util.SecurityUtil;
@@ -25,7 +25,6 @@ import com.art.system.api.dict.dto.MenuDTO;
 import com.art.system.core.convert.MenuConvert;
 import com.art.system.dao.dataobject.MenuDO;
 import com.art.system.dao.dataobject.SystemUserDO;
-import com.art.system.dao.redis.menu.MenuRedisKeyConstants;
 import com.art.system.manager.AppManager;
 import com.art.system.manager.MenuManager;
 import com.art.system.manager.UserManager;
@@ -33,8 +32,6 @@ import com.art.system.service.MenuService;
 import com.art.system.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,7 +81,6 @@ public class MenuServiceImpl implements MenuService {
 	 * 获取全部的树形菜单信息(包括按钮)
 	 * @return 树形菜单信息
 	 */
-	@Cacheable(value = MenuRedisKeyConstants.CACHE_NAMES, unless = "#result==null")
 	@Override
 	public List<VueRouter<MenuDTO>> getAllMenuTree() {
 		return MenuConvert.INSTANCE.convert(menuManager.getMenuByPid(0L));
@@ -121,7 +117,6 @@ public class MenuServiceImpl implements MenuService {
 	 * @param id
 	 * @return
 	 */
-	@Cacheable(value = MenuRedisKeyConstants.CACHE_NAMES, key = "#id", unless = "#result==null")
 	@Override
 	public VueRouter<MenuDO> getMenuById(Long id) {
 		MenuDO menuDO = menuManager.getMenuById(id);
@@ -131,7 +126,6 @@ public class MenuServiceImpl implements MenuService {
 	/**
 	 * 更新路由
 	 */
-	@CacheEvict(value = MenuRedisKeyConstants.CACHE_NAMES, key = "#vueRouter.id")
 	@Override
 	public void updateMenu(VueRouter vueRouter) {
 		MenuDO menuDO = MenuConvert.INSTANCE.convert(vueRouter);
@@ -147,10 +141,10 @@ public class MenuServiceImpl implements MenuService {
 		Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
 			// 构建用户路由对象
 			CompletableFuture<Void> routes = CompletableFuture
-					.runAsync(() -> result.put("routes", getUserRouters(userName)));
+				.runAsync(() -> result.put("routes", getUserRouters(userName)));
 			// 封装用户权限信息
 			CompletableFuture<Void> permissions = CompletableFuture
-					.runAsync(() -> result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray()));
+				.runAsync(() -> result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray()));
 			// 封装应用信息
 			CompletableFuture<Void> apps = CompletableFuture.runAsync(() -> result.put("apps", appManager.listApp()));
 

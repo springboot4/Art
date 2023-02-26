@@ -20,8 +20,8 @@ public final class SslUtils {
 			String keyStorePassword, String trustStoreResource, String trustStoreType, String trustStorePassword)
 			throws SSLException {
 		SslContextBuilder sslBuilder = SslContextBuilder
-				.forServer(getKeyManagerFactory(keyStoreType, keyStoreResource, keyPassword, keyStorePassword))
-				.trustManager(getTrustManagerFactory(trustStoreType, trustStoreResource, trustStorePassword));
+			.forServer(getKeyManagerFactory(keyStoreType, keyStoreResource, keyPassword, keyStorePassword))
+			.trustManager(getTrustManagerFactory(trustStoreType, trustStoreResource, trustStorePassword));
 		return sslBuilder.build();
 	}
 
@@ -30,7 +30,7 @@ public final class SslUtils {
 		try {
 			KeyStore keyStore = loadKeyStore(type, resource, keyStorePassword);
 			KeyManagerFactory keyManagerFactory = KeyManagerFactory
-					.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+				.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 			char[] keyPasswordBytes = (!ObjectUtils.isEmpty(keyPassword) ? keyPassword.toCharArray() : null);
 			if (keyPasswordBytes == null && !ObjectUtils.isEmpty(keyStorePassword)) {
 				keyPasswordBytes = keyStorePassword.toCharArray();
@@ -48,7 +48,7 @@ public final class SslUtils {
 		try {
 			KeyStore store = loadKeyStore(trustStoreType, trustStoreResource, trustStorePassword);
 			TrustManagerFactory trustManagerFactory = TrustManagerFactory
-					.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+				.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 			trustManagerFactory.init(store);
 			return trustManagerFactory;
 		}

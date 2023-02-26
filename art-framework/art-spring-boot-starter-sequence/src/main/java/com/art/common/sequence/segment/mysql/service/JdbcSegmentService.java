@@ -58,7 +58,7 @@ public class JdbcSegmentService {
 	@Transactional(rollbackFor = Exception.class)
 	public Long incrementRange(String key, int rangeStep) {
 		SequenceSegment segment = mapper
-				.selectOne(Wrappers.<SequenceSegment>lambdaQuery().eq(SequenceSegment::getSegmentKey, key));
+			.selectOne(Wrappers.<SequenceSegment>lambdaQuery().eq(SequenceSegment::getSegmentKey, key));
 		if (Objects.isNull(segment)) {
 			throw new SeqException("号段不存在");
 		}

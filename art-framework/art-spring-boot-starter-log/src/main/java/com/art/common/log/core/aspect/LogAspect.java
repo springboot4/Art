@@ -120,8 +120,14 @@ public class LogAspect {
 		log.info("方法:{}", method);
 
 		// 赋值
-		operLog.setTitle(title).setOperIp(ip).setOperUrl(path).setOperName(userName.get()).setMethod(method)
-				.setRequestMethod(requestMethod).setOperParam(param).setBusinessType(businessType);
+		operLog.setTitle(title)
+			.setOperIp(ip)
+			.setOperUrl(path)
+			.setOperName(userName.get())
+			.setMethod(method)
+			.setRequestMethod(requestMethod)
+			.setOperParam(param)
+			.setBusinessType(businessType);
 	}
 
 	private void handleException(OperLogDTO operLog, String msg) {

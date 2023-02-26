@@ -36,16 +36,18 @@ public class TenantValidService {
 	private static final FxzException SERVICE_EXCEPTION_NULL = new FxzException("无异常信息");
 
 	public TenantValidService(TenantServiceApi tenantServiceApi) {
-		this.validTenantCache = Caffeine.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES)
-				.expireAfterWrite(1, TimeUnit.MINUTES).build(id -> {
-					try {
-						tenantServiceApi.validTenant(id);
-						return SERVICE_EXCEPTION_NULL;
-					}
-					catch (FxzException e) {
-						return e;
-					}
-				});
+		this.validTenantCache = Caffeine.newBuilder()
+			.expireAfterAccess(1, TimeUnit.MINUTES)
+			.expireAfterWrite(1, TimeUnit.MINUTES)
+			.build(id -> {
+				try {
+					tenantServiceApi.validTenant(id);
+					return SERVICE_EXCEPTION_NULL;
+				}
+				catch (FxzException e) {
+					return e;
+				}
+			});
 	}
 
 	public void validTenant(Long id) {

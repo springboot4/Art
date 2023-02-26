@@ -63,8 +63,9 @@ public class RouteMessageConsumer extends AbstractPubSubMessageListener<RouteMes
 		}
 		List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
 
-		Map<String, FxzRouteDefinition> map = routeConfList.stream().map(this::convert)
-				.collect(Collectors.toMap(FxzRouteDefinition::getId, Function.identity()));
+		Map<String, FxzRouteDefinition> map = routeConfList.stream()
+			.map(this::convert)
+			.collect(Collectors.toMap(FxzRouteDefinition::getId, Function.identity()));
 
 		redisTemplate.opsForHash().putAll(CacheConstants.ROUTE_KEY, map);
 		fxzRouteDefinitionRepository.publishEvent();
@@ -78,12 +79,20 @@ public class RouteMessageConsumer extends AbstractPubSubMessageListener<RouteMes
 		mapper.from(dto.getRouteId()).whenNonNull().to(routeDefinition::setId);
 		mapper.from(dto.getUri()).whenNonNull().as(URI::create).to(routeDefinition::setUri);
 		mapper.from(dto.getSortOrder()).whenNonNull().as(Integer::valueOf).to(routeDefinition::setOrder);
-		mapper.from(dto.getMetadata()).whenNonNull().as(v -> JSONUtil.toBean(v, Map.class))
-				.to(routeDefinition::setMetadata);
-		mapper.from(dto.getFilters()).whenNonNull().as(JSONArray::new).as(v -> v.toList(FilterDefinition.class))
-				.to(routeDefinition::setFilters);
-		mapper.from(dto.getPredicates()).whenNonNull().as(JSONArray::new).as(v -> v.toList(PredicateDefinition.class))
-				.to(routeDefinition::setPredicates);
+		mapper.from(dto.getMetadata())
+			.whenNonNull()
+			.as(v -> JSONUtil.toBean(v, Map.class))
+			.to(routeDefinition::setMetadata);
+		mapper.from(dto.getFilters())
+			.whenNonNull()
+			.as(JSONArray::new)
+			.as(v -> v.toList(FilterDefinition.class))
+			.to(routeDefinition::setFilters);
+		mapper.from(dto.getPredicates())
+			.whenNonNull()
+			.as(JSONArray::new)
+			.as(v -> v.toList(PredicateDefinition.class))
+			.to(routeDefinition::setPredicates);
 
 		return routeDefinition;
 	}

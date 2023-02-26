@@ -39,12 +39,12 @@ public class CaptchaRouter {
 	public RouterFunction<ServerResponse> captchaRouterFunction(EasyCaptchaHandler easyCaptchaHandler,
 			AjImageCodeCreateHandler ajImageCodeCreateHandler, AjImageCodeCheckHandler ajImageCodeCheckHandler) {
 		return RouterFunctions
-				.route(RequestPredicates.GET("/captcha").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
-						easyCaptchaHandler)
-				.andRoute(RequestPredicates.path("/code").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
-						ajImageCodeCreateHandler)
-				.andRoute(RequestPredicates.POST("/code/check").and(RequestPredicates.accept(MediaType.ALL)),
-						ajImageCodeCheckHandler);
+			.route(RequestPredicates.GET("/captcha").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+					easyCaptchaHandler)
+			.andRoute(RequestPredicates.path("/code").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+					ajImageCodeCreateHandler)
+			.andRoute(RequestPredicates.POST("/code/check").and(RequestPredicates.accept(MediaType.ALL)),
+					ajImageCodeCheckHandler);
 	}
 
 }

@@ -67,16 +67,18 @@ public class JacksonConfiguration {
 	@Primary
 	public ObjectMapper objectMapper() {
 		ObjectMapper objectMapper = new ObjectMapper()
-				// 指定要序列化的域
-				.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
-				// 不将日期写为时间戳
-				.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-				// 忽略未知属性
-				.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-				// 对象属性为空时可以序列化
-				.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS).registerModule(new JavaTimeModule())
-				.registerModule(new Jdk8Module()).registerModule(new JavaLongTypeModule())
-				.registerModule(new SimpleModule());
+			// 指定要序列化的域
+			.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+			// 不将日期写为时间戳
+			.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+			// 忽略未知属性
+			.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+			// 对象属性为空时可以序列化
+			.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+			.registerModule(new JavaTimeModule())
+			.registerModule(new Jdk8Module())
+			.registerModule(new JavaLongTypeModule())
+			.registerModule(new SimpleModule());
 		JacksonUtil.setObjectMapper(objectMapper);
 		return objectMapper;
 	}

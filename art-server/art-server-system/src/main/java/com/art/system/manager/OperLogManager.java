@@ -74,9 +74,8 @@ public class OperLogManager {
 					operLogPageDTO.getBusinessType());
 		}
 		queryWrapper
-				.like(StringUtils.isNotBlank(operLogPageDTO.getTitle()), OperLogDO.Fields.title,
-						operLogPageDTO.getTitle())
-				.orderByDesc(StringUtils.camelToUnderline(BaseCreateEntity.Fields.createTime));
+			.like(StringUtils.isNotBlank(operLogPageDTO.getTitle()), OperLogDO.Fields.title, operLogPageDTO.getTitle())
+			.orderByDesc(StringUtils.camelToUnderline(BaseCreateEntity.Fields.createTime));
 
 		return operLogMapper.selectPage(Page.of(operLogPageDTO.getCurrent(), operLogPageDTO.getSize()), queryWrapper);
 	}

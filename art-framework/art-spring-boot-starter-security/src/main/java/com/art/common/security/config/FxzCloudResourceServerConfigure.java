@@ -72,9 +72,18 @@ public class FxzCloudResourceServerConfigure extends ResourceServerConfigurerAda
 			permitAll(http);
 			return;
 		}
-		http.csrf().disable().requestMatchers().antMatchers(properties.getAuthUri()).and().authorizeRequests()
-				.antMatchers(anonUrls).permitAll().antMatchers(properties.getAuthUri()).authenticated().and()
-				.httpBasic();
+		http.csrf()
+			.disable()
+			.requestMatchers()
+			.antMatchers(properties.getAuthUri())
+			.and()
+			.authorizeRequests()
+			.antMatchers(anonUrls)
+			.permitAll()
+			.antMatchers(properties.getAuthUri())
+			.authenticated()
+			.and()
+			.httpBasic();
 	}
 
 	@Override

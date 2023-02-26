@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,32 +14,48 @@
  * limitations under the License.
  */
 
-package com.art.common.quartz.core.annotation;
+package com.art.common.file.core.client.ftp;
 
-import java.lang.annotation.*;
+import lombok.Data;
 
 /**
- * 标识一个QuartzJob类
- *
  * @author Fxz
  * @version 0.0.1
- * @date 2022/12/12 17:11
+ * @date 2023/2/20 15:48
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface ArtQuartzJob {
+@Data
+public class FtpProperties {
 
 	/**
-	 * jobName
-	 * @return jobName
+	 * 基础路径
 	 */
-	String name() default "";
+	private String basePath = "/var/ftp/work01";
 
 	/**
-	 * 是否记录日志 (true:记录 false:不记录)
-	 * @return true:记录 false:不记录
+	 * 地址
 	 */
-	boolean log() default false;
+	private String host = "61.153.186.23";
+
+	/**
+	 * 端口
+	 */
+	private Integer port = 21;
+
+	/**
+	 * 用户名
+	 */
+	private String username = "root";
+
+	/**
+	 * 密码
+	 */
+	private String password = "Fxz127255";
+
+	/**
+	 * 连接模式
+	 * <p/>
+	 * 使用 {@link cn.hutool.extra.ftp.FtpMode} 对应的字符串
+	 */
+	private String mode = "Passive";
 
 }

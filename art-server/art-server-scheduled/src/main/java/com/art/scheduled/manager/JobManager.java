@@ -57,7 +57,7 @@ public class JobManager {
 
 	public Page<JobDO> page(JobPageDTO page) {
 		LambdaQueryWrapper<JobDO> wrapper = Wrappers.<JobDO>lambdaQuery()
-				.like(StringUtils.isNotBlank(page.getJobName()), JobDO::getJobName, page.getJobName());
+			.like(StringUtils.isNotBlank(page.getJobName()), JobDO::getJobName, page.getJobName());
 
 		return jobMapper.selectPage(Page.of(page.getCurrent(), page.getSize()), wrapper);
 	}

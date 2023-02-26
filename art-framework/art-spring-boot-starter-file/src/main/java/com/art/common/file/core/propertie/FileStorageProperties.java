@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package com.art.common.file.core;
+package com.art.common.file.core.propertie;
 
+import com.art.common.file.core.client.ftp.FtpProperties;
+import com.art.common.file.core.client.local.LocalProperties;
+import com.art.common.file.core.client.oss.OssProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -35,26 +38,7 @@ public class FileStorageProperties {
 	@NestedConfigurationProperty
 	private LocalProperties local = new LocalProperties();
 
-	@Data
-	public static class LocalProperties {
-
-		private String basePath = "/Users/fxz/file";
-
-	}
-
-	@Data
-	public static class OssProperties {
-
-		private String endpoint;
-
-		private Boolean pathStyleAccess = true;
-
-		private String accessKey;
-
-		private String secretKey;
-
-		private String bucketName = "fxzCloud";
-
-	}
+	@NestedConfigurationProperty
+	private FtpProperties ftp = new FtpProperties();
 
 }

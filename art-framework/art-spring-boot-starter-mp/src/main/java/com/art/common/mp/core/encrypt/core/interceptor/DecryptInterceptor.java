@@ -73,8 +73,9 @@ public class DecryptInterceptor implements Interceptor {
 					Field[] fields = ReflectUtil.getFields(o.getClass(),
 							field -> Objects.nonNull(field.getAnnotation(EncryptionData.class)));
 					// 通过反射对字段进行aes解密
-					Arrays.stream(fields).forEach(f -> ReflectUtil.setFieldValue(o, f,
-							this.aesDecryptValue(ReflectUtil.getFieldValue(o, f))));
+					Arrays.stream(fields)
+						.forEach(f -> ReflectUtil.setFieldValue(o, f,
+								this.aesDecryptValue(ReflectUtil.getFieldValue(o, f))));
 				}
 			}).collect(Collectors.toList());
 		}
@@ -83,8 +84,8 @@ public class DecryptInterceptor implements Interceptor {
 		Field[] fields = ReflectUtil.getFields(obj.getClass(),
 				field -> Objects.nonNull(field.getAnnotation(EncryptionData.class)));
 		// 通过反射对字段进行aes解密
-		Arrays.stream(fields).forEach(
-				f -> ReflectUtil.setFieldValue(obj, f, this.aesDecryptValue(ReflectUtil.getFieldValue(obj, f))));
+		Arrays.stream(fields)
+			.forEach(f -> ReflectUtil.setFieldValue(obj, f, this.aesDecryptValue(ReflectUtil.getFieldValue(obj, f))));
 
 		return obj;
 	}

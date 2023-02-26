@@ -119,12 +119,15 @@ public class FxzUserInfoTokenServices implements ResourceServerTokenServices {
 	protected Object getPrincipal(Map<String, Object> map) {
 		Map str = (Map) map.get("principal");
 		List<String> authorities = JSONUtil.toList(JSONUtil.parseArray(str.get("authorities")), String.class);
-		String collect = authorities.stream().map(s -> s.substring(14, s.length() - 2))
-				.collect(Collectors.joining(","));
+		String collect = authorities.stream()
+			.map(s -> s.substring(14, s.length() - 2))
+			.collect(Collectors.joining(","));
 		FxzAuthUser fxzAuthUser = new FxzAuthUser(Convert.toStr(str.get("username")), "",
 				AuthorityUtils.commaSeparatedStringToAuthorityList(collect))
-						.setUserId(Convert.toLong(str.get("userId"))).setAvatar(Convert.toStr(str.get("avatar")))
-						.setDeptId(Convert.toLong(str.get("deptId"))).setTenantId(Convert.toLong(str.get("tenantId")));
+			.setUserId(Convert.toLong(str.get("userId")))
+			.setAvatar(Convert.toStr(str.get("avatar")))
+			.setDeptId(Convert.toLong(str.get("deptId")))
+			.setTenantId(Convert.toLong(str.get("tenantId")));
 		return fxzAuthUser;
 	}
 

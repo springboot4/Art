@@ -67,8 +67,10 @@ public class FxzSmsCodeAuthenticationProvider implements AuthenticationProvider 
 
 		String clientId = SecurityUtil.getOAuth2ClientId();
 
-		Optional<FxzUserDetailsService> optional = userDetailsServiceMap.values().stream()
-				.filter(s -> s.support(clientId, null)).findFirst();
+		Optional<FxzUserDetailsService> optional = userDetailsServiceMap.values()
+			.stream()
+			.filter(s -> s.support(clientId, null))
+			.findFirst();
 
 		if (!optional.isPresent()) {
 			throw new FxzException("请检查客户端配置!");

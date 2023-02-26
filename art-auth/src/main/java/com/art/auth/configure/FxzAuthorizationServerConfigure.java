@@ -107,10 +107,14 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
-		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(tokenStore())
-				.tokenEnhancer(tokenEnhancer()).authenticationManager(authenticationManager)
-				.tokenServices(defaultTokenServices()).pathMapping("/oauth/confirm_access", "/token/confirm_access")
-				.tokenGranter(compositeTokenGranter).exceptionTranslator(fxzWebResponseExceptionTranslator);
+		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+			.tokenStore(tokenStore())
+			.tokenEnhancer(tokenEnhancer())
+			.authenticationManager(authenticationManager)
+			.tokenServices(defaultTokenServices())
+			.pathMapping("/oauth/confirm_access", "/token/confirm_access")
+			.tokenGranter(compositeTokenGranter)
+			.exceptionTranslator(fxzWebResponseExceptionTranslator);
 	}
 
 	/**
@@ -163,8 +167,8 @@ public class FxzAuthorizationServerConfigure extends AuthorizationServerConfigur
 
 		// 重写预认证提供者替换其AuthenticationManager，可自定义根据客户端ID和认证方式区分用户体系获取认证用户信息
 		PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
-		provider.setPreAuthenticatedUserDetailsService(
-				new FxzPreAuthenticatedUserDetailsService<>(userDetailsServiceMap));
+		provider
+			.setPreAuthenticatedUserDetailsService(new FxzPreAuthenticatedUserDetailsService<>(userDetailsServiceMap));
 
 		tokenServices.setAuthenticationManager(new ProviderManager(Collections.singletonList(provider)));
 

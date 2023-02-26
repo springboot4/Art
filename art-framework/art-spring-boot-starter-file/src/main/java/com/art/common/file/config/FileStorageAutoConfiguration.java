@@ -16,6 +16,9 @@
 
 package com.art.common.file.config;
 
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.extra.ftp.Ftp;
+import cn.hutool.extra.ftp.FtpMode;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.Protocol;
 import com.amazonaws.auth.AWSCredentials;
@@ -26,9 +29,12 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.art.common.file.core.FileStorageProperties;
-import com.art.common.file.core.local.LocalFileStorage;
-import com.art.common.file.core.oss.OssFileStorage;
+import com.art.common.file.core.client.ftp.FtpFileStorage;
+import com.art.common.file.core.client.ftp.FtpProperties;
+import com.art.common.file.core.client.local.LocalFileStorage;
+import com.art.common.file.core.client.oss.OssFileStorage;
+import com.art.common.file.core.client.oss.OssProperties;
+import com.art.common.file.core.propertie.FileStorageProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -51,6 +57,20 @@ public class FileStorageAutoConfiguration {
 
 	}
 
+	@ConditionalOnProperty(prefix = "file.storage.ftp", name = "enable", havingValue = "true", matchIfMissing = false)
+	public static class FtpFileStorageAutoConfiguration {
+
+		@Bean
+		public FtpFileStorage ftpFileStorage(FileStorageProperties fileStorageProperties) {
+			FtpProperties properties = fileStorageProperties.getFtp();
+			Ftp ftp = new Ftp(properties.getHost(), properties.getPort(), properties.getUsername(),
+					properties.getPassword(), CharsetUtil.CHARSET_UTF_8, null, null, FtpMode.Passive);
+
+			return new FtpFileStorage(ftp, properties.getBasePath());
+		}
+
+	}
+
 	@ConditionalOnProperty(prefix = "file.storage.oss", name = "enable", havingValue = "true", matchIfMissing = true)
 	public static class OssFileStorageAutoConfiguration {
 
@@ -61,7 +81,7 @@ public class FileStorageAutoConfiguration {
 
 		@Bean
 		public AmazonS3 amazonS3(FileStorageProperties fileStorageProperties) {
-			FileStorageProperties.OssProperties properties = fileStorageProperties.getOss();
+			OssProperties properties = fileStorageProperties.getOss();
 			// 客户端配置
 			ClientConfiguration clientConfiguration = new ClientConfiguration();
 			clientConfiguration.setProtocol(Protocol.HTTP);
@@ -74,10 +94,12 @@ public class FileStorageAutoConfiguration {
 			AWSCredentials awsCredentials = new BasicAWSCredentials(properties.getAccessKey(),
 					properties.getSecretKey());
 
-			return AmazonS3Client.builder().withEndpointConfiguration(endpointConfiguration)
-					.withClientConfiguration(clientConfiguration)
-					.withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-					.withPathStyleAccessEnabled(properties.getPathStyleAccess()).build();
+			return AmazonS3Client.builder()
+				.withEndpointConfiguration(endpointConfiguration)
+				.withClientConfiguration(clientConfiguration)
+				.withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+				.withPathStyleAccessEnabled(properties.getPathStyleAccess())
+				.build();
 		}
 
 	}

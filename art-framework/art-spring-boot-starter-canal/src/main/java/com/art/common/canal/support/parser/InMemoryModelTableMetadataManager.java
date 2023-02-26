@@ -74,8 +74,11 @@ public class InMemoryModelTableMetadataManager implements ModelTableMetadataMana
 				if (null == columnName) {
 					columnName = namingPolicy.convert(fieldName);
 				}
-				CanalFieldConvertInput input = CanalFieldConvertInput.builder().fieldKlass(field.getType())
-						.sqlType(sqlType).converterKlass(converterKlass).build();
+				CanalFieldConvertInput input = CanalFieldConvertInput.builder()
+					.fieldKlass(field.getType())
+					.sqlType(sqlType)
+					.converterKlass(converterKlass)
+					.build();
 				CanalFieldConvertResult result = canalFieldConverterFactory.load(input);
 				ColumnMetadata columnMetadata = new ColumnMetadata();
 				columnMetadata.setColumnName(columnName);

@@ -51,8 +51,9 @@ public class GatewayIndexHandler implements HandlerFunction<ServerResponse> {
 				+ "<li>Document: <a href='https://fxzcloud.gitee.io/docs/' target='_blank'>Document</a></li>"
 				+ "</ul></div>";
 
-		return ServerResponse.status(HttpStatus.OK).contentType(MediaType.valueOf(String.valueOf(MediaType.TEXT_HTML)))
-				.body(BodyInserters.fromValue(sb));
+		return ServerResponse.status(HttpStatus.OK)
+			.contentType(MediaType.valueOf(String.valueOf(MediaType.TEXT_HTML)))
+			.body(BodyInserters.fromValue(sb));
 	}
 
 }

@@ -14,42 +14,63 @@
  * limitations under the License.
  */
 
-package com.art.common.file.core.local;
+package com.art.common.file.core.client.ftp;
 
 import cn.hutool.core.io.FileUtil;
-import com.art.common.file.core.FileStorageProperties;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.ftp.Ftp;
+import cn.hutool.extra.ftp.FtpException;
 import lombok.RequiredArgsConstructor;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
 /**
- * 本地文件存储
- *
  * @author Fxz
- * @version 1.0
- * @date 2023/1/16 22:39
+ * @version 0.0.1
+ * @date 2023/2/20 15:42
  */
 @RequiredArgsConstructor
-public class LocalFileStorage {
+public class FtpFileStorage {
 
-	private final FileStorageProperties properties;
+	private final Ftp client;
+
+	private final String basePath;
 
 	public String putObject(byte[] content, String path) {
 		String filePath = getFilePath(path);
-		FileUtil.writeBytes(content, filePath);
-		return filePath;
+		String fileName = FileUtil.getName(filePath);
+		String dir = StrUtil.removeSuffix(filePath, fileName);
+
+		client.reconnectIfTimeout();
+		boolean success = client.upload(dir, fileName, new ByteArrayInputStream(content));
+		if (!success) {
+			throw new FtpException(StrUtil.format("上传文件到目标目录 ({}) 失败", filePath));
+		}
+
+		return path;
 	}
 
 	public void delete(String path) {
 		String filePath = getFilePath(path);
-		FileUtil.del(filePath);
+		client.reconnectIfTimeout();
+		client.delFile(filePath);
 	}
 
 	public byte[] getContent(String path) {
 		String filePath = getFilePath(path);
-		return FileUtil.readBytes(filePath);
+		String fileName = FileUtil.getName(filePath);
+		String dir = StrUtil.removeSuffix(filePath, fileName);
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		client.reconnectIfTimeout();
+		client.download(dir, fileName, out);
+
+		return out.toByteArray();
 	}
 
 	private String getFilePath(String path) {
-		return properties.getLocal().getBasePath() + path;
+		return basePath + path;
 	}
 
 }

@@ -131,8 +131,8 @@ public class FxzTenantAutoConfiguration {
 		RedisCacheWriter cacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
 
 		RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-				.serializeValuesWith(
-						RedisSerializationContext.SerializationPair.fromSerializer(redisTemplate.getValueSerializer()));
+			.serializeValuesWith(
+					RedisSerializationContext.SerializationPair.fromSerializer(redisTemplate.getValueSerializer()));
 		return new TenantRedisCacheManager(cacheWriter, redisCacheConfiguration);
 	}
 

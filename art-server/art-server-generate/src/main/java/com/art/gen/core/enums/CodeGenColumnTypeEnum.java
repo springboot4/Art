@@ -55,8 +55,11 @@ public enum CodeGenColumnTypeEnum {
 	 */
 	@SneakyThrows
 	public static String convertJavaType(String columnType) {
-		return Arrays.stream(CodeGenColumnTypeEnum.values()).filter(e -> Objects.equals(columnType, e.getColumnType()))
-				.findFirst().orElseThrow(() -> new FxzException("不支持的数据库字段类型")).getJavaType();
+		return Arrays.stream(CodeGenColumnTypeEnum.values())
+			.filter(e -> Objects.equals(columnType, e.getColumnType()))
+			.findFirst()
+			.orElseThrow(() -> new FxzException("不支持的数据库字段类型"))
+			.getJavaType();
 	}
 
 }

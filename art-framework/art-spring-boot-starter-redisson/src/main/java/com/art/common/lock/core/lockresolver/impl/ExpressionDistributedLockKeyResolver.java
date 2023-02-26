@@ -71,7 +71,8 @@ public class ExpressionDistributedLockKeyResolver implements DistributedLockReso
 		Expression expression = expressionParser.parseExpression(distributedLock.lockName());
 
 		return new LockEntity().setLockName(expression.getValue(evaluationContext, String.class))
-				.setWaitTime(distributedLock.waitTime()).setTimeUnit(distributedLock.timeUnit());
+			.setWaitTime(distributedLock.waitTime())
+			.setTimeUnit(distributedLock.timeUnit());
 	}
 
 	private static Method getMethod(JoinPoint point) {
@@ -84,8 +85,9 @@ public class ExpressionDistributedLockKeyResolver implements DistributedLockReso
 
 		// 处理，声明在接口上的情况
 		try {
-			return point.getTarget().getClass().getDeclaredMethod(point.getSignature().getName(),
-					method.getParameterTypes());
+			return point.getTarget()
+				.getClass()
+				.getDeclaredMethod(point.getSignature().getName(), method.getParameterTypes());
 		}
 		catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);

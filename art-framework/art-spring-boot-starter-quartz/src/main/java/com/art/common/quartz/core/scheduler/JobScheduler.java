@@ -54,16 +54,21 @@ public class JobScheduler {
 	public void add(Long jobId, String jobGroup, String jobParam, String jobBeanName, String cron,
 			String misfirePolicy) {
 		// 构建jobDetail
-		JobDetail jobDetail = JobBuilder.newJob(JobExecuteHandler.class).withIdentity(getJobKey(jobId, jobGroup))
-				.usingJobData(PARAMETER, jobParam).usingJobData(JOB_BEAN_NAME, jobBeanName).build();
+		JobDetail jobDetail = JobBuilder.newJob(JobExecuteHandler.class)
+			.withIdentity(getJobKey(jobId, jobGroup))
+			.usingJobData(PARAMETER, jobParam)
+			.usingJobData(JOB_BEAN_NAME, jobBeanName)
+			.build();
 
 		// 构建执行表达式
 		CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
 		cronScheduleBuilder = handleCronScheduleMisfirePolicy(misfirePolicy, cronScheduleBuilder);
 
 		// 构建trigger
-		CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(jobId, jobGroup))
-				.withSchedule(cronScheduleBuilder).build();
+		CronTrigger trigger = TriggerBuilder.newTrigger()
+			.withIdentity(getTriggerKey(jobId, jobGroup))
+			.withSchedule(cronScheduleBuilder)
+			.build();
 
 		// 新增调度
 		scheduler.scheduleJob(jobDetail, trigger);

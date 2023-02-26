@@ -71,40 +71,42 @@ public class WebsocketServer {
 		ServerBootstrap bootstrap = new ServerBootstrap();
 		EventExecutorGroup finalEventExecutorGroup = eventExecutorGroup;
 
-		bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
-				// ConnectTimeoutMillis
-				.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, webSocketEndpointConfig.getConnectTimeoutMillis())
-				// Waiting queue
-				.option(ChannelOption.SO_BACKLOG, webSocketEndpointConfig.getSoBacklog())
-				.childOption(ChannelOption.WRITE_SPIN_COUNT, webSocketEndpointConfig.getWriteSpinCount())
-				.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK,
-						new WriteBufferWaterMark(webSocketEndpointConfig.getWriteBufferLowWaterMark(),
-								webSocketEndpointConfig.getWriteBufferHighWaterMark()))
-				.childOption(ChannelOption.TCP_NODELAY, webSocketEndpointConfig.isTcpNodelay())
-				.childOption(ChannelOption.SO_KEEPALIVE, webSocketEndpointConfig.isSoKeepalive())
-				.childOption(ChannelOption.SO_LINGER, webSocketEndpointConfig.getSoLinger())
-				.childOption(ChannelOption.ALLOW_HALF_CLOSURE, webSocketEndpointConfig.isAllowHalfClosure())
-				.handler(new LoggingHandler(LogLevel.DEBUG)).childHandler(new ChannelInitializer<NioSocketChannel>() {
-					@Override
-					protected void initChannel(NioSocketChannel ch) {
-						ChannelPipeline pipeline = ch.pipeline();
-						if (sslCtx != null) {
-							pipeline.addFirst(sslCtx.newHandler(ch.alloc()));
-						}
-
-						// http解码器
-						pipeline.addLast(new HttpServerCodec());
-						// http聚合器
-						pipeline.addLast(new HttpObjectAggregator(65536));
-
-						if (corsConfig != null) {
-							pipeline.addLast(new CorsHandler(corsConfig));
-						}
-
-						pipeline.addLast(new HttpServerHandler(webSocketEndpointEventServer, webSocketEndpointConfig,
-								finalEventExecutorGroup, corsConfig != null));
+		bootstrap.group(bossGroup, workerGroup)
+			.channel(NioServerSocketChannel.class)
+			// ConnectTimeoutMillis
+			.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, webSocketEndpointConfig.getConnectTimeoutMillis())
+			// Waiting queue
+			.option(ChannelOption.SO_BACKLOG, webSocketEndpointConfig.getSoBacklog())
+			.childOption(ChannelOption.WRITE_SPIN_COUNT, webSocketEndpointConfig.getWriteSpinCount())
+			.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK,
+					new WriteBufferWaterMark(webSocketEndpointConfig.getWriteBufferLowWaterMark(),
+							webSocketEndpointConfig.getWriteBufferHighWaterMark()))
+			.childOption(ChannelOption.TCP_NODELAY, webSocketEndpointConfig.isTcpNodelay())
+			.childOption(ChannelOption.SO_KEEPALIVE, webSocketEndpointConfig.isSoKeepalive())
+			.childOption(ChannelOption.SO_LINGER, webSocketEndpointConfig.getSoLinger())
+			.childOption(ChannelOption.ALLOW_HALF_CLOSURE, webSocketEndpointConfig.isAllowHalfClosure())
+			.handler(new LoggingHandler(LogLevel.DEBUG))
+			.childHandler(new ChannelInitializer<NioSocketChannel>() {
+				@Override
+				protected void initChannel(NioSocketChannel ch) {
+					ChannelPipeline pipeline = ch.pipeline();
+					if (sslCtx != null) {
+						pipeline.addFirst(sslCtx.newHandler(ch.alloc()));
 					}
-				});
+
+					// http解码器
+					pipeline.addLast(new HttpServerCodec());
+					// http聚合器
+					pipeline.addLast(new HttpObjectAggregator(65536));
+
+					if (corsConfig != null) {
+						pipeline.addLast(new CorsHandler(corsConfig));
+					}
+
+					pipeline.addLast(new HttpServerHandler(webSocketEndpointEventServer, webSocketEndpointConfig,
+							finalEventExecutorGroup, corsConfig != null));
+				}
+			});
 
 		if (webSocketEndpointConfig.getSoRcvbuf() != -1) {
 			bootstrap.childOption(ChannelOption.SO_RCVBUF, webSocketEndpointConfig.getSoRcvbuf());

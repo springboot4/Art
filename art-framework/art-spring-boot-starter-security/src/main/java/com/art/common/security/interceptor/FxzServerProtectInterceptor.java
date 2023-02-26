@@ -53,7 +53,7 @@ public class FxzServerProtectInterceptor implements HandlerInterceptor {
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.getWriter()
-					.write(JSONObject.toJSONString(Result.failed("Please get resources through the gateway!")));
+				.write(JSONObject.toJSONString(Result.failed("Please get resources through the gateway!")));
 			return false;
 		}
 	}

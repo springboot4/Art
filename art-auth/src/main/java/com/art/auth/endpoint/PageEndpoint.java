@@ -65,7 +65,7 @@ public class PageEndpoint {
 		if (auth != null) {
 			AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
 			ClientDetails clientDetails = fxzClientDetailsService
-					.loadClientByClientId(authorizationRequest.getClientId());
+				.loadClientByClientId(authorizationRequest.getClientId());
 			modelAndView.addObject("app", clientDetails.getAdditionalInformation());
 			modelAndView.addObject("user", SecurityUtil.getUser());
 		}

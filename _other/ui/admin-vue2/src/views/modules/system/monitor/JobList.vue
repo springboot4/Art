@@ -79,7 +79,6 @@ export default {
       },
       loadData: (parameter) => {
         return page(Object.assign(parameter, this.queryParam)).then(res => {
-          console.log('res', res)
           return res.data
         })
       }
