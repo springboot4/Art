@@ -32,7 +32,7 @@ public class DataPermissionContextHolder {
 	 * ttl解决父子线程传值问题 由于存在方法的嵌套调用 所以使用List
 	 */
 	private static final ThreadLocal<LinkedList<DataPermission>> DATA_PERMISSIONS = TransmittableThreadLocal
-			.withInitial(LinkedList::new);
+		.withInitial(LinkedList::new);
 
 	/**
 	 * 获得当前的数据权限注解

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.file.core.oss;
+package com.art.common.file.core.client.oss;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
@@ -112,7 +112,10 @@ public class OssFileStorage {
 	public CompleteMultipartUploadResult completeMultipartUpload(String uploadId, String bucketName, String objectName,
 			List<PartETag> parts) {
 		CompleteMultipartUploadRequest completeMultipartUploadRequest = new CompleteMultipartUploadRequest()
-				.withUploadId(uploadId).withKey(objectName).withBucketName(bucketName).withPartETags(parts);
+			.withUploadId(uploadId)
+			.withKey(objectName)
+			.withBucketName(bucketName)
+			.withPartETags(parts);
 		return amazonS3.completeMultipartUpload(completeMultipartUploadRequest);
 	}
 
@@ -256,7 +259,8 @@ public class OssFileStorage {
 		Date expiration = Date.from(Instant.now().plus(Duration.ofMinutes(expires)));
 
 		GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucketName, objectName)
-				.withExpiration(expiration).withMethod(method);
+			.withExpiration(expiration)
+			.withMethod(method);
 		if (params != null) {
 			params.forEach(request::addRequestParameter);
 		}

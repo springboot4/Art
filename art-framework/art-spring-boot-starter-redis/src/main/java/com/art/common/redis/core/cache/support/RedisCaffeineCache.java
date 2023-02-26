@@ -232,8 +232,8 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 		long expire = getExpire();
 
 		if (expire > 0) {
-			stringKeyRedisTemplate.opsForValue().set(getKey(key.toString()), toStoreValue(value), expire,
-					TimeUnit.MILLISECONDS);
+			stringKeyRedisTemplate.opsForValue()
+				.set(getKey(key.toString()), toStoreValue(value), expire, TimeUnit.MILLISECONDS);
 		}
 		else {
 			Object o = toStoreValue(value);
@@ -299,7 +299,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 
 	private String getKey(String key) {
 		return this.name.concat(":")
-				.concat(!StringUtils.hasText(cachePrefix) ? key : cachePrefix.concat(":").concat(key));
+			.concat(!StringUtils.hasText(cachePrefix) ? key : cachePrefix.concat(":").concat(key));
 	}
 
 	private long getExpire() {

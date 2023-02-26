@@ -71,12 +71,13 @@ public class RedisMqAutoConfig {
 	@Bean
 	public StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, String>> options() {
 		return StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
-				// 读取超时时间
-				.pollTimeout(Duration.ofSeconds(3))
-				// 每次最多拉取多少条消息
-				.batchSize(10)
-				// 目标类型 我们手动序列化为String
-				.targetType(String.class).build();
+			// 读取超时时间
+			.pollTimeout(Duration.ofSeconds(3))
+			// 每次最多拉取多少条消息
+			.batchSize(10)
+			// 目标类型 我们手动序列化为String
+			.targetType(String.class)
+			.build();
 	}
 
 	/**
@@ -94,7 +95,7 @@ public class RedisMqAutoConfig {
 
 		// 创建 StreamMessageListenerContainer 容器
 		StreamMessageListenerContainer<String, ObjectRecord<String, String>> container = StreamMessageListenerContainer
-				.create(redisMQTemplate.getRedisTemplate().getRequiredConnectionFactory(), containerOptions);
+			.create(redisMQTemplate.getRedisTemplate().getRequiredConnectionFactory(), containerOptions);
 
 		// 注册监听器 消费对应的 Stream 主题
 		listeners.parallelStream().forEach(listener -> {
@@ -110,14 +111,14 @@ public class RedisMqAutoConfig {
 			listener.setRedisMQTemplate(redisMQTemplate);
 			// 设置 Consumer 监听
 			StreamMessageListenerContainer.StreamReadRequestBuilder<String> builder = StreamMessageListenerContainer.StreamReadRequest
-					// 消费偏移量 这里从消费者组最后一个没有消费的消息读取
-					.builder(StreamOffset.create(listener.getStreamKey(), ReadOffset.lastConsumed()))
-					// 消费者组、消费者名称信息
-					.consumer(Consumer.from(listener.getGroup(), consumerName))
-					// 手动ack
-					.autoAcknowledge(false)
-					// 默认发生异常就取消消费 我们设置为 false
-					.cancelOnError(throwable -> false);
+				// 消费偏移量 这里从消费者组最后一个没有消费的消息读取
+				.builder(StreamOffset.create(listener.getStreamKey(), ReadOffset.lastConsumed()))
+				// 消费者组、消费者名称信息
+				.consumer(Consumer.from(listener.getGroup(), consumerName))
+				// 手动ack
+				.autoAcknowledge(false)
+				// 默认发生异常就取消消费 我们设置为 false
+				.cancelOnError(throwable -> false);
 			container.register(builder.build(), listener);
 		});
 

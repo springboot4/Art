@@ -23,7 +23,7 @@ import com.amazonaws.services.s3.model.PartETag;
 import com.amazonaws.services.s3.model.S3Object;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.util.AsyncUtil;
-import com.art.common.file.core.oss.OssFileStorage;
+import com.art.common.file.core.client.oss.OssFileStorage;
 import com.art.system.core.handler.PartUploaderHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

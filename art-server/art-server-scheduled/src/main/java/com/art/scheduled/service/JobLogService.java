@@ -48,8 +48,10 @@ public class JobLogService implements ArtJobLogService {
 	 */
 	@Override
 	public void addJobLog(String jobBeanName, String jobMessage, String ex) {
-		JobLogDTO dto = new JobLogDTO().setJobName(jobBeanName).setJobMessage(jobMessage).setExceptionInfo(ex)
-				.setStatus(StringUtils.isBlank(ex) ? "0" : "1");
+		JobLogDTO dto = new JobLogDTO().setJobName(jobBeanName)
+			.setJobMessage(jobMessage)
+			.setExceptionInfo(ex)
+			.setStatus(StringUtils.isBlank(ex) ? "0" : "1");
 		jobLogManager.addJobLog(dto);
 	}
 

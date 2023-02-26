@@ -49,8 +49,9 @@ public class XssFilter extends OncePerRequestFilter {
 			return true;
 		}
 
-		return xssProperties.getIgnoreUrls().stream()
-				.anyMatch(excludeUrl -> pathMatcher.match(excludeUrl, request.getRequestURI()));
+		return xssProperties.getIgnoreUrls()
+			.stream()
+			.anyMatch(excludeUrl -> pathMatcher.match(excludeUrl, request.getRequestURI()));
 	}
 
 }

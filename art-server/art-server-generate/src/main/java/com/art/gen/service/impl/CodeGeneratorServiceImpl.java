@@ -97,13 +97,15 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 		Map<String, Object> map = new HashMap<>(16);
 
 		// 数据库字段转实体
-		List<CodeGenColumnDO> columns = databaseColumns.stream().map(databaseColumn -> new CodeGenColumnDO()
+		List<CodeGenColumnDO> columns = databaseColumns.stream()
+			.map(databaseColumn -> new CodeGenColumnDO()
 				// 备注
 				.setComments(databaseColumn.getColumnComment())
 				// 数据库字段类型转java数据类型
 				.setAttrType(CodeGenColumnTypeEnum.convertJavaType(databaseColumn.getDataType()))
 				// 驼峰
-				.setName(NamingCase.toCamelCase(databaseColumn.getColumnName()))).collect(Collectors.toList());
+				.setName(NamingCase.toCamelCase(databaseColumn.getColumnName())))
+			.collect(Collectors.toList());
 
 		// 添加代码生成所需要的属性
 		map.put("comments", databaseTable.getTableComment());

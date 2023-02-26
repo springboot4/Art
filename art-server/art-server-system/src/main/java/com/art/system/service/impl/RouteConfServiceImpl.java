@@ -135,20 +135,39 @@ public class RouteConfServiceImpl implements RouteConfService {
 
 		mapper.from(map.get(RouteConfDO.Fields.routeId)).whenNonNull().as(String::valueOf).to(r::setRouteId);
 
-		mapper.from(map.get(RouteConfDO.Fields.uri)).whenNonNull().as(String::valueOf).as(URI::create)
-				.as(String::valueOf).to(r::setUri);
+		mapper.from(map.get(RouteConfDO.Fields.uri))
+			.whenNonNull()
+			.as(String::valueOf)
+			.as(URI::create)
+			.as(String::valueOf)
+			.to(r::setUri);
 
-		mapper.from(map.get(RouteConfDO.Fields.sortOrder)).whenNonNull().as(String::valueOf).as(Integer::parseInt)
-				.to(r::setSortOrder);
+		mapper.from(map.get(RouteConfDO.Fields.sortOrder))
+			.whenNonNull()
+			.as(String::valueOf)
+			.as(Integer::parseInt)
+			.to(r::setSortOrder);
 
-		mapper.from(map.get(RouteConfDO.Fields.metadata)).whenNonNull().as(String::valueOf)
-				.as(v -> JSONUtil.toBean(v, Map.class)).as(JSONUtil::toJsonStr).to(r::setMetadata);
+		mapper.from(map.get(RouteConfDO.Fields.metadata))
+			.whenNonNull()
+			.as(String::valueOf)
+			.as(v -> JSONUtil.toBean(v, Map.class))
+			.as(JSONUtil::toJsonStr)
+			.to(r::setMetadata);
 
-		mapper.from(map.get(RouteConfDO.Fields.filters)).whenNonNull().as(JSONArray::new)
-				.as(v -> v.toList(FilterDefinitionDTO.class)).as(JSONUtil::toJsonStr).to(r::setFilters);
+		mapper.from(map.get(RouteConfDO.Fields.filters))
+			.whenNonNull()
+			.as(JSONArray::new)
+			.as(v -> v.toList(FilterDefinitionDTO.class))
+			.as(JSONUtil::toJsonStr)
+			.to(r::setFilters);
 
-		mapper.from(map.get(RouteConfDO.Fields.predicates)).whenNonNull().as(JSONArray::new)
-				.as(v -> v.toList(PredicateDefinitionDTO.class)).as(JSONUtil::toJsonStr).to(r::setPredicates);
+		mapper.from(map.get(RouteConfDO.Fields.predicates))
+			.whenNonNull()
+			.as(JSONArray::new)
+			.as(v -> v.toList(PredicateDefinitionDTO.class))
+			.as(JSONUtil::toJsonStr)
+			.to(r::setPredicates);
 
 		return r;
 	}

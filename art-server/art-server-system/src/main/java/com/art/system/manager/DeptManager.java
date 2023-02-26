@@ -45,7 +45,7 @@ public class DeptManager {
 	 */
 	public Boolean existsSubordinate(Long id) {
 		DeptDO deptDO = deptMapper
-				.selectOne(Wrappers.<DeptDO>lambdaQuery().eq(DeptDO::getParentId, id).last("limit 1"));
+			.selectOne(Wrappers.<DeptDO>lambdaQuery().eq(DeptDO::getParentId, id).last("limit 1"));
 		return Objects.nonNull(deptDO);
 	}
 

@@ -72,8 +72,10 @@ public class FxzPreAuthenticatedUserDetailsService<T extends Authentication>
 		// 根据客户端id获取获取UserDetailsService
 		FxzUserDetailsService userDetailsService = userDetailsServiceMap.get(clientId);
 
-		Optional<FxzUserDetailsService> fxzUserDetailsService = userDetailsServiceMap.values().stream()
-				.filter(s -> s.support(clientId, null)).findFirst();
+		Optional<FxzUserDetailsService> fxzUserDetailsService = userDetailsServiceMap.values()
+			.stream()
+			.filter(s -> s.support(clientId, null))
+			.findFirst();
 
 		if (!fxzUserDetailsService.isPresent()) {
 			throw new FxzException("请检查客户端配置");

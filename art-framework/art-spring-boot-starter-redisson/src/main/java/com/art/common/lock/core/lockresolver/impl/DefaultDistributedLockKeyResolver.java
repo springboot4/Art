@@ -47,8 +47,10 @@ public class DefaultDistributedLockKeyResolver implements DistributedLockResolve
 			lockName = SecureUtil.md5(methodName + argsStr);
 		}
 
-		return new LockEntity().setLockName(lockName).setLeaseTime(distributedLock.leaseTime())
-				.setWaitTime(distributedLock.waitTime()).setTimeUnit(distributedLock.timeUnit());
+		return new LockEntity().setLockName(lockName)
+			.setLeaseTime(distributedLock.leaseTime())
+			.setWaitTime(distributedLock.waitTime())
+			.setTimeUnit(distributedLock.timeUnit());
 	}
 
 }

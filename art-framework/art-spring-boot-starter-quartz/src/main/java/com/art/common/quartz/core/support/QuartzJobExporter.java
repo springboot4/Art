@@ -47,7 +47,7 @@ public class QuartzJobExporter extends ApplicationObjectSupport implements Smart
 		List<String> packages = new ArrayList<>();
 
 		Map<String, Object> springBootApplicationBeans = applicationContext
-				.getBeansWithAnnotation(SpringBootApplication.class);
+			.getBeansWithAnnotation(SpringBootApplication.class);
 		springBootApplicationBeans.values().forEach(bean -> {
 			SpringBootApplication annotation = AnnotationUtils.findAnnotation(bean.getClass(),
 					SpringBootApplication.class);
