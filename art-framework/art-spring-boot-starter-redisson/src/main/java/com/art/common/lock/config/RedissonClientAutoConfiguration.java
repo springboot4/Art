@@ -82,7 +82,7 @@ public class RedissonClientAutoConfiguration {
 
 		// 节点地址
 		singleServerConfig.setAddress(REDIS_PREFIX + redisProperties.getHost() + ":" + redisProperties.getPort())
-				.setDatabase(redisProperties.getDatabase());
+			.setDatabase(redisProperties.getDatabase());
 
 		// 密码
 		if (redisProperties.getPassword() != null) {
@@ -100,8 +100,11 @@ public class RedissonClientAutoConfiguration {
 		ClusterServersConfig clusterServersConfig = config.useClusterServers();
 
 		// 集群节点地址
-		clusterServersConfig.addNodeAddress(redisProperties.getCluster().getNodes().stream()
-				.map(node -> REDIS_PREFIX + node).toArray(String[]::new));
+		clusterServersConfig.addNodeAddress(redisProperties.getCluster()
+			.getNodes()
+			.stream()
+			.map(node -> REDIS_PREFIX + node)
+			.toArray(String[]::new));
 
 		// 密码
 		if (redisProperties.getPassword() != null) {
@@ -120,7 +123,7 @@ public class RedissonClientAutoConfiguration {
 
 		// 节点信息
 		sentinelServersConfig.setMasterName(redisProperties.getSentinel().getMaster())
-				.addSentinelAddress(redisProperties.getSentinel().getNodes().toArray(new String[0]));
+			.addSentinelAddress(redisProperties.getSentinel().getNodes().toArray(new String[0]));
 
 		// 密码
 		if (redisProperties.getPassword() != null) {

@@ -90,19 +90,19 @@ public class CanalAutoConfiguration implements SmartInitializingSingleton, BeanF
 	@Override
 	public void afterSingletonsInstantiated() {
 		ParseResultInterceptorManager parseResultInterceptorManager = configurableListableBeanFactory
-				.getBean(ParseResultInterceptorManager.class);
+			.getBean(ParseResultInterceptorManager.class);
 		ModelTableMetadataManager modelTableMetadataManager = configurableListableBeanFactory
-				.getBean(ModelTableMetadataManager.class);
+			.getBean(ModelTableMetadataManager.class);
 		CanalBinlogEventProcessorFactory canalBinlogEventProcessorFactory = configurableListableBeanFactory
-				.getBean(CanalBinlogEventProcessorFactory.class);
+			.getBean(CanalBinlogEventProcessorFactory.class);
 		CanalBinLogEventParser canalBinLogEventParser = configurableListableBeanFactory
-				.getBean(CanalBinLogEventParser.class);
+			.getBean(CanalBinLogEventParser.class);
 		Map<String, BaseParseResultInterceptor> interceptors = configurableListableBeanFactory
-				.getBeansOfType(BaseParseResultInterceptor.class);
+			.getBeansOfType(BaseParseResultInterceptor.class);
 		interceptors
-				.forEach((k, interceptor) -> parseResultInterceptorManager.registerParseResultInterceptor(interceptor));
+			.forEach((k, interceptor) -> parseResultInterceptorManager.registerParseResultInterceptor(interceptor));
 		Map<String, BaseCanalBinlogEventProcessor> processors = configurableListableBeanFactory
-				.getBeansOfType(BaseCanalBinlogEventProcessor.class);
+			.getBeansOfType(BaseCanalBinlogEventProcessor.class);
 		processors.forEach((k, processor) -> processor.init(canalBinLogEventParser, modelTableMetadataManager,
 				canalBinlogEventProcessorFactory, parseResultInterceptorManager));
 	}

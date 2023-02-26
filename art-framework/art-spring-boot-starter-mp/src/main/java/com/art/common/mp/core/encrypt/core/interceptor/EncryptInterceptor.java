@@ -79,8 +79,8 @@ public class EncryptInterceptor implements Interceptor {
 				field -> Objects.nonNull(field.getAnnotation(EncryptionData.class)));
 
 		// 通过反射为字段设置加密后的值
-		Arrays.stream(fields).forEach(
-				f -> ReflectUtil.setFieldValue(obj, f, this.aesEncryptValue(ReflectUtil.getFieldValue(obj, f))));
+		Arrays.stream(fields)
+			.forEach(f -> ReflectUtil.setFieldValue(obj, f, this.aesEncryptValue(ReflectUtil.getFieldValue(obj, f))));
 	}
 
 	/**

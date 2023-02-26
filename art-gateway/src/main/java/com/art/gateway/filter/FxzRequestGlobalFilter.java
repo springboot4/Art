@@ -43,8 +43,10 @@ public class FxzRequestGlobalFilter implements GlobalFilter, Ordered {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		// 清洗请求头中from 参数
-		ServerHttpRequest request = exchange.getRequest().mutate()
-				.headers(httpHeaders -> httpHeaders.remove(SecurityConstants.FROM)).build();
+		ServerHttpRequest request = exchange.getRequest()
+			.mutate()
+			.headers(httpHeaders -> httpHeaders.remove(SecurityConstants.FROM))
+			.build();
 
 		return chain.filter(exchange.mutate().request(request).build());
 	}

@@ -35,8 +35,8 @@ public class IdempotentRedisService {
 	private final StringRedisTemplate redisTemplate;
 
 	public Boolean setIfAbsent(String key, long timeout, TimeUnit timeUnit) {
-		return redisTemplate.opsForValue().setIfAbsent(String.format(IdempotentConstant.REDIS_FORMAT, key),
-				StrPool.EMPTY_JSON, timeout, timeUnit);
+		return redisTemplate.opsForValue()
+			.setIfAbsent(String.format(IdempotentConstant.REDIS_FORMAT, key), StrPool.EMPTY_JSON, timeout, timeUnit);
 	}
 
 	public Boolean removeKey(String key) {

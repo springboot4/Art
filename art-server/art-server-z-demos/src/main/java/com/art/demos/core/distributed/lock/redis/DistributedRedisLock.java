@@ -88,9 +88,9 @@ public class DistributedRedisLock implements Lock {
 			expire = unit.toSeconds(time);
 		}
 
-		while (Boolean.FALSE.equals(
-				this.redisTemplate.execute(new DefaultRedisScript<>(RedisConstant.LOCK_LUA_SCRIPT, Boolean.class),
-						Collections.singletonList(lockName), threadId, String.valueOf(expire)))) {
+		while (Boolean.FALSE
+			.equals(this.redisTemplate.execute(new DefaultRedisScript<>(RedisConstant.LOCK_LUA_SCRIPT, Boolean.class),
+					Collections.singletonList(lockName), threadId, String.valueOf(expire)))) {
 			TimeUnit.MILLISECONDS.sleep(30);
 		}
 
@@ -105,9 +105,9 @@ public class DistributedRedisLock implements Lock {
 	 */
 	@Override
 	public void unlock() {
-		if (Objects.isNull(
-				this.redisTemplate.execute(new DefaultRedisScript<>(RedisConstant.UNLOCK_LUA_SCRIPT, Long.class),
-						Collections.singletonList(lockName), threadId))) {
+		if (Objects
+			.isNull(this.redisTemplate.execute(new DefaultRedisScript<>(RedisConstant.UNLOCK_LUA_SCRIPT, Long.class),
+					Collections.singletonList(lockName), threadId))) {
 			throw new IllegalMonitorStateException("this lock doesn't belong to you!");
 		}
 	}

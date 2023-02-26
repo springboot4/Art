@@ -77,8 +77,10 @@ public class FxzGatewayRequestFilter implements GlobalFilter, Ordered {
 		exchange.getAttributes().put(COUNT_START_TIME, System.currentTimeMillis());
 
 		// 标记请求来自网关
-		ServerHttpRequest build = request.mutate().header(FxzConstant.GATEWAY_TOKEN_HEADER,
-				new String(Base64Utils.encode((FxzConstant.GATEWAY_TOKEN_VALUE).getBytes()))).build();
+		ServerHttpRequest build = request.mutate()
+			.header(FxzConstant.GATEWAY_TOKEN_HEADER,
+					new String(Base64Utils.encode((FxzConstant.GATEWAY_TOKEN_VALUE).getBytes())))
+			.build();
 
 		// then方法相当于aop的后置通知一样
 		return chain.filter(exchange.mutate().request(build).build()).then(Mono.fromRunnable(() -> printLog(exchange)));

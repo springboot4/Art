@@ -43,12 +43,14 @@ public class AuthenticationEventListener {
 
 	@EventListener(AuthenticationSuccessEvent.class)
 	public void onAuthenticationSuccessEvent(AuthenticationSuccessEvent event) {
-		if (event.getSource().getClass().getName()
-				.equals("org.springframework.security.authentication.UsernamePasswordAuthenticationToken")) {
+		if (event.getSource()
+			.getClass()
+			.getName()
+			.equals("org.springframework.security.authentication.UsernamePasswordAuthenticationToken")) {
 			Authentication authentication = (Authentication) event.getSource();
 			if (isUserAuthentication(authentication)) {
 				ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
-						.getRequestAttributes();
+					.getRequestAttributes();
 				HttpServletRequest request = requestAttributes.getRequest();
 
 				OperLogDTO logDto = new OperLogDTO();

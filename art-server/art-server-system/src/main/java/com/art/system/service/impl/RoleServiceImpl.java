@@ -242,6 +242,7 @@ public class RoleServiceImpl implements RoleService {
 	 * 根据角色id删除角色菜单信息
 	 * @param id 角色id
 	 */
+
 	private void deleteRoleMenuByRoleId(Long id) {
 		roleMenuManager.deleteRoleMenuByRoleId(id);
 	}

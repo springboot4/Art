@@ -71,15 +71,17 @@ public class DataPermissionRuleFactoryImpl implements DataPermissionRuleFactory 
 		// 已配置数据权限信息 但是仅生效部分规则
 		if (ArrayUtil.isNotEmpty(dataPermission.includeRules())) {
 			// 过滤出生效的数据权限规则
-			return rules.stream().filter(rule -> ArrayUtil.contains(dataPermission.includeRules(), rule.getClass()))
-					.collect(Collectors.toList());
+			return rules.stream()
+				.filter(rule -> ArrayUtil.contains(dataPermission.includeRules(), rule.getClass()))
+				.collect(Collectors.toList());
 		}
 
 		// 已配置数据权限 但是排除部分规则
 		if (ArrayUtil.isNotEmpty(dataPermission.excludeRules())) {
 			// 过滤出需要排除的数据权限规则
-			return rules.stream().filter(rule -> !ArrayUtil.contains(dataPermission.excludeRules(), rule.getClass()))
-					.collect(Collectors.toList());
+			return rules.stream()
+				.filter(rule -> !ArrayUtil.contains(dataPermission.excludeRules(), rule.getClass()))
+				.collect(Collectors.toList());
 		}
 
 		// 已配置数据权限信息 全部规则生效

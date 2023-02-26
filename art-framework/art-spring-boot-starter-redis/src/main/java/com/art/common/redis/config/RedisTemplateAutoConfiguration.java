@@ -72,7 +72,9 @@ public class RedisTemplateAutoConfiguration {
 		configuration.setPassword(redisProperties.getPassword());
 
 		LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration
-				.builder().poolConfig(genericObjectPoolConfig).commandTimeout(redisProperties.getTimeout());
+			.builder()
+			.poolConfig(genericObjectPoolConfig)
+			.commandTimeout(redisProperties.getTimeout());
 
 		return new LettuceConnectionFactory(configuration, builder.build());
 	}
@@ -92,19 +94,19 @@ public class RedisTemplateAutoConfiguration {
 		ObjectMapper objectMapper = new ObjectMapper();
 		// 指定要序列化的域
 		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
-				// 不将日期写为时间戳
-				.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-				// 忽略未知属性
-				.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-				// 对象属性为空时可以序列化
-				.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-				// 记录被序列化的类型信息
-				.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL,
-						JsonTypeInfo.As.WRAPPER_ARRAY)
-				// null 值不序列化
-				.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-				// 日期处理
-				.registerModule(new com.art.common.jackson.module.JavaTimeModule());
+			// 不将日期写为时间戳
+			.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+			// 忽略未知属性
+			.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+			// 对象属性为空时可以序列化
+			.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+			// 记录被序列化的类型信息
+			.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL,
+					JsonTypeInfo.As.WRAPPER_ARRAY)
+			// null 值不序列化
+			.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+			// 日期处理
+			.registerModule(new com.art.common.jackson.module.JavaTimeModule());
 		GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
 
 		// 默认使用了jdk的序列化方式，可读性差，我们使用 String 序列化方式，序列化 KEY 。

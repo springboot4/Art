@@ -63,9 +63,9 @@ public class DictManager {
 
 	public Page<DictDO> pageDict(DictPageDTO dictPageDTO) {
 		LambdaQueryWrapper<DictDO> wrapper = Wrappers.<DictDO>lambdaQuery()
-				.like(StringUtils.isNotBlank(dictPageDTO.getType()), DictDO::getType, dictPageDTO.getType())
-				.eq(StringUtils.isNotBlank(dictPageDTO.getSystemFlag()), DictDO::getSystemFlag,
-						dictPageDTO.getSystemFlag());
+			.like(StringUtils.isNotBlank(dictPageDTO.getType()), DictDO::getType, dictPageDTO.getType())
+			.eq(StringUtils.isNotBlank(dictPageDTO.getSystemFlag()), DictDO::getSystemFlag,
+					dictPageDTO.getSystemFlag());
 
 		return dictMapper.selectPage(Page.of(dictPageDTO.getCurrent(), dictPageDTO.getSize()), wrapper);
 	}

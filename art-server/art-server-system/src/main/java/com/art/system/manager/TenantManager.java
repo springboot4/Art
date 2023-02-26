@@ -81,7 +81,7 @@ public class TenantManager {
 
 	public Boolean validTenantPackageUsed(Long packageId) {
 		TenantDO tenantDO = tenantMapper
-				.selectOne(Wrappers.<TenantDO>lambdaQuery().eq(TenantDO::getPackageId, packageId).last("limit 1"));
+			.selectOne(Wrappers.<TenantDO>lambdaQuery().eq(TenantDO::getPackageId, packageId).last("limit 1"));
 		return Objects.nonNull(tenantDO);
 	}
 

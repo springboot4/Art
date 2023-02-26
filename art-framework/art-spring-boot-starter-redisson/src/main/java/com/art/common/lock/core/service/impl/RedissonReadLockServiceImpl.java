@@ -45,8 +45,8 @@ public class RedissonReadLockServiceImpl implements RedissonService {
 
 		try {
 			// 释放锁
-			return rLock.readLock().tryLock(lockEntity.getWaitTime(), lockEntity.getLeaseTime(),
-					lockEntity.getTimeUnit());
+			return rLock.readLock()
+				.tryLock(lockEntity.getWaitTime(), lockEntity.getLeaseTime(), lockEntity.getTimeUnit());
 		}
 		catch (Exception e) {
 			return false;

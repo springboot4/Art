@@ -69,7 +69,7 @@ public class MenuController {
 	@GetMapping("/getUserMenuTree")
 	public Result<List<VueRouter<MenuDTO>>> getUserMenuTree() {
 		FxzAuthUser authUser = Optional.ofNullable(SecurityUtil.getUser())
-				.orElseThrow(() -> new FxzException("用户未登录！"));
+			.orElseThrow(() -> new FxzException("用户未登录！"));
 
 		return Result.success(menuService.getUserMenuTree(authUser.getUserId()));
 	}

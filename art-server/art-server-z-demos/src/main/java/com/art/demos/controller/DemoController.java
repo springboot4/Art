@@ -21,9 +21,10 @@ import com.art.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolve
 import com.art.common.core.constant.ErrorCodes;
 import com.art.common.core.model.Result;
 import com.art.common.core.util.MsgUtil;
+import com.art.common.file.core.client.ftp.FtpFileStorage;
 import com.art.common.lock.core.utils.RedissonUtils;
-import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.common.redis.core.cache.support.CacheMessage;
+import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.common.sequence.service.Sequence;
 import com.art.system.api.user.dto.SystemUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,6 +54,14 @@ public class DemoController {
 	private final Sequence cloudSequence;
 
 	private final RedisMQTemplate redisMQTemplate;
+
+	private final FtpFileStorage ftpFileStorage;
+
+	@GetMapping("/ftp")
+	public Result<String> ftp() {
+		String res = ftpFileStorage.putObject("ftp文件上传测试".getBytes(), "/Users/fxz/file/testFtp.txt");
+		return Result.success(res);
+	}
 
 	@Operation(summary = "xss过滤简易demo")
 	@GetMapping("/xss")

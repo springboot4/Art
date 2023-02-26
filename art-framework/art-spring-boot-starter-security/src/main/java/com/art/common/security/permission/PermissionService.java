@@ -60,8 +60,10 @@ public class PermissionService {
 		}
 
 		Collection<? extends GrantedAuthority> authorities = SecurityUtil.getAuthorities();
-		return authorities.stream().map(GrantedAuthority::getAuthority).filter(StringUtils::hasText)
-				.anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
+		return authorities.stream()
+			.map(GrantedAuthority::getAuthority)
+			.filter(StringUtils::hasText)
+			.anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
 	}
 
 }

@@ -77,8 +77,8 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
 		// https://blog.csdn.net/qq_36491545/article/details/109091325
 		TableInfoHelper.initTableInfo(new MapperBuilderAssistant(new MybatisConfiguration(), ""),
 				DatabaseTableDO.class);
-		return databaseTableMapper.page(page, Wrappers.<DatabaseTableDO>lambdaQuery().like(
-				StringUtils.isNotEmpty(param.getTableName()), DatabaseTableDO::getTableName, param.getTableName()));
+		return databaseTableMapper.page(page, Wrappers.<DatabaseTableDO>lambdaQuery()
+			.like(StringUtils.isNotEmpty(param.getTableName()), DatabaseTableDO::getTableName, param.getTableName()));
 	}
 
 }

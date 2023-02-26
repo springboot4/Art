@@ -47,7 +47,8 @@ public class SequenceApplication {
 	public Sequence sequence(SeqSegmentManager seqSegmentManager) {
 		// 序列号号段配置
 		SeqSegmentConfig seqSegmentConfig = new SeqSegmentConfig().setStep(sequenceProperties.getStep())
-				.setRangeStart(sequenceProperties.getRangeStart()).setRangeStep(sequenceProperties.getRangeStep());
+			.setRangeStart(sequenceProperties.getRangeStart())
+			.setRangeStep(sequenceProperties.getRangeStep());
 
 		// 序列号号段生成器接口默认实现
 		return new DefaultSegmentSequence(seqSegmentManager, seqSegmentConfig);

@@ -48,7 +48,7 @@ public class RoleManager {
 
 	public Page<RoleDO> pageRole(RolePageDTO pageDTO) {
 		LambdaQueryWrapper<RoleDO> wrapper = Wrappers.<RoleDO>lambdaQuery()
-				.like(StringUtils.isNotEmpty(pageDTO.getRoleName()), RoleDO::getRoleName, pageDTO.getRoleName());
+			.like(StringUtils.isNotEmpty(pageDTO.getRoleName()), RoleDO::getRoleName, pageDTO.getRoleName());
 		return roleMapper.selectPage(Page.of(pageDTO.getCurrent(), pageDTO.getSize()), wrapper);
 	}
 

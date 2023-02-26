@@ -372,7 +372,7 @@ public class WebSocketEndpointMethodMapping {
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		Object instance = webSocketEndpointClazz.getDeclaredConstructor().newInstance();
 		AutowiredAnnotationBeanPostProcessor postProcessor = applicationContext
-				.getBean(AutowiredAnnotationBeanPostProcessor.class);
+			.getBean(AutowiredAnnotationBeanPostProcessor.class);
 		postProcessor.postProcessProperties(null, instance, null);
 		return instance;
 	}

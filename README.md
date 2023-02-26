@@ -113,8 +113,8 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 | 依赖                   | 版本         |
 |----------------------|------------|
-| Spring Boot          | 2.7.8      |
-| Spring Cloud         | 2021.0.5   |
+| Spring Boot          | 2.7.9      |
+| Spring Cloud         | 2021.0.6   |
 | Spring Cloud Alibaba | 2021.0.4.0 |
 | Mybatis Plus         | 3.5.3.1    |
 | Hutool               | 5.8.11     |
@@ -122,7 +122,7 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 
 ## 🍺加入我们
-| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/02/10/52TCUt.jpg) |
+| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/02/26/de4dKR.jpg) |
 | ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) |                                                              |
 

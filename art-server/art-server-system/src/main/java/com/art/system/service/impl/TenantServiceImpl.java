@@ -132,8 +132,10 @@ public class TenantServiceImpl implements TenantService {
 	private Long createUser(Long roleId, TenantDTO tenant) {
 		// 创建用户
 		SystemUserDTO systemUserDO = new SystemUserDTO().setUsername(tenant.getUsername())
-				.setPassword(tenant.getPassword()).setMobile(tenant.getTenantAdminMobile())
-				.setUsername(tenant.getTenantAdminName()).setRoleId(String.valueOf(roleId));
+			.setPassword(tenant.getPassword())
+			.setMobile(tenant.getTenantAdminMobile())
+			.setUsername(tenant.getTenantAdminName())
+			.setRoleId(String.valueOf(roleId));
 
 		return userService.createUser(systemUserDO).getUserId();
 	}
@@ -146,8 +148,10 @@ public class TenantServiceImpl implements TenantService {
 	private Long createRole(TenantPackageDO tenantPackageDO) {
 		// 生成租户管理员角色角色
 		RoleDTO roleDTO = new RoleDTO().setRoleName(RoleAdminEnum.TENANT_ADMIN.getDescription())
-				.setCode(RoleAdminEnum.TENANT_ADMIN.getType()).setRemark("系统生成租户管理员角色")
-				.setMenuId(tenantPackageDO.getMenuIds()).setDataScope(DataScopeEnum.ALL.getScope());
+			.setCode(RoleAdminEnum.TENANT_ADMIN.getType())
+			.setRemark("系统生成租户管理员角色")
+			.setMenuId(tenantPackageDO.getMenuIds())
+			.setDataScope(DataScopeEnum.ALL.getScope());
 
 		return roleService.addRole(roleDTO).getRoleId();
 	}

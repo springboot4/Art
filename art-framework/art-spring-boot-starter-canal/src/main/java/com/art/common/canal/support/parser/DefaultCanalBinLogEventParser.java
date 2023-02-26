@@ -50,8 +50,9 @@ public class DefaultCanalBinLogEventParser implements CanalBinLogEventParser {
 			entry.setSql(event.getSql());
 			return Collections.singletonList(entry);
 		}
-		Optional.ofNullable(event.getPkNames()).filter(x -> x.size() == 1)
-				.orElseThrow(() -> new IllegalArgumentException("DML类型binlog事件主键列数量不为1"));
+		Optional.ofNullable(event.getPkNames())
+			.filter(x -> x.size() == 1)
+			.orElseThrow(() -> new IllegalArgumentException("DML类型binlog事件主键列数量不为1"));
 		// 主键列的名称
 		String primaryKeyName = event.getPkNames().get(0);
 		List<CanalBinLogResult<T>> entryList = new LinkedList<>();
