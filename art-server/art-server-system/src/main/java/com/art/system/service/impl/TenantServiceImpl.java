@@ -107,9 +107,9 @@ public class TenantServiceImpl implements TenantService {
 		TenantPackageDO tenantPackageDO = tenantPackageService.validTenantPackage(tenant.getPackageId());
 
 		// 保存租户信息
-		tenantManager.addTenant(tenant);
+		Long tenantId = tenantManager.addTenant(tenant);
 
-		TenantUtils.run(tenant.getId(), () -> {
+		TenantUtils.run(tenantId, () -> {
 			// 根据套餐信息为新租户新建一个角色
 			Long roleId = createRole(tenantPackageDO);
 
