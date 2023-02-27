@@ -48,8 +48,10 @@ public class TenantManager {
 		return tenantMapper.selectById(id);
 	}
 
-	public void addTenant(TenantDTO tenant) {
-		tenantMapper.insert(TenantConvert.INSTANCE.convert(tenant));
+	public Long addTenant(TenantDTO tenant) {
+		TenantDO tenantDO = TenantConvert.INSTANCE.convert(tenant);
+		tenantMapper.insert(tenantDO);
+		return tenantDO.getId();
 	}
 
 	public void updateTenantAdmin(Long tenantId, Long userId) {
