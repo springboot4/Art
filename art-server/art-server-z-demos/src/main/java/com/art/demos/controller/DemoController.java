@@ -33,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RateType;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
@@ -55,11 +56,11 @@ public class DemoController {
 
 	private final RedisMQTemplate redisMQTemplate;
 
-	private final FtpFileStorage ftpFileStorage;
+	private final ObjectProvider<FtpFileStorage> ftpFileStorage;
 
 	@GetMapping("/ftp")
 	public Result<String> ftp() {
-		String res = ftpFileStorage.putObject("ftp文件上传测试".getBytes(), "/Users/fxz/file/testFtp.txt");
+		String res = ftpFileStorage.getIfAvailable().putObject("ftp文件上传测试".getBytes(), "/Users/fxz/file/testFtp.txt");
 		return Result.success(res);
 	}
 
