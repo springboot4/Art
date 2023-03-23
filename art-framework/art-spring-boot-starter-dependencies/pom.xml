@@ -123,6 +123,11 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-hazelcast</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-feign</artifactId>
                 <version>${project.version}</version>
             </dependency>
