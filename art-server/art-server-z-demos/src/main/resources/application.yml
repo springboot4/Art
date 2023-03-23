@@ -13,3 +13,12 @@ spring:
     import:
       - optional:nacos:${spring.application.name}.yaml
       - optional:nacos:fxz-application-common.yaml
+
+art:
+  hazelcast:
+    port:
+      - 5701
+      - 5702
+      - 5703
+    members:
+      - 127.0.0.1
