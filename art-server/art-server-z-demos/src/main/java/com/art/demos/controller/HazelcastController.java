@@ -16,26 +16,33 @@
 
 package com.art.demos.controller;
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.art.common.core.model.Result;
+import com.art.common.hazelcast.core.base.DistributedCountDownLatch;
+import com.art.common.hazelcast.core.base.DistributedCountDownLatchFactory;
+import com.art.common.hazelcast.core.base.DistributedLockFactory;
+import com.art.common.hazelcast.core.base.DistributedMap;
+import com.art.common.hazelcast.core.base.DistributedMapFactory;
+import com.art.common.hazelcast.core.base.DistributedQueue;
+import com.art.common.hazelcast.core.base.DistributedQueueFactory;
+import com.art.common.hazelcast.core.base.DistributedSet;
+import com.art.common.hazelcast.core.base.DistributedSetFactory;
+import com.art.common.hazelcast.core.cache.DefaultCacheManager;
 import com.hazelcast.cluster.Member;
-import com.hazelcast.collection.IList;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.map.IMap;
-import com.hazelcast.multimap.MultiMap;
 import com.hazelcast.topic.ITopic;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 /**
  * @author Fxz
@@ -50,6 +57,129 @@ import java.util.concurrent.TimeUnit;
 public class HazelcastController {
 
 	private final HazelcastInstance hazelcastInstance;
+
+	private final DefaultCacheManager defaultCacheManager;
+
+	private final DistributedLockFactory lockFactory;
+
+	private final DistributedCountDownLatchFactory countDownLatchFactory;
+
+	private final DistributedQueueFactory queueFactory;
+
+	private final DistributedMapFactory mapFactory;
+
+	private final DistributedSetFactory setFactory;
+
+	/**
+	 * 分布式锁对象 demo
+	 */
+	@GetMapping(value = "/lock")
+	public Result<Void> lock() {
+		boolean flag = false;
+		Lock lock = lockFactory.getLock("demoLock");
+		try {
+			flag = lock.tryLock(10, TimeUnit.SECONDS);
+			TimeUnit.SECONDS.sleep(5);
+			log.info("抢锁成功,{}", LocalDateTime.now().toString());
+		}
+		catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		finally {
+			if (flag) {
+				lock.unlock();
+			}
+		}
+		return Result.success();
+	}
+
+	/**
+	 * map demo
+	 */
+	@GetMapping(value = "/map")
+	public Result<Void> map() {
+		LocalDate now = LocalDate.now();
+		String uuid = "uuid";
+
+		defaultCacheManager.set(uuid, now);
+		defaultCacheManager.add(uuid, "mapVal");
+		log.info("val:{}", defaultCacheManager.get(uuid));
+		defaultCacheManager.replace(uuid, "replaceVal");
+		log.info("val:{}", defaultCacheManager.get(uuid));
+
+		now = LocalDate.now();
+
+		DistributedMap<String, String> demoMap = mapFactory.getMap("demoMap");
+		demoMap.put(uuid, now.toString());
+		log.info("val:{}", demoMap.get(uuid));
+		demoMap.replace(uuid, "replaceValMap");
+		log.info("val:{}", demoMap.get(uuid));
+
+		return Result.success();
+	}
+
+	/**
+	 * set demo
+	 */
+	@GetMapping(value = "/set")
+	public Result<Void> set() {
+		DistributedSet<String> demoSet = setFactory.getSet("demoSet");
+		demoSet.add("item1");
+		demoSet.add("item1");
+		demoSet.add("item2");
+		demoSet.add("item2");
+		demoSet.add("item2");
+		demoSet.add("item3");
+
+		demoSet.values().forEach(log::info);
+
+		return Result.success();
+	}
+
+	/**
+	 * queue demo
+	 */
+	@GetMapping(value = "/queue")
+	public Result<Void> queue() {
+		DistributedQueue<String> queueDemo = queueFactory.getQueue("queueDemo");
+		queueDemo.offer("a");
+		queueDemo.offer("b");
+		log.info(queueDemo.poll(1, TimeUnit.SECONDS));
+		log.info(queueDemo.poll(1, TimeUnit.SECONDS));
+		queueDemo.clear();
+		return Result.success();
+	}
+
+	/**
+	 * countDownLatch demo
+	 */
+	@SneakyThrows
+	@GetMapping(value = "/countDownLatch")
+	public Result<Void> countDownLatch() {
+		DistributedCountDownLatch countDownLatchDemo = countDownLatchFactory.getCountDownLatch("countDownLatchDemo");
+		boolean flag = countDownLatchDemo.trySetCount(5);
+		if (!flag) {
+			return Result.success();
+		}
+
+		for (int i = 0; i < 5; i++) {
+			ThreadUtil.execute(() -> {
+				try {
+					TimeUnit.SECONDS.sleep(10);
+					log.info("线程:{}执行完毕", Thread.currentThread().getId());
+					countDownLatchDemo.countDown();
+				}
+				catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			});
+		}
+
+		countDownLatchDemo.await(20, TimeUnit.SECONDS);
+		log.info("方法执行完毕");
+
+		return Result.success();
+	}
 
 	@GetMapping(value = "/topic")
 	public Result<Void> topic() {
@@ -68,114 +198,6 @@ public class HazelcastController {
 		});
 
 		topic.publish(LocalDate.now() + "  fxz test");
-		return Result.success();
-	}
-
-	@GetMapping(value = "/lock")
-	public Result<Void> lock() {
-		IMap<String, String> lock = hazelcastInstance.getMap("my-distributed-lock");
-		boolean b = false;
-
-		try {
-			b = lock.tryLock("lock", 30, TimeUnit.SECONDS);
-			TimeUnit.SECONDS.sleep(5);
-			log.info(LocalDate.now().toString());
-		}
-		catch (Throwable t) {
-			log.info(t.getMessage());
-		}
-		finally {
-			if (b) {
-				lock.unlock("lock");
-			}
-		}
-
-		return Result.success();
-	}
-
-	@GetMapping(value = "/map/save")
-	public Result<Void> saveMapData() {
-		Map<String, Object> hazelcastMap = hazelcastInstance.getMap("hazelcastMap");
-		LocalDate now = LocalDate.now();
-		String uuid = "uuid";
-
-		hazelcastMap.put(uuid, now);
-		hazelcastMap.putIfAbsent(uuid, "mapVal");
-		hazelcastMap.replace(uuid, now, "replaceVal");
-		return Result.success();
-	}
-
-	@GetMapping(value = "/map/get")
-	public Result<String> getMapData() {
-		String uuid = "uuid";
-
-		Map<String, String> hazelcastMap = hazelcastInstance.getMap("hazelcastMap");
-		return Result.success(hazelcastMap.get(uuid));
-	}
-
-	@GetMapping(value = "/map/all")
-	public Result<Map<String, String>> readAllDataFromHazelcast() {
-		return Result.success(hazelcastInstance.getMap("hazelcastMap"));
-	}
-
-	@GetMapping(value = "/multi/data")
-	public Result<Object> multiMapData() {
-		MultiMap<Object, Object> hazelcastMultiMap = hazelcastInstance.getMultiMap("hazelcastMultiMap");
-		hazelcastMultiMap.put("my-key", "value1");
-		hazelcastMultiMap.put("my-key", "value2");
-		hazelcastMultiMap.put("my-key", "value3");
-		return Result.success(hazelcastMultiMap.get("my-key"));
-	}
-
-	@GetMapping(value = "/set/data")
-	public Result<Set<String>> setData() {
-		Set<String> set = hazelcastInstance.getSet("my-distributed-set");
-		set.add("item1");
-		set.add("item1");
-		set.add("item2");
-		set.add("item2");
-		set.add("item2");
-		set.add("item3");
-
-		return Result.success(set);
-	}
-
-	@GetMapping(value = "/list/add")
-	public Result<Void> saveList(@RequestParam(required = false) String value) {
-		IList<Object> clusterList = hazelcastInstance.getList("myList");
-		clusterList.add(value);
-		return Result.success();
-	}
-
-	@GetMapping(value = "/list/showList")
-	public Result<IList<Object>> showList() {
-		return Result.success(hazelcastInstance.getList("myList"));
-	}
-
-	@GetMapping(value = "/clearList")
-	public Result<Void> clearList() {
-		IList<Object> clusterList = hazelcastInstance.getList("myList");
-		clusterList.clear();
-		return Result.success();
-	}
-
-	@GetMapping(value = "/queue")
-	public Result<Void> saveQueue(@RequestParam String value) {
-		Queue<String> clusterQueue = hazelcastInstance.getQueue("myQueue");
-		clusterQueue.offer(value);
-		return Result.success();
-	}
-
-	@GetMapping(value = "/showQueue")
-	public Result<Queue<String>> showQueue() {
-		Queue<String> clusterQueue = hazelcastInstance.getQueue("myQueue");
-		return Result.success(clusterQueue);
-	}
-
-	@GetMapping(value = "/clearQueue")
-	public Result<Void> clearQueue() {
-		Queue<String> clusterQueue = hazelcastInstance.getQueue("myQueue");
-		clusterQueue.clear();
 		return Result.success();
 	}
 
