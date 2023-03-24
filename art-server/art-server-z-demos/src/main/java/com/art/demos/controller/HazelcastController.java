@@ -28,6 +28,9 @@ import com.art.common.hazelcast.core.base.DistributedQueueFactory;
 import com.art.common.hazelcast.core.base.DistributedSet;
 import com.art.common.hazelcast.core.base.DistributedSetFactory;
 import com.art.common.hazelcast.core.cache.DefaultCacheManager;
+import com.art.common.hazelcast.core.mq.HazelcastMQTemplate;
+import com.art.demos.core.message.DemoGroupMessage;
+import com.art.demos.core.message.DemoTopicMessage;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.topic.ITopic;
@@ -69,6 +72,18 @@ public class HazelcastController {
 	private final DistributedMapFactory mapFactory;
 
 	private final DistributedSetFactory setFactory;
+
+	private final HazelcastMQTemplate hazelcastMQTemplate;
+
+	@GetMapping("/send")
+	public Result<Void> sendMsg(String msg) {
+		DemoTopicMessage topicMessage = new DemoTopicMessage("广播消息,所有的客户端都可以监听到" + msg, LocalDateTime.now());
+		hazelcastMQTemplate.send(topicMessage);
+
+		DemoGroupMessage groupMessage = new DemoGroupMessage("消费者组消息,只有一个客户端都可以监听到 " + msg, LocalDateTime.now());
+		hazelcastMQTemplate.send(groupMessage);
+		return Result.success();
+	}
 
 	/**
 	 * 分布式锁对象 demo

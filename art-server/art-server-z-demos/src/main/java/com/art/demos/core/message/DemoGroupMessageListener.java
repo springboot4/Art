@@ -14,19 +14,27 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.cache;
+package com.art.demos.core.message;
 
-import com.art.common.hazelcast.core.base.DistributedCacheProvider;
+import com.art.common.hazelcast.core.mq.AbstractGroupMessageListener;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2023/3/23 16:25
+ * @date 2023/3/24 21:58
  */
-public class DefaultCacheManager extends AbstractCacheManager<Object> {
+@Slf4j
+@Component
+public class DemoGroupMessageListener extends AbstractGroupMessageListener<DemoGroupMessage> {
 
-	public DefaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
-		super(distributedCacheProvider);
+	/**
+	 * @param message
+	 */
+	@Override
+	public void onMessage(DemoGroupMessage message) {
+		log.info("接受到group消息:{}", message);
 	}
 
 }

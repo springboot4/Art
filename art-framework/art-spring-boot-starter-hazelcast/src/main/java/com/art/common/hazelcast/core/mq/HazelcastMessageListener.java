@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.cache;
-
-import com.art.common.hazelcast.core.base.DistributedCacheProvider;
+package com.art.common.hazelcast.core.mq;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2023/3/23 16:25
+ * @date 2023/3/24 20:27
  */
-public class DefaultCacheManager extends AbstractCacheManager<Object> {
+public interface HazelcastMessageListener<T extends AbstractMessage> {
 
-	public DefaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
-		super(distributedCacheProvider);
-	}
+	void onMessage(T message);
 
 }
