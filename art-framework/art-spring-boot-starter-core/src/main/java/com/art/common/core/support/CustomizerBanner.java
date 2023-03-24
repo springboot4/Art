@@ -17,11 +17,10 @@
 package com.art.common.core.support;
 
 import cn.hutool.core.thread.ThreadUtil;
-import com.art.common.core.util.SpringUtil;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.core.env.Environment;
 
 import java.util.concurrent.TimeUnit;
@@ -32,18 +31,42 @@ import java.util.concurrent.TimeUnit;
  * @date 2022/11/15 14:58
  */
 @Slf4j
-@RequiredArgsConstructor
 public class CustomizerBanner implements ApplicationRunner {
 
-	private final Environment environment;
+	private final String doc = "http://fxz-gateway:9999";
+
+	private final String bootVersion = SpringBootVersion.getVersion();
+
+	private final String name;
+
+	private final String osName;
+
+	private final String osArch;
+
+	private final String osVersion;
+
+	private final String javaVendor;
+
+	private final String javaVersion;
+
+	public CustomizerBanner(Environment environment) {
+		name = environment.getProperty("spring.application.name");
+		osName = environment.getProperty("os.name");
+		osArch = environment.getProperty("os.arch");
+		osVersion = environment.getProperty("os.version");
+		javaVendor = environment.getProperty("java.vendor");
+		javaVersion = environment.getProperty("java.version");
+	}
 
 	@Override
 	public void run(ApplicationArguments args) {
-		String service = SpringUtil.getProperty("spring.application.name");
-
 		ThreadUtil.execute(() -> {
 			ThreadUtil.sleep(3, TimeUnit.SECONDS);
-			log.info("项目启动成功！" + "\n" + "服务:{}" + "\n" + "项目文档:http://fxz-gateway:9999", service);
+			log.info("操作系统：{},{},{}", osName, osArch, osVersion);
+			log.info("Java环境：{},{}", javaVendor, javaVersion);
+			log.info("SpringBoot版本：{}", bootVersion);
+			log.info("项目启动成功！服务:{} ", name);
+			log.info("项目文档相关:{}", doc);
 		});
 	}
 
