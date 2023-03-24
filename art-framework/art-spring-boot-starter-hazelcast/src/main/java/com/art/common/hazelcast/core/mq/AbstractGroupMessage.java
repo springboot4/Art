@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.cache;
+package com.art.common.hazelcast.core.mq;
 
-import com.art.common.hazelcast.core.base.DistributedCacheProvider;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2023/3/23 16:25
+ * @date 2023/3/24 19:56
  */
-public class DefaultCacheManager extends AbstractCacheManager<Object> {
+public abstract class AbstractGroupMessage extends AbstractMessage {
 
-	public DefaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
-		super(distributedCacheProvider);
-	}
+	/**
+	 * 获取消费者组
+	 * @return 消费者组名称
+	 */
+	@JsonIgnore
+	public abstract String getGroup();
 
 }

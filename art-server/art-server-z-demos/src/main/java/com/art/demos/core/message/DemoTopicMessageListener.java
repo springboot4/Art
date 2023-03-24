@@ -14,19 +14,27 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.cache;
+package com.art.demos.core.message;
 
-import com.art.common.hazelcast.core.base.DistributedCacheProvider;
+import com.art.common.hazelcast.core.mq.AbstractTopicMessageListener;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2023/3/23 16:25
+ * @date 2023/3/24 22:00
  */
-public class DefaultCacheManager extends AbstractCacheManager<Object> {
+@Slf4j
+@Component
+public class DemoTopicMessageListener extends AbstractTopicMessageListener<DemoTopicMessage> {
 
-	public DefaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
-		super(distributedCacheProvider);
+	/**
+	 * @param message
+	 */
+	@Override
+	public void onMessage(DemoTopicMessage message) {
+		log.info("接收到topic消息:{}", message);
 	}
 
 }

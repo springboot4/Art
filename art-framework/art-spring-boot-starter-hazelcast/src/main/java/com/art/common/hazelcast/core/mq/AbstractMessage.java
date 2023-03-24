@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.cache;
+package com.art.common.hazelcast.core.mq;
 
-import com.art.common.hazelcast.core.base.DistributedCacheProvider;
+import java.io.Serializable;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2023/3/23 16:25
+ * @date 2023/3/24 19:55
  */
-public class DefaultCacheManager extends AbstractCacheManager<Object> {
+public abstract class AbstractMessage implements Serializable {
 
-	public DefaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
-		super(distributedCacheProvider);
-	}
+	private static final long serialVersionUID = 1L;
 
 }

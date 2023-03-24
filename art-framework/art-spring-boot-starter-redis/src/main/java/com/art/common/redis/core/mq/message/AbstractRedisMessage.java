@@ -16,6 +16,8 @@
 
 package com.art.common.redis.core.mq.message;
 
+import java.io.Serializable;
+
 /**
  * redis 消息抽象基类
  *
@@ -23,6 +25,6 @@ package com.art.common.redis.core.mq.message;
  * @version 0.0.1
  * @date 2022/6/30 16:16
  */
-public abstract class AbstractRedisMessage {
+public abstract class AbstractRedisMessage implements Serializable {
 
 }

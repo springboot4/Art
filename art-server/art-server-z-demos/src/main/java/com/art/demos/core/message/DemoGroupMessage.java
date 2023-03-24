@@ -14,19 +14,36 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.cache;
+package com.art.demos.core.message;
 
-import com.art.common.hazelcast.core.base.DistributedCacheProvider;
+import com.art.common.hazelcast.core.mq.AbstractGroupMessage;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2023/3/23 16:25
+ * @date 2023/3/24 21:52
  */
-public class DefaultCacheManager extends AbstractCacheManager<Object> {
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class DemoGroupMessage extends AbstractGroupMessage {
 
-	public DefaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
-		super(distributedCacheProvider);
+	private String msg;
+
+	private LocalDateTime dateTime;
+
+	/**
+	 * 获取消费者组
+	 * @return 消费者组名称
+	 */
+	@Override
+	public String getGroup() {
+		return "DemoGroup";
 	}
 
 }
