@@ -14,19 +14,37 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.cache;
+package com.art.common.hazelcast.core.mq;
 
-import com.art.common.hazelcast.core.base.DistributedCacheProvider;
+import cn.hutool.core.util.TypeUtil;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2023/3/23 16:25
+ * @date 2023/3/24 20:17
  */
-public class DefaultCacheManager extends AbstractCacheManager<Object> {
+@Getter
+@Setter
+public abstract class AbstractGroupMessageListener<T extends AbstractGroupMessage>
+		implements HazelcastMessageListener<T> {
 
-	public DefaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
-		super(distributedCacheProvider);
+	/**
+	 * 消息类型
+	 */
+	private final Class<T> messageType;
+
+	/**
+	 * topic
+	 */
+	private final String group;
+
+	@SneakyThrows
+	protected AbstractGroupMessageListener() {
+		this.messageType = (Class<T>) TypeUtil.getTypeArgument(getClass(), 0);
+		this.group = messageType.newInstance().getGroup();
 	}
 
 }

@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.base;
+package com.art.common.hazelcast.core.cache;
+
+import com.art.common.hazelcast.core.base.DistributedCacheManager;
+import com.art.common.hazelcast.core.base.DistributedCacheProvider;
 
 /**
  * @author Fxz
