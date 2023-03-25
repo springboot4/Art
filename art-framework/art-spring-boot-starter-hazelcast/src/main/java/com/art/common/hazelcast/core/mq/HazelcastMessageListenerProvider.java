@@ -21,7 +21,6 @@ import com.hazelcast.collection.IQueue;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.topic.ITopic;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutorService;
 
@@ -31,7 +30,6 @@ import java.util.concurrent.ExecutorService;
  * @date 2023/3/24 20:24
  */
 @SuppressWarnings("all")
-@Slf4j
 @RequiredArgsConstructor
 public class HazelcastMessageListenerProvider {
 
@@ -57,7 +55,6 @@ public class HazelcastMessageListenerProvider {
 					});
 				}
 				catch (InterruptedException e) {
-					log.info("消费失败:{}", groupName);
 				}
 			}
 		}, "HazelcastConsumerThread-" + groupName);

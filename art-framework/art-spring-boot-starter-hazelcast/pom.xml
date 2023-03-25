@@ -46,8 +46,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-jackson</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
         </dependency>
 
     </dependencies>
