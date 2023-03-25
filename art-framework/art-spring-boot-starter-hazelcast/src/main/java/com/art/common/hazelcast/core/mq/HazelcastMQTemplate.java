@@ -20,14 +20,12 @@ import com.hazelcast.collection.IQueue;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.topic.ITopic;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Fxz
  * @version 0.0.1
  * @date 2023/3/24 19:52
  */
-@Slf4j
 @RequiredArgsConstructor
 @SuppressWarnings("all")
 public class HazelcastMQTemplate {
@@ -46,7 +44,6 @@ public class HazelcastMQTemplate {
 			queue.put(message);
 		}
 		catch (InterruptedException e) {
-			log.info("消息发送失败,queue:{}", queue);
 		}
 	}
 
