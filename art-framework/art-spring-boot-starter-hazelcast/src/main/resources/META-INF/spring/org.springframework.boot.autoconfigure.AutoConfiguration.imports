@@ -1,2 +1,1 @@
-com.art.common.hazelcast.config.HazelcastAutoConfiguration
-com.art.common.hazelcast.config.HazelcastMqAutoConfiguration
+com.art.common.hazelcast.config.HazelcastServerAutoConfiguration

@@ -1,219 +1,222 @@
-/*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.art.demos.controller;
-
-import cn.hutool.core.thread.ThreadUtil;
-import com.art.common.core.model.Result;
-import com.art.common.hazelcast.core.base.DistributedCountDownLatch;
-import com.art.common.hazelcast.core.base.DistributedCountDownLatchFactory;
-import com.art.common.hazelcast.core.base.DistributedLockFactory;
-import com.art.common.hazelcast.core.base.DistributedMap;
-import com.art.common.hazelcast.core.base.DistributedMapFactory;
-import com.art.common.hazelcast.core.base.DistributedQueue;
-import com.art.common.hazelcast.core.base.DistributedQueueFactory;
-import com.art.common.hazelcast.core.base.DistributedSet;
-import com.art.common.hazelcast.core.base.DistributedSetFactory;
-import com.art.common.hazelcast.core.cache.DefaultCacheManager;
-import com.art.common.hazelcast.core.mq.HazelcastMQTemplate;
-import com.art.demos.core.message.DemoGroupMessage;
-import com.art.demos.core.message.DemoTopicMessage;
-import com.hazelcast.cluster.Member;
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.topic.ITopic;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-
-/**
- * @author Fxz
- * @version 0.0.1
- * @date 2022-02-27 18:33
- */
-@Tag(name = "Hazelcast测试")
-@Slf4j
-@RestController
-@RequestMapping("/demo/hazelcast")
-@RequiredArgsConstructor
-public class HazelcastController {
-
-	private final HazelcastInstance hazelcastInstance;
-
-	private final DefaultCacheManager defaultCacheManager;
-
-	private final DistributedLockFactory lockFactory;
-
-	private final DistributedCountDownLatchFactory countDownLatchFactory;
-
-	private final DistributedQueueFactory queueFactory;
-
-	private final DistributedMapFactory mapFactory;
-
-	private final DistributedSetFactory setFactory;
-
-	private final HazelcastMQTemplate hazelcastMQTemplate;
-
-	@GetMapping("/send")
-	public Result<Void> sendMsg(String msg) {
-		DemoTopicMessage topicMessage = new DemoTopicMessage("广播消息,所有的客户端都可以监听到" + msg, LocalDateTime.now());
-		hazelcastMQTemplate.send(topicMessage);
-
-		DemoGroupMessage groupMessage = new DemoGroupMessage("消费者组消息,只有一个客户端都可以监听到 " + msg, LocalDateTime.now());
-		hazelcastMQTemplate.send(groupMessage);
-		return Result.success();
-	}
-
-	/**
-	 * 分布式锁对象 demo
-	 */
-	@GetMapping(value = "/lock")
-	public Result<Void> lock() {
-		boolean flag = false;
-		Lock lock = lockFactory.getLock("demoLock");
-		try {
-			flag = lock.tryLock(10, TimeUnit.SECONDS);
-			TimeUnit.SECONDS.sleep(5);
-			log.info("抢锁成功,{}", LocalDateTime.now().toString());
-		}
-		catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		finally {
-			if (flag) {
-				lock.unlock();
-			}
-		}
-		return Result.success();
-	}
-
-	/**
-	 * map demo
-	 */
-	@GetMapping(value = "/map")
-	public Result<Void> map() {
-		LocalDate now = LocalDate.now();
-		String uuid = "uuid";
-
-		defaultCacheManager.set(uuid, now);
-		defaultCacheManager.add(uuid, "mapVal");
-		log.info("val:{}", defaultCacheManager.get(uuid));
-		defaultCacheManager.replace(uuid, "replaceVal");
-		log.info("val:{}", defaultCacheManager.get(uuid));
-
-		now = LocalDate.now();
-
-		DistributedMap<String, String> demoMap = mapFactory.getMap("demoMap");
-		demoMap.put(uuid, now.toString());
-		log.info("val:{}", demoMap.get(uuid));
-		demoMap.replace(uuid, "replaceValMap");
-		log.info("val:{}", demoMap.get(uuid));
-
-		return Result.success();
-	}
-
-	/**
-	 * set demo
-	 */
-	@GetMapping(value = "/set")
-	public Result<Void> set() {
-		DistributedSet<String> demoSet = setFactory.getSet("demoSet");
-		demoSet.add("item1");
-		demoSet.add("item1");
-		demoSet.add("item2");
-		demoSet.add("item2");
-		demoSet.add("item2");
-		demoSet.add("item3");
-
-		demoSet.values().forEach(log::info);
-
-		return Result.success();
-	}
-
-	/**
-	 * queue demo
-	 */
-	@GetMapping(value = "/queue")
-	public Result<Void> queue() {
-		DistributedQueue<String> queueDemo = queueFactory.getQueue("queueDemo");
-		queueDemo.offer("a");
-		queueDemo.offer("b");
-		log.info(queueDemo.poll(1, TimeUnit.SECONDS));
-		log.info(queueDemo.poll(1, TimeUnit.SECONDS));
-		queueDemo.clear();
-		return Result.success();
-	}
-
-	/**
-	 * countDownLatch demo
-	 */
-	@SneakyThrows
-	@GetMapping(value = "/countDownLatch")
-	public Result<Void> countDownLatch() {
-		DistributedCountDownLatch countDownLatchDemo = countDownLatchFactory.getCountDownLatch("countDownLatchDemo");
-		boolean flag = countDownLatchDemo.trySetCount(5);
-		if (!flag) {
-			return Result.success();
-		}
-
-		for (int i = 0; i < 5; i++) {
-			ThreadUtil.execute(() -> {
-				try {
-					TimeUnit.SECONDS.sleep(10);
-					log.info("线程:{}执行完毕", Thread.currentThread().getId());
-					countDownLatchDemo.countDown();
-				}
-				catch (InterruptedException e) {
-					throw new RuntimeException(e);
-				}
-			});
-		}
-
-		countDownLatchDemo.await(20, TimeUnit.SECONDS);
-		log.info("方法执行完毕");
-
-		return Result.success();
-	}
-
-	@GetMapping(value = "/topic")
-	public Result<Void> topic() {
-		ITopic<Object> topic = hazelcastInstance.getTopic("my-distributed-topic");
-
-		topic.addMessageListener((message) -> {
-			Object messageObject = message.getMessageObject();
-			long publishTime = message.getPublishTime();
-			Member publishingMember = message.getPublishingMember();
-			Object source = message.getSource();
-
-			log.info("messageObject:{}", messageObject);
-			log.info("publishTime:{}", publishTime);
-			log.info("publishingMember:{}", publishingMember);
-			log.info("source:{}", source);
-		});
-
-		topic.publish(LocalDate.now() + "  fxz test");
-		return Result.success();
-	}
-
-}
+/// *
+// * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+// *
+// * Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// * http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// */
+//
+// package com.art.demos.controller;
+//
+// import cn.hutool.core.thread.ThreadUtil;
+// import com.art.common.core.model.Result;
+// import com.art.common.hazelcast.core.base.DistributedCountDownLatch;
+// import com.art.common.hazelcast.core.base.DistributedCountDownLatchFactory;
+// import com.art.common.hazelcast.core.base.DistributedLockFactory;
+// import com.art.common.hazelcast.core.base.DistributedMap;
+// import com.art.common.hazelcast.core.base.DistributedMapFactory;
+// import com.art.common.hazelcast.core.base.DistributedQueue;
+// import com.art.common.hazelcast.core.base.DistributedQueueFactory;
+// import com.art.common.hazelcast.core.base.DistributedSet;
+// import com.art.common.hazelcast.core.base.DistributedSetFactory;
+// import com.art.common.hazelcast.core.cache.DefaultCacheManager;
+// import com.art.common.hazelcast.core.mq.HazelcastMQTemplate;
+// import com.art.demos.core.message.DemoGroupMessage;
+// import com.art.demos.core.message.DemoTopicMessage;
+// import com.hazelcast.cluster.Member;
+// import com.hazelcast.core.HazelcastInstance;
+// import com.hazelcast.topic.ITopic;
+// import io.swagger.v3.oas.annotations.tags.Tag;
+// import lombok.RequiredArgsConstructor;
+// import lombok.SneakyThrows;
+// import lombok.extern.slf4j.Slf4j;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RestController;
+//
+// import java.time.LocalDate;
+// import java.time.LocalDateTime;
+// import java.util.concurrent.TimeUnit;
+// import java.util.concurrent.locks.Lock;
+//
+/// **
+// * @author Fxz
+// * @version 0.0.1
+// * @date 2022-02-27 18:33
+// */
+// @Tag(name = "Hazelcast测试")
+// @Slf4j
+// @RestController
+// @RequestMapping("/demo/hazelcast")
+// @RequiredArgsConstructor
+// public class HazelcastController {
+//
+// private final HazelcastInstance hazelcastInstance;
+//
+// private final DefaultCacheManager defaultCacheManager;
+//
+// private final DistributedLockFactory lockFactory;
+//
+// private final DistributedCountDownLatchFactory countDownLatchFactory;
+//
+// private final DistributedQueueFactory queueFactory;
+//
+// private final DistributedMapFactory mapFactory;
+//
+// private final DistributedSetFactory setFactory;
+//
+// private final HazelcastMQTemplate hazelcastMQTemplate;
+//
+// @GetMapping("/send")
+// public Result<Void> sendMsg(String msg) {
+// DemoTopicMessage topicMessage = new DemoTopicMessage("广播消息,所有的客户端都可以监听到" + msg,
+/// LocalDateTime.now());
+// hazelcastMQTemplate.send(topicMessage);
+//
+// DemoGroupMessage groupMessage = new DemoGroupMessage("消费者组消息,只有一个客户端都可以监听到 " + msg,
+/// LocalDateTime.now());
+// hazelcastMQTemplate.send(groupMessage);
+// return Result.success();
+// }
+//
+// /**
+// * 分布式锁对象 demo
+// */
+// @GetMapping(value = "/lock")
+// public Result<Void> lock() {
+// boolean flag = false;
+// Lock lock = lockFactory.getLock("demoLock");
+// try {
+// flag = lock.tryLock(10, TimeUnit.SECONDS);
+// TimeUnit.SECONDS.sleep(5);
+// log.info("抢锁成功,{}", LocalDateTime.now().toString());
+// }
+// catch (InterruptedException e) {
+// throw new RuntimeException(e);
+// }
+// finally {
+// if (flag) {
+// lock.unlock();
+// }
+// }
+// return Result.success();
+// }
+//
+// /**
+// * map demo
+// */
+// @GetMapping(value = "/map")
+// public Result<Void> map() {
+// LocalDate now = LocalDate.now();
+// String uuid = "uuid";
+//
+// defaultCacheManager.set(uuid, now);
+// defaultCacheManager.add(uuid, "mapVal");
+// log.info("val:{}", defaultCacheManager.get(uuid));
+// defaultCacheManager.replace(uuid, "replaceVal");
+// log.info("val:{}", defaultCacheManager.get(uuid));
+//
+// now = LocalDate.now();
+//
+// DistributedMap<String, String> demoMap = mapFactory.getMap("demoMap");
+// demoMap.put(uuid, now.toString());
+// log.info("val:{}", demoMap.get(uuid));
+// demoMap.replace(uuid, "replaceValMap");
+// log.info("val:{}", demoMap.get(uuid));
+//
+// return Result.success();
+// }
+//
+// /**
+// * set demo
+// */
+// @GetMapping(value = "/set")
+// public Result<Void> set() {
+// DistributedSet<String> demoSet = setFactory.getSet("demoSet");
+// demoSet.add("item1");
+// demoSet.add("item1");
+// demoSet.add("item2");
+// demoSet.add("item2");
+// demoSet.add("item2");
+// demoSet.add("item3");
+//
+// demoSet.values().forEach(log::info);
+//
+// return Result.success();
+// }
+//
+// /**
+// * queue demo
+// */
+// @GetMapping(value = "/queue")
+// public Result<Void> queue() {
+// DistributedQueue<String> queueDemo = queueFactory.getQueue("queueDemo");
+// queueDemo.offer("a");
+// queueDemo.offer("b");
+// log.info(queueDemo.poll(1, TimeUnit.SECONDS));
+// log.info(queueDemo.poll(1, TimeUnit.SECONDS));
+// queueDemo.clear();
+// return Result.success();
+// }
+//
+// /**
+// * countDownLatch demo
+// */
+// @SneakyThrows
+// @GetMapping(value = "/countDownLatch")
+// public Result<Void> countDownLatch() {
+// DistributedCountDownLatch countDownLatchDemo =
+/// countDownLatchFactory.getCountDownLatch("countDownLatchDemo");
+// boolean flag = countDownLatchDemo.trySetCount(5);
+// if (!flag) {
+// return Result.success();
+// }
+//
+// for (int i = 0; i < 5; i++) {
+// ThreadUtil.execute(() -> {
+// try {
+// TimeUnit.SECONDS.sleep(10);
+// log.info("线程:{}执行完毕", Thread.currentThread().getId());
+// countDownLatchDemo.countDown();
+// }
+// catch (InterruptedException e) {
+// throw new RuntimeException(e);
+// }
+// });
+// }
+//
+// countDownLatchDemo.await(20, TimeUnit.SECONDS);
+// log.info("方法执行完毕");
+//
+// return Result.success();
+// }
+//
+// @GetMapping(value = "/topic")
+// public Result<Void> topic() {
+// ITopic<Object> topic = hazelcastInstance.getTopic("my-distributed-topic");
+//
+// topic.addMessageListener((message) -> {
+// Object messageObject = message.getMessageObject();
+// long publishTime = message.getPublishTime();
+// Member publishingMember = message.getPublishingMember();
+// Object source = message.getSource();
+//
+// log.info("messageObject:{}", messageObject);
+// log.info("publishTime:{}", publishTime);
+// log.info("publishingMember:{}", publishingMember);
+// log.info("source:{}", source);
+// });
+//
+// topic.publish(LocalDate.now() + " fxz test");
+// return Result.success();
+// }
+//
+// }
