@@ -29,7 +29,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
- * HazelcastClientFactory 用于创建 Hazelcast节点实例
+ * HazelcastClientFactory 用于创建 Hazelcast连接客户端
  *
  * @author fxz
  * @version 0.0.1
