@@ -16,10 +16,10 @@
 
 package com.art.common.hazelcast.config;
 
-import com.art.common.hazelcast.core.support.HazelcastInstanceFactory;
 import com.art.common.hazelcast.core.support.HazelcastProperties;
+import com.art.common.hazelcast.core.support.HazelcastServerInstance;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -27,7 +27,6 @@ import org.springframework.context.annotation.Bean;
  * @version 0.0.1
  * @date 2023/3/26 09:44
  */
-@EnableConfigurationProperties(HazelcastProperties.class)
 @AutoConfiguration
 public class HazelcastServerAutoConfiguration {
 
@@ -36,9 +35,10 @@ public class HazelcastServerAutoConfiguration {
 	 * @param hazelcastProperties hazelcast节点相关配置
 	 * @return hazelcast实例
 	 */
+	@ConditionalOnProperty(value = HazelcastProperties.SERVER, matchIfMissing = true, havingValue = "true")
 	@Bean
-	HazelcastInstanceFactory hazelcastInstance(HazelcastProperties hazelcastProperties) {
-		return new HazelcastInstanceFactory(hazelcastProperties);
+	HazelcastServerInstance hazelcastServerInstance(HazelcastProperties hazelcastProperties) {
+		return new HazelcastServerInstance(hazelcastProperties);
 	}
 
 }
