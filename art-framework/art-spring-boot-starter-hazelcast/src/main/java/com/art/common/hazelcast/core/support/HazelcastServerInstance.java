@@ -50,16 +50,15 @@ public class HazelcastServerInstance implements DisposableBean {
 		config.setClusterName(properties.getClusterName());
 		// 配置网络
 		configNetwork(config.getNetworkConfig());
-		config.getSecurityConfig().setEnabled(false);
 		// 创建实例
 		instance = Hazelcast.newHazelcastInstance(config);
 	}
 
 	private void configNetwork(NetworkConfig networkConfig) {
 		// 实例端口配置，端口自增
-		networkConfig.setPort(5701).setPortAutoIncrement(false);
+		networkConfig.setPort(properties.getPort().get(0)).setPortAutoIncrement(true);
 		// 禁用AWS云，使用TCP/IP协议进行成员发现和通信
-		// networkConfig.getJoin().getAwsConfig().setEnabled(false);
+		networkConfig.getJoin().getAwsConfig().setEnabled(false);
 		// 禁止多播，Hazelcast集群节点将无法自动加入到集群中
 		networkConfig.getJoin().getMulticastConfig().setEnabled(false);
 		// 启用TCP/IP协议，通过指定节点地址信息，Hazelcast节点将通过TCP/IP协议加入到集群中
