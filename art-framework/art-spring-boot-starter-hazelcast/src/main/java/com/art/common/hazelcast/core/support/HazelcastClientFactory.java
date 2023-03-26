@@ -22,6 +22,7 @@ import com.hazelcast.client.config.ClientConnectionStrategyConfig;
 import com.hazelcast.client.config.ClientNetworkConfig;
 import com.hazelcast.core.HazelcastInstance;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 
@@ -35,14 +36,20 @@ import java.util.StringJoiner;
  * @version 0.0.1
  * @date 2023/3/23 16:16
  */
+@Slf4j
 @RequiredArgsConstructor
 public class HazelcastClientFactory implements FactoryBean<HazelcastInstance>, DisposableBean {
 
 	private final HazelcastProperties properties;
 
+	private final HazelcastServerInstance serverInstance;
+
 	private HazelcastInstance client;
 
 	public HazelcastInstance getInstance() {
+		if (Objects.nonNull(serverInstance)) {
+			log.info("本地启动Hazelcast节点:{}", serverInstance);
+		}
 		if (Objects.nonNull(client)) {
 			return client;
 		}
