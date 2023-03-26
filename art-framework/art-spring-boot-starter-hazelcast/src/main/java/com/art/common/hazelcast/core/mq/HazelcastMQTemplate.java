@@ -21,6 +21,8 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.topic.ITopic;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author Fxz
  * @version 0.0.1
@@ -32,6 +34,8 @@ public class HazelcastMQTemplate {
 
 	private final HazelcastInstance hazelcastInstance;
 
+	private final List<HazelcastMessageInterceptor> interceptors;
+
 	/**
 	 * 发送分组消息
 	 * @param message 消费者组消息
@@ -41,7 +45,9 @@ public class HazelcastMQTemplate {
 		String groupName = message.getGroup();
 		IQueue<T> queue = hazelcastInstance.getQueue(groupName);
 		try {
+			sendMessageBefore(message);
 			queue.put(message);
+			sendMessageBefore(message);
 		}
 		catch (InterruptedException e) {
 		}
@@ -56,6 +62,16 @@ public class HazelcastMQTemplate {
 		String topicName = message.getTopic();
 		ITopic<T> topic = hazelcastInstance.getTopic(topicName);
 		topic.publish(message);
+	}
+
+	private void sendMessageBefore(AbstractMessage message) {
+		interceptors.forEach(interceptor -> interceptor.sendMessageBefore(message));
+	}
+
+	private void sendMessageAfter(AbstractMessage message) {
+		for (int i = interceptors.size() - 1; i >= 0; i--) {
+			interceptors.get(i).sendMessageAfter(message);
+		}
 	}
 
 }

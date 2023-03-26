@@ -38,6 +38,8 @@ public class HazelcastProperties {
 	 */
 	public static final String PREFIX = "art.hazelcast";
 
+	public static final String SERVER = "art.hazelcast.server.enable";
+
 	/**
 	 * Hazelcast实例名称
 	 */

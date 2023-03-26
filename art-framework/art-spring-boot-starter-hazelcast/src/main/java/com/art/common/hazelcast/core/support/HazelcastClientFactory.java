@@ -53,9 +53,9 @@ public class HazelcastClientFactory implements FactoryBean<HazelcastInstance>, D
 		// 配置实例名称
 		clientConfig.setInstanceName(properties.getInstanceName());
 		// 配置网络
-		// configNetwork(clientConfig.getNetworkConfig());
+		configNetwork(clientConfig.getNetworkConfig());
 		// 配置连接模式
-		// configConnectionStrategy(clientConfig.getConnectionStrategyConfig());
+		configConnectionStrategy(clientConfig.getConnectionStrategyConfig());
 		// 创建实例
 		this.client = HazelcastClient.newHazelcastClient(clientConfig);
 
@@ -68,7 +68,7 @@ public class HazelcastClientFactory implements FactoryBean<HazelcastInstance>, D
 	}
 
 	private void configNetwork(ClientNetworkConfig networkConfig) {
-		networkConfig.addAddress("127.0.0.1:5701").setSmartRouting(true).setConnectionTimeout(5000);
+		networkConfig.addAddress(address()).setSmartRouting(true).setConnectionTimeout(5000);
 	}
 
 	private String[] address() {
