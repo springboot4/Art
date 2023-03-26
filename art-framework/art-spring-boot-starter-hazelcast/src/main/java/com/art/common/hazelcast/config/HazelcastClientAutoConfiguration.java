@@ -28,14 +28,13 @@ import org.springframework.context.annotation.Bean;
  * @version 0.0.1
  * @date 2023/3/26 09:44
  */
-@AutoConfiguration(after = HazelcastServerAutoConfiguration.class)
+@AutoConfiguration
 public class HazelcastClientAutoConfiguration {
 
 	@Bean
 	HazelcastClientFactory hazelcastInstance(HazelcastProperties properties,
 			ObjectProvider<HazelcastServerInstance> serverInstances) {
-		serverInstances.getIfAvailable();
-		return new HazelcastClientFactory(properties);
+		return new HazelcastClientFactory(properties, serverInstances.getIfAvailable());
 	}
 
 }
