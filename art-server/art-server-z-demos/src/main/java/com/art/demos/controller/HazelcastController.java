@@ -18,15 +18,11 @@ package com.art.demos.controller;
 
 import cn.hutool.core.thread.ThreadUtil;
 import com.art.common.core.model.Result;
+import com.art.common.hazelcast.core.base.DistributedBaseFactory;
 import com.art.common.hazelcast.core.base.DistributedCountDownLatch;
-import com.art.common.hazelcast.core.base.DistributedCountDownLatchFactory;
-import com.art.common.hazelcast.core.base.DistributedLockFactory;
 import com.art.common.hazelcast.core.base.DistributedMap;
-import com.art.common.hazelcast.core.base.DistributedMapFactory;
 import com.art.common.hazelcast.core.base.DistributedQueue;
-import com.art.common.hazelcast.core.base.DistributedQueueFactory;
 import com.art.common.hazelcast.core.base.DistributedSet;
-import com.art.common.hazelcast.core.base.DistributedSetFactory;
 import com.art.common.hazelcast.core.cache.DefaultCacheManager;
 import com.art.common.hazelcast.core.mq.HazelcastMQTemplate;
 import com.art.demos.core.message.DemoGroupMessage;
@@ -63,15 +59,7 @@ public class HazelcastController {
 
 	private final DefaultCacheManager defaultCacheManager;
 
-	private final DistributedLockFactory lockFactory;
-
-	private final DistributedCountDownLatchFactory countDownLatchFactory;
-
-	private final DistributedQueueFactory queueFactory;
-
-	private final DistributedMapFactory mapFactory;
-
-	private final DistributedSetFactory setFactory;
+	private final DistributedBaseFactory distributedBaseFactory;
 
 	private final HazelcastMQTemplate hazelcastMQTemplate;
 
@@ -91,7 +79,7 @@ public class HazelcastController {
 	@GetMapping(value = "/lock")
 	public Result<Void> lock() {
 		boolean flag = false;
-		Lock lock = lockFactory.getLock("demoLock");
+		Lock lock = distributedBaseFactory.getLock("demoLock");
 		try {
 			flag = lock.tryLock(10, TimeUnit.SECONDS);
 			TimeUnit.SECONDS.sleep(5);
@@ -124,7 +112,7 @@ public class HazelcastController {
 
 		now = LocalDate.now();
 
-		DistributedMap<String, String> demoMap = mapFactory.getMap("demoMap");
+		DistributedMap<String, String> demoMap = distributedBaseFactory.getMap("demoMap");
 		demoMap.put(uuid, now.toString());
 		log.info("val:{}", demoMap.get(uuid));
 		demoMap.replace(uuid, "replaceValMap");
@@ -138,7 +126,7 @@ public class HazelcastController {
 	 */
 	@GetMapping(value = "/set")
 	public Result<Void> set() {
-		DistributedSet<String> demoSet = setFactory.getSet("demoSet");
+		DistributedSet<String> demoSet = distributedBaseFactory.getSet("demoSet");
 		demoSet.add("item1");
 		demoSet.add("item1");
 		demoSet.add("item2");
@@ -156,7 +144,7 @@ public class HazelcastController {
 	 */
 	@GetMapping(value = "/queue")
 	public Result<Void> queue() {
-		DistributedQueue<String> queueDemo = queueFactory.getQueue("queueDemo");
+		DistributedQueue<String> queueDemo = distributedBaseFactory.getQueue("queueDemo");
 		queueDemo.offer("a");
 		queueDemo.offer("b");
 		log.info(queueDemo.poll(1, TimeUnit.SECONDS));
@@ -171,7 +159,7 @@ public class HazelcastController {
 	@SneakyThrows
 	@GetMapping(value = "/countDownLatch")
 	public Result<Void> countDownLatch() {
-		DistributedCountDownLatch countDownLatchDemo = countDownLatchFactory.getCountDownLatch("countDownLatchDemo");
+		DistributedCountDownLatch countDownLatchDemo = distributedBaseFactory.getCountDownLatch("countDownLatchDemo");
 		boolean flag = countDownLatchDemo.trySetCount(5);
 		if (!flag) {
 			return Result.success();
