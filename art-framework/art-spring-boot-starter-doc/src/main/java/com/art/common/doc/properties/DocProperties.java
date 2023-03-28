@@ -20,8 +20,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.Map;
-
 /**
  * @author Fxz
  * @version 0.0.1
@@ -61,10 +59,5 @@ public class DocProperties {
 	 * 网关地址
 	 */
 	private String url = "http://fxz-gateway:9999";
-
-	/**
-	 * 服务转发配置
-	 */
-	private Map<String, String> services;
 
 }
