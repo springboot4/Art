@@ -16,12 +16,14 @@
 
 package com.art.gateway.configure;
 
-import com.art.common.doc.properties.DocProperties;
+import cn.hutool.core.collection.CollUtil;
 import com.art.gateway.handler.GatewayIndexHandler;
 import org.springdoc.core.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.GroupedOpenApi;
 import org.springdoc.core.SwaggerUiConfigProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.gateway.route.RouteDefinition;
+import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -31,9 +33,9 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Fxz
@@ -47,14 +49,21 @@ public class DocConfiguration {
 
 	@Bean
 	@ConditionalOnProperty(prefix = "fxz.common.doc", value = "enabled", havingValue = "true", matchIfMissing = true)
-	public List<GroupedOpenApi> apis(SwaggerUiConfigProperties swaggerUiConfigProperties, DocProperties docProperties) {
-		Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = new HashSet<>();
-		docProperties.getServices().forEach((k, v) -> {
+	public List<GroupedOpenApi> apis(SwaggerUiConfigProperties swaggerUiConfigProperties,
+			RouteDefinitionLocator locator) {
+		List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
+		if (CollUtil.isEmpty(definitions)) {
+			return new ArrayList<>();
+		}
+
+		Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = definitions.stream().map(routeDefinition -> {
 			AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
-			swaggerUrl.setName(k);
-			swaggerUrl.setUrl(String.format(API_URI, v));
-			urls.add(swaggerUrl);
-		});
+			String id = routeDefinition.getId();
+			swaggerUrl.setName(id);
+			swaggerUrl.setUrl(String.format(API_URI,
+					routeDefinition.getId().substring(routeDefinition.getId().lastIndexOf("-") + 1)));
+			return swaggerUrl;
+		}).collect(Collectors.toSet());
 		swaggerUiConfigProperties.setUrls(urls);
 
 		return new ArrayList<>();

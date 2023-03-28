@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Fxz
@@ -50,13 +49,12 @@ public class DocAutoConfiguration {
 	@ConditionalOnProperty(prefix = "fxz.common.doc", value = "enabled", havingValue = "true", matchIfMissing = true)
 	public OpenAPI springShopOpenAPI() {
 		// 获取服务实例信息
-		List<Server> serverList = new ArrayList<>();
 		String serviceId = serviceInstance.getServiceId();
-		Map<String, String> services = docProperties.getServices();
 
 		// 获取服务路由前缀
-		String path = services.get(serviceId);
-		serverList.add(new Server().url(docProperties.getUrl() + "/" + path));
+		List<Server> serverList = new ArrayList<>();
+		serverList
+			.add(new Server().url(docProperties.getUrl() + "/" + serviceId.substring(serviceId.lastIndexOf("-") + 1)));
 
 		return new OpenAPI().servers(serverList)
 			.info(new Info().title(docProperties.getTitle())
