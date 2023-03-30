@@ -20,7 +20,7 @@ import cn.hutool.core.util.IdUtil;
 import com.art.common.core.constant.FxzConstant;
 import com.art.common.core.model.Result;
 import com.art.gateway.component.EasyCaptchaProducer;
-import com.art.gateway.enums.CodeTypeEnum;
+import com.art.common.core.constant.CodeTypeEnum;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;

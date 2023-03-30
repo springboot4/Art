@@ -16,7 +16,7 @@
 
 package com.art.gateway.component;
 
-import com.art.gateway.enums.CodeTypeEnum;
+import com.art.common.core.constant.CodeTypeEnum;
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
 import org.springframework.stereotype.Component;

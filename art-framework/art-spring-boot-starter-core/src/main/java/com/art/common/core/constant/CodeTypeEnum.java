@@ -14,15 +14,32 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.base;
+package com.art.common.core.constant;
 
 /**
- * @author Fxz
- * @version 0.0.1
- * @date 2023/3/23 15:39
+ * @author fxz
  */
-public interface DistributedCacheProvider {
 
-	<T> DistributedCacheManager<T> getOrCreate(String cacheName);
+public enum CodeTypeEnum {
+
+	/**
+	 * 算数
+	 */
+	ARITHMETIC,
+
+	/**
+	 * 中文
+	 */
+	CHINESE,
+
+	/**
+	 * 中文闪图
+	 */
+	CHINESE_GIF,
+
+	/**
+	 * 闪图
+	 */
+	GIF, SPEC;
 
 }
