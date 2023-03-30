@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,32 +14,15 @@
  * limitations under the License.
  */
 
-package com.art.gateway.enums;
+package com.art.common.hazelcast.core.cache;
 
 /**
- * @author fxz
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2023/3/23 15:39
  */
+public interface DistributedCacheProvider {
 
-public enum CodeTypeEnum {
-
-	/**
-	 * 算数
-	 */
-	ARITHMETIC,
-
-	/**
-	 * 中文
-	 */
-	CHINESE,
-
-	/**
-	 * 中文闪图
-	 */
-	CHINESE_GIF,
-
-	/**
-	 * 闪图
-	 */
-	GIF, SPEC;
+	<T> DistributedCacheManager<T> getOrCreate(String cacheName);
 
 }
