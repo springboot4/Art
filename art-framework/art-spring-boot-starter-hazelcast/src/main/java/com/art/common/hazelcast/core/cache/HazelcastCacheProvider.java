@@ -16,8 +16,6 @@
 
 package com.art.common.hazelcast.core.cache;
 
-import com.art.common.hazelcast.core.base.DistributedCacheManager;
-import com.art.common.hazelcast.core.base.DistributedCacheProvider;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import lombok.RequiredArgsConstructor;

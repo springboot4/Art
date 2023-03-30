@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.hazelcast.core.base;
+package com.art.common.hazelcast.core.cache;
 
 /**
  * @author Fxz
