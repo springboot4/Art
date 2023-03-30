@@ -1,7 +1,7 @@
 
 package com.art.common.hazelcast.config;
 
-import com.art.common.hazelcast.core.base.DistributedCacheProvider;
+import com.art.common.hazelcast.core.cache.DistributedCacheProvider;
 import com.art.common.hazelcast.core.cache.DefaultCacheManager;
 import com.art.common.hazelcast.core.cache.HazelcastCacheProvider;
 import com.hazelcast.core.HazelcastInstance;
