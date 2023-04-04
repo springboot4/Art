@@ -34,7 +34,7 @@ public class FtpProperties {
 	/**
 	 * 地址
 	 */
-	private String host = "61.153.186.23";
+	private String host = "127.0.0.1";
 
 	/**
 	 * 端口
