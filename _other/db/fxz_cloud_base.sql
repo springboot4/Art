@@ -558,7 +558,7 @@ CREATE TABLE `sys_tenant` (
 -- Records of sys_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 1, 'fxz', '19812341234', 0, 0, '2023-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2022-10-30 10:58:31', b'0');
+INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 1, 'fxz', '19812341234', 0, 0, '2999-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2022-10-30 10:58:31', b'0');
 INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1576530912007237634, '测试租户', 5, '老六', '16601231234', 0, 1576530575020077058, '2022-10-30 00:00:00', 100, 'fxz', '2022-10-02 19:13:55', 'fxz', '2022-10-02 19:13:55', b'0');
 COMMIT;
 
