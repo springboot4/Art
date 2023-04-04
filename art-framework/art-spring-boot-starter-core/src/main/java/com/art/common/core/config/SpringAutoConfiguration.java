@@ -17,6 +17,7 @@
 package com.art.common.core.config;
 
 import com.art.common.core.util.SpringUtil;
+import com.art.common.core.util.TransactionUtil;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -31,6 +32,11 @@ public class SpringAutoConfiguration {
 	@Bean
 	public SpringUtil springUtil() {
 		return new SpringUtil();
+	}
+
+	@Bean
+	public TransactionUtil transactionUtil() {
+		return new TransactionUtil();
 	}
 
 }
