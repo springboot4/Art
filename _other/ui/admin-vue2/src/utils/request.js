@@ -33,26 +33,28 @@ const request = axios.create({
 const errorHandler = (error) => {
   if (error.response) {
     const data = error.response.data
-    // 从 localstorage 获取 token
-    const token = Vue.ls.get(ACCESS_TOKEN)
     if (error.response.status === 403) {
       notification.error({
         message: '禁止访问',
         description: data.message
       })
-    }
-    if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
+    } else if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
       notification.error({
         message: '未经授权',
         description: '授权验证失败'
       })
-      if (token) {
+      if (Vue.ls.get(ACCESS_TOKEN)) {
         store.dispatch('Logout').then(() => {
           setTimeout(() => {
             window.location.reload()
           }, 1500)
         })
       }
+    } else {
+      notification.error({
+        message: '操作失败！',
+        description: data.msg
+      })
     }
   }
   return Promise.reject(error.response.data)
