@@ -2,7 +2,7 @@
  * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this fileDO except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
@@ -14,17 +14,11 @@
  * limitations under the License.
  */
 
-package com.art.common.core.constant;
+create database `art_base` default character set utf8mb4 collate utf8mb4_general_ci;
 
-/**
- * @author Fxz
- * @version 0.0.1
- * @date 2021-11-28 12:26
- */
-public interface FxzServerConstant {
+create database `art_codegen` default character set utf8mb4 collate utf8mb4_general_ci;
 
-	String ART_AUTH = "art-auth";
+create database `art_job` default character set utf8mb4 collate utf8mb4_general_ci;
 
-	String ART_SERVER_SYSTEM = "art-server-system";
+create database `art_nacos` default character set utf8mb4 collate utf8mb4_general_ci;
 
-}

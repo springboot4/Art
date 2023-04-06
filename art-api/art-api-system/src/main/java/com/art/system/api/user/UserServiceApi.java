@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
  * @version 0.0.1
  * @date 2022-03-06 14:50
  */
-@FeignClient(contextId = "userServiceApi", value = FxzServerConstant.FXZ_SERVER_SYSTEM)
+@FeignClient(contextId = "userServiceApi", value = FxzServerConstant.ART_SERVER_SYSTEM)
 public interface UserServiceApi {
 
 	/**

@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @version 0.0.1
  * @date 2022-04-07 14:50
  */
-@FeignClient(contextId = "deptServiceApi", value = FxzServerConstant.FXZ_SERVER_SYSTEM)
+@FeignClient(contextId = "deptServiceApi", value = FxzServerConstant.ART_SERVER_SYSTEM)
 public interface DeptServiceApi {
 
 	/**
