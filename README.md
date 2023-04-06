@@ -55,7 +55,6 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
        ├── es -- es索引信息   
        ├── ui -- 前端代码
           ├── admin-vue2 -- 管理员界面
-          ├── mall-uni   -- 商城小程序界面
 ```
 ## 📖分层结构
 
@@ -88,25 +87,9 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 | 强退用户&审计日志                 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/q49Fii.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/q49Fii.png) |
 
 
-## 🎁商城应用
-
-| 秒杀活动          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/WbsMOF.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/xzQlSf.png) |
-| ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 优惠券活动        | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/eQpsqF.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/a2FHWN.png) |
-| 商品检索          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/9V94xp.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/CKYzR4.png) |
-| 订单管理&会员管理 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/Xw6k8N.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/feS6Ao.png) |
-
-
-
-## 📱移动端展示
-
-| 支持多种登录方式 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/uod52k.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/miu152.png) |
-| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 商品详情         | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/cYEjX8.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/pwUEN0.png) |
-| 购物车           | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/qip5o6.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/3sTPGv.png) |
 
 ## 🔍项目说明
-脚手架与商城为两个单独项目，功能可按需引入。如仅需脚手架功能，可轻松去除。<br/>
+功能可按需引入。<br/>
 低耦合，秒上手，稳得很！
 ## ❓其他功能
 过于先进，不便展示。欢迎下载源码研究🧐欢迎star
@@ -123,9 +106,9 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
 
 
 ## 🍺加入我们
-| 交流群                  | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/dqDn4c.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/03/23/PRih4W.jpg) |
-| ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) |                                                              |
+| 交流群                  | 微信群二维码过期请添加作者                                                          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/06/6N2mvS.jpg) |
+| ----------------------- |------------------------------------------------------------------------|------------------------------------------------------------------------|
+| 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) | 欢迎参与项目，贡献代码。                                                           |
 
  
 

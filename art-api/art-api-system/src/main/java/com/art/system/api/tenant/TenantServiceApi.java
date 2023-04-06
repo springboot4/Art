@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @version 0.0.1
  * @date 2022-04-07 14:50
  */
-@FeignClient(contextId = "tenantServiceApi", value = FxzServerConstant.FXZ_SERVER_SYSTEM)
+@FeignClient(contextId = "tenantServiceApi", value = FxzServerConstant.ART_SERVER_SYSTEM)
 public interface TenantServiceApi {
 
 	/**
