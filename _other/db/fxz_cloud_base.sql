@@ -23,8 +23,8 @@ CREATE TABLE `sys_app` (
 -- Records of sys_app
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_app` (`id`, `name`, `code`, `sort`, `icon`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES (1, '系统应用', 'system', -1, 'laptop', '2022-09-12 00:17:28', 'fxz', '2022-09-12 14:04:29', 'fxz');
-INSERT INTO `sys_app` (`id`, `name`, `code`, `sort`, `icon`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES (2, '商城应用', 'mall', 1, 'money-collect', '2022-09-12 00:17:28', 'fxz', '2022-09-12 14:42:22', 'fxz');
+INSERT INTO `sys_app` (`id`, `name`, `code`, `sort`, `icon`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES (1, '系统应用', 'system', 1, 'laptop', '2022-09-12 00:17:28', 'fxz', '2022-09-12 14:04:29', 'fxz');
+INSERT INTO `sys_app` (`id`, `name`, `code`, `sort`, `icon`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES (2, '商城应用', 'mall', 999, 'money-collect', '2022-09-12 00:17:28', 'fxz', '2023-02-22 14:29:06', 'fxz');
 COMMIT;
 
 -- ----------------------------
@@ -32,7 +32,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
-  `dept_id` bigint NOT NULL  COMMENT '部门ID',
+  `dept_id` bigint NOT NULL AUTO_INCREMENT COMMENT '部门ID',
   `parent_id` bigint NOT NULL COMMENT '上级部门ID',
   `dept_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '部门名称',
   `order_num` double(20,0) DEFAULT NULL COMMENT '排序',
@@ -41,18 +41,21 @@ CREATE TABLE `sys_dept` (
   `create_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='部门表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 COMMENT='部门表';
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (0, -1, 'fxzcloud', 0, '2022-02-28 16:42:49', '2022-08-11 22:06:16', NULL, 'fxz');
-INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1, 0, '研发部', 0, '2022-02-28 16:43:53', '2022-02-28 16:43:55', NULL, NULL);
-INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (2, 0, '市场部', -1, '2022-02-28 16:43:10', '2022-03-26 20:16:52', NULL, 'fxz');
-INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (3, 2, '销售部', 0, '2022-02-28 16:43:27', '2022-03-25 19:32:45', NULL, 'fxz');
-INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (4, 1, '前端组', 1, '2022-02-28 16:44:29', '2022-02-28 16:44:29', NULL, NULL);
-INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (5, 1, '后端组', 0, '2022-02-28 16:44:41', '2022-03-26 20:26:43', NULL, 'fxz');
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (0, -1, '清华大学', 0, '2022-02-28 16:42:49', '2023-02-22 14:15:23', NULL, 'fxz');
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1, 0, '物电学院', 0, '2022-02-28 16:43:53', '2023-02-22 14:15:57', NULL, 'fxz');
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (2, 0, '计算机学院', -1, '2022-02-28 16:43:10', '2023-02-22 14:15:39', NULL, 'fxz');
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (3, 2, '教研组', 0, '2022-02-28 16:43:27', '2023-02-22 14:16:35', NULL, 'fxz');
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (4, 1, '教务处', 1, '2022-02-28 16:44:29', '2023-02-22 14:17:30', NULL, 'fxz');
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (5, 1, '教研组', 0, '2022-02-28 16:44:41', '2023-02-22 14:17:19', NULL, 'fxz');
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (9, 2, '教务处', 1, '2023-02-22 14:17:02', '2023-02-22 14:17:02', 'fxz', 'fxz');
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (10, 2, '软件工程', 3, '2023-02-22 14:27:48', '2023-02-22 14:27:48', 'fxz', 'fxz');
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (11, 1, '通信工程', 3, '2023-02-22 14:28:08', '2023-02-22 14:28:08', 'fxz', 'fxz');
 COMMIT;
 
 -- ----------------------------
@@ -94,6 +97,7 @@ INSERT INTO `sys_dict` (`id`, `type`, `description`, `remark`, `system_flag`, `d
 INSERT INTO `sys_dict` (`id`, `type`, `description`, `remark`, `system_flag`, `del_flag`, `create_time`, `create_by`, `update_by`, `update_time`) VALUES (1510894481871228929, '9', '9', '9', '0', '1', '2022-04-04 16:18:10', 'fxz', 'fxz', '2022-04-04 16:18:10');
 INSERT INTO `sys_dict` (`id`, `type`, `description`, `remark`, `system_flag`, `del_flag`, `create_time`, `create_by`, `update_by`, `update_time`) VALUES (1517894240063803393, 'data_permission_type', '数据权限', '数据权限', '1', '0', '2022-04-23 23:52:43', 'fxz', 'fxz', '2022-04-23 23:52:43');
 INSERT INTO `sys_dict` (`id`, `type`, `description`, `remark`, `system_flag`, `del_flag`, `create_time`, `create_by`, `update_by`, `update_time`) VALUES (1568577687467589633, 'sex_type', '性别', NULL, '1', '0', '2022-09-10 20:30:38', 'fxz', 'fxz', '2022-09-10 20:30:38');
+INSERT INTO `sys_dict` (`id`, `type`, `description`, `remark`, `system_flag`, `del_flag`, `create_time`, `create_by`, `update_by`, `update_time`) VALUES (1619978601734406146, '1', '1', '12', '0', '1', '2023-01-30 16:39:31', 'fxz', 'fxz', '2023-01-30 16:39:37');
 COMMIT;
 
 -- ----------------------------
@@ -154,18 +158,6 @@ CREATE TABLE `sys_file` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文件管理表';
 
--- ----------------------------
--- Records of sys_file
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_file` (`id`, `file_name`, `bucket_name`, `original`, `type`, `file_size`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1576804722493108225, 'b4bba8134cff47ea923365838b4a5657.png', 'fxzcloud', '1de3526e8d5543e1841968d9ad0f8788.png', 'png', 20151, '1', '2022-10-03 13:21:56', '2022-10-03 13:21:56', '123456ll', '123456ll');
-INSERT INTO `sys_file` (`id`, `file_name`, `bucket_name`, `original`, `type`, `file_size`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1584771249053949953, '848fe65f803242c0a51f9cb486a4ea99.png', 'fxzcloud', '3c7ab88b25934d71a9e20f1a8a369e51.png', 'png', 20151, '1', '2022-10-25 12:58:04', '2022-10-25 12:58:04', 'fxz', 'fxz');
-INSERT INTO `sys_file` (`id`, `file_name`, `bucket_name`, `original`, `type`, `file_size`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1584771684531757057, '001101901ee04389b508ead726c6afb1.jpg', 'fxzcloud', '631659497692_.pic.jpg', 'jpg', 121716, '1', '2022-10-25 12:59:48', '2022-10-25 12:59:48', 'fxz', 'fxz');
-INSERT INTO `sys_file` (`id`, `file_name`, `bucket_name`, `original`, `type`, `file_size`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1584772374582824962, '1e5ddbc38b724a1eb52a0c26825fc1cf.png', 'fxzcloud', '1de3526e8d5543e1841968d9ad0f8788.png', 'png', 20151, '1', '2022-10-25 13:02:32', '2022-10-25 13:02:32', 'fxz', 'fxz');
-INSERT INTO `sys_file` (`id`, `file_name`, `bucket_name`, `original`, `type`, `file_size`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1584773093104885761, 'a188b276532744c698ea4368794000c9.png', 'fxzcloud', '3c7ab88b25934d71a9e20f1a8a369e51.png', 'png', 20151, '1', '2022-10-25 13:05:24', '2022-10-25 13:05:24', 'fxz', 'fxz');
-INSERT INTO `sys_file` (`id`, `file_name`, `bucket_name`, `original`, `type`, `file_size`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1586554380924821505, '5fc8336fcdbb4a09ace7a373b270cc69.png', 'fxzcloud', '1de3526e8d5543e1841968d9ad0f8788.png', 'png', 20151, '0', '2022-10-30 11:03:36', '2022-10-30 11:03:36', 'fxz', 'fxz');
-INSERT INTO `sys_file` (`id`, `file_name`, `bucket_name`, `original`, `type`, `file_size`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1597075395513757698, '491cda3d190149b3bca74868c9945505.png', 'fxzcloud', '4f37749a603542b3acfbbd6daa2f25a0.png', 'png', 20151, '0', '2022-11-28 11:50:21', '2022-11-28 11:50:21', 'fxz', 'fxz');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -205,51 +197,51 @@ INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `co
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (9, 6, '个性化设置', 'CustomSettings', 'user', '0', 'account/settings/Custom', '/account/settings/custom', NULL, NULL, 1, 2, '2022-01-18 14:50:17', NULL, NULL, NULL, NULL, 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (10, 6, '账户绑定', 'BindingSettings', 'user', '0', 'account/settings/Binding', '/account/settings/binding', NULL, NULL, 1, 2, '2022-01-18 14:50:58', NULL, NULL, NULL, NULL, 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (11, 6, '新消息通知', 'NotificationSettings', 'user', '0', 'account/settings/Notification', '/account/settings/notification', NULL, NULL, 1, 2, '2022-01-18 14:51:31', NULL, NULL, NULL, NULL, 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (12, 0, '首页', 'welcome', 'welcome', '0', 'dashboard/Analysis', '/welcome', '', 'twitter', 1, 0, '2022-01-18 16:22:11', '2022-11-26 20:02:35', NULL, 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (12, 0, '首页', 'welcome', 'welcome', '0', 'analysis', '/welcome', '', 'twitter', 1, 0, '2022-01-18 16:22:11', '2022-11-26 20:02:35', NULL, 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (20, 0, '权限管理', 'permissions', 'sys', '0', 'RouteView', '/permissions', NULL, 'rocket', 1, 3, '2022-01-23 16:52:53', '2022-09-12 16:17:19', NULL, 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (21, 20, '菜单管理', 'menu', 'sys:menu', '0', 'modules/system/menu/menu', '/permissions/menu', NULL, 'idcard', 1, 0, '2022-01-23 16:55:48', '2022-04-04 17:31:22', NULL, 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (21, 20, '菜单管理', 'menu', 'sys:menu', '0', 'system/menu/menu', '/permissions/menu', NULL, 'idcard', 1, 0, '2022-01-23 16:55:48', '2022-04-04 17:31:22', NULL, 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (29, 21, '添加菜单', 'saveMenu', 'sys:menu:save', '1', NULL, NULL, NULL, NULL, 1, 1, '2022-01-23 18:16:31', NULL, NULL, NULL, '1', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100006, 20, '用户管理', 'user', 'sys:user', '0', 'modules/system/user/userList.vue', '/permissions/user', NULL, 'user', 1, 1, '2022-02-27 09:35:00', '2022-04-05 20:24:14', NULL, 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100007, 20, '角色管理', 'role', 'sys:role', '0', 'modules/system/role/RoleList.vue', '/permissions/role', NULL, 'woman', 1, 2, '2022-02-27 09:43:02', '2022-04-05 20:24:23', NULL, 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100008, 20, '部门管理', 'sys:dept', 'dept', '0', 'modules/system/dept/DeptList.vue', '/permissions/dept', NULL, 'contacts', 1, 3, '2022-02-27 10:15:46', '2022-06-26 21:16:18', NULL, 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100006, 20, '用户管理', 'user', 'sys:user', '0', 'system/user/userList.vue', '/permissions/user', NULL, 'user', 1, 1, '2022-02-27 09:35:00', '2022-04-05 20:24:14', NULL, 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100007, 20, '角色管理', 'role', 'sys:role', '0', 'system/role/RoleList.vue', '/permissions/role', NULL, 'woman', 1, 2, '2022-02-27 09:43:02', '2022-04-05 20:24:23', NULL, 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100008, 20, '部门管理', 'sys:dept', 'dept', '0', 'system/dept/DeptList.vue', '/permissions/dept', NULL, 'contacts', 1, 3, '2022-02-27 10:15:46', '2022-06-26 21:16:18', NULL, 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100009, 100006, '分页查看用户信息', 'sys:user:view', 'sys:user:view', '1', 'sys:user:view', '/sys/user/list', NULL, NULL, 1, 1, '2022-02-27 13:43:05', NULL, NULL, NULL, '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100010, 100006, '更新用户信息', 'sys:user:update', 'sys:user:update', '1', NULL, 'sys:user:update', NULL, NULL, 1, NULL, '2022-02-27 17:05:44', NULL, NULL, NULL, '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100011, 100006, '新增用户信息', 'sys:user:add', 'sys:user:add', '1', NULL, 'sys:user:add', NULL, NULL, 1, NULL, '2022-02-27 18:07:12', NULL, NULL, NULL, '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100012, 0, '开发工具', 'sysTool', 'sysTool', '0', 'RouteView', '/sysTool', NULL, 'shopping-cart', 1, 999, '2022-03-04 09:14:37', '2022-10-23 14:55:08', NULL, 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100013, 100012, '代码生成器', 'genCode', 'sysTool:genCode', '0', 'modules/system/gen/CodeGenIndex.vue', '/sysTool/genCode', NULL, 'area-chart', 1, 1, '2022-03-04 09:19:37', '2022-04-04 17:33:00', NULL, 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100016, 100012, '数据源管理', 'DatasourceConfList', 'sysTool:datasourceConf', '0', 'modules/system/gen/datasource/DatasourceConfList.vue', '/sysTool/datasourceConf', NULL, 'box-plot', 1, 0, '2022-03-31 12:31:26', '2022-04-04 17:33:10', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100013, 100012, '代码生成器', 'genCode', 'sysTool:genCode', '0', 'system/gen/CodeGenIndex.vue', '/sysTool/genCode', NULL, 'area-chart', 1, 1, '2022-03-04 09:19:37', '2022-04-04 17:33:00', NULL, 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100016, 100012, '数据源管理', 'DatasourceConfList', 'sysTool:datasourceConf', '0', 'system/gen/datasource/DatasourceConfList.vue', '/sysTool/datasourceConf', NULL, 'box-plot', 1, 0, '2022-03-31 12:31:26', '2022-04-04 17:33:10', 'fxz', 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100017, 0, '系统监控', 'monitor', 'sysMonitor', '0', 'RouteView', '/sysMonitor', NULL, 'aliwangwang', 1, 1000, '2022-04-03 17:59:52', '2022-09-12 16:13:15', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100018, 100017, '定时任务', 'jobList', 'sysMonitor:job', '0', 'modules/system/monitor/JobList.vue', '/sysMonitor/job', NULL, 'loading', 1, 0, '2022-04-03 18:02:04', '2022-04-04 17:33:39', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100019, 100046, '字典管理', 'dict', 'sys:dict', '0', 'modules/system/dict/DictList.vue', '/permissions/dict', NULL, 'folder-open', 1, 4, '2022-04-04 11:20:33', '2022-09-12 16:20:41', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100020, 100017, '调度日志', 'JobLogList', 'sysMonitor:jobLog', '0', 'modules/system/monitor/JobLogList.vue', '/sysMonitor/jobLog', NULL, 'hdd', 1, 1, '2022-04-04 15:55:43', '2022-04-04 17:34:06', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100021, 100046, '文件管理', 'file', 'sys:file', '0', 'modules/system/file/FileList.vue', '/permissions/file', NULL, 'mail', 1, 5, '2022-04-04 22:47:38', '2022-09-12 16:21:04', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100022, 20, '岗位管理', 'post', 'sys:post', '0', 'modules/system/post/PostList.vue', '/permissions/post', NULL, 'coffee', 1, 4, '2022-04-05 20:17:47', '2022-04-05 20:24:58', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100023, 100012, '表单设计器', 'FormBuild', 'sysTool:formBuild', '0', 'modules/system/gen/FormBuild.vue', '/sysTool/formBuild', NULL, 'bg-colors', 1, 2, '2022-04-23 23:22:38', '2022-04-23 23:38:03', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100018, 100017, '定时任务', 'jobList', 'sysMonitor:job', '0', 'system/monitor/JobList.vue', '/sysMonitor/job', NULL, 'loading', 1, 0, '2022-04-03 18:02:04', '2022-04-04 17:33:39', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100019, 100046, '字典管理', 'dict', 'sys:dict', '0', 'system/dict/DictList.vue', '/permissions/dict', NULL, 'folder-open', 1, 4, '2022-04-04 11:20:33', '2022-09-12 16:20:41', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100020, 100017, '调度日志', 'JobLogList', 'sysMonitor:jobLog', '0', 'system/monitor/JobLogList.vue', '/sysMonitor/jobLog', NULL, 'hdd', 1, 1, '2022-04-04 15:55:43', '2022-04-04 17:34:06', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100021, 100046, '文件管理', 'file', 'sys:file', '0', 'system/file/FileList.vue', '/permissions/file', NULL, 'mail', 1, 5, '2022-04-04 22:47:38', '2022-09-12 16:21:04', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100022, 20, '岗位管理', 'post', 'sys:post', '0', 'system/post/PostList.vue', '/permissions/post', NULL, 'coffee', 1, 4, '2022-04-05 20:17:47', '2022-04-05 20:24:58', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100023, 100012, '表单设计器', 'FormBuild', 'sysTool:formBuild', '0', 'system/gen/FormBuild.vue', '/sysTool/formBuild', NULL, 'bg-colors', 1, 2, '2022-04-23 23:22:38', '2022-04-23 23:38:03', 'fxz', 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100024, 100046, '审计管理', 'oper', 'sys:oper', '0', 'RouteView', '/permissions/oper', NULL, 'credit-card', 1, 7, '2022-04-24 00:12:34', '2022-09-12 16:21:38', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100025, 100024, '登录日志', 'OperLogin', 'sys:oper:login', '0', 'modules/system/log/OperLogList.vue', '/sys/oper/login', NULL, 'logout', 1, 0, '2022-04-24 00:15:20', '2022-04-24 00:16:26', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100026, 100024, '操作日志', 'OperLogList', 'sys:oper:log', '0', 'modules/system/log/OperLogList.vue', '/sys/oper/log', NULL, 'stock', 1, 1, '2022-04-24 00:17:31', '2022-04-24 00:17:31', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100025, 100024, '登录日志', 'OperLogin', 'sys:oper:login', '0', 'system/log/OperLogList.vue', '/sys/oper/login', NULL, 'logout', 1, 0, '2022-04-24 00:15:20', '2022-04-24 00:16:26', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100026, 100024, '操作日志', 'OperLogList', 'sys:oper:log', '0', 'system/log/OperLogList.vue', '/sys/oper/log', NULL, 'stock', 1, 1, '2022-04-24 00:17:31', '2022-04-24 00:17:31', 'fxz', 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100027, 0, '商品管理', 'product', 'product', '0', 'RouteView', '/product', NULL, 'gift', 1, 3, '2022-05-05 20:14:55', '2022-09-12 16:12:22', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100028, 100027, '品牌管理', 'brandList', 'product:brand', '0', 'modules/mall/product/brand/BrandList', '/product/brand', NULL, 'taobao', 1, 0, '2022-05-05 20:15:54', '2022-05-05 20:15:54', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100029, 100027, '分类管理', 'categoryList', 'product:category', '0', 'modules/mall/product/category/CategoryList', '/product/category', NULL, 'layout', 1, 1, '2022-05-05 20:16:57', '2022-05-05 20:16:57', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100030, 100027, '商品上架', 'goodInfo', 'product:good', '0', 'modules/mall/product/goods/Info', '/goods/info', NULL, 'shop', 0, -1, '2022-05-06 16:49:42', '2022-08-11 13:51:33', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100031, 100027, '商品列表', 'goodsList', 'product:goods', '0', 'modules/mall/product/goods/index.vue', '/product/goods', NULL, 'database', 1, -2, '2022-05-09 09:19:51', '2022-05-09 09:19:51', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100032, 100036, '订单列表', 'OrderList', 'order:list', '0', 'modules/mall/orders/order/OrderList', '/order/list', NULL, 'shopping-cart', 1, 4, '2022-05-18 17:54:51', '2022-08-11 21:08:53', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100033, 100035, '会员列表', 'MemberList', 'user:member', '0', 'modules/mall/user/member/MemberList', '/user/member', NULL, 'smile', 1, 5, '2022-05-18 20:25:28', '2022-08-11 21:02:26', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100034, 100046, '令牌管理', 'tokenList', 'sys:token', '0', 'modules/system/token/index.vue', '/permissions/token', NULL, 'safety-certificate', 1, 5, '2022-06-26 21:18:21', '2022-09-12 16:21:54', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100028, 100027, '品牌管理', 'brandList', 'product:brand', '0', 'mall/product/brand/BrandList', '/product/brand', NULL, 'taobao', 1, 0, '2022-05-05 20:15:54', '2022-05-05 20:15:54', 'fxz', 'fxz', '0', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100029, 100027, '分类管理', 'categoryList', 'product:category', '0', 'mall/product/category/CategoryList', '/product/category', NULL, 'layout', 1, 1, '2022-05-05 20:16:57', '2022-05-05 20:16:57', 'fxz', 'fxz', '0', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100030, 100027, '商品上架', 'goodInfo', 'product:good', '0', 'mall/product/goods/Info', '/goods/info', NULL, 'shop', 0, -1, '2022-05-06 16:49:42', '2022-08-11 13:51:33', 'fxz', 'fxz', '0', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100031, 100027, '商品列表', 'goodsList', 'product:goods', '0', 'mall/product/goods/index.vue', '/product/goods', NULL, 'database', 1, -2, '2022-05-09 09:19:51', '2022-05-09 09:19:51', 'fxz', 'fxz', '0', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100032, 100036, '订单列表', 'OrderList', 'order:list', '0', 'mall/orders/order/OrderList', '/order/list', NULL, 'shopping-cart', 1, 4, '2022-05-18 17:54:51', '2022-08-11 21:08:53', 'fxz', 'fxz', '0', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100033, 100035, '会员列表', 'MemberList', 'user:member', '0', 'mall/user/member/MemberList', '/user/member', NULL, 'smile', 1, 5, '2022-05-18 20:25:28', '2022-08-11 21:02:26', 'fxz', 'fxz', '0', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100034, 100046, '令牌管理', 'tokenList', 'sys:token', '0', 'system/token/index.vue', '/permissions/token', NULL, 'safety-certificate', 1, 5, '2022-06-26 21:18:21', '2022-09-12 16:21:54', 'fxz', 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100035, 0, '会员管理', 'member', 'user', '0', 'RouteView', '/user', NULL, 'user', 1, 4, '2022-08-11 21:01:52', '2022-09-12 16:12:43', 'fxz', 'fxz', '0', 2);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100036, 0, '订单管理', 'order', 'order', '0', 'RouteView', '/order', NULL, 'shop', 1, 4, '2022-08-11 21:07:41', '2022-09-12 16:21:15', 'fxz', 'fxz', '0', 2);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100037, 0, '营销管理', 'promotion', 'promotion', '0', 'RouteView', '/promotion', NULL, 'shopping-cart', 1, 3, '2022-08-12 10:33:22', '2022-09-12 16:12:33', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100038, 100037, '秒杀活动', 'seckillList', 'promotion:seckill', '0', 'modules/mall/promotion/seckill/SeckillList', '/promotion/seckill', NULL, 'pay-circle', 1, 0, '2022-08-12 10:35:44', '2022-08-12 10:58:28', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100039, 100037, '秒杀商品管理', 'SeckillManage', 'seckill:manage', '0', 'modules/mall/promotion/seckill/SeckillManage', '/promotion/seckill/manage', NULL, 'border-inner', 1, 0, '2022-08-13 10:48:23', '2022-08-13 10:48:23', 'fxz', 'fxz', '1', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100040, 100046, '动态网关', 'routeIndex', 'sys:route', '0', 'modules/system/route/Index.vue', '/sys/route', NULL, 'bg-colors', 1, 10, '2022-08-20 17:12:24', '2022-09-12 16:22:24', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100041, 100037, '优惠券列表', 'couponList', 'promotion:coupon:list', '0', 'modules/mall/promotion/coupon/CouponList', '/promotion/coupon/list', NULL, 'sound', 1, 2, '2022-08-29 13:28:28', '2022-08-29 13:28:28', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100042, 100037, '优惠券活动', 'couponActivityList', 'promotion:coupon:activity', '0', 'modules/mall/promotion/coupon/CouponActivityList', '/promotion/coupon/activity', NULL, 'fire', 1, 3, '2022-08-29 18:21:54', '2022-08-29 18:21:54', 'fxz', 'fxz', '0', 2);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100043, 100046, '应用管理', 'appList', 'sys:app', '0', 'modules/system/app/AppList.vue', '/sys/app', NULL, 'robot', 1, 6, '2022-09-12 12:55:49', '2022-09-12 16:22:11', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100038, 100037, '秒杀活动', 'seckillList', 'promotion:seckill', '0', 'mall/promotion/seckill/SeckillList', '/promotion/seckill', NULL, 'pay-circle', 1, 0, '2022-08-12 10:35:44', '2022-08-12 10:58:28', 'fxz', 'fxz', '0', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100039, 100037, '秒杀商品管理', 'SeckillManage', 'seckill:manage', '0', 'mall/promotion/seckill/SeckillManage', '/promotion/seckill/manage', NULL, 'border-inner', 1, 0, '2022-08-13 10:48:23', '2022-08-13 10:48:23', 'fxz', 'fxz', '1', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100040, 100046, '动态网关', 'routeIndex', 'sys:route', '0', 'system/route/Index.vue', '/sys/route', NULL, 'bg-colors', 1, 10, '2022-08-20 17:12:24', '2022-09-12 16:22:24', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100041, 100037, '优惠券列表', 'couponList', 'promotion:coupon:list', '0', 'mall/promotion/coupon/CouponList', '/promotion/coupon/list', NULL, 'sound', 1, 2, '2022-08-29 13:28:28', '2022-08-29 13:28:28', 'fxz', 'fxz', '0', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100042, 100037, '优惠券活动', 'couponActivityList', 'promotion:coupon:activity', '0', 'mall/promotion/coupon/CouponActivityList', '/promotion/coupon/activity', NULL, 'fire', 1, 3, '2022-08-29 18:21:54', '2022-08-29 18:21:54', 'fxz', 'fxz', '0', 2);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100043, 100046, '应用管理', 'appList', 'sys:app', '0', 'system/app/AppList.vue', '/sys/app', NULL, 'robot', 1, 6, '2022-09-12 12:55:49', '2022-09-12 16:22:11', 'fxz', 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100045, 100044, '11', '2', '2', '0', '2', '2', '2', '2', 0, 2, '2022-09-12 16:10:37', '2022-09-12 16:10:37', 'fxz', 'fxz', '0', 2);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100046, 0, '系统管理', 'sys', 'system', '0', 'RouteView', '/sys', NULL, 'desktop', 1, 3, '2022-09-12 16:19:00', '2022-09-12 16:19:50', 'fxz', 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100047, 0, '租户管理', 'tenant', 'sys:tenant', '0', 'RouteView', '/tenant', NULL, 'smile', 1, 2, '2022-10-01 17:01:56', '2022-10-01 17:01:56', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100048, 100047, '租户列表', 'tenantIndex', 'sys:tenant:index', '0', 'modules/system/tenant/Index', '/tenant/list', NULL, 'folder-open', 1, 0, '2022-10-01 17:03:47', '2022-10-01 17:04:40', 'fxz', 'fxz', '0', 1);
-INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100049, 100047, '租户套餐', 'TenantPackageIndex', 'sys:tenant:package', '0', 'modules/system/tenant/TenantPackageIndex', '/tenant/package', NULL, 'shopping-cart', 1, 1, '2022-10-01 18:07:44', '2022-10-01 18:07:44', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100048, 100047, '租户列表', 'tenantIndex', 'sys:tenant:index', '0', 'system/tenant/Index', '/tenant/list', NULL, 'folder-open', 1, 0, '2022-10-01 17:03:47', '2022-10-01 17:04:40', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100049, 100047, '租户套餐', 'TenantPackageIndex', 'sys:tenant:package', '0', 'system/tenant/TenantPackageIndex', '/tenant/package', NULL, 'shopping-cart', 1, 1, '2022-10-01 18:07:44', '2022-10-01 18:07:44', 'fxz', 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100050, 100012, '接口文档', 'doc', 'sys:doc', '0', 'RouteView', 'http://fxz-gateway:8301/doc.html', NULL, 'form', 1, 4, '2022-10-23 14:56:04', '2022-10-23 14:56:04', 'fxz', 'fxz', '0', 1);
 COMMIT;
 
@@ -313,7 +305,7 @@ CREATE TABLE `sys_oper_log` (
   `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1597076584468918274 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1643892795338948611 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- ----------------------------
@@ -369,15 +361,19 @@ CREATE TABLE `sys_role` (
   `code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '角色code',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1596497525317922819 DEFAULT CHARSET=utf8mb3 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=1630131045481324547 DEFAULT CHARSET=utf8mb3 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1, 'admin', '管理员', '2022-02-28 16:23:11', '2022-10-23 15:32:10', NULL, 'fxz', 1, NULL, 'super_admin', 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1, 'admin', '超级管理员', '2022-02-28 16:23:11', '2023-02-24 11:55:16', NULL, 'fxz', 1, NULL, 'super_admin', 0);
 INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (12, '租户管理员', '系统生成租户管理员角色', '2022-10-02 19:13:55', '2022-10-03 12:25:10', 'fxz', 'fxz', 1, NULL, 'tenant_admin', 1576530912007237634);
-INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1596497525317922818, '2', '2', '2022-02-28 16:23:11', '2022-10-23 15:32:10', 'fxz', 'fxz', 1, NULL, 'super_admin', 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (13, '游客', '游客', '2022-02-28 16:23:11', '2023-01-31 14:16:58', 'fxz', 'fxz', 5, NULL, 'super_admin', 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1628283829821120513, '教师', '教师', '2022-02-28 16:23:11', '2023-02-24 12:09:35', 'fxz', 'fxz', 1, NULL, NULL, 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1628283956224860162, '学生', '学生', '2022-02-28 16:23:11', '2023-02-26 13:27:42', 'fxz', 'fxz', 1, NULL, NULL, 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1630127122991091713, '租户管理员', '系统生成租户管理员角色', '2023-02-27 16:46:07', '2023-02-27 16:46:07', 'fxz', 'fxz', 1, NULL, 'tenant_admin', 1630127122500358146);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1630131045481324546, '租户管理员', '系统生成租户管理员角色', '2023-02-27 17:01:42', '2023-02-27 17:01:42', 'fxz', 'fxz', 1, NULL, 'tenant_admin', 1630131045384855554);
 COMMIT;
 
 -- ----------------------------
@@ -416,6 +412,17 @@ INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (12, 100040);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (12, 100043);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (12, 100021);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (12, 20);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 12);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 4);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 5);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 6);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 7);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 8);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 11);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 10);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 9);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 100047);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 100048);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 2);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 3);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 4);
@@ -472,7 +479,108 @@ INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 100047);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 100048);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 100049);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 100050);
-INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1596497525317922818, 100048);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628281206988611586);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628282988909305858);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628283417441345538);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628317343117275137);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628317471911768065);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628317584814043138);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628317214134038530);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628656999216459777);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628728529633726466);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628966690909663233);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 12);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 1628281206988611586);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 1628282988909305858);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 1628283417441345538);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 4);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 5);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 6);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 7);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 8);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 9);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 10);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 11);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 100006);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 100009);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 1628656999216459777);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 1628317343117275137);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 1628317471911768065);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 1628317584814043138);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 1628317214134038530);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 100026);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 100024);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 100046);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 1628966690909663233);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283829821120513, 100010);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 12);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 1628281206988611586);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 1628282988909305858);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 1628283417441345538);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 4);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 6);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 5);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 7);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 8);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 9);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 10);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 11);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 100006);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 100009);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 1628656999216459777);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 1628728529633726466);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 1628317214134038530);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 100046);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 100026);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 100024);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 1628966690909663233);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1628283956224860162, 100010);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 12);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 4);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 5);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 6);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 7);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 21);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 29);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100006);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100009);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100010);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100011);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100007);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100008);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100022);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100019);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100024);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100025);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100026);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100034);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100040);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100043);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 100021);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630127122991091713, 20);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 12);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 4);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 5);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 6);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 7);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 21);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 29);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100006);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100009);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100010);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100011);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100007);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100008);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100022);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100019);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100024);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100025);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100026);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100034);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100040);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100043);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 100021);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1630131045481324546, 20);
 COMMIT;
 
 -- ----------------------------
@@ -520,16 +628,71 @@ INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`,
 INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568804800510599170, '订单模块', 'fxz-mall-order', '[{\"args\": {\"_genkey_0\": \"/order/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-order', 100, NULL, 'fxz', 'fxz', '2022-09-11 11:33:06', '2022-09-11 14:23:16', '1');
 INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568804800510599171, '促销模块', 'fxz-mall-promotion', '[{\"args\": {\"_genkey_0\": \"/promotion/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-promotion', 100, NULL, 'fxz', 'fxz', '2022-09-11 11:33:06', '2022-09-11 14:23:16', '1');
 INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568804800514793473, '商品模块', 'fxz-mall-product', '[{\"args\": {\"_genkey_0\": \"/product/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-product', 100, NULL, 'fxz', 'fxz', '2022-09-11 11:33:06', '2022-09-11 14:23:16', '1');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626078339074, 'system模块', 'fxz-server-system', '[{\"args\": {\"_genkey_0\": \"/system/**\"}, \"name\": \"Path\"}]', '[{\"args\": {\"key-resolver\": \"#{@remoteAddrKeyResolver}\", \"redis-rate-limiter.burstCapacity\": \"100\", \"redis-rate-limiter.replenishRate\": \"100\"}, \"name\": \"RequestRateLimiter\"}]', 'lb://fxz-server-system', 0, NULL, 'fxz', 'fxz', '2022-09-11 14:23:16', '2022-09-11 14:23:16', '0');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626145447938, 'auth模块', 'fxz-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-auth', 1, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2022-09-11 14:23:17', '0');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626149642241, '代码生成器模块', 'fxz-generate', '[{\"args\": {\"_genkey_0\": \"/generate/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-generate', 2, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2022-09-11 14:23:17', '0');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626162225153, '实验模块', 'fxz-z-demos', '[{\"args\": {\"_genkey_0\": \"/demos/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-demos', 3, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2022-09-11 14:23:17', '0');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626162225154, '定时任务模块', 'fxz-job', '[{\"args\": {\"_genkey_0\": \"/schedule/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-job', 3, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2022-09-11 14:23:17', '0');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626162225155, '商品模块', 'fxz-mall-product', '[{\"args\": {\"_genkey_0\": \"/product/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-product', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2022-09-11 14:23:17', '0');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626166419457, '订单模块', 'fxz-mall-order', '[{\"args\": {\"_genkey_0\": \"/order/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-order', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2022-09-11 14:23:17', '0');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626166419458, 'es检索模块', 'fxz-mall-search', '[{\"args\": {\"_genkey_0\": \"/search/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-search', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2022-09-11 14:23:17', '0');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626174808065, '促销模块', 'fxz-mall-promotion', '[{\"args\": {\"_genkey_0\": \"/promotion/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-promotion', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2022-09-11 14:23:17', '0');
-INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626174808066, '会员模块', 'fxz-mall-user', '[{\"args\": {\"_genkey_0\": \"/user/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-user', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2022-09-11 14:23:17', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626078339074, 'system模块', 'fxz-server-system', '[{\"args\": {\"_genkey_0\": \"/system/**\"}, \"name\": \"Path\"}]', '[{\"args\": {\"key-resolver\": \"#{@remoteAddrKeyResolver}\", \"redis-rate-limiter.burstCapacity\": \"100\", \"redis-rate-limiter.replenishRate\": \"100\"}, \"name\": \"RequestRateLimiter\"}]', 'lb://fxz-server-system', 0, NULL, 'fxz', 'fxz', '2022-09-11 14:23:16', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626145447938, 'auth模块', 'fxz-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-auth', 1, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626149642241, '代码生成器模块', 'fxz-generate', '[{\"args\": {\"_genkey_0\": \"/generate/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-generate', 2, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626162225153, '实验模块', 'fxz-z-demos', '[{\"args\": {\"_genkey_0\": \"/demos/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-demos', 3, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626162225154, '定时任务模块', 'fxz-job', '[{\"args\": {\"_genkey_0\": \"/schedule/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-job', 3, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626162225155, '商品模块', 'fxz-mall-product', '[{\"args\": {\"_genkey_0\": \"/product/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-product', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626166419457, '订单模块', 'fxz-mall-order', '[{\"args\": {\"_genkey_0\": \"/order/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-order', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626166419458, 'es检索模块', 'fxz-mall-search', '[{\"args\": {\"_genkey_0\": \"/search/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-search', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626174808065, '促销模块', 'fxz-mall-promotion', '[{\"args\": {\"_genkey_0\": \"/promotion/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-promotion', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1568847626174808066, '会员模块', 'fxz-mall-user', '[{\"args\": {\"_genkey_0\": \"/user/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-user', 100, NULL, 'fxz', 'fxz', '2022-09-11 14:23:17', '2023-02-22 16:31:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311641445638145, 'system模块', 'fxz-server-system', '[{\"args\": {\"_genkey_0\": \"/system/**\"}, \"name\": \"Path\"}]', '[{\"args\": {\"key-resolver\": \"#{@remoteAddrKeyResolver}\", \"redis-rate-limiter.burstCapacity\": \"100\", \"redis-rate-limiter.replenishRate\": \"100\"}, \"name\": \"RequestRateLimiter\"}]', 'lb://fxz-server-system', 0, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311641684713474, 'auth模块', 'fxz-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-auth', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311642007674881, 'edu模块', 'art-edu', '[{\"args\": {\"_genkey_0\": \"/edu/**\"}, \"name\": \"Path\"}]', NULL, 'lb://art-edu', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311642510991362, '代码生成器模块', 'fxz-generate', '[{\"args\": {\"_genkey_0\": \"/generate/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-generate', 2, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311643173691394, '实验模块', 'fxz-z-demos', '[{\"args\": {\"_genkey_0\": \"/demos/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-demos', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311643614093314, '定时任务模块', 'fxz-job', '[{\"args\": {\"_genkey_0\": \"/schedule/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-job', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311643874140162, '商品模块', 'fxz-mall-product', '[{\"args\": {\"_genkey_0\": \"/product/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-product', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311644276793345, '订单模块', 'fxz-mall-order', '[{\"args\": {\"_genkey_0\": \"/order/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-order', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311644641697794, 'es检索模块', 'fxz-mall-search', '[{\"args\": {\"_genkey_0\": \"/search/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-search', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311645308592129, '促销模块', 'fxz-mall-promotion', '[{\"args\": {\"_genkey_0\": \"/promotion/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-promotion', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:32:03', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628311645707051009, '会员模块', 'fxz-mall-user', '[{\"args\": {\"_genkey_0\": \"/user/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-user', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:32:04', '2023-02-22 16:34:52', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312365936156673, 'system模块', 'fxz-server-system', '[{\"args\": {\"_genkey_0\": \"/system/**\"}, \"name\": \"Path\"}]', '[{\"args\": {\"key-resolver\": \"#{@remoteAddrKeyResolver}\", \"redis-rate-limiter.burstCapacity\": \"100\", \"redis-rate-limiter.replenishRate\": \"100\"}, \"name\": \"RequestRateLimiter\"}]', 'lb://fxz-server-system', 0, NULL, 'fxz', 'fxz', '2023-02-22 16:34:55', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312366212980737, 'auth模块', 'fxz-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-auth', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:34:55', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312366452056066, 'edu模块', 'art-edu', '[{\"args\": {\"_genkey_0\": \"/edu/**\"}, \"name\": \"Path\"}]', NULL, 'lb://art-edu', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:34:55', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312366707908610, '代码生成器模块', 'fxz-generate', '[{\"args\": {\"_genkey_0\": \"/generate/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-generate', 2, NULL, 'fxz', 'fxz', '2023-02-22 16:34:55', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312366959566849, '实验模块', 'fxz-z-demos', '[{\"args\": {\"_genkey_0\": \"/demos/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-demos', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:34:56', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312367387385858, '定时任务模块', 'fxz-job', '[{\"args\": {\"_genkey_0\": \"/schedule/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-job', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:34:56', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312367622266881, '商品模块', 'fxz-mall-product', '[{\"args\": {\"_genkey_0\": \"/product/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-product', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:34:56', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312367836176385, '订单模块', 'fxz-mall-order', '[{\"args\": {\"_genkey_0\": \"/order/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-order', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:34:56', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312368083640321, 'es检索模块', 'fxz-mall-search', '[{\"args\": {\"_genkey_0\": \"/search/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-search', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:34:56', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312368343687169, '促销模块', 'fxz-mall-promotion', '[{\"args\": {\"_genkey_0\": \"/promotion/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-promotion', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:34:56', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628312368565985281, '会员模块', 'fxz-mall-user', '[{\"args\": {\"_genkey_0\": \"/user/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-user', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:34:56', '2023-02-22 16:38:31', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313283010027521, 'system模块', 'fxz-server-system', '[{\"args\": {\"_genkey_0\": \"/system/**\"}, \"name\": \"Path\"}]', '[{\"args\": {\"key-resolver\": \"#{@remoteAddrKeyResolver}\", \"redis-rate-limiter.burstCapacity\": \"100\", \"redis-rate-limiter.replenishRate\": \"100\"}, \"name\": \"RequestRateLimiter\"}]', 'lb://fxz-server-system', 0, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:46:24', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313283010027522, 'system模块', 'fxz-server-system', '[{\"args\": {\"_genkey_0\": \"/system/**\"}, \"name\": \"Path\"}]', '[{\"args\": {\"key-resolver\": \"#{@remoteAddrKeyResolver}\", \"redis-rate-limiter.burstCapacity\": \"100\", \"redis-rate-limiter.replenishRate\": \"100\"}, \"name\": \"RequestRateLimiter\"}]', 'lb://fxz-server-system', 0, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313283454623746, 'auth模块', 'fxz-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-auth', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:46:27', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313283454623747, 'auth模块', 'fxz-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-auth', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313283798556674, 'edu模块', 'art-edu', '[{\"args\": {\"_genkey_0\": \"/edu/**\"}, \"name\": \"Path\"}]', NULL, 'lb://art-edu', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:46:30', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313283802750977, 'edu模块', 'art-edu', '[{\"args\": {\"_genkey_0\": \"/edu/**\"}, \"name\": \"Path\"}]', NULL, 'lb://art-edu', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313284197015554, '代码生成器模块', 'fxz-generate', '[{\"args\": {\"_genkey_0\": \"/generate/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-generate', 2, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:46:34', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313284222181377, '代码生成器模块', 'fxz-generate', '[{\"args\": {\"_genkey_0\": \"/generate/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-generate', 2, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313284503199745, '实验模块', 'fxz-z-demos', '[{\"args\": {\"_genkey_0\": \"/demos/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-demos', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:46:36', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313284503199746, '实验模块', 'fxz-z-demos', '[{\"args\": {\"_genkey_0\": \"/demos/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-demos', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313284796801025, '定时任务模块', 'fxz-job', '[{\"args\": {\"_genkey_0\": \"/schedule/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-job', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:46:40', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313284796801026, '定时任务模块', 'fxz-job', '[{\"args\": {\"_genkey_0\": \"/schedule/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-job', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313285048459265, '商品模块', 'fxz-mall-product', '[{\"args\": {\"_genkey_0\": \"/product/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-product', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:46:43', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313285128151042, '商品模块', 'fxz-mall-product', '[{\"args\": {\"_genkey_0\": \"/product/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-product', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313285342060546, '订单模块', 'fxz-mall-order', '[{\"args\": {\"_genkey_0\": \"/order/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-order', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:46:45', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313285421752321, '订单模块', 'fxz-mall-order', '[{\"args\": {\"_genkey_0\": \"/order/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-order', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:34', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313285614690305, 'es检索模块', 'fxz-mall-search', '[{\"args\": {\"_genkey_0\": \"/search/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-search', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:35', '2023-02-22 16:46:49', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313285761490946, 'es检索模块', 'fxz-mall-search', '[{\"args\": {\"_genkey_0\": \"/search/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-search', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:35', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313285845377025, '促销模块', 'fxz-mall-promotion', '[{\"args\": {\"_genkey_0\": \"/promotion/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-promotion', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:35', '2023-02-22 16:46:53', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313286134784001, '促销模块', 'fxz-mall-promotion', '[{\"args\": {\"_genkey_0\": \"/promotion/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-promotion', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:35', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313286227058690, '会员模块', 'fxz-mall-user', '[{\"args\": {\"_genkey_0\": \"/user/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-user', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:35', '2023-02-22 16:46:59', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628313286461939714, '会员模块', 'fxz-mall-user', '[{\"args\": {\"_genkey_0\": \"/user/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-user', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:38:35', '2023-02-22 16:48:07', '1');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315700145483778, 'system模块', 'fxz-server-system', '[{\"args\": {\"_genkey_0\": \"/system/**\"}, \"name\": \"Path\"}]', '[{\"args\": {\"key-resolver\": \"#{@remoteAddrKeyResolver}\", \"redis-rate-limiter.burstCapacity\": \"100\", \"redis-rate-limiter.replenishRate\": \"100\"}, \"name\": \"RequestRateLimiter\"}]', 'lb://fxz-server-system', 0, NULL, 'fxz', 'fxz', '2023-02-22 16:48:10', '2023-02-22 16:48:10', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315700384559106, 'auth模块', 'fxz-auth', '[{\"args\": {\"_genkey_0\": \"/auth/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-auth', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:48:10', '2023-02-22 16:48:10', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315700694937601, 'edu模块', 'art-edu', '[{\"args\": {\"_genkey_0\": \"/edu/**\"}, \"name\": \"Path\"}]', NULL, 'lb://art-edu', 1, NULL, 'fxz', 'fxz', '2023-02-22 16:48:10', '2023-02-22 16:48:10', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315701189865474, '代码生成器模块', 'fxz-generate', '[{\"args\": {\"_genkey_0\": \"/generate/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-generate', 2, NULL, 'fxz', 'fxz', '2023-02-22 16:48:10', '2023-02-22 16:48:10', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315701487661058, '实验模块', 'fxz-z-demos', '[{\"args\": {\"_genkey_0\": \"/demos/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-demos', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:48:11', '2023-02-22 16:48:11', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315701823205378, '定时任务模块', 'fxz-job', '[{\"args\": {\"_genkey_0\": \"/schedule/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-job', 3, NULL, 'fxz', 'fxz', '2023-02-22 16:48:11', '2023-02-22 16:48:11', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315702112612354, '商品模块', 'fxz-mall-product', '[{\"args\": {\"_genkey_0\": \"/product/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-product', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:48:11', '2023-02-22 16:48:11', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315702439768066, '订单模块', 'fxz-mall-order', '[{\"args\": {\"_genkey_0\": \"/order/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-order', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:48:11', '2023-02-22 16:48:11', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315703068913666, 'es检索模块', 'fxz-mall-search', '[{\"args\": {\"_genkey_0\": \"/search/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-search', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:48:11', '2023-02-22 16:48:11', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315703387680770, '促销模块', 'fxz-mall-promotion', '[{\"args\": {\"_genkey_0\": \"/promotion/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-promotion', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:48:11', '2023-02-22 16:48:11', '0');
+INSERT INTO `sys_route_conf` (`id`, `name`, `route_id`, `predicates`, `filters`, `uri`, `sort_order`, `metadata`, `create_by`, `update_by`, `create_time`, `update_time`, `del_flag`) VALUES (1628315703802916866, '会员模块', 'fxz-mall-user', '[{\"args\": {\"_genkey_0\": \"/user/**\"}, \"name\": \"Path\"}]', NULL, 'lb://fxz-mall-user', 100, NULL, 'fxz', 'fxz', '2023-02-22 16:48:11', '2023-02-22 16:48:11', '0');
 COMMIT;
 
 -- ----------------------------
@@ -537,7 +700,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_tenant`;
 CREATE TABLE `sys_tenant` (
-  `id` bigint NOT NULL  COMMENT '租户id',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '租户id',
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '租户名',
   `tenant_admin_id` bigint DEFAULT NULL COMMENT '当前租户管理员id',
   `tenant_admin_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '当前租户管理员姓名',
@@ -552,43 +715,48 @@ CREATE TABLE `sys_tenant` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '0-正常，1-删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
+) ENGINE=InnoDB AUTO_INCREMENT=1630131045384855555 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
 
 -- ----------------------------
 -- Records of sys_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 1, 'fxz', '19812341234', 0, 0, '2999-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2022-10-30 10:58:31', b'0');
-INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1576530912007237634, '测试租户', 5, '老六', '16601231234', 0, 1576530575020077058, '2022-10-30 00:00:00', 100, 'fxz', '2022-10-02 19:13:55', 'fxz', '2022-10-02 19:13:55', b'0');
+INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 14, 'fxz', '19812341234', 0, 0, '3000-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2023-04-04 17:36:37', b'0');
+INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1576530912007237634, '测试租户', 5, '老六', '16601231234', 0, 1620302578562916353, '2023-07-29 14:13:27', 100, 'fxz', '2022-10-02 19:13:55', 'fxz', '2023-02-03 13:19:12', b'1');
+INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1630127122500358146, '13812345678', 14, '13812345678', '13812345678', 0, 1576530575020077058, '2023-02-28 00:00:00', 11, 'fxz', '2023-02-27 16:46:07', 'fxz', '2023-04-04 17:35:59', b'1');
+INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1630131045384855554, '1', 14, '1', '15912345678', 0, 1576530575020077058, '2023-02-28 00:00:00', 111, 'fxz', '2023-02-27 17:01:42', 'fxz', '2023-04-04 17:35:56', b'1');
 COMMIT;
-
 
 -- ----------------------------
 -- Table structure for sys_tenant_package
 -- ----------------------------
--- ----------------------------
 DROP TABLE IF EXISTS `sys_tenant_package`;
 CREATE TABLE `sys_tenant_package` (
-                                      `id` bigint NOT NULL AUTO_INCREMENT COMMENT '套餐id',
-                                      `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '套餐名',
-                                      `status` tinyint NOT NULL DEFAULT '0' COMMENT '套餐状态（0正常 1停用）',
-                                      `remark` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '备注',
-                                      `menu_ids` varchar(2048) CHARACTER SET utf8mb4 NOT NULL COMMENT '关联的菜单编号',
-                                      `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建者',
-                                      `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                      `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '更新者',
-                                      `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                                      `del_flag` bit(1) NOT NULL DEFAULT 0 COMMENT '0-正常，1-删除',
-                                      PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户套餐表';
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '套餐id',
+  `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '套餐名',
+  `status` tinyint NOT NULL DEFAULT '0' COMMENT '套餐状态（0正常 1停用）',
+  `remark` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '备注',
+  `menu_ids` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '关联的菜单编号',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '0-正常，1-删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1620378325738639362 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户套餐表';
 
 -- ----------------------------
 -- Records of sys_tenant_package
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1576530575020077058, '豪华套餐', 0, '豪华租户套餐', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021,20', 'fxz', '2022-10-02 19:12:34', 'fxz', '2022-10-03 12:25:10', 0);
+INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1576530575020077058, '豪华套餐', 0, '豪华租户套餐', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021,20', 'fxz', '2022-10-02 19:12:34', 'fxz', '2022-10-03 12:25:10', b'0');
+INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1620302578562916353, '吊毛套餐', 0, '专为贫穷设计', '5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021', 'fxz', '2022-10-02 19:12:34', 'fxz', '2023-02-03 13:19:17', b'1');
+INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1620355238989148162, 's', 0, '1', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021,20', 'fxz', '2022-10-02 19:12:34', 'fxz', '2023-01-31 17:55:08', b'1');
+INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1620355905602465793, '11', 1, '1', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021,20', 'fxz', '2023-01-31 17:38:47', 'fxz', '2023-01-31 17:55:11', b'1');
+INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1620356519480799233, '111aaaaa', 0, '1', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021,20', 'fxz', '2022-10-02 19:12:34', 'fxz', '2023-01-31 17:55:18', b'1');
+INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1620356834594664450, '666', 1, '', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021,20', 'fxz', '2023-01-31 17:42:29', 'fxz', '2023-01-31 17:55:20', b'1');
+INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1620378325738639361, '爱心社AS', 0, 'SAS', '12', 'fxz', '2023-01-31 19:07:53', 'fxz', '2023-01-31 19:06:05', b'1');
 COMMIT;
-
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -612,14 +780,13 @@ CREATE TABLE `sys_user` (
   `update_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '更新人',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` (`user_id`, `username`, `password`, `dept_id`, `email`, `mobile`, `status`, `create_time`, `update_time`, `last_login_time`, `ssex`, `avatar`, `description`, `create_by`, `update_by`, `tenant_id`) VALUES (1, 'fxz', '{bcrypt}$2a$10$yMqLTL9t9TeRGp5fT7vENuxZaruaN.a/VlOpRGF7jBnKPAim6Xey.', 0, '2235602974@qq.com', '19806082431', '1', '2022-04-05 20:39:22', '2022-11-12 22:13:48', '2022-04-05 15:57:00', '0', '/system/file/fxzcloud/5fc8336fcdbb4a09ace7a373b270cc69.png', 'Art的作者,FxzClud的核心成员。', NULL, 'fxz', 0);
-INSERT INTO `sys_user` (`user_id`, `username`, `password`, `dept_id`, `email`, `mobile`, `status`, `create_time`, `update_time`, `last_login_time`, `ssex`, `avatar`, `description`, `create_by`, `update_by`, `tenant_id`) VALUES (5, '123456ll', '{bcrypt}$2a$10$BXyhznt1nUQwfFmdhZ1HYO2qsuGUKyZFqfug6Bez3QDlRuoAwpXR.', 3, '12345678@qq.com', '15812345678', '1', '2022-10-02 19:13:56', '2022-10-03 13:22:28', NULL, '0', '/system/file/fxzcloud/b4bba8134cff47ea923365838b4a5657.png', '管理员～', 'fxz', '123456ll', 1576530912007237634);
+INSERT INTO `sys_user` (`user_id`, `username`, `password`, `dept_id`, `email`, `mobile`, `status`, `create_time`, `update_time`, `last_login_time`, `ssex`, `avatar`, `description`, `create_by`, `update_by`, `tenant_id`) VALUES (1, 'fxz', '{bcrypt}$2a$10$yMqLTL9t9TeRGp5fT7vENuxZaruaN.a/VlOpRGF7jBnKPAim6Xey.', 10, '2****@qq.com', '198****2431', '1', '2022-04-05 20:39:22', '2023-02-22 19:31:16', '2022-04-05 15:57:00', '0', '', 'Art的作者,FxzClud的核心成员。', NULL, 'fxz', 0);
 COMMIT;
 
 -- ----------------------------
@@ -632,13 +799,6 @@ CREATE TABLE `sys_user_post` (
   PRIMARY KEY (`user_id`,`post_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户与岗位关联表';
 
--- ----------------------------
--- Records of sys_user_post
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_user_post` (`user_id`, `post_id`) VALUES (1, 1511326356242804737);
-INSERT INTO `sys_user_post` (`user_id`, `post_id`) VALUES (5, 1511326356242804737);
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -654,28 +814,6 @@ CREATE TABLE `sys_user_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_user_role` (`USER_ID`, `ROLE_ID`) VALUES (1, 1);
-INSERT INTO `sys_user_role` (`USER_ID`, `ROLE_ID`) VALUES (5, 12);
-COMMIT;
-
--- ----------------------------
--- Table structure for undo_log
--- ----------------------------
-DROP TABLE IF EXISTS `undo_log`;
-CREATE TABLE `undo_log` (
-  `branch_id` bigint NOT NULL COMMENT 'branch transaction id',
-  `xid` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'global transaction id',
-  `context` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'undo_log context,such as serialization',
-  `rollback_info` longblob NOT NULL COMMENT 'rollback info',
-  `log_status` int NOT NULL COMMENT '0:normal status,1:defense status',
-  `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
-  `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
-  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='AT transaction mode undo table';
-
--- ----------------------------
--- Records of undo_log
--- ----------------------------
-BEGIN;
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
