@@ -117,7 +117,7 @@
     </dependencies>
 
     <build>
-        <finalName>fxz-server-system</finalName>
+        <finalName>art-server-system</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
