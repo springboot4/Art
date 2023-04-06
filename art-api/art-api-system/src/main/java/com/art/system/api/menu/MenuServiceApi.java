@@ -31,7 +31,7 @@ import java.util.Set;
  * @version 0.0.1
  * @date 2022-03-06 14:50
  */
-@FeignClient(contextId = "menuServiceApi", value = FxzServerConstant.FXZ_SERVER_SYSTEM)
+@FeignClient(contextId = "menuServiceApi", value = FxzServerConstant.ART_SERVER_SYSTEM)
 public interface MenuServiceApi {
 
 	/**
