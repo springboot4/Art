@@ -1,15 +1,15 @@
 spring:
   application:
-    name: fxz-job
+    name: art-job
   cloud:
     nacos:
       config:
-        server-addr: ${NACOS_HOST:fxz-nacos}:8848
+        server-addr: ${NACOS_HOST:art-nacos}:8848
       discovery:
-        server-addr: ${NACOS_HOST:fxz-nacos}:8848
+        server-addr: ${NACOS_HOST:art-nacos}:8848
       username: nacos
-      password: fxz-nacos
+      password: art-nacos
   config:
     import:
       - optional:nacos:${spring.application.name}.yaml
-      - optional:nacos:fxz-application-common.yaml
+      - optional:nacos:art-common.yaml

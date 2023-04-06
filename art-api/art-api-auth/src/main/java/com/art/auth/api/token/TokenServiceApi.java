@@ -34,7 +34,7 @@ import java.util.Map;
  * @version 0.0.1
  * @date 2022-04-14 21:30
  */
-@FeignClient(contextId = "tokenServiceApi", value = FxzServerConstant.FXZ_AUTH)
+@FeignClient(contextId = "tokenServiceApi", value = FxzServerConstant.ART_AUTH)
 public interface TokenServiceApi {
 
 	/**
