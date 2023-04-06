@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @version 0.0.1
  * @date 2022-04-07 14:50
  */
-@FeignClient(contextId = "logServiceApi", value = FxzServerConstant.FXZ_SERVER_SYSTEM)
+@FeignClient(contextId = "logServiceApi", value = FxzServerConstant.ART_SERVER_SYSTEM)
 public interface LogServiceApi {
 
 	/**

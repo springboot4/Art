@@ -103,7 +103,7 @@
     </dependencies>
 
     <build>
-        <finalName>fxz-gateway</finalName>
+        <finalName>art-gateway</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
