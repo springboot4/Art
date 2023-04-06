@@ -55,17 +55,17 @@ public class FxzSecurityConfigure extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-        http
-                .requestMatchers()
-                    .antMatchers("/token/**", "/oauth/**")
-                    .and()
-                .authorizeRequests()
-                    .antMatchers("/oauth/**").authenticated()
-                    .and()
-                .formLogin().loginPage("/token/login").loginProcessingUrl("/token/form").permitAll()
-                    .and()
-                .csrf().disable();
-        // @formatter:on
+		http
+				.requestMatchers()
+				.antMatchers("/token/**", "/oauth/**")
+				.and()
+				.authorizeRequests()
+				.antMatchers("/oauth/**").authenticated()
+				.and()
+				.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form").permitAll()
+				.and()
+				.csrf().disable();
+		// @formatter:on
 	}
 
 	/**
