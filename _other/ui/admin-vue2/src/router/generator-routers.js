@@ -100,7 +100,7 @@ export const generator = (routerMap) => {
       // 路由名称，建议唯一
       name: item.name,
       application: item.application,
-      component: (constantRouterComponents[item.component]) || (() => import(`@/views/${item.component}`)),
+      component: (constantRouterComponents[item.component]) || (() => import(`@/views/modules/${item.component}`)),
 
       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
       meta: {
@@ -109,6 +109,7 @@ export const generator = (routerMap) => {
         permission: item.perms
       }
     }
+
     // 是否设置了隐藏菜单
     if (item.hidden && String(item.hidden) === '1' || !item.title) {
       currentRouter.hidden = true

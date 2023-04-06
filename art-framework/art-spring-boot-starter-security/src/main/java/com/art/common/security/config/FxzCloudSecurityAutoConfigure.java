@@ -60,7 +60,7 @@ import java.util.Map;
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2022-03-06 18:15
+ * @date 2022-03-06 18:15 开启了基于注解的权限控制{@link EnableGlobalMethodSecurity}
  */
 @Slf4j
 @AutoConfiguration
