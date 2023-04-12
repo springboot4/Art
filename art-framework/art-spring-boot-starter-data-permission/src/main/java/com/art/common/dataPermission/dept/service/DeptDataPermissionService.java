@@ -19,7 +19,7 @@ package com.art.common.dataPermission.dept.service;
 import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.model.ResultOpt;
-import com.art.common.security.entity.ArtAuthUser;
+import com.art.common.security.core.model.ArtAuthUser;
 import com.art.system.api.role.RoleServiceApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

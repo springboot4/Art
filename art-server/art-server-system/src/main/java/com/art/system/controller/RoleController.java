@@ -19,9 +19,8 @@ package com.art.system.controller;
 import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.core.model.PageResult;
 import com.art.common.core.model.Result;
-import com.art.common.security.annotation.Ojbk;
-import com.art.common.security.entity.ArtAuthUser;
-import com.art.common.security.util.SecurityUtil;
+import com.art.common.security.core.model.ArtAuthUser;
+import com.art.common.security.core.utils.SecurityUtil;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;
 import com.art.system.service.RoleService;
@@ -103,7 +102,6 @@ public class RoleController {
 	 * 获取当前用户角色下的数据权限
 	 */
 	@Operation(summary = "获取当前用户角色下的数据权限")
-	@Ojbk
 	@GetMapping("/getDataPermission")
 	public Result<DeptDataPermissionRespEntity> getDataPermission() {
 		ArtAuthUser user = SecurityUtil.getUser();

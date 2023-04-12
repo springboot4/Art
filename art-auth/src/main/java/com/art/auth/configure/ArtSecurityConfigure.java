@@ -16,6 +16,7 @@
 
 package com.art.auth.configure;
 
+import com.art.common.security.authentication.DaoAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,10 +34,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ArtSecurityConfigure {
 
 	/**
-	 * spring security 默认的安全策略
-	 * @param http security注入点
-	 * @return SecurityFilterChain
-	 * @throws Exception
+	 * 默认安全策略过滤器链
 	 */
 	@Bean
 	@Order(0)
@@ -46,7 +44,7 @@ public class ArtSecurityConfigure {
 			.headers()
 			.frameOptions()
 			.sameOrigin();
-		// 处理 UsernamePasswordAuthenticationToken
+
 		http.authenticationProvider(new DaoAuthenticationProvider());
 		return http.build();
 	}
