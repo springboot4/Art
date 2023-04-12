@@ -19,7 +19,7 @@ package com.art.system.service.impl;
 import cn.hutool.core.lang.Opt;
 import com.art.common.core.exception.FxzException;
 import com.art.common.dataPermission.annotation.DataPermission;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.core.bo.DeptBO;
@@ -97,7 +97,7 @@ public class DeptServiceImpl implements DeptService {
 	 */
 	@Override
 	public String getDeptNameByUserId() {
-		FxzAuthUser user = Opt.of(SecurityUtil.getUser()).get();
+		ArtAuthUser user = Opt.of(SecurityUtil.getUser()).get();
 		return deptManager.getDeptNameByUserId(user.getDeptId());
 	}
 

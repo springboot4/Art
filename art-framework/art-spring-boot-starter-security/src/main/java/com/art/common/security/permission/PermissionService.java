@@ -17,7 +17,7 @@
 package com.art.common.security.permission;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,7 +54,7 @@ public class PermissionService {
 		}
 
 		// 获得当前登录的角色 如果为空 说明没有权限
-		FxzAuthUser user = SecurityUtil.getUser();
+		ArtAuthUser user = SecurityUtil.getUser();
 		if (Objects.isNull(user)) {
 			return false;
 		}

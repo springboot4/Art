@@ -14,3 +14,8 @@ spring:
       - optional:nacos:${spring.application.name}.yaml
       - optional:nacos:art-common.yaml
 
+logging:
+  level:
+    org.springframework.web: trace
+    org.springframework.security: trace
+    org.springframework.security.oauth2: debug

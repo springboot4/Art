@@ -35,7 +35,7 @@ import java.io.IOException;
  * @version 0.0.1
  * @date 2021-11-28 13:12
  */
-public class FxzServerProtectInterceptor implements HandlerInterceptor {
+public class ArtServerProtectInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

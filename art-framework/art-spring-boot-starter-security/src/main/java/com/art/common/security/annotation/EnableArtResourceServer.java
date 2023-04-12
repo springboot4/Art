@@ -16,20 +16,22 @@
 
 package com.art.common.security.annotation;
 
-import com.art.common.security.config.FxzCloudResourceServerConfigure;
+import com.art.common.security.config.ArtResourceServerConfigure;
+import com.art.common.security.properties.ArtSecurityProperties;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
 
 /**
- * @author fxz 资源服务器注解，通过添加此注解实现配置ResourceServerConfigurerAdapter的效果
- * 资源服务器需要忽略鉴权在配置文件中添加fxz:cloud:security:anonUris 具体配置参考:
- * @see com.art.common.security.properties.FxzCloudSecurityProperties
+ * 资源服务器注解
+ *
+ * @author fxz
+ * @see ArtSecurityProperties
  */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(FxzCloudResourceServerConfigure.class)
-public @interface EnableFxzCloudResourceServer {
+@Import(ArtResourceServerConfigure.class)
+public @interface EnableArtResourceServer {
 
 }

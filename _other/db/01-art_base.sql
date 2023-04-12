@@ -1,4 +1,5 @@
 
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -291,7 +292,26 @@ CREATE TABLE `sys_oper_log` (
   `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1643948646176980994 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1646037696220299267 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of sys_oper_log
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646023682031398914, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:33:22', 'anonymousUser', '2023-04-12 13:33:18');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646023862336139266, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:34:05', 'anonymousUser', '2023-04-12 13:34:03');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646024757983608833, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:37:39', 'anonymousUser', '2023-04-12 13:37:36');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646024984912232449, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:38:33', 'anonymousUser', '2023-04-12 13:38:30');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646025053698818050, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:38:49', 'anonymousUser', '2023-04-12 13:38:47');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646025829850578945, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:41:54', 'anonymousUser', '2023-04-12 13:41:47');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646029436222210049, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:56:14', 'anonymousUser', '2023-04-12 13:56:00');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646032442967781377, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:08:11', 'anonymousUser', '2023-04-12 14:08:09');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646033049594175490, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:10:36', 'anonymousUser', '2023-04-12 14:10:34');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646033962018873346, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:14:13', 'anonymousUser', '2023-04-12 14:14:11');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646034738078363649, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:17:18', 'anonymousUser', '2023-04-12 14:17:17');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646035086134304769, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:18:41', 'anonymousUser', '2023-04-12 14:18:40');
+INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646037696220299266, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:29:03', 'anonymousUser', '2023-04-12 14:29:02');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -479,13 +499,13 @@ CREATE TABLE `sys_tenant` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '0-正常，1-删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1630131045384855556 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
 
 -- ----------------------------
 -- Records of sys_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 14, 'fxz', '19812341234', 0, 0, '3000-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2023-04-06 20:07:40', b'0');
+INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 14, 'fxz', '19812341234', 0, 0, '3000-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2023-04-12 13:33:56', b'0');
 COMMIT;
 
 -- ----------------------------
@@ -497,7 +517,7 @@ CREATE TABLE `sys_tenant_package` (
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '套餐名',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '套餐状态（0正常 1停用）',
   `remark` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '备注',
-  `menu_ids` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '关联的菜单编号',
+  `menu_ids` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '关联的菜单编号',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '更新者',

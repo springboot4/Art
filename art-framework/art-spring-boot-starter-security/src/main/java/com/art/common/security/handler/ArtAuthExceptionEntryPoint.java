@@ -19,27 +19,31 @@ package com.art.common.security.handler;
 import com.art.common.core.model.Result;
 import com.art.common.core.util.WebUtil;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 用于处理403类型异常
+ * 资源服务器异常主要有两种：令牌不正确返回401和用户无权限返回403。
+ * 因为资源服务器有多个，所以相关的异常处理类可以定义在art-spring-boot-starter通用模块里。
+ * <p>
+ * 用于处理401类型异常
  *
  * @author Fxz
  * @version 0.0.1
- * @date 2021-11-27 21:52
+ * @date 2021-11-27 21:38
  */
-public class FxzAccessDeniedHandler implements AccessDeniedHandler {
+public class ArtAuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
-	public void handle(HttpServletRequest request, HttpServletResponse response,
-			AccessDeniedException accessDeniedException) throws IOException {
-		WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
-				Result.failed("没有权限访问该资源"));
+	public void commence(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException authException) throws IOException {
+
+		WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_UNAUTHORIZED,
+				Result.failed("token无效"));
 	}
 
 }

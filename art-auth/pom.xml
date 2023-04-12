@@ -30,6 +30,11 @@
     <dependencies>
 
         <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
@@ -67,8 +72,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-security</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-authorization-server</artifactId>
+            <version>0.4.1</version>
         </dependency>
 
         <dependency>

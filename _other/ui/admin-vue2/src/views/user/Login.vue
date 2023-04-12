@@ -290,7 +290,7 @@ export default {
             loginParams.auth_type = 'sms'
             loginParams.grant_type = 'sms_code'
           }
-
+          loginParams.scope = 'server'
           Login(loginParams).then((res) => this.loginSuccess(res))
             .catch(err => {
               this.requestFailed(err)
@@ -348,7 +348,8 @@ export default {
       })
     },
     loginSuccess (res) {
-      this.$router.push({ name: 'welcome' })
+      console.log('登录成功:', res)
+       this.$router.push({ name: 'welcome' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({

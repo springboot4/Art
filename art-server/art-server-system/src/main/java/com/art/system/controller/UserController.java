@@ -20,7 +20,7 @@ import com.art.common.core.exception.FxzException;
 import com.art.common.core.model.PageResult;
 import com.art.common.core.model.Result;
 import com.art.common.security.annotation.Ojbk;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.common.tenant.aspect.IgnoreTenant;
 import com.art.system.api.user.dto.SystemUserDTO;
@@ -137,7 +137,7 @@ public class UserController {
 	@Operation(summary = "获取当前用户全部信息")
 	@GetMapping("/info")
 	public Result<UserInfo> userInfo() {
-		FxzAuthUser user = SecurityUtil.getUser();
+		ArtAuthUser user = SecurityUtil.getUser();
 
 		// 查询用户信息
 		SystemUserDTO userDTO = userService.getUserById(user.getUserId());

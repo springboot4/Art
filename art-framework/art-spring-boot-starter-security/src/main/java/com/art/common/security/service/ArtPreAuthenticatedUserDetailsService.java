@@ -38,15 +38,15 @@ import java.util.Optional;
 @Slf4j
 @SuppressWarnings("all")
 @NoArgsConstructor
-public class FxzPreAuthenticatedUserDetailsService<T extends Authentication>
+public class ArtPreAuthenticatedUserDetailsService<T extends Authentication>
 		implements AuthenticationUserDetailsService<T>, InitializingBean {
 
 	/**
 	 * 客户端ID和用户服务 UserDetailService 的映射
 	 */
-	private Map<String, FxzUserDetailsService> userDetailsServiceMap;
+	private Map<String, ArtUserDetailsService> userDetailsServiceMap;
 
-	public FxzPreAuthenticatedUserDetailsService(Map<String, FxzUserDetailsService> userDetailsServiceMap) {
+	public ArtPreAuthenticatedUserDetailsService(Map<String, ArtUserDetailsService> userDetailsServiceMap) {
 		Assert.notNull(userDetailsServiceMap, "userDetailsService cannot be null.");
 		this.userDetailsServiceMap = userDetailsServiceMap;
 	}
@@ -70,9 +70,9 @@ public class FxzPreAuthenticatedUserDetailsService<T extends Authentication>
 		log.info("clientId:{}", clientId);
 
 		// 根据客户端id获取获取UserDetailsService
-		FxzUserDetailsService userDetailsService = userDetailsServiceMap.get(clientId);
+		ArtUserDetailsService userDetailsService = userDetailsServiceMap.get(clientId);
 
-		Optional<FxzUserDetailsService> fxzUserDetailsService = userDetailsServiceMap.values()
+		Optional<ArtUserDetailsService> fxzUserDetailsService = userDetailsServiceMap.values()
 			.stream()
 			.filter(s -> s.support(clientId, null))
 			.findFirst();

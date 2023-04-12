@@ -16,6 +16,7 @@
 
 package com.art.system.service.impl;
 
+import com.art.common.dataPermission.annotation.DataPermission;
 import com.art.system.api.user.dto.SystemUserDTO;
 import com.art.system.api.user.dto.SystemUserPageDTO;
 import com.art.system.api.user.dto.UserInfo;
@@ -158,6 +159,7 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * 通过用户名查找用户信息
 	 */
+	@DataPermission(enable = false)
 	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#username")
 	@Override
 	public SystemUserDTO findByName(String username) {
