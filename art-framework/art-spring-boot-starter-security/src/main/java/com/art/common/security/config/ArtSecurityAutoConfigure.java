@@ -16,25 +16,21 @@
 
 package com.art.common.security.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.art.common.core.constant.FxzConstant;
 import com.art.common.core.constant.SecurityConstants;
-import com.art.common.security.FxzUserInfoTokenServices;
-import com.art.common.security.extension.mobile.FxzSmsCodeAuthenticationProvider;
-import com.art.common.security.handler.FxzAccessDeniedHandler;
-import com.art.common.security.handler.FxzAuthExceptionEntryPoint;
+import com.art.common.core.util.WebUtil;
+import com.art.common.security.handler.ArtAccessDeniedHandler;
+import com.art.common.security.handler.ArtAuthExceptionEntryPoint;
 import com.art.common.security.permission.PermissionService;
-import com.art.common.security.properties.FxzCloudSecurityProperties;
-import com.art.common.security.service.FxzUserDetailsService;
-import com.art.common.security.service.user.FxzUserDetailServiceImpl;
-import com.art.common.security.util.SecurityUtil;
+import com.art.common.security.properties.ArtSecurityProperties;
+import com.art.common.security.service.ArtUserDetailsService;
+import com.art.common.security.service.user.ArtUserDetailServiceImpl;
 import feign.RequestInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +42,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -60,20 +58,26 @@ import java.util.Map;
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2022-03-06 18:15 开启了基于注解的权限控制{@link EnableGlobalMethodSecurity}
+ * @date 2022-03-06 18:15<br/>
+ * 开启了基于注解的权限控制{@link EnableGlobalMethodSecurity}
  */
 @Slf4j
 @AutoConfiguration
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableConfigurationProperties(FxzCloudSecurityProperties.class)
-public class FxzCloudSecurityAutoConfigure {
+@EnableConfigurationProperties(ArtSecurityProperties.class)
+public class ArtSecurityAutoConfigure {
 
 	private final StringRedisTemplate stringRedisTemplate;
 
-	private final FxzUserDetailServiceImpl fxzUserDetailService;
+	private final ArtUserDetailServiceImpl fxzUserDetailService;
 
-	private final Map<String, FxzUserDetailsService> userDetailsServiceMap;
+	private final Map<String, ArtUserDetailsService> userDetailsServiceMap;
+
+	@Bean
+	BearerTokenResolver bearerTokenResolver() {
+		return new DefaultBearerTokenResolver();
+	}
 
 	/**
 	 * 用户名密码认证授权提供者
@@ -86,18 +90,6 @@ public class FxzCloudSecurityAutoConfigure {
 		provider.setPasswordEncoder(passwordEncoder());
 		// 是否隐藏用户不存在异常，默认:true-隐藏；false-抛出异常；
 		provider.setHideUserNotFoundExceptions(false);
-		return provider;
-	}
-
-	/**
-	 * 手机验证码认证授权提供者
-	 * @return 手机验证码认证授权提供者
-	 */
-	@Bean
-	public FxzSmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
-		FxzSmsCodeAuthenticationProvider provider = new FxzSmsCodeAuthenticationProvider();
-		provider.setUserDetailsServiceMap(userDetailsServiceMap);
-		provider.setRedisTemplate(stringRedisTemplate);
 		return provider;
 	}
 
@@ -134,8 +126,8 @@ public class FxzCloudSecurityAutoConfigure {
 	 */
 	@Primary
 	@Bean
-	public FxzAccessDeniedHandler accessDeniedHandler() {
-		return new FxzAccessDeniedHandler();
+	public ArtAccessDeniedHandler accessDeniedHandler() {
+		return new ArtAccessDeniedHandler();
 	}
 
 	/**
@@ -143,8 +135,8 @@ public class FxzCloudSecurityAutoConfigure {
 	 */
 	@Primary
 	@Bean
-	public FxzAuthExceptionEntryPoint authenticationEntryPoint() {
-		return new FxzAuthExceptionEntryPoint();
+	public ArtAuthExceptionEntryPoint authenticationEntryPoint() {
+		return new ArtAuthExceptionEntryPoint();
 	}
 
 	/**
@@ -155,12 +147,14 @@ public class FxzCloudSecurityAutoConfigure {
 		return new FxzServerProtectConfigure();
 	}
 
-	@Bean
-	@Primary
-	@ConditionalOnMissingBean(DefaultTokenServices.class)
-	public FxzUserInfoTokenServices fxzUserInfoTokenServices(ResourceServerProperties properties) {
-		return new FxzUserInfoTokenServices(properties.getUserInfoUri(), properties.getClientId());
-	}
+	// @Bean
+	// @Primary
+	// @ConditionalOnMissingBean(DefaultTokenServices.class)
+	// public FxzUserInfoTokenServices fxzUserInfoTokenServices(ResourceServerProperties
+	// properties) {
+	// return new FxzUserInfoTokenServices(properties.getUserInfoUri(),
+	// properties.getClientId());
+	// }
 
 	/**
 	 * 为feign请求头添加令牌
@@ -171,15 +165,19 @@ public class FxzCloudSecurityAutoConfigure {
 			String gatewayToken = new String(Base64Utils.encode((FxzConstant.GATEWAY_TOKEN_VALUE).getBytes()));
 			requestTemplate.header(FxzConstant.GATEWAY_TOKEN_HEADER, gatewayToken);
 
-			String authorizationToken = SecurityUtil.getCurrentTokenValue();
-			if (StringUtils.isNotBlank(authorizationToken)) {
-				requestTemplate.header(HttpHeaders.AUTHORIZATION, FxzConstant.OAUTH2_TOKEN_TYPE + authorizationToken);
+			HttpServletRequest request = WebUtil.getRequest();
+			String token = bearerTokenResolver().resolve(request);
+			System.out.println("资源服务token" + token);
+			if (StrUtil.isBlank(token)) {
+				return;
 			}
+			requestTemplate.header(HttpHeaders.AUTHORIZATION,
+					String.format("%s %s", OAuth2AccessToken.TokenType.BEARER.getValue(), token));
 
 			RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 			if (requestAttributes != null) {
 				ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
-				HttpServletRequest request = attributes.getRequest();
+				request = attributes.getRequest();
 				// 获取请求头
 				Enumeration<String> headerNames = request.getHeaderNames();
 				if (headerNames != null) {

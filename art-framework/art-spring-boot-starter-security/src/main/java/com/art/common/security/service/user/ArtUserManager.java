@@ -35,7 +35,7 @@ import java.util.Set;
  */
 @Service
 @RequiredArgsConstructor
-public class FxzUserManager {
+public class ArtUserManager {
 
 	private final UserServiceApi userService;
 

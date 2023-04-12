@@ -26,6 +26,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -48,6 +49,15 @@ public class WebUtil {
 	 */
 	public ServletRequestAttributes getRequestAttributes() {
 		return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+	}
+
+	/**
+	 * 获取响应
+	 * @return {HttpServletResponse}
+	 */
+	public HttpServletResponse getResponse() {
+		return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
+			.getResponse();
 	}
 
 	/**

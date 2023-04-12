@@ -16,7 +16,6 @@
 
 package com.art.auth;
 
-import com.art.common.security.annotation.EnableFxzCloudResourceServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -24,7 +23,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * @author fxz
  */
-@EnableFxzCloudResourceServer
 @EnableFeignClients(basePackages = { "com.art" })
 @SpringBootApplication
 public class ArtAuthApplication {

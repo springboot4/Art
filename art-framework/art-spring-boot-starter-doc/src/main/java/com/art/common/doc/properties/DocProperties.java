@@ -58,6 +58,6 @@ public class DocProperties {
 	/**
 	 * 网关地址
 	 */
-	private String url = "http://fxz-gateway:9999";
+	private String url = "http://art-gateway:9999";
 
 }

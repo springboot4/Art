@@ -20,7 +20,7 @@ import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.core.model.PageResult;
 import com.art.common.core.model.Result;
 import com.art.common.security.annotation.Ojbk;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;
@@ -106,7 +106,7 @@ public class RoleController {
 	@Ojbk
 	@GetMapping("/getDataPermission")
 	public Result<DeptDataPermissionRespEntity> getDataPermission() {
-		FxzAuthUser user = SecurityUtil.getUser();
+		ArtAuthUser user = SecurityUtil.getUser();
 
 		return Result.success(roleService.getDataPermission(user));
 	}

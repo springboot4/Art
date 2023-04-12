@@ -17,7 +17,7 @@
 package com.art.system.service;
 
 import com.art.common.core.model.DeptDataPermissionRespEntity;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -59,7 +59,7 @@ public interface RoleService {
 	/**
 	 * 获取当前用户角色下的数据权限
 	 */
-	DeptDataPermissionRespEntity getDataPermission(FxzAuthUser user);
+	DeptDataPermissionRespEntity getDataPermission(ArtAuthUser user);
 
 	/**
 	 * 是否是超级管理员

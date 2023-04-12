@@ -24,7 +24,7 @@ CREATE TABLE `gen_datasource_conf` (
 -- Records of gen_datasource_conf
 -- ----------------------------
 BEGIN;
-INSERT INTO `gen_datasource_conf` (`id`, `name`, `url`, `username`, `password`, `del_flag`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES (1509439122488958977, 'fxzcloud_base', 'jdbc:mysql://fxz-mysql/fxz_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8', 'root', 'irAxT9Rowg7wXp6GKvXYh6vh/IkRBuTSZDQvHr1gYb0=', '0', '2022-03-31 15:55:05', 'fxz', '2022-09-01 13:42:18', 'fxz');
+INSERT INTO `gen_datasource_conf` (`id`, `name`, `url`, `username`, `password`, `del_flag`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES (1509439122488958977, 'fxzcloud_base', 'jdbc:mysql://art-mysql/fxz_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8', 'root', 'irAxT9Rowg7wXp6GKvXYh6vh/IkRBuTSZDQvHr1gYb0=', '0', '2022-03-31 15:55:05', 'fxz', '2022-09-01 13:42:18', 'fxz');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

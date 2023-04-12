@@ -17,8 +17,8 @@
 package com.art.common.security.service.user;
 
 import com.art.common.core.constant.SecurityConstants;
-import com.art.common.security.entity.FxzAuthUser;
-import com.art.common.security.service.FxzUserDetailsService;
+import com.art.common.security.entity.ArtAuthUser;
+import com.art.common.security.service.ArtUserDetailsService;
 import com.art.common.security.util.SecurityUtil;
 import com.art.system.api.user.dto.SystemUserDTO;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +38,11 @@ import java.util.Objects;
  * @date 2021-11-27 16:18
  */
 @Slf4j
-@Service("fxzUserDetailServiceImpl")
+@Service("artUserDetailServiceImpl")
 @RequiredArgsConstructor
-public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
+public class ArtUserDetailServiceImpl implements ArtUserDetailsService {
 
-	private final FxzUserManager fxzUserManager;
+	private final ArtUserManager artUserManager;
 
 	/**
 	 * 通过用户名从数据库中获取用户信息SystemUser和用户权限集合
@@ -51,7 +51,7 @@ public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		if (SecurityUtil.getAuthType() == null) {
 			// 系统用户，认证方式通过用户名 username 认证
-			return getUserDetails(fxzUserManager.findByName(username));
+			return getUserDetails(artUserManager.findByName(username));
 		}
 		else {
 			// 系统用户，认证方式通过用户名 手机号 认证
@@ -61,16 +61,16 @@ public class FxzUserDetailServiceImpl implements FxzUserDetailsService {
 
 	@Override
 	public UserDetails loadUserByMobile(String mobile) {
-		return getUserDetails(fxzUserManager.findByMobile(mobile));
+		return getUserDetails(artUserManager.findByMobile(mobile));
 	}
 
 	private UserDetails getUserDetails(SystemUserDTO systemUser) {
 		if (Objects.nonNull(systemUser)) {
-			String permissions = fxzUserManager.findUserPermissions(systemUser.getUsername());
+			String permissions = artUserManager.findUserPermissions(systemUser.getUsername());
 
 			boolean notLocked = StringUtils.equals(SystemUserDTO.STATUS_VALID, systemUser.getStatus());
 
-			FxzAuthUser authUser = new FxzAuthUser(systemUser.getUsername(), systemUser.getPassword(), true, true, true,
+			ArtAuthUser authUser = new ArtAuthUser(systemUser.getUsername(), systemUser.getPassword(), true, true, true,
 					notLocked, AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
 
 			BeanUtils.copyProperties(systemUser, authUser);

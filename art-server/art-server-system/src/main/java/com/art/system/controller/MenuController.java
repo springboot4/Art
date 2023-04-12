@@ -20,7 +20,7 @@ import com.art.common.core.model.VueRouter;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.model.Result;
 import com.art.common.security.annotation.Ojbk;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.system.api.dict.dto.MenuDTO;
 import com.art.system.dao.dataobject.MenuDO;
@@ -68,7 +68,7 @@ public class MenuController {
 	@Operation(summary = "获取用户角色下的所有树形菜单信息(包括按钮)")
 	@GetMapping("/getUserMenuTree")
 	public Result<List<VueRouter<MenuDTO>>> getUserMenuTree() {
-		FxzAuthUser authUser = Optional.ofNullable(SecurityUtil.getUser())
+		ArtAuthUser authUser = Optional.ofNullable(SecurityUtil.getUser())
 			.orElseThrow(() -> new FxzException("用户未登录！"));
 
 		return Result.success(menuService.getUserMenuTree(authUser.getUserId()));

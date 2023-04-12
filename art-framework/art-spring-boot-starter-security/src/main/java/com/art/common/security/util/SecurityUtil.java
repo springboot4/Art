@@ -16,20 +16,17 @@
 
 package com.art.common.security.util;
 
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.art.common.core.constant.SecurityConstants;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.util.WebUtil;
-import com.art.common.security.entity.FxzAuthUser;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.art.common.security.entity.ArtAuthUser;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
@@ -64,11 +61,11 @@ public class SecurityUtil {
 	/**
 	 * 获取用户
 	 */
-	public FxzAuthUser getUser(Authentication authentication) {
+	public ArtAuthUser getUser(Authentication authentication) {
 		Object principal = authentication.getPrincipal();
 
-		if (principal instanceof FxzAuthUser) {
-			return (FxzAuthUser) principal;
+		if (principal instanceof ArtAuthUser) {
+			return (ArtAuthUser) principal;
 		}
 		return null;
 	}
@@ -76,28 +73,13 @@ public class SecurityUtil {
 	/**
 	 * 获取用户
 	 */
-	@SneakyThrows
-	public FxzAuthUser getUser() {
+	public ArtAuthUser getUser() {
 		Authentication authentication = getAuthentication();
-		FxzAuthUser userDetail = getUser(authentication);
+		ArtAuthUser userDetail = getUser(authentication);
 		if (userDetail == null) {
 			throw new FxzException("获取用户信息失败");
 		}
 		return userDetail;
-	}
-
-	/**
-	 * 获取当前令牌内容
-	 * @return String 令牌内容
-	 */
-	public String getCurrentTokenValue() {
-		if (ObjectUtil.isNotNull(getAuthentication())) {
-			Object details = getAuthentication().getDetails();
-			if (details instanceof OAuth2AuthenticationDetails) {
-				return ((OAuth2AuthenticationDetails) details).getTokenValue();
-			}
-		}
-		return StringPool.EMPTY;
 	}
 
 	/**

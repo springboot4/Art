@@ -23,7 +23,7 @@ import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.core.constant.RoleAdminEnum;
 import com.art.common.core.exception.FxzException;
 import com.art.common.dataPermission.enums.DataScopeEnum;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;
@@ -156,7 +156,7 @@ public class RoleServiceImpl implements RoleService {
 	 */
 	@Cacheable(value = RoleRedisConstants.DATA_SCOPE, key = "#user.userId", unless = "#result==null")
 	@Override
-	public DeptDataPermissionRespEntity getDataPermission(FxzAuthUser user) {
+	public DeptDataPermissionRespEntity getDataPermission(ArtAuthUser user) {
 		DeptDataPermissionRespEntity result = new DeptDataPermissionRespEntity();
 		SystemUserDTO loginUser = userService.findByName(user.getUsername());
 

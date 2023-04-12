@@ -16,7 +16,7 @@
 
 package com.art.system;
 
-import com.art.common.security.annotation.EnableFxzCloudResourceServer;
+import com.art.common.security.annotation.EnableArtResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,7 +25,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * @author fxz
  */
-@EnableFxzCloudResourceServer
+@EnableArtResourceServer
 @EnableFeignClients(basePackages = { "com.art" })
 @MapperScan("com.art.system.dao.mysql")
 @SpringBootApplication

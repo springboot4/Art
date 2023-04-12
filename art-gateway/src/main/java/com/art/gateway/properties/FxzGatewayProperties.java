@@ -28,7 +28,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Data
 @SpringBootConfiguration
-@PropertySource(value = { "classpath:fxz-gateway.properties" })
+@PropertySource(value = { "classpath:art-gateway.properties" })
 @ConfigurationProperties(prefix = "fxz.gateway")
 public class FxzGatewayProperties {
 

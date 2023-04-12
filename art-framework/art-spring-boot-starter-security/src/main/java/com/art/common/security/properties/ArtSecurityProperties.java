@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 @Data
 @RequiredArgsConstructor
 @ConfigurationProperties(prefix = "fxz.cloud.security")
-public class FxzCloudSecurityProperties implements InitializingBean {
+public class ArtSecurityProperties implements InitializingBean {
 
 	private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 

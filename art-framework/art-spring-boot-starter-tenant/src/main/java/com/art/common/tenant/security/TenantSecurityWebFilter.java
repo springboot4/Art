@@ -19,7 +19,7 @@ package com.art.common.tenant.security;
 import cn.hutool.core.collection.CollUtil;
 import com.art.common.core.model.Result;
 import com.art.common.core.util.WebUtil;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.common.tenant.config.FxzTenantProperties;
 import com.art.common.tenant.context.TenantContextHolder;
@@ -83,7 +83,7 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 				return;
 			}
 
-			FxzAuthUser user = SecurityUtil.getUser();
+			ArtAuthUser user = SecurityUtil.getUser();
 			if (Objects.isNull(user.getTenantId()) || !Objects.equals(tenantId, user.getTenantId())) {
 				WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
 						Result.failed("无权访问该租户"));

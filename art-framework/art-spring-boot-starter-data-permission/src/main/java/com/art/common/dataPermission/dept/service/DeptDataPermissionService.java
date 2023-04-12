@@ -19,7 +19,7 @@ package com.art.common.dataPermission.dept.service;
 import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.model.ResultOpt;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.system.api.role.RoleServiceApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class DeptDataPermissionService {
 	 * @param loginUser 登陆用户
 	 * @return 部门数据权限
 	 */
-	public DeptDataPermissionRespEntity getDeptDataPermission(FxzAuthUser loginUser) {
+	public DeptDataPermissionRespEntity getDeptDataPermission(ArtAuthUser loginUser) {
 		// @formatter:off
 		return ResultOpt.ofNullable(roleServiceApi.getDataPermission())
 				.assertSuccess(r -> new FxzException(String.format("查询数据权限接口失败:%s", loginUser.getUsername())))

@@ -19,7 +19,7 @@ package com.art.system.service.impl;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.model.VueRouter;
 import com.art.common.core.util.TreeUtil;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.common.security.util.SecurityUtil;
 import com.art.system.api.dict.dto.MenuDTO;
 import com.art.system.core.convert.MenuConvert;
@@ -92,7 +92,7 @@ public class MenuServiceImpl implements MenuService {
 	 */
 	@Override
 	public List<VueRouter<MenuDTO>> getTreeSelect() {
-		FxzAuthUser user = Optional.ofNullable(SecurityUtil.getUser()).orElseThrow(() -> new FxzException("用户未登录！"));
+		ArtAuthUser user = Optional.ofNullable(SecurityUtil.getUser()).orElseThrow(() -> new FxzException("用户未登录！"));
 
 		List<VueRouter<MenuDTO>> allMenuTree = this.getUserRouters(user.getUsername());
 
@@ -138,7 +138,7 @@ public class MenuServiceImpl implements MenuService {
 		// 返回结果集
 		Map<String, Object> result = new HashMap<>(4);
 
-		Optional.ofNullable(SecurityUtil.getUser()).map(FxzAuthUser::getUsername).ifPresent(userName -> {
+		Optional.ofNullable(SecurityUtil.getUser()).map(ArtAuthUser::getUsername).ifPresent(userName -> {
 			// 构建用户路由对象
 			CompletableFuture<Void> routes = CompletableFuture
 				.runAsync(() -> result.put("routes", getUserRouters(userName)));

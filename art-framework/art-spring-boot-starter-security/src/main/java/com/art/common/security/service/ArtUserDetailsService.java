@@ -16,16 +16,15 @@
 
 package com.art.common.security.service;
 
+import com.art.common.security.entity.ArtAuthUser;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.art.common.security.entity.FxzAuthUser;
-
 /**
  * @author fxz
  */
-public interface FxzUserDetailsService extends UserDetailsService, Ordered {
+public interface ArtUserDetailsService extends UserDetailsService, Ordered {
 
 	/**
 	 * 是否支持此客户端校验
@@ -45,11 +44,11 @@ public interface FxzUserDetailsService extends UserDetailsService, Ordered {
 
 	/**
 	 * 通过用户实体查询
-	 * @param fxzAuthUser user
+	 * @param artAuthUser user
 	 * @return 用户信息
 	 */
-	default UserDetails loadUserByUser(FxzAuthUser fxzAuthUser) {
-		return this.loadUserByUsername(fxzAuthUser.getUsername());
+	default UserDetails loadUserByUser(ArtAuthUser artAuthUser) {
+		return this.loadUserByUsername(artAuthUser.getUsername());
 	}
 
 	/**

@@ -16,7 +16,7 @@
 
 package com.art.common.security.config;
 
-import com.art.common.security.interceptor.FxzServerProtectInterceptor;
+import com.art.common.security.interceptor.ArtServerProtectInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -34,7 +34,7 @@ public class FxzServerProtectConfigure implements WebMvcConfigurer {
 	@Bean
 	@ConditionalOnProperty(value = "fxz.cloud.security.onlyFetchByGateway", matchIfMissing = true, havingValue = "true")
 	public HandlerInterceptor fxzServerProtectInterceptor() {
-		return new FxzServerProtectInterceptor();
+		return new ArtServerProtectInterceptor();
 	}
 
 	@Override

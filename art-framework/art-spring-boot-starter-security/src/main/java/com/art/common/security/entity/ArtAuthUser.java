@@ -16,15 +16,17 @@
 
 package com.art.common.security.entity;
 
-import java.util.Collection;
-import java.util.Date;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Fxz
@@ -34,7 +36,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Getter
 @Setter
-public class FxzAuthUser extends User {
+public class ArtAuthUser extends User implements OAuth2AuthenticatedPrincipal {
 
 	private static final long serialVersionUID = -6819532868284272852L;
 
@@ -64,11 +66,13 @@ public class FxzAuthUser extends User {
 
 	private Long tenantId;
 
-	public FxzAuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+	private final Map<String, Object> attributes = new HashMap<>();
+
+	public ArtAuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
 	}
 
-	public FxzAuthUser(String username, String password, boolean enabled, boolean accountNonExpired,
+	public ArtAuthUser(String username, String password, boolean enabled, boolean accountNonExpired,
 			boolean credentialsNonExpired, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
@@ -76,6 +80,22 @@ public class FxzAuthUser extends User {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	/**
+	 * @return
+	 */
+	@Override
+	public Map<String, Object> getAttributes() {
+		return this.attributes;
+	}
+
+	/**
+	 * @return
+	 */
+	@Override
+	public String getName() {
+		return this.getUsername();
 	}
 
 }

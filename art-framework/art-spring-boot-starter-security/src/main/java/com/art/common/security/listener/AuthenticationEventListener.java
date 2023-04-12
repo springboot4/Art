@@ -18,7 +18,7 @@ package com.art.common.security.listener;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.servlet.ServletUtil;
-import com.art.common.security.entity.FxzAuthUser;
+import com.art.common.security.entity.ArtAuthUser;
 import com.art.system.api.log.dto.OperLogDTO;
 import com.art.system.api.log.LogServiceApi;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +70,7 @@ public class AuthenticationEventListener {
 	}
 
 	private boolean isUserAuthentication(Authentication authentication) {
-		return authentication.getPrincipal() instanceof FxzAuthUser
+		return authentication.getPrincipal() instanceof ArtAuthUser
 				|| CollUtil.isNotEmpty(authentication.getAuthorities());
 	}
 

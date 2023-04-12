@@ -48,6 +48,10 @@
 		</filter>
 	</appender>
 
+	<logger name="com.alibaba.nacos" level="OFF">
+		<appender-ref ref="error"/>
+	</logger>
+
 	<!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
 	<root level="INFO">
 		<appender-ref ref="console"/>
