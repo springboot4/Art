@@ -18,7 +18,7 @@ package com.art.system.controller;
 
 import com.art.common.core.model.PageResult;
 import com.art.common.core.model.Result;
-import com.art.common.security.annotation.Ojbk;
+import com.art.common.security.core.annotation.Ojbk;
 import com.art.system.api.tenant.dto.TenantDTO;
 import com.art.system.api.tenant.dto.TenantPageDTO;
 import com.art.system.service.TenantService;

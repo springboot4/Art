@@ -1,5 +1,5 @@
-com.art.common.security.config.ArtSecurityAutoConfigure
-com.art.common.security.listener.AuthenticationEventListener
-com.art.common.security.component.SecurityInnerAspect
-com.art.common.security.service.user.ArtUserDetailServiceImpl
-com.art.common.security.service.user.ArtUserManager
+com.art.common.security.core.config.ArtSecurityAutoConfigure
+com.art.common.security.authentication.listener.AuthenticationEventListener
+com.art.common.security.core.support.SecurityInnerAspect
+com.art.common.security.core.service.user.ArtUserDetailServiceImpl
+com.art.common.security.core.service.user.ArtUserManager

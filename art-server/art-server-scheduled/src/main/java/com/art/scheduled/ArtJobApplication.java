@@ -16,7 +16,7 @@
 
 package com.art.scheduled;
 
-import com.art.common.security.annotation.EnableArtResourceServer;
+import com.art.common.security.resources.EnableArtResourceServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;

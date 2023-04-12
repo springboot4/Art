@@ -23,7 +23,7 @@ import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.core.constant.RoleAdminEnum;
 import com.art.common.core.exception.FxzException;
 import com.art.common.dataPermission.enums.DataScopeEnum;
-import com.art.common.security.entity.ArtAuthUser;
+import com.art.common.security.core.model.ArtAuthUser;
 import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;

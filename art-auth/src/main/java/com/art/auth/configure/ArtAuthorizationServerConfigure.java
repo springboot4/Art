@@ -16,26 +16,19 @@
 
 package com.art.auth.configure;
 
+import com.art.common.security.authorization.AuthenticationProvidersCustomCustomizer;
+import com.art.common.security.authorization.OAuth2ClientAuthenticationConfigurerCustomizer;
+import com.art.common.security.authorization.OAuth2TokenEndpointConfigurerCustomizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.OAuth2RefreshToken;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
-import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
@@ -45,17 +38,8 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
-import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2AccessTokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
-import org.springframework.security.oauth2.server.authorization.web.authentication.*;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.util.CollectionUtils;
-
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.Map;
 
 /**
  * 认证服务器配置
@@ -69,84 +53,47 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ArtAuthorizationServerConfigure {
 
+	private final OAuth2AuthorizationService oAuth2AuthorizationService;
+
+	/**
+	 * 授权服务过滤器链 匹配授权端点请求
+	 *
+	 * @see OAuth2AuthorizationServerConfigurer#getEndpointsMatcher
+	 */
 	@Bean
 	@Order(-1)
 	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+		// 应用默认OAuth2AuthorizationServerConfigurer配置
 		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
+		// 获取authorizationServerConfigurer
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = http
 			.getConfigurer(OAuth2AuthorizationServerConfigurer.class);
 
-		authorizationServerConfigurer.tokenEndpoint(tokenEndpointCustomizer -> {
-			tokenEndpointCustomizer
-				// 注入自定义的授权认证Converter
-				.accessTokenRequestConverter(new DelegatingAuthenticationConverter(
-						Arrays.asList(new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
-								new OAuth2RefreshTokenAuthenticationConverter(),
-								new OAuth2ClientCredentialsAuthenticationConverter(),
-								new OAuth2AuthorizationCodeAuthenticationConverter(),
-								new OAuth2AuthorizationCodeRequestAuthenticationConverter())))
-				// 登录成功处理器
-				.accessTokenResponseHandler((request, response, authentication) -> {
-					log.info("登录成功:{}", authentication);
-
-					HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
-					OAuth2AccessTokenAuthenticationToken accessTokenAuthentication = (OAuth2AccessTokenAuthenticationToken) authentication;
-
-					OAuth2AccessToken accessToken = accessTokenAuthentication.getAccessToken();
-					OAuth2RefreshToken refreshToken = accessTokenAuthentication.getRefreshToken();
-					Map<String, Object> additionalParameters = accessTokenAuthentication.getAdditionalParameters();
-
-					OAuth2AccessTokenResponse.Builder builder = OAuth2AccessTokenResponse
-						.withToken(accessToken.getTokenValue())
-						.tokenType(accessToken.getTokenType())
-						.scopes(accessToken.getScopes());
-
-					if (accessToken.getIssuedAt() != null && accessToken.getExpiresAt() != null) {
-						builder.expiresIn(
-								ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt()));
-					}
-					if (refreshToken != null) {
-						builder.refreshToken(refreshToken.getTokenValue());
-					}
-					if (!CollectionUtils.isEmpty(additionalParameters)) {
-						builder.additionalParameters(additionalParameters);
-					}
-					OAuth2AccessTokenResponse accessTokenResponse = builder.build();
-
-					ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
-
-					SecurityContextHolder.clearContext();
-					accessTokenHttpResponseConverter.write(accessTokenResponse, null, httpResponse);
-				})
-				// 登录失败处理器
-				.errorResponseHandler((request, response, exception) -> {
-					log.info("登录失败:{}", exception.getLocalizedMessage());
-				});
-		})
-			.clientAuthentication(oAuth2ClientAuthenticationConfigurer -> oAuth2ClientAuthenticationConfigurer
-				.errorResponseHandler((request, response, exception) -> {
-					log.info("登录失败:{}", exception.getLocalizedMessage());
-				}))
-			.authorizationService(new InMemoryOAuth2AuthorizationService())
+		// 配置授权服务器
+		authorizationServerConfigurer
+			// tokenEndpoint配置
+			.tokenEndpoint(new OAuth2TokenEndpointConfigurerCustomizer())
+			// 客户端认证配置
+			.clientAuthentication(new OAuth2ClientAuthenticationConfigurerCustomizer())
+			// 授权服务
+			.authorizationService(oAuth2AuthorizationService)
+			// 授权服务器设置
 			.authorizationServerSettings(AuthorizationServerSettings.builder().issuer("https://art.com").build());
 
 		DefaultSecurityFilterChain securityFilterChain = http.build();
 
-		customAuthenticationProviders(http);
+		// 添加自定义的各种认证类型
+		new AuthenticationProvidersCustomCustomizer().customize(http);
 
 		return securityFilterChain;
 	}
 
-	private void customAuthenticationProviders(HttpSecurity http) {
-		AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-		OAuth2AuthorizationService authorizationService = http.getSharedObject(OAuth2AuthorizationService.class);
-
-		http.authenticationProvider(new DaoAuthenticationProvider());
-		http.authenticationProvider(new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager,
-				authorizationService, new DelegatingOAuth2TokenGenerator(new OAuth2AccessTokenGenerator(),
-						new OAuth2RefreshTokenGenerator())));
-	}
-
+	/**
+	 * todo 对于客户端信息 我们应该使用数据库存储，此部分内容放在核心包中 1: 需要建表存储客户端信息 2: 对于查询应该为jdbc，@see
+	 * JdbcRegisteredClientRepository.class 3: 对于客户端应该提供前端可视化的管理
+	 * @return RegisteredClientRepository
+	 */
 	@Bean
 	public RegisteredClientRepository registeredClientRepository() {
 		RegisteredClient registeredClient = RegisteredClient.withId("fxz")

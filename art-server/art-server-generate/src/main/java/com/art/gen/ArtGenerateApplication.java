@@ -17,7 +17,7 @@
 package com.art.gen;
 
 import com.art.common.database.core.annotation.EnableDynamicDataSource;
-import com.art.common.security.annotation.EnableArtResourceServer;
+import com.art.common.security.resources.EnableArtResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
