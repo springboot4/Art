@@ -54,11 +54,17 @@
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
         <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
+        <spring-authorization-server.version>0.4.1</spring-authorization-server.version>
     </properties>
 
     <!-- 定义全局jar版本-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${spring-authorization-server.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.mysql</groupId>
                 <artifactId>mysql-connector-j</artifactId>
