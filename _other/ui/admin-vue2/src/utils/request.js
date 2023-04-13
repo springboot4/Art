@@ -43,13 +43,13 @@ const errorHandler = (error) => {
         message: '未经授权',
         description: '授权验证失败'
       })
-      if (Vue.ls.get(ACCESS_TOKEN)) {
+      // if (Vue.ls.get(ACCESS_TOKEN)) {
         store.dispatch('Logout').then(() => {
           setTimeout(() => {
             window.location.reload()
           }, 1500)
         })
-      }
+      // }
     } else {
       notification.error({
         message: '操作失败！',

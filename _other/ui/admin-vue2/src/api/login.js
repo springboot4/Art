@@ -18,7 +18,7 @@ import request from '@/utils/request'
 
 const userApi = {
   Login: '/auth/oauth2/token',
-  Logout: '/auth/myLogout',
+  Logout: '/auth/token/myLogout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
   twoStepCode: '/auth/2step-code',

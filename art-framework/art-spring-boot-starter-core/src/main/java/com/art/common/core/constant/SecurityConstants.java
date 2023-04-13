@@ -33,6 +33,11 @@ public interface SecurityConstants {
 	String FROM = "from";
 
 	/**
+	 * 请求header
+	 */
+	String HEADER_INNER = FROM + "=" + FROM_IN;
+
+	/**
 	 * 短信验证码key前缀
 	 */
 	String SMS_CODE_PREFIX = "SMS_CODE:";
@@ -51,11 +56,6 @@ public interface SecurityConstants {
 	 * 前缀
 	 */
 	String FXZ_PREFIX = "fxz_";
-
-	/**
-	 * token 相关前缀
-	 */
-	String TOKEN_PREFIX = "fxz_cloud:oauth:";
 
 	/**
 	 * oauth 相关前缀

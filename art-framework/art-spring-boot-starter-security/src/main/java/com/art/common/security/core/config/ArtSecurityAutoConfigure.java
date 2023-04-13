@@ -20,24 +20,22 @@ import cn.hutool.core.util.StrUtil;
 import com.art.common.core.constant.FxzConstant;
 import com.art.common.core.constant.SecurityConstants;
 import com.art.common.core.util.WebUtil;
+import com.art.common.security.core.client.ArtRegisteredClientRepository;
 import com.art.common.security.core.handler.ArtAccessDeniedHandler;
 import com.art.common.security.core.handler.ArtAuthExceptionEntryPoint;
 import com.art.common.security.core.support.ArtBearerTokenResolver;
 import com.art.common.security.core.support.PermissionService;
 import com.art.common.security.core.support.RedisOAuth2AuthorizationService;
+import com.art.system.api.client.ClientServiceApi;
 import feign.RequestInterceptor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -46,7 +44,6 @@ import org.springframework.util.Base64Utils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -59,22 +56,23 @@ import java.util.Enumeration;
  */
 @Slf4j
 @AutoConfiguration
-@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(ArtSecurityProperties.class)
 public class ArtSecurityAutoConfigure {
 
-	private final RedisTemplate<String, Object> redisTemplate;
-
-	private final ArtSecurityProperties properties;
+	@SuppressWarnings("all")
+	@Bean
+	ArtRegisteredClientRepository artRegisteredClientRepository(ClientServiceApi clientServiceApi) {
+		return new ArtRegisteredClientRepository(clientServiceApi);
+	}
 
 	@Bean
-	RedisOAuth2AuthorizationService oAuth2AuthorizationService() {
+	RedisOAuth2AuthorizationService oAuth2AuthorizationService(RedisTemplate<String, Object> redisTemplate) {
 		return new RedisOAuth2AuthorizationService(redisTemplate);
 	}
 
 	@Bean
-	BearerTokenResolver bearerTokenResolver() {
+	BearerTokenResolver bearerTokenResolver(ArtSecurityProperties properties) {
 		return new ArtBearerTokenResolver(properties);
 	}
 
@@ -84,18 +82,6 @@ public class ArtSecurityAutoConfigure {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
-
-	/**
-	 * 解决SecurityContextHolder子线程不能获取用户信息
-	 */
-	@Bean
-	public MethodInvokingFactoryBean methodInvokingFactoryBean() {
-		MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
-		methodInvokingFactoryBean.setTargetClass(SecurityContextHolder.class);
-		methodInvokingFactoryBean.setTargetMethod("setStrategyName");
-		methodInvokingFactoryBean.setArguments(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
-		return methodInvokingFactoryBean;
 	}
 
 	/**
@@ -128,13 +114,13 @@ public class ArtSecurityAutoConfigure {
 	 * 为feign请求头添加令牌
 	 */
 	@Bean
-	public RequestInterceptor oauth2FeignRequestInterceptor() {
+	public RequestInterceptor oauth2FeignRequestInterceptor(ArtSecurityProperties properties) {
 		return requestTemplate -> {
 			String gatewayToken = new String(Base64Utils.encode((FxzConstant.GATEWAY_TOKEN_VALUE).getBytes()));
 			requestTemplate.header(FxzConstant.GATEWAY_TOKEN_HEADER, gatewayToken);
 
 			HttpServletRequest request = WebUtil.getRequest();
-			String token = bearerTokenResolver().resolve(request);
+			String token = bearerTokenResolver(properties).resolve(request);
 			if (StrUtil.isBlank(token)) {
 				return;
 			}
@@ -162,17 +148,6 @@ public class ArtSecurityAutoConfigure {
 				}
 			}
 		};
-	}
-
-	/**
-	 * 让DispatcherServlet向子线程传递RequestContext
-	 * @param servlet servlet
-	 * @return 注册bean
-	 */
-	// @Bean
-	public ServletRegistrationBean<DispatcherServlet> dispatcherRegistration(DispatcherServlet servlet) {
-		servlet.setThreadContextInheritable(true);
-		return new ServletRegistrationBean<>(servlet, "/**");
 	}
 
 }

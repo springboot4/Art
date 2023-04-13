@@ -25,19 +25,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
-import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
-import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -53,8 +44,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class ArtAuthorizationServerConfigure {
 
-	private final OAuth2AuthorizationService oAuth2AuthorizationService;
-
 	/**
 	 * 授权服务过滤器链 匹配授权端点请求
 	 *
@@ -62,7 +51,8 @@ public class ArtAuthorizationServerConfigure {
 	 */
 	@Bean
 	@Order(-1)
-	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http,
+			OAuth2AuthorizationService oAuth2AuthorizationService) throws Exception {
 		// 应用默认OAuth2AuthorizationServerConfigurer配置
 		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
@@ -87,33 +77,6 @@ public class ArtAuthorizationServerConfigure {
 		new AuthenticationProvidersCustomCustomizer().customize(http);
 
 		return securityFilterChain;
-	}
-
-	/**
-	 * todo 对于客户端信息 我们应该使用数据库存储，此部分内容放在核心包中 1: 需要建表存储客户端信息 2: 对于查询应该为jdbc，@see
-	 * JdbcRegisteredClientRepository.class 3: 对于客户端应该提供前端可视化的管理
-	 * @return RegisteredClientRepository
-	 */
-	@Bean
-	public RegisteredClientRepository registeredClientRepository() {
-		RegisteredClient registeredClient = RegisteredClient.withId("fxz")
-			.clientId("fxz")
-			.clientSecret("{noop}123456")
-			.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-			.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-			.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-			.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-			.authorizationGrantType(AuthorizationGrantType.PASSWORD)
-			.redirectUri("http://127.0.0.1:3000/login/oauth2/code/messaging-client-oidc")
-			.redirectUri("http://127.0.0.1:3000/authorized")
-			.scope(OidcScopes.OPENID)
-			.scope(OidcScopes.PROFILE)
-			.scope("server")
-			.clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-			.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE).build())
-			.build();
-
-		return new InMemoryRegisteredClientRepository(registeredClient);
 	}
 
 }
