@@ -24,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,7 +38,6 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 
 import java.security.Principal;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -53,12 +51,6 @@ public class ArtOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 	private final OAuth2AuthorizationService oAuth2AuthorizationService;
 
 	static String sb = "dept,order:list,product:brand,product:category,product:good,product:goods,promotion:coupon:activity,promotion:coupon:list,promotion:seckill,seckill:manage,sys,sys:app,sys:dict,sys:doc,sys:file,sys:menu,sys:menu:save,sys:oper,sys:oper:log,sys:oper:login,sys:post,sys:role,sys:route,sys:tenant,sys:tenant:index,sys:tenant:package,sys:token,sys:user,sys:user:add,sys:user:update,sys:user:view,sysMonitor,sysMonitor:job,sysMonitor:jobLog,system,sysTool,sysTool:datasourceConf,sysTool:formBuild,sysTool:genCode,user,user:member,welcome";
-
-	protected final OAuth2AuthenticatedPrincipal retrieveUser() {
-		String[] split = sb.split(",");
-		List<GrantedAuthority> authorityList = AuthorityUtils.createAuthorityList(split);
-		return new ArtAuthUser("fxz", "{noop}123456", authorityList).setTenantId(0L).setUserId(1L);
-	}
 
 	/**
 	 * @param token the token to introspect

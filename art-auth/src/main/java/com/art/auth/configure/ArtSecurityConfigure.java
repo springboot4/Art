@@ -43,7 +43,10 @@ public class ArtSecurityConfigure {
 				authorizeRequests -> authorizeRequests.antMatchers("/token/*").permitAll().anyRequest().authenticated())
 			.headers()
 			.frameOptions()
-			.sameOrigin();
+			.sameOrigin()
+			.and()
+			.csrf()
+			.disable();
 
 		http.authenticationProvider(new DaoAuthenticationProvider());
 		return http.build();

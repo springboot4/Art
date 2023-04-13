@@ -138,13 +138,14 @@ public class MenuServiceImpl implements MenuService {
 		// 返回结果集
 		Map<String, Object> result = new HashMap<>(4);
 
-		Optional.ofNullable(SecurityUtil.getUser()).map(ArtAuthUser::getUsername).ifPresent(userName -> {
+		ArtAuthUser user = SecurityUtil.getUser();
+		Optional.ofNullable(user).map(ArtAuthUser::getUsername).ifPresent(userName -> {
 			// 构建用户路由对象
 			CompletableFuture<Void> routes = CompletableFuture
 				.runAsync(() -> result.put("routes", getUserRouters(userName)));
 			// 封装用户权限信息
 			CompletableFuture<Void> permissions = CompletableFuture
-				.runAsync(() -> result.put("permissions", SecurityUtil.getUser().getAuthorities().toArray()));
+				.runAsync(() -> result.put("permissions", user.getAuthorities().toArray()));
 			// 封装应用信息
 			CompletableFuture<Void> apps = CompletableFuture.runAsync(() -> result.put("apps", appManager.listApp()));
 

@@ -1,6 +1,5 @@
 package com.art.${module}.dao;
 
-    ${module}.${className};
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

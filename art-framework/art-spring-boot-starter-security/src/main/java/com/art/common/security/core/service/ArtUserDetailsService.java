@@ -29,7 +29,6 @@ public interface ArtUserDetailsService extends UserDetailsService, Ordered {
 	/**
 	 * 是否支持此客户端校验
 	 * @param clientId 目标客户端
-	 * @param grantType grantType
 	 * @return true/false
 	 */
 	boolean support(String clientId);
@@ -38,6 +37,7 @@ public interface ArtUserDetailsService extends UserDetailsService, Ordered {
 	 * 排序值 默认取最大的
 	 * @return 排序值
 	 */
+	@Override
 	default int getOrder() {
 		return 0;
 	}
