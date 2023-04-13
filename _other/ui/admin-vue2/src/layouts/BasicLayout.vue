@@ -148,7 +148,7 @@ export default {
   methods: {
     i18nRender,
     clickNav (item) {
-      this.appsSelect[0] = item 
+      this.appsSelect[0] = item
     },
     handleMediaQuery (val) {
       this.query = val

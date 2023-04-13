@@ -52,7 +52,6 @@ Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态�
     ├──_other -- 项目相关文件
        ├── db -- 数据库相关文件
        ├── docker -- docker环境
-       ├── es -- es索引信息   
        ├── ui -- 前端代码
           ├── admin-vue2 -- 管理员界面
 ```

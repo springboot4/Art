@@ -23,8 +23,8 @@ import com.art.common.core.model.DeptDataPermissionRespEntity;
 import com.art.common.dataPermission.dept.service.DeptDataPermissionService;
 import com.art.common.dataPermission.rule.DataPermissionRule;
 import com.art.common.mp.core.utils.MyBatisUtils;
-import com.art.common.security.entity.FxzAuthUser;
-import com.art.common.security.util.SecurityUtil;
+import com.art.common.security.core.model.ArtAuthUser;
+import com.art.common.security.core.utils.SecurityUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -104,7 +104,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 	@Override
 	public Expression getExpression(String tableName, Alias tableAlias) {
 		// 当前登录用户信息
-		FxzAuthUser loginUser = SecurityUtil.getUser(SecurityUtil.getAuthentication());
+		ArtAuthUser loginUser = SecurityUtil.getUser(SecurityUtil.getAuthentication());
 		// 只有有登陆用户的情况下 才进行数据权限的处理
 		if (Objects.isNull(loginUser)) {
 			return null;

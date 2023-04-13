@@ -17,6 +17,7 @@
 package com.art.system.api.log;
 
 import com.art.common.core.constant.FxzServerConstant;
+import com.art.common.core.constant.SecurityConstants;
 import com.art.system.api.log.dto.OperLogDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public interface LogServiceApi {
 	/**
 	 * 日志保存
 	 */
-	@PostMapping(value = "/operLog/add")
+	@PostMapping(value = "/operLog/add", headers = SecurityConstants.HEADER_INNER)
 	void add(@RequestBody OperLogDTO operLogDto);
 
 }

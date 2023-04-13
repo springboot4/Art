@@ -16,7 +16,7 @@
 
 package com.art.common.tenant.context;
 
-import com.art.common.security.util.SecurityUtil;
+import com.art.common.security.core.utils.SecurityUtil;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

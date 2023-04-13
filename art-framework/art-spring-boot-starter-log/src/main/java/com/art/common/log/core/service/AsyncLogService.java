@@ -38,7 +38,7 @@ public class AsyncLogService {
 	 */
 	@Async
 	public void saveSysLog(OperLogDTO operLog) {
-		log.info("调用异步方法:{}", Thread.currentThread().getId());
+		log.debug("调用异步方法保存日志:{}", Thread.currentThread().getId());
 		logServiceApi.add(operLog);
 	}
 
