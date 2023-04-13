@@ -25,13 +25,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * 资源服务器配置
@@ -70,12 +68,10 @@ public class ArtResourceServerConfigure {
 		String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUris(),
 				StringPool.COMMA);
 
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor("fxz", "123456"));
-
 		http.authorizeRequests(
 				authorizeRequests -> authorizeRequests.antMatchers(anonUrls).permitAll().anyRequest().authenticated())
 			.oauth2ResourceServer(oauth2 -> oauth2
+				// 不透明令牌自省配置
 				.opaqueToken(token -> token.introspector(new ArtOpaqueTokenIntrospector(oAuth2AuthorizationService)))
 				.authenticationEntryPoint(new ArtAuthExceptionEntryPoint())
 				.bearerTokenResolver(bearerTokenResolver))

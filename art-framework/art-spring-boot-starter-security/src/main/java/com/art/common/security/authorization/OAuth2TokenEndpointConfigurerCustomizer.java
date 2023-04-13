@@ -18,6 +18,7 @@ package com.art.common.security.authorization;
 
 import com.art.common.security.authentication.handler.ArtAuthenticationFailureHandler;
 import com.art.common.security.authentication.handler.ArtAuthenticationSuccessHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2TokenEndpointConfigurer;
 
@@ -26,6 +27,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
  * @version 0.0.1
  * @date 2023/4/12 15:41
  */
+@RequiredArgsConstructor
 public class OAuth2TokenEndpointConfigurerCustomizer implements Customizer<OAuth2TokenEndpointConfigurer> {
 
 	/**

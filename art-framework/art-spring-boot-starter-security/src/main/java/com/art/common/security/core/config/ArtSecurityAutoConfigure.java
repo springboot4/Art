@@ -26,9 +26,9 @@ import com.art.common.security.core.handler.ArtAuthExceptionEntryPoint;
 import com.art.common.security.core.support.ArtBearerTokenResolver;
 import com.art.common.security.core.support.PermissionService;
 import com.art.common.security.core.support.RedisOAuth2AuthorizationService;
+import com.art.common.security.core.support.SecurityInnerAspect;
 import com.art.system.api.client.ClientServiceApi;
 import feign.RequestInterceptor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -54,7 +54,6 @@ import java.util.Enumeration;
  * @date 2022-03-06 18:15<br/>
  * 开启了基于注解的权限控制{@link EnableGlobalMethodSecurity}
  */
-@Slf4j
 @AutoConfiguration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(ArtSecurityProperties.class)
@@ -90,6 +89,14 @@ public class ArtSecurityAutoConfigure {
 	@Bean("ps")
 	public PermissionService permissionService() {
 		return new PermissionService();
+	}
+
+	/**
+	 * 权限切面判断
+	 */
+	@Bean
+	public SecurityInnerAspect securityInnerAspect(HttpServletRequest request) {
+		return new SecurityInnerAspect(request);
 	}
 
 	/**

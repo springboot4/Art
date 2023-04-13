@@ -16,21 +16,18 @@
 
 package com.art.common.security.core.utils;
 
-import cn.hutool.core.util.StrUtil;
 import com.art.common.core.constant.SecurityConstants;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.util.WebUtil;
 import com.art.common.security.core.model.ArtAuthUser;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -83,37 +80,19 @@ public class SecurityUtil {
 	}
 
 	/**
-	 * 获取登录认证的客户端ID
+	 * 获取客户端ID
 	 * <p>
-	 * 兼容两种方式获取OAuth2客户端信息（client_id、client_secret） 方式一：client_id、client_secret放在请求路径中
+	 * 兼容两种方式获取OAuth2客户端信息（client_id、client_secret） <br/>
+	 * 方式一：client_id、client_secret放在请求路径中 <br/>
 	 * 方式二：放在请求头（Request Headers）中的Authorization字段，且经过加密，例如 Basic Y2xpZW50OnNlY3JldA==
 	 * 明文等于 client:secret
 	 */
 	@SneakyThrows
-	public String getOAuth2ClientId() {
+	public String getClientId() {
 		HttpServletRequest request = WebUtil.getRequest();
+		BasicAuthenticationConverter converter = new BasicAuthenticationConverter();
 
-		// 从请求路径中获取
-		String clientId = request.getParameter(SecurityConstants.CLIENT_ID);
-		if (StrUtil.isNotBlank(clientId)) {
-			return clientId;
-		}
-
-		// 从请求头获取
-		String basic = request.getHeader(SecurityConstants.AUTHORIZATION_KEY);
-
-		boolean flag = StrUtil.isNotBlank(basic) && (basic.startsWith(SecurityConstants.BASIC_PREFIX)
-				|| basic.startsWith(SecurityConstants.BASIC_PREFIX_LOW));
-		if (flag) {
-			basic = basic.replace(SecurityConstants.BASIC_PREFIX, Strings.EMPTY);
-			basic = basic.replace(SecurityConstants.BASIC_PREFIX_LOW, Strings.EMPTY);
-
-			String basicPlainText = new String(Base64.getDecoder().decode(basic.getBytes(StandardCharsets.UTF_8)),
-					StandardCharsets.UTF_8);
-			// client:secret
-			clientId = basicPlainText.split(":")[0];
-		}
-		return clientId;
+		return converter.convert(request).getName();
 	}
 
 	public String getAuthType() {

@@ -55,9 +55,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationToken extends AbstractAuth
 				additionalParameters != null ? new HashMap<>(additionalParameters) : Collections.emptyMap());
 	}
 
-	/**
-	 * 扩展模式一般不需要密码
-	 */
 	@Override
 	public Object getCredentials() {
 		return "";

@@ -17,12 +17,15 @@
 package com.art.system.core.handler;
 
 import com.art.common.redis.core.mq.client.RedisMQTemplate;
+import com.art.system.api.route.dto.RouteConfDTO;
 import com.art.system.api.route.mq.RouteMessage;
 import com.art.system.service.RouteConfService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author Fxz
@@ -43,7 +46,9 @@ public class DynamicRouteLoadHandler implements SmartInitializingSingleton {
 	 */
 	@Override
 	public void afterSingletonsInstantiated() {
-		redisMQTemplate.send(new RouteMessage(routeConfService.findAll()));
+		List<RouteConfDTO> route = routeConfService.findAll();
+		log.debug("加载到路由信息:{}", route);
+		redisMQTemplate.send(new RouteMessage(route));
 	}
 
 }

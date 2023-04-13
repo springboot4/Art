@@ -19,6 +19,7 @@ package com.art.system.service.impl;
 import com.art.system.api.client.dto.ClientDetailsDTO;
 import com.art.system.api.client.dto.ClientDetailsPageDTO;
 import com.art.system.core.convert.ClientDetailsConvert;
+import com.art.system.dao.dataobject.ClientDO;
 import com.art.system.manager.ClientManager;
 import com.art.system.service.ClientService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -70,7 +71,8 @@ public class ClientServiceImpl implements ClientService {
 	 */
 	@Override
 	public ClientDetailsDTO findById(String id) {
-		return ClientDetailsConvert.INSTANCE.convert(clientManager.findById(id));
+		ClientDO aDo = clientManager.findById(id);
+		return ClientDetailsConvert.INSTANCE.convert(aDo);
 	}
 
 	/**
