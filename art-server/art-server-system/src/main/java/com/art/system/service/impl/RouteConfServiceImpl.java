@@ -22,8 +22,8 @@ import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.system.api.route.dto.FilterDefinitionDTO;
 import com.art.system.api.route.dto.PredicateDefinitionDTO;
 import com.art.system.api.route.dto.RouteConfDTO;
-import com.art.system.core.convert.RouteConfConvert;
 import com.art.system.api.route.mq.RouteMessage;
+import com.art.system.core.convert.RouteConfConvert;
 import com.art.system.dao.dataobject.RouteConfDO;
 import com.art.system.manager.RouteConfManager;
 import com.art.system.service.RouteConfService;
@@ -114,7 +114,9 @@ public class RouteConfServiceImpl implements RouteConfService {
 	 */
 	@Override
 	public List<RouteConfDTO> findAll() {
-		return RouteConfConvert.INSTANCE.convert(routeConfManager.listRouteConf());
+		List<RouteConfDO> dos = routeConfManager.listRouteConf();
+		List<RouteConfDTO> dtos = RouteConfConvert.INSTANCE.convert(dos);
+		return dtos;
 	}
 
 	private void sendMq() {

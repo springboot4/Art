@@ -49,39 +49,9 @@ public class ArtSecurityProperties implements InitializingBean {
 	private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 
 	/**
-	 * 是否开启安全配置
-	 */
-	private Boolean enable = Boolean.TRUE;
-
-	/**
-	 * 配置需要认证的uri，默认为所有/**
-	 */
-	private String authUri = "/**";
-
-	/**
 	 * 免认证资源路径，支持通配符 多个值时使用逗号分隔
 	 */
 	private String anonUris;
-
-	/**
-	 * 是否只能通过网关获取资源
-	 */
-	private Boolean onlyFetchByGateway = Boolean.TRUE;
-
-	/**
-	 * 允许不经过网关访问的uri
-	 */
-	private List<String> innerUri;
-
-	/**
-	 * 访问令牌有效期(秒)
-	 */
-	private Integer accessTokenValiditySeconds = 60 * 60 * 24;
-
-	/**
-	 * 刷新令牌有效期(秒)
-	 */
-	private Integer refreshTokenValiditySeconds = 60 * 60 * 24 * 7;
 
 	@Override
 	public void afterPropertiesSet() {

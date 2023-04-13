@@ -31,6 +31,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,6 +61,10 @@ public final class ArtBearerTokenResolver implements BearerTokenResolver {
 
 	@Override
 	public String resolve(final HttpServletRequest request) {
+		if (Objects.isNull(request)) {
+			return null;
+		}
+
 		boolean match = Arrays.stream(properties.getAnonUris().split(StrPool.COMMA))
 			.anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
 

@@ -47,7 +47,7 @@ public class OperLogController {
 	 * 保存日志
 	 */
 	@Operation(summary = "保存日志")
-	@Ojbk
+	@Ojbk(inner = true)
 	@PostMapping(value = "/add")
 	public void add(@RequestBody OperLogDTO operLogDto) {
 		operLogService.addOperLog(operLogDto);

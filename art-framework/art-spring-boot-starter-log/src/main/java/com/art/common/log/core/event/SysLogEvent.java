@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ * COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,32 +14,20 @@
  * limitations under the License.
  */
 
-package com.art.common.log.core.service;
+package com.art.common.log.core.event;
 
-import com.art.system.api.log.LogServiceApi;
 import com.art.system.api.log.dto.OperLogDTO;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.context.ApplicationEvent;
 
 /**
- * 异步操作日志服务
- *
  * @author fxz
+ * @version 0.0.1
+ * @date 2023/4/13 14:29
  */
-@Slf4j
-@RequiredArgsConstructor
-public class AsyncLogService {
+public class SysLogEvent extends ApplicationEvent {
 
-	private final LogServiceApi logServiceApi;
-
-	/**
-	 * 保存系统日志记录
-	 */
-	@Async
-	public void saveSysLog(OperLogDTO operLog) {
-		log.debug("调用异步方法保存日志:{}", Thread.currentThread().getId());
-		logServiceApi.add(operLog);
+	public SysLogEvent(OperLogDTO log) {
+		super(log);
 	}
 
 }

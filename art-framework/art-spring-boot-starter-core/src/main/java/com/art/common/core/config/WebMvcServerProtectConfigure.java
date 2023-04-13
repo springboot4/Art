@@ -20,8 +20,6 @@ import com.art.common.core.support.interceptor.ArtServerProtectInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,19 +29,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2021-11-28 13:14
  */
 @SuppressWarnings("all")
+@ConditionalOnProperty(value = "art.pass.interceptor", matchIfMissing = true, havingValue = "true")
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @AutoConfiguration
 public class WebMvcServerProtectConfigure implements WebMvcConfigurer {
 
-	@Bean
-	@ConditionalOnProperty(value = "art.pass.interceptor", matchIfMissing = true, havingValue = "true")
-	public HandlerInterceptor fxzServerProtectInterceptor() {
-		return new ArtServerProtectInterceptor();
-	}
-
+	/**
+	 * 添加拦截器
+	 * @param registry
+	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(fxzServerProtectInterceptor());
+		registry.addInterceptor(new ArtServerProtectInterceptor());
 	}
 
 }

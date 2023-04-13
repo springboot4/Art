@@ -16,11 +16,10 @@
 
 package com.art.common.core.support.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
 import com.art.common.core.constant.FxzConstant;
 import com.art.common.core.model.Result;
+import com.art.common.core.util.WebUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.MediaType;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -40,8 +39,6 @@ public class ArtServerProtectInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws IOException {
-		if (1 == 1)
-			return true;
 		// 从请求头中获取 gateway Token
 		String token = request.getHeader(FxzConstant.GATEWAY_TOKEN_HEADER);
 		String gatewayToken = new String(Base64Utils.encode(FxzConstant.GATEWAY_TOKEN_VALUE.getBytes()));
@@ -49,13 +46,9 @@ public class ArtServerProtectInterceptor implements HandlerInterceptor {
 		if (StringUtils.equals(gatewayToken, token)) {
 			return true;
 		}
-		else {
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			response.getWriter()
-				.write(JSONObject.toJSONString(Result.failed("Please get resources through the gateway!")));
-			return false;
-		}
+
+		WebUtil.makeFailureResponse(response, Result.failed("Please get resources through the gateway!"));
+		return false;
 	}
 
 }

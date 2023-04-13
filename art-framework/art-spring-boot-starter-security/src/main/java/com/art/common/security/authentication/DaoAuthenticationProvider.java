@@ -17,8 +17,8 @@
 package com.art.common.security.authentication;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.art.common.core.util.WebUtil;
 import com.art.common.security.core.service.ArtUserDetailsService;
+import com.art.common.security.core.utils.SecurityUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -34,10 +34,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.util.Assert;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -68,8 +66,6 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
 
 	private UserDetailsPasswordService userDetailsPasswordService;
 
-	private final static BasicAuthenticationConverter basicConvert = new BasicAuthenticationConverter();
-
 	public DaoAuthenticationProvider() {
 		setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
 	}
@@ -96,8 +92,8 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
 	@Override
 	protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) {
 		prepareTimingAttackProtection();
-		HttpServletRequest request = WebUtil.getRequest();
-		String clientId = basicConvert.convert(request).getName();
+
+		String clientId = SecurityUtil.getClientId();
 
 		// 筛选出支持此客户端的UserDetailsService
 		Optional<ArtUserDetailsService> optional = SpringUtil.getBeansOfType(ArtUserDetailsService.class)

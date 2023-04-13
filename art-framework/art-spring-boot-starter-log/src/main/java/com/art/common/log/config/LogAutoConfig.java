@@ -17,6 +17,7 @@
 package com.art.common.log.config;
 
 import com.art.common.log.core.aspect.LogAspect;
+import com.art.common.log.core.event.SysLogListener;
 import com.art.common.log.core.service.AsyncLogService;
 import com.art.system.api.log.LogServiceApi;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -40,6 +41,11 @@ public class LogAutoConfig {
 	@Bean
 	public LogAspect logAspect(AsyncLogService asyncLogService) {
 		return new LogAspect(asyncLogService);
+	}
+
+	@Bean
+	public SysLogListener sysLogListener(AsyncLogService asyncLogService) {
+		return new SysLogListener(asyncLogService);
 	}
 
 }

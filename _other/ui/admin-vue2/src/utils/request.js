@@ -25,7 +25,6 @@ import { ACCESS_TOKEN, TENANT_ID } from '@/store/mutation-types'
 const request = axios.create({
   // API 请求的默认前缀
   baseURL: process.env.VUE_APP_API_BASE_URL,
-  // baseURL: 'http://127.0.0.1:9999',
   timeout: 60000 // 请求超时时间
 })
 
@@ -38,18 +37,16 @@ const errorHandler = (error) => {
         message: '禁止访问',
         description: data.message
       })
-    } else if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
+    } else if (error.response.status === 401) {
       notification.error({
-        message: '未经授权',
-        description: '授权验证失败'
+        message: '授权验证失败',
+        description: '授权验证失败,请重新登录。'
       })
-      // if (Vue.ls.get(ACCESS_TOKEN)) {
         store.dispatch('Logout').then(() => {
           setTimeout(() => {
             window.location.reload()
           }, 1500)
         })
-      // }
     } else {
       notification.error({
         message: '操作失败！',

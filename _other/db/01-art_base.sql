@@ -1,5 +1,4 @@
 
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -32,7 +31,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
-  `dept_id` bigint NOT NULL AUTO_INCREMENT COMMENT '部门ID',
+  `dept_id` bigint NOT NULL COMMENT '部门ID',
   `parent_id` bigint NOT NULL COMMENT '上级部门ID',
   `dept_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '部门名称',
   `order_num` double(20,0) DEFAULT NULL COMMENT '排序',
@@ -41,21 +40,20 @@ CREATE TABLE `sys_dept` (
   `create_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3 COMMENT='部门表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='部门表';
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (0, -1, '清华大学', 0, '2022-02-28 16:42:49', '2023-02-22 14:15:23', NULL, 'fxz');
 INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (1, 0, '物电学院', 0, '2022-02-28 16:43:53', '2023-02-22 14:15:57', NULL, 'fxz');
 INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (2, 0, '计算机学院', -1, '2022-02-28 16:43:10', '2023-02-22 14:15:39', NULL, 'fxz');
 INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (3, 2, '教研组', 0, '2022-02-28 16:43:27', '2023-02-22 14:16:35', NULL, 'fxz');
 INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (4, 1, '教务处', 1, '2022-02-28 16:44:29', '2023-02-22 14:17:30', NULL, 'fxz');
 INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (5, 1, '教研组', 0, '2022-02-28 16:44:41', '2023-02-22 14:17:19', NULL, 'fxz');
 INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (9, 2, '教务处', 1, '2023-02-22 14:17:02', '2023-02-22 14:17:02', 'fxz', 'fxz');
-INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (10, 2, '软件工程', 3, '2023-02-22 14:27:48', '2023-02-22 14:27:48', 'fxz', 'fxz');
 INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (11, 1, '通信工程', 3, '2023-02-22 14:28:08', '2023-02-22 14:28:08', 'fxz', 'fxz');
-INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `dept_name`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (12, -1, '清华大学', 0, '2022-02-28 16:42:49', '2023-02-22 14:15:23', NULL, 'fxz');
 COMMIT;
 
 -- ----------------------------
@@ -230,6 +228,11 @@ INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `co
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100048, 100047, '租户列表', 'tenantIndex', 'sys:tenant:index', '0', 'system/tenant/Index', '/tenant/list', NULL, 'folder-open', 1, 0, '2022-10-01 17:03:47', '2022-10-01 17:04:40', 'fxz', 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100049, 100047, '租户套餐', 'TenantPackageIndex', 'sys:tenant:package', '0', 'system/tenant/TenantPackageIndex', '/tenant/package', NULL, 'shopping-cart', 1, 1, '2022-10-01 18:07:44', '2022-10-01 18:07:44', 'fxz', 'fxz', '0', 1);
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (100050, 100012, '接口文档', 'doc', 'sys:doc', '0', 'RouteView', 'http://fxz-gateway:8301/doc.html', NULL, 'form', 1, 4, '2022-10-23 14:56:04', '2022-10-23 14:56:04', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (1646327120896270338, 100046, '终端管理', 'client', 'sys:client', '0', 'system/client/ClientList.vue', '/permissions/client', NULL, 'desktop', 1, 5, '2023-04-13 09:39:08', '2023-04-13 10:24:31', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (1646327719289233410, 1646327120896270338, '新增', 'add', 'system:ClientDetails:add', '1', NULL, NULL, NULL, 'border-top', 1, 0, '2023-04-13 09:41:30', '2023-04-13 10:24:31', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (1646327832816459777, 1646327120896270338, '修改', 'update', 'system:ClientDetails:update', '1', NULL, NULL, NULL, 'arrow-right', 1, 1, '2023-04-13 09:41:57', '2023-04-13 10:24:31', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (1646328545541955585, 100043, '删除', 'system:ClientDetails:delete', 'system:ClientDetails:delete', '1', NULL, NULL, NULL, 'border-top', 1, 3, '2023-04-13 09:44:47', '2023-04-13 09:44:47', 'fxz', 'fxz', '0', 1);
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `name`, `perms`, `type`, `component`, `path`, `redirect`, `icon`, `keep_alive`, `order_num`, `create_time`, `update_time`, `create_by`, `update_by`, `hidden`, `application`) VALUES (1646328655927648257, 1646327120896270338, '查看', 'system:ClientDetails:view', 'system:ClientDetails:view', '1', NULL, NULL, NULL, 'border-top', 1, 4, '2023-04-13 09:45:14', '2023-04-13 10:24:31', 'fxz', 'fxz', '0', 1);
 COMMIT;
 
 -- ----------------------------
@@ -260,13 +263,8 @@ CREATE TABLE `sys_oauth_client_details` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('app', NULL, 'app', 'server', 'app,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('daemon', NULL, 'daemon', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('fxz', NULL, '123456', 'server', 'refresh_token,authorization_code,captcha,password,sms_code', 'https://fxz.life', NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('gen', NULL, 'gen', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('fxz', NULL, '123456', 'server', 'refresh_token,authorization_code,captcha,password,sms_code', 'https://fxz.life', NULL, 21600, 2592000, NULL, 'true', NULL, '2023-04-13 10:25:58', NULL, 'fxz');
 INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('mall-app', NULL, '123456', 'server', 'refresh_token,authorization_code,password,sms_code', 'http://localhost:80/sso/login', NULL, 43200, 2592001, NULL, 'true', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('pig', NULL, 'pig', 'server', 'password,app,refresh_token,authorization_code,client_credentials', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login', NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('swagger', NULL, '123456', 'test', 'password,captcha', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('test', NULL, 'test', 'server', 'password,app,refresh_token,captcha', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('wechat', NULL, '123456', 'server', 'refresh_token,authorization_code,wechat', 'https://fxz.life', NULL, NULL, NULL, '{\n	\"appName\":\"测试应用\"\n}', 'false', NULL, NULL, NULL, NULL);
 COMMIT;
 
@@ -292,25 +290,12 @@ CREATE TABLE `sys_oper_log` (
   `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1646037696220299267 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1646431825827741698 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646023682031398914, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:33:22', 'anonymousUser', '2023-04-12 13:33:18');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646023862336139266, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:34:05', 'anonymousUser', '2023-04-12 13:34:03');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646024757983608833, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:37:39', 'anonymousUser', '2023-04-12 13:37:36');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646024984912232449, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:38:33', 'anonymousUser', '2023-04-12 13:38:30');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646025053698818050, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:38:49', 'anonymousUser', '2023-04-12 13:38:47');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646025829850578945, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:41:54', 'anonymousUser', '2023-04-12 13:41:47');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646029436222210049, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 13:56:14', 'anonymousUser', '2023-04-12 13:56:00');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646032442967781377, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:08:11', 'anonymousUser', '2023-04-12 14:08:09');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646033049594175490, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:10:36', 'anonymousUser', '2023-04-12 14:10:34');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646033962018873346, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:14:13', 'anonymousUser', '2023-04-12 14:14:11');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646034738078363649, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:17:18', 'anonymousUser', '2023-04-12 14:17:17');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646035086134304769, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:18:41', 'anonymousUser', '2023-04-12 14:18:40');
-INSERT INTO `sys_oper_log` (`id`, `title`, `business_type`, `method`, `request_method`, `oper_name`, `oper_url`, `oper_ip`, `oper_param`, `status`, `error_msg`, `time`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (1646037696220299266, '用户登录', 4, NULL, 'POST', 'fxz', NULL, '127.0.0.1', 'xzvoMHcdsYGwLW0LzByd7Q==', 0, NULL, NULL, 'fxz', '2023-04-12 14:29:03', 'anonymousUser', '2023-04-12 14:29:02');
 COMMIT;
 
 -- ----------------------------
@@ -362,8 +347,8 @@ CREATE TABLE `sys_role` (
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1, 'admin', '超级管理员', '2022-02-28 16:23:11', '2023-02-24 11:55:16', NULL, 'fxz', 1, NULL, 'super_admin', 0);
-INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (13, '游客', '游客', '2022-02-28 16:23:11', '2023-01-31 14:16:58', 'fxz', 'fxz', 5, NULL, 'super_admin', 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1, 'admin', '超级管理员', '2022-02-28 16:23:11', '2023-04-13 09:48:59', NULL, 'fxz', 1, NULL, 'super_admin', 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (13, '游客', '游客', '2022-02-28 16:23:11', '2023-04-12 20:25:09', 'fxz', 'fxz', 5, NULL, 'super_admin', 0);
 COMMIT;
 
 -- ----------------------------
@@ -379,6 +364,10 @@ CREATE TABLE `sys_role_menu` (
 -- Records of sys_role_menu
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 4);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 5);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 6);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 12);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 2);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 3);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 4);
@@ -445,6 +434,11 @@ INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 162831721413403853
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628656999216459777);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628728529633726466);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1628966690909663233);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1646327120896270338);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1646327719289233410);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1646327832816459777);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1646328655927648257);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1646328545541955585);
 COMMIT;
 
 -- ----------------------------
@@ -555,13 +549,14 @@ CREATE TABLE `sys_user` (
   `update_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '更新人',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_user` (`user_id`, `username`, `password`, `dept_id`, `email`, `mobile`, `status`, `create_time`, `update_time`, `last_login_time`, `ssex`, `avatar`, `description`, `create_by`, `update_by`, `tenant_id`) VALUES (1, 'fxz', '{bcrypt}$2a$10$yMqLTL9t9TeRGp5fT7vENuxZaruaN.a/VlOpRGF7jBnKPAim6Xey.', 10, '2****@qq.com', '198****2431', '1', '2022-04-05 20:39:22', '2023-02-22 19:31:16', '2022-04-05 15:57:00', '0', '', 'Art的作者,FxzClud的核心成员。', NULL, 'fxz', 0);
+INSERT INTO `sys_user` (`user_id`, `username`, `password`, `dept_id`, `email`, `mobile`, `status`, `create_time`, `update_time`, `last_login_time`, `ssex`, `avatar`, `description`, `create_by`, `update_by`, `tenant_id`) VALUES (15, 'aaa', '{bcrypt}$2a$10$tAFLsgNt0Ew4O7mpuAUjeeqiG3j.6IwHkzDlzpWNY7TUbRqNe1AJy', NULL, '15912345432@qq.com', '15912345432', '1', '2023-04-12 20:24:10', '2023-04-12 20:24:10', NULL, '0', '', '', 'fxz', 'fxz', 0);
 COMMIT;
 
 -- ----------------------------
@@ -578,6 +573,7 @@ CREATE TABLE `sys_user_post` (
 -- Records of sys_user_post
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_user_post` (`user_id`, `post_id`) VALUES (15, 1511326356242804737);
 COMMIT;
 
 -- ----------------------------
@@ -594,6 +590,7 @@ CREATE TABLE `sys_user_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_user_role` (`USER_ID`, `ROLE_ID`) VALUES (1, 1);
+INSERT INTO `sys_user_role` (`USER_ID`, `ROLE_ID`) VALUES (15, 13);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
