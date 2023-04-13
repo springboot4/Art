@@ -3,3 +3,4 @@ com.art.common.core.config.MessageAutoConfiguration
 com.art.common.core.config.BannerAutoConfiguration
 com.art.common.core.config.ExceptionAutoConfiguration
 com.art.common.core.config.SerializeAutoConfiguration
+com.art.common.core.config.WebMvcServerProtectConfigure

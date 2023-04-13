@@ -17,7 +17,7 @@
 package com.art.gen;
 
 import com.art.common.database.core.annotation.EnableDynamicDataSource;
-import com.art.common.security.annotation.EnableFxzCloudResourceServer;
+import com.art.common.security.resources.EnableArtResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,7 +30,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableFeignClients(basePackages = { "com.art" })
 @EnableDynamicDataSource
-@EnableFxzCloudResourceServer
+@EnableArtResourceServer
 @SpringBootApplication
 @MapperScan("com.art.gen")
 public class ArtGenerateApplication {

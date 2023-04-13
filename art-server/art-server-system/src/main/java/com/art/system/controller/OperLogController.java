@@ -18,7 +18,7 @@ package com.art.system.controller;
 
 import com.art.common.core.model.PageResult;
 import com.art.common.core.model.Result;
-import com.art.common.security.annotation.Ojbk;
+import com.art.common.security.core.annotation.Ojbk;
 import com.art.system.api.log.dto.OperLogDTO;
 import com.art.system.api.log.dto.OperLogPageDTO;
 import com.art.system.service.OperLogService;
@@ -47,7 +47,7 @@ public class OperLogController {
 	 * 保存日志
 	 */
 	@Operation(summary = "保存日志")
-	@Ojbk
+	@Ojbk(inner = true)
 	@PostMapping(value = "/add")
 	public void add(@RequestBody OperLogDTO operLogDto) {
 		operLogService.addOperLog(operLogDto);

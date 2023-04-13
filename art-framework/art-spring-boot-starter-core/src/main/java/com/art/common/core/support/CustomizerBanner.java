@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class CustomizerBanner implements ApplicationRunner {
 
-	private final String doc = "http://fxz-gateway:9999";
+	private final String doc = "http://art-gateway:9999";
 
 	private final String bootVersion = SpringBootVersion.getVersion();
 

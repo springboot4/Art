@@ -1,5 +1,2 @@
-com.art.common.security.config.FxzCloudSecurityAutoConfigure
-com.art.common.security.listener.AuthenticationEventListener
-com.art.common.security.component.SecurityInnerAspect
-com.art.common.security.service.user.FxzUserDetailServiceImpl
-com.art.common.security.service.user.FxzUserManager
+com.art.common.security.core.config.ArtSecurityAutoConfigure
+com.art.common.security.core.config.ArtUserDetailServiceAutoConfigure
