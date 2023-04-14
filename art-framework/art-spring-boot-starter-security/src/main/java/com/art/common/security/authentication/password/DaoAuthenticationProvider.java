@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.security.authentication;
+package com.art.common.security.authentication.password;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.art.common.security.core.service.ArtUserDetailsService;

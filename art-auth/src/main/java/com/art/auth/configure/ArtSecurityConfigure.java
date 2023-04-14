@@ -16,7 +16,7 @@
 
 package com.art.auth.configure;
 
-import com.art.common.security.authentication.DaoAuthenticationProvider;
+import com.art.common.security.authentication.password.DaoAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -16,16 +16,12 @@
 
 package com.art.common.security.authorization;
 
-import com.art.common.security.authentication.DaoAuthenticationProvider;
-import com.art.common.security.authentication.OAuth2ResourceOwnerPasswordAuthenticationProvider;
-import org.springframework.security.authentication.AuthenticationManager;
+import com.art.common.security.authentication.password.DaoAuthenticationProvider;
+import com.art.common.security.authentication.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
+import com.art.common.security.authentication.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2AccessTokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,15 +38,12 @@ public class AuthenticationProvidersCustomCustomizer implements Customizer<HttpS
 	 */
 	@Override
 	public void customize(HttpSecurity httpSecurity) {
-		AuthenticationManager authenticationManager = httpSecurity.getSharedObject(AuthenticationManager.class);
-		OAuth2AuthorizationService authorizationService = httpSecurity
-			.getSharedObject(OAuth2AuthorizationService.class);
-
 		List<AuthenticationProvider> providerList = Arrays.asList(
+				// 支持OAuth2ResourceOwnerSmsAuthenticationToken类型的认证
+				new OAuth2ResourceOwnerSmsAuthenticationProvider(httpSecurity),
+
 				// 支持OAuth2ResourceOwnerPasswordAuthenticationToken类型的认证
-				new OAuth2ResourceOwnerPasswordAuthenticationProvider(authenticationManager, authorizationService,
-						new DelegatingOAuth2TokenGenerator(new OAuth2AccessTokenGenerator(),
-								new OAuth2RefreshTokenGenerator())),
+				new OAuth2ResourceOwnerPasswordAuthenticationProvider(httpSecurity),
 
 				// 支持UsernamePasswordAuthenticationToken类型的认证
 				new DaoAuthenticationProvider());
