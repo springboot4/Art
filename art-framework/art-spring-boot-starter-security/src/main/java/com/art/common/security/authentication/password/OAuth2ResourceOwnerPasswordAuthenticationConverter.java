@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.security.authentication;
+package com.art.common.security.authentication.password;
 
 import com.art.common.security.core.utils.OAuth2EndpointUtils;
 import org.springframework.security.core.Authentication;
@@ -46,33 +46,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements Authe
 		return AuthorizationGrantType.PASSWORD.getValue().equals(grantType);
 	}
 
-	public OAuth2ResourceOwnerPasswordAuthenticationToken buildToken(Authentication clientPrincipal,
-			Set requestedScopes, Map additionalParameters) {
-		return new OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType.PASSWORD, clientPrincipal,
-				requestedScopes, additionalParameters);
-	}
-
-	/**
-	 * 校验扩展参数 密码模式密码必须不为空
-	 * @param request 参数列表
-	 */
-	public void checkParams(HttpServletRequest request) {
-		MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(request);
-		// username (REQUIRED)
-		String username = parameters.getFirst(OAuth2ParameterNames.USERNAME);
-		if (!StringUtils.hasText(username) || parameters.get(OAuth2ParameterNames.USERNAME).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.USERNAME,
-					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
-		}
-
-		// password (REQUIRED)
-		String password = parameters.getFirst(OAuth2ParameterNames.PASSWORD);
-		if (!StringUtils.hasText(password) || parameters.get(OAuth2ParameterNames.PASSWORD).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.PASSWORD,
-					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
-		}
-	}
-
 	/**
 	 * @param request
 	 * @return
@@ -86,20 +59,17 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements Authe
 		}
 
 		MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(request);
-		// scope (OPTIONAL)
-		String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
-		if (StringUtils.hasText(scope) && parameters.get(OAuth2ParameterNames.SCOPE).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.SCOPE,
-					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
-		}
+		// 检验必须参数
+		OAuth2EndpointUtils.checkMustParameters(parameters, OAuth2ParameterNames.USERNAME,
+				OAuth2ParameterNames.PASSWORD);
+		// 检验可选参数
+		OAuth2EndpointUtils.checkOptionalParameters(parameters, OAuth2ParameterNames.SCOPE);
 
+		String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
 		Set<String> requestedScopes = null;
 		if (StringUtils.hasText(scope)) {
 			requestedScopes = new HashSet<>(Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
 		}
-
-		// 校验个性化参数
-		checkParams(request);
 
 		// 获取当前已经认证的客户端信息
 		Authentication clientPrincipal = SecurityContextHolder.getContext().getAuthentication();
@@ -116,7 +86,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements Authe
 			.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
 
 		// 创建token
-		return buildToken(clientPrincipal, requestedScopes, additionalParameters);
+		return new OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType.PASSWORD, clientPrincipal,
+				requestedScopes, additionalParameters);
 	}
 
 }

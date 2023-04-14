@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.security.authentication;
+package com.art.common.security.authentication.password;
 
 import lombok.Getter;
 import org.springframework.lang.Nullable;
@@ -61,7 +61,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationToken extends AbstractAuth
 	}
 
 	/**
-	 * 获取用户名
+	 * clientPrincipal
 	 */
 	@Override
 	public Object getPrincipal() {
