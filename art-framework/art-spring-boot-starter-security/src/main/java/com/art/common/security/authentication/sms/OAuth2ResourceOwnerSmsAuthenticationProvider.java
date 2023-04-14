@@ -14,18 +14,34 @@
  * limitations under the License.
  */
 
-package com.art.common.security.authentication;
+package com.art.common.security.authentication.sms;
 
+import cn.hutool.extra.spring.SpringUtil;
+import com.art.common.core.constant.SecurityConstants;
 import com.art.common.security.core.constant.OAuth2ErrorCodesExpand;
 import com.art.common.security.core.exception.ScopeException;
+import com.art.common.security.core.service.ArtUserDetailsService;
+import com.art.common.security.core.utils.ArtOAuth2ConfigurerUtils;
+import com.art.common.security.core.utils.SecurityUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.Ordered;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.*;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
+import org.springframework.security.core.userdetails.UserCache;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.security.oauth2.core.*;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
@@ -40,19 +56,14 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.security.Principal;
-import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Supplier;
+import java.util.*;
 
 /**
  * @author fxz
  */
-public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements AuthenticationProvider {
+public class OAuth2ResourceOwnerSmsAuthenticationProvider implements AuthenticationProvider {
 
-	private static final Logger LOGGER = LogManager.getLogger(OAuth2ResourceOwnerPasswordAuthenticationProvider.class);
+	private static final Logger LOGGER = LogManager.getLogger(OAuth2ResourceOwnerSmsAuthenticationProvider.class);
 
 	private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.2.1";
 
@@ -60,32 +71,77 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 	private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
 
-	private final AuthenticationManager authenticationManager;
+	private final StringRedisTemplate redisTemplate;
 
-	@Deprecated
-	private Supplier<String> refreshTokenGenerator;
+	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
+
+	private UserCache userCache = new NullUserCache();
+
+	private boolean forcePrincipalAsString = false;
+
+	protected boolean hideUserNotFoundExceptions = true;
+
+	private UserDetailsChecker preAuthenticationChecks = new OAuth2ResourceOwnerSmsAuthenticationProvider.DefaultPreAuthenticationChecks();
+
+	private UserDetailsChecker postAuthenticationChecks = new OAuth2ResourceOwnerSmsAuthenticationProvider.DefaultPostAuthenticationChecks();
+
+	private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
 	/**
-	 * Constructs an {@code OAuth2AuthorizationCodeAuthenticationProvider} using the
+	 * Constructs an {@code OAuth2ResourceOwnerSmsAuthenticationProvider} using the
 	 * provided parameters.
-	 * @param authorizationService the authorization service
-	 * @param tokenGenerator the token generator
-	 * @since 0.2.3
 	 */
-	public OAuth2ResourceOwnerPasswordAuthenticationProvider(AuthenticationManager authenticationManager,
-			OAuth2AuthorizationService authorizationService,
-			OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
-		Assert.notNull(authorizationService, "authorizationService cannot be null");
-		Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
-		this.authenticationManager = authenticationManager;
-		this.authorizationService = authorizationService;
-		this.tokenGenerator = tokenGenerator;
+	public OAuth2ResourceOwnerSmsAuthenticationProvider(HttpSecurity httpSecurity) {
+		this.authorizationService = httpSecurity.getSharedObject(OAuth2AuthorizationService.class);
+		this.tokenGenerator = ArtOAuth2ConfigurerUtils.getTokenGenerator(httpSecurity);
+		this.redisTemplate = ArtOAuth2ConfigurerUtils.getBean(httpSecurity, StringRedisTemplate.class);
 	}
 
-	@Deprecated
-	public void setRefreshTokenGenerator(Supplier<String> refreshTokenGenerator) {
-		Assert.notNull(refreshTokenGenerator, "refreshTokenGenerator cannot be null");
-		this.refreshTokenGenerator = refreshTokenGenerator;
+	public Authentication doAuthenticate(OAuth2ResourceOwnerSmsAuthenticationToken authentication)
+			throws AuthenticationException {
+		// 检验验证码是否正确
+		Map<String, Object> parameters = authentication.getAdditionalParameters();
+		String mobile = (String) parameters.get(SecurityConstants.MOBILE);
+		String captcha = (String) parameters.get(SecurityConstants.CAPTCHA);
+		additionalAuthenticationChecks(mobile, captcha);
+
+		// 验证通过检索用户信息
+		boolean cacheWasUsed = true;
+		UserDetails user = this.userCache.getUserFromCache(mobile);
+		if (user == null) {
+			cacheWasUsed = false;
+			try {
+				// 缓存没有，查数据库
+				user = retrieveUser(mobile);
+			}
+			catch (UsernameNotFoundException ex) {
+				LOGGER.debug("Failed to find user '" + mobile + "'");
+				if (!this.hideUserNotFoundExceptions) {
+					throw ex;
+				}
+				throw new BadCredentialsException(this.messages
+					.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+			}
+			// todo 用户不存在可以通过手机号为他注册一个系统账号
+			Assert.notNull(user, "retrieveUser returned null - a violation of the interface contract");
+		}
+		try {
+			this.preAuthenticationChecks.check(user);
+		}
+		catch (AuthenticationException ex) {
+			throw ex;
+		}
+		this.postAuthenticationChecks.check(user);
+		if (!cacheWasUsed) {
+			this.userCache.putUserInCache(user);
+		}
+		Object principalToReturn = user;
+		if (this.forcePrincipalAsString) {
+			principalToReturn = user.getUsername();
+		}
+
+		// 创建授权成功令牌
+		return createSuccessAuthentication(principalToReturn, authentication, user);
 	}
 
 	/**
@@ -102,7 +158,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-		OAuth2ResourceOwnerPasswordAuthenticationToken resouceOwnerBaseAuthentication = (OAuth2ResourceOwnerPasswordAuthenticationToken) authentication;
+		OAuth2ResourceOwnerSmsAuthenticationToken resouceOwnerBaseAuthentication = (OAuth2ResourceOwnerSmsAuthenticationToken) authentication;
 
 		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(
 				resouceOwnerBaseAuthentication);
@@ -124,15 +180,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 			throw new ScopeException("scope_is_empty");
 		}
 
-		Map<String, Object> reqParameters = resouceOwnerBaseAuthentication.getAdditionalParameters();
 		try {
 
-			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = buildToken(reqParameters);
-
-			LOGGER.debug("got usernamePasswordAuthenticationToken=" + usernamePasswordAuthenticationToken);
-
-			Authentication usernamePasswordAuthentication = authenticationManager
-				.authenticate(usernamePasswordAuthenticationToken);
+			Authentication usernamePasswordAuthentication = doAuthenticate(resouceOwnerBaseAuthentication);
 
 			// @formatter:off
             DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
@@ -181,21 +231,15 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 			// Do not issue refresh token to public client
 					!clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE)) {
 
-				if (this.refreshTokenGenerator != null) {
-					Instant issuedAt = Instant.now();
-					Instant expiresAt = issuedAt.plus(registeredClient.getTokenSettings().getRefreshTokenTimeToLive());
-					refreshToken = new OAuth2RefreshToken(this.refreshTokenGenerator.get(), issuedAt, expiresAt);
+				tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
+				OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(tokenContext);
+				if (!(generatedRefreshToken instanceof OAuth2RefreshToken)) {
+					OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
+							"The token generator failed to generate the refresh token.", ERROR_URI);
+					throw new OAuth2AuthenticationException(error);
 				}
-				else {
-					tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
-					OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(tokenContext);
-					if (!(generatedRefreshToken instanceof OAuth2RefreshToken)) {
-						OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-								"The token generator failed to generate the refresh token.", ERROR_URI);
-						throw new OAuth2AuthenticationException(error);
-					}
-					refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
-				}
+				refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
+
 				authorizationBuilder.refreshToken(refreshToken);
 			}
 
@@ -266,15 +310,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 		throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
 	}
 
-	public UsernamePasswordAuthenticationToken buildToken(Map<String, Object> reqParameters) {
-		String username = (String) reqParameters.get(OAuth2ParameterNames.USERNAME);
-		String password = (String) reqParameters.get(OAuth2ParameterNames.PASSWORD);
-		return new UsernamePasswordAuthenticationToken(username, password);
-	}
-
 	@Override
 	public boolean supports(Class<?> authentication) {
-		boolean supports = OAuth2ResourceOwnerPasswordAuthenticationToken.class.isAssignableFrom(authentication);
+		boolean supports = OAuth2ResourceOwnerSmsAuthenticationToken.class.isAssignableFrom(authentication);
 		LOGGER.debug("supports authentication=" + authentication + " returning " + supports);
 		return supports;
 	}
@@ -284,6 +322,112 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 		if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.PASSWORD)) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
 		}
+	}
+
+	/**
+	 * Allows subclasses to perform any additional checks of a returned (or cached)
+	 * <code>UserDetails</code> for a given authentication request. Generally a subclass
+	 * will at least compare the {@link Authentication#getCredentials()} with a
+	 * {@link UserDetails#getPassword()}. If custom logic is needed to compare additional
+	 * properties of <code>UserDetails</code> and/or
+	 * <code>UsernamePasswordAuthenticationToken</code>, these should also appear in this
+	 * method.
+	 * @throws AuthenticationException AuthenticationException if the credentials could
+	 * not be validated (generally a <code>BadCredentialsException</code>, an
+	 * <code>AuthenticationServiceException</code>)
+	 */
+	protected void additionalAuthenticationChecks(String mobile, String captcha) throws AuthenticationException {
+		String cacheCaptcha = redisTemplate.opsForValue().get(SecurityConstants.SMS_CODE_PREFIX + mobile);
+		if (StringUtils.isBlank(cacheCaptcha) || !cacheCaptcha.equals(captcha)) {
+			throw new BadCredentialsException(this.messages
+				.getMessage("OAuth2ResourceOwnerSmsAuthenticationToken.badCredentials", "Bad credentials"));
+		}
+
+		// 校验通过 删除缓存
+		redisTemplate.delete(SecurityConstants.SMS_CODE_PREFIX + mobile);
+	}
+
+	protected Authentication createSuccessAuthentication(Object principal, Authentication authentication,
+			UserDetails user) {
+		// Ensure we return the original credentials the user supplied,
+		// so subsequent attempts are successful even with encoded passwords.
+		// Also ensure we return the original getDetails(), so that future
+		// authentication events after cache expiry contain the details
+		UsernamePasswordAuthenticationToken result = UsernamePasswordAuthenticationToken.authenticated(principal,
+				authentication.getCredentials(), this.authoritiesMapper.mapAuthorities(user.getAuthorities()));
+		result.setDetails(authentication.getDetails());
+		LOGGER.debug("Authenticated user");
+		return result;
+	}
+
+	protected UserDetails retrieveUser(String username) throws AuthenticationException {
+		String clientId = SecurityUtil.getClientId();
+
+		// 筛选出支持此客户端的UserDetailsService
+		Optional<ArtUserDetailsService> optional = SpringUtil.getBeansOfType(ArtUserDetailsService.class)
+			.values()
+			.stream()
+			.filter(service -> service.support(clientId))
+			.max(Comparator.comparingInt(Ordered::getOrder));
+
+		try {
+			UserDetails loadedUser = optional.get().loadUserByUsername(username);
+			if (loadedUser == null) {
+				throw new InternalAuthenticationServiceException(
+						"UserDetailsService returned null, which is an interface contract violation");
+			}
+			return loadedUser;
+		}
+		catch (UsernameNotFoundException ex) {
+			throw ex;
+		}
+		catch (InternalAuthenticationServiceException ex) {
+			throw ex;
+		}
+		catch (Exception ex) {
+			throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
+		}
+	}
+
+	private class DefaultPreAuthenticationChecks implements UserDetailsChecker {
+
+		@Override
+		public void check(UserDetails user) {
+			if (!user.isAccountNonLocked()) {
+				OAuth2ResourceOwnerSmsAuthenticationProvider.LOGGER
+					.debug("Failed to authenticate since user account is locked");
+				throw new LockedException(OAuth2ResourceOwnerSmsAuthenticationProvider.this.messages
+					.getMessage("AbstractUserDetailsAuthenticationProvider.locked", "User account is locked"));
+			}
+			if (!user.isEnabled()) {
+				OAuth2ResourceOwnerSmsAuthenticationProvider.LOGGER
+					.debug("Failed to authenticate since user account is disabled");
+				throw new DisabledException(OAuth2ResourceOwnerSmsAuthenticationProvider.this.messages
+					.getMessage("AbstractUserDetailsAuthenticationProvider.disabled", "User is disabled"));
+			}
+			if (!user.isAccountNonExpired()) {
+				OAuth2ResourceOwnerSmsAuthenticationProvider.LOGGER
+					.debug("Failed to authenticate since user account has expired");
+				throw new AccountExpiredException(OAuth2ResourceOwnerSmsAuthenticationProvider.this.messages
+					.getMessage("AbstractUserDetailsAuthenticationProvider.expired", "User account has expired"));
+			}
+		}
+
+	}
+
+	private class DefaultPostAuthenticationChecks implements UserDetailsChecker {
+
+		@Override
+		public void check(UserDetails user) {
+			if (!user.isCredentialsNonExpired()) {
+				OAuth2ResourceOwnerSmsAuthenticationProvider.LOGGER
+					.debug("Failed to authenticate since user account credentials have expired");
+				throw new CredentialsExpiredException(OAuth2ResourceOwnerSmsAuthenticationProvider.this.messages
+					.getMessage("AbstractUserDetailsAuthenticationProvider.credentialsExpired",
+							"User credentials have expired"));
+			}
+		}
+
 	}
 
 }
