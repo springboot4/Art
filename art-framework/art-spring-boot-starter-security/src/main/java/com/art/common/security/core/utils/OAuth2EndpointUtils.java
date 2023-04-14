@@ -20,11 +20,10 @@ import cn.hutool.core.map.MapUtil;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.core.endpoint.PkceParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.temporal.ChronoUnit;
@@ -49,16 +48,27 @@ public class OAuth2EndpointUtils {
 		return parameters;
 	}
 
-	public boolean matchesPkceTokenRequest(HttpServletRequest request) {
-		return AuthorizationGrantType.AUTHORIZATION_CODE.getValue()
-			.equals(request.getParameter(OAuth2ParameterNames.GRANT_TYPE))
-				&& request.getParameter(OAuth2ParameterNames.CODE) != null
-				&& request.getParameter(PkceParameterNames.CODE_VERIFIER) != null;
-	}
-
 	public void throwError(String errorCode, String parameterName, String errorUri) {
 		OAuth2Error error = new OAuth2Error(errorCode, "OAuth 2.0 Parameter: " + parameterName, errorUri);
 		throw new OAuth2AuthenticationException(error);
+	}
+
+	public void checkMustParameters(MultiValueMap<String, String> parameters, String... parameter) {
+		for (String p : parameter) {
+			String captcha = parameters.getFirst(p);
+			if (!StringUtils.hasText(captcha) || parameters.get(p).size() != 1) {
+				throwError(OAuth2ErrorCodes.INVALID_REQUEST, p, ACCESS_TOKEN_REQUEST_ERROR_URI);
+			}
+		}
+	}
+
+	public void checkOptionalParameters(MultiValueMap<String, String> parameters, String... parameter) {
+		for (String p : parameter) {
+			String val = parameters.getFirst(p);
+			if (StringUtils.hasText(val) && parameters.get(p).size() != 1) {
+				OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, p, ACCESS_TOKEN_REQUEST_ERROR_URI);
+			}
+		}
 	}
 
 	/**

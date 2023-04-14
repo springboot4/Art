@@ -5,7 +5,7 @@
 [![star](https://gitee.com/fxz-cloud/art/badge/star.svg?theme=dark)](https://gitee.com/fxz-cloud/art/stargazers) 
 [![fork](https://gitee.com/fxz-cloud/art/badge/fork.svg?theme=dark)](https://gitee.com/fxz-cloud/art/members)
 <br/>
-Art 是 FCloud 项目中的一员。Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
+Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 
 
 ## 🪜项目结构
