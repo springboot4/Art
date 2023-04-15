@@ -1,4 +1,3 @@
-![logo](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/d9Qz42.svg)
 
 ##  🚀项目介绍
 [![license](https://img.shields.io/badge/License-Apache%202.0-%20)](https://gitee.com/fxz-cloud/art/blob/master/LICENSE)
