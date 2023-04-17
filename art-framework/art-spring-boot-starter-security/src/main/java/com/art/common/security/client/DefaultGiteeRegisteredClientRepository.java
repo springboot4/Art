@@ -37,14 +37,11 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -52,8 +49,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -77,8 +72,6 @@ public class DefaultGiteeRegisteredClientRepository implements GiteeRegisteredCl
 	private final UserGiteeServiceApi userGiteeServiceApi;
 
 	private final static String GITEE_STATE_PREFIX = "gitee_state_prefix";
-
-	private final static String GITEE_BINDING_PREFIX = "gitee_binding_prefix";
 
 	private final static String GITEE_USERS_PREFIX = "gitee_users_prefix";
 
@@ -190,20 +183,6 @@ public class DefaultGiteeRegisteredClientRepository implements GiteeRegisteredCl
 	}
 
 	/**
-	 * @param request 请求
-	 * @param response 响应
-	 * @param appid 开放平台 网站应用 ID
-	 * @param code 授权码
-	 * @param state 状态码
-	 * @return
-	 */
-	@Override
-	public String getBinding(HttpServletRequest request, HttpServletResponse response, String appid, String code,
-			String state) {
-		return null;
-	}
-
-	/**
 	 * @param appid 码云配置的客户端id
 	 * @return GiteeProperties.Gitee
 	 */
@@ -224,47 +203,6 @@ public class DefaultGiteeRegisteredClientRepository implements GiteeRegisteredCl
 			OAuth2Error error = new OAuth2Error(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), "为配置的appid", null);
 			throw new AppidGiteeException(error);
 		}
-	}
-
-	/**
-	 * @param clientPrincipal 经过身份验证的客户端主体
-	 * @param additionalParameters 附加参数
-	 * @param details 登录信息
-	 * @param appid AppID(码云Gitee client_id)
-	 * @param code 授权码，<a href="https://gitee.com/api/v5/oauth_doc">OAuth文档</a>
-	 * @param id 用户唯一标识，<a href="https://gitee.com/api/v5/oauth_doc">OAuth文档</a>
-	 * @param credentials 证书
-	 * @param login 多账户用户唯一标识，<a href="https://gitee.com/api/v5/oauth_doc">OAuth文档</a>
-	 * @param accessToken 授权凭证，<a href="https://gitee.com/api/v5/oauth_doc">OAuth文档</a>
-	 * @param refreshToken 刷新凭证，<a href="https://gitee.com/api/v5/oauth_doc">OAuth文档</a>
-	 * @param expiresIn 过期时间，<a href="https://gitee.com/api/v5/oauth_doc">OAuth文档</a>
-	 * @param scope {@link OAuth2ParameterNames#SCOPE}，授权范围，<a href=
-	 * "https://gitee.com/api/v5/oauth_doc">OAuth文档</a>
-	 * @return
-	 * @throws OAuth2AuthenticationException
-	 */
-	@Override
-	public AbstractAuthenticationToken authenticationToken(Authentication clientPrincipal,
-			Map<String, Object> additionalParameters, Object details, String appid, String code, Integer id,
-			Object credentials, String login, String accessToken, String refreshToken, Integer expiresIn, String scope)
-			throws OAuth2AuthenticationException {
-		return null;
-	}
-
-	/**
-	 * @param request 请求
-	 * @param response 响应
-	 * @param tokenUrlPrefix 获取 Token URL 前缀
-	 * @param tokenUrl Token URL
-	 * @param uriVariables 参数
-	 * @return
-	 * @throws OAuth2AuthenticationException
-	 */
-	@Override
-	public OAuth2AccessTokenResponse getOAuth2AccessTokenResponse(HttpServletRequest request,
-			HttpServletResponse response, String tokenUrlPrefix, String tokenUrl, Map<String, String> uriVariables)
-			throws OAuth2AuthenticationException {
-		return null;
 	}
 
 	/**
@@ -349,21 +287,6 @@ public class DefaultGiteeRegisteredClientRepository implements GiteeRegisteredCl
 	}
 
 	/**
-	 * @param request 请求
-	 * @param response 响应
-	 * @param uriVariables 参数
-	 * @param oauth2AccessTokenResponse OAuth2.1 授权 Token
-	 * @param gitee 码云Gitee配置
-	 * @throws OAuth2AuthenticationException
-	 */
-	@Override
-	public void sendRedirect(HttpServletRequest request, HttpServletResponse response, Map<String, String> uriVariables,
-			OAuth2AccessTokenResponse oauth2AccessTokenResponse, GiteeProperties.Gitee gitee)
-			throws OAuth2AuthenticationException {
-
-	}
-
-	/**
 	 * 获取登录系统的用户信息
 	 * @param appid 码云应用id
 	 * @param id 码云用户唯一标识
@@ -392,12 +315,14 @@ public class DefaultGiteeRegisteredClientRepository implements GiteeRegisteredCl
 		return authUser;
 	}
 
+	@Override
 	public void tagUsers(String appid, String state, Long userId) {
 		redisTemplate.opsForValue()
 			.set(GITEE_USERS_PREFIX + StrPool.COLON + appid + StrPool.COLON + state, String.valueOf(userId), 30,
 					TimeUnit.MINUTES);
 	}
 
+	@Override
 	public String getTagUser(String appid, String state) {
 		return redisTemplate.opsForValue().get(GITEE_USERS_PREFIX + StrPool.COLON + appid + StrPool.COLON + state);
 	}
