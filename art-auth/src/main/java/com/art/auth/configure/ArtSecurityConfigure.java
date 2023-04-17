@@ -39,14 +39,21 @@ public class ArtSecurityConfigure {
 	@Bean
 	@Order(0)
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeRequests(
-				authorizeRequests -> authorizeRequests.antMatchers("/token/*").permitAll().anyRequest().authenticated())
-			.headers()
-			.frameOptions()
-			.sameOrigin()
-			.and()
-			.csrf()
-			.disable();
+		http.authorizeRequests(authorizeRequests -> authorizeRequests
+			// gitee授权请求
+			.antMatchers("/gitee/authorize/*")
+			.permitAll()
+			// gitee授权码
+			.antMatchers("/gitee/code/*")
+			.permitAll()
+			.antMatchers("/configuration")
+			.permitAll()
+			// 自定义token端点
+			.antMatchers("/token/*")
+			.permitAll()
+			// 其他路径都需要授权
+			.anyRequest()
+			.authenticated()).headers().frameOptions().sameOrigin().and().csrf().disable();
 
 		http.authenticationProvider(new DaoAuthenticationProvider());
 		return http.build();

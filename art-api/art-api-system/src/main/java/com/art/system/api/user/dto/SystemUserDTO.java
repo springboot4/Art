@@ -171,4 +171,9 @@ public class SystemUserDTO implements Serializable {
 	 */
 	private LocalDateTime updateTime;
 
+	/**
+	 * 权限字符串
+	 */
+	private String perms;
+
 }

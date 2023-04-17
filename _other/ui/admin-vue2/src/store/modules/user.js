@@ -57,6 +57,12 @@ const user = {
   },
 
   actions: {
+    setToken ({ commit }, token) {
+       commit('SET_TOKEN', token)
+    },
+    setRefreshToken ({ commit }, refreshToken) {
+      commit('SET_REFRESH_TOKEN', refreshToken)
+    },
     // 登录
     Login ({ commit }, userInfo) {
       return new Promise((resolve, reject) => {

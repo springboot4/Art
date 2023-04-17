@@ -51,7 +51,9 @@ public class ArtUserDetailServiceImpl implements ArtUserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		if (SecurityUtil.getAuthType() == null) {
 			// 系统用户，认证方式通过用户名 username 认证
-			return getUserDetails(artUserManager.findByName(username));
+			SystemUserDTO userDTO = artUserManager.findByName(username);
+			UserDetails userDetails = getUserDetails(userDTO);
+			return userDetails;
 		}
 		else {
 			// 系统用户，认证方式通过用户名 手机号 认证

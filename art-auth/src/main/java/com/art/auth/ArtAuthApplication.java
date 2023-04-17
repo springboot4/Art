@@ -16,6 +16,7 @@
 
 package com.art.auth;
 
+import com.art.common.security.client.config.EnableArtOAuth2Client;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -24,6 +25,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * @author fxz
  */
+@EnableArtOAuth2Client
 @EnableFeignClients(basePackages = { "com.art" })
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class ArtAuthApplication {

@@ -16,7 +16,7 @@
 
 package com.art.common.security.authorization;
 
-import com.art.common.security.authentication.handler.ArtAuthenticationFailureHandler;
+import com.art.common.security.core.handler.ArtAuthenticationFailureHandler;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2ClientAuthenticationConfigurer;
 

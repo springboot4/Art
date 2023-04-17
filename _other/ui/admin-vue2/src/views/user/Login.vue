@@ -59,26 +59,6 @@
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input-password>
           </a-form-item>
-          <!--          <a-form-item>-->
-          <!--            <a-row :gutter="8">-->
-          <!--              <a-col :span="16">-->
-          <!--                <a-input-->
-          <!--                  size="large"-->
-          <!--                  type="text"-->
-          <!--                  placeholder="请输入验证码"-->
-          <!--                  v-decorator="[ 'validateCode', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'} ]">-->
-          <!--                  <a-icon-->
-          <!--                    slot="prefix"-->
-          <!--                    type="safety-certificate"-->
-          <!--                    :style="{ color: 'rgba(0,0,0,.25)' }"/>-->
-          <!--                  >-->
-
-          <!--                </a-input></a-col>-->
-          <!--              <a-col :span="8">-->
-          <!--                <img class="login-code-img" :src="captchaUrl" @click="getValidateCode" />-->
-          <!--              </a-col>-->
-          <!--            </a-row>-->
-          <!--          </a-form-item>-->
         </a-tab-pane>
         <a-tab-pane key="tab2" tab="手机号登录">
           <a-form-item>
@@ -159,15 +139,11 @@
 
       <div class="user-login-other">
         <span>其他登录方式</span>
-        <a>
-          <a-icon class="item-icon" type="alipay-circle"></a-icon>
-        </a>
-        <a>
-          <a-icon class="item-icon" type="taobao-circle"></a-icon>
-        </a>
-        <a>
-          <a-icon class="item-icon" type="weibo-circle"></a-icon>
-        </a>
+        <span style="margin-left: 10px;">
+          <a :href="giteeUrl">
+            <img src="../../assets/gitee.png" alt="码云Gitee登录" width="27">
+          </a>
+        </span>
         <!--        <router-link class="register" :to="{ name: 'register' }">注册账户</router-link>-->
       </div>
     </a-form>
@@ -186,10 +162,11 @@ import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
 import { getSmsCaptcha } from '@/api/login'
+import { configuration } from '@/api/auth'
 import Verify from '@/components/verifition/Verify'
 import { getTenantIdByName } from '@/api/sys/tenant'
 import Vue from 'vue'
-import { TENANT_ID } from '@/store/mutation-types'
+import { ACCESS_TOKEN, TENANT_ID } from '@/store/mutation-types'
 
 export default {
   components: {
@@ -198,6 +175,7 @@ export default {
   },
   data () {
     return {
+      giteeUrl: '',
       captchaUrl: '',
       customActiveKey: 'tab1',
       loginBtn: false,
@@ -218,10 +196,15 @@ export default {
     }
   },
   created () {
-    // this.getValidateCode()
+    this.getConfiguration()
   },
   methods: {
     ...mapActions(['Login', 'Logout']),
+    getConfiguration () {
+      configuration().then(res => {
+        this.giteeUrl = `http://art-gateway:9999/auth/gitee/authorize/${res.data.giteeAppid}?binding=true`
+      })
+    },
     handleLogin () {
       this.$refs.verify.show()
     },
@@ -230,13 +213,6 @@ export default {
 
       this.handleSubmit()
     },
-    // getValidateCode () {
-    //   getCaptcha().then(res => {
-    //     const { img, uuid } = res.data
-    //     this.captchaUrl = img
-    //     this.uuid = uuid
-    //   })
-    // },
     handleUsernameOrEmail (rule, value, callback) {
       const { state } = this
       const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
@@ -348,8 +324,7 @@ export default {
       })
     },
     loginSuccess (res) {
-      console.log('登录成功:', res)
-       this.$router.push({ name: 'welcome' })
+      this.$router.push({ name: 'welcome' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({
