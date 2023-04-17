@@ -21,7 +21,7 @@ import NProgress from 'nprogress' // progress bar
 import '@/components/NProgress/nprogress.less' // progress bar custom style
 import notification from 'ant-design-vue/es/notification'
 import { setDocumentTitle, domTitle } from '@/utils/domUtil'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, REFRESH_TOKEN, TENANT_ID } from '@/store/mutation-types'
 import { i18nRender } from '@/locales'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -77,7 +77,15 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    if (whiteList.includes(to.name)) {
+    if (to.query && to.query.store && to.query.refreshToken && to.query.accessToken && to.query.tenantId) {
+      Vue.ls.set(TENANT_ID, to.query.tenantId)
+      Vue.ls.set(ACCESS_TOKEN, to.query.accessToken, to.query.expiresAt * 1000)
+      Vue.ls.set(REFRESH_TOKEN, to.query.refreshToken, to.query.refreshTokenExpiresAt * 1000)
+
+      store.dispatch('setToken', to.query.accessToken)
+      store.dispatch('setRefreshToken', to.query.refreshToken)
+      next({ path: defaultRoutePath })
+    } else if (whiteList.includes(to.name)) {
       // 在免登录白名单，直接进入
       next()
     } else {

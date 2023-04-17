@@ -16,7 +16,7 @@
 
 package com.art.system.api.role.dto;
 
-import com.art.common.core.constant.RoleAdminEnum;
+import com.art.common.core.constant.RoleEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -45,7 +45,7 @@ public class RoleDTO implements Serializable {
 	private String roleName;
 
 	/**
-	 * 角色code {@link RoleAdminEnum#getType()}
+	 * 角色code {@link RoleEnum#getType()}
 	 */
 	private String code;
 

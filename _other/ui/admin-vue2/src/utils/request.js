@@ -16,10 +16,10 @@
 
 import Vue from 'vue'
 import axios from 'axios'
-import store from '@/store'
 import notification from 'ant-design-vue/es/notification'
 import { VueAxios } from './axios'
 import { ACCESS_TOKEN, TENANT_ID } from '@/store/mutation-types'
+import store from '@/store'
 
 // 创建 axios 实例
 const request = axios.create({
@@ -42,11 +42,11 @@ const errorHandler = (error) => {
         message: '授权验证失败',
         description: '授权验证失败,请重新登录。'
       })
-        store.dispatch('Logout').then(() => {
+      store.dispatch('Logout').then(() => {
           setTimeout(() => {
             window.location.reload()
           }, 1500)
-        })
+      })
     } else {
       notification.error({
         message: '操作失败！',

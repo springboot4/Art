@@ -16,8 +16,8 @@
 
 package com.art.common.security.authorization;
 
-import com.art.common.security.authentication.handler.ArtAuthenticationFailureHandler;
-import com.art.common.security.authentication.handler.ArtAuthenticationSuccessHandler;
+import com.art.common.security.core.handler.ArtAuthenticationFailureHandler;
+import com.art.common.security.core.handler.ArtAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2TokenEndpointConfigurer;

@@ -17,7 +17,7 @@
 package com.art.system.api.role.dto;
 
 import com.art.common.core.model.BasePageEntity;
-import com.art.common.core.constant.RoleAdminEnum;
+import com.art.common.core.constant.RoleEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -44,7 +44,7 @@ public class RolePageDTO extends BasePageEntity implements Serializable {
 	private String roleName;
 
 	/**
-	 * 角色code {@link RoleAdminEnum#getType()}
+	 * 角色code {@link RoleEnum#getType()}
 	 */
 	private String code;
 

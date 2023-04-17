@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.security.authentication.handler;
+package com.art.common.security.core.handler;
 
 import cn.hutool.extra.servlet.ServletUtil;
 import com.art.common.core.util.AsyncUtil;

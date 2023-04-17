@@ -17,6 +17,7 @@
 package com.art.system.core.convert;
 
 import com.art.system.api.user.dto.SystemUserDTO;
+import com.art.system.core.bo.UserBO;
 import com.art.system.dao.dataobject.SystemUserDO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.mapstruct.Mapper;
@@ -35,6 +36,8 @@ public interface UserConvert {
 	SystemUserDO convert(SystemUserDTO user);
 
 	SystemUserDTO convert(SystemUserDO user);
+
+	SystemUserDTO convert(UserBO user);
 
 	Page<SystemUserDTO> convert(Page<SystemUserDO> user);
 

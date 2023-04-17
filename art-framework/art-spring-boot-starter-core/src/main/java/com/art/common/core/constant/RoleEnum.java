@@ -26,17 +26,22 @@ import java.util.Arrays;
  */
 @Getter
 @AllArgsConstructor
-public enum RoleAdminEnum {
+public enum RoleEnum {
 
 	/**
 	 * 超级管理员
 	 */
-	SUPER_ADMIN("super_admin", "超级管理员"),
+	SUPER_ADMIN("super_admin", "系统内置:超级管理员"),
 
 	/**
 	 * 租户管理员
 	 */
-	TENANT_ADMIN("tenant_admin", "租户管理员");
+	TENANT_ADMIN("tenant_admin", "租户管理员"),
+
+	/**
+	 * 游客
+	 */
+	TOURIST("tourist", "系统内置:游客角色");
 
 	/**
 	 * 类型
@@ -54,7 +59,16 @@ public enum RoleAdminEnum {
 	 * @return true or false
 	 */
 	public static boolean isAdmin(String code) {
-		return Arrays.stream(values()).anyMatch(v -> v.getType().equals(code));
+		return SUPER_ADMIN.getType().equals(code) || TENANT_ADMIN.getType().equals(code);
+	}
+
+	/**
+	 * 角色是否为系统内置
+	 * @param code 角色编码
+	 * @return true or false
+	 */
+	public static boolean isSystem(String code) {
+		return Arrays.stream(values()).anyMatch(e -> e.getType().equals(code));
 	}
 
 }

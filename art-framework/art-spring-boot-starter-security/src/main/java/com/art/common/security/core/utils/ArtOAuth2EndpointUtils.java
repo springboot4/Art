@@ -18,9 +18,11 @@ package com.art.common.security.core.utils;
 
 import cn.hutool.core.map.MapUtil;
 import lombok.experimental.UtilityClass;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -33,9 +35,24 @@ import java.util.Map;
  * @author fxz
  */
 @UtilityClass
-public class OAuth2EndpointUtils {
+public class ArtOAuth2EndpointUtils {
 
 	public final String ACCESS_TOKEN_REQUEST_ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
+
+	public OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(Authentication authentication) {
+
+		OAuth2ClientAuthenticationToken clientPrincipal = null;
+
+		if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
+			clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
+		}
+
+		if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
+			return clientPrincipal;
+		}
+
+		throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
+	}
 
 	public MultiValueMap<String, String> getParameters(HttpServletRequest request) {
 		Map<String, String[]> parameterMap = request.getParameterMap();
@@ -66,7 +83,7 @@ public class OAuth2EndpointUtils {
 		for (String p : parameter) {
 			String val = parameters.getFirst(p);
 			if (StringUtils.hasText(val) && parameters.get(p).size() != 1) {
-				OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, p, ACCESS_TOKEN_REQUEST_ERROR_URI);
+				ArtOAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, p, ACCESS_TOKEN_REQUEST_ERROR_URI);
 			}
 		}
 	}

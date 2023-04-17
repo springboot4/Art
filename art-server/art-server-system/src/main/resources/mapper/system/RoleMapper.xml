@@ -24,6 +24,7 @@
             r.role_id,
             r.role_name,
             r.remark,
+            r.code,
             r.data_scope,
             r.data_scope_dept_ids,
             r.create_time,

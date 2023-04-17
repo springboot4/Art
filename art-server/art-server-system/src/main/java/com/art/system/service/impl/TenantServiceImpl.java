@@ -19,7 +19,7 @@ package com.art.system.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.StrPool;
 import com.art.common.core.constant.GlobalStatusEnum;
-import com.art.common.core.constant.RoleAdminEnum;
+import com.art.common.core.constant.RoleEnum;
 import com.art.common.core.exception.FxzException;
 import com.art.common.dataPermission.enums.DataScopeEnum;
 import com.art.common.tenant.context.TenantContextHolder;
@@ -147,8 +147,8 @@ public class TenantServiceImpl implements TenantService {
 	 */
 	private Long createRole(TenantPackageDO tenantPackageDO) {
 		// 生成租户管理员角色角色
-		RoleDTO roleDTO = new RoleDTO().setRoleName(RoleAdminEnum.TENANT_ADMIN.getDescription())
-			.setCode(RoleAdminEnum.TENANT_ADMIN.getType())
+		RoleDTO roleDTO = new RoleDTO().setRoleName(RoleEnum.TENANT_ADMIN.getDescription())
+			.setCode(RoleEnum.TENANT_ADMIN.getType())
 			.setRemark("系统生成租户管理员角色")
 			.setMenuId(tenantPackageDO.getMenuIds())
 			.setDataScope(DataScopeEnum.ALL.getScope());
@@ -193,7 +193,7 @@ public class TenantServiceImpl implements TenantService {
 			List<RoleDTO> roleDTOList = roleService.getAllRole();
 
 			roleDTOList.forEach(r -> {
-				if (Objects.equals(r.getCode(), RoleAdminEnum.TENANT_ADMIN.getType())) {
+				if (Objects.equals(r.getCode(), RoleEnum.TENANT_ADMIN.getType())) {
 					// 租户管理员 则直接赋值新菜单
 					r.setMenuId(String.join(StrPool.COMMA, menus));
 				}
