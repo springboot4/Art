@@ -17,7 +17,6 @@
 package com.art.common.security.resources;
 
 import com.art.common.security.core.config.ArtSecurityProperties;
-import com.art.common.security.core.handler.ArtAccessDeniedHandler;
 import com.art.common.security.core.handler.ArtAuthExceptionEntryPoint;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.RequiredArgsConstructor;
@@ -50,16 +49,6 @@ public class ArtResourceServerConfigure {
 	 * 资源服务器属性配置
 	 */
 	private final ArtSecurityProperties properties;
-
-	/**
-	 * 用于处理403类型异常
-	 */
-	private final ArtAccessDeniedHandler artAccessDeniedHandler;
-
-	/**
-	 * 用于处理401类型异常
-	 */
-	private final ArtAuthExceptionEntryPoint artAuthExceptionEntryPoint;
 
 	@Bean
 	@Order(Ordered.HIGHEST_PRECEDENCE)

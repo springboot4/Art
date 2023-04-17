@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -50,7 +51,7 @@ public class ArtAuthorizationServerConfigure {
 	 * @see OAuth2AuthorizationServerConfigurer#getEndpointsMatcher
 	 */
 	@Bean
-	@Order(-1)
+	@Order(Ordered.HIGHEST_PRECEDENCE)
 	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http,
 			OAuth2AuthorizationService oAuth2AuthorizationService) throws Exception {
 		// 应用默认OAuth2AuthorizationServerConfigurer配置

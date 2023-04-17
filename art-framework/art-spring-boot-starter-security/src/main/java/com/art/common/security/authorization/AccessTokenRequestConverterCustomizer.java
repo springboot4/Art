@@ -16,6 +16,7 @@
 
 package com.art.common.security.authorization;
 
+import com.art.common.security.authentication.gitee.OAuth2GiteeAuthenticationConverter;
 import com.art.common.security.authentication.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.art.common.security.authentication.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
 import org.springframework.security.oauth2.server.authorization.web.authentication.*;
@@ -32,6 +33,9 @@ import java.util.List;
 public interface AccessTokenRequestConverterCustomizer {
 
 	List<AuthenticationConverter> CONVERTERS = Arrays.asList(
+			// 自定义的gitee oauth2登录
+			new OAuth2GiteeAuthenticationConverter(),
+
 			// 自定义的验证码模式Converter
 			new OAuth2ResourceOwnerSmsAuthenticationConverter(),
 

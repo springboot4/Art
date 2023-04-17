@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.art.common.security.authentication.handler;
+package com.art.common.security.core.handler;
 
 import cn.hutool.core.util.StrUtil;
 import com.art.common.core.model.Result;

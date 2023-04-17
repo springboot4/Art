@@ -16,7 +16,7 @@
 
 package com.art.system.dao.dataobject;
 
-import com.art.common.core.constant.RoleAdminEnum;
+import com.art.common.core.constant.RoleEnum;
 import com.art.common.mp.core.base.BaseCreateEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -48,7 +48,7 @@ public class RoleDO extends BaseCreateEntity implements Serializable {
 	private String roleName;
 
 	/**
-	 * 角色code {@link RoleAdminEnum#getType()}
+	 * 角色code {@link RoleEnum#getType()}
 	 */
 	private String code;
 

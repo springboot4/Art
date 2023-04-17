@@ -16,7 +16,7 @@
 
 package com.art.system.core.bo;
 
-import com.art.common.core.constant.RoleAdminEnum;
+import com.art.common.core.constant.RoleEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -43,7 +43,7 @@ public class RoleBO implements Serializable {
 	private String roleName;
 
 	/**
-	 * 角色code {@link RoleAdminEnum#getType()}
+	 * 角色code {@link RoleEnum#getType()}
 	 */
 	private String code;
 

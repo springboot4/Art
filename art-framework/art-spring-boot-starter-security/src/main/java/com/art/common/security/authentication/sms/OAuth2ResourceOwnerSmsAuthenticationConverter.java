@@ -17,7 +17,7 @@
 package com.art.common.security.authentication.sms;
 
 import com.art.common.core.constant.SecurityConstants;
-import com.art.common.security.core.utils.OAuth2EndpointUtils;
+import com.art.common.security.core.utils.ArtOAuth2EndpointUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -69,11 +69,11 @@ public class OAuth2ResourceOwnerSmsAuthenticationConverter implements Authentica
 		}
 
 		// 获取请求参数
-		MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(request);
+		MultiValueMap<String, String> parameters = ArtOAuth2EndpointUtils.getParameters(request);
 		// 检验必须参数：手机号、验证码
-		OAuth2EndpointUtils.checkMustParameters(parameters, SecurityConstants.MOBILE, SecurityConstants.CAPTCHA);
+		ArtOAuth2EndpointUtils.checkMustParameters(parameters, SecurityConstants.MOBILE, SecurityConstants.CAPTCHA);
 		// 检验可选参数: scope
-		OAuth2EndpointUtils.checkOptionalParameters(parameters, OAuth2ParameterNames.SCOPE);
+		ArtOAuth2EndpointUtils.checkOptionalParameters(parameters, OAuth2ParameterNames.SCOPE);
 
 		String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
 
@@ -85,8 +85,8 @@ public class OAuth2ResourceOwnerSmsAuthenticationConverter implements Authentica
 		// 获取当前已经认证的客户端信息
 		Authentication clientPrincipal = SecurityContextHolder.getContext().getAuthentication();
 		if (clientPrincipal == null) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ErrorCodes.INVALID_CLIENT,
-					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+			ArtOAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ErrorCodes.INVALID_CLIENT,
+					ArtOAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 
 		// 扩展信息

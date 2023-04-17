@@ -20,7 +20,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.art.common.core.model.DeptDataPermissionRespEntity;
-import com.art.common.core.constant.RoleAdminEnum;
+import com.art.common.core.constant.RoleEnum;
 import com.art.common.core.exception.FxzException;
 import com.art.common.dataPermission.enums.DataScopeEnum;
 import com.art.common.security.core.model.ArtAuthUser;
@@ -139,8 +139,8 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public Boolean deleteRoleById(Long id) {
 		RoleBO roleBO = roleManager.getRoleById(id);
-		if (RoleAdminEnum.isAdmin(roleBO.getCode())) {
-			throw new FxzException("管理员角色不可删除！");
+		if (RoleEnum.isSystem(roleBO.getCode())) {
+			throw new FxzException("系统内置角色不可删除！");
 		}
 
 		// 删除角色菜单关联信息
@@ -226,7 +226,7 @@ public class RoleServiceImpl implements RoleService {
 
 		String[] roleIds = roleId.split(StringPool.COMMA);
 		List<RoleDO> roleDOList = this.roleManager.listRoleByIds(Arrays.asList(roleIds));
-		return roleDOList.stream().anyMatch(r -> RoleAdminEnum.SUPER_ADMIN.getType().equals(r.getCode()));
+		return roleDOList.stream().anyMatch(r -> RoleEnum.SUPER_ADMIN.getType().equals(r.getCode()));
 	}
 
 	/**
