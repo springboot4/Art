@@ -22,9 +22,9 @@ logging:
 
 gitee:
   list:
-    - appid: ${gitee_appid:94026f6491b102051726e28c718ab4706bb3a681939aee222119ef987a7170bf}
+    - appid: ${gitee_appid:}
       # 码云 Gitee 秘钥
-      secret: ${gitee_secret:7426207a5682480a71787d2356000b07e10a517fd972239c1e8d7afd9e3514ef}
+      secret: ${gitee_secret:}
       # 码云 Gitee 授权重定向地址的前缀，后面会自动拼接 码云 Gitee appid
       # 重定向地址前缀，没用appid。在码云Gitee配置完整重定向地址时，要与 redirect-uri-prefix + "/" + appid 相同
       redirect-uri-prefix: http://art-gateway:9999/auth/gitee/code
