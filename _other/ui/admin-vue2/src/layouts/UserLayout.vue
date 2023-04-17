@@ -4,8 +4,7 @@
       <div class="top">
         <div class="header">
           <a href="/">
-            <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">Fxz-Cloud</span>
+            <span class="title">Art微服务开发平台</span>
           </a>
         </div>
         <div class="desc">
@@ -16,7 +15,7 @@
       <div class="footer">
         <div class="links"></div>
         <div class="copyright">
-          Copyright &copy; 2022 fxz-cloud
+          Copyright &copy; 2023 art
         </div>
       </div>
     </div>

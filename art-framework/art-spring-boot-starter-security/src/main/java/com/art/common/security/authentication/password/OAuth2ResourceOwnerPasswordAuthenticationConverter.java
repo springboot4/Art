@@ -16,7 +16,7 @@
 
 package com.art.common.security.authentication.password;
 
-import com.art.common.security.core.utils.OAuth2EndpointUtils;
+import com.art.common.security.core.utils.ArtOAuth2EndpointUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -58,12 +58,12 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements Authe
 			return null;
 		}
 
-		MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(request);
+		MultiValueMap<String, String> parameters = ArtOAuth2EndpointUtils.getParameters(request);
 		// 检验必须参数
-		OAuth2EndpointUtils.checkMustParameters(parameters, OAuth2ParameterNames.USERNAME,
+		ArtOAuth2EndpointUtils.checkMustParameters(parameters, OAuth2ParameterNames.USERNAME,
 				OAuth2ParameterNames.PASSWORD);
 		// 检验可选参数
-		OAuth2EndpointUtils.checkOptionalParameters(parameters, OAuth2ParameterNames.SCOPE);
+		ArtOAuth2EndpointUtils.checkOptionalParameters(parameters, OAuth2ParameterNames.SCOPE);
 
 		String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
 		Set<String> requestedScopes = null;
@@ -74,8 +74,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements Authe
 		// 获取当前已经认证的客户端信息
 		Authentication clientPrincipal = SecurityContextHolder.getContext().getAuthentication();
 		if (clientPrincipal == null) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ErrorCodes.INVALID_CLIENT,
-					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+			ArtOAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ErrorCodes.INVALID_CLIENT,
+					ArtOAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 
 		// 扩展信息

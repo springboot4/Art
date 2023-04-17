@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this fileDO except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.art.system.dao.mysql.UsersGiteeMapper">
+
+    <select id="getUser" resultType="com.art.system.core.bo.UserBO">
+        SELECT u.user_id                           userId,
+               u.username,
+               u.password,
+               u.email,
+               u.mobile,
+               u.STATUS,
+               u.create_time                       createTime,
+               u.ssex                              sex,
+               u.dept_id                           deptId,
+               u.update_time                       updateTime,
+               u.description,
+               u.avatar,
+               u.tenant_id                         tenantId,
+               any_value(d.dept_name)              deptName,
+               GROUP_CONCAT(DISTINCT sm.perms )    perms,
+               GROUP_CONCAT(DISTINCT r.role_id )   roleId,
+               GROUP_CONCAT(DISTINCT r.ROLE_NAME ) roleName,
+               GROUP_CONCAT(DISTINCT p.post_id )   postId,
+               GROUP_CONCAT(DISTINCT p.post_name ) postName
+        FROM sys_users_gitee sug
+                 LEFT JOIN sys_user u ON (sug.users_id = u.user_id)
+                 LEFT JOIN sys_dept d ON (u.dept_id = d.dept_id)
+                 LEFT JOIN sys_user_role sur ON (u.user_id = sur.user_id)
+                 LEFT JOIN sys_role r ON r.role_id = sur.role_id
+                 LEFT JOIN sys_user_post up ON (u.user_id = up.user_id)
+                 LEFT JOIN sys_post p ON p.post_id = up.post_id
+                 LEFT JOIN sys_role sr ON (sr.role_id = sur.ROLE_ID)
+                 LEFT JOIN sys_role_menu srm ON (srm.role_id = sr.role_id)
+                 LEFT JOIN sys_menu sm ON (sm.id = srm.menu_id)
+        WHERE u.STATUS = 1
+          AND sug.id = #{id}
+          AND sug.appid = #{appid}
+        GROUP BY u.username,
+                 u.user_id,
+                 u.email,
+                 u.mobile,
+                 u.STATUS,
+                 u.create_time,
+                 u.ssex,
+                 u.dept_id,
+                 u.update_time,
+                 u.description,
+                 u.avatar
+    </select>
+
+</mapper>

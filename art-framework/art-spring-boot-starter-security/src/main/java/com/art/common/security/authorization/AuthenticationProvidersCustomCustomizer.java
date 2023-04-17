@@ -16,6 +16,7 @@
 
 package com.art.common.security.authorization;
 
+import com.art.common.security.authentication.gitee.OAuth2GiteeAuthenticationProvider;
 import com.art.common.security.authentication.password.DaoAuthenticationProvider;
 import com.art.common.security.authentication.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import com.art.common.security.authentication.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
@@ -39,6 +40,9 @@ public class AuthenticationProvidersCustomCustomizer implements Customizer<HttpS
 	@Override
 	public void customize(HttpSecurity httpSecurity) {
 		List<AuthenticationProvider> providerList = Arrays.asList(
+				// 支持OAuth2GiteeAuthenticationToken类型的认证
+				new OAuth2GiteeAuthenticationProvider(httpSecurity),
+
 				// 支持OAuth2ResourceOwnerSmsAuthenticationToken类型的认证
 				new OAuth2ResourceOwnerSmsAuthenticationProvider(httpSecurity),
 

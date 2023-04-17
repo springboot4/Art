@@ -16,9 +16,7 @@
 
 export const ACCESS_TOKEN = 'Access-Token'
 export const REFRESH_TOKEN = 'Refresh-Token'
-
 export const TENANT_ID = 'TENANT-ID'
-
 export const SIDEBAR_TYPE = 'sidebar_type'
 export const TOGGLE_MOBILE_TYPE = 'is_mobile'
 export const TOGGLE_NAV_THEME = 'nav_theme'

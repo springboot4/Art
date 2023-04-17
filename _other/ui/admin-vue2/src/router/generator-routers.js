@@ -32,7 +32,12 @@ const constantRouterComponents = {
 
   'analysis': () => import('@/views/dashboard/Analysis'),
   'workplace': () => import('@/views/dashboard/Workplace'),
-  'monitor': () => import('@/views/dashboard/Monitor')
+  'monitor': () => import('@/views/dashboard/Monitor'),
+
+  'account/center': () => import('@/views/account/center/index.vue'),
+  'account/settings/Index': () => import('@/views/account/settings/Index.vue'),
+  'account/settings/BaseSetting': () => import('@/views/account/settings/BaseSetting.vue'),
+  'account/settings/Binding': () => import('@/views/account/settings/Binding.vue')
 }
 
 /* const constRouter = [
