@@ -290,13 +290,7 @@ CREATE TABLE `sys_oper_log` (
   `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1646431825827741698 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- ----------------------------
--- Records of sys_oper_log
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB AUTO_INCREMENT=1647827456832118786 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -347,8 +341,8 @@ CREATE TABLE `sys_role` (
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1, 'admin', '超级管理员', '2022-02-28 16:23:11', '2023-04-13 09:48:59', NULL, 'fxz', 1, NULL, 'super_admin', 0);
-INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (13, '游客', '游客', '2022-02-28 16:23:11', '2023-04-12 20:25:09', 'fxz', 'fxz', 5, NULL, 'super_admin', 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1, 'admin', '超级管理员', '2022-02-28 16:23:11', '2023-04-17 09:48:56', NULL, 'fxz', 1, NULL, 'super_admin', 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (13, '游客', '游客', '2022-02-28 16:23:11', '2023-04-17 10:34:29', 'fxz', 'fxz', 5, NULL, 'tourist', 0);
 COMMIT;
 
 -- ----------------------------
@@ -364,10 +358,6 @@ CREATE TABLE `sys_role_menu` (
 -- Records of sys_role_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 4);
-INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 5);
-INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 6);
-INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 12);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 2);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 3);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 4);
@@ -439,6 +429,13 @@ INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 164632771928923341
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1646327832816459777);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1646328655927648257);
 INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 1646328545541955585);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (1, 10);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 4);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 5);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 6);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 12);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 7);
+INSERT INTO `sys_role_menu` (`ROLE_ID`, `MENU_ID`) VALUES (13, 10);
 COMMIT;
 
 -- ----------------------------
@@ -493,13 +490,13 @@ CREATE TABLE `sys_tenant` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '0-正常，1-删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
 
 -- ----------------------------
 -- Records of sys_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 14, 'fxz', '19812341234', 0, 0, '3000-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2023-04-12 13:33:56', b'0');
+INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 14, 'fxz', '19812341234', 0, 0, '3000-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2023-04-16 15:29:25', b'0');
 COMMIT;
 
 -- ----------------------------
@@ -591,6 +588,71 @@ CREATE TABLE `sys_user_role` (
 BEGIN;
 INSERT INTO `sys_user_role` (`USER_ID`, `ROLE_ID`) VALUES (1, 1);
 INSERT INTO `sys_user_role` (`USER_ID`, `ROLE_ID`) VALUES (15, 13);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_users_gitee
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_users_gitee`;
+CREATE TABLE `sys_users_gitee` (
+  `users_gitee_id` bigint NOT NULL AUTO_INCREMENT COMMENT '码云Gitee用户表主键，自增',
+  `users_id` bigint DEFAULT NULL COMMENT '绑定的用户主键，唯一键：uk__users_gitee__appid__id__users_id',
+  `appid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'AppID(码云Gitee client_id)，唯一键：uk__users_gitee__appid__id',
+  `id` int NOT NULL COMMENT '码云Gitee唯一标识，不为空，唯一键：uk__users_gitee__appid__id',
+  `login` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '码云Gitee登录用户名，不为空',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '码云Gitee用户名，不为空',
+  `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '头像',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公开资料URL',
+  `html_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '空间URL',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '企业备注名',
+  `followers_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '粉丝URL',
+  `following_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `gists_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `starred_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'star项目URL',
+  `subscriptions_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '订阅项目URL',
+  `organizations_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '组织URL',
+  `repos_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '仓库URL',
+  `events_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `received_events_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '接收事件',
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型',
+  `blog` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '博客地址',
+  `weibo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '微博地址',
+  `bio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '自我介绍',
+  `public_repos` int DEFAULT NULL COMMENT '公共仓库数',
+  `public_gists` int DEFAULT NULL,
+  `followers` int DEFAULT NULL COMMENT '粉丝数',
+  `following` int DEFAULT NULL COMMENT '关注的人',
+  `stared` int DEFAULT NULL COMMENT 'star数',
+  `watched` int DEFAULT NULL COMMENT '关注的仓库',
+  `created_at` datetime DEFAULT NULL COMMENT '创建时间',
+  `updated_at` datetime DEFAULT NULL COMMENT '更新时间',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱',
+  `binding_date` datetime DEFAULT NULL COMMENT '绑定时间',
+  `access_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '授权凭证',
+  `refresh_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '刷新凭证',
+  `expires` datetime DEFAULT NULL COMMENT '过期时间',
+  `scope` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '授权范围',
+  `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '公司',
+  `profession` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '职务',
+  `wechat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '微信',
+  `qq` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'QQ',
+  `linkedin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '领英账户',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间，不为空',
+  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间，未更新时为空',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人，不为空',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人，未更新时为空',
+  `del_flag` char(1) COLLATE utf8mb4_bin NOT NULL DEFAULT '0' COMMENT '逻辑删除，0 未删除，1 删除，MySQL 默认值 0，不为 NULL，注解@TableLogic。',
+  PRIMARY KEY (`users_gitee_id`) USING BTREE,
+  UNIQUE KEY `uk__users_gitee__appid__id` (`appid`,`id`) USING BTREE,
+  UNIQUE KEY `uk__users_gitee__appid__id__users_id` (`appid`,`id`,`users_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1647799255183495171 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC COMMENT='码云Gitee用户表';
+
+-- ----------------------------
+-- Records of sys_users_gitee
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_users_gitee` (`users_gitee_id`, `users_id`, `appid`, `id`, `login`, `name`, `avatar_url`, `url`, `html_url`, `remark`, `followers_url`, `following_url`, `gists_url`, `starred_url`, `subscriptions_url`, `organizations_url`, `repos_url`, `events_url`, `received_events_url`, `type`, `blog`, `weibo`, `bio`, `public_repos`, `public_gists`, `followers`, `following`, `stared`, `watched`, `created_at`, `updated_at`, `email`, `binding_date`, `access_token`, `refresh_token`, `expires`, `scope`, `company`, `profession`, `wechat`, `qq`, `linkedin`, `update_time`, `create_time`, `create_by`, `update_by`, `del_flag`) VALUES (1647797756575453186, NULL, '94026f6491b102051726e28c718ab4706bb3a681939aee222119ef987a7170bf', 11559588, 'sssssssllll', 'sssssssllll', 'https://gitee.com/assets/no_portrait.png', 'https://gitee.com/api/v5/users/sssssssllll', 'https://gitee.com/sssssssllll', '', 'https://gitee.com/api/v5/users/sssssssllll/followers', 'https://gitee.com/api/v5/users/sssssssllll/following_url{/other_user}', 'https://gitee.com/api/v5/users/sssssssllll/gists{/gist_id}', 'https://gitee.com/api/v5/users/sssssssllll/starred{/owner}{/repo}', 'https://gitee.com/api/v5/users/sssssssllll/subscriptions', 'https://gitee.com/api/v5/users/sssssssllll/orgs', 'https://gitee.com/api/v5/users/sssssssllll/repos', 'https://gitee.com/api/v5/users/sssssssllll/events{/privacy}', 'https://gitee.com/api/v5/users/sssssssllll/received_events', 'User', NULL, NULL, NULL, 8, 0, 0, 1, 7, 9, '2022-09-03 13:57:10', '2023-04-17 10:31:47', NULL, '2023-04-17 12:18:50', '6eb5842bd31867f5541cc4299c5a8530', '00ff1cfde96830dc63ce70c941689bdb7be9550c224bc58447df2af51d0375a7', '2023-04-18 12:18:49', 'user_info projects pull_requests issues notes keys hook groups gists enterprises emails', NULL, NULL, NULL, NULL, NULL, '2023-04-17 12:19:06', '2023-04-17 12:18:57', 'anonymousUser', 'fxz', '0');
+INSERT INTO `sys_users_gitee` (`users_gitee_id`, `users_id`, `appid`, `id`, `login`, `name`, `avatar_url`, `url`, `html_url`, `remark`, `followers_url`, `following_url`, `gists_url`, `starred_url`, `subscriptions_url`, `organizations_url`, `repos_url`, `events_url`, `received_events_url`, `type`, `blog`, `weibo`, `bio`, `public_repos`, `public_gists`, `followers`, `following`, `stared`, `watched`, `created_at`, `updated_at`, `email`, `binding_date`, `access_token`, `refresh_token`, `expires`, `scope`, `company`, `profession`, `wechat`, `qq`, `linkedin`, `update_time`, `create_time`, `create_by`, `update_by`, `del_flag`) VALUES (1647799255183495170, 1, '94026f6491b102051726e28c718ab4706bb3a681939aee222119ef987a7170bf', 7493281, 'fxzcloud', 'fxz', 'https://foruda.gitee.com/avatar/1680839325270322081/7493281_fxzcloud_1680839325.png', 'https://gitee.com/api/v5/users/fxzcloud', 'https://gitee.com/fxzcloud', '', 'https://gitee.com/api/v5/users/fxzcloud/followers', 'https://gitee.com/api/v5/users/fxzcloud/following_url{/other_user}', 'https://gitee.com/api/v5/users/fxzcloud/gists{/gist_id}', 'https://gitee.com/api/v5/users/fxzcloud/starred{/owner}{/repo}', 'https://gitee.com/api/v5/users/fxzcloud/subscriptions', 'https://gitee.com/api/v5/users/fxzcloud/orgs', 'https://gitee.com/api/v5/users/fxzcloud/repos', 'https://gitee.com/api/v5/users/fxzcloud/events{/privacy}', 'https://gitee.com/api/v5/users/fxzcloud/received_events', 'User', 'https://fxzcloud.gitee.io/docs/', NULL, '23年应届生，拥有十余年架构经验，有年薪百万的工作欢迎联系我。（校招、进群加我微信）', 84, 0, 59, 101, 215, 220, '2020-04-24 22:01:18', '2023-04-17 11:08:49', 'fxzcloud@gmail.com', '2023-04-17 12:32:46', '093698e51fee55ef9a0d2c79a7768e95', 'f174aab5efb1a015d80e830f6a1903e789721f136e002d9e840066dd7b64f6e8', '2023-04-18 13:00:55', 'user_info', NULL, NULL, NULL, NULL, NULL, '2023-04-17 13:00:55', '2023-04-17 13:00:46', 'anonymousUser', 'anonymousUser', '0');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
