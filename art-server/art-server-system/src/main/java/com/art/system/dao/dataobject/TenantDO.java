@@ -75,8 +75,8 @@ public class TenantDO extends MpEntity {
 	private Integer accountCount;
 
 	/**
-	 * 系统套餐id
+	 * 系统租户ID
 	 */
-	public static final Long PACKAGE_ID_SYSTEM = 0L;
+	public static final Long TENANT_ID_SYSTEM = 1L;
 
 }
