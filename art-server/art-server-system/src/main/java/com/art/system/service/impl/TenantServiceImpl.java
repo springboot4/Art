@@ -235,11 +235,11 @@ public class TenantServiceImpl implements TenantService {
 
 	/**
 	 * 校验租户是否是系统租户
-	 * @param id 租户id 我们任务租户id为0时为系统内置租户 不允许删除
+	 * @param id 租户id 我们任务租户id为1时为系统内置租户 不允许删除
 	 * @return 是否是系统租户
 	 */
 	private boolean isSystemTenant(Long id) {
-		return Objects.equals(id, TenantDO.PACKAGE_ID_SYSTEM);
+		return Objects.equals(id, TenantDO.TENANT_ID_SYSTEM);
 	}
 
 	/**

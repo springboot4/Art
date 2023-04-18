@@ -1,4 +1,3 @@
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -290,7 +289,13 @@ CREATE TABLE `sys_oper_log` (
   `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1647827456832118786 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1648145478608281603 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of sys_oper_log
+-- ----------------------------
+BEGIN;
+COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_post
@@ -335,14 +340,14 @@ CREATE TABLE `sys_role` (
   `code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '角色code',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1630131045481324547 DEFAULT CHARSET=utf8mb3 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=1648144885319786499 DEFAULT CHARSET=utf8mb3 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1, 'admin', '超级管理员', '2022-02-28 16:23:11', '2023-04-17 09:48:56', NULL, 'fxz', 1, NULL, 'super_admin', 0);
-INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (13, '游客', '游客', '2022-02-28 16:23:11', '2023-04-17 10:34:29', 'fxz', 'fxz', 5, NULL, 'tourist', 0);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (1, 'admin', '超级管理员', '2022-02-28 16:23:11', '2023-04-17 09:48:56', NULL, 'fxz', 1, NULL, 'super_admin', 1);
+INSERT INTO `sys_role` (`role_id`, `role_name`, `remark`, `create_time`, `update_time`, `create_by`, `update_by`, `data_scope`, `data_scope_dept_ids`, `code`, `tenant_id`) VALUES (13, '游客', '游客', '2022-02-28 16:23:11', '2023-04-17 10:34:29', 'fxz', 'fxz', 5, NULL, 'tourist', 1);
 COMMIT;
 
 -- ----------------------------
@@ -490,13 +495,13 @@ CREATE TABLE `sys_tenant` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '0-正常，1-删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
+) ENGINE=InnoDB AUTO_INCREMENT=1648144884703223811 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户表';
 
 -- ----------------------------
 -- Records of sys_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (0, 'fxzcloud', 14, 'fxz', '19812341234', 0, 0, '3000-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2023-04-16 15:29:25', b'0');
+INSERT INTO `sys_tenant` (`id`, `name`, `tenant_admin_id`, `tenant_admin_name`, `tenant_admin_mobile`, `status`, `package_id`, `expire_time`, `account_count`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1, 'fxzcloud', 1, 'fxz', '19812341234', 0, 0, '3000-03-30 00:00:00', 100, '1', '2022-02-22 00:56:14', 'fxz', '2023-04-18 10:07:29', b'0');
 COMMIT;
 
 -- ----------------------------
@@ -515,13 +520,13 @@ CREATE TABLE `sys_tenant_package` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` bit(1) NOT NULL DEFAULT b'0' COMMENT '0-正常，1-删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1620378325738639362 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户套餐表';
+) ENGINE=InnoDB AUTO_INCREMENT=1648145956129792002 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='租户套餐表';
 
 -- ----------------------------
 -- Records of sys_tenant_package
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1576530575020077058, '豪华套餐', 0, '豪华租户套餐', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100019,100024,100025,100026,100034,100040,100043,100021,20', 'fxz', '2022-10-02 19:12:34', 'fxz', '2022-10-03 12:25:10', b'0');
+INSERT INTO `sys_tenant_package` (`id`, `name`, `status`, `remark`, `menu_ids`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1648145956129792001, '租户套餐1', 0, '', '12,4,5,6,7,21,29,100006,100009,100010,100011,100007,100008,100022,100025,100026,20,100024,100046,100021', 'fxz', '2023-04-18 10:06:32', 'fxz', '2023-04-18 10:06:32', b'0');
 COMMIT;
 
 -- ----------------------------
@@ -546,14 +551,14 @@ CREATE TABLE `sys_user` (
   `update_by` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '更新人',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户id',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` (`user_id`, `username`, `password`, `dept_id`, `email`, `mobile`, `status`, `create_time`, `update_time`, `last_login_time`, `ssex`, `avatar`, `description`, `create_by`, `update_by`, `tenant_id`) VALUES (1, 'fxz', '{bcrypt}$2a$10$yMqLTL9t9TeRGp5fT7vENuxZaruaN.a/VlOpRGF7jBnKPAim6Xey.', 10, '2****@qq.com', '198****2431', '1', '2022-04-05 20:39:22', '2023-02-22 19:31:16', '2022-04-05 15:57:00', '0', '', 'Art的作者,FxzClud的核心成员。', NULL, 'fxz', 0);
-INSERT INTO `sys_user` (`user_id`, `username`, `password`, `dept_id`, `email`, `mobile`, `status`, `create_time`, `update_time`, `last_login_time`, `ssex`, `avatar`, `description`, `create_by`, `update_by`, `tenant_id`) VALUES (15, 'aaa', '{bcrypt}$2a$10$tAFLsgNt0Ew4O7mpuAUjeeqiG3j.6IwHkzDlzpWNY7TUbRqNe1AJy', NULL, '15912345432@qq.com', '15912345432', '1', '2023-04-12 20:24:10', '2023-04-12 20:24:10', NULL, '0', '', '', 'fxz', 'fxz', 0);
+INSERT INTO `sys_user` (`user_id`, `username`, `password`, `dept_id`, `email`, `mobile`, `status`, `create_time`, `update_time`, `last_login_time`, `ssex`, `avatar`, `description`, `create_by`, `update_by`, `tenant_id`) VALUES (1, 'fxz', '{bcrypt}$2a$10$yMqLTL9t9TeRGp5fT7vENuxZaruaN.a/VlOpRGF7jBnKPAim6Xey.', 10, '2****@qq.com', '198****2431', '1', '2022-04-05 20:39:22', '2023-02-22 19:31:16', '2022-04-05 15:57:00', '0', '', 'Art的作者,FxzClud的核心成员。', NULL, 'fxz', 1);
+INSERT INTO `sys_user` (`user_id`, `username`, `password`, `dept_id`, `email`, `mobile`, `status`, `create_time`, `update_time`, `last_login_time`, `ssex`, `avatar`, `description`, `create_by`, `update_by`, `tenant_id`) VALUES (15, 'aaa', '{bcrypt}$2a$10$tAFLsgNt0Ew4O7mpuAUjeeqiG3j.6IwHkzDlzpWNY7TUbRqNe1AJy', NULL, '15912345432@qq.com', '15912345432', '1', '2023-04-12 20:24:10', '2023-04-12 20:24:10', NULL, '0', '', '', 'fxz', 'fxz', 1);
 COMMIT;
 
 -- ----------------------------
@@ -652,7 +657,7 @@ CREATE TABLE `sys_users_gitee` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_users_gitee` (`users_gitee_id`, `users_id`, `appid`, `id`, `login`, `name`, `avatar_url`, `url`, `html_url`, `remark`, `followers_url`, `following_url`, `gists_url`, `starred_url`, `subscriptions_url`, `organizations_url`, `repos_url`, `events_url`, `received_events_url`, `type`, `blog`, `weibo`, `bio`, `public_repos`, `public_gists`, `followers`, `following`, `stared`, `watched`, `created_at`, `updated_at`, `email`, `binding_date`, `access_token`, `refresh_token`, `expires`, `scope`, `company`, `profession`, `wechat`, `qq`, `linkedin`, `update_time`, `create_time`, `create_by`, `update_by`, `del_flag`) VALUES (1647797756575453186, NULL, '94026f6491b102051726e28c718ab4706bb3a681939aee222119ef987a7170bf', 11559588, 'sssssssllll', 'sssssssllll', 'https://gitee.com/assets/no_portrait.png', 'https://gitee.com/api/v5/users/sssssssllll', 'https://gitee.com/sssssssllll', '', 'https://gitee.com/api/v5/users/sssssssllll/followers', 'https://gitee.com/api/v5/users/sssssssllll/following_url{/other_user}', 'https://gitee.com/api/v5/users/sssssssllll/gists{/gist_id}', 'https://gitee.com/api/v5/users/sssssssllll/starred{/owner}{/repo}', 'https://gitee.com/api/v5/users/sssssssllll/subscriptions', 'https://gitee.com/api/v5/users/sssssssllll/orgs', 'https://gitee.com/api/v5/users/sssssssllll/repos', 'https://gitee.com/api/v5/users/sssssssllll/events{/privacy}', 'https://gitee.com/api/v5/users/sssssssllll/received_events', 'User', NULL, NULL, NULL, 8, 0, 0, 1, 7, 9, '2022-09-03 13:57:10', '2023-04-17 10:31:47', NULL, '2023-04-17 12:18:50', '6eb5842bd31867f5541cc4299c5a8530', '00ff1cfde96830dc63ce70c941689bdb7be9550c224bc58447df2af51d0375a7', '2023-04-18 12:18:49', 'user_info projects pull_requests issues notes keys hook groups gists enterprises emails', NULL, NULL, NULL, NULL, NULL, '2023-04-17 12:19:06', '2023-04-17 12:18:57', 'anonymousUser', 'fxz', '0');
-INSERT INTO `sys_users_gitee` (`users_gitee_id`, `users_id`, `appid`, `id`, `login`, `name`, `avatar_url`, `url`, `html_url`, `remark`, `followers_url`, `following_url`, `gists_url`, `starred_url`, `subscriptions_url`, `organizations_url`, `repos_url`, `events_url`, `received_events_url`, `type`, `blog`, `weibo`, `bio`, `public_repos`, `public_gists`, `followers`, `following`, `stared`, `watched`, `created_at`, `updated_at`, `email`, `binding_date`, `access_token`, `refresh_token`, `expires`, `scope`, `company`, `profession`, `wechat`, `qq`, `linkedin`, `update_time`, `create_time`, `create_by`, `update_by`, `del_flag`) VALUES (1647799255183495170, 1, '94026f6491b102051726e28c718ab4706bb3a681939aee222119ef987a7170bf', 7493281, 'fxzcloud', 'fxz', 'https://foruda.gitee.com/avatar/1680839325270322081/7493281_fxzcloud_1680839325.png', 'https://gitee.com/api/v5/users/fxzcloud', 'https://gitee.com/fxzcloud', '', 'https://gitee.com/api/v5/users/fxzcloud/followers', 'https://gitee.com/api/v5/users/fxzcloud/following_url{/other_user}', 'https://gitee.com/api/v5/users/fxzcloud/gists{/gist_id}', 'https://gitee.com/api/v5/users/fxzcloud/starred{/owner}{/repo}', 'https://gitee.com/api/v5/users/fxzcloud/subscriptions', 'https://gitee.com/api/v5/users/fxzcloud/orgs', 'https://gitee.com/api/v5/users/fxzcloud/repos', 'https://gitee.com/api/v5/users/fxzcloud/events{/privacy}', 'https://gitee.com/api/v5/users/fxzcloud/received_events', 'User', 'https://fxzcloud.gitee.io/docs/', NULL, '23年应届生，拥有十余年架构经验，有年薪百万的工作欢迎联系我。（校招、进群加我微信）', 84, 0, 59, 101, 215, 220, '2020-04-24 22:01:18', '2023-04-17 11:08:49', 'fxzcloud@gmail.com', '2023-04-17 12:32:46', '093698e51fee55ef9a0d2c79a7768e95', 'f174aab5efb1a015d80e830f6a1903e789721f136e002d9e840066dd7b64f6e8', '2023-04-18 13:00:55', 'user_info', NULL, NULL, NULL, NULL, NULL, '2023-04-17 13:00:55', '2023-04-17 13:00:46', 'anonymousUser', 'anonymousUser', '0');
+INSERT INTO `sys_users_gitee` (`users_gitee_id`, `users_id`, `appid`, `id`, `login`, `name`, `avatar_url`, `url`, `html_url`, `remark`, `followers_url`, `following_url`, `gists_url`, `starred_url`, `subscriptions_url`, `organizations_url`, `repos_url`, `events_url`, `received_events_url`, `type`, `blog`, `weibo`, `bio`, `public_repos`, `public_gists`, `followers`, `following`, `stared`, `watched`, `created_at`, `updated_at`, `email`, `binding_date`, `access_token`, `refresh_token`, `expires`, `scope`, `company`, `profession`, `wechat`, `qq`, `linkedin`, `update_time`, `create_time`, `create_by`, `update_by`, `del_flag`) VALUES (1647799255183495170, 1, '94026f6491b102051726e28c718ab4706bb3a681939aee222119ef987a7170bf', 7493281, 'fxzcloud', 'fxz', 'https://foruda.gitee.com/avatar/1680839325270322081/7493281_fxzcloud_1680839325.png', 'https://gitee.com/api/v5/users/fxzcloud', 'https://gitee.com/fxzcloud', '', 'https://gitee.com/api/v5/users/fxzcloud/followers', 'https://gitee.com/api/v5/users/fxzcloud/following_url{/other_user}', 'https://gitee.com/api/v5/users/fxzcloud/gists{/gist_id}', 'https://gitee.com/api/v5/users/fxzcloud/starred{/owner}{/repo}', 'https://gitee.com/api/v5/users/fxzcloud/subscriptions', 'https://gitee.com/api/v5/users/fxzcloud/orgs', 'https://gitee.com/api/v5/users/fxzcloud/repos', 'https://gitee.com/api/v5/users/fxzcloud/events{/privacy}', 'https://gitee.com/api/v5/users/fxzcloud/received_events', 'User', 'https://fxzcloud.gitee.io/docs/', NULL, '23年应届生，拥有十余年架构经验，有年薪百万的工作欢迎联系我。（校招、进群加我微信）', 84, 0, 59, 101, 215, 220, '2020-04-24 22:01:18', '2023-04-17 11:08:49', 'fxzcloud@gmail.com', '2023-04-17 13:45:08', 'b9080dfbac8c5ce8edd3ede9f9d5dc5c', '3d3041b6cbfeaf1690c2ca5febad6e05be995dc7d4e7014d2e3eb6a948120ca5', '2023-04-18 13:45:20', 'user_info', NULL, NULL, NULL, NULL, NULL, '2023-04-17 13:45:20', '2023-04-17 13:45:11', 'anonymousUser', 'anonymousUser', '0');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
