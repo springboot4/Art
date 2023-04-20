@@ -51,6 +51,9 @@ public class ArtSecurityConfigure {
 			// 自定义token端点
 			.antMatchers("/token/*")
 			.permitAll()
+			// 丝袜哥
+			.antMatchers("/v3/api-docs")
+			.permitAll()
 			// 其他路径都需要授权
 			.anyRequest()
 			.authenticated()).headers().frameOptions().sameOrigin().and().csrf().disable();

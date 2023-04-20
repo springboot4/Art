@@ -18,7 +18,6 @@ package com.art.gateway.router;
 
 import com.art.gateway.handler.AjImageCodeCheckHandler;
 import com.art.gateway.handler.AjImageCodeCreateHandler;
-import com.art.gateway.handler.EasyCaptchaHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -36,12 +35,10 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 public class CaptchaRouter {
 
 	@Bean
-	public RouterFunction<ServerResponse> captchaRouterFunction(EasyCaptchaHandler easyCaptchaHandler,
-			AjImageCodeCreateHandler ajImageCodeCreateHandler, AjImageCodeCheckHandler ajImageCodeCheckHandler) {
+	public RouterFunction<ServerResponse> captchaRouterFunction(AjImageCodeCreateHandler ajImageCodeCreateHandler,
+			AjImageCodeCheckHandler ajImageCodeCheckHandler) {
 		return RouterFunctions
-			.route(RequestPredicates.GET("/captcha").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
-					easyCaptchaHandler)
-			.andRoute(RequestPredicates.path("/code").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+			.route(RequestPredicates.path("/code").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
 					ajImageCodeCreateHandler)
 			.andRoute(RequestPredicates.POST("/code/check").and(RequestPredicates.accept(MediaType.ALL)),
 					ajImageCodeCheckHandler);

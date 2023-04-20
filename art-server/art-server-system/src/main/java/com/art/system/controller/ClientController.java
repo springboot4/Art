@@ -77,7 +77,7 @@ public class ClientController {
 	/**
 	 * 获取单条
 	 */
-	@Ojbk(inner = true)
+	@Ojbk
 	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
 	public Result<ClientDetailsDTO> findById(String id) {
