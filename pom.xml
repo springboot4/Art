@@ -34,7 +34,7 @@
     </modules>
 
     <properties>
-        <spring-boot.version>2.7.10</spring-boot.version>
+        <spring-boot.version>2.7.11</spring-boot.version>
         <spring-cloud.version>2021.0.6</spring-cloud.version>
         <com-alibaba-cloud.version>2021.0.4.0</com-alibaba-cloud.version>
         <jasypt.version>2.1.2</jasypt.version>
