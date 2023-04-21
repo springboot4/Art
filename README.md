@@ -99,7 +99,7 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 | Spring Boot                | 2.7.11     |
 | Spring Cloud               | 2021.0.6   |
 | Spring Cloud Alibaba       | 2021.0.4.0 |
-| Spring Authorization Serve | 0.4.1      |
+| Spring Authorization Serve | 0.4.2      |
 | Mybatis Plus               | 3.5.3.1    |
 | Hutool                     | 5.8.11     |
 
