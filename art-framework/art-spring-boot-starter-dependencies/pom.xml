@@ -54,7 +54,7 @@
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
         <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
-        <spring-authorization-server.version>0.4.1</spring-authorization-server.version>
+        <spring-authorization-server.version>0.4.2</spring-authorization-server.version>
     </properties>
 
     <!-- 定义全局jar版本-->
