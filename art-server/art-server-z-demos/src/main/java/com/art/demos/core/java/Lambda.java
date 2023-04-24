@@ -59,7 +59,7 @@ public class Lambda {
 	}
 
 	/**
-	 * 集合过滤ø
+	 * 集合过滤
 	 * @param originList 原数据
 	 * @param mappers 规则集合
 	 * @param <T> 原数据的元素类型
