@@ -18,16 +18,17 @@ package com.art.common.security.core.utils;
 
 import com.art.common.core.constant.SecurityConstants;
 import com.art.common.core.exception.FxzException;
-import com.art.common.core.util.WebUtil;
 import com.art.common.security.core.model.ArtAuthUser;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -89,14 +90,18 @@ public class SecurityUtil {
 	 */
 	@SneakyThrows
 	public String getClientId() {
-		HttpServletRequest request = WebUtil.getRequest();
+		jakarta.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+			.getRequestAttributes()).getRequest();
+		;
 		BasicAuthenticationConverter converter = new BasicAuthenticationConverter();
 
 		return converter.convert(request).getName();
 	}
 
 	public String getAuthType() {
-		HttpServletRequest request = WebUtil.getRequest();
+		jakarta.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+			.getRequestAttributes()).getRequest();
+		;
 
 		// 从请求路径中获取
 		return request.getParameter(SecurityConstants.AUTH_TYPE);

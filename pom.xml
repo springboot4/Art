@@ -34,14 +34,14 @@
     </modules>
 
     <properties>
-        <spring-boot.version>2.7.11</spring-boot.version>
-        <spring-cloud.version>2021.0.6</spring-cloud.version>
-        <com-alibaba-cloud.version>2021.0.4.0</com-alibaba-cloud.version>
-        <jasypt.version>2.1.2</jasypt.version>
+        <spring-boot.version>3.0.6</spring-boot.version>
+        <spring-cloud.version>2022.0.1</spring-cloud.version>
+        <com-alibaba-cloud.version>2022.0.0.0-RC1</com-alibaba-cloud.version>
+        <jasypt.version>3.0.5</jasypt.version>
         <lombok.version>1.18.26</lombok.version>
         <mapstruct.version>1.5.4.Final</mapstruct.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <spring-javaformat.version>0.0.38</spring-javaformat.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>

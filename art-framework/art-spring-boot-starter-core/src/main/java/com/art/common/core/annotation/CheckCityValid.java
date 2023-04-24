@@ -19,8 +19,8 @@ package com.art.common.core.annotation;
 import com.art.common.core.constant.CityTypeEnum;
 import com.art.common.core.support.validator.CityValidator;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

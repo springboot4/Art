@@ -16,11 +16,14 @@
 
 package com.art.common.security.core.handler;
 
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.art.common.core.util.AsyncUtil;
 import com.art.common.core.util.SpringUtil;
 import com.art.system.api.log.LogServiceApi;
 import com.art.system.api.log.dto.OperLogDTO;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -35,8 +38,7 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
@@ -55,6 +57,8 @@ public class ArtAuthenticationSuccessHandler implements AuthenticationSuccessHan
 	 * @param response the response
 	 * @param authentication the <tt>Authentication</tt> object which was created during
 	 * the authentication process.
+	 * @throws IOException
+	 * @throws ServletException
 	 */
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -79,7 +83,7 @@ public class ArtAuthenticationSuccessHandler implements AuthenticationSuccessHan
 			logDto.setStatus(0);
 			logDto.setOperName(authentication.getName());
 			logDto.setCreateBy(authentication.getName());
-			logDto.setOperIp(ServletUtil.getClientIP(request));
+			logDto.setOperIp(JakartaServletUtil.getClientIP(request));
 			logDto.setOperParam(authentication.getName());
 			logDto.setBusinessType(4);
 			logDto.setRequestMethod(request.getMethod());

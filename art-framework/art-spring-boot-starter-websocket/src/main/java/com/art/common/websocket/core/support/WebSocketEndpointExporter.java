@@ -18,7 +18,6 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.ClassUtils;
 
-import javax.net.ssl.SSLException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -145,10 +144,6 @@ public class WebSocketEndpointExporter extends ApplicationObjectSupport
 			}
 			catch (InterruptedException e) {
 				logger.error(String.format("websocket [%s] init fail", entry.getKey()), e);
-			}
-			catch (SSLException e) {
-				logger.error(String.format("websocket [%s] ssl create fail", entry.getKey()), e);
-
 			}
 		}
 	}

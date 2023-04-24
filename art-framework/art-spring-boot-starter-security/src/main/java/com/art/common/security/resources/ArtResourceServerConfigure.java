@@ -57,8 +57,10 @@ public class ArtResourceServerConfigure {
 		String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(properties.getAnonUris(),
 				StringPool.COMMA);
 
-		http.authorizeRequests(
-				authorizeRequests -> authorizeRequests.antMatchers(anonUrls).permitAll().anyRequest().authenticated())
+		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(anonUrls)
+			.permitAll()
+			.anyRequest()
+			.authenticated())
 			.oauth2ResourceServer(oauth2 -> oauth2
 				// 不透明令牌自省配置
 				.opaqueToken(token -> token.introspector(new ArtOpaqueTokenIntrospector(oAuth2AuthorizationService)))

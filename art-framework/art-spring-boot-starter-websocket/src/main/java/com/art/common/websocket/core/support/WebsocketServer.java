@@ -42,15 +42,20 @@ public class WebsocketServer {
 	/**
 	 * Start Netty
 	 */
-	public void init() throws InterruptedException, SSLException {
+	public void init() throws InterruptedException {
 		EventExecutorGroup eventExecutorGroup = null;
 		final SslContext sslCtx;
 		// SSL
 		if (!ObjectUtils.isEmpty(webSocketEndpointConfig.getKeyStore())) {
-			sslCtx = SslUtils.createSslContext(webSocketEndpointConfig.getKeyPassword(),
-					webSocketEndpointConfig.getKeyStore(), webSocketEndpointConfig.getKeyStoreType(),
-					webSocketEndpointConfig.getKeyStorePassword(), webSocketEndpointConfig.getTrustStore(),
-					webSocketEndpointConfig.getTrustStoreType(), webSocketEndpointConfig.getTrustStorePassword());
+			try {
+				sslCtx = SslUtils.createSslContext(webSocketEndpointConfig.getKeyPassword(),
+						webSocketEndpointConfig.getKeyStore(), webSocketEndpointConfig.getKeyStoreType(),
+						webSocketEndpointConfig.getKeyStorePassword(), webSocketEndpointConfig.getTrustStore(),
+						webSocketEndpointConfig.getTrustStoreType(), webSocketEndpointConfig.getTrustStorePassword());
+			}
+			catch (SSLException e) {
+				throw new RuntimeException(e);
+			}
 		}
 		else {
 			sslCtx = null;

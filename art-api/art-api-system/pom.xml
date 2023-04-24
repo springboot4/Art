@@ -29,27 +29,31 @@
 
     <dependencies>
 
+        <!--redis-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-redis</artifactId>
+        </dependency>
+
+        <!--feign拓展-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-feign</artifactId>
         </dependency>
 
+        <!--数据脱敏-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-sensitive</artifactId>
         </dependency>
 
+        <!--基础依赖-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-redis</artifactId>
-            <optional>true</optional>
-        </dependency>
-
+        <!--文档-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-doc</artifactId>

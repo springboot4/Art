@@ -18,16 +18,15 @@ package com.art.common.core.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.art.common.core.model.Result;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author Fxz
@@ -37,27 +36,25 @@ import java.util.Optional;
 @UtilityClass
 public class WebUtil {
 
-	/**
-	 * 获取HttpServletRequest
-	 */
-	public HttpServletRequest getRequest() {
-		return Optional.ofNullable(getRequestAttributes()).map(ServletRequestAttributes::getRequest).orElse(null);
-	}
+	// public HttpServletRequest getRequest() {
+	// return ((ServletRequestAttributes)
+	// RequestContextHolder.getRequestAttributes()).getRequest();
+	// }
+	//
+	// /**
+	// * 获取响应
+	// *
+	// * @return {HttpServletResponse}
+	// */
+	// public HttpServletResponse getResponse() {
+	// return ((ServletRequestAttributes)
+	// Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
+	// .getResponse();
+	// }
 
-	/**
-	 * 获取RequestAttributes
-	 */
-	public ServletRequestAttributes getRequestAttributes() {
-		return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-	}
-
-	/**
-	 * 获取响应
-	 * @return {HttpServletResponse}
-	 */
-	public HttpServletResponse getResponse() {
+	public static HttpServletRequest getReq() {
 		return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
-			.getResponse();
+			.getRequest();
 	}
 
 	/**
@@ -92,11 +89,6 @@ public class WebUtil {
 	 */
 	public static void makeSuccessResponse(HttpServletResponse response, Result<Object> result) throws IOException {
 		makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_OK, result);
-	}
-
-	public static boolean isAjaxRequest(HttpServletRequest request) {
-		return (request.getHeader("X-Requested-With") != null
-				&& "XMLHttpRequest".equals(request.getHeader("X-Requested-With")));
 	}
 
 }

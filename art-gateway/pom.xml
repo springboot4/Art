@@ -30,13 +30,8 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-springdoc-ui</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
         </dependency>
 
         <!--gateway网关-->
@@ -79,6 +74,12 @@
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-gateway</artifactId>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.github.ben-manes.caffeine</groupId>-->
+<!--                    <artifactId>caffeine</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
         <!--核心依赖-->
@@ -86,9 +87,7 @@
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-core</artifactId>
             <exclusions>
-                <!--因为Spring Cloud Gateway不是基于Servlet编程模型，而是基于webflux。
-                如果非要web支持的话需要导入spring-boot-starter-webflux而不是spring-boot-start-web-->
-                <exclusion>
+               <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>

@@ -21,8 +21,8 @@ import com.art.common.core.annotation.CheckMobileValid;
 import com.art.common.core.constant.RegexpConstant;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * @author fxz

@@ -39,20 +39,20 @@ public class ArtSecurityConfigure {
 	@Bean
 	@Order(0)
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeRequests(authorizeRequests -> authorizeRequests
+		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
 			// gitee授权请求
-			.antMatchers("/gitee/authorize/*")
+			.requestMatchers("/gitee/authorize/*")
 			.permitAll()
 			// gitee授权码
-			.antMatchers("/gitee/code/*")
+			.requestMatchers("/gitee/code/*")
 			.permitAll()
-			.antMatchers("/configuration")
+			.requestMatchers("/configuration")
 			.permitAll()
 			// 自定义token端点
-			.antMatchers("/token/*")
+			.requestMatchers("/token/*")
 			.permitAll()
 			// 丝袜哥
-			.antMatchers("/v3/api-docs")
+			.requestMatchers("/v3/api-docs")
 			.permitAll()
 			// 其他路径都需要授权
 			.anyRequest()
@@ -65,7 +65,7 @@ public class ArtSecurityConfigure {
 	@Bean
 	@Order(0)
 	SecurityFilterChain resources(HttpSecurity http) throws Exception {
-		http.requestMatchers((matchers) -> matchers.antMatchers("/actuator/**", "/css/**", "/error"))
+		http.authorizeHttpRequests((matchers) -> matchers.requestMatchers("/actuator/**", "/css/**", "/error"))
 			.authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
 			.requestCache()
 			.disable()

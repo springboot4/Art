@@ -18,10 +18,10 @@ package com.art.gateway.configure;
 
 import cn.hutool.core.collection.CollUtil;
 import com.art.gateway.handler.GatewayIndexHandler;
-import org.springdoc.core.AbstractSwaggerUiConfigProperties;
-import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.SwaggerUiConfigProperties;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import lombok.RequiredArgsConstructor;
+import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +32,6 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,18 +41,27 @@ import java.util.stream.Collectors;
  * @version 0.0.1
  * @date 2022/10/22 23:16
  */
+@RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-public class DocConfiguration {
+public class DocConfiguration implements InitializingBean {
 
 	public static final String API_URI = "/%s/v3/api-docs";
 
+	private final RouteDefinitionLocator locator;
+
+	private final SwaggerUiConfigProperties swaggerUiConfigProperties;
+
 	@Bean
-	@ConditionalOnProperty(prefix = "fxz.common.doc", value = "enabled", havingValue = "true", matchIfMissing = true)
-	public List<GroupedOpenApi> apis(SwaggerUiConfigProperties swaggerUiConfigProperties,
-			RouteDefinitionLocator locator) {
+	public RouterFunction<ServerResponse> docIndexHandler(GatewayIndexHandler gatewayIndexHandler) {
+		return RouterFunctions.route(RequestPredicates.GET("/").and(RequestPredicates.accept(MediaType.ALL)),
+				gatewayIndexHandler);
+	}
+
+	@Override
+	public void afterPropertiesSet() {
 		List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
 		if (CollUtil.isEmpty(definitions)) {
-			return new ArrayList<>();
+			return;
 		}
 
 		Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = definitions.stream().map(routeDefinition -> {
@@ -65,14 +73,6 @@ public class DocConfiguration {
 			return swaggerUrl;
 		}).collect(Collectors.toSet());
 		swaggerUiConfigProperties.setUrls(urls);
-
-		return new ArrayList<>();
-	}
-
-	@Bean
-	public RouterFunction<ServerResponse> docIndexHandler(GatewayIndexHandler gatewayIndexHandler) {
-		return RouterFunctions.route(RequestPredicates.GET("/").and(RequestPredicates.accept(MediaType.ALL)),
-				gatewayIndexHandler);
 	}
 
 }

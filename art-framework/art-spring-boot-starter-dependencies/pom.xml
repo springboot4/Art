@@ -32,9 +32,9 @@
         <es-java.version>7.17.3</es-java.version>
         <redisson.version>3.17.0</redisson.version>
         <myabtis-plus.version>3.5.3.1</myabtis-plus.version>
-        <dynamic-ds.version>3.5.1</dynamic-ds.version>
+        <dynamic-ds.version>3.6.1</dynamic-ds.version>
         <aws.version>1.12.381</aws.version>
-        <doc.version>1.6.11</doc.version>
+        <doc.version>2.0.0</doc.version>
         <swagger.version>2.2.2</swagger.version>
         <knife4j.version>3.0.3</knife4j.version>
         <captcha.version>1.3.0</captcha.version>
@@ -54,7 +54,7 @@
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <aliyun.java.sdk.core.version>4.5.25</aliyun.java.sdk.core.version>
         <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
-        <spring-authorization-server.version>0.4.2</spring-authorization-server.version>
+        <spring-authorization-server.version>1.0.2</spring-authorization-server.version>
     </properties>
 
     <!-- 定义全局jar版本-->
@@ -77,17 +77,12 @@
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
                 <version>${doc.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webflux-ui</artifactId>
-                <version>${doc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webmvc-core</artifactId>
+                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
                 <version>${doc.version}</version>
             </dependency>
             <dependency>

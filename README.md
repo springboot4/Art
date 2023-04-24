@@ -94,14 +94,14 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 过于先进，不便展示。欢迎下载源码研究🧐欢迎star
 ## 🍓依赖版本
 
-| 依赖                         | 版本         |
-|----------------------------|------------|
-| Spring Boot                | 2.7.11     |
-| Spring Cloud               | 2021.0.6   |
-| Spring Cloud Alibaba       | 2021.0.4.0 |
-| Spring Authorization Serve | 0.4.2      |
-| Mybatis Plus               | 3.5.3.1    |
-| Hutool                     | 5.8.11     |
+| 依赖                         | 版本             |
+|----------------------------|----------------|
+| Spring Boot                | 3.0.6          |
+| Spring Cloud               | 2022.0.1       |
+| Spring Cloud Alibaba       | 2022.0.0.0-RC1 |
+| Spring Authorization Serve | 1.0.2          |
+| Mybatis Plus               | 3.5.3.1        |
+| Hutool                     | 5.8.11         |
 
 
 

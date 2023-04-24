@@ -17,13 +17,13 @@
 package com.art.common.log.core.aspect;
 
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.HttpUtil;
 import com.art.common.core.model.Result;
 import com.art.common.core.util.WebUtil;
 import com.art.common.log.core.annotation.OperLogAnn;
-import com.art.common.log.core.service.AsyncLogService;
 import com.art.common.log.core.enums.BusinessStatus;
+import com.art.common.log.core.service.AsyncLogService;
 import com.art.system.api.log.dto.OperLogDTO;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -84,13 +83,13 @@ public class LogAspect {
 	}
 
 	private void buildLog(JoinPoint point, OperLogAnn operLogAnn, OperLogDTO operLog) {
-		HttpServletRequest request = WebUtil.getRequest();
+		jakarta.servlet.http.HttpServletRequest request = WebUtil.getReq();
 
 		// 模块名
 		String title = operLogAnn.title();
 
 		// 获取ip地址
-		String ip = ServletUtil.getClientIP(request);
+		String ip = JakartaServletUtil.getClientIP(request);
 
 		// 请求路径
 		String path = URLUtil.getPath(request.getRequestURI());

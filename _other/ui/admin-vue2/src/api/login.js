@@ -74,7 +74,7 @@ export function getSmsCaptcha (parameter) {
 export function getInfo () {
   return request({
     url: userApi.UserInfo,
-    params: { client_id: 'fxz' },
+    // params: { client_id: 'fxz' },
     method: 'get'
   })
 }

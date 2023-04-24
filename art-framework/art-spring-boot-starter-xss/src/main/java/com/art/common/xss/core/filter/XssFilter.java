@@ -17,12 +17,15 @@
 package com.art.common.xss.core.filter;
 
 import com.art.common.xss.core.propertie.XssProperties;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * @author Fxz
@@ -36,13 +39,6 @@ public class XssFilter extends OncePerRequestFilter {
 
 	private final PathMatcher pathMatcher;
 
-	@SneakyThrows
-	@Override
-	protected void doFilterInternal(javax.servlet.http.HttpServletRequest request,
-			javax.servlet.http.HttpServletResponse response, javax.servlet.FilterChain filterChain) {
-		filterChain.doFilter(new XssRequestWrapper(request), response);
-	}
-
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
 		if (!xssProperties.isEnable()) {
@@ -52,6 +48,19 @@ public class XssFilter extends OncePerRequestFilter {
 		return xssProperties.getIgnoreUrls()
 			.stream()
 			.anyMatch(excludeUrl -> pathMatcher.match(excludeUrl, request.getRequestURI()));
+	}
+
+	/**
+	 * @param request
+	 * @param response
+	 * @param filterChain
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		filterChain.doFilter(new XssRequestWrapper(request), response);
 	}
 
 }

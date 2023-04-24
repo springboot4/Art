@@ -20,7 +20,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.experimental.UtilityClass;
 
-import javax.validation.*;
+import jakarta.validation.*;
 import java.util.List;
 import java.util.Set;
 

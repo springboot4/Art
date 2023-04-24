@@ -111,7 +111,7 @@ public class FxzTenantAutoConfiguration {
 	/**
 	 * 多级缓存支持多租户
 	 */
-	@ConditionalOnProperty(prefix = "redis.cache.multi", name = "enabled", havingValue = "true", matchIfMissing = true)
+	@ConditionalOnProperty(prefix = "redis.cache.multi", name = "enabled", havingValue = "true")
 	@Bean
 	@Primary
 	public CacheManager cacheManager(CacheRedisCaffeineProperties cacheRedisCaffeineProperties,

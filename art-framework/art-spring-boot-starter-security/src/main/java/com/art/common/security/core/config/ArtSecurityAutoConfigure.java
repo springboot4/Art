@@ -16,6 +16,7 @@
 
 package com.art.common.security.core.config;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
 import com.art.common.core.constant.FxzConstant;
 import com.art.common.core.constant.SecurityConstants;
@@ -29,6 +30,7 @@ import com.art.common.security.core.support.RedisOAuth2AuthorizationService;
 import com.art.common.security.core.support.SecurityInnerAspect;
 import com.art.system.api.client.ClientServiceApi;
 import feign.RequestInterceptor;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -40,12 +42,10 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 /**
@@ -123,10 +123,9 @@ public class ArtSecurityAutoConfigure {
 	@Bean
 	public RequestInterceptor oauth2FeignRequestInterceptor(ArtSecurityProperties properties) {
 		return requestTemplate -> {
-			String gatewayToken = new String(Base64Utils.encode((FxzConstant.GATEWAY_TOKEN_VALUE).getBytes()));
+			String gatewayToken = Base64.encode((FxzConstant.GATEWAY_TOKEN_VALUE).getBytes());
 			requestTemplate.header(FxzConstant.GATEWAY_TOKEN_HEADER, gatewayToken);
-
-			HttpServletRequest request = WebUtil.getRequest();
+			jakarta.servlet.http.HttpServletRequest request = WebUtil.getReq();
 			String token = bearerTokenResolver(properties).resolve(request);
 			if (StrUtil.isBlank(token)) {
 				return;
