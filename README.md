@@ -1,8 +1,26 @@
 
 ##  🚀项目介绍
-[![license](https://img.shields.io/badge/License-Apache%202.0-%20)](https://gitee.com/fxz-cloud/art/blob/master/LICENSE)
-[![star](https://gitee.com/fxz-cloud/art/badge/star.svg?theme=dark)](https://gitee.com/fxz-cloud/art/stargazers) 
-[![fork](https://gitee.com/fxz-cloud/art/badge/fork.svg?theme=dark)](https://gitee.com/fxz-cloud/art/members)
+<a target="_blank" href="">
+  <img alt="Star" src="https://gitee.com/fxz-cloud/art/badge/star.svg?theme=dark">
+</a>
+<a target="_blank" href="">
+  <img alt="Fork" src="https://gitee.com/fxz-cloud/art/badge/fork.svg?theme=dark">
+</a>
+<a target="_blank" href="">
+  <img alt="Spring Cloud" src="https://img.shields.io/static/v1?label=Spring Cloud&message=2021.0.6 &color=blue">
+</a>
+<a target="_blank" href="">
+  <img alt="Alibaba" src="https://img.shields.io/static/v1?logo=Alibaba Cloud&message=2021.0.4.0&color=blue">
+</a>
+<a target="_blank" href="">
+  <img alt="OAuth 2.1" src="https://img.shields.io/static/v1?label=OAuth 2.1&message=1.0.2&color=blue">
+</a>
+<a target="_blank" href="">
+  <img alt="JDK" src="https://img.shields.io/badge/JDK-8-blue.svg"/>
+</a>
+<a target="_blank" href="">
+<img alt="JDK" src="https://img.shields.io/badge/License-Apache%202.0-%20"/>
+</a>
 <br/>
 Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 
