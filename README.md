@@ -7,10 +7,13 @@
   <img alt="Fork" src="https://gitee.com/fxz-cloud/art/badge/fork.svg?theme=dark">
 </a>
 <a target="_blank" href="">
+  <img alt="Spring Boot" src="https://img.shields.io/static/v1?label=Spring Boot &message=3.0.6&color=blue">
+</a>
+<a target="_blank" href="">
   <img alt="Spring Cloud" src="https://img.shields.io/static/v1?label=Spring Cloud&message=2022.0.2&color=blue">
 </a>
 <a target="_blank" href="">
-  <img alt="Alibaba" src="https://img.shields.io/static/v1?logo=Alibaba Cloud&message=2022.0.0.0-RC1&color=blue">
+  <img alt="Spring Cloud Alibaba" src="https://img.shields.io/static/v1?label=Spring Cloud Alibaba &message=2022.0.0.0-RC1&color=blue">
 </a>
 <a target="_blank" href="">
   <img alt="OAuth 2.1" src="https://img.shields.io/static/v1?label=OAuth 2.1&message=1.0.2&color=blue">
@@ -19,7 +22,7 @@
   <img alt="JDK" src="https://img.shields.io/badge/JDK-17-blue.svg"/>
 </a>
 <a target="_blank" href="https://github.com/alibaba/dragonwell17/releases/tag/dragonwell-17.0.3.0.3%2B7_jdk-17.0.3-ga">
-<img alt="JDK" src="https://img.shields.io/badge/License-Apache%202.0-%20"/>
+<img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-%20"/>
 </a>
 <br/>
 Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
