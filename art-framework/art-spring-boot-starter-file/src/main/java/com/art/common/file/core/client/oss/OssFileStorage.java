@@ -217,7 +217,20 @@ public class OssFileStorage {
 	 * 获取文件外链 (GET请求)
 	 * @param bucketName bucket名称
 	 * @param objectName 文件名称
-	 * @param expires 过期时间 <=7
+	 * @return url
+	 * {@link AmazonS3#generatePresignedUrl(String bucketName, String key, Date expiration)}
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html"/>
+	 */
+	public String genPreSignUploadUrl(String bucketName, String objectName) {
+		return genPreSignUploadUrl(bucketName, objectName, 30);
+	}
+
+	/**
+	 * 获取文件外链 (GET请求)
+	 * @param bucketName bucket名称
+	 * @param objectName 文件名称
+	 * @param expires 过期时间 <=7天
 	 * @return url
 	 * {@link AmazonS3#generatePresignedUrl(String bucketName, String key, Date expiration)}
 	 * @see <a href=
@@ -231,7 +244,7 @@ public class OssFileStorage {
 	 * 获取文件外链 (GET、PUT请求)
 	 * @param bucketName bucket名称
 	 * @param objectName 文件名称
-	 * @param expires 过期时间 <=7
+	 * @param expires 过期时间 <=7天
 	 * @param method GET、PUT请求
 	 * @return url
 	 * {@link AmazonS3#generatePresignedUrl(String bucketName, String key, Date expiration)}
@@ -246,7 +259,7 @@ public class OssFileStorage {
 	 * 获取文件外链 (GET、PUT请求)
 	 * @param bucketName bucket名称
 	 * @param objectName 文件名称
-	 * @param expires 过期时间 <=7
+	 * @param expires 过期时间 <=7天
 	 * @param params 请求参数
 	 * @param method GET、PUT请求
 	 * @return url

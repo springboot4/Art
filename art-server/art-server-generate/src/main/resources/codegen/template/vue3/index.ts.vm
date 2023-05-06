@@ -1,0 +1,52 @@
+import { defHttp } from '/@/utils/http/axios'
+import { PageResult } from '/#/axios'
+import { ${className}DTO } from './types'
+
+/**
+ * 分页
+ */
+export function page(params) {
+  return defHttp.get<PageResult<${className}DTO>>({
+    url: '${classname}/page',
+    params,
+  })
+}
+
+/**
+ * 获取单条
+ */
+export function get(id) {
+  return defHttp.get<${className}DTO>({
+    url: '${classname}/findById',
+    params: { id },
+  })
+}
+
+/**
+ * 修改
+ */
+export function update(data: ${className}DTO) {
+  return defHttp.post<${className}DTO>({
+    url: '${classname}/update',
+    data,
+  })
+}
+
+/**
+ * 保存
+ */
+export function add(data: ${className}DTO) {
+  return defHttp.post<${className}DTO>({
+    url: '${classname}/add',
+    data,
+  })
+}
+
+/**
+ * 删除
+ */
+export function del(id) {
+  return defHttp.delete<${className}DTO>({
+    url: `${classname}/delete?id=${id}`,
+  })
+}

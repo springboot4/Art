@@ -39,6 +39,11 @@ public class CodeGenColumnDO {
 	private String attrType;
 
 	/**
+	 * ts类型
+	 */
+	private String tsType;
+
+	/**
 	 * 备注
 	 */
 	private String comments;

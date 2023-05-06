@@ -30,7 +30,7 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 ##  🍎 分支说明
 | 分支              | 说明                                                                |
 |-----------------|-------------------------------------------------------------------|
-| master          | java8 + springboot 2.7 + springcloud 2021                         |
+| master          | java8 + springboot 2.7 + springcloud 2021 + spring cloud alibaba                        |
 | next            | java17 + springboot 3.0 + springcloud 2022 + spring cloud alibaba |
 
 ## 🪜项目结构
@@ -102,13 +102,13 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 
 ## 💻系统应用
 
-| RBAC&数据权限                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/17/ABCecj.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/17/BYejIG.png) |
+| RBAC&数据权限                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/Dt08vc.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/WB6Hc9.png) |
 |--------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| OAuth2.1,支持三方登录。可自定义进行拓展 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/17/QxkBRk.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/17/tcWAif.png) |
-| 多租户                      | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/IQ7uvi.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/mPf6tH.png) |
-| 动态网关&字典管理                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/ZOGHdk.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/OZSRwm.png) |
-| 动态数据源&代码生成,              | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/UCiIcm.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/DR2mTD.png) |
-| 强退用户&审计日志                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/q49Fii.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/q49Fii.png) |
+| OAuth2.1,支持三方登录。可自定义进行拓展 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/7WXTzw.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/OXk0bF.png) |
+| 多租户                      | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/YnXioC.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/YzBZ6p.png) |
+| 动态网关&字典管理                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/zVpMJr.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/xKK55D.png) |
+| 动态数据源&代码生成,              | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/2BXWuL.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/WpUDes.png) |
+| 强退用户&审计日志                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/i2pZEe.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/XS0250.png) |
 
 ### 快速启动
 [✈️✈️✈️快速启动微服务](https://fxzcloud.gitee.io/docs/guide/started.html)
@@ -132,7 +132,7 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 
 
 ## 🍺加入我们
-| 交流群(群内不定期红包) | 微信群二维码过期请添加作者                                                          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/22/fa53Ub.jpg) |
+| 交流群(群内不定期红包) | 微信群二维码过期请添加作者                                                          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/Pah5rU.jpg) |
 |--------------|------------------------------------------------------------------------|------------------------------------------------------------------------|
 | 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) | 欢迎参与项目，贡献代码。                                                           |
 

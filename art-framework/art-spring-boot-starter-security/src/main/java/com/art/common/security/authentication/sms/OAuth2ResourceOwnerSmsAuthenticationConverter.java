@@ -52,8 +52,7 @@ public class OAuth2ResourceOwnerSmsAuthenticationConverter implements Authentica
 	}
 
 	/**
-	 * POST
-	 * /oauth2/token?mobile=19806082431&captcha=1212&code=1212&auth_type=sms&grant_type=sms_code&scope=server
+	 * POST /oauth2/token?mobile=19806082431&captcha=1212&grant_type=sms_code&scope=server
 	 * <p/>
 	 * 用于从HttpServlet请求转换为特定类型的身份验证的策略。用于使用适当的AuthenticationManager进行身份验证。
 	 * 如果结果为null，则表示不应进行身份验证尝试。如果存在无效的Authentication方案值，也可以在转换（HttpServlet请求）中抛出AuthenticationException。

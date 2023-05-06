@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * 数据源表
@@ -29,6 +30,7 @@ import lombok.Data;
  * @author fxz
  * @date 2022-03-31
  */
+@FieldNameConstants
 @Data
 @TableName("gen_datasource_conf")
 public class DatasourceConfDO extends BaseCreateEntity {

@@ -36,19 +36,24 @@ import java.util.Objects;
 public enum CodeGenColumnTypeEnum {
 
 	/**
-	 * 数据库字段与java数据类型的映射
+	 * 数据库字段与java、ts数据类型的映射
 	 */
-	TINYINT("tinyint", "Integer"), SMALLINT("smallint", "Integer"), MEDIUMINT("mediumint", "Integer"),
-	INT("int", "Integer"), INTEGER("integer", "Integer"), BIGINT("bigint", "Long"), FLOAT("float", "Float"),
-	DOUBLE("double", "Double"), DECIMAL("decimal", "BigDecimal"), BIT("bit", "Boolean"), CHAR("char", "String"),
-	VARCHAR("varchar", "String"), TINYTEXT("tinytext", "String"), TEXT("text", "String"),
-	MEDIUMTEXT("mediumtext", "String"), LONGTEXT("longtext", "String"), DATE("date", "LocalDate"),
-	DATETIME("datetime", "LocalDateTime"), TIME("time", "LocalTime"), TIMESTAMP("timestamp", "LocalDateTime"),
-	JSON("json", "String");
+	TINYINT("tinyint", "Integer", "number"), SMALLINT("smallint", "Integer", "number"),
+	MEDIUMINT("mediumint", "Integer", "number"), INT("int", "Integer", "number"),
+	INTEGER("integer", "Integer", "number"), BIGINT("bigint", "Long", "string"), FLOAT("float", "Float", "number"),
+	DOUBLE("double", "Double", "number"), DECIMAL("decimal", "BigDecimal", "number"), BIT("bit", "Boolean", "boolean"),
+	CHAR("char", "String", "string"), VARCHAR("varchar", "String", "string"),
+	VARBINARY("VARBINARY", "byte[]", "unknown"), TINYTEXT("tinytext", "String", "string"),
+	TEXT("text", "String", "string"), MEDIUMTEXT("mediumtext", "String", "string"),
+	LONGTEXT("longtext", "String", "string"), DATE("date", "LocalDate", "string"),
+	DATETIME("datetime", "LocalDateTime", "string"), TIME("time", "LocalTime", "string"),
+	TIMESTAMP("timestamp", "LocalDateTime", "string"), JSON("json", "String", "string");
 
 	private final String columnType;
 
 	private final String javaType;
+
+	private final String tsType;
 
 	/**
 	 * 数据库类型转换成java类型
@@ -58,8 +63,19 @@ public enum CodeGenColumnTypeEnum {
 		return Arrays.stream(CodeGenColumnTypeEnum.values())
 			.filter(e -> Objects.equals(columnType, e.getColumnType()))
 			.findFirst()
-			.orElseThrow(() -> new FxzException("不支持的数据库字段类型"))
+			.orElseThrow(() -> new FxzException(String.format("不支持的数据库字段类型:%s", columnType)))
 			.getJavaType();
+	}
+
+	/**
+	 * 数据库类型转换成ts类型
+	 */
+	public static String convertTsType(String columnType) {
+		return Arrays.stream(CodeGenColumnTypeEnum.values())
+			.filter(e -> Objects.equals(columnType, e.getColumnType()))
+			.findFirst()
+			.orElseThrow(() -> new FxzException("不支持的数据库字段类型"))
+			.getTsType();
 	}
 
 }

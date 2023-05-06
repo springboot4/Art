@@ -38,7 +38,7 @@ public class DeptDO extends BaseCreateEntity implements Serializable {
 	/**
 	 * 部门id
 	 */
-	@TableId(type = IdType.AUTO)
+	@TableId(type = IdType.ASSIGN_ID)
 	private Long deptId;
 
 	/**

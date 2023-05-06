@@ -16,7 +16,6 @@
 
 package com.art.common.security.core.utils;
 
-import com.art.common.core.constant.SecurityConstants;
 import com.art.common.core.exception.FxzException;
 import com.art.common.core.util.WebUtil;
 import com.art.common.security.core.model.ArtAuthUser;
@@ -25,6 +24,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,11 +95,11 @@ public class SecurityUtil {
 		return converter.convert(request).getName();
 	}
 
-	public String getAuthType() {
+	public String getGrantType() {
 		HttpServletRequest request = WebUtil.getRequest();
 
 		// 从请求路径中获取
-		return request.getParameter(SecurityConstants.AUTH_TYPE);
+		return request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
 	}
 
 	/**

@@ -103,6 +103,8 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 				.setComments(databaseColumn.getColumnComment())
 				// 数据库字段类型转java数据类型
 				.setAttrType(CodeGenColumnTypeEnum.convertJavaType(databaseColumn.getDataType()))
+				// 数据库字段类型转ts数据类型
+				.setTsType(CodeGenColumnTypeEnum.convertTsType(databaseColumn.getDataType()))
 				// 驼峰
 				.setName(NamingCase.toCamelCase(databaseColumn.getColumnName())))
 			.collect(Collectors.toList());

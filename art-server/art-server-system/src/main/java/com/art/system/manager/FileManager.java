@@ -21,6 +21,7 @@ import com.art.system.api.file.dto.FilePageDTO;
 import com.art.system.core.convert.FileConvert;
 import com.art.system.dao.dataobject.FileDO;
 import com.art.system.dao.mysql.FileMapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +61,12 @@ public class FileManager {
 	}
 
 	public Page<FileDO> pageFile(FilePageDTO filePageDTO) {
-		return fileMapper.selectPage(Page.of(filePageDTO.getCurrent(), filePageDTO.getSize()), Wrappers.emptyWrapper());
+		return fileMapper
+			.selectPage(Page.of(filePageDTO.getCurrent(), filePageDTO.getSize()), Wrappers.<FileDO>lambdaQuery()
+				.like(StringUtils.isNotBlank(filePageDTO.getFileName()), FileDO::getFileName, filePageDTO.getFileName())
+				.like(StringUtils.isNotBlank(filePageDTO.getOriginal()), FileDO::getOriginal, filePageDTO.getOriginal())
+				.like(StringUtils.isNotBlank(filePageDTO.getBucketName()), FileDO::getBucketName,
+						filePageDTO.getBucketName()));
 	}
 
 }

@@ -16,6 +16,7 @@
 
 package com.art.system.dao.dataobject;
 
+import com.art.common.core.model.RouterMeta;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.art.common.core.model.VueRouter;
@@ -134,6 +135,7 @@ public class MenuDO extends BaseEntity implements Serializable {
 		route.setKeepAlive(this.getKeepAlive().toString());
 		route.setType(this.getType());
 		route.setOrderNum(Double.valueOf(this.getOrderNum()));
+		route.setMeta(new RouterMeta(this.getTitle(), this.getIcon()));
 		return route;
 	}
 

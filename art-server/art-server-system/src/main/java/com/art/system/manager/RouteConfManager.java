@@ -42,7 +42,7 @@ public class RouteConfManager {
 	}
 
 	public List<RouteConfDO> listRouteConf() {
-		return routeConfMapper.selectList(Wrappers.emptyWrapper());
+		return routeConfMapper.selectList(Wrappers.<RouteConfDO>lambdaQuery().orderByAsc(RouteConfDO::getSortOrder));
 	}
 
 	public void deleteRouteConf() {

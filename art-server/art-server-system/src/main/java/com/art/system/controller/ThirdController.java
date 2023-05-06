@@ -17,12 +17,10 @@
 package com.art.system.controller;
 
 import com.art.common.core.model.Result;
+import com.art.system.api.third.dto.ThirdUnBindDTO;
 import com.art.system.service.ThirdService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 第三方平台相关信息
@@ -49,11 +47,11 @@ public class ThirdController {
 
 	/**
 	 * 解除绑定
-	 * @param type 平台类型
+	 * @param thirdUnBindDTO 平台类型
 	 */
 	@PutMapping("/unBind")
-	public Result<Void> unBind(String type) {
-		thirdService.unBind(type);
+	public Result<Void> unBind(@RequestBody ThirdUnBindDTO thirdUnBindDTO) {
+		thirdService.unBind(thirdUnBindDTO.getType());
 		return Result.success();
 	}
 

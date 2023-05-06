@@ -19,11 +19,12 @@ package com.art.common.log.core.aspect;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
+import com.art.common.core.exception.FxzException;
 import com.art.common.core.model.Result;
 import com.art.common.core.util.WebUtil;
 import com.art.common.log.core.annotation.OperLogAnn;
-import com.art.common.log.core.service.AsyncLogService;
 import com.art.common.log.core.enums.BusinessStatus;
+import com.art.common.log.core.service.AsyncLogService;
 import com.art.system.api.log.dto.OperLogDTO;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +68,8 @@ public class LogAspect {
 		}
 		catch (Throwable e) {
 			handleException(operLog, e.getLocalizedMessage());
+			// 切面要将捕获到的异常抛出
+			throw new FxzException(e.getLocalizedMessage());
 		}
 		finally {
 			Long endTime = System.currentTimeMillis();

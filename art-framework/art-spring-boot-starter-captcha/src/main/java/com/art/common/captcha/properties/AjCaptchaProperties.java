@@ -51,7 +51,7 @@ public class AjCaptchaProperties {
 	/**
 	 * 右下角水印文字(我的水印).
 	 */
-	private String waterMark = "fxz-cloud";
+	private String waterMark = "Art";
 
 	/**
 	 * 右下角水印字体(文泉驿正黑).

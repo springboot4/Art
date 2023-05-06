@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
 	public void updateUserInfo(SystemUserDTO user) {
 		// 更新用户
 		if (StringUtils.isNotBlank(user.getPassword())) {
-			user.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
 		else {
 			user.setPassword(null);
@@ -160,7 +160,6 @@ public class UserServiceImpl implements UserService {
 	 * 通过用户名查找用户信息
 	 */
 	@DataPermission(enable = false)
-	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#username")
 	@Override
 	public SystemUserDTO findByName(String username) {
 		return UserConvert.INSTANCE.convert(userManager.getUserByName(username));
