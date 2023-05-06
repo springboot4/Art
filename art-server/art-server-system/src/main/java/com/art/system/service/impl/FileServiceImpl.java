@@ -65,14 +65,14 @@ public class FileServiceImpl implements FileService {
 	 */
 	@Override
 	public Dict addFile(MultipartFile file) {
-		String fileName = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + StrUtil.SLASH + IdUtil.simpleUUID()
+		String fileName = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + StrUtil.DOT + IdUtil.simpleUUID()
 				+ StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 		String bucketName = ossProperties.getOss().getBucketName();
 
 		Dict res = Dict.create();
 		res.put("bucketName", bucketName);
 		res.put("fileName", fileName);
-		res.put("url", String.format("/system/file/%s/%s", bucketName, fileName));
+		res.put("url", String.format("/system/file/download/%s/%s", bucketName, fileName));
 
 		File tempFile = FileUtil.createTempFile(FileUtil.getTmpDir());
 		try {

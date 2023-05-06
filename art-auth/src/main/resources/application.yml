@@ -31,6 +31,6 @@ gitee:
       client-id: fxz
       client-secret: 123456
       scope: gitee
-      success-redirect-url: http://127.0.0.1:8000
+      success-redirect-url: https://localhost:3100/#/dashboard/analysis # 授权成功后跳转到的前端地址
       token-url: http://art-gateway:9999/auth
 

@@ -36,22 +36,6 @@ import java.util.Objects;
 @UtilityClass
 public class WebUtil {
 
-	// public HttpServletRequest getRequest() {
-	// return ((ServletRequestAttributes)
-	// RequestContextHolder.getRequestAttributes()).getRequest();
-	// }
-	//
-	// /**
-	// * 获取响应
-	// *
-	// * @return {HttpServletResponse}
-	// */
-	// public HttpServletResponse getResponse() {
-	// return ((ServletRequestAttributes)
-	// Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
-	// .getResponse();
-	// }
-
 	public static HttpServletRequest getReq() {
 		return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
 			.getRequest();

@@ -17,6 +17,7 @@
 package com.art.common.security.core.service.user;
 
 import com.art.common.core.constant.SecurityConstants;
+import com.art.common.security.authentication.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.service.ArtUserDetailsService;
 import com.art.common.security.core.utils.SecurityUtil;
@@ -49,15 +50,15 @@ public class ArtUserDetailServiceImpl implements ArtUserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		if (SecurityUtil.getAuthType() == null) {
-			// 系统用户，认证方式通过用户名 username 认证
+		if (OAuth2ResourceOwnerSmsAuthenticationConverter.SMS.getValue().equals(SecurityUtil.getGrantType())) {
+			// 认证方式通过用户名 手机号 认证
+			return this.loadUserByMobile(username);
+		}
+		else {
+			// 认证方式通过用户名 username 认证
 			SystemUserDTO userDTO = artUserManager.findByName(username);
 			UserDetails userDetails = getUserDetails(userDTO);
 			return userDetails;
-		}
-		else {
-			// 系统用户，认证方式通过用户名 手机号 认证
-			return this.loadUserByMobile(username);
 		}
 	}
 

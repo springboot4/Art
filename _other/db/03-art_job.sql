@@ -56,7 +56,6 @@ CREATE TABLE `QRTZ_CRON_TRIGGERS` (
 -- Records of QRTZ_CRON_TRIGGERS
 -- ----------------------------
 BEGIN;
-INSERT INTO `QRTZ_CRON_TRIGGERS` (`sched_name`, `trigger_name`, `trigger_group`, `cron_expression`, `time_zone_id`) VALUES ('schedulerName', 'TASK_CLASS_NAME114', 'demoJob', '* * * * * ?', 'Asia/Shanghai');
 COMMIT;
 
 -- ----------------------------
@@ -108,7 +107,6 @@ CREATE TABLE `QRTZ_JOB_DETAILS` (
 -- Records of QRTZ_JOB_DETAILS
 -- ----------------------------
 BEGIN;
-INSERT INTO `QRTZ_JOB_DETAILS` (`sched_name`, `job_name`, `job_group`, `description`, `job_class_name`, `is_durable`, `is_nonconcurrent`, `is_update_data`, `requests_recovery`, `job_data`) VALUES ('schedulerName', 'TASK_CLASS_NAME114', 'demoJob', NULL, 'com.art.common.quartz.core.handler.JobExecuteHandler', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000274000D4A4F425F4245414E5F4E414D4574000764656D6F4A6F62740009504152414D455445527400063131313131317800);
 COMMIT;
 
 -- ----------------------------
@@ -125,8 +123,6 @@ CREATE TABLE `QRTZ_LOCKS` (
 -- Records of QRTZ_LOCKS
 -- ----------------------------
 BEGIN;
-INSERT INTO `QRTZ_LOCKS` (`sched_name`, `lock_name`) VALUES ('schedulerName', 'STATE_ACCESS');
-INSERT INTO `QRTZ_LOCKS` (`sched_name`, `lock_name`) VALUES ('schedulerName', 'TRIGGER_ACCESS');
 COMMIT;
 
 -- ----------------------------
@@ -161,7 +157,6 @@ CREATE TABLE `QRTZ_SCHEDULER_STATE` (
 -- Records of QRTZ_SCHEDULER_STATE
 -- ----------------------------
 BEGIN;
-INSERT INTO `QRTZ_SCHEDULER_STATE` (`sched_name`, `instance_name`, `last_checkin_time`, `checkin_interval`) VALUES ('schedulerName', 'fxzdeMacBook-Pro.local1681376022342', 1681376139377, 15000);
 COMMIT;
 
 -- ----------------------------
@@ -244,7 +239,6 @@ CREATE TABLE `QRTZ_TRIGGERS` (
 -- Records of QRTZ_TRIGGERS
 -- ----------------------------
 BEGIN;
-INSERT INTO `QRTZ_TRIGGERS` (`sched_name`, `trigger_name`, `trigger_group`, `job_name`, `job_group`, `description`, `next_fire_time`, `prev_fire_time`, `priority`, `trigger_state`, `trigger_type`, `start_time`, `end_time`, `calendar_name`, `misfire_instr`, `job_data`) VALUES ('schedulerName', 'TASK_CLASS_NAME114', 'demoJob', 'TASK_CLASS_NAME114', 'demoJob', NULL, 1681376138000, 1681376137000, 5, 'PAUSED', 'CRON', 1681376100000, 0, NULL, 2, '');
 COMMIT;
 
 -- ----------------------------
@@ -271,7 +265,6 @@ CREATE TABLE `sys_job` (
 -- Records of sys_job
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_job` (`job_id`, `job_name`, `job_group`, `parameters`, `cron_expression`, `misfire_policy`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (114, 'demoJob', 'demoJob', '111111', '* * * * * ?', '3', '1', 'fxz', '2022-12-07 12:28:06', 'fxz', '2023-04-13 16:55:37', '');
 COMMIT;
 
 -- ----------------------------

@@ -7,21 +7,21 @@
   <img alt="Fork" src="https://gitee.com/fxz-cloud/art/badge/fork.svg?theme=dark">
 </a>
 <a target="_blank" href="">
-  <img alt="Spring Boot" src="https://img.shields.io/static/v1?label=Spring Boot &message=3.0.6&color=blue">
+  <img alt="Spring Boot " src="https://img.shields.io/static/v1?label=Spring Boot &message=2.7.11&color=blue">
 </a>
 <a target="_blank" href="">
-  <img alt="Spring Cloud" src="https://img.shields.io/static/v1?label=Spring Cloud&message=2022.0.2&color=blue">
+  <img alt="Spring Cloud" src="https://img.shields.io/static/v1?label=Spring Cloud&message=2021.0.6 &color=blue">
 </a>
 <a target="_blank" href="">
-  <img alt="Spring Cloud Alibaba" src="https://img.shields.io/static/v1?label=Spring Cloud Alibaba &message=2022.0.0.0-RC1&color=blue">
+  <img alt="Spring Cloud Alibaba" src="https://img.shields.io/static/v1?label=Spring Cloud Alibaba &message=2021.0.4.0&color=blue">
 </a>
 <a target="_blank" href="">
-  <img alt="OAuth 2.1" src="https://img.shields.io/static/v1?label=OAuth 2.1&message=1.0.2&color=blue">
+  <img alt="OAuth 2.1" src="https://img.shields.io/static/v1?label=OAuth 2.1&message=0.4.2&color=blue">
 </a>
-<a target="_blank" href="https://github.com/alibaba/dragonwell17/releases/tag/dragonwell-17.0.3.0.3%2B7_jdk-17.0.3-ga">
-  <img alt="JDK" src="https://img.shields.io/badge/JDK-17-blue.svg"/>
+<a target="_blank" href="">
+  <img alt="JDK" src="https://img.shields.io/badge/JDK-8-blue.svg"/>
 </a>
-<a target="_blank" href="https://github.com/alibaba/dragonwell17/releases/tag/dragonwell-17.0.3.0.3%2B7_jdk-17.0.3-ga">
+<a target="_blank" href="">
 <img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-%20"/>
 </a>
 <br/>
@@ -30,7 +30,7 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 ##  🍎 分支说明
 | 分支              | 说明                                                                |
 |-----------------|-------------------------------------------------------------------|
-| master          | java8 + springboot 2.7 + springcloud 2021                         |
+| master          | java8 + springboot 2.7 + springcloud 2021 + spring cloud alibaba                        |
 | next            | java17 + springboot 3.0 + springcloud 2022 + spring cloud alibaba |
 
 ## 🪜项目结构
@@ -93,22 +93,22 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 - Web 层：主要是对访问控制进行转发，各类基本参数校验，或者不复用的业务简单处理等。
 - Service 层：相对具体的业务逻辑服务层。
 - Manager 层：通用业务处理层，它有如下特征：
-    -  1） 对第三方平台封装的层，预处理返回结果及转化异常信息，适配上层接口。
-    -  2） 对 Service 层通用能力的下沉，如缓存方案、中间件通用处理。
-    -  3） 与 DAO 层交互，对多个 DAO 的组合复用。
+  -  1） 对第三方平台封装的层，预处理返回结果及转化异常信息，适配上层接口。
+  -  2） 对 Service 层通用能力的下沉，如缓存方案、中间件通用处理。
+  -  3） 与 DAO 层交互，对多个 DAO 的组合复用。
 - DAO 层：数据访问层，与底层 MySQL、Oracle、Hbase、OB 等进行数据交互。
 - 第三方服务：包括其它部门 RPC 服务接口，基础平台，其它公司的 HTTP 接口，如淘宝开放平台、支 付宝付款服务、高德地图服务等。
 - 外部数据接口：外部（应用）数据存储服务提供的接口，多见于数据迁移场景中。
 
 ## 💻系统应用
 
-| RBAC&数据权限                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/17/ABCecj.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/17/BYejIG.png) |
+| RBAC&数据权限                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/Dt08vc.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/WB6Hc9.png) |
 |--------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| OAuth2.1,支持三方登录。可自定义进行拓展 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/17/QxkBRk.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/17/tcWAif.png) |
-| 多租户                      | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/IQ7uvi.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/mPf6tH.png) |
-| 动态网关&字典管理                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/ZOGHdk.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/OZSRwm.png) |
-| 动态数据源&代码生成,              | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/UCiIcm.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/DR2mTD.png) |
-| 强退用户&审计日志                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/q49Fii.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/q49Fii.png) |
+| OAuth2.1,支持三方登录。可自定义进行拓展 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/7WXTzw.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/OXk0bF.png) |
+| 多租户                      | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/YnXioC.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/YzBZ6p.png) |
+| 动态网关&字典管理                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/zVpMJr.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/xKK55D.png) |
+| 动态数据源&代码生成,              | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/2BXWuL.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/WpUDes.png) |
+| 强退用户&审计日志                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/i2pZEe.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/XS0250.png) |
 
 ### 快速启动
 [✈️✈️✈️快速启动微服务](https://fxzcloud.gitee.io/docs/guide/started.html)
@@ -120,23 +120,23 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 过于先进，不便展示。欢迎下载源码研究🧐欢迎star
 ## 🍓依赖版本
 
-| 依赖                         | 版本             |
-|----------------------------|----------------|
-| Spring Boot                | 3.0.6          |
-| Spring Cloud               | 2022.0.2       |
-| Spring Cloud Alibaba       | 2022.0.0.0-RC1 |
-| Spring Authorization Serve | 1.0.2          |
-| Mybatis Plus               | 3.5.3.1        |
-| Hutool                     | 5.8.18         |
+| 依赖                         | 版本         |
+|----------------------------|------------|
+| Spring Boot                | 2.7.11     |
+| Spring Cloud               | 2021.0.6   |
+| Spring Cloud Alibaba       | 2021.0.4.0 |
+| Spring Authorization Serve | 0.4.2      |
+| Mybatis Plus               | 3.5.3.1    |
+| Hutool                     | 5.8.18     |
 
 
 
 ## 🍺加入我们
-| 交流群(群内不定期红包) | 微信群二维码过期请添加作者                                                          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/04/22/fa53Ub.jpg) |
+| 交流群(群内不定期红包) | 微信群二维码过期请添加作者                                                          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/Pah5rU.jpg) |
 |--------------|------------------------------------------------------------------------|------------------------------------------------------------------------|
 | 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) | 欢迎参与项目，贡献代码。                                                           |
 
- 
+
 
 
 ## 🍬说明文档

@@ -33,6 +33,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public enum CodeGenTemplateVmEnum {
 
+	/////////////////////////////////////////// java/////////////////////////////////////////////////////////
 	/**
 	 * 实体类
 	 */
@@ -77,7 +78,31 @@ public enum CodeGenTemplateVmEnum {
 	 * convert
 	 */
 	CONVERT("convert", "codegen/template/java/convert.java.vm", "Convert.java"),
+	/////////////////////////////////////////// java/////////////////////////////////////////////////////////
 
+	/////////////////////////////////////////// vue3/////////////////////////////////////////////////////////
+	/**
+	 * api_vue3
+	 */
+	API_V3("api_v3", "codegen/template/vue3/index.ts.vm", "Index.ts"),
+
+	/**
+	 * type_vue3
+	 */
+	TYPE_V3("type_v3", "codegen/template/vue3/types.ts.vm", "Types.ts"),
+
+	/**
+	 * list_vue3
+	 */
+	LIST_V3("list_v3", "codegen/template/vue3/list.vue.vm", "List.vue"),
+
+	/**
+	 * edit_vue3
+	 */
+	EDIT_V3("edit_v3", "codegen/template/vue3/edit.vue.vm", "Edit.vue"),
+	/////////////////////////////////////////// vue3/////////////////////////////////////////////////////////
+
+	/////////////////////////////////////////// vue2/////////////////////////////////////////////////////////
 	/**
 	 * api_vue2
 	 */
@@ -86,7 +111,7 @@ public enum CodeGenTemplateVmEnum {
 	/**
 	 * list_vue2
 	 */
-	LIST_V2("list_v2", "codegen/template/vue2/list.vue.vm", "List.vue"),
+	LIST_V2("list_v2", "codegen/template/vue2/list.vue.vm", "Vue2List.vue"),
 
 	/**
 	 * template_vue2
@@ -96,7 +121,8 @@ public enum CodeGenTemplateVmEnum {
 	/**
 	 * edit_vue2
 	 */
-	EDIT_V2("edit_v2", "codegen/template/vue2/edit.vue.vm", "Edit.vue");
+	EDIT_V2("edit_v2", "codegen/template/vue2/edit.vue.vm", "Vue2Edit.vue");
+	/////////////////////////////////////////// vue2/////////////////////////////////////////////////////////
 
 	/**
 	 * 名称

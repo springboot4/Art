@@ -21,6 +21,7 @@ import com.art.common.core.model.PageResult;
 import com.art.common.core.model.Result;
 import com.art.common.log.core.annotation.OperLogAnn;
 import com.art.common.log.core.enums.BusinessType;
+import com.art.common.security.core.annotation.Ojbk;
 import com.art.system.api.file.dto.FileDTO;
 import com.art.system.api.file.dto.FileDownloadDTO;
 import com.art.system.api.file.dto.FilePageDTO;
@@ -67,6 +68,18 @@ public class FileController {
 	@PostMapping("/download")
 	public void download(@RequestBody FileDownloadDTO fileDownloadDTO, HttpServletResponse response) {
 		fileService.getFile(fileDownloadDTO.getBucket(), fileDownloadDTO.getFileName(), response);
+	}
+
+	/**
+	 * 下载文件
+	 * @param response 响应
+	 */
+	@Ojbk
+	@Operation(summary = "下载文件")
+	@GetMapping("/download/{bucket}/{fileName}")
+	public void download(@PathVariable("bucket") String bucket, @PathVariable("fileName") String fileName,
+			HttpServletResponse response) {
+		fileService.getFile(bucket, fileName, response);
 	}
 
 	/**
