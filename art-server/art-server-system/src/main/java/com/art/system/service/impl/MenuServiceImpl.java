@@ -141,16 +141,11 @@ public class MenuServiceImpl implements MenuService {
 		ArtAuthUser user = SecurityUtil.getUser();
 		Optional.ofNullable(user).map(ArtAuthUser::getUsername).ifPresent(userName -> {
 			// 构建用户路由对象
-			CompletableFuture<Void> routes = CompletableFuture
-				.runAsync(() -> result.put("routes", getUserRouters(userName)));
+			result.put("routes", getUserRouters(userName));
 			// 封装用户权限信息
-			CompletableFuture<Void> permissions = CompletableFuture
-				.runAsync(() -> result.put("permissions", user.getAuthorities().toArray()));
+			result.put("permissions", user.getAuthorities().toArray());
 			// 封装应用信息
-			CompletableFuture<Void> apps = CompletableFuture.runAsync(() -> result.put("apps", appManager.listApp()));
-
-			// 异步执行
-			CompletableFuture.allOf(routes, permissions, apps).join();
+			result.put("apps", appManager.listApp());
 		});
 
 		return result;
