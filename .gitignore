@@ -26,7 +26,6 @@ rebel.xml
 
 ### NetBeans ###
 nbproject/private/
-build/
 nbbuild/
 nbdist/
 .nb-gradle/
