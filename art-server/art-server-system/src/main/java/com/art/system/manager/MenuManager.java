@@ -22,9 +22,11 @@ import com.art.system.api.dict.dto.MenuDTO;
 import com.art.system.core.convert.MenuConvert;
 import com.art.system.dao.dataobject.MenuDO;
 import com.art.system.dao.mysql.MenuMapper;
+import com.art.system.dao.redis.menu.MenuRedisKeyConstants;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -85,6 +87,7 @@ public class MenuManager {
 		menuMapper.update(menuDO, Wrappers.<MenuDO>lambdaUpdate().eq(MenuDO::getParentId, id));
 	}
 
+	@Cacheable(value = MenuRedisKeyConstants.USER, key = "#username", unless = "#result == null")
 	public List<MenuDTO> findUserPermissions(String username) {
 		return MenuConvert.INSTANCE.convertList(menuMapper.findUserPermissions(username));
 	}

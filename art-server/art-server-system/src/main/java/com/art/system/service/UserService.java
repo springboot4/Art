@@ -29,6 +29,30 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 public interface UserService {
 
 	/**
+	 * 通过手机号查找用户信息
+	 * @param mobile 手机号
+	 * @return 用户信息
+	 */
+	SystemUserDTO findByMobile(String mobile);
+
+	/**
+	 * 通过用户名查找用户信息
+	 * @param username 用户名
+	 * @return 用户信息
+	 */
+	SystemUserDTO findByName(String username);
+
+	/**
+	 * 根据用户id获取用户信息
+	 */
+	SystemUserDTO getUserById(Long id);
+
+	/**
+	 * 获取用户全部信息
+	 */
+	UserInfo findUserInfo(SystemUserDTO user);
+
+	/**
 	 * 分页
 	 */
 	IPage<SystemUserDTO> pageUser(SystemUserPageDTO userPageDTO);
@@ -56,28 +80,6 @@ public interface UserService {
 	 * @param userIds 用户 id数组
 	 */
 	void deleteUsers(String[] userIds);
-
-	/**
-	 * 根据用户id获取用户信息
-	 */
-	SystemUserDTO getUserById(Long id);
-
-	/**
-	 * 通过用户名查找用户信息
-	 */
-	SystemUserDTO findByName(String username);
-
-	/**
-	 * 获取用户全部信息
-	 */
-	UserInfo findUserInfo(SystemUserDTO user);
-
-	/**
-	 * 通过手机号查找用户信息
-	 * @param mobile 手机号
-	 * @return 用户信息
-	 */
-	SystemUserDTO findByMobile(String mobile);
 
 	/**
 	 * 获取当前租户下的所有用户数

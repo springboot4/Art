@@ -25,14 +25,14 @@ import lombok.Data;
 public class CaffeineProperties {
 
 	/**
+	 * 写入后过期时间，单位毫秒
+	 */
+	private long expireAfterWrite = 10 * 60 * 1000;
+
+	/**
 	 * 访问后过期时间，单位毫秒
 	 */
 	private long expireAfterAccess;
-
-	/**
-	 * 写入后过期时间，单位毫秒
-	 */
-	private long expireAfterWrite;
 
 	/**
 	 * 写入后刷新时间，单位毫秒

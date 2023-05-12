@@ -29,4 +29,6 @@ public interface MenuRedisKeyConstants {
 
 	String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
 
+	String USER = CACHE_NAMES + "user:";
+
 }

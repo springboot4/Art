@@ -22,7 +22,6 @@ import com.art.common.core.model.Result;
 import com.art.common.security.core.annotation.Ojbk;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.utils.SecurityUtil;
-import com.art.common.tenant.aspect.IgnoreTenant;
 import com.art.system.api.user.dto.SystemUserDTO;
 import com.art.system.api.user.dto.SystemUserPageDTO;
 import com.art.system.api.user.dto.UserInfo;
@@ -33,8 +32,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
 
@@ -53,18 +60,39 @@ public class UserController {
 
 	private final UserService userService;
 
-	/**
-	 * 根据id获取用户信息
-	 */
+	@Operation(summary = "通过用户名查找用户信息")
+	@Ojbk(inner = true)
+	@GetMapping("/findByName/{username}")
+	public Result<SystemUserDTO> findByName(@PathVariable("username") String username) {
+		return Result.success(this.userService.findByName(username));
+	}
+
+	@Operation(summary = "通过手机号查找用户信息")
+	@Ojbk(inner = true)
+	@GetMapping("/findByMobile/{mobile}")
+	public Result<SystemUserDTO> findByMobile(@PathVariable("mobile") String mobile) {
+		return Result.success(this.userService.findByMobile(mobile));
+
+	}
+
+	@Operation(summary = "获取当前用户全部信息")
+	@GetMapping("/info")
+	public Result<UserInfo> userInfo() {
+		ArtAuthUser user = SecurityUtil.getUser();
+		Assert.notNull(user, "用户未登录！");
+
+		// 查询用户信息
+		SystemUserDTO userDTO = userService.getUserById(user.getUserId());
+
+		return Result.success(userService.findUserInfo(userDTO));
+	}
+
 	@Operation(summary = "根据id获取用户信息")
 	@GetMapping("/getUserById/{id}")
 	public Result<SystemUserDTO> getUserById(@PathVariable("id") Long id) {
 		return Result.success(userService.getUserById(id));
 	}
 
-	/**
-	 * 分页查询用户信息
-	 */
 	@Operation(summary = "分页查询用户信息")
 	@GetMapping
 	@PreAuthorize("@ps.hasPermission('sys:user:view')")
@@ -72,9 +100,6 @@ public class UserController {
 		return Result.success(PageResult.success(userService.pageUser(userPageDTO)));
 	}
 
-	/**
-	 * 添加用户
-	 */
 	@Operation(summary = "添加用户")
 	@PostMapping
 	@PreAuthorize("@ps.hasPermission('sys:user:add')")
@@ -96,53 +121,11 @@ public class UserController {
 		this.userService.updateUserInfo(user);
 	}
 
-	/**
-	 * 删除用户
-	 */
-	@Operation(summary = "删除用户")
+	@Operation(summary = "批量删除用户")
 	@DeleteMapping("/{userIds}")
 	@PreAuthorize("@ps.hasPermission('sys:user:delete')")
 	public void deleteUsers(@NotBlank(message = "{required}") @PathVariable String userIds) throws FxzException {
-		String[] ids = userIds.split(StringPool.COMMA);
-		this.userService.deleteUsers(ids);
-	}
-
-	/**
-	 * 通过用户名查找用户信息
-	 */
-	@Operation(summary = "通过用户名查找用户信息")
-	@Ojbk
-	@IgnoreTenant
-	@GetMapping("/findByName/{username}")
-	public Result<SystemUserDTO> findByName(@PathVariable("username") String username) {
-		return Result.success(this.userService.findByName(username));
-	}
-
-	/**
-	 * 通过手机号查找用户信息
-	 * @param mobile 手机号
-	 * @return 用户信息
-	 */
-	@Operation(summary = "通过手机号查找用户信息")
-	@Ojbk(inner = true)
-	@GetMapping("/findByMobile/{mobile}")
-	public Result<SystemUserDTO> findByMobile(@PathVariable("mobile") String mobile) {
-		return Result.success(this.userService.findByMobile(mobile));
-
-	}
-
-	/**
-	 * 获取当前用户全部信息
-	 */
-	@Operation(summary = "获取当前用户全部信息")
-	@GetMapping("/info")
-	public Result<UserInfo> userInfo() {
-		ArtAuthUser user = SecurityUtil.getUser();
-
-		// 查询用户信息
-		SystemUserDTO userDTO = userService.getUserById(user.getUserId());
-
-		return Result.success(userService.findUserInfo(userDTO));
+		this.userService.deleteUsers(userIds.split(StringPool.COMMA));
 	}
 
 }
