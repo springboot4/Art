@@ -21,9 +21,11 @@ import com.art.system.api.user.dto.SystemUserPageDTO;
 import com.art.system.core.convert.UserConvert;
 import com.art.system.dao.dataobject.SystemUserDO;
 import com.art.system.dao.mysql.UserMapper;
+import com.art.system.dao.redis.user.UserRedisConstants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -43,6 +45,7 @@ public class UserManager {
 		return userMapper.getUserById(id);
 	}
 
+	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#username", unless = "#result == null")
 	public SystemUserDO getUserByName(String username) {
 		return userMapper.findByName(username);
 	}

@@ -16,7 +16,16 @@
 
 package com.art.common.core.support.interceptor;
 
+import com.art.common.core.constant.FxzConstant;
+import com.art.common.core.model.Result;
+import com.art.common.core.util.WebUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.io.IOException;
+import java.util.Base64;
 
 /**
  * 拦截器只放行通过网关的请求
@@ -27,22 +36,19 @@ import org.springframework.web.servlet.HandlerInterceptor;
  */
 public class ArtServerProtectInterceptor implements HandlerInterceptor {
 
-	// @Override
-	// public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-	// Object handler)
-	// throws IOException {
-	// // 从请求头中获取 gateway Token
-	// String token = request.getHeader(FxzConstant.GATEWAY_TOKEN_HEADER);
-	// String gatewayToken =
-	// Base64.getEncoder().encodeToString(FxzConstant.GATEWAY_TOKEN_VALUE.getBytes());
-	// // 校验 gateway Token的正确性
-	// if (StringUtils.equals(gatewayToken, token)) {
-	// return true;
-	// }
-	//
-	// WebUtil.makeFailureResponse(response, Result.failed("Please get resources through
-	// the gateway!"));
-	// return false;
-	// }
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws IOException {
+		// 从请求头中获取 gateway Token
+		String token = request.getHeader(FxzConstant.GATEWAY_TOKEN_HEADER);
+		String gatewayToken = Base64.getEncoder().encodeToString(FxzConstant.GATEWAY_TOKEN_VALUE.getBytes());
+		// 校验 gateway Token的正确性
+		if (StringUtils.equals(gatewayToken, token)) {
+			return true;
+		}
+
+		WebUtil.makeFailureResponse(response, Result.failed("Please get resources through the gateway!"));
+		return false;
+	}
 
 }

@@ -21,24 +21,29 @@ import com.art.system.api.user.dto.SystemUserDTO;
 import com.art.system.api.user.dto.SystemUserPageDTO;
 import com.art.system.api.user.dto.UserInfo;
 import com.art.system.core.convert.UserConvert;
-import com.art.system.dao.dataobject.*;
-import com.art.system.dao.redis.user.UserRedisConstants;
-import com.art.system.manager.*;
+import com.art.system.dao.dataobject.MenuDO;
+import com.art.system.dao.dataobject.RoleMenuDO;
+import com.art.system.dao.dataobject.SystemUserDO;
+import com.art.system.dao.dataobject.UserPostDO;
+import com.art.system.dao.dataobject.UserRoleDO;
+import com.art.system.manager.MenuManager;
+import com.art.system.manager.RoleMenuManager;
+import com.art.system.manager.UserManager;
+import com.art.system.manager.UserPostManager;
+import com.art.system.manager.UserRoleManager;
 import com.art.system.service.TenantService;
 import com.art.system.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -99,7 +104,6 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	@CacheEvict(value = UserRedisConstants.USER_INFO, key = "#user.userId")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUser(SystemUserDTO user) {
@@ -121,13 +125,12 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@CacheEvict(value = UserRedisConstants.USER_INFO, key = "#user.userId")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUserInfo(SystemUserDTO user) {
 		// 更新用户
 		if (StringUtils.isNotBlank(user.getPassword())) {
-			user.setPassword("{bcrypt}" + passwordEncoder.encode(user.getPassword()));
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
 		else {
 			user.setPassword(null);
@@ -150,7 +153,6 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * 根据用户id获取用户信息
 	 */
-	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#id", unless = "#result==null")
 	@Override
 	public SystemUserDTO getUserById(Long id) {
 		return UserConvert.INSTANCE.convert(userManager.getUserById(id));
@@ -160,7 +162,6 @@ public class UserServiceImpl implements UserService {
 	 * 通过用户名查找用户信息
 	 */
 	@DataPermission(enable = false)
-	@Cacheable(value = UserRedisConstants.USER_INFO, key = "#username")
 	@Override
 	public SystemUserDTO findByName(String username) {
 		return UserConvert.INSTANCE.convert(userManager.getUserByName(username));

@@ -36,49 +36,49 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 ## 🪜项目结构
 ```lua
    art
-    ├── art-api -- 接口管理
-    ├── art-auth -- 认证服务器
-    ├── art-framework -- 通用工具封装
-       ├── art-spring-boot-starter-canal -- 针对canal封装
-       ├── art-spring-boot-starter-captcha -- 验证码封装
-       ├── art-spring-boot-starter-core -- web基础配置
-       ├── art-spring-boot-starter-data-permission -- 数据权限封装
-       ├── art-spring-boot-starter-database -- 多数据源
-       ├── art-spring-boot-starter-dependencies -- 依赖管理
-       ├── art-spring-boot-starter-doc -- 接口文档
-       ├── art-spring-boot-starter-es -- es配置
-       ├── art-spring-boot-starter-feign -- feign拓展
-       ├── art-spring-boot-starter-file -- 文件管理模块
-       ├── art-spring-boot-starter-gateway -- 动态网关
-       ├── art-spring-boot-starter-hazelcast -- hazelcast分布式缓存
-       ├── art-spring-boot-starter-idempotency -- 幂等控制组件
-       ├── art-spring-boot-starter-jackson -- Json序列化配置
-       ├── art-spring-boot-starter-log -- 日志配置
-       ├── art-spring-boot-starter-mp -- mybatis-plus配置
-       ├── art-spring-boot-starter-rabbit -- rabbitMq消息队列
-       ├── art-spring-boot-starter-quartz -- quartz定时任务
-       ├── art-spring-boot-starter-redis -- 缓存、mq、key事件等封装
-       ├── art-spring-boot-starter-redisson -- redisson分布式锁相关模块
-       ├── art-spring-boot-starter-seata -- 分布式事务
-       ├── art-spring-boot-starter-security -- 安全模块
-       ├── art-spring-boot-starter-sensitive -- 数据脱敏
-       ├── art-spring-boot-starter-sequence -- 发号器（序列号生成器）
-       ├── art-spring-boot-starter-sms -- 阿里云短信服务
-       ├── art-spring-boot-starter-tenant -- SaaS多租户支持
-       ├── art-spring-boot-starter-websocket  -- websocket
-       ├── art-spring-boot-starter-xss  -- xss过滤
-       ├── art-spring-boot-starter-xxl-job  -- xxl-job配置
-    ├── art-gateway -- 网关模块
-    ├── art-server -- 系统服务
-       ├── art-server-system -- 系统管理模块
-       ├── art-server-generate -- 代码生成器模块
-       ├── art-server-scheduled -- quartz定时任务模块
-       ├── art-server-z-demos -- 实验性模块
-    ├──_other -- 项目相关文件
-       ├── db -- 数据库相关文件
-       ├── docker -- docker环境
+   ├── art-api -- 接口管理
+   ├── art-auth -- 认证服务器
+   ├── art-framework -- 通用工具封装
+   ├── art-spring-boot-starter-canal -- 针对canal封装
+   ├── art-spring-boot-starter-captcha -- 验证码封装
+   ├── art-spring-boot-starter-core -- web基础配置
+   ├── art-spring-boot-starter-data-permission -- 数据权限封装
+   ├── art-spring-boot-starter-database -- 多数据源
+   ├── art-spring-boot-starter-dependencies -- 依赖管理
+   ├── art-spring-boot-starter-doc -- 接口文档
+   ├── art-spring-boot-starter-es -- es配置
+   ├── art-spring-boot-starter-feign -- feign拓展
+   ├── art-spring-boot-starter-file -- 文件管理模块
+   ├── art-spring-boot-starter-gateway -- 动态网关
+   ├── art-spring-boot-starter-hazelcast -- hazelcast分布式缓存
+   ├── art-spring-boot-starter-idempotency -- 幂等控制组件
+   ├── art-spring-boot-starter-jackson -- Json序列化配置
+   ├── art-spring-boot-starter-log -- 日志配置
+   ├── art-spring-boot-starter-mp -- mybatis-plus配置
+   ├── art-spring-boot-starter-rabbit -- rabbitMq消息队列
+   ├── art-spring-boot-starter-quartz -- quartz定时任务
+   ├── art-spring-boot-starter-redis -- 缓存、mq、key事件等封装
+   ├── art-spring-boot-starter-redisson -- redisson分布式锁相关模块
+   ├── art-spring-boot-starter-seata -- 分布式事务
+   ├── art-spring-boot-starter-security -- 安全模块
+   ├── art-spring-boot-starter-sensitive -- 数据脱敏
+   ├── art-spring-boot-starter-sequence -- 发号器（序列号生成器）
+   ├── art-spring-boot-starter-sms -- 阿里云短信服务
+   ├── art-spring-boot-starter-tenant -- SaaS多租户支持
+   ├── art-spring-boot-starter-websocket  -- websocket
+   ├── art-spring-boot-starter-xss  -- xss过滤
+   ├── art-spring-boot-starter-xxl-job  -- xxl-job配置
+   ├── art-gateway -- 网关模块
+   ├── art-server -- 系统服务
+   ├── art-server-system -- 系统管理模块
+   ├── art-server-generate -- 代码生成器模块
+   ├── art-server-scheduled -- quartz定时任务模块
+   ├── art-server-z-demos -- 实验性模块
+   ├──_other -- 项目相关文件
+   ├── db -- 数据库相关文件
+   ├── docker -- docker环境
 
-前端代码： https://gitee.com/fxz-cloud/art-admin-ui
+   前端代码： https://gitee.com/fxz-cloud/art-admin-ui
 ```
 ## 📖分层结构
 

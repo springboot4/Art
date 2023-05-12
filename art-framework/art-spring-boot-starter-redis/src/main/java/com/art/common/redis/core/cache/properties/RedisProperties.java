@@ -28,9 +28,9 @@ import java.util.Map;
 public class RedisProperties {
 
 	/**
-	 * 全局过期时间，单位毫秒，默认不过期
+	 * 全局过期时间，单位毫秒，默认10分钟
 	 */
-	private long defaultExpiration = 0;
+	private long defaultExpiration = 10 * 60 * 1000;
 
 	/**
 	 * 每个cacheName的过期时间，单位毫秒，优先级比defaultExpiration高
