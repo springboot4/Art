@@ -47,7 +47,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -88,8 +87,8 @@ public class UserServiceImpl implements UserService {
 		user.setAvatar(SystemUserDO.DEFAULT_AVATAR);
 
 		// 设置用户密码
-		user.setPassword((Objects.isNull(user.getPassword()) ? passwordEncoder.encode(SystemUserDO.DEFAULT_PASSWORD)
-				: passwordEncoder.encode(user.getPassword())));
+		user.setPassword((StringUtils.isBlank(user.getPassword())
+				? passwordEncoder.encode(SystemUserDO.DEFAULT_PASSWORD) : passwordEncoder.encode(user.getPassword())));
 
 		// 保存用户信息
 		Long userId = userManager.addUser(user);
