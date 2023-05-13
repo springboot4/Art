@@ -1,18 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 61.153.186.23
- Source Server Type    : MySQL
- Source Server Version : 80031
- Source Host           : 61.153.186.23:3306
- Source Schema         : art_codegen
-
- Target Server Type    : MySQL
- Target Server Version : 80031
- File Encoding         : 65001
-
- Date: 06/05/2023 15:04:20
-*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
