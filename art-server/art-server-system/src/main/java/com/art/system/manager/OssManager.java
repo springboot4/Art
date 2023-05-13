@@ -104,4 +104,11 @@ public class OssManager {
 		return ossFileStorage.getObject(bucket, fileName);
 	}
 
+	/**
+	 * 获取文件临时外链
+	 */
+	public String preSignUploadUrl(String bucket, String fileName) {
+		return ossFileStorage.genPreSignUploadUrl(bucket, fileName);
+	}
+
 }

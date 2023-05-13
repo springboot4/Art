@@ -127,4 +127,13 @@ public class FileController {
 		return Result.success(PageResult.success(fileService.pageFile(filePageDTO)));
 	}
 
+	/**
+	 * 获取文件临时外链
+	 */
+	@Operation(summary = "获取文件临时外链")
+	@PostMapping(value = "/preSignUploadUrl")
+	public Result<String> preSignUploadUrl(@RequestBody FileDownloadDTO dto) {
+		return Result.success(fileService.preSignUploadUrl(dto));
+	}
+
 }

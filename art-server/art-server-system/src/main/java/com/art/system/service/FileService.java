@@ -18,6 +18,7 @@ package com.art.system.service;
 
 import cn.hutool.core.lang.Dict;
 import com.art.system.api.file.dto.FileDTO;
+import com.art.system.api.file.dto.FileDownloadDTO;
 import com.art.system.api.file.dto.FilePageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,5 +71,10 @@ public interface FileService {
 	 * @param response 响应
 	 */
 	void getFile(String bucket, String fileName, HttpServletResponse response);
+
+	/**
+	 * 获取文件临时外链
+	 */
+	String preSignUploadUrl(FileDownloadDTO dto);
 
 }
