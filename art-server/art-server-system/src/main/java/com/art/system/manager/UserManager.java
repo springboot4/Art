@@ -25,6 +25,7 @@ import com.art.system.dao.redis.user.UserRedisConstants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -69,6 +70,7 @@ public class UserManager {
 		return userDO.getUserId();
 	}
 
+	@CacheEvict(value = UserRedisConstants.USER_INFO, key = "#user.username")
 	public void updateUserById(SystemUserDTO user) {
 		userMapper.updateById(UserConvert.INSTANCE.convert(user));
 	}

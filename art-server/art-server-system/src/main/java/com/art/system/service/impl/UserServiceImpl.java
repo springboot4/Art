@@ -135,7 +135,6 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(null);
 		}
 
-		user.setUsername(null);
 		userManager.updateUserById(user);
 	}
 
