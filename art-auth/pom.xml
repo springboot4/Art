@@ -54,6 +54,11 @@
             <artifactId>art-spring-boot-starter-security</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-tenant</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

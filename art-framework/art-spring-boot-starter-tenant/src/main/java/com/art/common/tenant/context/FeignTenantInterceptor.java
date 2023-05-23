@@ -20,6 +20,8 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Objects;
+
 /**
  * 传递feign租户请求头
  *
@@ -32,7 +34,9 @@ public class FeignTenantInterceptor implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate requestTemplate) {
-		requestTemplate.header("TENANT-ID", TenantContextHolder.getTenantId().toString());
+		if (Objects.nonNull(TenantContextHolder.getTenantId())) {
+			requestTemplate.header("TENANT-ID", TenantContextHolder.getTenantId().toString());
+		}
 	}
 
 }

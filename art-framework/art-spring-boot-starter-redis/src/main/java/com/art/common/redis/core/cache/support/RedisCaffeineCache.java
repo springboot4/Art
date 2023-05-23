@@ -216,7 +216,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	 */
 	@Override
 	public ValueWrapper putIfAbsent(Object key, Object value) {
-		Object cacheKey = getKey(key.toString());
+		String cacheKey = getKey(key.toString());
 		Object prevValue;
 		// 考虑使用分布式锁，或者将redis的setIfAbsent改为原子性操作
 		synchronized (key) {
@@ -230,19 +230,23 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 
 	private void doPut(Object key, Object value) {
 		long expire = getExpire();
+		String cachekey = getKey(key.toString());
 
 		if (expire > 0) {
 			buildRedisTemplate(stringKeyRedisTemplate).opsForValue()
-				.set(getKey(key.toString()), toStoreValue(value), expire, TimeUnit.MILLISECONDS);
+				.set(cachekey, toStoreValue(value), expire, TimeUnit.MILLISECONDS);
 		}
 		else {
 			Object o = toStoreValue(value);
-			buildRedisTemplate(stringKeyRedisTemplate).opsForValue().set(getKey(key.toString()), o);
+			buildRedisTemplate(stringKeyRedisTemplate).opsForValue().set(cachekey, o);
 		}
 
 		push(new CacheMessage(this.name, key.toString()));
 
-		caffeineCache.put(key, toStoreValue(value));
+		if (log.isDebugEnabled()) {
+			log.debug("缓存数据:cachekey:{},value:{}", cachekey, value);
+		}
+		caffeineCache.put(cachekey, toStoreValue(value));
 	}
 
 	/**
@@ -251,16 +255,21 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	 */
 	@Override
 	public void evict(Object key) {
-		// 先清除redis中缓存数据，然后清除caffeine中的缓存，避免短时间内如果先清除caffeine缓存后其他请求会再从redis里加载到caffeine中
-		buildRedisTemplate(stringKeyRedisTemplate).delete(getKey(key.toString()));
+		String cacheKey = getKey(key.toString());
 
+		// 先清除redis中缓存数据，然后清除caffeine中的缓存，避免短时间内如果先清除caffeine缓存后其他请求会再从redis里加载到caffeine中
+		buildRedisTemplate(stringKeyRedisTemplate).delete(cacheKey);
+
+		// 通知其他节点清空本地缓存
 		push(new CacheMessage(this.name, key.toString()));
 
-		caffeineCache.invalidate(key);
+		caffeineCache.invalidate(cacheKey);
 	}
 
 	/**
-	 * 删除缓存中的所有数据。需要注意的是，具体实现中只删除使用@Cacheable注解缓存的所有数据，不要影响应用内的其他缓存
+	 * 删除缓存中的所有数据
+	 * <p>
+	 * 需要注意的是 具体实现中只删除使用@Cacheable注解缓存的所有数据 不要影响应用内的其他缓存
 	 */
 	@Override
 	public void clear() {
@@ -275,61 +284,78 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 		caffeineCache.invalidateAll();
 	}
 
+	/**
+	 * 获取缓存值
+	 */
 	@Override
 	protected Object lookup(Object key) {
 		Object cacheKey = getKey(key.toString());
-		Object value = caffeineCache.getIfPresent(key);
+
+		// 从本地缓存caffeine中获取缓存
+		Object value = caffeineCache.getIfPresent(cacheKey);
 		if (value != null) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("从本地缓存caffeine中获取缓存，key: {}", cacheKey);
+				logger.debug("从本地缓存caffeine中获取缓存，cacheKey: {},value :{}", cacheKey, value);
 			}
 			return value;
 		}
 
+		// 从redis中获取缓存
 		value = buildRedisTemplate(stringKeyRedisTemplate).opsForValue().get(cacheKey);
-
 		if (value != null) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("从redis中获取缓存, key : {}", cacheKey);
+				logger.debug("从redis中获取缓存, cacheKey : {},value :{}", cacheKey, value);
 			}
-			caffeineCache.put(key, value);
+			// 直接写到本地缓存
+			caffeineCache.put(cacheKey, value);
 		}
+
 		return value;
 	}
 
-	private String getKey(String key) {
-		return this.name.concat(":")
-			.concat(!StringUtils.hasText(cachePrefix) ? key : cachePrefix.concat(":").concat(key));
-	}
-
-	private long getExpire() {
-		long expire = defaultExpiration;
-		Long cacheNameExpire = expires.get(this.name);
-		return cacheNameExpire == null ? expire : cacheNameExpire;
+	/**
+	 * 清理本地缓存
+	 * @param key
+	 */
+	public void clearLocal(Object key) {
+		if (key == null) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("清空本地缓存");
+			}
+			caffeineCache.invalidateAll();
+		}
+		else {
+			String cacheKey = getKey(key.toString());
+			if (logger.isDebugEnabled()) {
+				logger.debug("清理本地缓存:{}", cacheKey);
+			}
+			caffeineCache.invalidate(cacheKey);
+		}
 	}
 
 	/**
+	 * 缓存变更时通知其他节点清理本地缓存
 	 * @param message
-	 * @description 缓存变更时通知其他节点清理本地缓存
 	 */
 	private void push(CacheMessage message) {
 		redisMQTemplate.send(message);
 	}
 
 	/**
-	 * @param key
-	 * @description 清理本地缓存
+	 * 缓存缓存key
 	 */
-	public void clearLocal(Object key) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("清理本地缓存 : {}", key);
-		}
-		if (key == null) {
-			caffeineCache.invalidateAll();
-		}
-		else {
-			caffeineCache.invalidate(key);
-		}
+	private String getKey(String key) {
+		return this.name.concat(":")
+			.concat(!StringUtils.hasText(cachePrefix) ? key : cachePrefix.concat(":").concat(key));
+	}
+
+	/**
+	 * 获取缓存过期时间
+	 */
+	private long getExpire() {
+		long expire = defaultExpiration;
+		Long cacheNameExpire = expires.get(this.name);
+		return cacheNameExpire == null ? expire : cacheNameExpire;
 	}
 
 }
