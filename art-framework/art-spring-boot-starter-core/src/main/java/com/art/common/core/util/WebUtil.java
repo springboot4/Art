@@ -26,7 +26,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Fxz
@@ -37,8 +37,9 @@ import java.util.Objects;
 public class WebUtil {
 
 	public static HttpServletRequest getReq() {
-		return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
-			.getRequest();
+		return Optional.ofNullable((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+			.map(ServletRequestAttributes::getRequest)
+			.orElse(null);
 	}
 
 	/**
