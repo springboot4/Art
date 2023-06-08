@@ -35,7 +35,6 @@ import com.art.system.manager.TenantManager;
 import com.art.system.service.TenantPackageService;
 import com.art.system.service.TenantService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +54,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class TenantServiceImpl implements TenantService {
 
 	@Resource
@@ -64,9 +62,11 @@ public class TenantServiceImpl implements TenantService {
 	@Resource
 	private UserServiceImpl userService;
 
-	private final RoleServiceImpl roleService;
+	@Resource
+	private RoleServiceImpl roleService;
 
-	private final TenantManager tenantManager;
+	@Resource
+	private TenantManager tenantManager;
 
 	/**
 	 * 校验租户信息是否合法

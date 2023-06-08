@@ -84,8 +84,9 @@
     <!--依赖管理-->
     <dependencyManagement>
 
-        <!-- art-common 依赖 -->
         <dependencies>
+
+            <!-- art-common 依赖 -->
             <dependency>
                 <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-dependencies</artifactId>
@@ -122,6 +123,7 @@
             </dependency>
 
         </dependencies>
+
     </dependencyManagement>
 
     <build>
