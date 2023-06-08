@@ -18,7 +18,7 @@ package com.art.common.log.core.aspect;
 
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
 import com.art.common.core.model.Result;
 import com.art.common.core.util.WebUtil;
 import com.art.common.log.core.annotation.OperLogAnn;
@@ -33,6 +33,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
@@ -110,7 +111,20 @@ public class LogAspect {
 		// 请求参数
 		String param = null;
 		if (operLogAnn.isSaveRequestData()) {
-			param = HttpUtil.toParams(request.getParameterMap());
+			MethodSignature signature = (MethodSignature) point.getSignature();
+
+			// 获取方法参数名称
+			String[] parameterNames = signature.getParameterNames();
+
+			// 获取方法实际参数值
+			Object[] args = point.getArgs();
+
+			JSONObject json = new JSONObject();
+			for (int i = 0; i < parameterNames.length; i++) {
+				json.set(parameterNames[i], args[i]);
+			}
+
+			param = json.toString();
 		}
 
 		// 业务类型
@@ -126,7 +140,8 @@ public class LogAspect {
 			.setMethod(method)
 			.setRequestMethod(requestMethod)
 			.setOperParam(param)
-			.setBusinessType(businessType);
+			.setBusinessType(businessType)
+			.setStatus(BusinessStatus.SUCCESS.getValue());
 	}
 
 	private void handleException(OperLogDTO operLog, String msg) {
