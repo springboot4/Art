@@ -26,9 +26,6 @@ import com.art.common.lock.core.utils.RedissonUtils;
 import com.art.common.redis.core.cache.support.CacheMessage;
 import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.common.sequence.service.Sequence;
-import com.art.system.api.user.dto.SystemUserDTO;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -36,14 +33,17 @@ import org.redisson.api.RateType;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Fxz
  * @version 0.0.1
  * @date 2022-02-27 18:33
  */
-@Tag(name = "测试")
 @Slf4j
 @RestController
 @RequestMapping("/demo")
@@ -64,33 +64,28 @@ public class DemoController {
 		return Result.success(res);
 	}
 
-	@Operation(summary = "xss过滤简易demo")
 	@GetMapping("/xss")
 	public Result<String> xss(@RequestParam("value") String value) {
 		return Result.success(value);
 	}
 
-	@Operation(summary = "限流器")
 	@GetMapping("/redisson/rateLimiter")
 	public Result<Long> rateLimiter() {
 		return Result.success(RedissonUtils.rateLimiter("demo.rateLimiter", RateType.OVERALL, 2, 20));
 	}
 
-	@Operation(summary = "向topic发布消息")
 	@GetMapping("/pubsub/pub")
 	public Result<Void> pubTopic(@RequestParam("topic") String topic, @RequestParam("msg") String msg) {
 		RedissonUtils.publish(topic, msg);
 		return Result.success();
 	}
 
-	@Operation(summary = "手动订阅频道")
 	@GetMapping("/pubsub/sub")
 	public Result<Void> subTopic(@RequestParam("topic") String topic) {
 		RedissonUtils.subscribe(topic, String.class, (channel, msg) -> log.info("接收到消息:{},{}", channel, msg));
 		return Result.success();
 	}
 
-	@Operation(summary = "清除缓存")
 	@CacheEvict(value = "demo", key = "#id")
 	@GetMapping("/cache/evict")
 	public Result<String> cacheEvict(Long id) {
@@ -115,9 +110,9 @@ public class DemoController {
 		return Result.failed(MsgUtil.getMessage(ErrorCodes.SYS_TEST_MESSAGE_STR, "参数1", "参数2"));
 	}
 
-	@Idempotent(timeout = 10, message = "别发请求，等我执行完")
+	@Idempotent(timeout = 10, message = "别发请求，等我执行完", key = "idempotentObj")
 	@PostMapping("/idempotentObj")
-	public Result<Void> idempotentObj(@RequestBody SystemUserDTO user) {
+	public Result<Void> idempotentObj() {
 		log.info("方法执行");
 		return Result.success();
 	}

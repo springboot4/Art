@@ -30,7 +30,6 @@ import com.art.demos.core.message.DemoTopicMessage;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.topic.ITopic;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +47,6 @@ import java.util.concurrent.locks.Lock;
  * @version 0.0.1
  * @date 2022-03-25 18:33
  */
-@Tag(name = "Hazelcast测试")
 @Slf4j
 @RestController
 @RequestMapping("/demo/hazelcast")

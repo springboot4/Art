@@ -119,11 +119,6 @@
 
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-doc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-sequence</artifactId>
         </dependency>
 
@@ -135,11 +130,6 @@
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-api-system</artifactId>
         </dependency>
 
     </dependencies>
