@@ -13,9 +13,3 @@ spring:
     import:
       - optional:nacos:${spring.application.name}.yaml
       - optional:nacos:art-common.yaml
-  servlet:
-    multipart:
-      max-file-size: 100MB # 单个文件上传大小
-      max-request-size: 100MB # 总文件上传大小
-  main:
-    allow-circular-references: true

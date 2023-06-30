@@ -19,7 +19,6 @@ package com.art.common.jackson.config;
 import cn.hutool.core.date.DatePattern;
 import com.art.common.jackson.module.JavaLongTypeModule;
 import com.art.common.jackson.module.JavaTimeModule;
-import com.art.common.jackson.util.JacksonUtil;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -31,7 +30,6 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -49,38 +47,27 @@ import java.util.TimeZone;
 @AutoConfigureBefore(JacksonAutoConfiguration.class)
 public class JacksonConfiguration {
 
+	@Primary
 	@Bean
-	@ConditionalOnMissingBean
 	public Jackson2ObjectMapperBuilderCustomizer customizer() {
 		return builder -> {
-			builder.locale(Locale.CHINA);
-			builder.timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
-			// 时间格式
-			builder.simpleDateFormat(DatePattern.NORM_DATETIME_PATTERN);
-			// Long转String
-			builder.serializerByType(Long.class, ToStringSerializer.instance);
-			builder.modules(new JavaTimeModule());
+			builder.locale(Locale.CHINA)
+				.timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()))
+				.simpleDateFormat(DatePattern.NORM_DATETIME_PATTERN)
+				.modules(new JavaTimeModule(), new Jdk8Module(), new JavaLongTypeModule(), new SimpleModule())
+				// Long转String
+				.serializerByType(Long.class, ToStringSerializer.instance)
+				// 序列化和反序列化对象中的所有字段并忽略它们的可见性修饰符
+				.visibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+				// featuresToDisable
+				.featuresToDisable(
+						// 不将日期写为时间戳
+						SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
+						// 忽略未知属性
+						DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+						// 对象属性为空时可以序列化
+						SerializationFeature.FAIL_ON_EMPTY_BEANS);
 		};
-	}
-
-	@Bean
-	@Primary
-	public ObjectMapper objectMapper() {
-		ObjectMapper objectMapper = new ObjectMapper()
-			// 指定要序列化的域
-			.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
-			// 不将日期写为时间戳
-			.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-			// 忽略未知属性
-			.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-			// 对象属性为空时可以序列化
-			.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-			.registerModule(new JavaTimeModule())
-			.registerModule(new Jdk8Module())
-			.registerModule(new JavaLongTypeModule())
-			.registerModule(new SimpleModule());
-		JacksonUtil.setObjectMapper(objectMapper);
-		return objectMapper;
 	}
 
 }
