@@ -18,9 +18,12 @@ package com.art.common.jackson.util;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
@@ -31,17 +34,14 @@ import java.util.List;
  * @version 0.0.1
  * @date 2022/6/30 17:44
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JacksonUtil {
 
-	private static ObjectMapper objectMapper;
-
-	public static void setObjectMapper(ObjectMapper objectMapper) {
-		JacksonUtil.objectMapper = objectMapper;
-	}
+	private static final ObjectMapper OBJECT_MAPPER = SpringUtil.getBean(ObjectMapper.class);
 
 	@SneakyThrows
 	public static String toJsonString(Object object) {
-		return objectMapper.writeValueAsString(object);
+		return OBJECT_MAPPER.writeValueAsString(object);
 	}
 
 	@SneakyThrows
@@ -49,7 +49,7 @@ public class JacksonUtil {
 		if (ArrayUtil.isEmpty(bytes)) {
 			return null;
 		}
-		return objectMapper.readValue(bytes, clazz);
+		return OBJECT_MAPPER.readValue(bytes, clazz);
 	}
 
 	@SneakyThrows
@@ -57,12 +57,12 @@ public class JacksonUtil {
 		if (StrUtil.isEmpty(text)) {
 			return null;
 		}
-		return objectMapper.readValue(text, clazz);
+		return OBJECT_MAPPER.readValue(text, clazz);
 	}
 
 	@SneakyThrows
 	public static <T> T parseObject(String text, TypeReference<T> typeReference) {
-		return objectMapper.readValue(text, typeReference);
+		return OBJECT_MAPPER.readValue(text, typeReference);
 	}
 
 	@SneakyThrows
@@ -71,12 +71,12 @@ public class JacksonUtil {
 			return new ArrayList<>();
 		}
 
-		return objectMapper.readValue(text, objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
+		return OBJECT_MAPPER.readValue(text, OBJECT_MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
 	}
 
 	@SneakyThrows
 	public static JsonNode parseTree(String text) {
-		return objectMapper.readTree(text);
+		return OBJECT_MAPPER.readTree(text);
 	}
 
 }
