@@ -44,6 +44,7 @@
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-hazelcast</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-file</artifactId>
@@ -52,11 +53,6 @@
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-websocket</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-rabbit</artifactId>
         </dependency>
 
         <dependency>

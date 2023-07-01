@@ -365,11 +365,6 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-rabbit</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-data-permission</artifactId>
                 <version>${project.version}</version>
             </dependency>
