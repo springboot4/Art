@@ -17,7 +17,7 @@
 package com.art.common.security.client.http;
 
 import cn.hutool.core.text.StrPool;
-import com.art.common.jackson.util.JacksonUtil;
+import com.art.json.sdk.util.JacksonUtil;
 import com.art.common.security.authentication.gitee.OAuth2GiteeAuthenticationToken;
 import com.art.common.security.client.GiteeRegisteredClientRepository;
 import com.art.common.security.client.core.constants.GiteeEndpointEnums;

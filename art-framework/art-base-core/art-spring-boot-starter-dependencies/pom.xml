@@ -71,7 +71,6 @@
                 <artifactId>sms4j-spring-boot-starter</artifactId>
                 <version>${sms4j.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.mysql</groupId>
                 <artifactId>mysql-connector-j</artifactId>
@@ -164,6 +163,11 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-core</artifactId>
+                <version>${myabtis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
                 <version>${myabtis-plus.version}</version>
             </dependency>
             <dependency>
@@ -305,6 +309,36 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
+                <artifactId>art-mp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-mp-sdk-encrypt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-mp-encrypt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-mp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-json-sdk-jackson</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-jackson</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-hazelcast</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -391,11 +425,6 @@
             <dependency>
                 <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-file</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-mp</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

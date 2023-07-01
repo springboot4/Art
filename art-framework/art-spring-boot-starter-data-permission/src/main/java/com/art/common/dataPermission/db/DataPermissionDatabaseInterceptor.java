@@ -17,6 +17,7 @@
 package com.art.common.dataPermission.db;
 
 import cn.hutool.core.collection.CollUtil;
+import com.art.mybatis.common.utils.MyBatisUtils;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.parser.JsqlParserSupport;
@@ -25,7 +26,6 @@ import com.art.common.dataPermission.factory.DataPermissionRuleFactory;
 import com.art.common.dataPermission.local.DataPermissionRuleContextHolder;
 import com.art.common.dataPermission.local.MappedStatementCache;
 import com.art.common.dataPermission.rule.DataPermissionRule;
-import com.art.common.mp.core.utils.MyBatisUtils;
 import lombok.RequiredArgsConstructor;
 import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;

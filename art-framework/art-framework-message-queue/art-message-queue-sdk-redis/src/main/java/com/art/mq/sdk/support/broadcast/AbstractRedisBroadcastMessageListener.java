@@ -17,9 +17,8 @@
 package com.art.mq.sdk.support.broadcast;
 
 import cn.hutool.core.util.TypeUtil;
-import com.art.common.jackson.util.JacksonUtil;
+import com.art.json.sdk.util.JacksonUtil;
 import com.art.mq.common.message.AbstractMessage;
-import com.art.mq.common.support.MessageQueueInterceptor;
 import com.art.mq.sdk.client.RedisMQTemplate;
 import com.art.mq.sdk.interceptor.RedisMessageInterceptor;
 import lombok.Getter;

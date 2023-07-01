@@ -20,7 +20,7 @@ import com.art.core.common.model.RouterMeta;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.art.core.common.model.VueRouter;
-import com.art.common.mp.core.base.BaseEntity;
+import com.art.mybatis.common.base.BaseEntity;
 import lombok.Data;
 
 import java.io.Serializable;

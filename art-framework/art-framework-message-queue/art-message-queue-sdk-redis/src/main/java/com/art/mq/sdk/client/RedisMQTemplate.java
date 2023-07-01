@@ -16,7 +16,7 @@
 
 package com.art.mq.sdk.client;
 
-import com.art.common.jackson.util.JacksonUtil;
+import com.art.json.sdk.util.JacksonUtil;
 import com.art.mq.common.client.MessageQueueTemplate;
 import com.art.mq.common.message.AbstractBroadcastMessage;
 import com.art.mq.common.message.AbstractGroupMessage;

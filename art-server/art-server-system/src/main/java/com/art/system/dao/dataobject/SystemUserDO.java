@@ -18,7 +18,8 @@ package com.art.system.dao.dataobject;
 
 import cn.hutool.core.date.DatePattern;
 import com.art.core.common.annotation.CheckMobileValid;
-import com.art.common.mp.core.base.BaseCreateEntity;
+import com.art.mybatis.common.base.BaseCreateEntity;
+
 import com.art.common.sensitive.core.annotation.fixed.MobileSensitive;
 import com.art.common.sensitive.core.annotation.regex.EmailSensitive;
 import com.baomidou.mybatisplus.annotation.IdType;

@@ -16,7 +16,7 @@
 
 package com.art.system.dao.dataobject;
 
-import com.art.common.mp.core.base.BaseEntity;
+import com.art.mybatis.common.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 

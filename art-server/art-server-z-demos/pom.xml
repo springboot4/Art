@@ -96,12 +96,6 @@
             <artifactId>art-spring-boot-starter-redisson</artifactId>
         </dependency>
 
-        <!--测试:es模块-->
-<!--        <dependency>-->
-<!--            <groupId>com.art</groupId>-->
-<!--            <artifactId>art-spring-boot-starter-es</artifactId>-->
-<!--        </dependency>-->
-
         <!--jackson序列化-->
         <dependency>
             <groupId>com.art</groupId>
