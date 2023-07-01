@@ -18,7 +18,7 @@ package com.art.system.dao.dataobject;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.art.core.common.constant.GlobalStatusEnum;
-import com.art.common.mp.core.base.MpEntity;
+import com.art.mybatis.common.base.MpEntity;
 import lombok.Data;
 
 import java.time.LocalDateTime;

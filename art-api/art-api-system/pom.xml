@@ -61,7 +61,7 @@
 
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-mp</artifactId>
+            <artifactId>art-mp</artifactId>
         </dependency>
 
     </dependencies>

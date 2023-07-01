@@ -29,7 +29,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>art-spring-boot-starter-mp</module>
         <module>art-spring-boot-starter-doc</module>
         <module>art-spring-boot-starter-log</module>
         <module>art-spring-boot-starter-file</module>
@@ -41,7 +40,6 @@
         <module>art-spring-boot-starter-database</module>
         <module>art-spring-boot-starter-idempotent</module>
         <module>art-spring-boot-starter-data-permission</module>
-        <module>art-spring-boot-starter-jackson</module>
         <module>art-spring-boot-starter-sequence</module>
         <module>art-spring-boot-starter-websocket</module>
         <module>art-spring-boot-starter-tenant</module>
@@ -54,6 +52,8 @@
         <module>art-framework-captcha</module>
         <module>art-framework-transactional</module>
         <module>art-framework-job</module>
+        <module>art-framework-mybatis</module>
+        <module>art-framework-json</module>
     </modules>
 
 </project>

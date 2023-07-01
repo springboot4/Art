@@ -16,7 +16,8 @@
 
 package com.art.system.api.client.dto;
 
-import com.art.common.mp.core.base.BaseCreateEntity;
+import com.art.mybatis.common.base.BaseCreateEntity;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

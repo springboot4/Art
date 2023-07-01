@@ -17,7 +17,6 @@
 package com.art.common.tenant.config;
 
 import com.art.cache.sdk.properties.CacheRedisCaffeineProperties;
-import com.art.common.mp.core.utils.MyBatisUtils;
 import com.art.common.tenant.aspect.IgnoreTenantAspect;
 import com.art.common.tenant.cache.TenantRedisCacheManager;
 import com.art.common.tenant.cache.TenantRedisCaffeineCacheManager;
@@ -27,6 +26,7 @@ import com.art.common.tenant.mp.TenantDatabaseHandler;
 import com.art.common.tenant.security.TenantSecurityWebFilter;
 import com.art.common.tenant.service.TenantValidService;
 import com.art.mq.sdk.client.RedisMQTemplate;
+import com.art.mybatis.common.utils.MyBatisUtils;
 import com.art.system.api.tenant.TenantServiceApi;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;

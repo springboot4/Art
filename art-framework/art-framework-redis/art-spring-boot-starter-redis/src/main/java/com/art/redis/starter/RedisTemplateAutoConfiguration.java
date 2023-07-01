@@ -16,6 +16,7 @@
 
 package com.art.redis.starter;
 
+import com.art.json.sdk.module.JavaTimeModule;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -106,7 +107,7 @@ public class RedisTemplateAutoConfiguration {
 			// null 值不序列化
 			.setSerializationInclusion(JsonInclude.Include.NON_NULL)
 			// 日期处理
-			.registerModule(new com.art.common.jackson.module.JavaTimeModule());
+			.registerModule(new JavaTimeModule());
 		GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
 
 		// 默认使用了jdk的序列化方式，可读性差，我们使用 String 序列化方式，序列化 KEY 。

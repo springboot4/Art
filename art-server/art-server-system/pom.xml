@@ -60,6 +60,18 @@
             <artifactId>art-api-system</artifactId>
         </dependency>
 
+        <!--mp-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-mp</artifactId>
+        </dependency>
+
+        <!--加密-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-mp-encrypt</artifactId>
+        </dependency>
+
         <!--接口api-->
         <dependency>
             <groupId>com.art</groupId>
