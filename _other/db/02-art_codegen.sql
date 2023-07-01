@@ -1,3 +1,18 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 127.0.0.1
+ Source Server Type    : MySQL
+ Source Server Version : 80032
+ Source Host           : 127.0.0.1:3306
+ Source Schema         : art_codegen
+
+ Target Server Type    : MySQL
+ Target Server Version : 80032
+ File Encoding         : 65001
+
+ Date: 01/07/2023 15:31:19
+*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -24,6 +39,7 @@ CREATE TABLE `gen_datasource_conf` (
 -- Records of gen_datasource_conf
 -- ----------------------------
 BEGIN;
+INSERT INTO `gen_datasource_conf` (`id`, `name`, `url`, `username`, `password`, `del_flag`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES (1509439122488958977, 'art_base', 'jdbc:mysql://art-mysql/art_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8', 'root', '+Kn2gIPAKrCd/XB/QdQjoofFwXlNYknhgHifEgqP98M=', '0', '2022-03-31 15:55:05', 'fxz', '2023-07-01 10:10:54', 'fxz');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

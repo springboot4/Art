@@ -1,23 +1,23 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ *   COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
  */
 
 package com.art.scheduled.service;
 
-import com.art.common.quartz.core.constants.ScheduleConstants;
-import com.art.common.quartz.core.scheduler.JobScheduler;
+import com.art.job.sdk.constants.ScheduleConstants;
+import com.art.job.sdk.scheduler.JobScheduler;
 import com.art.scheduled.core.convert.JobConvert;
 import com.art.scheduled.core.dto.JobDTO;
 import com.art.scheduled.core.dto.JobPageDTO;
@@ -50,11 +50,11 @@ public class JobService {
 	@SneakyThrows
 	public JobDTO add(JobDTO dto) {
 		// 保存数据库
-		jobManager.add(dto);
+		Long jobId = jobManager.add(dto);
 
 		// 创建定时任务
-		jobScheduler.add(dto.getJobId(), dto.getJobGroup(), dto.getParameters(), dto.getJobName(),
-				dto.getCronExpression(), dto.getMisfirePolicy());
+		jobScheduler.add(jobId, dto.getJobGroup(), dto.getParameters(), dto.getJobName(), dto.getCronExpression(),
+				dto.getMisfirePolicy());
 
 		// 更改job状态
 		changeStatus(dto.getJobId(), dto.getJobGroup(), dto.getStatus());

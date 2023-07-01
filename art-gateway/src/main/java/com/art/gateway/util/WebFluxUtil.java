@@ -1,23 +1,26 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ *   COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
  */
 
 package com.art.gateway.util;
 
-import com.alibaba.fastjson.JSONObject;
-import com.art.common.core.model.Result;
+import com.art.core.common.model.Result;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +34,8 @@ import reactor.core.publisher.Mono;
  * @date 2022-04-07 15:25
  */
 public class WebFluxUtil {
+
+	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
 	/**
 	 * 设置webflux模型响应
@@ -75,12 +80,13 @@ public class WebFluxUtil {
 	 * @param value 响应内容
 	 * @return Mono<Void>
 	 */
+	@SneakyThrows
 	public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, String contentType, HttpStatus status,
 			Object value, int code) {
 		response.setStatusCode(status);
 		response.getHeaders().add(HttpHeaders.CONTENT_TYPE, contentType);
 		Result<?> result = Result.failed(code, value.toString());
-		DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(result).getBytes());
+		DataBuffer dataBuffer = response.bufferFactory().wrap(OBJECT_MAPPER.writeValueAsString(result).getBytes());
 		return response.writeWith(Mono.just(dataBuffer));
 	}
 
