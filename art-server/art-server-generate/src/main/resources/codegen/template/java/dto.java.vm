@@ -1,5 +1,6 @@
 #set($excludeColumns = ["createTime","updateTime","createBy","updateBy"])
-package com.art.common.core.${module}.mapper;
+package com.art.core.common
+.${module}.mapper;
 
 import com.art.common.mp.core.base.BaseCreateEntity;
 import io.swagger.v3.oas.annotations.media.Schema;

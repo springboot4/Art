@@ -1,0 +1,6 @@
+com.art.core.common.config.SpringAutoConfiguration
+com.art.core.common.config.MessageAutoConfiguration
+com.art.core.common.config.BannerAutoConfiguration
+com.art.core.common.config.ExceptionAutoConfiguration
+com.art.core.common.config.SerializeAutoConfiguration
+com.art.core.common.config.WebMvcServerProtectConfigure

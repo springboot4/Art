@@ -1,31 +1,31 @@
 /*
- * COPYRIGHT (C) 2022 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
+ *   COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
  */
 
 package com.art.demos.controller;
 
+import com.art.cache.sdk.support.CacheMessage;
 import com.art.common.Idempotent.annotation.Idempotent;
 import com.art.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolver;
-import com.art.common.core.constant.ErrorCodes;
-import com.art.common.core.model.Result;
-import com.art.common.core.util.MsgUtil;
 import com.art.common.file.core.client.ftp.FtpFileStorage;
 import com.art.common.lock.core.utils.RedissonUtils;
-import com.art.common.redis.core.cache.support.CacheMessage;
-import com.art.common.redis.core.mq.client.RedisMQTemplate;
 import com.art.common.sequence.service.Sequence;
+import com.art.core.common.constant.ErrorCodes;
+import com.art.core.common.model.Result;
+import com.art.core.common.util.MsgUtil;
+import com.art.mq.sdk.client.RedisMQTemplate;
 import com.art.system.api.user.dto.SystemUserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

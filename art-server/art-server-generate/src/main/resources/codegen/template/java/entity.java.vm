@@ -1,5 +1,6 @@
 #set($excludeColumns = ["createTime","updateTime","createBy","updateBy"])
-package com.art.common.core.entity.${module};
+package com.art.core.common
+.entity.${module};
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
