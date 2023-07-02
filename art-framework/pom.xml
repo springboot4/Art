@@ -41,7 +41,6 @@
         <module>art-spring-boot-starter-idempotent</module>
         <module>art-spring-boot-starter-data-permission</module>
         <module>art-spring-boot-starter-sequence</module>
-        <module>art-spring-boot-starter-websocket</module>
         <module>art-spring-boot-starter-tenant</module>
         <module>art-spring-boot-starter-xss</module>
         <module>art-spring-boot-starter-sensitive</module>

@@ -376,11 +376,6 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-websocket</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-canal</artifactId>
                 <version>${project.version}</version>
             </dependency>

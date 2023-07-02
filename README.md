@@ -36,47 +36,46 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 ## 🪜项目结构
 ```lua
    art
-   ├── art-api -- 接口管理
-   ├── art-auth -- 认证服务器
-   ├── art-framework -- 通用工具封装
-   ├── art-spring-boot-starter-canal -- 针对canal封装
-   ├── art-spring-boot-starter-captcha -- 验证码封装
-   ├── art-spring-boot-starter-core -- web基础配置
-   ├── art-spring-boot-starter-data-permission -- 数据权限封装
-   ├── art-spring-boot-starter-database -- 多数据源
-   ├── art-spring-boot-starter-dependencies -- 依赖管理
-   ├── art-spring-boot-starter-doc -- 接口文档
-   ├── art-spring-boot-starter-es -- es配置
-   ├── art-spring-boot-starter-feign -- feign拓展
-   ├── art-spring-boot-starter-file -- 文件管理模块
-   ├── art-spring-boot-starter-gateway -- 动态网关
-   ├── art-spring-boot-starter-hazelcast -- hazelcast分布式缓存
-   ├── art-spring-boot-starter-idempotency -- 幂等控制组件
-   ├── art-spring-boot-starter-jackson -- Json序列化配置
-   ├── art-spring-boot-starter-log -- 日志配置
-   ├── art-spring-boot-starter-mp -- mybatis-plus配置
-   ├── art-spring-boot-starter-rabbit -- rabbitMq消息队列
-   ├── art-spring-boot-starter-quartz -- quartz定时任务
-   ├── art-spring-boot-starter-redis -- 缓存、mq、key事件等封装
-   ├── art-spring-boot-starter-redisson -- redisson分布式锁相关模块
-   ├── art-spring-boot-starter-seata -- 分布式事务
-   ├── art-spring-boot-starter-security -- 安全模块
-   ├── art-spring-boot-starter-sensitive -- 数据脱敏
-   ├── art-spring-boot-starter-sequence -- 发号器（序列号生成器）
-   ├── art-spring-boot-starter-sms -- 阿里云短信服务
-   ├── art-spring-boot-starter-tenant -- SaaS多租户支持
-   ├── art-spring-boot-starter-websocket  -- websocket
-   ├── art-spring-boot-starter-xss  -- xss过滤
-   ├── art-spring-boot-starter-xxl-job  -- xxl-job配置
-   ├── art-gateway -- 网关模块
-   ├── art-server -- 系统服务
-   ├── art-server-system -- 系统管理模块
-   ├── art-server-generate -- 代码生成器模块
-   ├── art-server-scheduled -- quartz定时任务模块
-   ├── art-server-z-demos -- 实验性模块
-   ├──_other -- 项目相关文件
-   ├── db -- 数据库相关文件
-   ├── docker -- docker环境
+    ├── art-api -- 接口管理
+    ├── art-auth -- 认证服务器
+    ├── art-framework -- 通用工具封装
+       ├── art-spring-boot-starter-canal -- 针对canal封装
+       ├── art-spring-boot-starter-captcha -- 验证码封装
+       ├── art-spring-boot-starter-core -- web基础配置
+       ├── art-spring-boot-starter-data-permission -- 数据权限封装
+       ├── art-spring-boot-starter-database -- 多数据源
+       ├── art-spring-boot-starter-dependencies -- 依赖管理
+       ├── art-spring-boot-starter-doc -- 接口文档
+       ├── art-spring-boot-starter-es -- es配置
+       ├── art-spring-boot-starter-feign -- feign拓展
+       ├── art-spring-boot-starter-file -- 文件管理模块
+       ├── art-spring-boot-starter-gateway -- 动态网关
+       ├── art-spring-boot-starter-hazelcast -- hazelcast分布式缓存
+       ├── art-spring-boot-starter-idempotency -- 幂等控制组件
+       ├── art-spring-boot-starter-jackson -- Json序列化配置
+       ├── art-spring-boot-starter-log -- 日志配置
+       ├── art-spring-boot-starter-mp -- mybatis-plus配置
+       ├── art-spring-boot-starter-rabbit -- rabbitMq消息队列
+       ├── art-spring-boot-starter-quartz -- quartz定时任务
+       ├── art-spring-boot-starter-redis -- 缓存、mq、key事件等封装
+       ├── art-spring-boot-starter-redisson -- redisson分布式锁相关模块
+       ├── art-spring-boot-starter-seata -- 分布式事务
+       ├── art-spring-boot-starter-security -- 安全模块
+       ├── art-spring-boot-starter-sensitive -- 数据脱敏
+       ├── art-spring-boot-starter-sequence -- 发号器（序列号生成器）
+       ├── art-spring-boot-starter-sms -- 阿里云短信服务
+       ├── art-spring-boot-starter-tenant -- SaaS多租户支持
+       ├── art-spring-boot-starter-xss  -- xss过滤
+       ├── art-spring-boot-starter-xxl-job  -- xxl-job配置
+    ├── art-gateway -- 网关模块
+    ├── art-server -- 系统服务
+       ├── art-server-system -- 系统管理模块
+       ├── art-server-generate -- 代码生成器模块
+       ├── art-server-scheduled -- quartz定时任务模块
+       ├── art-server-z-demos -- 实验性模块
+    ├──_other -- 项目相关文件
+       ├── db -- 数据库相关文件
+       ├── docker -- docker环境
 
    前端代码： https://gitee.com/fxz-cloud/art-admin-ui
 ```
@@ -93,9 +92,9 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 - Web 层：主要是对访问控制进行转发，各类基本参数校验，或者不复用的业务简单处理等。
 - Service 层：相对具体的业务逻辑服务层。
 - Manager 层：通用业务处理层，它有如下特征：
-  -  1） 对第三方平台封装的层，预处理返回结果及转化异常信息，适配上层接口。
-  -  2） 对 Service 层通用能力的下沉，如缓存方案、中间件通用处理。
-  -  3） 与 DAO 层交互，对多个 DAO 的组合复用。
+    -  1） 对第三方平台封装的层，预处理返回结果及转化异常信息，适配上层接口。
+    -  2） 对 Service 层通用能力的下沉，如缓存方案、中间件通用处理。
+    -  3） 与 DAO 层交互，对多个 DAO 的组合复用。
 - DAO 层：数据访问层，与底层 MySQL、Oracle、Hbase、OB 等进行数据交互。
 - 第三方服务：包括其它部门 RPC 服务接口，基础平台，其它公司的 HTTP 接口，如淘宝开放平台、支 付宝付款服务、高德地图服务等。
 - 外部数据接口：外部（应用）数据存储服务提供的接口，多见于数据迁移场景中。
@@ -136,7 +135,7 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 |--------------|------------------------------------------------------------------------|------------------------------------------------------------------------|
 | 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) | 欢迎参与项目，贡献代码。                                                           |
 
-
+ 
 
 
 ## 🍬说明文档
