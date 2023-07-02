@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>art-message-queue</artifactId>
+
     <dependencies>
 
         <dependency>
