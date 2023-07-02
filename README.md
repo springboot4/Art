@@ -25,7 +25,7 @@
 <img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-%20"/>
 </a>
 <br/>
-Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
+Art 全端代码开源，支持RBAC 动态权限、SaaS多租户、数据权限等功能，持续更新。
 
 ##  🍎 分支说明
 | 分支              | 说明                                                                |
@@ -33,52 +33,6 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 | master          | java8 + springboot 2.7 + springcloud 2021 + spring cloud alibaba                        |
 | next            | java17 + springboot 3.0 + springcloud 2022 + spring cloud alibaba |
 
-## 🪜项目结构
-```lua
-   art
-    ├── art-api -- 接口管理
-    ├── art-auth -- 认证服务器
-    ├── art-framework -- 通用工具封装
-       ├── art-spring-boot-starter-canal -- 针对canal封装
-       ├── art-spring-boot-starter-captcha -- 验证码封装
-       ├── art-spring-boot-starter-core -- web基础配置
-       ├── art-spring-boot-starter-data-permission -- 数据权限封装
-       ├── art-spring-boot-starter-database -- 多数据源
-       ├── art-spring-boot-starter-dependencies -- 依赖管理
-       ├── art-spring-boot-starter-doc -- 接口文档
-       ├── art-spring-boot-starter-es -- es配置
-       ├── art-spring-boot-starter-feign -- feign拓展
-       ├── art-spring-boot-starter-file -- 文件管理模块
-       ├── art-spring-boot-starter-gateway -- 动态网关
-       ├── art-spring-boot-starter-hazelcast -- hazelcast分布式缓存
-       ├── art-spring-boot-starter-idempotency -- 幂等控制组件
-       ├── art-spring-boot-starter-jackson -- Json序列化配置
-       ├── art-spring-boot-starter-log -- 日志配置
-       ├── art-spring-boot-starter-mp -- mybatis-plus配置
-       ├── art-spring-boot-starter-rabbit -- rabbitMq消息队列
-       ├── art-spring-boot-starter-quartz -- quartz定时任务
-       ├── art-spring-boot-starter-redis -- 缓存、mq、key事件等封装
-       ├── art-spring-boot-starter-redisson -- redisson分布式锁相关模块
-       ├── art-spring-boot-starter-seata -- 分布式事务
-       ├── art-spring-boot-starter-security -- 安全模块
-       ├── art-spring-boot-starter-sensitive -- 数据脱敏
-       ├── art-spring-boot-starter-sequence -- 发号器（序列号生成器）
-       ├── art-spring-boot-starter-sms -- 阿里云短信服务
-       ├── art-spring-boot-starter-tenant -- SaaS多租户支持
-       ├── art-spring-boot-starter-xss  -- xss过滤
-       ├── art-spring-boot-starter-xxl-job  -- xxl-job配置
-    ├── art-gateway -- 网关模块
-    ├── art-server -- 系统服务
-       ├── art-server-system -- 系统管理模块
-       ├── art-server-generate -- 代码生成器模块
-       ├── art-server-scheduled -- quartz定时任务模块
-       ├── art-server-z-demos -- 实验性模块
-    ├──_other -- 项目相关文件
-       ├── db -- 数据库相关文件
-       ├── docker -- docker环境
-
-   前端代码： https://gitee.com/fxz-cloud/art-admin-ui
-```
 ## 📖分层结构
 
 项目中使用的是阿里的规范（详细可看https://github.com/alibaba/p3c 这里面的[Java开发手册（黄山版）.pdf](https://github.com/alibaba/p3c/blob/master/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C(%E9%BB%84%E5%B1%B1%E7%89%88).pdf)），同时使用插件进行规约扫描
@@ -109,8 +63,8 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 | 动态数据源&代码生成,              | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/2BXWuL.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/WpUDes.png) |
 | 强退用户&审计日志                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/i2pZEe.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/XS0250.png) |
 
-### 快速启动
-[✈️✈️✈️快速启动微服务](https://fxzcloud.gitee.io/docs/guide/started.html)
+## 快速启动
+[✈️️快速启动微服务](https://fxzcloud.gitee.io/docs/docs/theme-reco/started.html)
 
 ## 🔍项目说明
 功能可按需引入。<br/>
@@ -131,14 +85,18 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
 
 
 ## 🍺加入我们
-| 交流群(群内不定期红包) | 微信群二维码过期请添加作者                                                          | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/Pah5rU.jpg) |
-|--------------|------------------------------------------------------------------------|------------------------------------------------------------------------|
-| 二维码过期可加本人微信: | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png) | 欢迎参与项目，贡献代码。                                                           |
+### 扫码进入官方微信群
+<table>
+    <tr>
+      <td>扫码邀请入群</td>
+      <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png" width="120"/></td>
+    </tr>
+</table>
 
  
 
 
-## 🍬说明文档
+## 🍬配套文档
 [🍓🍓🍓配套文档 fxzcloud.gitee.io/docs](https://fxzcloud.gitee.io/docs/)
 
 ## 🤝鸣谢

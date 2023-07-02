@@ -339,6 +339,11 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-seata</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-hazelcast</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -379,27 +384,12 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-canal</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-sequence</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-seata</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-data-permission</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.art</groupId>
-                <artifactId>art-spring-boot-starter-jackson</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
