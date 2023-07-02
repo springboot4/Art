@@ -65,7 +65,6 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户系统。
        ├── art-spring-boot-starter-sequence -- 发号器（序列号生成器）
        ├── art-spring-boot-starter-sms -- 阿里云短信服务
        ├── art-spring-boot-starter-tenant -- SaaS多租户支持
-       ├── art-spring-boot-starter-websocket  -- websocket
        ├── art-spring-boot-starter-xss  -- xss过滤
        ├── art-spring-boot-starter-xxl-job  -- xxl-job配置
     ├── art-gateway -- 网关模块

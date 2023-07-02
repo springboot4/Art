@@ -52,11 +52,6 @@
 
         <dependency>
             <groupId>com.art</groupId>
-            <artifactId>art-spring-boot-starter-websocket</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-core</artifactId>
         </dependency>
 
