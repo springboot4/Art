@@ -16,11 +16,10 @@
 
 package com.art.common.sequence.segment.mysql.entity;
 
+import com.art.mybatis.common.base.BaseCreateEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.art.mybatis.common.base.BaseCreateEntity;
-
 import lombok.Data;
 
 /**

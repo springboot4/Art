@@ -18,7 +18,6 @@ package com.art.scheduled.controller;
 
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
-
 import com.art.scheduled.core.dto.JobLogDTO;
 import com.art.scheduled.core.dto.JobLogPageDTO;
 import com.art.scheduled.service.JobLogService;

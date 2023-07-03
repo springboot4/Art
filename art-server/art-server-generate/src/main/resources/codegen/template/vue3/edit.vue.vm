@@ -33,13 +33,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { BasicModal } from '/@/components/Modal'
-  import { nextTick, reactive, Ref, ref } from 'vue'
+  import {nextTick, reactive, Ref, ref} from 'vue'
   import useFormEdit from '/@/hooks/art/useFormEdit'
-  import { FormOperationType } from '/@/enums/formOperationType'
-  import { FormInstance } from 'ant-design-vue'
-  import { get, update, add } from '/@/api/${module}/${classname}'
-  import { ${className}DTO } from '/@/api/${module}/${classname}/types'
+  import {FormOperationType} from '/@/enums/formOperationType'
+  import {FormInstance} from 'ant-design-vue'
+  import {add, ${className}DTO, get, update} from '/@/api/'
 
   const {
     initFormEditType,

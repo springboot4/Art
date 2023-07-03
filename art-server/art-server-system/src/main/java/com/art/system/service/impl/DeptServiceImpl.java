@@ -17,10 +17,10 @@
 package com.art.system.service.impl;
 
 import cn.hutool.core.lang.Opt;
-import com.art.core.common.exception.FxzException;
 import com.art.common.dataPermission.annotation.DataPermission;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.utils.SecurityUtil;
+import com.art.core.common.exception.FxzException;
 import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.core.bo.DeptBO;
 import com.art.system.core.convert.DeptConvert;

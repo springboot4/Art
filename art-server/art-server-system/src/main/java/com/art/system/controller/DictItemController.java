@@ -18,7 +18,6 @@ package com.art.system.controller;
 
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
-
 import com.art.system.api.dict.dto.DictItemDTO;
 import com.art.system.api.dict.dto.DictItemExistsDTO;
 import com.art.system.api.dict.dto.DictItemPageDTO;

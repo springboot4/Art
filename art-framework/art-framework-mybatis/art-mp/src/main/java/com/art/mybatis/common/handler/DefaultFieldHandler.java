@@ -18,7 +18,6 @@ package com.art.mybatis.common.handler;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,7 +32,6 @@ import java.util.Optional;
  *
  * @author fxz
  */
-@Slf4j
 public class DefaultFieldHandler implements MetaObjectHandler {
 
 	@Override

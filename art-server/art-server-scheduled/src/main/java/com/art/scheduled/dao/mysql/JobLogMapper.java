@@ -16,8 +16,8 @@
 
 package com.art.scheduled.dao.mysql;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.art.scheduled.dao.dataobject.JobLogDO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

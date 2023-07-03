@@ -16,12 +16,11 @@
 
 package com.art.system.controller;
 
+import com.art.common.security.core.model.ArtAuthUser;
+import com.art.common.security.core.utils.SecurityUtil;
 import com.art.core.common.model.DeptDataPermissionRespEntity;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
-
-import com.art.common.security.core.model.ArtAuthUser;
-import com.art.common.security.core.utils.SecurityUtil;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;
 import com.art.system.service.RoleService;

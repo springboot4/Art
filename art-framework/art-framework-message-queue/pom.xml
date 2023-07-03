@@ -31,7 +31,9 @@
     <modules>
         <module>art-message-queue</module>
         <module>art-message-queue-sdk-redis</module>
+        <module>art-message-queue-sdk-hazelcast</module>
         <module>art-spring-boot-starter-message-queue-redis</module>
+        <module>art-spring-boot-starter-message-queue-hazelcast</module>
     </modules>
 
 </project>

@@ -16,10 +16,10 @@
 
 package com.art.common.sequence.segment.mysql.service;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.art.common.sequence.exception.SeqException;
 import com.art.common.sequence.segment.mysql.entity.SequenceSegment;
 import com.art.common.sequence.segment.mysql.mapper.SequenceSegmentMapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

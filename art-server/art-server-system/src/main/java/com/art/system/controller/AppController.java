@@ -16,11 +16,10 @@
 
 package com.art.system.controller;
 
-import com.art.core.common.util.ValidationUtil;
 import com.art.core.common.constant.ValidationGroup;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
-
+import com.art.core.common.util.ValidationUtil;
 import com.art.system.api.app.dto.AppDTO;
 import com.art.system.api.app.dto.AppPageDTO;
 import com.art.system.service.AppService;

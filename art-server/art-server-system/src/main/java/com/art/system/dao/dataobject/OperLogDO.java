@@ -19,7 +19,6 @@ package com.art.system.dao.dataobject;
 import com.art.mybatis.common.base.BaseEntity;
 import com.art.mybatis.sdk.annotation.EncryptionData;
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

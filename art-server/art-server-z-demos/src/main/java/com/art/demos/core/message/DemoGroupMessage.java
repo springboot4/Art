@@ -16,7 +16,7 @@
 
 package com.art.demos.core.message;
 
-import com.art.common.hazelcast.core.mq.AbstractGroupMessage;
+import com.art.mq.sdk.support.group.HazelcastGroupMessage;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class DemoGroupMessage extends AbstractGroupMessage {
+public class DemoGroupMessage extends HazelcastGroupMessage {
 
 	private String msg;
 

@@ -17,7 +17,6 @@
 package com.art.system.api.file.dto;
 
 import com.art.mybatis.common.base.BaseCreateEntity;
-
 import lombok.Data;
 
 /**

@@ -16,7 +16,6 @@
 
 package com.art.mybatis.common.utils;
 
-import cn.hutool.core.text.StrPool;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;

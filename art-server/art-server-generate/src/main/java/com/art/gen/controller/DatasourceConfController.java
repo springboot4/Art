@@ -18,7 +18,6 @@ package com.art.gen.controller;
 
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
-
 import com.art.gen.dao.dataobject.DatasourceConfDO;
 import com.art.gen.service.impl.MyDatasourceConfServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

@@ -16,7 +16,7 @@
 
 package com.art.demos.core.message;
 
-import com.art.common.hazelcast.core.mq.AbstractTopicMessageListener;
+import com.art.mq.sdk.support.broadcast.AbstractHazelcastBroadcastMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class DemoTopicMessageListener extends AbstractTopicMessageListener<DemoTopicMessage> {
+public class DemoTopicMessageListener extends AbstractHazelcastBroadcastMessageListener<DemoTopicMessage> {
 
 	/**
 	 * @param message

@@ -18,7 +18,6 @@ package com.art.system.manager;
 
 import com.art.common.log.core.enums.BusinessType;
 import com.art.mybatis.common.base.BaseCreateEntity;
-
 import com.art.system.api.log.dto.OperLogDTO;
 import com.art.system.api.log.dto.OperLogPageDTO;
 import com.art.system.core.convert.OperLogConvert;

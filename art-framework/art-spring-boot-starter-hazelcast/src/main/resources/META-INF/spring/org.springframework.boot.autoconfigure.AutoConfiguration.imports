@@ -1,5 +1,0 @@
-com.art.common.hazelcast.config.HazelcastServerAutoConfiguration
-com.art.common.hazelcast.config.HazelcastClientAutoConfiguration
-com.art.common.hazelcast.config.HazelcastCacheAutoConfiguration
-com.art.common.hazelcast.config.HazelcastBaseAutoConfiguration
-com.art.common.hazelcast.config.HazelcastMessageAutoConfiguration

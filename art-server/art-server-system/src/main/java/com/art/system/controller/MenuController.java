@@ -16,13 +16,12 @@
 
 package com.art.system.controller;
 
-import com.art.core.common.model.VueRouter;
-import com.art.core.common.exception.FxzException;
-import com.art.core.common.model.Result;
-
 import com.art.common.security.core.annotation.Ojbk;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.utils.SecurityUtil;
+import com.art.core.common.exception.FxzException;
+import com.art.core.common.model.Result;
+import com.art.core.common.model.VueRouter;
 import com.art.system.api.dict.dto.MenuDTO;
 import com.art.system.dao.dataobject.MenuDO;
 import com.art.system.service.MenuService;

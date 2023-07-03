@@ -21,16 +21,8 @@ import com.art.system.api.user.dto.SystemUserDTO;
 import com.art.system.api.user.dto.SystemUserPageDTO;
 import com.art.system.api.user.dto.UserInfo;
 import com.art.system.core.convert.UserConvert;
-import com.art.system.dao.dataobject.MenuDO;
-import com.art.system.dao.dataobject.RoleMenuDO;
-import com.art.system.dao.dataobject.SystemUserDO;
-import com.art.system.dao.dataobject.UserPostDO;
-import com.art.system.dao.dataobject.UserRoleDO;
-import com.art.system.manager.MenuManager;
-import com.art.system.manager.RoleMenuManager;
-import com.art.system.manager.UserManager;
-import com.art.system.manager.UserPostManager;
-import com.art.system.manager.UserRoleManager;
+import com.art.system.dao.dataobject.*;
+import com.art.system.manager.*;
 import com.art.system.service.TenantService;
 import com.art.system.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -47,7 +39,6 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**

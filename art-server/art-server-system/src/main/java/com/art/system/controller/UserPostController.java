@@ -18,7 +18,6 @@ package com.art.system.controller;
 
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
-
 import com.art.system.api.user.dto.UserPostDTO;
 import com.art.system.api.user.dto.UserPostPageDTO;
 import com.art.system.service.UserPostService;

@@ -17,11 +17,10 @@
 package com.art.system.core.bo;
 
 import cn.hutool.core.date.DatePattern;
-import com.art.core.common.annotation.CheckMobileValid;
-import com.art.mybatis.common.base.BaseCreateEntity;
-
 import com.art.common.sensitive.core.annotation.fixed.MobileSensitive;
 import com.art.common.sensitive.core.annotation.regex.EmailSensitive;
+import com.art.core.common.annotation.CheckMobileValid;
+import com.art.mybatis.common.base.BaseCreateEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

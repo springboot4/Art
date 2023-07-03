@@ -17,7 +17,6 @@
 package com.art.system.api.log.dto;
 
 import com.art.mybatis.common.base.BaseCreateEntity;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

@@ -22,7 +22,6 @@ import cn.hutool.crypto.symmetric.AES;
 import com.art.mybatis.sdk.annotation.EncryptionData;
 import com.art.mybatis.sdk.propertie.EncryptProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.Interceptor;
@@ -42,7 +41,6 @@ import java.util.Objects;
  * @version 0.0.1
  * @date 2022/9/15 14:01
  */
-@Slf4j
 @RequiredArgsConstructor
 @Intercepts(@Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }))
 public class EncryptInterceptor implements Interceptor {

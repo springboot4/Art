@@ -1,6 +1,6 @@
-import { defHttp } from '/@/utils/http/axios'
-import { PageResult } from '/#/axios'
-import { ${className}DTO } from './types'
+import {defHttp} from '/@/utils/http/axios'
+import {PageResult} from '/#/axios'
+import {${className}DTO} from './types'
 
 /**
  * 分页

@@ -16,10 +16,10 @@
 
 package com.art.common.dataPermission.dept.service;
 
-import com.art.core.common.model.ResultOpt;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.core.common.exception.FxzException;
 import com.art.core.common.model.DeptDataPermissionRespEntity;
+import com.art.core.common.model.ResultOpt;
 import com.art.system.api.role.RoleServiceApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

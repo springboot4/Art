@@ -73,13 +73,12 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, ref, defineComponent } from 'vue'
-  import { VxeTableInstance, VxeToolbarInstance } from 'vxe-table'
+  import {defineComponent, onMounted, ref} from 'vue'
+  import {VxeTableInstance, VxeToolbarInstance} from 'vxe-table'
   import useTablePage from '/@/hooks/art/useTablePage'
-  import { page, del } from '/@/api/${module}/${classname}'
-  import ${className}Edit from './${className}Edit.vue'
-  import { FormOperationType } from '/@/enums/formOperationType'
-  import { useMessage } from '/@/hooks/web/useMessage'
+  import {del, page} from '/@/api/'
+  import {FormOperationType} from '/@/enums/formOperationType'
+  import {useMessage} from '/@/hooks/web/useMessage'
 
   const { handleTableChange, pageQueryResHandel, resetQuery, pagination, model, loading } =
           useTablePage(queryPage)
