@@ -18,24 +18,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.art</groupId>
-        <artifactId>art-framework</artifactId>
+        <artifactId>art-framework-cache</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>art-framework-cache</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>art-cache-sdk-redis</artifactId>
 
-    <modules>
-        <module>art-cache</module>
-        <module>art-cache-sdk-redis</module>
-        <module>art-cache-sdk-hazelcast</module>
-        <module>art-cache-sdk-multi</module>
-        <module>art-spring-boot-starter-cache-redis</module>
-        <module>art-spring-boot-starter-cache-multi</module>
-        <module>art-spring-boot-starter-cache-hazelcast</module>
-    </modules>
+    <dependencies>
+
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-cache</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>

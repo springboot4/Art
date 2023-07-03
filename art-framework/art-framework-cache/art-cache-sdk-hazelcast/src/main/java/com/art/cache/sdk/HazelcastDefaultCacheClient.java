@@ -24,9 +24,9 @@ import com.art.cache.common.DistributedCacheProvider;
  * @version 0.0.1
  * @date 2023/3/23 16:25
  */
-public class DefaultCacheClient extends AbstractCacheClient<Object> {
+public class HazelcastDefaultCacheClient extends AbstractCacheClient<Object> {
 
-	public DefaultCacheClient(DistributedCacheProvider distributedCacheProvider) {
+	public HazelcastDefaultCacheClient(DistributedCacheProvider distributedCacheProvider) {
 		super(distributedCacheProvider);
 	}
 

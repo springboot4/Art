@@ -32,6 +32,11 @@
 
         <dependency>
             <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-cache-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.art</groupId>
             <artifactId>art-cache-sdk-multi</artifactId>
         </dependency>
 

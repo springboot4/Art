@@ -17,7 +17,8 @@
 package com.art.demos.controller;
 
 import cn.hutool.core.thread.ThreadUtil;
-import com.art.cache.sdk.DefaultCacheClient;
+import com.art.cache.sdk.HazelcastDefaultCacheClient;
+import com.art.cache.sdk.RedisDefaultCacheClient;
 import com.art.core.common.model.Result;
 import com.art.demos.core.message.DemoGroupMessage;
 import com.art.demos.core.message.DemoTopicMessage;
@@ -51,7 +52,7 @@ public class HazelcastController {
 
 	private final HazelcastInstance hazelcastInstance;
 
-	private final DefaultCacheClient defaultCacheManager;
+	private final HazelcastDefaultCacheClient hazelcastDefaultCacheClient;
 
 	private final DistributedBaseFactory distributedBaseFactory;
 
@@ -98,11 +99,11 @@ public class HazelcastController {
 		LocalDate now = LocalDate.now();
 		String uuid = "uuid";
 
-		defaultCacheManager.set(uuid, now);
-		defaultCacheManager.add(uuid, "mapVal");
-		log.info("val:{}", defaultCacheManager.get(uuid));
-		defaultCacheManager.replace(uuid, "replaceVal");
-		log.info("val:{}", defaultCacheManager.get(uuid));
+		hazelcastDefaultCacheClient.set(uuid, now);
+		hazelcastDefaultCacheClient.add(uuid, "mapVal");
+		log.info("val:{}", hazelcastDefaultCacheClient.get(uuid));
+		hazelcastDefaultCacheClient.replace(uuid, "replaceVal");
+		log.info("val:{}", hazelcastDefaultCacheClient.get(uuid));
 
 		now = LocalDate.now();
 

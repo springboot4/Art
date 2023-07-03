@@ -18,12 +18,11 @@
 package com.art.cache.starter;
 
 import com.art.cache.common.DistributedCacheProvider;
-import com.art.cache.sdk.HazelcastDefaultCacheClient;
-import com.art.cache.sdk.HazelcastCacheProvider;
-import com.hazelcast.core.HazelcastInstance;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.art.cache.sdk.RedisCacheProvider;
+import com.art.cache.sdk.RedisDefaultCacheClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * @author Fxz
@@ -31,16 +30,16 @@ import org.springframework.context.annotation.Bean;
  * @date 2023/3/26 09:44
  */
 @AutoConfiguration
-public class HazelcastCacheAutoConfiguration {
+public class RedisCacheAutoConfiguration {
 
 	@Bean
-	HazelcastCacheProvider hazelcastCacheProvider(@Qualifier("hazelcastInstance") HazelcastInstance hazelcastInstance) {
-		return new HazelcastCacheProvider(hazelcastInstance);
+	RedisCacheProvider redisCacheProvider(RedisTemplate redisTemplate) {
+		return new RedisCacheProvider(redisTemplate);
 	}
 
 	@Bean
-	HazelcastDefaultCacheClient hazelcastDefaultCacheClient(HazelcastCacheProvider hazelcastCacheProvider) {
-		return new HazelcastDefaultCacheClient(hazelcastCacheProvider);
+	RedisDefaultCacheClient redisDefaultCacheClient(RedisCacheProvider redisCacheProvider) {
+		return new RedisDefaultCacheClient(redisCacheProvider);
 	}
 
 }
