@@ -14,20 +14,23 @@
  *   limitations under the License.
  */
 
-package com.art.hazelcast.sdk.cache;
+package com.art.cache.sdk;
+
+import com.art.cache.common.DistributedCache;
+import com.hazelcast.map.IMap;
+import lombok.RequiredArgsConstructor;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2023/3/23 16:16
+ * @date 2023/3/23 15:46
  */
-public abstract class AbstractCacheManager<T> implements DistributedCacheManager<T> {
+@RequiredArgsConstructor
+public class HazelcastCache<T> implements DistributedCache<T> {
 
-	private final DistributedCacheManager<T> distributedCacheManager;
-
-	protected AbstractCacheManager(DistributedCacheProvider distributedCacheProvider) {
-		this.distributedCacheManager = distributedCacheProvider.getOrCreate(getClass().getName());
-	}
+	private final IMap<String, T> cache;
 
 	/**
 	 * 获取指定键的值
@@ -36,7 +39,7 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public T get(String key) {
-		return distributedCacheManager.get(key);
+		return cache.get(key);
 	}
 
 	/**
@@ -47,7 +50,14 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean touch(String key, int seconds) {
-		return distributedCacheManager.touch(key, seconds);
+		try {
+			T data = cache.get(key);
+			cache.set(key, data, seconds, TimeUnit.SECONDS);
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -58,7 +68,10 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean add(String key, T data) {
-		return distributedCacheManager.add(key, data);
+		if (cache.containsKey(key)) {
+			return false;
+		}
+		return set(key, data);
 	}
 
 	/**
@@ -70,7 +83,10 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean add(String key, T data, int seconds) {
-		return distributedCacheManager.add(key, data, seconds);
+		if (cache.containsKey(key)) {
+			return false;
+		}
+		return set(key, data, seconds);
 	}
 
 	/**
@@ -81,7 +97,13 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean set(String key, T data) {
-		return distributedCacheManager.set(key, data);
+		try {
+			cache.set(key, data);
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -93,7 +115,13 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean set(String key, T data, int seconds) {
-		return distributedCacheManager.set(key, data, seconds);
+		try {
+			cache.set(key, data, seconds, TimeUnit.SECONDS);
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -103,7 +131,13 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean delete(String key) {
-		return distributedCacheManager.delete(key);
+		try {
+			cache.delete(key);
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -114,7 +148,10 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean replace(String key, T data) {
-		return distributedCacheManager.replace(key, data);
+		if (!cache.containsKey(key)) {
+			return false;
+		}
+		return set(key, data);
 	}
 
 	/**
@@ -126,35 +163,7 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean replace(String key, T data, int seconds) {
-		return distributedCacheManager.replace(key, data, seconds);
-	}
-
-	/**
-	 * 加锁
-	 * @param key key
-	 * @param seconds 过期时间，单位秒
-	 */
-	@Override
-	public void lock(String key, long seconds) {
-		distributedCacheManager.lock(key, seconds);
-	}
-
-	/**
-	 * 解锁
-	 * @param key key
-	 */
-	@Override
-	public void unlock(String key) {
-		distributedCacheManager.unlock(key);
-	}
-
-	/**
-	 * 无时间限制锁
-	 * @param key key
-	 */
-	@Override
-	public void lockInfinite(String key) {
-		distributedCacheManager.lockInfinite(key);
+		return set(key, data, seconds);
 	}
 
 	/**
@@ -164,18 +173,24 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean tryLock(String key) {
-		return distributedCacheManager.tryLock(key);
+		return cache.tryLock(key);
 	}
 
 	/**
 	 * 尝试加锁
 	 * @param key key
-	 * @param seconds 尝试加锁时间
+	 * @param time 尝试加锁时间
 	 * @return true or false
 	 */
 	@Override
-	public boolean tryLock(String key, long seconds) {
-		return distributedCacheManager.tryLock(key, seconds);
+	public boolean tryLock(String key, long time) {
+		try {
+			return cache.tryLock(key, time, TimeUnit.SECONDS);
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -187,7 +202,41 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean tryLock(String key, long seconds, long leaseSeconds) {
-		return distributedCacheManager.tryLock(key, seconds, leaseSeconds);
+		try {
+			return cache.tryLock(key, seconds, TimeUnit.SECONDS, leaseSeconds, TimeUnit.SECONDS);
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/**
+	 * 加锁
+	 * @param key key
+	 * @param seconds 过期时间，单位秒
+	 */
+	@Override
+	public void lock(String key, long seconds) {
+		cache.lock(key, seconds, TimeUnit.SECONDS);
+	}
+
+	/**
+	 * 解锁
+	 * @param key key
+	 */
+	@Override
+	public void unlock(String key) {
+		cache.unlock(key);
+	}
+
+	/**
+	 * 无时间限制锁
+	 * @param key key
+	 */
+	@Override
+	public void lockInfinite(String key) {
+		cache.lock(key);
 	}
 
 	/**
@@ -197,7 +246,7 @@ public abstract class AbstractCacheManager<T> implements DistributedCacheManager
 	 */
 	@Override
 	public boolean isLocked(String key) {
-		return distributedCacheManager.isLocked(key);
+		return cache.isLocked(key);
 	}
 
 }

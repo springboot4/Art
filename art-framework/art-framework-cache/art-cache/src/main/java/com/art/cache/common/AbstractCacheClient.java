@@ -14,21 +14,32 @@
  *   limitations under the License.
  */
 
-package com.art.hazelcast.sdk.cache;
+package com.art.cache.common;
 
 /**
+ * 缓存操作客户端
+ *
  * @author Fxz
  * @version 0.0.1
- * @date 2023/3/23 15:40
+ * @date 2023/3/23 16:16
  */
-public interface DistributedCacheManager<T> {
+public abstract class AbstractCacheClient<T> implements DistributedCache<T> {
+
+	private final DistributedCache<T> distributedCache;
+
+	protected AbstractCacheClient(DistributedCacheProvider distributedCacheProvider) {
+		this.distributedCache = distributedCacheProvider.getOrCreate(getClass().getName());
+	}
 
 	/**
 	 * 获取指定键的值
 	 * @param key key
 	 * @return value
 	 */
-	T get(String key);
+	@Override
+	public T get(String key) {
+		return distributedCache.get(key);
+	}
 
 	/**
 	 * 为指定key设置过期时间
@@ -36,7 +47,10 @@ public interface DistributedCacheManager<T> {
 	 * @param seconds 过期时间，以秒为单位
 	 * @return true or false
 	 */
-	boolean touch(final String key, int seconds);
+	@Override
+	public boolean touch(String key, int seconds) {
+		return distributedCache.touch(key, seconds);
+	}
 
 	/**
 	 * 添加，有值则不替换
@@ -44,7 +58,10 @@ public interface DistributedCacheManager<T> {
 	 * @param data data
 	 * @return true or false
 	 */
-	boolean add(String key, T data);
+	@Override
+	public boolean add(String key, T data) {
+		return distributedCache.add(key, data);
+	}
 
 	/**
 	 * 添加，有值则不替换
@@ -53,7 +70,10 @@ public interface DistributedCacheManager<T> {
 	 * @param seconds 过期时间，单位秒
 	 * @return true or false
 	 */
-	boolean add(String key, T data, int seconds);
+	@Override
+	public boolean add(String key, T data, int seconds) {
+		return distributedCache.add(key, data, seconds);
+	}
 
 	/**
 	 * 添加，有值则替换
@@ -61,7 +81,10 @@ public interface DistributedCacheManager<T> {
 	 * @param data data
 	 * @return true or false
 	 */
-	boolean set(String key, T data);
+	@Override
+	public boolean set(String key, T data) {
+		return distributedCache.set(key, data);
+	}
 
 	/**
 	 * 添加，有值则替换
@@ -70,14 +93,20 @@ public interface DistributedCacheManager<T> {
 	 * @param seconds 过期时间，单位秒
 	 * @return true or false
 	 */
-	boolean set(String key, T data, int seconds);
+	@Override
+	public boolean set(String key, T data, int seconds) {
+		return distributedCache.set(key, data, seconds);
+	}
 
 	/**
 	 * 删除
 	 * @param key
 	 * @return true or false
 	 */
-	boolean delete(String key);
+	@Override
+	public boolean delete(String key) {
+		return distributedCache.delete(key);
+	}
 
 	/**
 	 * 替换，数据不存在返回false
@@ -85,7 +114,10 @@ public interface DistributedCacheManager<T> {
 	 * @param data data
 	 * @return true or false
 	 */
-	boolean replace(String key, T data);
+	@Override
+	public boolean replace(String key, T data) {
+		return distributedCache.replace(key, data);
+	}
 
 	/**
 	 * 替换，数据不存在返回false
@@ -94,33 +126,48 @@ public interface DistributedCacheManager<T> {
 	 * @param seconds 过期时间，单位秒
 	 * @return true or false
 	 */
-	boolean replace(String key, T data, int seconds);
+	@Override
+	public boolean replace(String key, T data, int seconds) {
+		return distributedCache.replace(key, data, seconds);
+	}
 
 	/**
 	 * 加锁
 	 * @param key key
 	 * @param seconds 过期时间，单位秒
 	 */
-	void lock(String key, long seconds);
+	@Override
+	public void lock(String key, long seconds) {
+		distributedCache.lock(key, seconds);
+	}
 
 	/**
 	 * 解锁
 	 * @param key key
 	 */
-	void unlock(String key);
+	@Override
+	public void unlock(String key) {
+		distributedCache.unlock(key);
+	}
 
 	/**
 	 * 无时间限制锁
 	 * @param key key
 	 */
-	void lockInfinite(String key);
+	@Override
+	public void lockInfinite(String key) {
+		distributedCache.lockInfinite(key);
+	}
 
 	/**
 	 * 尝试加锁
 	 * @param key key
 	 * @return true or false
 	 */
-	boolean tryLock(String key);
+	@Override
+	public boolean tryLock(String key) {
+		return distributedCache.tryLock(key);
+	}
 
 	/**
 	 * 尝试加锁
@@ -128,7 +175,10 @@ public interface DistributedCacheManager<T> {
 	 * @param seconds 尝试加锁时间
 	 * @return true or false
 	 */
-	boolean tryLock(String key, long seconds);
+	@Override
+	public boolean tryLock(String key, long seconds) {
+		return distributedCache.tryLock(key, seconds);
+	}
 
 	/**
 	 * 尝试加锁
@@ -137,13 +187,19 @@ public interface DistributedCacheManager<T> {
 	 * @param leaseSeconds 加锁时间
 	 * @return true or false
 	 */
-	boolean tryLock(String key, long seconds, long leaseSeconds);
+	@Override
+	public boolean tryLock(String key, long seconds, long leaseSeconds) {
+		return distributedCache.tryLock(key, seconds, leaseSeconds);
+	}
 
 	/**
 	 * 是否加锁成功
 	 * @param key key
 	 * @return true or false
 	 */
-	boolean isLocked(String key);
+	@Override
+	public boolean isLocked(String key) {
+		return distributedCache.isLocked(key);
+	}
 
 }

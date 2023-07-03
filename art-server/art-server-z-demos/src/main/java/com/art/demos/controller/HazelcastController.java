@@ -17,11 +17,11 @@
 package com.art.demos.controller;
 
 import cn.hutool.core.thread.ThreadUtil;
+import com.art.cache.sdk.DefaultCacheClient;
 import com.art.core.common.model.Result;
 import com.art.demos.core.message.DemoGroupMessage;
 import com.art.demos.core.message.DemoTopicMessage;
 import com.art.hazelcast.sdk.base.*;
-import com.art.hazelcast.sdk.cache.DefaultCacheManager;
 import com.art.mq.sdk.client.HazelcastMQTemplate;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.core.HazelcastInstance;
@@ -51,7 +51,7 @@ public class HazelcastController {
 
 	private final HazelcastInstance hazelcastInstance;
 
-	private final DefaultCacheManager defaultCacheManager;
+	private final DefaultCacheClient defaultCacheManager;
 
 	private final DistributedBaseFactory distributedBaseFactory;
 

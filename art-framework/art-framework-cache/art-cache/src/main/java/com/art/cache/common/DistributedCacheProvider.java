@@ -14,15 +14,17 @@
  *   limitations under the License.
  */
 
-package com.art.hazelcast.sdk.cache;
+package com.art.cache.common;
 
 /**
+ * 分布式缓存创建者
+ *
  * @author Fxz
  * @version 0.0.1
  * @date 2023/3/23 15:39
  */
 public interface DistributedCacheProvider {
 
-	<T> DistributedCacheManager<T> getOrCreate(String cacheName);
+	<T> DistributedCache<T> getOrCreate(String cacheName);
 
 }

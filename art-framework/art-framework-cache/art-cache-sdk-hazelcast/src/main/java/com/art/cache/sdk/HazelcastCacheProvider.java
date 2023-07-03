@@ -14,8 +14,10 @@
  *   limitations under the License.
  */
 
-package com.art.hazelcast.sdk.cache;
+package com.art.cache.sdk;
 
+import com.art.cache.common.DistributedCache;
+import com.art.cache.common.DistributedCacheProvider;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +36,13 @@ public class HazelcastCacheProvider implements DistributedCacheProvider {
 
 	private final HazelcastInstance hazelcastInstance;
 
-	private Map<String, DistributedCacheManager> cacheManagerMap = new HashMap<>();
+	private Map<String, DistributedCache> cacheManagerMap = new HashMap<>();
 
 	@Override
-	public <T> DistributedCacheManager<T> getOrCreate(String cacheName) {
+	public <T> DistributedCache<T> getOrCreate(String cacheName) {
 		return cacheManagerMap.computeIfAbsent(cacheName, name -> {
 			IMap<String, T> map = hazelcastInstance.getMap(cacheName);
-			return new HazelcastCacheManager<T>(map);
+			return new HazelcastCache<T>(map);
 		});
 	}
 

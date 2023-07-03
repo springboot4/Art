@@ -32,6 +32,11 @@
 
         <dependency>
             <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-cache-hazelcast</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-message-queue-hazelcast</artifactId>
         </dependency>
 
