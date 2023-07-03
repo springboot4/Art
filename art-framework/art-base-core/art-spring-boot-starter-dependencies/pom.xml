@@ -254,6 +254,21 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
+                <artifactId>art-cache-sdk-hazelcast</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-cache</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-cache-hazelcast</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
                 <artifactId>art-message-queue</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -14,16 +14,19 @@
  *   limitations under the License.
  */
 
-package com.art.hazelcast.sdk.cache;
+package com.art.cache.sdk;
+
+import com.art.cache.common.AbstractCacheClient;
+import com.art.cache.common.DistributedCacheProvider;
 
 /**
  * @author Fxz
  * @version 0.0.1
  * @date 2023/3/23 16:25
  */
-public class DefaultCacheManager extends AbstractCacheManager<Object> {
+public class DefaultCacheClient extends AbstractCacheClient<Object> {
 
-	public DefaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
+	public DefaultCacheClient(DistributedCacheProvider distributedCacheProvider) {
 		super(distributedCacheProvider);
 	}
 

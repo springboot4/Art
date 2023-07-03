@@ -15,11 +15,11 @@
  *   limitations under the License.
  */
 
-package com.art.hazelcast.starter;
+package com.art.cache.starter;
 
-import com.art.hazelcast.sdk.cache.DefaultCacheManager;
-import com.art.hazelcast.sdk.cache.DistributedCacheProvider;
-import com.art.hazelcast.sdk.cache.HazelcastCacheProvider;
+import com.art.cache.common.DistributedCacheProvider;
+import com.art.cache.sdk.DefaultCacheClient;
+import com.art.cache.sdk.HazelcastCacheProvider;
 import com.hazelcast.core.HazelcastInstance;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -40,8 +40,8 @@ public class HazelcastCacheAutoConfiguration {
 	}
 
 	@Bean
-	DefaultCacheManager defaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
-		return new DefaultCacheManager(distributedCacheProvider);
+	DefaultCacheClient defaultCacheManager(DistributedCacheProvider distributedCacheProvider) {
+		return new DefaultCacheClient(distributedCacheProvider);
 	}
 
 }
