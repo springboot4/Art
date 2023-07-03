@@ -16,11 +16,11 @@
 
 package com.art.common.security.core.service.user;
 
-import com.art.core.common.constant.SecurityConstants;
 import com.art.common.security.authentication.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.service.ArtUserDetailsService;
 import com.art.common.security.core.utils.SecurityUtil;
+import com.art.core.common.constant.SecurityConstants;
 import com.art.system.api.user.dto.SystemUserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

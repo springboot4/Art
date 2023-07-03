@@ -17,12 +17,12 @@
 package com.art.common.security.authentication.sms;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.art.core.common.constant.SecurityConstants;
 import com.art.common.security.core.constant.OAuth2ErrorCodesExpand;
 import com.art.common.security.core.exception.ScopeException;
 import com.art.common.security.core.service.ArtUserDetailsService;
 import com.art.common.security.core.utils.ArtOAuth2ConfigurerUtils;
 import com.art.common.security.core.utils.SecurityUtil;
+import com.art.core.common.constant.SecurityConstants;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

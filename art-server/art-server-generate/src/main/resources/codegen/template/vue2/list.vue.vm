@@ -26,8 +26,8 @@
 
 <script>
   import {tableObj} from './template'
-  import {page, del} from '@/api/${module}/${classname}'
-  import ${className}Edit from './${className}Edit'
+  import {del, page} from '@/api/'
+  import ${className}Edit from './'
   import {TableMixin} from '@/mixins/TableMixin'
 
   export default {

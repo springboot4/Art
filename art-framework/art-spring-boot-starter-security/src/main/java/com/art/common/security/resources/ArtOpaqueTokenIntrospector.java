@@ -17,9 +17,9 @@
 package com.art.common.security.resources;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.art.core.common.constant.SecurityConstants;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.service.ArtUserDetailsService;
+import com.art.core.common.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;

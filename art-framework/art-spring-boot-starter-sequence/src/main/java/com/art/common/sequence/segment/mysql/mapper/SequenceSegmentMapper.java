@@ -16,8 +16,8 @@
 
 package com.art.common.sequence.segment.mysql.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.art.common.sequence.segment.mysql.entity.SequenceSegment;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

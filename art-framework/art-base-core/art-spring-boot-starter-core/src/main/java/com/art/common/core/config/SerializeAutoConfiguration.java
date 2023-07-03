@@ -14,7 +14,7 @@
  *   limitations under the License.
  */
 
-package com.art.core.common.config;
+package com.art.common.core.config;
 
 import com.art.core.common.support.serializer.ImgUrlSerialize;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

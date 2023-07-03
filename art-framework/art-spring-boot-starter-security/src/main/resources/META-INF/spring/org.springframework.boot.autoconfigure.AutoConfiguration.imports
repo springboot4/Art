@@ -1,2 +1,3 @@
 com.art.common.security.core.config.ArtSecurityAutoConfigure
 com.art.common.security.core.config.ArtUserDetailServiceAutoConfigure
+com.art.common.security.core.config.WebMvcServerProtectConfigure

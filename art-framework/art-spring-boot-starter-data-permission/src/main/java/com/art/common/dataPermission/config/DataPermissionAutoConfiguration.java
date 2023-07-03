@@ -16,14 +16,13 @@
 
 package com.art.common.dataPermission.config;
 
-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.art.common.dataPermission.aop.DataPermissionAnnotationAdvisor;
 import com.art.common.dataPermission.db.DataPermissionDatabaseInterceptor;
 import com.art.common.dataPermission.factory.DataPermissionRuleFactory;
 import com.art.common.dataPermission.factory.DataPermissionRuleFactoryImpl;
 import com.art.common.dataPermission.rule.DataPermissionRule;
 import com.art.mybatis.common.utils.MyBatisUtils;
-
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 

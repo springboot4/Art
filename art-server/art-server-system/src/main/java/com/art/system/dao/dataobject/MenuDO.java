@@ -17,10 +17,10 @@
 package com.art.system.dao.dataobject;
 
 import com.art.core.common.model.RouterMeta;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.art.core.common.model.VueRouter;
 import com.art.mybatis.common.base.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;

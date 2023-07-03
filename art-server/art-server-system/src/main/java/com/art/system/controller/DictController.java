@@ -20,7 +20,6 @@ import com.art.common.log.core.annotation.OperLogAnn;
 import com.art.common.log.core.enums.BusinessType;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
-
 import com.art.system.api.dict.dto.DictDTO;
 import com.art.system.api.dict.dto.DictItemDTO;
 import com.art.system.api.dict.dto.DictPageDTO;

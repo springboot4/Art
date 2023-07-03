@@ -266,6 +266,16 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
+                <artifactId>art-message-queue-sdk-hazelcast</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-message-queue-hazelcast</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
                 <artifactId>art-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -337,6 +347,11 @@
             <dependency>
                 <groupId>com.art</groupId>
                 <artifactId>art-spring-boot-starter-seata</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-hazelcast-sdk</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

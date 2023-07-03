@@ -17,7 +17,6 @@
 package com.art.common.security.client.http;
 
 import cn.hutool.core.text.StrPool;
-import com.art.json.sdk.util.JacksonUtil;
 import com.art.common.security.authentication.gitee.OAuth2GiteeAuthenticationToken;
 import com.art.common.security.client.GiteeRegisteredClientRepository;
 import com.art.common.security.client.core.constants.GiteeEndpointEnums;
@@ -27,6 +26,7 @@ import com.art.common.security.client.properties.GiteeProperties;
 import com.art.core.common.constant.ResultCode;
 import com.art.core.common.model.Result;
 import com.art.core.common.util.WebUtil;
+import com.art.json.sdk.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

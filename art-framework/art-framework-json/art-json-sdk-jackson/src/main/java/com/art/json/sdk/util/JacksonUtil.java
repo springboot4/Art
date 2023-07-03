@@ -18,7 +18,7 @@ package com.art.json.sdk.util;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.art.core.common.util.SpringUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -18,7 +18,6 @@ package com.art.mq.common.client;
 
 import com.art.mq.common.message.AbstractBroadcastMessage;
 import com.art.mq.common.message.AbstractGroupMessage;
-import com.art.mq.common.message.AbstractMessage;
 import com.art.mq.common.support.MessageQueueInterceptor;
 import com.art.mq.common.support.MessageQueueInterceptorAccessor;
 import com.art.mq.common.support.MessageQueueOperations;

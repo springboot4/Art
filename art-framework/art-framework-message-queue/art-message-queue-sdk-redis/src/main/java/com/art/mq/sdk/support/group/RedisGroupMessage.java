@@ -17,7 +17,6 @@
 package com.art.mq.sdk.support.group;
 
 import com.art.mq.common.message.AbstractGroupMessage;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Redis Stream Message 抽象类

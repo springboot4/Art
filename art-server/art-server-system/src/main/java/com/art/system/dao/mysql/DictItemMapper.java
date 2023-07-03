@@ -16,8 +16,8 @@
 
 package com.art.system.dao.mysql;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.art.system.dao.dataobject.DictItemDO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

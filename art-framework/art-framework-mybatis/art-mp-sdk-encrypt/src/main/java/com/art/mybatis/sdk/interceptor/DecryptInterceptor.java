@@ -23,7 +23,6 @@ import cn.hutool.crypto.symmetric.AES;
 import com.art.mybatis.sdk.annotation.EncryptionData;
 import com.art.mybatis.sdk.propertie.EncryptProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
@@ -46,7 +45,6 @@ import java.util.stream.Collectors;
  * @version 0.0.1
  * @date 2022/9/15 14:00
  */
-@Slf4j
 @RequiredArgsConstructor
 @Intercepts(@Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }))
 public class DecryptInterceptor implements Interceptor {

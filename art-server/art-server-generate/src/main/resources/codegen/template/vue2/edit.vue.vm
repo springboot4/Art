@@ -35,8 +35,9 @@
 </template>
 
 <script>
-  import { FormMixin } from '@/mixins/FormMixin'
-  import { get, add, update } from '@/api/${module}/${classname}'
+  import {FormMixin} from '@/mixins/FormMixin'
+  import {add, get, update} from '@/api/'
+
   export default {
     name: '${className}Edit',
     mixins: [FormMixin],

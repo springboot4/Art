@@ -17,9 +17,9 @@
 package com.art.common.tenant.mp;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.art.common.tenant.config.FxzTenantProperties;
 import com.art.common.tenant.context.TenantContextHolder;
+import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.NullValue;

@@ -34,7 +34,6 @@
         <module>art-spring-boot-starter-file</module>
         <module>art-spring-boot-starter-redisson</module>
         <module>art-spring-boot-starter-feign</module>
-        <module>art-spring-boot-starter-hazelcast</module>
         <module>art-spring-boot-starter-gateway</module>
         <module>art-spring-boot-starter-security</module>
         <module>art-spring-boot-starter-database</module>
@@ -53,6 +52,7 @@
         <module>art-framework-job</module>
         <module>art-framework-mybatis</module>
         <module>art-framework-json</module>
+        <module>art-framework-hazelcast</module>
     </modules>
 
 </project>

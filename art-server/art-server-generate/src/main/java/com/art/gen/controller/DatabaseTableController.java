@@ -19,7 +19,6 @@ package com.art.gen.controller;
 import com.art.core.common.model.PageParam;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
-
 import com.art.gen.dao.dataobject.DatabaseTableDO;
 import com.art.gen.service.impl.DatabaseTableServiceImpl;
 import lombok.RequiredArgsConstructor;

@@ -18,7 +18,6 @@ package com.art.system.controller;
 
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
-
 import com.art.system.api.tenant.dto.TenantPackageDTO;
 import com.art.system.api.tenant.dto.TenantPackagePageDTO;
 import com.art.system.service.TenantPackageService;

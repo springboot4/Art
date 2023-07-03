@@ -18,16 +18,11 @@ package com.art.demos.controller;
 
 import cn.hutool.core.thread.ThreadUtil;
 import com.art.core.common.model.Result;
-
-import com.art.common.hazelcast.core.base.DistributedBaseFactory;
-import com.art.common.hazelcast.core.base.DistributedCountDownLatch;
-import com.art.common.hazelcast.core.base.DistributedMap;
-import com.art.common.hazelcast.core.base.DistributedQueue;
-import com.art.common.hazelcast.core.base.DistributedSet;
-import com.art.common.hazelcast.core.cache.DefaultCacheManager;
-import com.art.common.hazelcast.core.mq.HazelcastMQTemplate;
 import com.art.demos.core.message.DemoGroupMessage;
 import com.art.demos.core.message.DemoTopicMessage;
+import com.art.hazelcast.sdk.base.*;
+import com.art.hazelcast.sdk.cache.DefaultCacheManager;
+import com.art.mq.sdk.client.HazelcastMQTemplate;
 import com.hazelcast.cluster.Member;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.topic.ITopic;

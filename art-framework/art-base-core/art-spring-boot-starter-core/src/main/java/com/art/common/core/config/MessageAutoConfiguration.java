@@ -14,7 +14,7 @@
  *   limitations under the License.
  */
 
-package com.art.core.common.config;
+package com.art.common.core.config;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.MessageSource;

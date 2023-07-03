@@ -16,8 +16,8 @@
 
 package com.art.system.service;
 
-import com.art.core.common.model.DeptDataPermissionRespEntity;
 import com.art.common.security.core.model.ArtAuthUser;
+import com.art.core.common.model.DeptDataPermissionRespEntity;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;

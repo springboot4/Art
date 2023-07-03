@@ -16,7 +16,7 @@
 
 package com.art.demos.core.message;
 
-import com.art.common.hazelcast.core.mq.AbstractTopicMessage;
+import com.art.mq.sdk.support.broadcast.HazelcastBroadcastMessage;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class DemoTopicMessage extends AbstractTopicMessage {
+public class DemoTopicMessage extends HazelcastBroadcastMessage {
 
 	private String msg;
 

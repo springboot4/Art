@@ -109,12 +109,12 @@ public abstract class AbstractRedisGroupMessageListener<T extends RedisGroupMess
 		return (Class<T>) type;
 	}
 
-	public void consumeMessageBefore(AbstractMessage message) {
+	protected void consumeMessageBefore(AbstractMessage message) {
 		List<RedisMessageInterceptor> interceptors = redisMQTemplate.getInterceptors();
 		interceptors.forEach(interceptor -> interceptor.consumeMessageBefore(message));
 	}
 
-	public void consumeMessageAfter(AbstractMessage message) {
+	protected void consumeMessageAfter(AbstractMessage message) {
 		List<RedisMessageInterceptor> interceptors = redisMQTemplate.getInterceptors();
 		for (int i = interceptors.size() - 1; i >= 0; i--) {
 			interceptors.get(i).consumeMessageAfter(message);

@@ -17,7 +17,6 @@
 package com.art.system.controller;
 
 import com.art.core.common.model.Result;
-
 import com.art.system.api.third.dto.ThirdUnBindDTO;
 import com.art.system.service.ThirdService;
 import lombok.RequiredArgsConstructor;
