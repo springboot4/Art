@@ -7,7 +7,7 @@
   <img alt="Fork" src="https://gitee.com/fxz-cloud/art/badge/fork.svg?theme=dark">
 </a>
 <a target="_blank" href="">
-  <img alt="Spring Boot " src="https://img.shields.io/static/v1?label=Spring Boot &message=2.7.11&color=blue">
+  <img alt="Spring Boot " src="https://img.shields.io/static/v1?label=Spring Boot &message=2.7.12&color=blue">
 </a>
 <a target="_blank" href="">
   <img alt="Spring Cloud" src="https://img.shields.io/static/v1?label=Spring Cloud&message=2021.0.6 &color=blue">
@@ -75,7 +75,7 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户、数据权限�
 
 | 依赖                         | 版本         |
 |----------------------------|------------|
-| Spring Boot                | 2.7.11     |
+| Spring Boot                | 2.7.12     |
 | Spring Cloud               | 2021.0.6   |
 | Spring Cloud Alibaba       | 2021.0.4.0 |
 | Spring Authorization Serve | 0.4.2      |
@@ -90,6 +90,7 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户、数据权限�
     <tr>
       <td>扫码邀请入群</td>
       <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png" width="120"/></td>
+      <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/04/2ha2gh.jpg" width="120"/></td>
     </tr>
 </table>
 
