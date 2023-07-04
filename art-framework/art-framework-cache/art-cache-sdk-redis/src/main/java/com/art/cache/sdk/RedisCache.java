@@ -17,8 +17,15 @@
 package com.art.cache.sdk;
 
 import com.art.cache.common.DistributedCache;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.redis.core.BoundHashOperations;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author Fxz
@@ -28,7 +35,7 @@ import org.springframework.data.redis.core.BoundHashOperations;
 @RequiredArgsConstructor
 public class RedisCache<T> implements DistributedCache<T> {
 
-	private final BoundHashOperations<String, String, T> hashOps;
+	private final BoundHashOperations<String, String, RedisTimeData<T>> hashOps;
 
 	/**
 	 * 获取指定键的值
@@ -37,7 +44,18 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public T get(String key) {
-		return hashOps.get(key);
+		RedisTimeData<T> data = hashOps.get(key);
+		if (Objects.isNull(data)) {
+			return null;
+		}
+
+		// 判断是否过期
+		if (Objects.isNull(data.getExpireTime())
+				|| data.getExpireTime().toLocalDateTime().isAfter(LocalDateTime.now())) {
+			return data.getData();
+		}
+
+		return null;
 	}
 
 	/**
@@ -78,7 +96,7 @@ public class RedisCache<T> implements DistributedCache<T> {
 	@Override
 	public boolean set(String key, T data) {
 		try {
-			hashOps.put(key, data);
+			hashOps.put(key, new RedisTimeData<T>(data, null));
 			return true;
 		}
 		catch (Exception e) {
@@ -95,7 +113,13 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public boolean set(String key, T data, int seconds) {
-		throw new RuntimeException("不支持的操作");
+		try {
+			hashOps.put(key, new RedisTimeData<T>(data, seconds));
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -147,7 +171,7 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public boolean tryLock(String key) {
-		throw new RuntimeException("不支持的操作");
+		return Boolean.TRUE.equals(hashOps.putIfAbsent(key, new RedisTimeData<>(null, null)));
 	}
 
 	/**
@@ -158,7 +182,21 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public boolean tryLock(String key, long time) {
-		throw new RuntimeException("不支持的操作");
+		LocalDateTime plussed = LocalDateTime.now().plusSeconds(time);
+		while (LocalDateTime.now().isBefore(plussed)) {
+			if (tryLock(key)) {
+				return true;
+			}
+
+			try {
+				Thread.sleep(100L);
+			}
+			catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -170,7 +208,22 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public boolean tryLock(String key, long seconds, long leaseSeconds) {
-		throw new RuntimeException("不支持的操作");
+		LocalDateTime plussed = LocalDateTime.now().plusSeconds(seconds);
+		while (LocalDateTime.now().isBefore(plussed)) {
+			Boolean result = hashOps.putIfAbsent(key, new RedisTimeData<>(null, (int) leaseSeconds));
+			if (Boolean.TRUE.equals(result)) {
+				return true;
+			}
+
+			try {
+				Thread.sleep(100L);
+			}
+			catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -180,7 +233,7 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public void lock(String key, long seconds) {
-		throw new RuntimeException("不支持的操作");
+		hashOps.putIfAbsent(key, new RedisTimeData<>(null, (int) seconds));
 	}
 
 	/**
@@ -189,7 +242,7 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public void unlock(String key) {
-		throw new RuntimeException("不支持的操作");
+		hashOps.delete(key);
 	}
 
 	/**
@@ -198,7 +251,18 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public void lockInfinite(String key) {
-		throw new RuntimeException("不支持的操作");
+		while (true) {
+			if (tryLock(key)) {
+				return;
+			}
+
+			try {
+				Thread.sleep(100L);
+			}
+			catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
 	}
 
 	/**
@@ -208,7 +272,7 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public boolean isLocked(String key) {
-		throw new RuntimeException("不支持的操作");
+		return Boolean.TRUE.equals(hashOps.hasKey(key));
 	}
 
 	/**
@@ -219,7 +283,39 @@ public class RedisCache<T> implements DistributedCache<T> {
 	 */
 	@Override
 	public boolean touch(String key, int seconds) {
-		throw new RuntimeException("不支持的操作");
+		T data = get(key);
+
+		if (Objects.nonNull(data)) {
+			return set(key, data, seconds);
+		}
+		return false;
+	}
+
+	@Getter
+	@Setter
+	static class RedisTimeData<T> implements Serializable {
+
+		private static final long serialVersionUID = -1L;
+
+		/**
+		 * 缓存的数据
+		 */
+		private T data;
+
+		/**
+		 * 过期时间
+		 */
+		private Timestamp expireTime;
+
+		public RedisTimeData(T data, Integer expireTime) {
+			this.data = data;
+			this.expireTime = Objects.isNull(expireTime) ? null
+					: Timestamp.valueOf(LocalDateTime.now().plusSeconds(expireTime));
+		}
+
+		public RedisTimeData() {
+		}
+
 	}
 
 }
