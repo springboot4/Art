@@ -18,7 +18,6 @@ package com.art.demos.controller;
 
 import cn.hutool.core.thread.ThreadUtil;
 import com.art.cache.sdk.HazelcastDefaultCacheClient;
-import com.art.cache.sdk.RedisDefaultCacheClient;
 import com.art.core.common.model.Result;
 import com.art.demos.core.message.DemoGroupMessage;
 import com.art.demos.core.message.DemoTopicMessage;
