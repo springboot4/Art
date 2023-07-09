@@ -38,7 +38,7 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户、数据权限�
 项目中使用的是阿里的规范（详细可看https://github.com/alibaba/p3c 这里面的[Java开发手册（黄山版）.pdf](https://github.com/alibaba/p3c/blob/master/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C(%E9%BB%84%E5%B1%B1%E7%89%88).pdf)），同时使用插件进行规约扫描。
 
 ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/09/MYYu0t.jpg)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/Ql0Dur.png)
+![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/09/RBL2FZ.jpg)
 
 - 开放 API 层：可直接封装 Service 接口暴露成 RPC 接口；通过 Web 封装成 http 接口；网关控制层等。
 - 终端显示层：各个端的模板渲染并执行显示的层。
@@ -89,7 +89,7 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户、数据权限�
     <tr>
       <td>扫码邀请入群</td>
       <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png" width="120"/></td>
-      <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/04/2ha2gh.jpg" width="120"/></td>
+      <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/09/LqNzoU.jpg" width="120"/></td>
     </tr>
 </table>
 
