@@ -33,12 +33,11 @@ Art 全端代码开源，支持RBAC 动态权限、SaaS多租户、数据权限�
 | master          | java8 + springboot 2.7 + springcloud 2021 + spring cloud alibaba                        |
 | next            | java17 + springboot 3.0 + springcloud 2022 + spring cloud alibaba |
 
-## 📖分层结构
+## 📖系统简介
 
-项目中使用的是阿里的规范（详细可看https://github.com/alibaba/p3c 这里面的[Java开发手册（黄山版）.pdf](https://github.com/alibaba/p3c/blob/master/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C(%E9%BB%84%E5%B1%B1%E7%89%88).pdf)），同时使用插件进行规约扫描
+项目中使用的是阿里的规范（详细可看https://github.com/alibaba/p3c 这里面的[Java开发手册（黄山版）.pdf](https://github.com/alibaba/p3c/blob/master/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C(%E9%BB%84%E5%B1%B1%E7%89%88).pdf)），同时使用插件进行规约扫描。
 
-我们先来看下规范当中的目录结构
-
+![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/09/MYYu0t.jpg)
 ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/26/Ql0Dur.png)
 
 - 开放 API 层：可直接封装 Service 接口暴露成 RPC 接口；通过 Web 封装成 http 接口；网关控制层等。
