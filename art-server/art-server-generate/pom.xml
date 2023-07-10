@@ -58,6 +58,11 @@
 
         <dependency>
             <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-mp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-security</artifactId>
         </dependency>
 

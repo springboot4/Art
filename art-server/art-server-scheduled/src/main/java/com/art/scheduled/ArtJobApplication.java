@@ -17,6 +17,7 @@
 package com.art.scheduled;
 
 import com.art.common.security.resources.EnableArtResourceServer;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -26,6 +27,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @version 0.0.1
  * @date 2022-04-03 17:16
  */
+@MapperScan("com.art.scheduled.dao.mysql")
 @EnableFeignClients(basePackages = { "com.art" })
 @SpringBootApplication
 @EnableArtResourceServer

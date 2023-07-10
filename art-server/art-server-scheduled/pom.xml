@@ -47,6 +47,11 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-mp</artifactId>
+        </dependency>
+
         <!-- Quartz -->
         <dependency>
             <groupId>com.art</groupId>
