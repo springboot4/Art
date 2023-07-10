@@ -32,7 +32,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDynamicDataSource
 @EnableArtResourceServer
 @SpringBootApplication
-@MapperScan("com.art.gen")
+@MapperScan("com.art.gen.dao.mysql")
 public class ArtGenerateApplication {
 
 	public static void main(String[] args) {
