@@ -33,7 +33,7 @@ import reactor.core.publisher.Mono;
  * @date 2021-12-07 11:01
  */
 @Slf4j
-public class FxzGatewayExceptionHandler implements ErrorWebExceptionHandler {
+public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
 
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange, Throwable fxz) {

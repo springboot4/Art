@@ -18,7 +18,7 @@ package com.art.gateway.filter;
 
 import com.art.core.common.constant.FxzConstant;
 import com.art.core.common.model.Result;
-import com.art.gateway.properties.FxzGatewayProperties;
+import com.art.gateway.configure.ArtGatewayProperties;
 import com.art.gateway.util.WebFluxUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,9 +54,9 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.*
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class FxzGatewayRequestFilter implements GlobalFilter, Ordered {
+public class GatewayRequestFilter implements GlobalFilter, Ordered {
 
-	private final FxzGatewayProperties properties;
+	private final ArtGatewayProperties properties;
 
 	private final AntPathMatcher pathMatcher = new AntPathMatcher();
 

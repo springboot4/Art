@@ -14,25 +14,24 @@
  *   limitations under the License.
  */
 
-package com.art.gateway.configure;
+package com.art.gateway.factory;
 
-import com.art.gateway.handler.FxzGatewayExceptionHandler;
-import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
+import lombok.Data;
+import lombok.experimental.FieldNameConstants;
+
+import java.time.LocalTime;
 
 /**
- * @author fxz
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/8/19 20:57
  */
-@Configuration(proxyBeanMethods = false)
-public class FxzGatewayErrorConfigure {
+@Data
+@FieldNameConstants
+public class TimeBetweenConfig {
 
-	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	public ErrorWebExceptionHandler errorWebExceptionHandler() {
-		return new FxzGatewayExceptionHandler();
-	}
+	private LocalTime startTime;
+
+	private LocalTime endTime;
 
 }

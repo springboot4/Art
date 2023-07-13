@@ -35,20 +35,20 @@ import java.util.function.Predicate;
  */
 @Slf4j
 @Component
-public class FxzTimeBetweenRoutePredicateFactory extends AbstractRoutePredicateFactory<FxzTimeBetweenConfig> {
+public class TimeBetweenRoutePredicateFactory extends AbstractRoutePredicateFactory<TimeBetweenConfig> {
 
 	@Override
-	public Predicate<ServerWebExchange> apply(FxzTimeBetweenConfig config) {
+	public Predicate<ServerWebExchange> apply(TimeBetweenConfig config) {
 		return (serverWebExchange) -> LocalTime.now().isAfter(config.getStartTime())
 				&& LocalTime.now().isBefore(config.getEndTime());
 	}
 
 	public List<String> shortcutFieldOrder() {
-		return Arrays.asList(FxzTimeBetweenConfig.Fields.startTime, FxzTimeBetweenConfig.Fields.endTime);
+		return Arrays.asList(TimeBetweenConfig.Fields.startTime, TimeBetweenConfig.Fields.endTime);
 	}
 
-	public FxzTimeBetweenRoutePredicateFactory() {
-		super(FxzTimeBetweenConfig.class);
+	public TimeBetweenRoutePredicateFactory() {
+		super(TimeBetweenConfig.class);
 	}
 
 }

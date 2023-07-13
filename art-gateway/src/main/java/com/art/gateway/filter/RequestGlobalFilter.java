@@ -31,7 +31,7 @@ import reactor.core.publisher.Mono;
  * @author fxz
  */
 @Component
-public class FxzRequestGlobalFilter implements GlobalFilter, Ordered {
+public class RequestGlobalFilter implements GlobalFilter, Ordered {
 
 	/**
 	 * Process the Web request and (optionally) delegate to the next {@code WebFilter}
