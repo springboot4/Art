@@ -21,7 +21,7 @@ package com.art.core.common.constant;
  * @version 0.0.1
  * @date 2021-11-28 13:10
  */
-public interface FxzConstant {
+public interface ArtConstant {
 
 	/**
 	 * GATEWAY请求头TOKEN名称（不要有空格）

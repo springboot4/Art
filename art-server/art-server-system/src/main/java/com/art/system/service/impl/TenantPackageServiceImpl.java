@@ -19,7 +19,7 @@ package com.art.system.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.StrPool;
 import com.art.core.common.constant.GlobalStatusEnum;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.system.api.tenant.dto.TenantPackageDTO;
 import com.art.system.api.tenant.dto.TenantPackagePageDTO;
 import com.art.system.core.convert.TenantPackageConvert;
@@ -117,10 +117,10 @@ public class TenantPackageServiceImpl implements TenantPackageService {
 	public TenantPackageDO validTenantPackage(Long packageId) {
 		TenantPackageDO tenantPackageDO = tenantPackageManager.getTenantPackageById(packageId);
 		if (Objects.isNull(tenantPackageDO)) {
-			throw new FxzException("租户套餐不存在！");
+			throw new ArtException("租户套餐不存在！");
 		}
 		else if (GlobalStatusEnum.DISABLE.getValue().equals(tenantPackageDO.getStatus())) {
-			throw new FxzException("套餐未开启！");
+			throw new ArtException("套餐未开启！");
 		}
 
 		return tenantPackageDO;
@@ -134,7 +134,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
 	private TenantPackageDO validTenantPackageExists(Long id) {
 		TenantPackageDO tenantPackageDO = tenantPackageManager.getTenantPackageById(id);
 		if (Objects.isNull(tenantPackageDO)) {
-			throw new FxzException("套餐信息不存在！更新失败！");
+			throw new ArtException("套餐信息不存在！更新失败！");
 		}
 
 		return tenantPackageDO;
@@ -143,7 +143,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
 	private void validTenantPackageUsed(Long packageId) {
 		Boolean res = tenantManager.validTenantPackageUsed(packageId);
 		if (res) {
-			throw new FxzException("套餐信息使用！");
+			throw new ArtException("套餐信息使用！");
 		}
 	}
 

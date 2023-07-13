@@ -22,7 +22,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PartETag;
 import com.amazonaws.services.s3.model.S3Object;
 import com.art.common.file.core.client.oss.OssFileStorage;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.util.AsyncUtil;
 import com.art.system.core.handler.PartUploaderHandler;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +66,7 @@ public class OssManager {
 		int partCount = (int) Math.ceil(1.0 * fileLength / partSize);
 		// 判断分片是否大于10000
 		if (partCount > MAX_PART_COUNT) {
-			throw new FxzException("Total parts count should not exceed 10000!");
+			throw new ArtException("Total parts count should not exceed 10000!");
 		}
 
 		// 分片标识
@@ -88,7 +88,7 @@ public class OssManager {
 		// 验证所有零件是否均已完成
 		if (eTagList.size() != partCount) {
 			ossFileStorage.abortMultipartUpload(uploadId, bucketName, fileName);
-			throw new FxzException("部分分片上传未完成，分片上传失败！");
+			throw new ArtException("部分分片上传未完成，分片上传失败！");
 		}
 
 		CompleteMultipartUploadResult result = ossFileStorage.completeMultipartUpload(uploadId, bucketName, fileName,

@@ -22,6 +22,10 @@ import com.art.common.core.util.WebUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
+import com.art.core.common.constant.ArtConstant;
+import com.art.core.common.model.Result;
+import com.art.core.common.util.WebUtil;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
@@ -40,8 +44,8 @@ public class ArtServerProtectInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws IOException {
 		// 从请求头中获取 gateway Token
-		String token = request.getHeader(FxzConstant.GATEWAY_TOKEN_HEADER);
-		String gatewayToken = Base64.getEncoder().encodeToString(FxzConstant.GATEWAY_TOKEN_VALUE.getBytes());
+		String token = request.getHeader(ArtConstant.GATEWAY_TOKEN_HEADER);
+		String gatewayToken = new String(Base64Utils.encode(ArtConstant.GATEWAY_TOKEN_VALUE.getBytes()));
 		// 校验 gateway Token的正确性
 		if (gatewayToken.equals(token)) {
 			return true;

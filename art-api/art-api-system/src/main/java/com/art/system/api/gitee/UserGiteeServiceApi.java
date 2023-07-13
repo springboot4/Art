@@ -16,7 +16,7 @@
 
 package com.art.system.api.gitee;
 
-import com.art.core.common.constant.FxzServerConstant;
+import com.art.core.common.constant.ArtServerConstant;
 import com.art.core.common.constant.SecurityConstants;
 import com.art.core.common.model.Result;
 import com.art.system.api.gitee.dto.UsersGiteeDTO;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @version 0.0.1
  * @date 2023/4/16 14:44
  */
-@FeignClient(contextId = "userGiteeServiceApi", value = FxzServerConstant.ART_SERVER_SYSTEM)
+@FeignClient(contextId = "userGiteeServiceApi", value = ArtServerConstant.ART_SERVER_SYSTEM)
 public interface UserGiteeServiceApi {
 
 	/**

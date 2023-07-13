@@ -18,7 +18,7 @@ package com.art.system.service.impl;
 
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.utils.SecurityUtil;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.VueRouter;
 import com.art.core.common.util.TreeUtil;
 import com.art.system.api.dict.dto.MenuDTO;
@@ -91,7 +91,7 @@ public class MenuServiceImpl implements MenuService {
 	 */
 	@Override
 	public List<VueRouter<MenuDTO>> getTreeSelect() {
-		ArtAuthUser user = Optional.ofNullable(SecurityUtil.getUser()).orElseThrow(() -> new FxzException("用户未登录！"));
+		ArtAuthUser user = Optional.ofNullable(SecurityUtil.getUser()).orElseThrow(() -> new ArtException("用户未登录！"));
 
 		List<VueRouter<MenuDTO>> allMenuTree = this.getUserRouters(user.getUsername());
 

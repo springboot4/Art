@@ -28,7 +28,7 @@ import com.art.core.common.util.WebUtil;
 import com.art.common.log.core.annotation.OperLogAnn;
 import com.art.common.log.core.enums.BusinessStatus;
 import com.art.common.log.core.service.AsyncLogService;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.Result;
 import com.art.core.common.util.WebUtil;
 import com.art.system.api.log.dto.OperLogDTO;
@@ -74,6 +74,8 @@ public class LogAspect {
 		}
 		catch (Throwable e) {
 			handleException(operLog, e.getLocalizedMessage());
+			// 切面要将捕获到的异常抛出
+			throw new ArtException(e.getLocalizedMessage());
 		}
 		finally {
 			Long endTime = System.currentTimeMillis();

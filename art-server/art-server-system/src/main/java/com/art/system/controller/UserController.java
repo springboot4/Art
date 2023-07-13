@@ -19,7 +19,7 @@ package com.art.system.controller;
 import com.art.common.security.core.annotation.Ojbk;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.utils.SecurityUtil;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import com.art.system.api.user.dto.SystemUserDTO;
@@ -116,7 +116,7 @@ public class UserController {
 	@Operation(summary = "批量删除用户")
 	@DeleteMapping("/{userIds}")
 	@PreAuthorize("@ps.hasPermission('sys:user:delete')")
-	public void deleteUsers(@NotBlank(message = "{required}") @PathVariable String userIds) throws FxzException {
+	public void deleteUsers(@NotBlank(message = "{required}") @PathVariable String userIds) throws ArtException {
 		this.userService.deleteUsers(userIds.split(StringPool.COMMA));
 	}
 

@@ -19,7 +19,7 @@ package com.art.common.tenant.security;
 import cn.hutool.core.collection.CollUtil;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.utils.SecurityUtil;
-import com.art.common.tenant.config.FxzTenantProperties;
+import com.art.common.tenant.config.ArtTenantProperties;
 import com.art.common.tenant.context.TenantContextHolder;
 import com.art.common.tenant.service.TenantValidService;
 import com.art.core.common.model.Result;
@@ -46,13 +46,13 @@ import java.util.Objects;
 @Slf4j
 public class TenantSecurityWebFilter extends OncePerRequestFilter {
 
-	private final FxzTenantProperties tenantProperties;
+	private final ArtTenantProperties tenantProperties;
 
 	private final AntPathMatcher pathMatcher;
 
 	private final TenantValidService tenantFrameworkService;
 
-	public TenantSecurityWebFilter(FxzTenantProperties tenantProperties, TenantValidService tenantValidService) {
+	public TenantSecurityWebFilter(ArtTenantProperties tenantProperties, TenantValidService tenantValidService) {
 		this.pathMatcher = new AntPathMatcher();
 		this.tenantProperties = tenantProperties;
 		this.tenantFrameworkService = tenantValidService;

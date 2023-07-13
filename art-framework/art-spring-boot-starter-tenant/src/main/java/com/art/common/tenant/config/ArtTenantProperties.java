@@ -31,7 +31,7 @@ import java.util.Set;
  */
 @Data
 @ConfigurationProperties(prefix = "fxz.tenant")
-public class FxzTenantProperties {
+public class ArtTenantProperties {
 
 	/**
 	 * 多租户是否开启

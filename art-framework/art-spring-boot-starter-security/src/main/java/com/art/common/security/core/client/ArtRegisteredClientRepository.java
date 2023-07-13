@@ -18,7 +18,7 @@ package com.art.common.security.core.client;
 
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.ResultOpt;
 import com.art.system.api.client.ClientServiceApi;
 import com.art.system.api.client.dto.ClientDetailsDTO;
@@ -64,7 +64,7 @@ public class ArtRegisteredClientRepository implements RegisteredClientRepository
 	public RegisteredClient findByClientId(String clientId) {
 		// @formatter:off
         ClientDetailsDTO clientDetails = ResultOpt.ofNullable(clientServiceApi.findById(clientId))
-                .assertSuccess(r -> new FxzException(String.format("客户端不存在:%s,%s", clientId, r.getMsg())))
+                .assertSuccess(r -> new ArtException(String.format("客户端不存在:%s,%s", clientId, r.getMsg())))
                 .peek().getData();
         // @formatter:on
 

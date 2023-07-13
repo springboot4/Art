@@ -19,7 +19,7 @@ package com.art.system.controller;
 import com.art.common.security.core.annotation.Ojbk;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.utils.SecurityUtil;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.Result;
 import com.art.core.common.model.VueRouter;
 import com.art.system.api.dict.dto.MenuDTO;
@@ -69,7 +69,7 @@ public class MenuController {
 	@GetMapping("/getUserMenuTree")
 	public Result<List<VueRouter<MenuDTO>>> getUserMenuTree() {
 		ArtAuthUser authUser = Optional.ofNullable(SecurityUtil.getUser())
-			.orElseThrow(() -> new FxzException("用户未登录！"));
+			.orElseThrow(() -> new ArtException("用户未登录！"));
 
 		return Result.success(menuService.getUserMenuTree(authUser.getUserId()));
 	}

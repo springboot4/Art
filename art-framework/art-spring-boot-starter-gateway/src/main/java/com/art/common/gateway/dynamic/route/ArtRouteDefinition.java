@@ -14,23 +14,26 @@
  *   limitations under the License.
  */
 
-package com.art.core.common.exception;
+package com.art.common.gateway.dynamic.route;
+
+import lombok.Data;
+import lombok.ToString;
+import org.springframework.cloud.gateway.route.RouteDefinition;
+
+import java.io.Serializable;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2021-11-28 19:27
+ * @date 2022/8/20 11:53
  */
-public class FxzException extends RuntimeException {
+@Data
+@ToString(callSuper = true)
+public class ArtRouteDefinition extends RouteDefinition implements Serializable {
 
-	private static final long serialVersionUID = -6916154462432027437L;
-
-	public FxzException(String message) {
-		super(message);
-	}
-
-	public FxzException(String message, Throwable throwable) {
-		super(message, throwable);
-	}
+	/**
+	 * 路由名称
+	 */
+	private String name;
 
 }

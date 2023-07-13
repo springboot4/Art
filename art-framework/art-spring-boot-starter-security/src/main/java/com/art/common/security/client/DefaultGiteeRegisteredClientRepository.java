@@ -25,7 +25,7 @@ import com.art.common.security.client.properties.GiteeProperties;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.utils.ArtOAuth2EndpointUtils;
 import com.art.core.common.constant.ResultCode;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.ResultOpt;
 import com.art.system.api.gitee.UserGiteeServiceApi;
 import com.art.system.api.gitee.dto.UsersGiteeDTO;
@@ -138,7 +138,7 @@ public class DefaultGiteeRegisteredClientRepository implements GiteeRegisteredCl
 		String avatarUrl = userInfo.getAvatarUrl();
 
 		UsersGiteeDTO usersGitee = ResultOpt.ofNullable(userGiteeServiceApi.getByAppidAndId(appid, id))
-			.assertSuccess(r -> new FxzException("查询接口失败"))
+			.assertSuccess(r -> new ArtException("查询接口失败"))
 			.peek(d -> log.info("usersGitee:{}", d))
 			.getData();
 
@@ -295,7 +295,7 @@ public class DefaultGiteeRegisteredClientRepository implements GiteeRegisteredCl
 	@Override
 	public UserDetails getUser(String appid, Integer id) {
 		SystemUserDTO userDTO = ResultOpt.ofNullable(userGiteeServiceApi.getUser(appid, id))
-			.assertSuccess(r -> new FxzException("查询接口失败"))
+			.assertSuccess(r -> new ArtException("查询接口失败"))
 			.peek(u -> log.info("user:{}", u))
 			.getData();
 

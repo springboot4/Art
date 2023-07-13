@@ -17,14 +17,20 @@
 package com.art.core.common.exception;
 
 /**
- * @author fxz
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2021-11-28 19:27
  */
-public class FxzAuthException extends Exception {
+public class ArtException extends RuntimeException {
 
 	private static final long serialVersionUID = -6916154462432027437L;
 
-	public FxzAuthException(String message) {
+	public ArtException(String message) {
 		super(message);
+	}
+
+	public ArtException(String message, Throwable throwable) {
+		super(message, throwable);
 	}
 
 }

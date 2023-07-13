@@ -16,7 +16,7 @@
 
 package com.art.gen.core.enums;
 
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -144,7 +144,7 @@ public enum CodeGenTemplateVmEnum {
 		return Arrays.stream(CodeGenTemplateVmEnum.values())
 			.filter(e -> Objects.equals(name, e.getName()))
 			.findFirst()
-			.orElseThrow(() -> new FxzException("不支持的模板类型"));
+			.orElseThrow(() -> new ArtException("不支持的模板类型"));
 	}
 
 }

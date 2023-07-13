@@ -16,7 +16,7 @@
 
 package com.art.system.service;
 
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.system.api.dept.dto.DeptDTO;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public interface DeptService {
 	/**
 	 * 根据id删除部门
 	 */
-	Boolean deleteById(Long id) throws FxzException;
+	Boolean deleteById(Long id) throws ArtException;
 
 	/**
 	 * 保存部门信息

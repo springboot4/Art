@@ -16,7 +16,7 @@
 
 package com.art.common.tenant.service;
 
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.system.api.tenant.TenantServiceApi;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
@@ -31,9 +31,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class TenantValidService {
 
-	private final LoadingCache<Long, FxzException> validTenantCache;
+	private final LoadingCache<Long, ArtException> validTenantCache;
 
-	private static final FxzException SERVICE_EXCEPTION_NULL = new FxzException("无异常信息");
+	private static final ArtException SERVICE_EXCEPTION_NULL = new ArtException("无异常信息");
 
 	public TenantValidService(TenantServiceApi tenantServiceApi) {
 		this.validTenantCache = Caffeine.newBuilder()
@@ -44,14 +44,14 @@ public class TenantValidService {
 					tenantServiceApi.validTenant(id);
 					return SERVICE_EXCEPTION_NULL;
 				}
-				catch (FxzException e) {
+				catch (ArtException e) {
 					return e;
 				}
 			});
 	}
 
 	public void validTenant(Long id) {
-		FxzException serviceException = validTenantCache.get(id);
+		ArtException serviceException = validTenantCache.get(id);
 
 		if (!Objects.equals(serviceException, SERVICE_EXCEPTION_NULL) && Objects.nonNull(serviceException)) {
 			throw serviceException;

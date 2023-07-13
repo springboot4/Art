@@ -17,7 +17,7 @@
 package com.art.system.service.impl;
 
 import com.art.core.common.constant.DictTypeEnum;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.system.api.dict.dto.DictDTO;
 import com.art.system.api.dict.dto.DictItemDTO;
 import com.art.system.api.dict.dto.DictPageDTO;
@@ -63,7 +63,7 @@ public class DictServiceImpl implements DictService {
 	@Override
 	public Boolean updateDict(DictDTO dictDto) {
 		if (DictTypeEnum.SYSTEM.getType().equals(dictDto.getSystemFlag())) {
-			throw new FxzException("系统内置字典，不可修改!");
+			throw new ArtException("系统内置字典，不可修改!");
 		}
 
 		return dictManager.updateById(dictDto) > 0;
@@ -100,7 +100,7 @@ public class DictServiceImpl implements DictService {
 	public Boolean deleteDict(Long id) {
 		DictDO dictDO = dictManager.getDictById(id);
 		if (DictTypeEnum.SYSTEM.getType().equals(dictDO.getSystemFlag())) {
-			throw new FxzException("系统内置字典，不可删除!");
+			throw new ArtException("系统内置字典，不可删除!");
 		}
 
 		// 删除所有字典项

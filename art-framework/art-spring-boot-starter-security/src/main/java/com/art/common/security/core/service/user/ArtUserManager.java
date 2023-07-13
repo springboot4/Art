@@ -17,7 +17,7 @@
 package com.art.common.security.core.service.user;
 
 import com.art.core.common.constant.SecurityConstants;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.ResultOpt;
 import com.art.system.api.menu.MenuServiceApi;
 import com.art.system.api.user.UserServiceApi;
@@ -44,7 +44,7 @@ public class ArtUserManager {
 	public SystemUserDTO findByName(String username) {
 		// @formatter:off
 		return ResultOpt.ofNullable(userService.findByName(username, SecurityConstants.FROM_IN))
-				.assertSuccess(r -> new FxzException(String.format("根据用户名查询用户失败:%s,%s", username, r.getMsg())))
+				.assertSuccess(r -> new ArtException(String.format("根据用户名查询用户失败:%s,%s", username, r.getMsg())))
 				.peek().getData();
 		// @formatter:on
 	}
@@ -52,7 +52,7 @@ public class ArtUserManager {
 	public SystemUserDTO findByMobile(String mobile) {
 		// @formatter:off
 		return ResultOpt.ofNullable(userService.findByMobile(mobile, SecurityConstants.FROM_IN))
-				.assertSuccess(r -> new FxzException(String.format("根据手机号查询用户失败:%s,%s", mobile, r.getMsg())))
+				.assertSuccess(r -> new ArtException(String.format("根据手机号查询用户失败:%s,%s", mobile, r.getMsg())))
 				.peek().getData();
 		// @formatter:on
 	}
@@ -60,7 +60,7 @@ public class ArtUserManager {
 	public String findUserPermissions(String username) {
 		// @formatter:off
 		Set<String> permissions = ResultOpt.ofNullable(menuService.findUserPermissions(username, SecurityConstants.FROM_IN))
-				.assertSuccess(r -> new FxzException(String.format("查询用户权限失败:%s,%s", username, r.getMsg())))
+				.assertSuccess(r -> new ArtException(String.format("查询用户权限失败:%s,%s", username, r.getMsg())))
 				.peek().getData();
 		// @formatter:on
 

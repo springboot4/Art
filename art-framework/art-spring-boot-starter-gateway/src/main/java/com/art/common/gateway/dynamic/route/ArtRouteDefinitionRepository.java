@@ -41,7 +41,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class FxzRouteDefinitionRepository implements RouteDefinitionRepository, ApplicationEventPublisherAware {
+public class ArtRouteDefinitionRepository implements RouteDefinitionRepository, ApplicationEventPublisherAware {
 
 	private final RedisTemplate redisTemplate;
 
@@ -52,7 +52,7 @@ public class FxzRouteDefinitionRepository implements RouteDefinitionRepository, 
 	 */
 	@Override
 	public Flux<RouteDefinition> getRouteDefinitions() {
-		List<FxzRouteDefinition> values = redisTemplate.opsForHash().values(CacheConstants.ROUTE_KEY);
+		List<ArtRouteDefinition> values = redisTemplate.opsForHash().values(CacheConstants.ROUTE_KEY);
 		if (log.isDebugEnabled()) {
 			log.debug("加载redis中路由: {} 条， {}", values.size(), values);
 		}
@@ -81,9 +81,9 @@ public class FxzRouteDefinitionRepository implements RouteDefinitionRepository, 
 	 * 保存路由信息到redis
 	 */
 	private void saveRouteToRedis(RouteDefinition routeDefinition) {
-		FxzRouteDefinition fxzRouteDefinition = new FxzRouteDefinition();
-		BeanUtils.copyProperties(routeDefinition, fxzRouteDefinition);
-		redisTemplate.opsForHash().put(CacheConstants.ROUTE_KEY, fxzRouteDefinition.getId(), fxzRouteDefinition);
+		ArtRouteDefinition artRouteDefinition = new ArtRouteDefinition();
+		BeanUtils.copyProperties(routeDefinition, artRouteDefinition);
+		redisTemplate.opsForHash().put(CacheConstants.ROUTE_KEY, artRouteDefinition.getId(), artRouteDefinition);
 	}
 
 	/**

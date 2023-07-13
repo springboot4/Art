@@ -22,7 +22,7 @@ import cn.hutool.core.util.StrUtil;
 import com.art.common.dataPermission.enums.DataScopeEnum;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.core.common.constant.RoleEnum;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.DeptDataPermissionRespEntity;
 import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.api.role.dto.RoleDTO;
@@ -96,7 +96,7 @@ public class RoleServiceImpl implements RoleService {
 		// 保存角色信息
 		Long id = roleManager.addRole(roleDTO);
 		if (Objects.isNull(id)) {
-			throw new FxzException("保存角色信息失败！");
+			throw new ArtException("保存角色信息失败！");
 		}
 
 		// 保存角色菜单
@@ -140,7 +140,7 @@ public class RoleServiceImpl implements RoleService {
 	public Boolean deleteRoleById(Long id) {
 		RoleBO roleBO = roleManager.getRoleById(id);
 		if (RoleEnum.isSystem(roleBO.getCode())) {
-			throw new FxzException("系统内置角色不可删除！");
+			throw new ArtException("系统内置角色不可删除！");
 		}
 
 		// 删除角色菜单关联信息

@@ -18,8 +18,8 @@ package com.art.gateway.listener;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
-import com.art.common.gateway.dynamic.route.FxzRouteDefinition;
-import com.art.common.gateway.dynamic.route.FxzRouteDefinitionRepository;
+import com.art.common.gateway.dynamic.route.ArtRouteDefinition;
+import com.art.common.gateway.dynamic.route.ArtRouteDefinitionRepository;
 import com.art.core.common.constant.CacheConstants;
 import com.art.mq.sdk.support.broadcast.AbstractRedisBroadcastMessageListener;
 import com.art.system.api.route.dto.RouteConfDTO;
@@ -51,7 +51,7 @@ public class RouteMessageConsumer extends AbstractRedisBroadcastMessageListener<
 
 	private final RedisTemplate redisTemplate;
 
-	private final FxzRouteDefinitionRepository fxzRouteDefinitionRepository;
+	private final ArtRouteDefinitionRepository artRouteDefinitionRepository;
 
 	@Override
 	public void onMessage(RouteMessage message) {
@@ -63,16 +63,16 @@ public class RouteMessageConsumer extends AbstractRedisBroadcastMessageListener<
 		}
 		List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
 
-		Map<String, FxzRouteDefinition> map = routeConfList.stream()
+		Map<String, ArtRouteDefinition> map = routeConfList.stream()
 			.map(this::convert)
-			.collect(Collectors.toMap(FxzRouteDefinition::getId, Function.identity()));
+			.collect(Collectors.toMap(ArtRouteDefinition::getId, Function.identity()));
 
 		redisTemplate.opsForHash().putAll(CacheConstants.ROUTE_KEY, map);
-		fxzRouteDefinitionRepository.publishEvent();
+		artRouteDefinitionRepository.publishEvent();
 	}
 
-	public FxzRouteDefinition convert(RouteConfDTO dto) {
-		FxzRouteDefinition routeDefinition = new FxzRouteDefinition();
+	public ArtRouteDefinition convert(RouteConfDTO dto) {
+		ArtRouteDefinition routeDefinition = new ArtRouteDefinition();
 		PropertyMapper mapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
 		mapper.from(dto.getName()).whenNonNull().to(routeDefinition::setName);

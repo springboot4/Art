@@ -20,7 +20,7 @@ import cn.hutool.core.lang.Opt;
 import com.art.common.dataPermission.annotation.DataPermission;
 import com.art.common.security.core.model.ArtAuthUser;
 import com.art.common.security.core.utils.SecurityUtil;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.core.bo.DeptBO;
 import com.art.system.core.convert.DeptConvert;
@@ -62,11 +62,11 @@ public class DeptServiceImpl implements DeptService {
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean deleteById(Long id) throws FxzException {
+	public Boolean deleteById(Long id) throws ArtException {
 		// 判断是否存在下级部门
 		Boolean exists = deptManager.existsSubordinate(id);
 		if (exists) {
-			throw new FxzException("存在子部门,无法删除！");
+			throw new ArtException("存在子部门,无法删除！");
 		}
 
 		// 删除部门
