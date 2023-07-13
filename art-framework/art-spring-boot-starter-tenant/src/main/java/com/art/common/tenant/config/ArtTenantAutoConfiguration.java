@@ -58,8 +58,8 @@ import java.util.Objects;
 @SuppressWarnings("all")
 @AutoConfiguration
 @ConditionalOnProperty(prefix = "fxz.tenant", value = "enable", matchIfMissing = true)
-@EnableConfigurationProperties(FxzTenantProperties.class)
-public class FxzTenantAutoConfiguration {
+@EnableConfigurationProperties(ArtTenantProperties.class)
+public class ArtTenantAutoConfiguration {
 
 	/**
 	 * Mybytis-plus多租户拦截器
@@ -68,7 +68,7 @@ public class FxzTenantAutoConfiguration {
 	 * @return Mybatis-plus多租户拦截器
 	 */
 	@Bean
-	public TenantLineInnerInterceptor tenantLineInnerInterceptor(FxzTenantProperties properties,
+	public TenantLineInnerInterceptor tenantLineInnerInterceptor(ArtTenantProperties properties,
 			MybatisPlusInterceptor interceptor) {
 		// Mybatis-plus多租户拦截器
 		TenantLineInnerInterceptor inner = new TenantLineInnerInterceptor(new TenantDatabaseHandler(properties));
@@ -92,7 +92,7 @@ public class FxzTenantAutoConfiguration {
 	 * 租户合法校验过滤器
 	 */
 	@Bean
-	public FilterRegistrationBean<TenantSecurityWebFilter> tenantSecurityWebFilter(FxzTenantProperties tenantProperties,
+	public FilterRegistrationBean<TenantSecurityWebFilter> tenantSecurityWebFilter(ArtTenantProperties tenantProperties,
 			TenantValidService tenantValidService) {
 		FilterRegistrationBean<TenantSecurityWebFilter> registrationBean = new FilterRegistrationBean<>();
 		registrationBean.setFilter(new TenantSecurityWebFilter(tenantProperties, tenantValidService));

@@ -16,8 +16,8 @@
 
 package com.art.core.common.support.exception;
 
-import com.art.core.common.exception.FxzAuthException;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtAuthException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -79,14 +79,14 @@ public class BaseExceptionHandler {
 		return Result.failed(msg.toString());
 	}
 
-	@ExceptionHandler(value = FxzException.class)
+	@ExceptionHandler(value = ArtException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Result<Void> handleFxzException(FxzException e) {
+	public Result<Void> handleFxzException(ArtException e) {
 		log.error("系统错误", e);
 		return Result.failed(e.getLocalizedMessage());
 	}
 
-	@ExceptionHandler(value = { FxzAuthException.class, AccessDeniedException.class })
+	@ExceptionHandler(value = { ArtAuthException.class, AccessDeniedException.class })
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Result<Void> handleFxzAuthException(Exception e) {
 		log.error("认证错误", e);

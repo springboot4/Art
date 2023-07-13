@@ -14,26 +14,17 @@
  *   limitations under the License.
  */
 
-package com.art.common.gateway.dynamic.route;
-
-import lombok.Data;
-import lombok.ToString;
-import org.springframework.cloud.gateway.route.RouteDefinition;
-
-import java.io.Serializable;
+package com.art.core.common.constant;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2022/8/20 11:53
+ * @date 2021-11-28 12:26
  */
-@Data
-@ToString(callSuper = true)
-public class FxzRouteDefinition extends RouteDefinition implements Serializable {
+public interface ArtServerConstant {
 
-	/**
-	 * 路由名称
-	 */
-	private String name;
+	String ART_AUTH = "art-auth";
+
+	String ART_SERVER_SYSTEM = "art-server-system";
 
 }

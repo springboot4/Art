@@ -16,7 +16,7 @@
 
 package com.art.gateway.filter;
 
-import com.art.core.common.constant.FxzConstant;
+import com.art.core.common.constant.ArtConstant;
 import com.art.core.common.model.Result;
 import com.art.gateway.configure.ArtGatewayProperties;
 import com.art.gateway.util.WebFluxUtil;
@@ -78,8 +78,8 @@ public class GatewayRequestFilter implements GlobalFilter, Ordered {
 
 		// 标记请求来自网关
 		ServerHttpRequest build = request.mutate()
-			.header(FxzConstant.GATEWAY_TOKEN_HEADER,
-					new String(Base64Utils.encode((FxzConstant.GATEWAY_TOKEN_VALUE).getBytes())))
+			.header(ArtConstant.GATEWAY_TOKEN_HEADER,
+					new String(Base64Utils.encode((ArtConstant.GATEWAY_TOKEN_VALUE).getBytes())))
 			.build();
 
 		// then方法相当于aop的后置通知一样

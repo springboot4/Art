@@ -17,7 +17,7 @@
 package com.art.common.dataPermission.dept.service;
 
 import com.art.common.security.core.model.ArtAuthUser;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.DeptDataPermissionRespEntity;
 import com.art.core.common.model.ResultOpt;
 import com.art.system.api.role.RoleServiceApi;
@@ -43,7 +43,7 @@ public class DeptDataPermissionService {
 	public DeptDataPermissionRespEntity getDeptDataPermission(ArtAuthUser loginUser) {
 		// @formatter:off
 		return ResultOpt.ofNullable(roleServiceApi.getDataPermission())
-				.assertSuccess(r -> new FxzException(String.format("查询数据权限接口失败:%s", loginUser.getUsername())))
+				.assertSuccess(r -> new ArtException(String.format("查询数据权限接口失败:%s", loginUser.getUsername())))
 				.peek(d -> log.info("数据权限是:{}", d)).getData();
 		// @formatter:on
 	}

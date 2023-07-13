@@ -23,7 +23,7 @@ import com.art.common.tenant.context.TenantContextHolder;
 import com.art.common.tenant.util.TenantUtils;
 import com.art.core.common.constant.GlobalStatusEnum;
 import com.art.core.common.constant.RoleEnum;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.tenant.dto.TenantDTO;
 import com.art.system.api.tenant.dto.TenantPageDTO;
@@ -77,13 +77,13 @@ public class TenantServiceImpl implements TenantService {
 		TenantDO tenantDO = tenantManager.getTenantById(id);
 
 		if (Objects.isNull(tenantDO)) {
-			throw new FxzException("租户信息不存在!");
+			throw new ArtException("租户信息不存在!");
 		}
 		if (tenantDO.getStatus().equals(GlobalStatusEnum.DISABLE.getValue())) {
-			throw new FxzException(String.format("租户未开启:%s", tenantDO.getName()));
+			throw new ArtException(String.format("租户未开启:%s", tenantDO.getName()));
 		}
 		if (LocalDateTime.now().isAfter(tenantDO.getExpireTime())) {
-			throw new FxzException("租户已经过期！");
+			throw new ArtException("租户已经过期！");
 		}
 	}
 
@@ -175,7 +175,7 @@ public class TenantServiceImpl implements TenantService {
 	@Override
 	public Boolean deleteSysTenant(Long id) {
 		if (isSystemTenant(id)) {
-			throw new FxzException("系统内置租户，不允许删除");
+			throw new ArtException("系统内置租户，不允许删除");
 		}
 
 		return tenantManager.deleteTenantById(id) > 0;
@@ -219,7 +219,7 @@ public class TenantServiceImpl implements TenantService {
 		TenantDO tenantDO = tenantManager.getTenantById(tenantId);
 
 		if (Objects.isNull(tenantDO) || count > tenantDO.getAccountCount()) {
-			throw new FxzException("租户账号数量超过额度！");
+			throw new ArtException("租户账号数量超过额度！");
 		}
 	}
 

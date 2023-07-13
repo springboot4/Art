@@ -16,7 +16,7 @@
 
 package com.art.gen.core.enums;
 
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -63,7 +63,7 @@ public enum CodeGenColumnTypeEnum {
 		return Arrays.stream(CodeGenColumnTypeEnum.values())
 			.filter(e -> Objects.equals(columnType, e.getColumnType()))
 			.findFirst()
-			.orElseThrow(() -> new FxzException(String.format("不支持的数据库字段类型:%s", columnType)))
+			.orElseThrow(() -> new ArtException(String.format("不支持的数据库字段类型:%s", columnType)))
 			.getJavaType();
 	}
 
@@ -74,7 +74,7 @@ public enum CodeGenColumnTypeEnum {
 		return Arrays.stream(CodeGenColumnTypeEnum.values())
 			.filter(e -> Objects.equals(columnType, e.getColumnType()))
 			.findFirst()
-			.orElseThrow(() -> new FxzException("不支持的数据库字段类型"))
+			.orElseThrow(() -> new ArtException("不支持的数据库字段类型"))
 			.getTsType();
 	}
 

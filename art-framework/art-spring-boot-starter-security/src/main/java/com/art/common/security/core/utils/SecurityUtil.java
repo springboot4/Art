@@ -17,7 +17,7 @@
 package com.art.common.security.core.utils;
 
 import com.art.common.security.core.model.ArtAuthUser;
-import com.art.core.common.exception.FxzException;
+import com.art.core.common.exception.ArtException;
 import com.art.core.common.util.WebUtil;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -74,7 +74,7 @@ public class SecurityUtil {
 		Authentication authentication = getAuthentication();
 		ArtAuthUser userDetail = getUser(authentication);
 		if (userDetail == null) {
-			throw new FxzException("获取用户信息失败");
+			throw new ArtException("获取用户信息失败");
 		}
 		return userDetail;
 	}

@@ -14,17 +14,17 @@
  *   limitations under the License.
  */
 
-package com.art.core.common.constant;
+package com.art.core.common.exception;
 
 /**
- * @author Fxz
- * @version 0.0.1
- * @date 2021-11-28 12:26
+ * @author fxz
  */
-public interface FxzServerConstant {
+public class ArtAuthException extends Exception {
 
-	String ART_AUTH = "art-auth";
+	private static final long serialVersionUID = -6916154462432027437L;
 
-	String ART_SERVER_SYSTEM = "art-server-system";
+	public ArtAuthException(String message) {
+		super(message);
+	}
 
 }

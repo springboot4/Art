@@ -17,7 +17,7 @@
 package com.art.common.tenant.mp;
 
 import cn.hutool.core.collection.CollUtil;
-import com.art.common.tenant.config.FxzTenantProperties;
+import com.art.common.tenant.config.ArtTenantProperties;
 import com.art.common.tenant.context.TenantContextHolder;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import net.sf.jsqlparser.expression.Expression;
@@ -35,13 +35,13 @@ import java.util.Objects;
  */
 public class TenantDatabaseHandler implements TenantLineHandler {
 
-	private final FxzTenantProperties properties;
+	private final ArtTenantProperties properties;
 
 	/**
 	 * 多租户的配置信息
 	 * @param properties 多租户配置
 	 */
-	public TenantDatabaseHandler(FxzTenantProperties properties) {
+	public TenantDatabaseHandler(ArtTenantProperties properties) {
 		this.properties = properties;
 	}
 
