@@ -120,7 +120,7 @@ public class TokenEndpoint {
 			map.put("expires_in", expiresAt);
 
 			// token类型
-			map.put("token_type", "access_token");
+			map.put("token_type", OAuth2TokenType.ACCESS_TOKEN.getValue());
 
 			return map;
 		}).collect(Collectors.toList());
