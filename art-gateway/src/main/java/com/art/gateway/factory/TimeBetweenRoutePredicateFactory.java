@@ -43,6 +43,7 @@ public class TimeBetweenRoutePredicateFactory extends AbstractRoutePredicateFact
 				&& LocalTime.now().isBefore(config.getEndTime());
 	}
 
+	@Override
 	public List<String> shortcutFieldOrder() {
 		return Arrays.asList(TimeBetweenConfig.Fields.startTime, TimeBetweenConfig.Fields.endTime);
 	}

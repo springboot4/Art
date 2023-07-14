@@ -72,7 +72,7 @@
     <tr>
       <td>扫码邀请入群</td>
       <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png" width="120"/></td>
-      <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/09/LqNzoU.jpg" width="120"/></td>
+      <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/14/hLkNpF.jpg" width="120"/></td>
     </tr>
 </table>
 
