@@ -16,6 +16,7 @@
 
 package com.art.gateway.listener;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 import com.art.common.gateway.dynamic.route.ArtRouteDefinition;
@@ -26,6 +27,8 @@ import com.art.system.api.route.dto.RouteConfDTO;
 import com.art.system.api.route.mq.RouteMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.AbstractSwaggerUiConfigProperties;
+import org.springdoc.core.SwaggerUiConfigProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
@@ -35,6 +38,7 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -53,6 +57,10 @@ public class RouteMessageConsumer extends AbstractRedisBroadcastMessageListener<
 
 	private final ArtRouteDefinitionRepository artRouteDefinitionRepository;
 
+	private final SwaggerUiConfigProperties swaggerUiConfigProperties;
+
+	private static final String API_URI = "/%s/v3/api-docs";
+
 	@Override
 	public void onMessage(RouteMessage message) {
 		// 清空缓存中的路由信息
@@ -61,14 +69,28 @@ public class RouteMessageConsumer extends AbstractRedisBroadcastMessageListener<
 		if (log.isDebugEnabled()) {
 			log.debug("接收到redis topic消息，缓存路由信息到redis {}", message.getRouteConfDOList());
 		}
-		List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
 
+		List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
 		Map<String, ArtRouteDefinition> map = routeConfList.stream()
 			.map(this::convert)
 			.collect(Collectors.toMap(ArtRouteDefinition::getId, Function.identity()));
 
 		redisTemplate.opsForHash().putAll(CacheConstants.ROUTE_KEY, map);
 		artRouteDefinitionRepository.publishEvent();
+
+		if (CollUtil.isEmpty(map)) {
+			return;
+		}
+
+		Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = map.values().stream().map(routeDefinition -> {
+			AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
+			String id = routeDefinition.getId();
+			swaggerUrl.setName(id);
+			swaggerUrl.setUrl(String.format(API_URI,
+					routeDefinition.getId().substring(routeDefinition.getId().lastIndexOf("-") + 1)));
+			return swaggerUrl;
+		}).collect(Collectors.toSet());
+		swaggerUiConfigProperties.setUrls(urls);
 	}
 
 	public ArtRouteDefinition convert(RouteConfDTO dto) {
