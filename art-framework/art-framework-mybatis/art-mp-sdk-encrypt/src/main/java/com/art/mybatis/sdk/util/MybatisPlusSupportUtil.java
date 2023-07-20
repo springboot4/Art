@@ -48,8 +48,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
- * mybatis-plus支持工具类
- *
  * @author fxz
  */
 public final class MybatisPlusSupportUtil {
