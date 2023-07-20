@@ -31,9 +31,19 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class EncryptProperties {
 
 	/**
-	 * 是否开启字段加密
+	 * 是否开启字段加解密功能
 	 */
 	private boolean enableFieldDecrypt = true;
+
+	/**
+	 * 开启加密
+	 */
+	private boolean encrypt = true;
+
+	/**
+	 * 开启解密
+	 */
+	private boolean decrypt = true;
 
 	/**
 	 * aes秘钥

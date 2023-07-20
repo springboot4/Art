@@ -1,1 +1,1 @@
-com.art.mybatis.encrypt.starter.EncryptAutoConfig
+com.art.mybatis.encrypt.starter.MybatisDataSecurityConfiguration

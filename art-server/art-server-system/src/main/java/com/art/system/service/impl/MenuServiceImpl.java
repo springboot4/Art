@@ -70,7 +70,7 @@ public class MenuServiceImpl implements MenuService {
 		List<MenuDO> menuDOList = menuManager.findUserMenus(username);
 
 		// 根据菜单构建VueRouter
-		List<VueRouter<MenuDO>> routes = menuDOList.stream().map(MenuDO::toVueRouter).collect(Collectors.toList());
+		List<VueRouter> routes = menuDOList.stream().map(MenuDO::toVueRouter).collect(Collectors.toList());
 
 		// 构建树形VueRouter
 		return MenuConvert.INSTANCE.convert(TreeUtil.buildVueRouter(routes));

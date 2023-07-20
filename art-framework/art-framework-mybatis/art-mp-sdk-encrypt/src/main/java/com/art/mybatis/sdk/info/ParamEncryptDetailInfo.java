@@ -14,27 +14,33 @@
  *   limitations under the License.
  */
 
-package com.art.system.dao.mysql;
+package com.art.mybatis.sdk.info;
 
-import com.art.system.dao.dataobject.SystemUserDO;
-import org.apache.ibatis.annotations.Mapper;
+import com.art.mybatis.sdk.annotation.EncryptionData;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 import java.util.Map;
 
 /**
- * @author Fxz
- * @version 0.0.1
- * @date 2022-03-30 10:35
+ * 参数加密信息
+ *
+ * @author fxz
  */
-@Mapper
-public interface DemoMapper {
+@ToString
+@NoArgsConstructor
+public class ParamEncryptDetailInfo {
 
-	// @DS("#last")
-	List<Map<String, String>> selectTest(@Param("tableName") String tableName, String dsName);
+	public static final ParamEncryptDetailInfo EMPTY = new ParamEncryptDetailInfo();
 
-	// @DS("#last")
-	List<SystemUserDO> selectUser(@Param("tableName") String tableName, String dsName);
+	/**
+	 * {@link Param}注解指定的参数名和加解密信息ø
+	 */
+	@Getter
+	@Setter
+	private Map<String, EncryptionData> paramEncryptMap;
 
 }

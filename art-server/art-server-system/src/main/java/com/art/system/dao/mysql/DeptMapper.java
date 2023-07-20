@@ -37,6 +37,8 @@ public interface DeptMapper extends BaseMapper<DeptDO> {
 
 	DeptBO getDeptsByParentId(@Param("pId") Long pId);
 
+	DeptBO getDeptByPid(@Param("deptId") Long deptId);
+
 	String getDeptNameByUserId(@Param("deptId") Long deptId);
 
 }
