@@ -37,7 +37,7 @@ public class ParamEncryptDetailInfo {
 	public static final ParamEncryptDetailInfo EMPTY = new ParamEncryptDetailInfo();
 
 	/**
-	 * {@link Param}注解指定的参数名和加解密信息ø
+	 * {@link Param}注解指定的参数名和加解密信息
 	 */
 	@Getter
 	@Setter
