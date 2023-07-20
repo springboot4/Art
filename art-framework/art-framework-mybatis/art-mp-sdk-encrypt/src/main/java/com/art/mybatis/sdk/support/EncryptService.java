@@ -104,8 +104,8 @@ public class EncryptService implements SmartInitializingSingleton {
 	/**
 	 * 解密
 	 */
-	public Object doDecrypt(MappedStatement mappedStatement, Object rowResult, EncryptInfoContext encryptInfoContext) {
-		return decryptFunc.doDecrypt(mappedStatement, rowResult, encryptInfoContext);
+	public Object doDecrypt(Object rowResult, EncryptInfoContext encryptInfoContext) {
+		return decryptFunc.doDecrypt(rowResult, encryptInfoContext);
 	}
 
 	/**
