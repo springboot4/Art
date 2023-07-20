@@ -26,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 import java.nio.charset.StandardCharsets;
 
 /**
+ * Aes加密执行器
+ *
  * @author fxz
  */
 @RequiredArgsConstructor

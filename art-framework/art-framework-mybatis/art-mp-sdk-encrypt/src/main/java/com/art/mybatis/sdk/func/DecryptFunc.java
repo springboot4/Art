@@ -26,8 +26,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.springframework.lang.NonNull;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -52,12 +50,11 @@ public class DecryptFunc {
 
 	/**
 	 * 解密
-	 * @param mappedStatement 当前sql对应的mappedStatement对象
 	 * @param rowResult sql查询出来的原生结果
 	 * @param encryptInfoContext 对应的解密信息
 	 * @return 解密后的结果
 	 */
-	public Object doDecrypt(MappedStatement mappedStatement, Object rowResult, EncryptInfoContext encryptInfoContext) {
+	public Object doDecrypt(Object rowResult, EncryptInfoContext encryptInfoContext) {
 		if (rowResult == null) {
 			return null;
 		}
@@ -76,13 +73,13 @@ public class DecryptFunc {
 			case SYSTEM_BEAN:
 				return rowResult;
 			case MAP:
-				newResult = mapDecrypt(mappedStatement, (Map<String, Object>) rowResult, decryptBeanInfo);
+				newResult = mapDecrypt((Map<String, Object>) rowResult, decryptBeanInfo);
 				break;
 			case COLLECTION:
-				newResult = collectionDecrypt(mappedStatement, (Collection<Object>) rowResult, decryptBeanInfo);
+				newResult = collectionDecrypt((Collection<Object>) rowResult, decryptBeanInfo);
 				break;
 			case ARRAY:
-				newResult = arrayDecrypt(mappedStatement, (Object[]) rowResult, decryptBeanInfo);
+				newResult = arrayDecrypt((Object[]) rowResult, decryptBeanInfo);
 				break;
 			case CUSTOM_BEAN:
 				newResult = pojoDecrypt(rowResult, decryptBeanInfo);
@@ -167,8 +164,7 @@ public class DecryptFunc {
 	/**
 	 * map解密
 	 */
-	private Map<String, Object> mapDecrypt(MappedStatement mappedStatement, Map<String, Object> map,
-			BeanEncryptDetailInfo decryptBeanInfo) {
+	private Map<String, Object> mapDecrypt(Map<String, Object> map, BeanEncryptDetailInfo decryptBeanInfo) {
 		if (CollectionUtils.isEmpty(map)) {
 			return map;
 		}
@@ -184,8 +180,7 @@ public class DecryptFunc {
 	/**
 	 * 集合解密
 	 */
-	private Collection<Object> collectionDecrypt(MappedStatement mappedStatement, Collection<Object> collection,
-			BeanEncryptDetailInfo decryptBeanInfo) {
+	private Collection<Object> collectionDecrypt(Collection<Object> collection, BeanEncryptDetailInfo decryptBeanInfo) {
 		if (CollectionUtils.isEmpty(collection)) {
 			return collection;
 		}
@@ -199,8 +194,7 @@ public class DecryptFunc {
 	/**
 	 * 数组解密
 	 */
-	private <T> T[] arrayDecrypt(MappedStatement mappedStatement, @NonNull T[] array,
-			BeanEncryptDetailInfo decryptBeanInfo) {
+	private <T> T[] arrayDecrypt(T[] array, BeanEncryptDetailInfo decryptBeanInfo) {
 		if (array.length == 0) {
 			return array;
 		}

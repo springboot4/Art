@@ -16,11 +16,16 @@
 
 package com.art.mybatis.sdk.base;
 
+/**
+ * 克隆接口
+ *
+ * @author fxz
+ */
 public interface PojoCloneable<T extends PojoCloneable<T>> {
 
 	/**
 	 * 克隆当前对象
-	 * @return （以当前对象）克隆出来的对象
+	 * @return 克隆出来的对象
 	 */
 	T clonePojo();
 

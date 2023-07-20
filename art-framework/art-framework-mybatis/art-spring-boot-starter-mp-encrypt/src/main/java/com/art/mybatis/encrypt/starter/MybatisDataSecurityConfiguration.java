@@ -18,7 +18,7 @@ package com.art.mybatis.encrypt.starter;
 
 import com.art.mybatis.sdk.base.AesEncryptExecutor;
 import com.art.mybatis.sdk.base.EncryptExecutor;
-import com.art.mybatis.sdk.interceptor.MybatisEncryptPlugin;
+import com.art.mybatis.sdk.support.MybatisEncryptPlugin;
 import com.art.mybatis.sdk.propertie.EncryptProperties;
 import com.art.mybatis.sdk.support.EncryptService;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

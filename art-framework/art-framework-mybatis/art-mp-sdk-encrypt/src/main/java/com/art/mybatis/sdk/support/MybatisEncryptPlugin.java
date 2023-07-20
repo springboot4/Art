@@ -14,11 +14,9 @@
  *   limitations under the License.
  */
 
-package com.art.mybatis.sdk.interceptor;
+package com.art.mybatis.sdk.support;
 
 import com.art.mybatis.sdk.func.EncryptFunc;
-import com.art.mybatis.sdk.support.EncryptInfoContext;
-import com.art.mybatis.sdk.support.EncryptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.CacheKey;
@@ -94,7 +92,7 @@ public class MybatisEncryptPlugin implements Interceptor {
 		// 需要解密
 		if (encryptInfoContext.isNeedDecrypt()) {
 			log.debug("mappedStatementId [{}] 需要进行解密。", mappedStatementId);
-			rowResult = encryptService.doDecrypt(mappedStatement, rowResult, encryptInfoContext);
+			rowResult = encryptService.doDecrypt(rowResult, encryptInfoContext);
 		}
 
 		return rowResult;
