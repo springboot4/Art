@@ -49,6 +49,6 @@ public interface MenuMapper extends BaseMapper<MenuDO> {
 	 * @param id 父节点id
 	 * @return 树形菜单信息
 	 */
-	List<VueRouter<MenuDO>> getMenuByPid(@Param("id") Long id);
+	List<VueRouter> getMenuByPid(@Param("id") Long id);
 
 }

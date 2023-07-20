@@ -46,7 +46,7 @@ public class MenuManager {
 		return menuMapper.findUserMenus(username);
 	}
 
-	public List<VueRouter<MenuDO>> getMenuByPid(long pId) {
+	public List<VueRouter> getMenuByPid(long pId) {
 		return menuMapper.getMenuByPid(pId);
 	}
 

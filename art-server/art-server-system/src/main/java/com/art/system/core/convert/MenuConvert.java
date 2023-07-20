@@ -34,7 +34,7 @@ public interface MenuConvert {
 
 	MenuConvert INSTANCE = Mappers.getMapper(MenuConvert.class);
 
-	List<VueRouter<MenuDTO>> convert(List<VueRouter<MenuDO>> list);
+	List<VueRouter<MenuDTO>> convert(List<VueRouter> list);
 
 	MenuDO convert(VueRouter vueRouter);
 

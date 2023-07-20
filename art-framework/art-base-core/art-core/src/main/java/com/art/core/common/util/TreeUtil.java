@@ -43,13 +43,13 @@ public class TreeUtil {
 	 * @param routes routes
 	 * @return 树形VueRouter
 	 */
-	public static <T> List<VueRouter<T>> buildVueRouter(List<VueRouter<T>> routes) {
+	public static <T> List<VueRouter> buildVueRouter(List<VueRouter> routes) {
 		if (CollectionUtil.isEmpty(routes)) {
 			return null;
 		}
 
-		List<VueRouter<T>> topRoutes = new ArrayList<>();
-		Map<String, VueRouter<T>> routerMap = routes.stream()
+		List<VueRouter> topRoutes = new ArrayList<>();
+		Map<String, VueRouter> routerMap = routes.stream()
 			.collect(Collectors.toMap(VueRouter::getId, Function.identity()));
 
 		routes.forEach(route -> {

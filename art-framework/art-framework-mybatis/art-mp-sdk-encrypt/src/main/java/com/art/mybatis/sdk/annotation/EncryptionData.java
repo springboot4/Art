@@ -19,16 +19,13 @@ package com.art.mybatis.sdk.annotation;
 import java.lang.annotation.*;
 
 /**
- * 数据加密注解
+ * 加密注解
  *
- * @author Fxz
- * @version 0.0.1
- * @date 2022/9/15 14:50
+ * @author fxz
  */
-@Target({ ElementType.FIELD })
-@Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
 public @interface EncryptionData {
 
 }
