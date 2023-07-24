@@ -1,4 +1,3 @@
 com.art.hazelcast.starter.HazelcastServerAutoConfiguration
 com.art.hazelcast.starter.HazelcastClientAutoConfiguration
-com.art.cache.starter.HazelcastCacheAutoConfiguration
 com.art.hazelcast.starter.HazelcastBaseAutoConfiguration
