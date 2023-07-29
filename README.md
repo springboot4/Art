@@ -83,4 +83,7 @@
 [🍓🍓🍓配套文档 fxzcloud.gitee.io/docs](https://fxzcloud.gitee.io/docs/)
 
 ## 🤝鸣谢
-感谢 [![jetbrains](https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/12/01/DGnop3.png)](https://www.jetbrains.com/)提供的免费License
+感谢 jetbrains对开源项目的支持。<br/>
+<a href="https://jb.gg/OpenSourceSupport">
+  <img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/29/brPuV4.png" align="left" height="100" width="100"  alt="JetBrains">
+</a>
