@@ -64,4 +64,6 @@ node_modules
 
 work
 
+test/
+
 .vscode

@@ -21,6 +21,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
 import com.art.mybatis.sdk.annotation.EncryptionData;
 import com.art.mybatis.sdk.propertie.EncryptProperties;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.nio.charset.StandardCharsets;
@@ -30,6 +31,7 @@ import java.nio.charset.StandardCharsets;
  *
  * @author fxz
  */
+@Getter
 @RequiredArgsConstructor
 public class AesEncryptExecutor implements EncryptExecutor {
 

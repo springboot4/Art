@@ -203,13 +203,20 @@ public final class MybatisPlusSupportUtil {
 			NormalSegmentList normal = expression.getNormal();
 			int size = normal.size();
 			for (int i = 0; i < size; i++) {
+				// 正常情况为： i = columnName i+1 = eq i+2 = value
 				boolean currSegmentIsColumnName = i + 1 < size && normal.get(i + 1) instanceof SqlKeyword;
+				// 当前索引为列名
 				if (currSegmentIsColumnName) {
 					// 列名 形如：name
 					String columnName = normal.get(i).getSqlSegment();
 					columnName = columnName.replace(StringPool.BACKTICK, StringPool.EMPTY);
+					// 当前列需要加密
 					boolean existNeedEncryptColumn = columnEncryptMap.containsKey(columnName);
+
+					// 列存在对应where值
 					boolean existValueSegment = i + 2 < size;
+
+					// 当前为列名 且存在对应的值
 					if (existNeedEncryptColumn && existValueSegment) {
 						String sqlSegment = normal.get(i + 2).getSqlSegment();
 						// 类似于in， 一个sql片段中可能会有多个占位符。 如:
@@ -224,6 +231,7 @@ public final class MybatisPlusSupportUtil {
 					else {
 						idx.incrementAndGet();
 					}
+					i += 2;
 				}
 			}
 		}
