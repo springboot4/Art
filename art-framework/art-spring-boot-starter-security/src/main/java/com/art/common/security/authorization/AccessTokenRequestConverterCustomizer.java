@@ -23,6 +23,7 @@ import org.springframework.security.oauth2.server.authorization.web.authenticati
 import org.springframework.security.web.authentication.AuthenticationConverter;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ import java.util.List;
  */
 public interface AccessTokenRequestConverterCustomizer {
 
-	List<AuthenticationConverter> CONVERTERS = Arrays.asList(
+	List<AuthenticationConverter> CONVERTERS = Collections.unmodifiableList(Arrays.asList(
 			// 自定义的gitee oauth2登录
 			new OAuth2GiteeAuthenticationConverter(),
 
@@ -52,7 +53,7 @@ public interface AccessTokenRequestConverterCustomizer {
 			new OAuth2AuthorizationCodeAuthenticationConverter(),
 
 			// 内置的授权码请求Converter
-			new OAuth2AuthorizationCodeRequestAuthenticationConverter());
+			new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
 
 	static AuthenticationConverter customizer() {
 		return new DelegatingAuthenticationConverter(CONVERTERS);
