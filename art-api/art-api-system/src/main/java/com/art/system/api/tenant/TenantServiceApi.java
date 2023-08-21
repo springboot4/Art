@@ -16,7 +16,7 @@
 
 package com.art.system.api.tenant;
 
-import com.art.core.common.constant.ArtServerConstant;
+import com.art.core.common.constant.ArtServerConstants;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @version 0.0.1
  * @date 2022-04-07 14:50
  */
-@FeignClient(contextId = "tenantServiceApi", value = ArtServerConstant.ART_SERVER_SYSTEM)
+@FeignClient(contextId = "tenantServiceApi", value = ArtServerConstants.ART_SERVER_SYSTEM)
 public interface TenantServiceApi {
 
 	/**

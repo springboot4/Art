@@ -20,45 +20,45 @@ package com.art.core.common.constant;
 /**
  * @author fxz
  */
-public interface SecurityConstants {
+public final class SecurityConstants {
 
 	/**
 	 * 内部
 	 */
-	String FROM_IN = "Y";
+	public static final String FROM_IN = "Y";
 
 	/**
 	 * 标志
 	 */
-	String FROM = "from";
+	public static final String FROM = "from";
 
 	/**
 	 * 请求header
 	 */
-	String HEADER_INNER = FROM + "=" + FROM_IN;
+	public static final String HEADER_INNER = FROM + "=" + FROM_IN;
 
 	/**
 	 * 短信验证码key前缀
 	 */
-	String SMS_CODE_PREFIX = "SMS_CODE:";
+	public static final String SMS_CODE_PREFIX = "SMS_CODE:";
 
 	/**
 	 * 系统管理 web 客户端ID
 	 */
-	String ADMIN_CLIENT_ID = "fxz";
+	public static final String ADMIN_CLIENT_ID = "fxz";
 
 	/**
 	 * 客户端编号
 	 */
-	String CLIENT_ID = "client_id";
+	public static final String CLIENT_ID = "client_id";
 
 	/**
 	 * Basic认证前缀
 	 */
-	String BASIC_PREFIX = "Basic ";
+	public static final String BASIC_PREFIX = "Basic ";
 
-	String MOBILE = "mobile";
+	public static final String MOBILE = "mobile";
 
-	String CAPTCHA = "captcha";
+	public static final String CAPTCHA = "captcha";
 
 }

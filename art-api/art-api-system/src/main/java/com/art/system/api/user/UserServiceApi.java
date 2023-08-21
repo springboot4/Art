@@ -16,7 +16,7 @@
 
 package com.art.system.api.user;
 
-import com.art.core.common.constant.ArtServerConstant;
+import com.art.core.common.constant.ArtServerConstants;
 import com.art.core.common.constant.SecurityConstants;
 import com.art.core.common.model.Result;
 import com.art.system.api.user.dto.SystemUserDTO;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
  * @version 0.0.1
  * @date 2022-03-06 14:50
  */
-@FeignClient(contextId = "userServiceApi", value = ArtServerConstant.ART_SERVER_SYSTEM)
+@FeignClient(contextId = "userServiceApi", value = ArtServerConstants.ART_SERVER_SYSTEM)
 public interface UserServiceApi {
 
 	/**

@@ -17,40 +17,14 @@
 package com.art.core.common.constant;
 
 /**
- * 参数校验分组
- *
  * @author Fxz
  * @version 0.0.1
- * @date 2022/10/29 17:16
+ * @date 2021-11-28 12:26
  */
-public interface ValidationGroup {
+public final class ArtServerConstants {
 
-	/**
-	 * 新增
-	 */
-	@interface add {
+	public static final String ART_AUTH = "art-auth";
 
-	}
-
-	/**
-	 * 更新
-	 */
-	@interface update {
-
-	}
-
-	/**
-	 * 删除
-	 */
-	@interface delete {
-
-	}
-
-	/**
-	 * 查询
-	 */
-	@interface query {
-
-	}
+	public static final String ART_SERVER_SYSTEM = "art-server-system";
 
 }

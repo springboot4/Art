@@ -16,7 +16,7 @@
 
 package com.art.system.api.client;
 
-import com.art.core.common.constant.ArtServerConstant;
+import com.art.core.common.constant.ArtServerConstants;
 import com.art.core.common.constant.SecurityConstants;
 import com.art.core.common.model.Result;
 import com.art.system.api.client.dto.ClientDetailsDTO;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @version 0.0.1
  * @date 2022-04-07 14:50
  */
-@FeignClient(contextId = "clientServiceApi", value = ArtServerConstant.ART_SERVER_SYSTEM)
+@FeignClient(contextId = "clientServiceApi", value = ArtServerConstants.ART_SERVER_SYSTEM)
 public interface ClientServiceApi {
 
 	@GetMapping(value = "/client/findById", headers = SecurityConstants.HEADER_INNER)

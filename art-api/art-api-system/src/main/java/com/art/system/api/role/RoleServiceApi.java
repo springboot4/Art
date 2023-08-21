@@ -16,7 +16,7 @@
 
 package com.art.system.api.role;
 
-import com.art.core.common.constant.ArtServerConstant;
+import com.art.core.common.constant.ArtServerConstants;
 import com.art.core.common.model.DeptDataPermissionRespEntity;
 import com.art.core.common.model.Result;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @version 0.0.1
  * @date 2022-04-13 21:39
  */
-@FeignClient(contextId = "roleServiceApi", value = ArtServerConstant.ART_SERVER_SYSTEM)
+@FeignClient(contextId = "roleServiceApi", value = ArtServerConstants.ART_SERVER_SYSTEM)
 public interface RoleServiceApi {
 
 	/**

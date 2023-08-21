@@ -18,7 +18,7 @@ package com.art.core.common.support.validator;
 
 import cn.hutool.core.util.ReUtil;
 import com.art.core.common.annotation.CheckMobileValid;
-import com.art.core.common.constant.RegexpConstant;
+import com.art.core.common.constant.RegexpConstants;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;
@@ -40,7 +40,7 @@ public class MobileValidator implements ConstraintValidator<CheckMobileValid, St
 				return true;
 			}
 			else {
-				String regex = RegexpConstant.MOBILE_REG;
+				String regex = RegexpConstants.MOBILE_REG;
 				return ReUtil.isMatch(regex, s);
 			}
 		}

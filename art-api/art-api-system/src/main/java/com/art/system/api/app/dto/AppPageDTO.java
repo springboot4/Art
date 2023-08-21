@@ -16,7 +16,7 @@
 
 package com.art.system.api.app.dto;
 
-import com.art.core.common.constant.ValidationGroup;
+import com.art.core.common.support.validator.ValidationGroup;
 import com.art.core.common.model.BasePageEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

@@ -18,7 +18,7 @@ package com.art.auth.api.token;
 
 import com.art.common.feign.core.annotation.ArtBackoff;
 import com.art.common.feign.core.annotation.ArtFeignRetry;
-import com.art.core.common.constant.ArtServerConstant;
+import com.art.core.common.constant.ArtServerConstants;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -34,7 +34,7 @@ import java.util.Map;
  * @version 0.0.1
  * @date 2022-04-14 21:30
  */
-@FeignClient(contextId = "tokenServiceApi", value = ArtServerConstant.ART_AUTH)
+@FeignClient(contextId = "tokenServiceApi", value = ArtServerConstants.ART_AUTH)
 public interface TokenServiceApi {
 
 	/**

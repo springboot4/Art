@@ -16,7 +16,7 @@
 
 package com.art.system.controller;
 
-import com.art.core.common.constant.ValidationGroup;
+import com.art.core.common.support.validator.ValidationGroup;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import com.art.core.common.util.ValidationUtil;

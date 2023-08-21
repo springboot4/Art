@@ -25,7 +25,7 @@ import com.art.common.security.core.support.ArtBearerTokenResolver;
 import com.art.common.security.core.support.PermissionService;
 import com.art.common.security.core.support.RedisOAuth2AuthorizationService;
 import com.art.common.security.core.support.SecurityInnerAspect;
-import com.art.core.common.constant.ArtConstant;
+import com.art.core.common.constant.ArtConstants;
 import com.art.core.common.constant.SecurityConstants;
 import com.art.core.common.util.WebUtil;
 import com.art.system.api.client.ClientServiceApi;
@@ -123,8 +123,8 @@ public class ArtSecurityAutoConfigure {
 	@Bean
 	public RequestInterceptor oauth2FeignRequestInterceptor(ArtSecurityProperties properties) {
 		return requestTemplate -> {
-			String gatewayToken = new String(Base64Utils.encode((ArtConstant.GATEWAY_TOKEN_VALUE).getBytes()));
-			requestTemplate.header(ArtConstant.GATEWAY_TOKEN_HEADER, gatewayToken);
+        	String gatewayToken = new String(Base64Utils.encode((ArtConstants.GATEWAY_TOKEN_VALUE).getBytes()));
+			requestTemplate.header(ArtConstants.GATEWAY_TOKEN_HEADER, gatewayToken);
             jakarta.servlet.http.HttpServletRequest request = WebUtil.getReq();
 
 			String token = bearerTokenResolver(properties).resolve(request);

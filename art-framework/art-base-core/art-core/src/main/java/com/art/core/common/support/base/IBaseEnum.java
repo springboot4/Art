@@ -14,7 +14,7 @@
  *   limitations under the License.
  */
 
-package com.art.core.common.constant;
+package com.art.core.common.support.base;
 
 import java.util.EnumSet;
 import java.util.Objects;
