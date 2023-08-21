@@ -17,9 +17,13 @@
 
 package com.art.core.common.constant;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * @author fxz
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SecurityConstants {
 
 	/**

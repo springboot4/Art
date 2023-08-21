@@ -16,11 +16,15 @@
 
 package com.art.core.common.constant;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * 报错编码
  *
  * @author fxz
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ErrorCodes {
 
 	/**

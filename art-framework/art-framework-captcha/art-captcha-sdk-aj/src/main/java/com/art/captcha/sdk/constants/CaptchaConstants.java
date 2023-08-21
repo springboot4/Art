@@ -14,13 +14,19 @@
  *   limitations under the License.
  */
 
-package com.art.common.security.core.constant;
+package com.art.captcha.sdk.constants;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
- * 端点常量
- *
- * @author fxz
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/9/19 16:15
  */
-public interface EndpointConstant {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class CaptchaConstants {
+
+	public static final String REDIS = "redis";
 
 }

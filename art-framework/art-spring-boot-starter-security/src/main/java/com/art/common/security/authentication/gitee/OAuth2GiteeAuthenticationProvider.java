@@ -47,8 +47,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.art.common.security.client.core.constants.GiteeEndpointEnums.ACCESS_TOKEN_URL;
-import static com.art.common.security.client.core.constants.GiteeEndpointEnums.USERINFO_URL;
+import static com.art.common.security.client.core.constants.GiteeEndpointConstants.ACCESS_TOKEN_URL;
+import static com.art.common.security.client.core.constants.GiteeEndpointConstants.USERINFO_URL;
 
 /**
  * @author fxz

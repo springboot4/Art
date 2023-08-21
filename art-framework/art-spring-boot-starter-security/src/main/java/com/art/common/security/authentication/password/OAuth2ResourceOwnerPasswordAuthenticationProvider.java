@@ -16,7 +16,7 @@
 
 package com.art.common.security.authentication.password;
 
-import com.art.common.security.core.constant.OAuth2ErrorCodesExpand;
+import com.art.common.security.core.constants.OAuth2ErrorCodesExpand;
 import com.art.common.security.core.exception.ScopeException;
 import com.art.common.security.core.utils.ArtOAuth2ConfigurerUtils;
 import org.apache.logging.log4j.LogManager;

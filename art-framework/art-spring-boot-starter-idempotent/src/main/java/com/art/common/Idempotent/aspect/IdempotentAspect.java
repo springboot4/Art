@@ -19,7 +19,7 @@ package com.art.common.Idempotent.aspect;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.art.common.Idempotent.annotation.Idempotent;
-import com.art.common.Idempotent.constant.IdempotentConstant;
+import com.art.common.Idempotent.constants.IdempotentConstants;
 import com.art.common.Idempotent.keyresolver.KeyResolver;
 import com.art.common.Idempotent.redis.IdempotentRedisService;
 import lombok.RequiredArgsConstructor;
@@ -78,8 +78,8 @@ public class IdempotentAspect {
 
 		// 缓存注解信息
 		Map<String, Object> map = THREAD_LOCAL.get();
-		map.put(IdempotentConstant.KEY_PREFIX, key);
-		map.put(IdempotentConstant.DEL_KEY_PREFIX, idempotent.delKey());
+		map.put(IdempotentConstants.KEY_PREFIX, key);
+		map.put(IdempotentConstants.DEL_KEY_PREFIX, idempotent.delKey());
 	}
 
 	/**
@@ -93,8 +93,8 @@ public class IdempotentAspect {
 			return;
 		}
 
-		String key = (String) map.get(IdempotentConstant.KEY_PREFIX);
-		Boolean delKey = (Boolean) map.get(IdempotentConstant.DEL_KEY_PREFIX);
+		String key = (String) map.get(IdempotentConstants.KEY_PREFIX);
+		Boolean delKey = (Boolean) map.get(IdempotentConstants.DEL_KEY_PREFIX);
 		if (!delKey) {
 			return;
 		}

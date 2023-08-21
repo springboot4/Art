@@ -17,7 +17,7 @@
 package com.art.common.Idempotent.redis;
 
 import cn.hutool.core.text.StrPool;
-import com.art.common.Idempotent.constant.IdempotentConstant;
+import com.art.common.Idempotent.constants.IdempotentConstants;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -36,11 +36,11 @@ public class IdempotentRedisService {
 
 	public Boolean setIfAbsent(String key, long timeout, TimeUnit timeUnit) {
 		return redisTemplate.opsForValue()
-			.setIfAbsent(String.format(IdempotentConstant.REDIS_FORMAT, key), StrPool.EMPTY_JSON, timeout, timeUnit);
+			.setIfAbsent(String.format(IdempotentConstants.REDIS_FORMAT, key), StrPool.EMPTY_JSON, timeout, timeUnit);
 	}
 
 	public Boolean removeKey(String key) {
-		return redisTemplate.delete(String.format(IdempotentConstant.REDIS_FORMAT, key));
+		return redisTemplate.delete(String.format(IdempotentConstants.REDIS_FORMAT, key));
 	}
 
 }

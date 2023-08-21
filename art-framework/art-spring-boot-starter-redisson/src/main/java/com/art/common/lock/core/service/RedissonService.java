@@ -16,7 +16,7 @@
 
 package com.art.common.lock.core.service;
 
-import com.art.common.lock.core.constant.RedissonLockType;
+import com.art.common.lock.core.constants.RedissonLockType;
 import com.art.common.lock.core.entity.LockEntity;
 
 /**
