@@ -19,7 +19,7 @@ package com.art.common.security.client.http;
 import cn.hutool.core.text.StrPool;
 import com.art.common.security.authentication.gitee.OAuth2GiteeAuthenticationToken;
 import com.art.common.security.client.GiteeRegisteredClientRepository;
-import com.art.common.security.client.core.constants.GiteeEndpointEnums;
+import com.art.common.security.client.core.constants.GiteeEndpointConstants;
 import com.art.common.security.client.core.endpoint.OAuth2GiteeParameterNames;
 import com.art.common.security.client.exception.StateGiteeException;
 import com.art.common.security.client.properties.GiteeProperties;
@@ -52,7 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.art.common.security.client.core.constants.GiteeEndpointEnums.TOKEN_URL;
+import static com.art.common.security.client.core.constants.GiteeEndpointConstants.TOKEN_URL;
 
 /**
  * @author fxz
@@ -89,7 +89,7 @@ public class GiteeCodeHttpFilter implements Filter {
 		boolean stateValid = giteeRegisteredClientRepository.stateValid(appid, code, state);
 		if (!stateValid) {
 			OAuth2Error oAuth2Error = new OAuth2Error(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), "非法状态码！",
-					GiteeEndpointEnums.AUTHORIZE_URL);
+					GiteeEndpointConstants.AUTHORIZE_URL);
 			throw new StateGiteeException(oAuth2Error);
 		}
 

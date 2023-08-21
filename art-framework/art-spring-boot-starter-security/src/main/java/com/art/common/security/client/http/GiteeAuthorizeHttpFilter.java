@@ -18,7 +18,7 @@ package com.art.common.security.client.http;
 
 import cn.hutool.core.text.StrPool;
 import com.art.common.security.client.GiteeRegisteredClientRepository;
-import com.art.common.security.client.core.constants.GiteeEndpointEnums;
+import com.art.common.security.client.core.constants.GiteeEndpointConstants;
 import com.art.common.security.client.core.constants.GiteeScopeEnums;
 import com.art.common.security.core.model.ArtAuthUser;
 import lombok.RequiredArgsConstructor;
@@ -102,7 +102,7 @@ public class GiteeAuthorizeHttpFilter implements Filter {
 			}
 		}
 
-		String url = String.format(GiteeEndpointEnums.AUTHORIZE_URL, appid, redirectUri, scopeRes, state);
+		String url = String.format(GiteeEndpointConstants.AUTHORIZE_URL, appid, redirectUri, scopeRes, state);
 		response.sendRedirect(url);
 	}
 

@@ -16,11 +16,15 @@
 
 package com.art.core.common.constant;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Fxz
  * @version 0.0.1
  * @date 2022/8/20 12:06
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CacheConstants {
 
 	/**

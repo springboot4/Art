@@ -16,7 +16,7 @@
 
 package com.art.common.lock.core.annotation;
 
-import com.art.common.lock.core.constant.RedissonLockType;
+import com.art.common.lock.core.constants.RedissonLockType;
 import com.art.common.lock.core.lockresolver.DistributedLockResolver;
 import com.art.common.lock.core.lockresolver.impl.DefaultDistributedLockKeyResolver;
 

@@ -17,7 +17,7 @@
 
 package com.art.common.database.core.config;
 
-import com.art.common.database.core.constant.DataSourceConstants;
+import com.art.common.database.core.constants.DataSourceConstants;
 import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import org.jasypt.encryption.StringEncryptor;

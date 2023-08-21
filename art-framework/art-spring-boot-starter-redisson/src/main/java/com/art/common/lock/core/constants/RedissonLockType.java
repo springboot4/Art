@@ -1,4 +1,3 @@
-
 /*
  *   COPYRIGHT (C) 2023 Art AUTHORS(fxzcloud@gmail.com). ALL RIGHTS RESERVED.
  *
@@ -15,43 +14,46 @@
  *   limitations under the License.
  */
 
-package com.art.common.database.core.constant;
+package com.art.common.lock.core.constants;
+
+import lombok.NoArgsConstructor;
 
 /**
- * @author fxz
- * <p>
- * 数据源相关常量
+ * @author Fxz
+ * @version 0.0.1
+ * @date 2022/9/4 17:55
  */
-public interface DataSourceConstants {
+@NoArgsConstructor
+public enum RedissonLockType {
 
 	/**
-	 * 数据源名称
+	 * 可重入锁
 	 */
-	String DS_NAME = "name";
+	REENTRANT,
 
 	/**
-	 * 默认数据源（master）
+	 * 公平锁
 	 */
-	String DS_MASTER = "master";
+	FAIR,
 
 	/**
-	 * jdbcUrl
+	 * 联锁
 	 */
-	String DS_JDBC_URL = "url";
+	MULTI,
 
 	/**
-	 * 数据库用户名
+	 * 红锁
 	 */
-	String DS_USER_NAME = "username";
+	RED,
 
 	/**
-	 * 数据库密码
+	 * 读锁
 	 */
-	String DS_USER_PWD = "password";
+	READ,
 
 	/**
-	 * 驱动包名称
+	 * 写锁
 	 */
-	String DS_DRIVER_CLASS_NAME = "driver_class_name";
+	WRITE;
 
 }

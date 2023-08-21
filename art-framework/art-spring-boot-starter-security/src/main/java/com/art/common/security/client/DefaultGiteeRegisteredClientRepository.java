@@ -54,7 +54,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import static com.art.common.security.client.core.constants.GiteeEndpointEnums.USERINFO_URL;
+import static com.art.common.security.client.core.constants.GiteeEndpointConstants.USERINFO_URL;
 
 /**
  * @author fxz

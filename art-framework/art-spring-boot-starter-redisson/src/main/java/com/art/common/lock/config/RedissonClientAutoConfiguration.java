@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Primary;
 
 import java.util.Objects;
 
-import static com.art.common.lock.core.constant.RedisConstant.REDIS_PREFIX;
+import static com.art.common.lock.core.constants.RedisConstant.REDIS_PREFIX;
 
 /**
  * @author Fxz

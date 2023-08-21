@@ -16,45 +16,49 @@
 
 package com.art.job.sdk.constants;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 任务调度通用常量
  *
  * @author fxz
  */
-public interface ScheduleConstants {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ScheduleConstants {
 
-	String PARAMETER = "PARAMETER";
+	public static final String PARAMETER = "PARAMETER";
 
-	String JOB_BEAN_NAME = "JOB_BEAN_NAME";
+	public static final String JOB_BEAN_NAME = "JOB_BEAN_NAME";
 
-	String TASK_CLASS_NAME = "TASK_CLASS_NAME";
+	public static final String TASK_CLASS_NAME = "TASK_CLASS_NAME";
 
 	/**
 	 * 默认
 	 */
-	String MISFIRE_DEFAULT = "0";
+	public static final String MISFIRE_DEFAULT = "0";
 
 	/**
 	 * 立即触发执行
 	 */
-	String MISFIRE_IGNORE_MISFIRES = "1";
+	public static final String MISFIRE_IGNORE_MISFIRES = "1";
 
 	/**
 	 * 触发一次执行
 	 */
-	String MISFIRE_FIRE_AND_PROCEED = "2";
+	public static final String MISFIRE_FIRE_AND_PROCEED = "2";
 
 	/**
 	 * 不触发立即执行
 	 */
-	String MISFIRE_DO_NOTHING = "3";
+	public static final String MISFIRE_DO_NOTHING = "3";
 
 	/**
 	 * 定时任务状态
 	 */
-	enum Status {
+	@Getter
+	public enum Status {
 
 		/**
 		 * 正常
@@ -66,7 +70,6 @@ public interface ScheduleConstants {
 		 */
 		PAUSE("1");
 
-		@Getter
 		private final String value;
 
 		Status(String value) {

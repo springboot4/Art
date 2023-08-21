@@ -14,21 +14,22 @@
  *   limitations under the License.
  */
 
-package com.art.common.Idempotent.constant;
+package com.art.common.lock.core.constants;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
- * 幂等常量
- *
  * @author Fxz
  * @version 0.0.1
- * @date 2022/9/9 19:37
+ * @date 2022/9/4 16:37
  */
-public interface IdempotentConstant {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class RedisConstant {
 
-	String KEY_PREFIX = "Key";
-
-	String DEL_KEY_PREFIX = "DelKey";
-
-	String REDIS_FORMAT = "idempotent:%s";
+	/**
+	 * redis前缀
+	 */
+	public static final String REDIS_PREFIX = "redis://";
 
 }

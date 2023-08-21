@@ -17,7 +17,7 @@
 package com.art.captcha.sdk.service;
 
 import com.anji.captcha.service.CaptchaCacheService;
-import com.art.captcha.sdk.constant.CaptchaConstants;
+import com.art.captcha.sdk.constants.CaptchaConstants;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;

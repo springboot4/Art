@@ -16,25 +16,29 @@
 
 package com.art.common.security.client.core.constants;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * @author fxz
  * @version 0.0.1
  * @date 2023/4/16 12:58
  */
-public interface GiteeEndpointEnums {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class GiteeEndpointConstants {
 
-	String ACCESS_TOKEN_URL = "https://gitee.com/oauth/token?grant_type=authorization_code&code={code}&client_id={client_id}&redirect_uri={redirect_uri}&client_secret={client_secret}";
+	public static final String ACCESS_TOKEN_URL = "https://gitee.com/oauth/token?grant_type=authorization_code&code={code}&client_id={client_id}&redirect_uri={redirect_uri}&client_secret={client_secret}";
 
-	String USERINFO_URL = "https://gitee.com/api/v5/user";
+	public static final String USERINFO_URL = "https://gitee.com/api/v5/user";
 
 	/**
 	 * gitee获取授权码端点url
 	 */
-	String AUTHORIZE_URL = "https://gitee.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s";
+	public static final String AUTHORIZE_URL = "https://gitee.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s";
 
 	/**
 	 * 我们自己的授权服务器url
 	 */
-	String TOKEN_URL = "/oauth2/token?grant_type={grant_type}&appid={appid}&code={code}&state={state}&client_id={client_id}&client_secret={client_secret}&binding={binding}";
+	public static final String TOKEN_URL = "/oauth2/token?grant_type={grant_type}&appid={appid}&code={code}&state={state}&client_id={client_id}&client_secret={client_secret}&binding={binding}";
 
 }
