@@ -21,11 +21,11 @@ package com.art.core.common.constant;
  *
  * @author fxz
  */
-public interface ErrorCodes {
+public final class ErrorCodes {
 
 	/**
 	 * 报错编码
 	 */
-	String SYS_TEST_MESSAGE_STR = "sys.test.message.str";
+	public static final String SYS_TEST_MESSAGE_STR = "sys.test.message.str";
 
 }

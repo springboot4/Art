@@ -16,38 +16,19 @@
 
 package com.art.core.common.constant;
 
-import lombok.Getter;
-
 /**
- * 业务类型枚举
- *
  * @author fxz
  */
-
-public enum BusinessTypeEnum implements IBaseEnum<Integer> {
+public final class RegexpConstants {
 
 	/**
-	 * 用户业务
+	 * 简单手机号正则（这里只是简单校验是否为 11位，实际规则更复杂）
 	 */
-	USER(100, "用户"),
+	public static final String MOBILE_REG = "[1]\\d{10}";
+
 	/**
-	 * 会员业务
+	 * http协议正则
 	 */
-	MEMBER(200, "会员"),
-	/**
-	 * 订单业务
-	 */
-	ORDER(300, "订单");
-
-	@Getter
-	private final Integer value;
-
-	@Getter
-	private final String label;
-
-	BusinessTypeEnum(Integer value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+	public static final String HTTP_PROTOCOL_REGEXP = "^((http[s]{0,1})://)";
 
 }

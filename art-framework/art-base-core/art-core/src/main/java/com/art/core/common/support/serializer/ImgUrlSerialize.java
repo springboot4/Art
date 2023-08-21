@@ -18,7 +18,7 @@ package com.art.core.common.support.serializer;
 
 import cn.hutool.core.util.StrUtil;
 import com.art.core.common.annotation.ImgUrl;
-import com.art.core.common.constant.RegexpConstant;
+import com.art.core.common.constant.RegexpConstants;
 import com.art.core.common.util.SpringUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -84,7 +84,7 @@ public class ImgUrlSerialize extends JsonSerializer<Object> implements Contextua
 
 		StringBuilder sb = new StringBuilder();
 
-		Pattern pattern = Pattern.compile(RegexpConstant.HTTP_PROTOCOL_REGEXP);
+		Pattern pattern = Pattern.compile(RegexpConstants.HTTP_PROTOCOL_REGEXP);
 		boolean res = pattern.matcher(str).find();
 
 		// 图片为http协议开头，直接返回

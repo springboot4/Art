@@ -16,7 +16,7 @@
 
 package com.art.common.security.core.config;
 
-import com.art.core.common.support.interceptor.ArtServerProtectInterceptor;
+import com.art.core.common.support.base.ArtServerProtectInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;

@@ -16,7 +16,7 @@
 
 package com.art.system.api.menu;
 
-import com.art.core.common.constant.ArtServerConstant;
+import com.art.core.common.constant.ArtServerConstants;
 import com.art.core.common.constant.SecurityConstants;
 import com.art.core.common.model.Result;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -31,7 +31,7 @@ import java.util.Set;
  * @version 0.0.1
  * @date 2022-03-06 14:50
  */
-@FeignClient(contextId = "menuServiceApi", value = ArtServerConstant.ART_SERVER_SYSTEM)
+@FeignClient(contextId = "menuServiceApi", value = ArtServerConstants.ART_SERVER_SYSTEM)
 public interface MenuServiceApi {
 
 	/**

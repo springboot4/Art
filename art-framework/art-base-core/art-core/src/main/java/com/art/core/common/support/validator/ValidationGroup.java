@@ -14,17 +14,43 @@
  *   limitations under the License.
  */
 
-package com.art.core.common.constant;
+package com.art.core.common.support.validator;
 
 /**
+ * 参数校验分组
+ *
  * @author Fxz
  * @version 0.0.1
- * @date 2021-11-28 12:26
+ * @date 2022/10/29 17:16
  */
-public interface ArtServerConstant {
+public interface ValidationGroup {
 
-	String ART_AUTH = "art-auth";
+	/**
+	 * 新增
+	 */
+	@interface add {
 
-	String ART_SERVER_SYSTEM = "art-server-system";
+	}
+
+	/**
+	 * 更新
+	 */
+	@interface update {
+
+	}
+
+	/**
+	 * 删除
+	 */
+	@interface delete {
+
+	}
+
+	/**
+	 * 查询
+	 */
+	@interface query {
+
+	}
 
 }

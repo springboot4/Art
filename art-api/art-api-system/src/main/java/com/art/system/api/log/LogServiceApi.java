@@ -16,7 +16,7 @@
 
 package com.art.system.api.log;
 
-import com.art.core.common.constant.ArtServerConstant;
+import com.art.core.common.constant.ArtServerConstants;
 import com.art.core.common.constant.SecurityConstants;
 import com.art.system.api.log.dto.OperLogDTO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @version 0.0.1
  * @date 2022-04-07 14:50
  */
-@FeignClient(contextId = "logServiceApi", value = ArtServerConstant.ART_SERVER_SYSTEM)
+@FeignClient(contextId = "logServiceApi", value = ArtServerConstants.ART_SERVER_SYSTEM)
 public interface LogServiceApi {
 
 	/**

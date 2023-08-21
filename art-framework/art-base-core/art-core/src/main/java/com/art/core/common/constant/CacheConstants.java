@@ -21,16 +21,16 @@ package com.art.core.common.constant;
  * @version 0.0.1
  * @date 2022/8/20 12:06
  */
-public interface CacheConstants {
+public final class CacheConstants {
 
 	/**
 	 * 全局缓存标识
 	 */
-	String GLOBALLY = "fxz_cloud:";
+	public static final String GLOBALLY = "fxz_cloud:";
 
 	/**
 	 * 网关路由
 	 */
-	String ROUTE_KEY = GLOBALLY + "gateway_route_key";
+	public static final String ROUTE_KEY = GLOBALLY + "gateway_route_key";
 
 }
