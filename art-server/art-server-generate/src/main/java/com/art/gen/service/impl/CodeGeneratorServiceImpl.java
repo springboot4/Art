@@ -137,7 +137,7 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 			CodeGenTemplateVmEnum vmEnum = CodeGenTemplateVmEnum.findByName(codeGenPreviewDTO.getName());
 			String fileName = tableToJava(tableName) + vmEnum.getFileSuffixName();
 			// js后缀特殊处理
-			if (vmEnum.getFileSuffixName().equals(".js") || vmEnum.getFileSuffixName().equals(".ts")) {
+			if (".js".equals(vmEnum.getFileSuffixName()) || ".ts".equals(vmEnum.getFileSuffixName())) {
 				fileName = StrUtil.lowerFirst(tableToJava(fileName));
 			}
 			zip.putNextEntry(new ZipEntry(fileName));

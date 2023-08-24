@@ -24,9 +24,7 @@ import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ClassUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,29 +38,31 @@ public class QuartzJobExporter extends ApplicationObjectSupport implements Smart
 	public void afterSingletonsInstantiated() {
 		ApplicationContext applicationContext = getApplicationContext();
 		assert applicationContext != null;
+
 		scanPackage(applicationContext);
 	}
 
 	private void scanPackage(ApplicationContext applicationContext) {
-		List<String> packages = new ArrayList<>();
-
 		Map<String, Object> springBootApplicationBeans = applicationContext
 			.getBeansWithAnnotation(SpringBootApplication.class);
-		springBootApplicationBeans.values().forEach(bean -> {
-			SpringBootApplication annotation = AnnotationUtils.findAnnotation(bean.getClass(),
-					SpringBootApplication.class);
-			assert annotation != null;
-			if (annotation.scanBasePackages().length != 0) {
-				packages.addAll(Arrays.asList(annotation.scanBasePackages()));
-			}
-			else {
-				String packageName = ClassUtils.getPackageName(bean.getClass().getName());
-				packages.add(packageName);
-			}
-		});
 
 		JobClassPathScanner scanner = new JobClassPathScanner((BeanDefinitionRegistry) applicationContext, false);
-		scanner.doScan(packages.toArray(new String[0]));
+
+		String[] array = springBootApplicationBeans.values()
+			.stream()
+			.map(this::getScanBasePackages)
+			.flatMap(Arrays::stream)
+			.toArray(String[]::new);
+
+		scanner.doScan(array);
+	}
+
+	private String[] getScanBasePackages(Object bean) {
+		SpringBootApplication annotation = AnnotationUtils.findAnnotation(bean.getClass(), SpringBootApplication.class);
+		assert annotation != null;
+
+		return (annotation.scanBasePackages().length != 0) ? annotation.scanBasePackages()
+				: new String[] { ClassUtils.getPackageName(bean.getClass().getName()) };
 	}
 
 }
