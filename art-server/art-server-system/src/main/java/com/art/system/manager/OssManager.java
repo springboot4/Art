@@ -16,7 +16,6 @@
 
 package com.art.system.manager;
 
-import cn.hutool.core.thread.ThreadUtil;
 import com.amazonaws.services.s3.model.CompleteMultipartUploadResult;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PartETag;
@@ -31,7 +30,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author Fxz
@@ -45,8 +43,6 @@ public class OssManager {
 	private static final int MAX_PART_COUNT = 10000;
 
 	private final OssFileStorage ossFileStorage;
-
-	private final ThreadPoolExecutor executor = ThreadUtil.newExecutor(20, 20);
 
 	@SuppressWarnings("all")
 	@SneakyThrows

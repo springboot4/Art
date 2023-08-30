@@ -16,6 +16,7 @@
 
 package com.art.common.lock.config;
 
+import cn.hutool.core.text.StrPool;
 import lombok.RequiredArgsConstructor;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -81,7 +82,8 @@ public class RedissonClientAutoConfiguration {
 		SingleServerConfig singleServerConfig = config.useSingleServer();
 
 		// 节点地址
-		singleServerConfig.setAddress(REDIS_PREFIX + redisProperties.getHost() + ":" + redisProperties.getPort())
+		singleServerConfig
+			.setAddress(REDIS_PREFIX + redisProperties.getHost() + StrPool.COLON + redisProperties.getPort())
 			.setDatabase(redisProperties.getDatabase());
 
 		// 密码

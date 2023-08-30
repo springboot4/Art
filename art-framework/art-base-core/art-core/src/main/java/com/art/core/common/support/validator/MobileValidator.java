@@ -35,18 +35,7 @@ public class MobileValidator implements ConstraintValidator<CheckMobileValid, St
 
 	@Override
 	public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-		try {
-			if (StringUtils.isBlank(s)) {
-				return true;
-			}
-			else {
-				String regex = RegexpConstants.MOBILE_REG;
-				return ReUtil.isMatch(regex, s);
-			}
-		}
-		catch (Exception e) {
-			return false;
-		}
+		return StringUtils.isBlank(s) || ReUtil.isMatch(RegexpConstants.MOBILE_REG, s);
 	}
 
 }

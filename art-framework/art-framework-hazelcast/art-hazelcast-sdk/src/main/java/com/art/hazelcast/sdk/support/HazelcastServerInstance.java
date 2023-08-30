@@ -16,6 +16,7 @@
 
 package com.art.hazelcast.sdk.support;
 
+import cn.hutool.core.text.StrPool;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.NetworkConfig;
 import com.hazelcast.core.Hazelcast;
@@ -23,9 +24,8 @@ import com.hazelcast.core.HazelcastInstance;
 import lombok.ToString;
 import org.springframework.beans.factory.DisposableBean;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * HazelcastClientFactory 用于创建 Hazelcast节点实例
@@ -66,12 +66,10 @@ public class HazelcastServerInstance implements DisposableBean {
 	}
 
 	private List<String> members() {
-		StringJoiner sj = new StringJoiner(",");
-		properties.getMembers()
+		return properties.getMembers()
 			.stream()
-			.flatMap(m -> properties.getPort().stream().map(p -> m + ":" + p))
-			.forEach(sj::add);
-		return Arrays.asList(sj.toString().split(","));
+			.flatMap(m -> properties.getPort().stream().map(p -> m + StrPool.COLON + p))
+			.collect(Collectors.toList());
 	}
 
 	@Override

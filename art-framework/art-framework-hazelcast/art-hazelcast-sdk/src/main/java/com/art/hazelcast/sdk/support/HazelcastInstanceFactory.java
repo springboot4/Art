@@ -16,6 +16,7 @@
 
 package com.art.hazelcast.sdk.support;
 
+import cn.hutool.core.text.StrPool;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.NetworkConfig;
 import com.hazelcast.core.Hazelcast;
@@ -23,11 +24,10 @@ import com.hazelcast.core.HazelcastInstance;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * HazelcastInstanceFactory 用于创建 HazelcastInstance
@@ -37,17 +37,29 @@ import java.util.StringJoiner;
  * @date 2023/3/23 16:16
  */
 @RequiredArgsConstructor
-public class HazelcastInstanceFactory implements FactoryBean<HazelcastInstance>, DisposableBean {
+public class HazelcastInstanceFactory implements FactoryBean<HazelcastInstance>, InitializingBean, DisposableBean {
 
 	private final HazelcastProperties properties;
 
 	private HazelcastInstance instance;
 
-	public HazelcastInstance getInstance() {
-		if (Objects.nonNull(instance)) {
-			return instance;
-		}
+	@Override
+	public HazelcastInstance getObject() {
+		return this.instance;
+	}
 
+	@Override
+	public Class<?> getObjectType() {
+		return HazelcastInstance.class;
+	}
+
+	@Override
+	public void destroy() {
+		this.instance.shutdown();
+	}
+
+	@Override
+	public void afterPropertiesSet() {
 		// 配置实例名称
 		Config config = new Config(properties.getInstanceName());
 		// 配置集群名称
@@ -55,9 +67,7 @@ public class HazelcastInstanceFactory implements FactoryBean<HazelcastInstance>,
 		// 配置网络
 		configNetwork(config.getNetworkConfig());
 		// 创建实例
-		instance = Hazelcast.newHazelcastInstance(config);
-
-		return instance;
+		this.instance = Hazelcast.newHazelcastInstance(config);
 	}
 
 	private void configNetwork(NetworkConfig networkConfig) {
@@ -68,27 +78,10 @@ public class HazelcastInstanceFactory implements FactoryBean<HazelcastInstance>,
 	}
 
 	private List<String> members() {
-		StringJoiner sj = new StringJoiner(",");
-		properties.getMembers()
+		return properties.getMembers()
 			.stream()
-			.flatMap(m -> properties.getPort().stream().map(p -> m + ":" + p))
-			.forEach(sj::add);
-		return Arrays.asList(sj.toString().split(","));
-	}
-
-	@Override
-	public HazelcastInstance getObject() throws Exception {
-		return getInstance();
-	}
-
-	@Override
-	public Class<?> getObjectType() {
-		return HazelcastInstance.class;
-	}
-
-	@Override
-	public void destroy() throws Exception {
-		instance.shutdown();
+			.flatMap(m -> properties.getPort().stream().map(p -> m + StrPool.COLON + p))
+			.collect(Collectors.toList());
 	}
 
 }

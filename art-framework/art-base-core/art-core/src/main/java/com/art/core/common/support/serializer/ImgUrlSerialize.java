@@ -101,20 +101,21 @@ public class ImgUrlSerialize extends JsonSerializer<Object> implements Contextua
 	@Override
 	public JsonSerializer<?> createContextual(SerializerProvider serializerProvider, BeanProperty beanProperty)
 			throws JsonMappingException {
-		if (Objects.nonNull(beanProperty)) {
-			if (Objects.equals(beanProperty.getType().getRawClass(), String.class)
-					|| Objects.equals(beanProperty.getType().getRawClass(), List.class)) {
-				ImgUrl imgUrl = beanProperty.getAnnotation(ImgUrl.class);
-				if (Objects.isNull(imgUrl)) {
-					imgUrl = beanProperty.getContextAnnotation(ImgUrl.class);
-				}
-				if (Objects.nonNull(imgUrl)) {
-					return SpringUtil.getBean(ImgUrlSerialize.class);
-				}
-			}
-			return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);
+		if (Objects.isNull(beanProperty)) {
+			return serializerProvider.findNullValueSerializer(null);
 		}
-		return serializerProvider.findNullValueSerializer(null);
+
+		if (Objects.equals(beanProperty.getType().getRawClass(), String.class)
+				|| Objects.equals(beanProperty.getType().getRawClass(), List.class)) {
+			ImgUrl imgUrl = beanProperty.getAnnotation(ImgUrl.class);
+			imgUrl = Objects.isNull(imgUrl) ? beanProperty.getContextAnnotation(ImgUrl.class) : imgUrl;
+
+			if (Objects.nonNull(imgUrl)) {
+				return SpringUtil.getBean(ImgUrlSerialize.class);
+			}
+		}
+
+		return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);
 	}
 
 }

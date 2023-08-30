@@ -45,7 +45,7 @@ public class TreeUtil {
 	 */
 	public static <T> List<VueRouter> buildVueRouter(List<VueRouter> routes) {
 		if (CollectionUtil.isEmpty(routes)) {
-			return null;
+			return routes;
 		}
 
 		List<VueRouter> topRoutes = new ArrayList<>();

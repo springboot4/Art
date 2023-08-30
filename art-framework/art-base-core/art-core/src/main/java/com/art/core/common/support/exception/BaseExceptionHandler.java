@@ -93,12 +93,12 @@ public class BaseExceptionHandler {
         return Result.failed(e.getLocalizedMessage());
     }
 
-	@ExceptionHandler(value = { ArtAuthException.class, AccessDeniedException.class })
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result<Void> handleFxzAuthException(Exception e) {
-        log.error("认证错误", e);
-        return Result.failed("认证错误");
-    }
+	@ExceptionHandler(value = { AccessDeniedException.class })
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public Result<Void> handleFxzAuthException(Exception e) {
+		log.error("认证错误", e);
+		return Result.failed("认证错误");
+	}
 
     @ExceptionHandler(value = RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

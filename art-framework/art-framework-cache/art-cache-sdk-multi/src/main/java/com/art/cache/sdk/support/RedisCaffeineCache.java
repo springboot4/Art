@@ -17,6 +17,7 @@
 package com.art.cache.sdk.support;
 
 import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.text.StrPool;
 import com.art.cache.sdk.properties.CacheRedisCaffeineProperties;
 import com.art.mq.sdk.client.RedisMQTemplate;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -345,8 +346,8 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	 * 缓存缓存key
 	 */
 	private String getKey(String key) {
-		return this.name.concat(":")
-			.concat(!StringUtils.hasText(cachePrefix) ? key : cachePrefix.concat(":").concat(key));
+		return this.name.concat(StrPool.COLON)
+			.concat(!StringUtils.hasText(cachePrefix) ? key : cachePrefix.concat(StrPool.COLON).concat(key));
 	}
 
 	/**
