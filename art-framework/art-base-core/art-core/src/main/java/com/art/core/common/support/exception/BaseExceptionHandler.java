@@ -16,7 +16,6 @@
 
 package com.art.core.common.support.exception;
 
-import com.art.core.common.exception.ArtAuthException;
 import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -86,7 +85,7 @@ public class BaseExceptionHandler {
 		return Result.failed(e.getLocalizedMessage());
 	}
 
-	@ExceptionHandler(value = { ArtAuthException.class, AccessDeniedException.class })
+	@ExceptionHandler(value = { AccessDeniedException.class })
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Result<Void> handleFxzAuthException(Exception e) {
 		log.error("认证错误", e);

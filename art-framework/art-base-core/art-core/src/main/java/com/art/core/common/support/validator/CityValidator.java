@@ -55,6 +55,7 @@ public class CityValidator implements ConstraintValidator<CheckCityValid, String
 		if (inputValue == null) {
 			return false;
 		}
+
 		String jsonStr = redisTemplate.opsForValue().get("constant:city");
 		if (!StringUtils.hasText(jsonStr)) {
 			ClassPathResource resource = new ClassPathResource("city.json");
@@ -63,6 +64,7 @@ public class CityValidator implements ConstraintValidator<CheckCityValid, String
 			redisTemplate.opsForValue().set("constant:city", line);
 			jsonStr = line;
 		}
+
 		List<CityEntity> cityJson = JSONUtil.toList(jsonStr, CityEntity.class);
 		CityEntity entity;
 		switch (type) {

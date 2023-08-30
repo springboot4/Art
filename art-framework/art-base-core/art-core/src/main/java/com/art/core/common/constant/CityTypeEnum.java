@@ -27,10 +27,12 @@ public enum CityTypeEnum {
 	 * 省
 	 */
 	PROVINCE,
+
 	/**
 	 * 市
 	 */
 	CITY,
+
 	/**
 	 * 区
 	 */

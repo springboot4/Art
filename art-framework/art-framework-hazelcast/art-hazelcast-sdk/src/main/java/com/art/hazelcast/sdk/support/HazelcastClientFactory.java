@@ -16,6 +16,7 @@
 
 package com.art.hazelcast.sdk.support;
 
+import cn.hutool.core.text.StrPool;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.client.config.ClientConnectionStrategyConfig;
@@ -25,9 +26,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.util.Objects;
-import java.util.StringJoiner;
 
 /**
  * HazelcastClientFactory 用于创建 Hazelcast连接客户端
@@ -38,7 +39,7 @@ import java.util.StringJoiner;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class HazelcastClientFactory implements FactoryBean<HazelcastInstance>, DisposableBean {
+public class HazelcastClientFactory implements FactoryBean<HazelcastInstance>, InitializingBean, DisposableBean {
 
 	private final HazelcastProperties properties;
 
@@ -46,12 +47,25 @@ public class HazelcastClientFactory implements FactoryBean<HazelcastInstance>, D
 
 	private HazelcastInstance client;
 
-	public HazelcastInstance getInstance() {
+	@Override
+	public HazelcastInstance getObject() {
+		return this.client;
+	}
+
+	@Override
+	public Class<?> getObjectType() {
+		return HazelcastInstance.class;
+	}
+
+	@Override
+	public void destroy() {
+		client.shutdown();
+	}
+
+	@Override
+	public void afterPropertiesSet() {
 		if (Objects.nonNull(serverInstance)) {
 			log.info("本地启动Hazelcast节点:{}", serverInstance);
-		}
-		if (Objects.nonNull(client)) {
-			return client;
 		}
 
 		ClientConfig clientConfig = new ClientConfig();
@@ -65,8 +79,6 @@ public class HazelcastClientFactory implements FactoryBean<HazelcastInstance>, D
 		configConnectionStrategy(clientConfig.getConnectionStrategyConfig());
 		// 创建实例
 		this.client = HazelcastClient.newHazelcastClient(clientConfig);
-
-		return client;
 	}
 
 	private void configConnectionStrategy(ClientConnectionStrategyConfig connectionStrategyConfig) {
@@ -79,27 +91,10 @@ public class HazelcastClientFactory implements FactoryBean<HazelcastInstance>, D
 	}
 
 	private String[] address() {
-		StringJoiner sj = new StringJoiner(",");
-		properties.getMembers()
+		return properties.getMembers()
 			.stream()
-			.flatMap(m -> properties.getPort().stream().map(p -> m + ":" + p))
-			.forEach(sj::add);
-		return sj.toString().split(",");
-	}
-
-	@Override
-	public HazelcastInstance getObject() throws Exception {
-		return getInstance();
-	}
-
-	@Override
-	public Class<?> getObjectType() {
-		return HazelcastInstance.class;
-	}
-
-	@Override
-	public void destroy() {
-		client.shutdown();
+			.flatMap(m -> properties.getPort().stream().map(p -> m + StrPool.COLON + p))
+			.toArray(String[]::new);
 	}
 
 }
