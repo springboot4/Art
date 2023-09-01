@@ -29,7 +29,7 @@
     <properties>
         <revision>1.0.0-SNAPSHOT</revision>
         <sms4j.version>2.2.0</sms4j.version>
-        <mysql.version>8.0.31</mysql.version>
+        <mysql.version>8.0.32</mysql.version>
         <jakarta.version>2.0.1</jakarta.version>
         <es-java.version>7.17.3</es-java.version>
         <redisson.version>3.17.0</redisson.version>
@@ -50,7 +50,7 @@
         <hutool.version>5.8.18</hutool.version>
         <commons-net.version>3.8.0</commons-net.version>
         <seata.version>1.4.2</seata.version>
-        <xxl-job.version>2.3.0</xxl-job.version>
+        <xxl-job.version>2.4.0</xxl-job.version>
         <weixin-java.version>4.1.5.B</weixin-java.version>
         <security.oauth.version>2.1.8.RELEASE</security.oauth.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
