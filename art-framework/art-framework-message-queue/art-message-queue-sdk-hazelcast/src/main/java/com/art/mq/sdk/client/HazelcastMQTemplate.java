@@ -51,11 +51,11 @@ public class HazelcastMQTemplate extends MessageQueueTemplate<HazelcastMessageIn
 		String groupName = message.getGroup();
 		IQueue<T> queue = hazelcastInstance.getQueue(groupName);
 		try {
-			sendMessageBefore(message);
 			queue.put(message);
-			sendMessageBefore(message);
 		}
 		catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			return;
 		}
 	}
 
@@ -68,16 +68,6 @@ public class HazelcastMQTemplate extends MessageQueueTemplate<HazelcastMessageIn
 		String topicName = message.getTopic();
 		ITopic<T> topic = hazelcastInstance.getTopic(topicName);
 		topic.publish(message);
-	}
-
-	private void sendMessageBefore(HazelcastGroupMessage message) {
-		interceptors.forEach(interceptor -> interceptor.sendMessageBefore(message));
-	}
-
-	private void sendMessageAfter(HazelcastBroadcastMessage message) {
-		for (int i = interceptors.size() - 1; i >= 0; i--) {
-			interceptors.get(i).sendMessageAfter(message);
-		}
 	}
 
 }

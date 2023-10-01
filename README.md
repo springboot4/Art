@@ -28,18 +28,18 @@
 
 开发中使用的是阿里的规范（详细可看这里面的[Java开发手册（黄山版）.pdf](https://github.com/alibaba/p3c/blob/master/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C(%E9%BB%84%E5%B1%B1%E7%89%88).pdf)），同时使用插件进行规约扫描。
 
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/09/MYYu0t.jpg)
-![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/09/RBL2FZ.jpg)
+![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/07/09/MYYu0t.jpg)
+![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/07/09/RBL2FZ.jpg)
 
 ## 💻系统应用
 
-| RBAC&数据权限                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/Dt08vc.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/WB6Hc9.png) |
+| RBAC&数据权限                | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/Dt08vc.png) | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/WB6Hc9.png) |
 |--------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| OAuth2.1,支持三方登录。可自定义进行拓展 | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/7WXTzw.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/OXk0bF.png) |
-| 多租户                      | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/YnXioC.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/YzBZ6p.png) |
-| 动态网关&字典管理                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/zVpMJr.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/xKK55D.png) |
-| 动态数据源&代码生成,              | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/2BXWuL.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/WpUDes.png) |
-| 强退用户&审计日志                | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/i2pZEe.png) | ![](https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/05/06/XS0250.png) |
+| OAuth2.1,支持三方登录。可自定义进行拓展 | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/7WXTzw.png) | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/OXk0bF.png) |
+| 多租户                      | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/YnXioC.png) | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/YzBZ6p.png) |
+| 动态网关&字典管理                | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/zVpMJr.png) | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/xKK55D.png) |
+| 动态数据源&代码生成,              | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/2BXWuL.png) | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/WpUDes.png) |
+| 强退用户&审计日志                | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/i2pZEe.png) | ![](https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/05/06/XS0250.png) |
 
 ## 快速启动
 [✈️️快速启动微服务](https://fxzcloud.gitee.io/docs/docs/theme-reco/started.html)
@@ -71,8 +71,8 @@
 <table>
     <tr>
       <td>扫码邀请入群</td>
-      <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2022/11/19/O69mHa.png" width="120"/></td>
-      <td><img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/08/20/kMpdmp.jpg" width="120"/></td>
+      <td><img src="https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2022/11/19/O69mHa.png" width="120"/></td>
+      <td><img src="https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/08/20/kMpdmp.jpg" width="120"/></td>
     </tr>
 </table>
 
@@ -85,5 +85,5 @@
 ## 🤝鸣谢
 感谢 jetbrains对开源项目的支持。<br/>
 <a href="https://jb.gg/OpenSourceSupport">
-  <img src="https://cdn.staticaly.com/gh/fxzbiz/img@url/2023/07/29/brPuV4.png" align="left" height="100" width="100"  alt="JetBrains">
+  <img src="https://cdn.jsdelivr.net/gh/fxzbiz/img@url/2023/07/29/brPuV4.png" align="left" height="100" width="100"  alt="JetBrains">
 </a>
