@@ -19,6 +19,7 @@ package com.art.core.common.util;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.experimental.UtilityClass;
 import org.springframework.context.MessageSource;
+import org.springframework.context.support.AbstractApplicationContext;
 
 import java.util.Locale;
 
@@ -30,13 +31,15 @@ import java.util.Locale;
 @UtilityClass
 public class MsgUtil {
 
+	private static final String MESSAGE_SOURCE_BEAN_NAME = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME;
+
 	/**
 	 * 通过code 获取中文错误信息
 	 * @param code 错误编码
 	 * @return 错误信息
 	 */
 	public String getMessage(String code) {
-		MessageSource messageSource = SpringUtil.getBean("messageSource");
+		MessageSource messageSource = SpringUtil.getBean(MESSAGE_SOURCE_BEAN_NAME);
 		return messageSource.getMessage(code, null, Locale.CHINA);
 	}
 
@@ -47,7 +50,7 @@ public class MsgUtil {
 	 * @return 错误信息
 	 */
 	public String getMessage(String code, Object... objects) {
-		MessageSource messageSource = SpringUtil.getBean("messageSource");
+		MessageSource messageSource = SpringUtil.getBean(MESSAGE_SOURCE_BEAN_NAME);
 		return messageSource.getMessage(code, objects, Locale.CHINA);
 	}
 
