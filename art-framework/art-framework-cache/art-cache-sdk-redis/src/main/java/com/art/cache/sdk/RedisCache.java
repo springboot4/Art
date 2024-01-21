@@ -192,7 +192,7 @@ public class RedisCache<T> implements DistributedCache<T> {
 				Thread.sleep(100L);
 			}
 			catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
+				return false;
 			}
 		}
 
@@ -219,7 +219,7 @@ public class RedisCache<T> implements DistributedCache<T> {
 				Thread.sleep(100L);
 			}
 			catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
+				return false;
 			}
 		}
 
@@ -260,7 +260,7 @@ public class RedisCache<T> implements DistributedCache<T> {
 				Thread.sleep(100L);
 			}
 			catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
+				return;
 			}
 		}
 	}

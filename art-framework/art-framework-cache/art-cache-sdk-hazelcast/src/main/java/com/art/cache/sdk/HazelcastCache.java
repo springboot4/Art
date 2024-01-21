@@ -188,7 +188,6 @@ public class HazelcastCache<T> implements DistributedCache<T> {
 			return cache.tryLock(key, time, TimeUnit.SECONDS);
 		}
 		catch (InterruptedException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -206,7 +205,6 @@ public class HazelcastCache<T> implements DistributedCache<T> {
 			return cache.tryLock(key, seconds, TimeUnit.SECONDS, leaseSeconds, TimeUnit.SECONDS);
 		}
 		catch (InterruptedException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
