@@ -25,7 +25,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
@@ -48,6 +47,6 @@ public interface TokenServiceApi {
 	 */
 	@ArtFeignRetry(maxAttempt = 5, backoff = @ArtBackoff(delay = 500L))
 	@PostMapping("/token/page")
-	Result<PageResult> tokenList(@RequestBody Map<String, Object> params);
+	Result<PageResult> tokenList(Map<String, Object> params);
 
 }
