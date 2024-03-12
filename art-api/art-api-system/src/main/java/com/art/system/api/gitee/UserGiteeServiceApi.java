@@ -24,7 +24,6 @@ import com.art.system.api.user.dto.SystemUserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -39,13 +38,13 @@ public interface UserGiteeServiceApi {
 	 * 添加
 	 */
 	@PostMapping(value = "/gitee/add", headers = SecurityConstants.HEADER_INNER)
-	Result<Boolean> add(@RequestBody UsersGiteeDTO sysUsersGiteeDTO);
+	Result<Boolean> add(UsersGiteeDTO sysUsersGiteeDTO);
 
 	/**
 	 * 绑定用户
 	 */
 	@PostMapping(value = "/gitee/binding", headers = SecurityConstants.HEADER_INNER)
-	public Result<Boolean> binding(@RequestBody UsersGiteeDTO sysUsersGiteeDTO);
+	Result<Boolean> binding(UsersGiteeDTO sysUsersGiteeDTO);
 
 	/**
 	 * 根据appid、id查询
@@ -63,6 +62,6 @@ public interface UserGiteeServiceApi {
 	 * 更新
 	 */
 	@PostMapping(value = "/gitee/update", headers = SecurityConstants.HEADER_INNER)
-	Result<Boolean> update(@RequestBody UsersGiteeDTO sysUsersGiteeDTO);
+	Result<Boolean> update(UsersGiteeDTO sysUsersGiteeDTO);
 
 }
