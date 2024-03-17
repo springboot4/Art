@@ -24,7 +24,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
 /**
- * redisson公平锁封装
+ * redisson公平锁封装,先到先得
  *
  * @author Fxz
  * @version 0.0.1

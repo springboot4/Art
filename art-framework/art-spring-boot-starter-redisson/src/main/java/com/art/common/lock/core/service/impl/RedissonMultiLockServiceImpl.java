@@ -25,7 +25,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
 /**
- * redisson联锁封装
+ * redisson联锁封装，批量加锁
  *
  * @author Fxz
  * @version 0.0.1

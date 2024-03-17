@@ -25,8 +25,9 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
 /**
- * redisson红锁封装
+ * redisson红锁封装，集群节点超过一般算加锁成功
  *
+ * @see <a href="http://redis.io/topics/distlock">http://redis.io/topics/distlock</a>
  * @author Fxz
  * @version 0.0.1
  * @date 2022/9/4 17:39
