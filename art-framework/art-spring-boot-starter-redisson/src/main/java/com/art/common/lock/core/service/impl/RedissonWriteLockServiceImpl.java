@@ -24,6 +24,8 @@ import org.redisson.api.RReadWriteLock;
 import org.redisson.api.RedissonClient;
 
 /**
+ * redisson写锁封装，嘟嘟共享，读写互斥
+ *
  * @author Fxz
  * @version 0.0.1
  * @date 2022/9/4 17:47
