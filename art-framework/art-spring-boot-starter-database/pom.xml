@@ -20,7 +20,7 @@
     <parent>
         <artifactId>art-framework</artifactId>
         <groupId>com.art</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
