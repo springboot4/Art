@@ -1,6 +1,6 @@
 seata:
   enabled: true #是否开启springboot自动装配
-  tx-service-group: fxz_tx_group # 事务群组（可以每个应用独立取名，也可以使用相同的名字）
+  tx-service-group: art_tx_group # 事务群组（可以每个应用独立取名，也可以使用相同的名字）
   client:
     rm-report-success-enable: true
     rm-table-meta-check-enable: false # 自动刷新缓存中的表结构（默认false）
@@ -24,11 +24,11 @@ seata:
         datasource-autoproxy: true # 数据源自动代理开关
   service:
     vgroup-mapping:
-      fxz_tx_group: default # TC 集群（必须与seata-server保持一致）
+      art_tx_group: default # TC 集群（必须与seata-server保持一致）
     enable-degrade: false # 降级开关,默认为false,业务侧根据连续错误自动降级，不走seata事务
     disable-global-transaction: false # 禁用全局事务（默认false）
     grouplist:
-      default: fxz-seata:8091 #TC服务列表，也就是seata服务端地址，只有当注册中心为fie时使用
+      default: art-seata:8091 #TC服务列表，也就是seata服务端地址，只有当注册中心为fie时使用
   transport:
     shutdown:
       wait: 3

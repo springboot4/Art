@@ -4,7 +4,6 @@ import com.art.demos.core.http.feign.java.ApacheHttp5Client;
 import com.art.demos.core.http.feign.java.ApacheHttpClient;
 import com.art.demos.core.http.feign.java.Client;
 import com.art.demos.core.http.feign.java.GoogleHttpClient;
-import com.art.demos.core.http.feign.java.Http2Client;
 import com.art.demos.core.http.feign.java.OkHttpClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
@@ -43,8 +42,8 @@ public class App {
 		response = new ApacheHttp5Client().execute(request, options);
 		System.out.println(decode(response, Map.class));
 
-		response = new Http2Client().execute(request, options);
-		System.out.println(decode(response, Map.class));
+		// response = new Http2Client().execute(request, options);
+		// System.out.println(decode(response, Map.class));
 
 		response = new GoogleHttpClient().execute(request, options);
 		System.out.println(decode(response, Map.class));
