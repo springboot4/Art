@@ -22,7 +22,7 @@
     <parent>
         <groupId>com.art</groupId>
         <artifactId>art-framework-message-queue</artifactId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>art-spring-boot-starter-message-queue-redis</artifactId>
