@@ -21,7 +21,7 @@
     <parent>
         <artifactId>art-server</artifactId>
         <groupId>com.art</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -66,10 +66,10 @@
         </dependency>
 
         <!--mongoDb-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
+        <!--        </dependency>-->
 
         <!--nacos配置中心-->
         <dependency>
@@ -96,10 +96,10 @@
         </dependency>
 
         <!--测试:es模块-->
-<!--        <dependency>-->
-<!--            <groupId>com.art</groupId>-->
-<!--            <artifactId>art-spring-boot-starter-es</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.art</groupId>-->
+        <!--            <artifactId>art-spring-boot-starter-es</artifactId>-->
+        <!--        </dependency>-->
 
         <!--jackson序列化-->
         <dependency>

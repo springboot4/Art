@@ -21,11 +21,11 @@
     <parent>
         <artifactId>art-framework</artifactId>
         <groupId>com.art</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>art-spring-boot-starter-xxl-job</artifactId>
+    <artifactId>art-spring-boot-starter-job-xxl-job</artifactId>
     <description>xxl-job相关配置</description>
 
     <dependencies>

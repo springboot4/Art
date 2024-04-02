@@ -21,7 +21,7 @@
     <parent>
         <artifactId>art-framework</artifactId>
         <groupId>com.art</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -30,10 +30,10 @@
 
     <dependencies>
 
-<!--        <dependency>-->
-<!--            <groupId>com.art</groupId>-->
-<!--            <artifactId>art-spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.art</groupId>-->
+        <!--            <artifactId>art-spring-boot-starter-security</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>io.netty</groupId>

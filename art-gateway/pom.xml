@@ -21,7 +21,7 @@
     <parent>
         <artifactId>art</artifactId>
         <groupId>com.art</groupId>
-        <version>0.0.1</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>art-gateway</artifactId>
@@ -74,12 +74,12 @@
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-gateway</artifactId>
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>com.github.ben-manes.caffeine</groupId>-->
-<!--                    <artifactId>caffeine</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
+            <!--            <exclusions>-->
+            <!--                <exclusion>-->
+            <!--                    <groupId>com.github.ben-manes.caffeine</groupId>-->
+            <!--                    <artifactId>caffeine</artifactId>-->
+            <!--                </exclusion>-->
+            <!--            </exclusions>-->
         </dependency>
 
         <!--核心依赖-->
@@ -87,7 +87,7 @@
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-core</artifactId>
             <exclusions>
-               <exclusion>
+                <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
