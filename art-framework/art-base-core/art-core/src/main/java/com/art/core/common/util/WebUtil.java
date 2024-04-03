@@ -16,8 +16,8 @@
 
 package com.art.core.common.util;
 
-import com.alibaba.fastjson.JSONObject;
-import com.art.common.core.model.Result;
+import com.art.core.common.model.Result;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.experimental.UtilityClass;

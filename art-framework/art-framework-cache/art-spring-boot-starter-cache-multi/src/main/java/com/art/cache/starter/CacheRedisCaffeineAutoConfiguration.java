@@ -16,10 +16,10 @@
 
 package com.art.cache.starter;
 
-import com.art.common.redis.core.cache.properties.CacheRedisCaffeineProperties;
-import com.art.common.redis.core.cache.support.CacheMessageConsumer;
-import com.art.common.redis.core.cache.support.RedisCaffeineCacheManager;
-import com.art.common.redis.core.mq.client.RedisMQTemplate;
+import com.art.cache.sdk.properties.CacheRedisCaffeineProperties;
+import com.art.cache.sdk.support.CacheMessageConsumer;
+import com.art.cache.sdk.support.RedisCaffeineCacheManager;
+import com.art.mq.sdk.client.RedisMQTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

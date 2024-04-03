@@ -18,11 +18,11 @@ package com.art.captcha.sdk.service;
 
 import com.anji.captcha.service.CaptchaCacheService;
 import com.art.captcha.sdk.constants.CaptchaConstants;
+import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
-import jakarta.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**

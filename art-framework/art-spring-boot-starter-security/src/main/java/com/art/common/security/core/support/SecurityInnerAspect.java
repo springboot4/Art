@@ -19,6 +19,7 @@ package com.art.common.security.core.support;
 import cn.hutool.core.util.StrUtil;
 import com.art.common.security.core.annotation.Ojbk;
 import com.art.core.common.constant.SecurityConstants;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +29,6 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.AccessDeniedException;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author fxz

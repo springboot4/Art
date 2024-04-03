@@ -16,16 +16,10 @@
 
 package com.art.core.common.support.exception;
 
-import com.art.common.core.exception.FxzAuthException;
-import com.art.common.core.exception.FxzException;
-import com.art.common.core.model.Result;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import com.art.core.common.exception.FxzAuthException;
-import com.art.core.common.exception.FxzException;
-import com.art.core.common.exception.ArtAuthException;
 import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.Result;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -49,49 +43,47 @@ import java.util.Set;
 @RestControllerAdvice
 public class BaseExceptionHandler {
 
-    /**
-     * 统一处理请求参数校验(实体对象传参)
-     *
-     * @param e BindException
-     * @return Result
-     */
-    @ExceptionHandler(BindException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Result<Void> handleBindException(BindException e) {
-        StringBuilder message = new StringBuilder();
-        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-        for (FieldError error : fieldErrors) {
-            message.append(error.getField()).append(error.getDefaultMessage()).append(",");
-        }
-        message = new StringBuilder(message.substring(0, message.length() - 1));
-        return Result.failed(message.toString());
-    }
+	/**
+	 * 统一处理请求参数校验(实体对象传参)
+	 * @param e BindException
+	 * @return Result
+	 */
+	@ExceptionHandler(BindException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Result<Void> handleBindException(BindException e) {
+		StringBuilder message = new StringBuilder();
+		List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+		for (FieldError error : fieldErrors) {
+			message.append(error.getField()).append(error.getDefaultMessage()).append(",");
+		}
+		message = new StringBuilder(message.substring(0, message.length() - 1));
+		return Result.failed(message.toString());
+	}
 
-    /**
-     * 统一处理请求参数校验(普通传参)
-     *
-     * @param e ConstraintViolationException
-     * @return Result
-     */
-    @ExceptionHandler(value = ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Result<Void> handleConstraintViolationException(ConstraintViolationException e) {
-        StringBuilder msg = new StringBuilder();
-        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
-        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
-            String message = constraintViolation.getMessage();
-            msg.append(message).append(System.lineSeparator());
-        }
+	/**
+	 * 统一处理请求参数校验(普通传参)
+	 * @param e ConstraintViolationException
+	 * @return Result
+	 */
+	@ExceptionHandler(value = ConstraintViolationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Result<Void> handleConstraintViolationException(ConstraintViolationException e) {
+		StringBuilder msg = new StringBuilder();
+		Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+		for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+			String message = constraintViolation.getMessage();
+			msg.append(message).append(System.lineSeparator());
+		}
 
-        return Result.failed(msg.toString());
-    }
+		return Result.failed(msg.toString());
+	}
 
 	@ExceptionHandler(value = ArtException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Result<Void> handleFxzException(ArtException e) {
-        log.error("系统错误", e);
-        return Result.failed(e.getLocalizedMessage());
-    }
+		log.error("系统错误", e);
+		return Result.failed(e.getLocalizedMessage());
+	}
 
 	@ExceptionHandler(value = { AccessDeniedException.class })
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -100,18 +92,18 @@ public class BaseExceptionHandler {
 		return Result.failed("认证错误");
 	}
 
-    @ExceptionHandler(value = RuntimeException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result<Void> handleRuntimeException(Exception e) {
-        log.error("系统内部异常，异常信息", e);
-        return Result.failed(e.getMessage());
-    }
+	@ExceptionHandler(value = RuntimeException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public Result<Void> handleRuntimeException(Exception e) {
+		log.error("系统内部异常，异常信息", e);
+		return Result.failed(e.getMessage());
+	}
 
-    @ExceptionHandler(value = Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result<Void> handleException(Exception e) {
-        log.error("系统内部异常，异常信息", e);
-        return Result.failed("系统内部异常");
-    }
+	@ExceptionHandler(value = Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public Result<Void> handleException(Exception e) {
+		log.error("系统内部异常，异常信息", e);
+		return Result.failed("系统内部异常");
+	}
 
 }

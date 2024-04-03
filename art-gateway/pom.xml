@@ -74,12 +74,12 @@
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-gateway</artifactId>
-            <!--            <exclusions>-->
-            <!--                <exclusion>-->
-            <!--                    <groupId>com.github.ben-manes.caffeine</groupId>-->
-            <!--                    <artifactId>caffeine</artifactId>-->
-            <!--                </exclusion>-->
-            <!--            </exclusions>-->
+            <exclusions>
+                <exclusion>
+                    <artifactId>art-core</artifactId>
+                    <groupId>com.art</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--核心依赖-->
@@ -91,18 +91,19 @@
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-webmvc</artifactId>
                 </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.art</groupId>
-            <artifactId>art-api-system</artifactId>
-            <exclusions>
                 <exclusion>
-                    <groupId>org.springdoc</groupId>
-                    <artifactId>springdoc-openapi-webmvc-core</artifactId>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>tomcat-embed-core</artifactId>
+                    <groupId>org.apache.tomcat.embed</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-message-queue-redis</artifactId>
         </dependency>
 
     </dependencies>

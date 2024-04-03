@@ -17,8 +17,8 @@
 package com.art.common.security.core.handler;
 
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import com.art.common.core.util.AsyncUtil;
-import com.art.common.core.util.SpringUtil;
+import com.art.core.common.util.AsyncUtil;
+import com.art.core.common.util.SpringUtil;
 import com.art.system.api.log.LogServiceApi;
 import com.art.system.api.log.dto.OperLogDTO;
 import jakarta.servlet.ServletException;

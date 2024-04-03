@@ -21,14 +21,14 @@ import cn.hutool.json.JSONUtil;
 import com.art.core.common.annotation.CheckCityValid;
 import com.art.core.common.constant.CityTypeEnum;
 import com.art.core.common.model.CityEntity;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 import java.io.InputStream;
 import java.util.List;
 

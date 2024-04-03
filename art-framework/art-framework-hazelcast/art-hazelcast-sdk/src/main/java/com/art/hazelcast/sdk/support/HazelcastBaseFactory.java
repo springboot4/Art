@@ -16,7 +16,11 @@
 
 package com.art.hazelcast.sdk.support;
 
-import com.art.hazelcast.sdk.base.*;
+import com.art.hazelcast.sdk.base.DistributedBaseFactory;
+import com.art.hazelcast.sdk.base.DistributedCountDownLatch;
+import com.art.hazelcast.sdk.base.DistributedMap;
+import com.art.hazelcast.sdk.base.DistributedQueue;
+import com.art.hazelcast.sdk.base.DistributedSet;
 import com.hazelcast.core.HazelcastInstance;
 import lombok.RequiredArgsConstructor;
 

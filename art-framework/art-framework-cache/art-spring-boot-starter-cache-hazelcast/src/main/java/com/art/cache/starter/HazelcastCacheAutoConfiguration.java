@@ -17,9 +17,8 @@
 
 package com.art.cache.starter;
 
-import com.art.cache.common.DistributedCacheProvider;
-import com.art.cache.sdk.HazelcastDefaultCacheClient;
 import com.art.cache.sdk.HazelcastCacheProvider;
+import com.art.cache.sdk.HazelcastDefaultCacheClient;
 import com.hazelcast.core.HazelcastInstance;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

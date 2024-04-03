@@ -18,6 +18,7 @@ package com.art.common.security.core.support;
 
 import cn.hutool.core.text.StrPool;
 import com.art.common.security.core.config.ArtSecurityProperties;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -29,7 +30,6 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Matcher;

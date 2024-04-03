@@ -17,7 +17,6 @@
 
 package com.art.cache.starter;
 
-import com.art.cache.common.DistributedCacheProvider;
 import com.art.cache.sdk.RedisCacheProvider;
 import com.art.cache.sdk.RedisDefaultCacheClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

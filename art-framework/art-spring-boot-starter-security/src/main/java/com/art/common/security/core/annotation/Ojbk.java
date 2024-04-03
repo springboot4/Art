@@ -16,7 +16,11 @@
 
 package com.art.common.security.core.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 资源服务器接口、类通过添加此注解达到忽略鉴权的作用

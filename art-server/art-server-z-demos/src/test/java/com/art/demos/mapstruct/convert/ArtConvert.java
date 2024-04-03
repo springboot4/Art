@@ -22,7 +22,11 @@ import com.art.demos.mapstruct.bo.ArtBO;
 import com.art.demos.mapstruct.domain.ArtDO;
 import com.art.demos.mapstruct.dto.ArtDTO;
 import com.art.demos.mapstruct.vo.ArtVO;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;

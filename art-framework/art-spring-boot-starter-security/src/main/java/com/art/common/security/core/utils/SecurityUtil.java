@@ -17,10 +17,9 @@
 package com.art.common.security.core.utils;
 
 import com.art.common.security.core.model.ArtAuthUser;
-import jakarta.servlet.http.HttpServletRequest;
-import com.art.core.common.exception.FxzException;
 import com.art.core.common.exception.ArtException;
 import com.art.core.common.util.WebUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;

@@ -20,8 +20,6 @@ import com.art.mq.common.client.MessageQueueTemplate;
 import com.art.mq.common.message.AbstractBroadcastMessage;
 import com.art.mq.common.message.AbstractGroupMessage;
 import com.art.mq.sdk.interceptor.HazelcastMessageInterceptor;
-import com.art.mq.sdk.support.broadcast.HazelcastBroadcastMessage;
-import com.art.mq.sdk.support.group.HazelcastGroupMessage;
 import com.hazelcast.collection.IQueue;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.topic.ITopic;

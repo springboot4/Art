@@ -19,7 +19,11 @@ package com.art.common.security.authorization;
 import com.art.common.security.authentication.gitee.OAuth2GiteeAuthenticationConverter;
 import com.art.common.security.authentication.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.art.common.security.authentication.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
-import org.springframework.security.oauth2.server.authorization.web.authentication.*;
+import org.springframework.security.oauth2.server.authorization.web.authentication.DelegatingAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeRequestAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2ClientCredentialsAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2RefreshTokenAuthenticationConverter;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 
 import java.util.Arrays;

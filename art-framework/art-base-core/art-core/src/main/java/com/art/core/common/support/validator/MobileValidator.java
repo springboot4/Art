@@ -19,10 +19,9 @@ package com.art.core.common.support.validator;
 import cn.hutool.core.util.ReUtil;
 import com.art.core.common.annotation.CheckMobileValid;
 import com.art.core.common.constant.RegexpConstants;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 /**
  * @author fxz

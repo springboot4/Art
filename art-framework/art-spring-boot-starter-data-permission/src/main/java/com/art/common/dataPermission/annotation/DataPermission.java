@@ -18,7 +18,11 @@ package com.art.common.dataPermission.annotation;
 
 import com.art.common.dataPermission.rule.DataPermissionRule;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 数据权限注解 可声明在类或者方法上 标识使用的数据权限规则

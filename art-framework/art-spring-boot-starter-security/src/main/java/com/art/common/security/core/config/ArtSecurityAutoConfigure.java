@@ -123,9 +123,9 @@ public class ArtSecurityAutoConfigure {
 	@Bean
 	public RequestInterceptor oauth2FeignRequestInterceptor(ArtSecurityProperties properties) {
 		return requestTemplate -> {
-        	String gatewayToken = new String(Base64Utils.encode((ArtConstants.GATEWAY_TOKEN_VALUE).getBytes()));
+			String gatewayToken = Base64.encode((ArtConstants.GATEWAY_TOKEN_VALUE).getBytes());
 			requestTemplate.header(ArtConstants.GATEWAY_TOKEN_HEADER, gatewayToken);
-            jakarta.servlet.http.HttpServletRequest request = WebUtil.getReq();
+			jakarta.servlet.http.HttpServletRequest request = WebUtil.getReq();
 
 			String token = bearerTokenResolver(properties).resolve(request);
 			if (StrUtil.isBlank(token)) {

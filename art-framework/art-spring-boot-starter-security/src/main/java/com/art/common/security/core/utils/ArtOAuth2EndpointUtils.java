@@ -17,9 +17,14 @@
 package com.art.common.security.core.utils;
 
 import cn.hutool.core.map.MapUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.*;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
@@ -27,7 +32,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 

@@ -16,9 +16,9 @@
 
 package com.art.system.controller;
 
-import com.art.core.common.support.validator.ValidationGroup;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
+import com.art.core.common.support.validator.ValidationGroup;
 import com.art.core.common.util.ValidationUtil;
 import com.art.system.api.app.dto.AppDTO;
 import com.art.system.api.app.dto.AppPageDTO;
@@ -26,7 +26,12 @@ import com.art.system.service.AppService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

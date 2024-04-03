@@ -20,12 +20,12 @@ import cn.hutool.core.date.DatePattern;
 import com.art.core.common.annotation.CheckMobileValid;
 import com.art.core.common.model.BasePageEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;

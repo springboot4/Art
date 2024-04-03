@@ -42,7 +42,9 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
-import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.*;
+import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR;
+import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
+import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR;
 
 /**
  * 日志、黑名单过滤器

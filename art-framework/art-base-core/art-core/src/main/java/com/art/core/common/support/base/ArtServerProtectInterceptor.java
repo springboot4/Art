@@ -16,21 +16,15 @@
 
 package com.art.core.common.support.base;
 
-import com.art.common.core.constant.FxzConstant;
-import com.art.common.core.model.Result;
-import com.art.common.core.util.WebUtil;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.StringUtils;
-import com.art.core.common.constant.ArtConstant;
 import com.art.core.common.constant.ArtConstants;
 import com.art.core.common.model.Result;
 import com.art.core.common.util.WebUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
-import java.util.Base64;
 
 /**
  * 拦截器只放行通过网关的请求

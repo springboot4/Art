@@ -16,15 +16,15 @@
 
 package com.art.system.api.app.dto;
 
-import com.art.core.common.support.validator.ValidationGroup;
 import com.art.core.common.model.BasePageEntity;
+import com.art.core.common.support.validator.ValidationGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 /**

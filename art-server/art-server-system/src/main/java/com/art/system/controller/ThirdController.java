@@ -20,7 +20,11 @@ import com.art.core.common.model.Result;
 import com.art.system.api.third.dto.ThirdUnBindDTO;
 import com.art.system.service.ThirdService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 第三方平台相关信息

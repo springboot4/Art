@@ -21,13 +21,13 @@ import com.art.common.sensitive.core.annotation.fixed.MobileSensitive;
 import com.art.common.sensitive.core.annotation.regex.EmailSensitive;
 import com.art.core.common.annotation.CheckMobileValid;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;

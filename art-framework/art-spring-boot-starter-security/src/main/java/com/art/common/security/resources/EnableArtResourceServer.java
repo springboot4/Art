@@ -19,7 +19,11 @@ package com.art.common.security.resources;
 import com.art.common.security.core.config.ArtSecurityProperties;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 资源服务器注解
