@@ -53,6 +53,7 @@
         <module>art-framework-mybatis</module>
         <module>art-framework-json</module>
         <module>art-framework-hazelcast</module>
+        <module>art-framework-encrypt</module>
     </modules>
 
 </project>
