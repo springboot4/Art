@@ -90,6 +90,7 @@ public class RoleServiceImpl implements RoleService {
 	/**
 	 * 添加角色信息
 	 */
+	@CacheEvict(value = RoleRedisConstants.CACHE_NAMES, allEntries = true)
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public RoleDTO addRole(RoleDTO roleDTO) {
@@ -117,7 +118,7 @@ public class RoleServiceImpl implements RoleService {
 	/**
 	 * 修改角色信息
 	 */
-	@CacheEvict(value = RoleRedisConstants.CACHE_NAMES, key = "#roleDTO.roleId")
+	@CacheEvict(value = RoleRedisConstants.CACHE_NAMES, allEntries = true)
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Boolean editRole(RoleDTO roleDTO) {
@@ -135,7 +136,7 @@ public class RoleServiceImpl implements RoleService {
 	/**
 	 * 删除角色信息
 	 */
-	@CacheEvict(value = RoleRedisConstants.CACHE_NAMES, key = "#id")
+	@CacheEvict(value = RoleRedisConstants.CACHE_NAMES, allEntries = true)
 	@Override
 	public Boolean deleteRoleById(Long id) {
 		RoleBO roleBO = roleManager.getRoleById(id);
@@ -232,7 +233,7 @@ public class RoleServiceImpl implements RoleService {
 	/**
 	 * 获取所有角色
 	 */
-	@Cacheable(value = RoleRedisConstants.CACHE_NAMES)
+	@Cacheable(value = RoleRedisConstants.CACHE_NAMES, key = "'all_roles_cache'")
 	@Override
 	public List<RoleDTO> getAllRole() {
 		return RoleConvert.INSTANCE.convert(roleManager.listRole());
@@ -242,7 +243,6 @@ public class RoleServiceImpl implements RoleService {
 	 * 根据角色id删除角色菜单信息
 	 * @param id 角色id
 	 */
-
 	private void deleteRoleMenuByRoleId(Long id) {
 		roleMenuManager.deleteRoleMenuByRoleId(id);
 	}

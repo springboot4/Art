@@ -461,6 +461,21 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-api-encrypt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-framework-encrypt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
+                <artifactId>art-api-sdk-encrypt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
                 <artifactId>art-api-auth</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -27,18 +27,31 @@ import com.art.common.security.core.support.SecurityInnerAspect;
 import com.art.core.common.constant.ArtConstants;
 import com.art.core.common.constant.SecurityConstants;
 import com.art.core.common.util.WebUtil;
+import com.art.json.sdk.module.JavaTimeModule;
 import com.art.system.api.client.ClientServiceApi;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.context.request.RequestAttributes;
@@ -66,8 +79,45 @@ public class ArtSecurityAutoConfigure {
 	}
 
 	@Bean
-	RedisOAuth2AuthorizationService oAuth2AuthorizationService(RedisTemplate<String, Object> redisTemplate) {
-		return new RedisOAuth2AuthorizationService(redisTemplate);
+	RedisOAuth2AuthorizationService oAuth2AuthorizationService(
+			RedisTemplate<String, OAuth2Authorization> oauth2RedisTemplate) {
+		return new RedisOAuth2AuthorizationService(oauth2RedisTemplate);
+	}
+
+	@Bean
+	public RedisTemplate<String, OAuth2Authorization> oauth2RedisTemplate(LettuceConnectionFactory factory) {
+		// 创建 RedisTemplate 对象
+		RedisTemplate<String, OAuth2Authorization> template = new RedisTemplate<>();
+		// 设置 RedisConnection 工厂。
+		template.setConnectionFactory(factory);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		// 指定要序列化的域
+		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+			// 不将日期写为时间戳
+			.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+			// 忽略未知属性
+			.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+			// 对象属性为空时可以序列化
+			.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+			// 记录被序列化的类型信息
+			.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL,
+					JsonTypeInfo.As.WRAPPER_ARRAY)
+			// null 值不序列化
+			.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+			// 日期处理
+			.registerModule(new JavaTimeModule());
+		GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+
+		// 默认使用了jdk的序列化方式，可读性差，我们使用 String 序列化方式，序列化 KEY 。
+		template.setKeySerializer(RedisSerializer.string());
+		template.setHashKeySerializer(RedisSerializer.string());
+
+		// 使用 Jdk 序列化方式。
+		template.setValueSerializer(RedisSerializer.java());
+		template.setHashValueSerializer(RedisSerializer.java());
+
+		return template;
 	}
 
 	@Bean

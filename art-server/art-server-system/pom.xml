@@ -126,6 +126,11 @@
             <artifactId>art-spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!--接口加解密-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-api-encrypt</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

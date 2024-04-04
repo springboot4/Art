@@ -25,13 +25,13 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>art-framework-mybatis</artifactId>
+    <artifactId>art-framework-encrypt</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>art-mp</module>
-        <module>art-spring-boot-starter-mp</module>
-        <module>art-spring-boot-starter-mp-encrypt</module>
+        <module>art-mp-sdk-encrypt</module>
+        <module>art-api-sdk-encrypt</module>
+        <module>art-spring-boot-starter-api-encrypt</module>
     </modules>
 
 </project>

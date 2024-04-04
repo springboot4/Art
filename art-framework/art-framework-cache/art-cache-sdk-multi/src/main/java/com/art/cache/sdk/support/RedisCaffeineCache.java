@@ -83,34 +83,41 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 
 	private Map<String, ReentrantLock> keyLockMap = new ConcurrentHashMap<String, ReentrantLock>();
 
+	private ObjectMapper objectMapper;
+
+	private GenericJackson2JsonRedisSerializer serializer;
+
+	private StringRedisSerializer stringRedisSerializer;
+
 	public RedisCaffeineCache(String name, RedisMQTemplate redisMQTemplate,
 			RedisTemplate<String, Object> stringKeyRedisTemplate, Cache<Object, Object> caffeineCache,
 			CacheRedisCaffeineProperties cacheRedisCaffeineProperties) {
 		super(cacheRedisCaffeineProperties.isCacheNullValues());
 		this.name = name;
 		this.redisMQTemplate = redisMQTemplate;
-		this.stringKeyRedisTemplate = buildRedisTemplate(buildRedisTemplate(stringKeyRedisTemplate));
+		this.stringKeyRedisTemplate = buildRedisTemplate(stringKeyRedisTemplate);
 		this.caffeineCache = caffeineCache;
 		this.cachePrefix = cacheRedisCaffeineProperties.getCachePrefix();
 		this.defaultExpiration = cacheRedisCaffeineProperties.getRedis().getDefaultExpiration();
 		this.expires = cacheRedisCaffeineProperties.getRedis().getExpires();
 		this.topic = cacheRedisCaffeineProperties.getRedis().getTopic();
-	}
 
-	public RedisTemplate buildRedisTemplate(RedisTemplate redisTemplate) {
 		// 使用 JSON 序列化方式（库是 Jackson ），序列化 VALUE 。
-		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper = new ObjectMapper();
 		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
 		objectMapper.registerModule(createJavaTimeModule());
 		// ObjectMapper.DefaultTyping.NON_FINAL指定序列化输入的类型
 		objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL,
 				JsonTypeInfo.As.WRAPPER_ARRAY);
 
-		GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+		serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+		stringRedisSerializer = new StringRedisSerializer();
+	}
+
+	public RedisTemplate buildRedisTemplate(RedisTemplate redisTemplate) {
 		redisTemplate.setValueSerializer(serializer);
 		redisTemplate.setHashValueSerializer(serializer);
-
-		redisTemplate.setKeySerializer(new StringRedisSerializer());
+		redisTemplate.setKeySerializer(stringRedisSerializer);
 
 		return redisTemplate;
 	}
