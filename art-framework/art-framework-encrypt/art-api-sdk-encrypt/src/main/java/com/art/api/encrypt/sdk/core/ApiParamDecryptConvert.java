@@ -74,9 +74,7 @@ public class ApiParamDecryptConvert implements ApiDecryptConvert, HandlerMethodA
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		boolean hasAnnotation = AnnotatedElementUtils.hasAnnotation(parameter.getParameter(), ApiDecrypt.class);
-		System.out.println("hasAnnotation = " + hasAnnotation);
-		return hasAnnotation;
+		return AnnotatedElementUtils.hasAnnotation(parameter.getParameter(), ApiDecrypt.class);
 	}
 
 }

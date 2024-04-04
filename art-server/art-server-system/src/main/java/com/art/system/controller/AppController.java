@@ -16,6 +16,8 @@
 
 package com.art.system.controller;
 
+import com.art.api.encrypt.sdk.annotation.ApiDecrypt;
+import com.art.api.encrypt.sdk.annotation.ApiEncrypt;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import com.art.core.common.support.validator.ValidationGroup;
@@ -52,6 +54,7 @@ public class AppController {
 	/**
 	 * 分页
 	 */
+	@ApiEncrypt
 	@Operation(summary = "分页")
 	@GetMapping(value = "/page")
 	public Result<PageResult<AppDTO>> pageSysApp(AppPageDTO appPageDTO) {
@@ -62,6 +65,8 @@ public class AppController {
 	/**
 	 * 添加
 	 */
+	@ApiEncrypt
+	@ApiDecrypt
 	@Operation(summary = "添加")
 	@PostMapping(value = "/add")
 	public Result<Void> add(@RequestBody AppDTO appDTO) {
@@ -72,6 +77,8 @@ public class AppController {
 	/**
 	 * 修改
 	 */
+	@ApiEncrypt
+	@ApiDecrypt
 	@Operation(summary = "修改")
 	@PostMapping(value = "/update")
 	public Result<Void> update(@RequestBody AppDTO appDTO) {
@@ -82,6 +89,7 @@ public class AppController {
 	/**
 	 * 删除
 	 */
+	@ApiEncrypt
 	@Operation(summary = "删除")
 	@DeleteMapping(value = "/delete")
 	public Result<Void> delete(Long id) {
@@ -91,15 +99,17 @@ public class AppController {
 	/**
 	 * 获取单条
 	 */
+	@ApiEncrypt
 	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
-	public Result<AppDTO> findById(Long id) {
+	public Result<AppDTO> findById(@ApiDecrypt(parameter = "id") Long id) {
 		return Result.success(appService.findById(id));
 	}
 
 	/**
 	 * 获取全部
 	 */
+	@ApiEncrypt
 	@Operation(summary = "获取全部")
 	@GetMapping(value = "/findAll")
 	public Result<List<AppDTO>> findAll() {
