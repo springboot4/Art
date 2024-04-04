@@ -31,9 +31,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -70,7 +67,7 @@ public class ApiResponseBodyEncryptConvert implements ApiEncryptConvert, Respons
 		}
 
 		Map<String, Object> data = new HashMap<>(2);
-		data.put(apiEncryptProperties.getKey(), encryptData);
+		data.put(apiEncryptProperties.getEncryptionKey(), encryptData);
 		return data;
 	}
 
