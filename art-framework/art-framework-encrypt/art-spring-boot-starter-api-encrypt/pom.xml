@@ -30,8 +30,6 @@
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-api-sdk-encrypt</artifactId>
-            <version>0.0.1</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
