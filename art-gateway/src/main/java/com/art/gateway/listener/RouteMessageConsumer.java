@@ -52,70 +52,70 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RouteMessageConsumer extends AbstractRedisBroadcastMessageListener<RouteMessage> {
 
-    private final RedisTemplate redisTemplate;
+	private final RedisTemplate redisTemplate;
 
-    private final ArtRouteDefinitionRepository artRouteDefinitionRepository;
+	private final ArtRouteDefinitionRepository artRouteDefinitionRepository;
 
-    private final SwaggerUiConfigProperties swaggerUiConfigProperties;
+	private final SwaggerUiConfigProperties swaggerUiConfigProperties;
 
-    private static final String API_URI = "/%s/v3/api-docs";
+	private static final String API_URI = "/%s/v3/api-docs";
 
-    @Override
-    public void onMessage(RouteMessage message) {
-        // 清空缓存中的路由信息
-        redisTemplate.delete(CacheConstants.ROUTE_KEY);
+	@Override
+	public void onMessage(RouteMessage message) {
+		// 清空缓存中的路由信息
+		redisTemplate.delete(CacheConstants.ROUTE_KEY);
 
-        if (log.isDebugEnabled()) {
-            log.debug("接收到redis topic消息，缓存路由信息到redis {}", message.getRouteConfDOList());
-        }
+		if (log.isDebugEnabled()) {
+			log.debug("接收到redis topic消息，缓存路由信息到redis {}", message.getRouteConfDOList());
+		}
 
-        List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
-        Map<String, ArtRouteDefinition> map = routeConfList.stream()
-                .map(this::convert)
-                .collect(Collectors.toMap(ArtRouteDefinition::getId, Function.identity()));
-        redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(ArtRouteDefinition.class));
-        redisTemplate.opsForHash().putAll(CacheConstants.ROUTE_KEY, map);
-        artRouteDefinitionRepository.publishEvent();
+		List<RouteConfDTO> routeConfList = message.getRouteConfDOList();
+		Map<String, ArtRouteDefinition> map = routeConfList.stream()
+			.map(this::convert)
+			.collect(Collectors.toMap(ArtRouteDefinition::getId, Function.identity()));
+		redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(ArtRouteDefinition.class));
+		redisTemplate.opsForHash().putAll(CacheConstants.ROUTE_KEY, map);
+		artRouteDefinitionRepository.publishEvent();
 
-        if (CollUtil.isEmpty(map)) {
-            return;
-        }
+		if (CollUtil.isEmpty(map)) {
+			return;
+		}
 
-        Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = map.values().stream().map(routeDefinition -> {
-            AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
-            String id = routeDefinition.getId();
-            swaggerUrl.setName(id);
-            swaggerUrl.setUrl(String.format(API_URI,
-                    routeDefinition.getId().substring(routeDefinition.getId().lastIndexOf("-") + 1)));
-            return swaggerUrl;
-        }).collect(Collectors.toSet());
-        swaggerUiConfigProperties.setUrls(urls);
-    }
+		Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = map.values().stream().map(routeDefinition -> {
+			AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
+			String id = routeDefinition.getId();
+			swaggerUrl.setName(id);
+			swaggerUrl.setUrl(String.format(API_URI,
+					routeDefinition.getId().substring(routeDefinition.getId().lastIndexOf("-") + 1)));
+			return swaggerUrl;
+		}).collect(Collectors.toSet());
+		swaggerUiConfigProperties.setUrls(urls);
+	}
 
-    public ArtRouteDefinition convert(RouteConfDTO dto) {
-        ArtRouteDefinition routeDefinition = new ArtRouteDefinition();
-        PropertyMapper mapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+	public ArtRouteDefinition convert(RouteConfDTO dto) {
+		ArtRouteDefinition routeDefinition = new ArtRouteDefinition();
+		PropertyMapper mapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 
-        mapper.from(dto.getName()).whenNonNull().to(routeDefinition::setName);
-        mapper.from(dto.getRouteId()).whenNonNull().to(routeDefinition::setId);
-        mapper.from(dto.getUri()).whenNonNull().as(URI::create).to(routeDefinition::setUri);
-        mapper.from(dto.getSortOrder()).whenNonNull().as(Integer::valueOf).to(routeDefinition::setOrder);
-        mapper.from(dto.getMetadata())
-                .whenNonNull()
-                .as(v -> JSONUtil.toBean(v, Map.class))
-                .to(routeDefinition::setMetadata);
-        mapper.from(dto.getFilters())
-                .whenNonNull()
-                .as(JSONArray::new)
-                .as(v -> v.toList(FilterDefinition.class))
-                .to(routeDefinition::setFilters);
-        mapper.from(dto.getPredicates())
-                .whenNonNull()
-                .as(JSONArray::new)
-                .as(v -> v.toList(PredicateDefinition.class))
-                .to(routeDefinition::setPredicates);
+		mapper.from(dto.getName()).whenNonNull().to(routeDefinition::setName);
+		mapper.from(dto.getRouteId()).whenNonNull().to(routeDefinition::setId);
+		mapper.from(dto.getUri()).whenNonNull().as(URI::create).to(routeDefinition::setUri);
+		mapper.from(dto.getSortOrder()).whenNonNull().as(Integer::valueOf).to(routeDefinition::setOrder);
+		mapper.from(dto.getMetadata())
+			.whenNonNull()
+			.as(v -> JSONUtil.toBean(v, Map.class))
+			.to(routeDefinition::setMetadata);
+		mapper.from(dto.getFilters())
+			.whenNonNull()
+			.as(JSONArray::new)
+			.as(v -> v.toList(FilterDefinition.class))
+			.to(routeDefinition::setFilters);
+		mapper.from(dto.getPredicates())
+			.whenNonNull()
+			.as(JSONArray::new)
+			.as(v -> v.toList(PredicateDefinition.class))
+			.to(routeDefinition::setPredicates);
 
-        return routeDefinition;
-    }
+		return routeDefinition;
+	}
 
 }

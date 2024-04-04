@@ -13,13 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 public class RouteMessage extends RedisBroadcastMessage implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    List<RouteConfDTO> routeConfDOList;
+	List<RouteConfDTO> routeConfDOList;
 
-    @Override
-    public String getTopic() {
-        return "route.redis.gateway.topic";
-    }
+	@Override
+	public String getTopic() {
+		return "route.redis.gateway.topic";
+	}
 
 }
