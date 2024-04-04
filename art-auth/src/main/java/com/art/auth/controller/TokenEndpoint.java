@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -62,7 +61,7 @@ public class TokenEndpoint {
 
 	private final OAuth2AuthorizationService oAuth2AuthorizationService;
 
-	private final RedisTemplate<String, Object> redisTemplate;
+	private final RedisTemplate<String, OAuth2Authorization> oauth2RedisTemplate;
 
 	/**
 	 * 退出登录
@@ -96,17 +95,15 @@ public class TokenEndpoint {
 	 */
 	@PostMapping("/page")
 	public Result<PageResult> tokenList(@RequestBody Map<String, Object> param) {
-		redisTemplate.setValueSerializer(RedisSerializer.java());
-
 		String key = "token::access_token::*";
-		Set<String> keys = redisTemplate.keys(key);
+		Set<String> keys = oauth2RedisTemplate.keys(key);
 
 		Integer current = MapUtil.getInt(param, "current");
 		Integer size = MapUtil.getInt(param, "size");
 
 		List<String> pages = keys.stream().skip((current - 1) * size).limit(size).collect(Collectors.toList());
 
-		List<Map> list = redisTemplate.opsForValue().multiGet(pages).stream().map(o -> {
+		List<Map> list = oauth2RedisTemplate.opsForValue().multiGet(pages).stream().map(o -> {
 			OAuth2Authorization authorization = (OAuth2Authorization) o;
 			HashMap<String, Object> map = new HashMap<>();
 
