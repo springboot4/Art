@@ -21,17 +21,29 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.art</groupId>
-        <artifactId>art-framework</artifactId>
+        <artifactId>art-framework-encrypt</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>art-framework-mybatis</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>art-api-sdk-encrypt</artifactId>
 
-    <modules>
-        <module>art-mp</module>
-        <module>art-spring-boot-starter-mp</module>
-        <module>art-spring-boot-starter-mp-encrypt</module>
-    </modules>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>

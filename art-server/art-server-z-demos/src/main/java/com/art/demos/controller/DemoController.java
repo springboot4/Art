@@ -16,6 +16,8 @@
 
 package com.art.demos.controller;
 
+import com.art.api.encrypt.sdk.annotation.ApiDecrypt;
+import com.art.api.encrypt.sdk.annotation.ApiEncrypt;
 import com.art.cache.sdk.support.CacheMessage;
 import com.art.common.Idempotent.annotation.Idempotent;
 import com.art.common.Idempotent.keyresolver.impl.ExpressionIdempotentKeyResolver;
@@ -37,6 +39,9 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Fxz
@@ -135,6 +140,28 @@ public class DemoController {
 	public Result<Void> idempotentDel(String str) {
 		log.info("方法执行且执行完自动删除key");
 		return Result.success();
+	}
+
+	@ApiEncrypt
+	@GetMapping("/demo-api-encrypt")
+	public Result<Map> demoApiEncrypt(@ApiDecrypt(parameter = "username") String username,
+			@ApiDecrypt(parameter = "password") String password) {
+		log.info("username:{}", username);
+		log.info("password:{}", password);
+
+		Map<String, String> map = new HashMap<>();
+		map.put("key", "value");
+		map.put("username", username);
+		map.put("password", password);
+		return Result.success(map);
+	}
+
+	@ApiDecrypt
+	@ApiEncrypt
+	@PostMapping("/demo-api-encrypt")
+	public Result<Map> demoApiEncrypt(@RequestBody Map<String, String> map) {
+		map.forEach((k, v) -> log.info("key:{},value:{}", k, v));
+		return Result.success(map);
 	}
 
 }
