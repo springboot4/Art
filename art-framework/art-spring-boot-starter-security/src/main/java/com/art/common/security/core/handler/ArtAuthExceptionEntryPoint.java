@@ -18,6 +18,7 @@ package com.art.common.security.core.handler;
 
 import com.art.core.common.model.Result;
 import com.art.core.common.util.WebUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -36,12 +37,13 @@ import java.io.IOException;
  * @version 0.0.1
  * @date 2021-11-27 21:38
  */
+@Slf4j
 public class ArtAuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException {
-
+		log.debug("资源服务器异常：{}", authException.getMessage());
 		WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_UNAUTHORIZED,
 				Result.failed("token无效"));
 	}
