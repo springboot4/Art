@@ -31,6 +31,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Fxz
@@ -43,7 +44,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArtRouteDefinitionRepository implements RouteDefinitionRepository, ApplicationEventPublisherAware {
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
 
 	private ApplicationEventPublisher applicationEventPublisher;
 
@@ -52,7 +53,11 @@ public class ArtRouteDefinitionRepository implements RouteDefinitionRepository, 
 	 */
 	@Override
 	public Flux<RouteDefinition> getRouteDefinitions() {
-		List<ArtRouteDefinition> values = redisTemplate.opsForHash().values(CacheConstants.ROUTE_KEY);
+		List<RouteDefinition> values = redisTemplate.opsForHash()
+			.values(CacheConstants.ROUTE_KEY)
+			.stream()
+			.map(route -> (ArtRouteDefinition) route)
+			.collect(Collectors.toList());
 		if (log.isDebugEnabled()) {
 			log.debug("加载redis中路由: {} 条， {}", values.size(), values);
 		}

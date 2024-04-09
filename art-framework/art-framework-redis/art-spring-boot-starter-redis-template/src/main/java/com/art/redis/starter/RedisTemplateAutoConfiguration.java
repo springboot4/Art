@@ -92,6 +92,22 @@ public class RedisTemplateAutoConfiguration {
 		// 设置 RedisConnection 工厂。
 		template.setConnectionFactory(factory);
 
+		// json 序列化
+		GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(getObjectMapper());
+		RedisSerializer<String> stringRedisSerializer = RedisSerializer.string();
+
+		// 使用 String 序列化方式，序列化 KEY。
+		template.setKeySerializer(stringRedisSerializer);
+		template.setHashKeySerializer(stringRedisSerializer);
+
+		// 使用 JSON 序列化方式，序列化 VALUE。
+		template.setValueSerializer(serializer);
+		template.setHashValueSerializer(serializer);
+
+		return template;
+	}
+
+	private ObjectMapper getObjectMapper() {
 		ObjectMapper objectMapper = new ObjectMapper();
 		// 指定要序列化的域
 		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
@@ -108,17 +124,7 @@ public class RedisTemplateAutoConfiguration {
 			.setSerializationInclusion(JsonInclude.Include.NON_NULL)
 			// 日期处理
 			.registerModule(new JavaTimeModule());
-		GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
-
-		// 默认使用了jdk的序列化方式，可读性差，我们使用 String 序列化方式，序列化 KEY 。
-		template.setKeySerializer(RedisSerializer.string());
-		template.setHashKeySerializer(RedisSerializer.string());
-
-		// 使用 JSON 序列化方式（库是 Jackson ），序列化 VALUE 。
-		template.setValueSerializer(serializer);
-		template.setHashValueSerializer(serializer);
-
-		return template;
+		return objectMapper;
 	}
 
 }

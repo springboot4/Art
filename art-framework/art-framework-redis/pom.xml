@@ -32,6 +32,7 @@
         <module>art-redis</module>
         <module>art-redis-sdk</module>
         <module>art-spring-boot-starter-redis</module>
+        <module>art-spring-boot-starter-redis-template</module>
     </modules>
 
 </project>
