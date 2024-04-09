@@ -316,6 +316,11 @@
             </dependency>
             <dependency>
                 <groupId>com.art</groupId>
+                <artifactId>art-spring-boot-starter-redis-template</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.art</groupId>
                 <artifactId>art-captcha-sdk-aj</artifactId>
                 <version>${project.version}</version>
             </dependency>

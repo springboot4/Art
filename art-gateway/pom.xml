@@ -101,6 +101,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!--redis-client-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-redis-template</artifactId>
+        </dependency>
+
+        <!--redis消息队列-->
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-spring-boot-starter-message-queue-redis</artifactId>

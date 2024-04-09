@@ -31,7 +31,6 @@ import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -52,7 +51,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RouteMessageConsumer extends AbstractRedisBroadcastMessageListener<RouteMessage> {
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
 
 	private final ArtRouteDefinitionRepository artRouteDefinitionRepository;
 
@@ -73,7 +72,6 @@ public class RouteMessageConsumer extends AbstractRedisBroadcastMessageListener<
 		Map<String, ArtRouteDefinition> map = routeConfList.stream()
 			.map(this::convert)
 			.collect(Collectors.toMap(ArtRouteDefinition::getId, Function.identity()));
-		redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(ArtRouteDefinition.class));
 		redisTemplate.opsForHash().putAll(CacheConstants.ROUTE_KEY, map);
 		artRouteDefinitionRepository.publishEvent();
 
