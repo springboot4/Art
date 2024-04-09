@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.art</groupId>
+        <artifactId>art-framework-redis</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>art-spring-boot-starter-redis-template</artifactId>
+
+    <dependencies>
+        <!--spring boot starter-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <!-- apache commons pool2-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+        <!--spring data redis-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+
+        <!--jackson序列化-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-json-sdk-jackson</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

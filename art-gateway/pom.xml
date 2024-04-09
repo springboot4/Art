@@ -95,6 +95,13 @@
             </exclusions>
         </dependency>
 
+
+        <!--redis-client-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-redis-template</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.art</groupId>
             <artifactId>art-api-system</artifactId>

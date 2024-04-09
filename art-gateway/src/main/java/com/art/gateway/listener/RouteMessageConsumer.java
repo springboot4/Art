@@ -53,7 +53,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RouteMessageConsumer extends AbstractRedisBroadcastMessageListener<RouteMessage> {
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
 
 	private final ArtRouteDefinitionRepository artRouteDefinitionRepository;
 
