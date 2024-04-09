@@ -64,7 +64,7 @@ public class ApiParamDecryptConvert implements ApiDecryptConvert, HandlerMethodA
 		Objects.requireNonNull(apiDecrypt, "The ApiDecrypt annotation is not configured");
 
 		// @ApiDecrypt(parameter = "parameterName") 优先级高于方法参数名
-		String parameterName = methodParameter.getName();
+		String parameterName = parameter.getParameterName();
 		if (StringUtils.hasText(apiDecrypt.parameter())) {
 			parameterName = apiDecrypt.parameter();
 		}
