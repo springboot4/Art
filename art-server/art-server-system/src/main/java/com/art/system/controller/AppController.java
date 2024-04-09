@@ -102,7 +102,7 @@ public class AppController {
 	@ApiEncrypt
 	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
-	public Result<AppDTO> findById(@ApiDecrypt(parameter = "id") Long id) {
+	public Result<AppDTO> findById(@ApiDecrypt Long id) {
 		return Result.success(appService.findById(id));
 	}
 
