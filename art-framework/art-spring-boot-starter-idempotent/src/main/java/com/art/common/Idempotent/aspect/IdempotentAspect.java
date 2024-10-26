@@ -25,9 +25,9 @@ import com.art.common.Idempotent.redis.IdempotentRedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
@@ -58,8 +58,32 @@ public class IdempotentAspect {
 	/**
 	 * 使用前置通知,对带有Idempotent注解的进行幂等处理
 	 */
-	@Before("@annotation(idempotent)")
-	public void beforePointCut(JoinPoint joinPoint, Idempotent idempotent) {
+	@Around("@annotation(idempotent)")
+	public Object around(ProceedingJoinPoint joinPoint, Idempotent idempotent) {
+		Object res = null;
+		try {
+			String key = beforePointCut(joinPoint, idempotent);
+			boolean success = idempotentRedisService.setIfAbsent(key, idempotent.timeout(), idempotent.timeUnit());
+			// 锁定失败，不要抛出异常，避免上游重试
+			if (!success) {
+				log.info("方法:{} 参数:{} 重复请求!", joinPoint.getSignature().toString(), joinPoint.getArgs());
+				return null;
+			}
+
+			res = joinPoint.proceed();
+		}
+		catch (Throwable throwable) {
+			log.error("幂等处理异常！", throwable);
+			return null;
+		}
+		finally {
+			afterPointCut(joinPoint, idempotent);
+		}
+
+		return res;
+	}
+
+	public String beforePointCut(ProceedingJoinPoint joinPoint, Idempotent idempotent) {
 		// 获取解析器
 		KeyResolver keyResolver = SpringUtil.getBean(idempotent.keyResolver());
 		Assert.notNull(keyResolver, "找不到对应的幂等解析器！");
@@ -67,25 +91,17 @@ public class IdempotentAspect {
 		// 解析 key
 		String key = keyResolver.resolver(joinPoint, idempotent);
 
-		// 锁定 key
-		boolean success = idempotentRedisService.setIfAbsent(key, idempotent.timeout(), idempotent.timeUnit());
-
-		// 锁定失败，抛出异常
-		if (!success) {
-			log.info("方法:{} 参数:{} 重复请求!", joinPoint.getSignature().toString(), joinPoint.getArgs());
-			throw new RuntimeException(idempotent.message());
-		}
-
 		// 缓存注解信息
 		Map<String, Object> map = THREAD_LOCAL.get();
 		map.put(IdempotentConstants.KEY_PREFIX, key);
 		map.put(IdempotentConstants.DEL_KEY_PREFIX, idempotent.delKey());
+
+		return key;
 	}
 
 	/**
 	 * 使用后置通知,对业务执行完成，需要删除的key进行删除
 	 */
-	@After("@annotation(idempotent)")
 	public void afterPointCut(JoinPoint joinPoint, Idempotent idempotent) {
 		// 获取缓存的幂等注解信息
 		Map<String, Object> map = THREAD_LOCAL.get();
