@@ -80,7 +80,7 @@
 
 
 ## 🍬配套文档
-[🍓🍓🍓配套文档 fxzcloud.gitee.io/docs](https://fxzcloud.gitee.io/docs/)
+[🍓🍓🍓配套文档  https://springboot4.github.io/docs](https://springboot4.github.io/docs)
 
 ## 🤝鸣谢
 感谢 jetbrains对开源项目的支持。<br/>
