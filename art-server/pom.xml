@@ -32,6 +32,7 @@
         <module>art-server-generate</module>
         <module>art-server-scheduled</module>
         <module>art-server-z-demos</module>
+        <module>art-ai</module>
     </modules>
 
 </project>

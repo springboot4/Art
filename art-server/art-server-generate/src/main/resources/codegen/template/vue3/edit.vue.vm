@@ -33,6 +33,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { BasicModal } from '/@/components/Modal'
   import {nextTick, reactive, Ref, ref} from 'vue'
   import useFormEdit from '/@/hooks/art/useFormEdit'
   import {FormOperationType} from '/@/enums/formOperationType'

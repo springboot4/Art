@@ -98,7 +98,7 @@ public class MenuDO extends BaseEntity implements Serializable {
 	/**
 	 * 排序
 	 */
-	private Integer orderNum;
+	private Integer orderNum = 99;
 
 	/**
 	 * 是否隐藏(1 隐藏 0 不隐藏)
