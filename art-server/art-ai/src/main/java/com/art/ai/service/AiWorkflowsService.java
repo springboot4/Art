@@ -33,11 +33,6 @@ public interface AiWorkflowsService {
 	AiWorkflowsDTO findById(Long id);
 
 	/**
-	 * 根据应用ID获取工作流
-	 */
-	AiWorkflowsDTO findByAppId(Long appId);
-
-	/**
 	 * 获取全部
 	 */
 	List<AiWorkflowsDTO> findAll();
@@ -46,5 +41,15 @@ public interface AiWorkflowsService {
 	 * 删除
 	 */
 	Boolean deleteAiWorkflows(Long id);
+
+	/**
+	 * 根据应用ID获取工作流
+	 */
+	AiWorkflowsDTO findByAppId(Long appId);
+
+	/**
+	 * 发布工作流
+	 */
+	Boolean publish(AiWorkflowsDTO aiWorkflowsDTO);
 
 }

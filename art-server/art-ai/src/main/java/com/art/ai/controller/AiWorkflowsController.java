@@ -31,6 +31,26 @@ public class AiWorkflowsController {
 	private final AiWorkflowsService aiWorkflowsService;
 
 	/**
+	 * 根据appId获取最新的工作流信息
+	 */
+	@Operation(summary = "根据appId获取最新的工作流信息")
+	@GetMapping(value = "/findByAppId")
+	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:view')")
+	public Result<AiWorkflowsDTO> findByAppId(Long appId) {
+		return Result.success(aiWorkflowsService.findByAppId(appId));
+	}
+
+	/**
+	 * 发布工作流
+	 */
+	@Operation(summary = "发布工作流")
+	@PostMapping(value = "/publish")
+	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:update')")
+	public Result<Boolean> publish(@RequestBody AiWorkflowsDTO aiWorkflowsDTO) {
+		return Result.success(aiWorkflowsService.publish(aiWorkflowsDTO));
+	}
+
+	/**
 	 * 添加
 	 */
 	@Operation(summary = "添加")
@@ -68,16 +88,6 @@ public class AiWorkflowsController {
 	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:view')")
 	public Result<AiWorkflowsDTO> findById(Long id) {
 		return Result.success(aiWorkflowsService.findById(id));
-	}
-
-	/**
-	 * 根据appId获取最新的工作流信息
-	 */
-	@Operation(summary = "根据appId获取最新的工作流信息")
-	@GetMapping(value = "/findByAppId")
-	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:view')")
-	public Result<AiWorkflowsDTO> findByAppId(Long appId) {
-		return Result.success(aiWorkflowsService.findByAppId(appId));
 	}
 
 	/**
