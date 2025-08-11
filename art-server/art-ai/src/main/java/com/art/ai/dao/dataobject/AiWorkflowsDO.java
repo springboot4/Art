@@ -4,6 +4,7 @@ import com.art.mybatis.common.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 @TableName("ai_workflows")
 public class AiWorkflowsDO extends BaseEntity {
 
+	@Serial
 	private static final long serialVersionUID = -1L;
 
 	/** 主键 */

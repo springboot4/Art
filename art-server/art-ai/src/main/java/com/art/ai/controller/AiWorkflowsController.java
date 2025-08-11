@@ -2,7 +2,7 @@ package com.art.ai.controller;
 
 import com.art.ai.core.dto.AiWorkflowsDTO;
 import com.art.ai.core.dto.AiWorkflowsPageDTO;
-import com.art.ai.service.AiWorkflowsService;
+import com.art.ai.service.workflow.definition.WorkflowsService;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AiWorkflowsController {
 
-	private final AiWorkflowsService aiWorkflowsService;
+	private final WorkflowsService workflowsService;
 
 	/**
 	 * 根据appId获取最新的工作流信息
@@ -37,7 +37,7 @@ public class AiWorkflowsController {
 	@GetMapping(value = "/findByAppId")
 	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:view')")
 	public Result<AiWorkflowsDTO> findByAppId(Long appId) {
-		return Result.success(aiWorkflowsService.findByAppId(appId));
+		return Result.success(workflowsService.findByAppId(appId));
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class AiWorkflowsController {
 	@PostMapping(value = "/publish")
 	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:update')")
 	public Result<Boolean> publish(@RequestBody AiWorkflowsDTO aiWorkflowsDTO) {
-		return Result.success(aiWorkflowsService.publish(aiWorkflowsDTO));
+		return Result.success(workflowsService.publish(aiWorkflowsDTO));
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class AiWorkflowsController {
 	@PostMapping(value = "/add")
 	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:add')")
 	public Result<Boolean> add(@RequestBody AiWorkflowsDTO aiWorkflowsDTO) {
-		return Result.success(aiWorkflowsService.addAiWorkflows(aiWorkflowsDTO));
+		return Result.success(workflowsService.addAiWorkflows(aiWorkflowsDTO));
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class AiWorkflowsController {
 	@PostMapping(value = "/update")
 	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:update')")
 	public Result<Boolean> update(@RequestBody AiWorkflowsDTO aiWorkflowsDTO) {
-		return Result.success(aiWorkflowsService.updateAiWorkflows(aiWorkflowsDTO));
+		return Result.success(workflowsService.updateAiWorkflows(aiWorkflowsDTO));
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class AiWorkflowsController {
 	@DeleteMapping(value = "/delete")
 	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:delete')")
 	public Result<Boolean> delete(Long id) {
-		return Result.judge(aiWorkflowsService.deleteAiWorkflows(id));
+		return Result.judge(workflowsService.deleteAiWorkflows(id));
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class AiWorkflowsController {
 	@GetMapping(value = "/findById")
 	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:view')")
 	public Result<AiWorkflowsDTO> findById(Long id) {
-		return Result.success(aiWorkflowsService.findById(id));
+		return Result.success(workflowsService.findById(id));
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class AiWorkflowsController {
 	@GetMapping(value = "/findAll")
 	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:view')")
 	public Result<List<AiWorkflowsDTO>> findAll() {
-		return Result.success(aiWorkflowsService.findAll());
+		return Result.success(workflowsService.findAll());
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class AiWorkflowsController {
 	@GetMapping(value = "/page")
 	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:view')")
 	public Result<PageResult<AiWorkflowsDTO>> pageAiWorkflows(AiWorkflowsPageDTO aiWorkflowsPageDTO) {
-		return Result.success(PageResult.success(aiWorkflowsService.pageAiWorkflows(aiWorkflowsPageDTO)));
+		return Result.success(PageResult.success(workflowsService.pageAiWorkflows(aiWorkflowsPageDTO)));
 	}
 
 }

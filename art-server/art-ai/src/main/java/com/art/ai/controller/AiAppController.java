@@ -2,7 +2,7 @@ package com.art.ai.controller;
 
 import com.art.ai.core.dto.AiAppDTO;
 import com.art.ai.core.dto.AiAppPageDTO;
-import com.art.ai.service.AiAppService;
+import com.art.ai.service.app.AiAppService;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import io.swagger.v3.oas.annotations.Operation;

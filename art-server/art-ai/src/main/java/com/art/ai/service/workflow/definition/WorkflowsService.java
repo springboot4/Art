@@ -1,4 +1,4 @@
-package com.art.ai.service;
+package com.art.ai.service.workflow.definition;
 
 import com.art.ai.core.dto.AiWorkflowsDTO;
 import com.art.ai.core.dto.AiWorkflowsPageDTO;
@@ -10,7 +10,7 @@ import java.util.List;
  * @author fxz
  * @date 2025-07-31
  */
-public interface AiWorkflowsService {
+public interface WorkflowsService {
 
 	/**
 	 * 添加

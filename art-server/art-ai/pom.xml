@@ -12,7 +12,22 @@
     <artifactId>art-ai</artifactId>
     <description>乌托邦</description>
 
+    <properties>
+        <langgraph4j.version>1.5.3</langgraph4j.version>
+    </properties>
+
     <dependencies>
+
+        <dependency>
+            <groupId>org.bsc.langgraph4j</groupId>
+            <artifactId>langgraph4j-core</artifactId>
+            <version>${langgraph4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bsc.langgraph4j</groupId>
+            <artifactId>langgraph4j-langchain4j</artifactId>
+            <version>${langgraph4j.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

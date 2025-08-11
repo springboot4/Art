@@ -1,11 +1,11 @@
-package com.art.ai.service.impl;
+package com.art.ai.service.workflow.definition.impl;
 
 import com.art.ai.core.convert.AiWorkflowsConvert;
 import com.art.ai.core.dto.AiWorkflowsDTO;
 import com.art.ai.core.dto.AiWorkflowsPageDTO;
 import com.art.ai.dao.dataobject.AiWorkflowsDO;
 import com.art.ai.manager.AiWorkflowsManager;
-import com.art.ai.service.AiWorkflowsService;
+import com.art.ai.service.workflow.definition.WorkflowsService;
 import com.art.core.common.exception.ArtException;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AiWorkflowsServiceImpl implements AiWorkflowsService {
+public class WorkflowsServiceImpl implements WorkflowsService {
 
 	private final AiWorkflowsManager aiWorkflowsManager;
 
@@ -98,6 +98,10 @@ public class AiWorkflowsServiceImpl implements AiWorkflowsService {
 		}
 
 		workflowsDTO.setId(null);
+		workflowsDTO.setCreateBy(null);
+		workflowsDTO.setCreateTime(null);
+		workflowsDTO.setUpdateBy(null);
+		workflowsDTO.setUpdateTime(null);
 		workflowsDTO.setVersion(AiWorkflowsDO.newVersion());
 		return addAiWorkflows(workflowsDTO);
 	}

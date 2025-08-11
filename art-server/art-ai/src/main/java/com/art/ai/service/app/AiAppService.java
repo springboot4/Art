@@ -1,4 +1,4 @@
-package com.art.ai.service;
+package com.art.ai.service.app;
 
 import com.art.ai.core.dto.AiAppDTO;
 import com.art.ai.core.dto.AiAppPageDTO;

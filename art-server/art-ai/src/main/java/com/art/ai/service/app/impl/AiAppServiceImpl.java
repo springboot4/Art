@@ -1,10 +1,10 @@
-package com.art.ai.service.impl;
+package com.art.ai.service.app.impl;
 
 import com.art.ai.core.convert.AiAppConvert;
 import com.art.ai.core.dto.AiAppDTO;
 import com.art.ai.core.dto.AiAppPageDTO;
 import com.art.ai.manager.AiAppManager;
-import com.art.ai.service.AiAppService;
+import com.art.ai.service.app.AiAppService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
