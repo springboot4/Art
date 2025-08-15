@@ -21,7 +21,7 @@ import com.art.system.api.user.dto.SystemUserPageDTO;
 import com.art.system.core.convert.UserConvert;
 import com.art.system.dao.dataobject.SystemUserDO;
 import com.art.system.dao.mysql.UserMapper;
-import com.art.system.dao.redis.user.UserRedisConstants;
+import com.art.system.api.user.redis.user.UserRedisConstants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;

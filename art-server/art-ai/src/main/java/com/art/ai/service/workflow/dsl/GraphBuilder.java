@@ -73,8 +73,7 @@ public class GraphBuilder {
 	private static void addNodeToGraph(StateGraph<NodeState> graph, WorkflowNode<?> node,
 			WorkFlowContext workFlowContext) throws GraphStateException {
 		try {
-			graph.addNode(node.getId(), node_async((state) -> Map.of("outputs", node.run(workFlowContext, state),
-					"nodeName", node.getLabel(), "next", "else")));
+			graph.addNode(node.getId(), node_async((state) -> node.run(workFlowContext, state)));
 		}
 		catch (GraphStateException e) {
 			throw new GraphStateException("添加节点失败: " + node.getId());

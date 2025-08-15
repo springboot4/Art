@@ -12,21 +12,28 @@
     <artifactId>art-ai</artifactId>
     <description>乌托邦</description>
 
-    <properties>
-        <langgraph4j.version>1.5.3</langgraph4j.version>
-    </properties>
-
     <dependencies>
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-script</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.bsc.langgraph4j</groupId>
             <artifactId>langgraph4j-core</artifactId>
-            <version>${langgraph4j.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.bsc.langgraph4j</groupId>
             <artifactId>langgraph4j-langchain4j</artifactId>
-            <version>${langgraph4j.version}</version>
         </dependency>
 
         <dependency>

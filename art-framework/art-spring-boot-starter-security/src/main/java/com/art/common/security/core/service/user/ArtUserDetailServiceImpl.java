@@ -22,10 +22,13 @@ import com.art.common.security.core.service.ArtUserDetailsService;
 import com.art.common.security.core.utils.SecurityUtil;
 import com.art.core.common.constant.SecurityConstants;
 import com.art.system.api.user.dto.SystemUserDTO;
+import com.art.system.api.user.redis.user.UserRedisConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,42 +48,63 @@ public class ArtUserDetailServiceImpl implements ArtUserDetailsService {
 
 	private final ArtUserManager artUserManager;
 
+	private final CacheManager cacheManager;
+
 	/**
 	 * 通过用户名从数据库中获取用户信息SystemUser和用户权限集合
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Cache cache = cacheManager.getCache(UserRedisConstants.USER_DETAILS);
+		if (Objects.nonNull(cache) && cache.get(username) != null) {
+			return (UserDetails) cache.get(username).get();
+		}
+
 		if (OAuth2ResourceOwnerSmsAuthenticationConverter.SMS.getValue().equals(SecurityUtil.getGrantType())) {
-			// 认证方式通过用户名 手机号 认证
-			return this.loadUserByMobile(username);
+			UserDetails userDetails = this.loadUserByMobile(username);
+			if (cache != null && userDetails != null) {
+				cache.put(username, userDetails);
+			}
+			return userDetails;
 		}
 		else {
-			// 认证方式通过用户名 username 认证
 			SystemUserDTO userDTO = artUserManager.findByName(username);
 			UserDetails userDetails = getUserDetails(userDTO);
+			if (cache != null && userDetails != null) {
+				cache.put(username, userDetails);
+			}
 			return userDetails;
 		}
 	}
 
 	@Override
 	public UserDetails loadUserByMobile(String mobile) {
-		return getUserDetails(artUserManager.findByMobile(mobile));
+		Cache cache = cacheManager.getCache(UserRedisConstants.USER_DETAILS);
+		if (Objects.nonNull(cache) && cache.get(mobile) != null) {
+			return (UserDetails) cache.get(mobile).get();
+		}
+
+		SystemUserDTO userDTO = artUserManager.findByMobile(mobile);
+		UserDetails userDetails = getUserDetails(userDTO);
+		if (cache != null && userDetails != null) {
+			cache.put(mobile, userDetails);
+		}
+
+		return userDetails;
 	}
 
 	private UserDetails getUserDetails(SystemUserDTO systemUser) {
-		if (Objects.nonNull(systemUser)) {
-			String permissions = artUserManager.findUserPermissions(systemUser.getUsername());
-
-			boolean notLocked = StringUtils.equals(SystemUserDTO.STATUS_VALID, systemUser.getStatus());
-
-			ArtAuthUser authUser = new ArtAuthUser(systemUser.getUsername(), systemUser.getPassword(), true, true, true,
-					notLocked, AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
-
-			BeanUtils.copyProperties(systemUser, authUser);
-			return authUser;
+		if (Objects.isNull(systemUser)) {
+			return null;
 		}
 
-		return null;
+		boolean notLocked = StringUtils.equals(SystemUserDTO.STATUS_VALID, systemUser.getStatus());
+
+		ArtAuthUser authUser = new ArtAuthUser(systemUser.getUsername(), systemUser.getPassword(), true, true, true,
+				notLocked, AuthorityUtils.commaSeparatedStringToAuthorityList(systemUser.getPerms()));
+
+		BeanUtils.copyProperties(systemUser, authUser);
+		return authUser;
 	}
 
 	/**

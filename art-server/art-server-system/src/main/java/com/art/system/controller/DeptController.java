@@ -18,7 +18,7 @@ package com.art.system.controller;
 
 import com.art.core.common.model.Result;
 import com.art.system.api.dept.dto.DeptDTO;
-import com.art.system.dao.redis.dept.DeptRedisKeyConstants;
+import com.art.system.api.user.redis.dept.DeptRedisKeyConstants;
 import com.art.system.service.DeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -16,7 +16,7 @@ public abstract class NodeConfig {
 	private int retryCount;
 
 	/**
-	 * 引用的参数(开始节点没有) todo fxz 节点新增引用参数配置
+	 * 引用的参数
 	 */
 	private List<NodeReferenceParameter> referenceParameters;
 

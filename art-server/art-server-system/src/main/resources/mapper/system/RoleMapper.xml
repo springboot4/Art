@@ -29,6 +29,7 @@
             r.data_scope_dept_ids,
             r.create_time,
             r.update_time,
+            JSON_ARRAYAGG( rm.MENU_ID ) AS menuIds,
             GROUP_CONCAT( rm.MENU_ID ) menuId
         FROM
             sys_role r

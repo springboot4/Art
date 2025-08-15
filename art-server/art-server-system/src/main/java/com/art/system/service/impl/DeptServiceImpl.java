@@ -24,7 +24,7 @@ import com.art.core.common.exception.ArtException;
 import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.core.bo.DeptBO;
 import com.art.system.core.convert.DeptConvert;
-import com.art.system.dao.redis.dept.DeptRedisKeyConstants;
+import com.art.system.api.user.redis.dept.DeptRedisKeyConstants;
 import com.art.system.manager.DeptManager;
 import com.art.system.service.DeptService;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;

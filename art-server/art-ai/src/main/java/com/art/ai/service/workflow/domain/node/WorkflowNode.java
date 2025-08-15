@@ -1,15 +1,19 @@
 package com.art.ai.service.workflow.domain.node;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.map.MapUtil;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
 import com.art.ai.service.workflow.variable.VariablePoolManager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author fxz
@@ -26,20 +30,37 @@ public class WorkflowNode<C extends NodeConfig> {
 
 	private NodeData<C> data;
 
-	public List<NodeOutputVariable> run(WorkFlowContext workFlowContext, NodeState nodeState) {
-		List<NodeOutputVariable> outputVariables = data.process(workFlowContext, nodeState);
-		if (CollectionUtil.isEmpty(outputVariables)) {
-			return new ArrayList<>();
+	public Map<String, Object> run(WorkFlowContext workFlowContext, NodeState nodeState) {
+		NodeProcessResult process = data.process(workFlowContext, nodeState);
+		List<NodeOutputVariable> outputVariables = process.getOutputVariables();
+
+		HashMap<String, Object> res = new HashMap<>();
+		res.put("outputs", CollectionUtil.isEmpty(outputVariables) ? new ArrayList<>() : outputVariables);
+
+		if (CollectionUtil.isNotEmpty(outputVariables)) {
+			outputVariables.forEach(variable -> {
+				VariablePoolManager.updateNodeOutputVariable(id, variable.getName(), variable.getValue(),
+						workFlowContext.getPool());
+			});
 		}
 
-		nodeState.setOutputs(outputVariables);
+		if (MapUtil.isNotEmpty(process.getGeneratorMap()) && process.getGeneratorMap().containsKey(id)) {
+			res.put("_fxz_streaming_messages_", process.getGeneratorMap().get(id));
+		}
 
-		outputVariables.forEach(variable -> {
-			VariablePoolManager.updateNodeOutputVariable(id, variable.getName(), variable.getValue(),
-					workFlowContext.getPool());
-		});
+		if (StringUtils.isNoneBlank(process.getNext())) {
+			res.put("next", process.getNext());
+		}
 
-		return outputVariables;
+		res.put("nodeName", label);
+
+		return res;
+	}
+
+	public interface NodeOutputConstants {
+
+		String OUTPUT = "output";
+
 	}
 
 }

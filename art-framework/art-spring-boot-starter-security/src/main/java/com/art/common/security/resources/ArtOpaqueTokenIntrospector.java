@@ -56,7 +56,6 @@ public class ArtOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 	 */
 	@Override
 	public OAuth2AuthenticatedPrincipal introspect(String token) {
-		// 根据token检索OAuth2Authorization
 		OAuth2Authorization authorization = oAuth2AuthorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 		if (Objects.isNull(authorization)) {
 			throw new InvalidBearerTokenException(token);
@@ -89,7 +88,6 @@ public class ArtOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 			log.error("资源服务器 introspect Token error {}", ex.getLocalizedMessage());
 		}
 
-		// 注入扩展属性,方便上下文获取客户端ID
 		ArtAuthUser user = (ArtAuthUser) userDetails;
 		Objects.requireNonNull(user)
 			.getAttributes()

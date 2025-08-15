@@ -18,9 +18,9 @@ package com.art.common.security.core.config;
 
 import com.art.common.security.core.service.user.ArtUserDetailServiceImpl;
 import com.art.common.security.core.service.user.ArtUserManager;
-import com.art.system.api.menu.MenuServiceApi;
 import com.art.system.api.user.UserServiceApi;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -33,13 +33,13 @@ public class ArtUserDetailServiceAutoConfigure {
 
 	@SuppressWarnings("all")
 	@Bean
-	public ArtUserManager artUserManager(UserServiceApi userService, MenuServiceApi menuService) {
-		return new ArtUserManager(userService, menuService);
+	public ArtUserManager artUserManager(UserServiceApi userService) {
+		return new ArtUserManager(userService);
 	}
 
 	@Bean
-	public ArtUserDetailServiceImpl artUserDetailService(ArtUserManager artUserManager) {
-		return new ArtUserDetailServiceImpl(artUserManager);
+	public ArtUserDetailServiceImpl artUserDetailService(ArtUserManager artUserManager, CacheManager cacheManager) {
+		return new ArtUserDetailServiceImpl(artUserManager, cacheManager);
 	}
 
 }

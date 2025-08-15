@@ -39,6 +39,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -48,6 +49,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.art.system.api.user.redis.user.UserRedisConstants.USER_DETAILS;
 
 /**
  * @author fxz
@@ -71,11 +74,6 @@ public class UserServiceImpl implements UserService {
 	private final UserManager userManager;
 
 	private final PasswordEncoder passwordEncoder;
-
-	@Override
-	public IPage<SystemUserDTO> pageUser(SystemUserPageDTO userPageDTO) {
-		return userManager.pageUser(userPageDTO);
-	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -124,6 +122,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@CacheEvict(cacheNames = USER_DETAILS, key = "#user.username")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUserInfo(SystemUserDTO user) {
@@ -135,6 +134,10 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(null);
 		}
 
+		if (StringUtils.isBlank(user.getUsername())) {
+			SystemUserDO userDO = userManager.getUserById(user.getUserId());
+			user.setUsername(userDO.getUsername());
+		}
 		userManager.updateUserById(user);
 	}
 
@@ -149,20 +152,82 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * 根据用户id获取用户信息
-	 */
-	@Override
-	public SystemUserDTO getUserById(Long id) {
-		return UserConvert.INSTANCE.convert(userManager.getUserById(id));
-	}
-
-	/**
 	 * 通过用户名查找用户信息
 	 */
 	@DataPermission(enable = false)
 	@Override
 	public SystemUserDTO findByName(String username) {
-		return UserConvert.INSTANCE.convert(userManager.getUserByName(username));
+		SystemUserDTO userDTO = UserConvert.INSTANCE.convert(userManager.getUserByName(username));
+
+		// 查询用户角色信息
+		List<UserRoleDO> userRoleDOList = userRoleManager.getUserRoleByUserId(userDTO.getUserId());
+		if (CollectionUtils.isEmpty(userRoleDOList)) {
+			return userDTO;
+		}
+
+		// 查询角色菜单信息
+		List<Long> roleIds = userRoleDOList.stream().map(UserRoleDO::getRoleId).collect(Collectors.toList());
+		List<RoleMenuDO> roleMenuDOList = roleMenuManager.getRoleMenuByRoleIds(roleIds);
+		if (CollectionUtils.isEmpty(roleMenuDOList)) {
+			return userDTO;
+		}
+
+		// 查询菜单信息
+		List<Long> menuIds = roleMenuDOList.stream().map(RoleMenuDO::getMenuId).collect(Collectors.toList());
+		List<MenuDO> menuDOList = menuManager.getMenuByIds(menuIds);
+		if (CollectionUtils.isEmpty(menuDOList)) {
+			return userDTO;
+		}
+
+		// 设置用户权限标识
+		String permissions = menuDOList.stream().map(MenuDO::getPerms).distinct().collect(Collectors.joining(","));
+		userDTO.setPerms(permissions);
+
+		return userDTO;
+	}
+
+	/**
+	 * 通过手机号查找用户信息
+	 * @param mobile 手机号
+	 * @return 用户信息
+	 */
+	@Override
+	public SystemUserDTO findByMobile(String mobile) {
+		SystemUserDTO userDTO = UserConvert.INSTANCE.convert(userManager.getUserByMobile(mobile));
+
+		// 查询用户角色信息
+		List<UserRoleDO> userRoleDOList = userRoleManager.getUserRoleByUserId(userDTO.getUserId());
+		if (CollectionUtils.isEmpty(userRoleDOList)) {
+			return userDTO;
+		}
+
+		// 查询角色菜单信息
+		List<Long> roleIds = userRoleDOList.stream().map(UserRoleDO::getRoleId).collect(Collectors.toList());
+		List<RoleMenuDO> roleMenuDOList = roleMenuManager.getRoleMenuByRoleIds(roleIds);
+		if (CollectionUtils.isEmpty(roleMenuDOList)) {
+			return userDTO;
+		}
+
+		// 查询菜单信息
+		List<Long> menuIds = roleMenuDOList.stream().map(RoleMenuDO::getMenuId).collect(Collectors.toList());
+		List<MenuDO> menuDOList = menuManager.getMenuByIds(menuIds);
+		if (CollectionUtils.isEmpty(menuDOList)) {
+			return userDTO;
+		}
+
+		// 设置用户权限标识
+		String permissions = menuDOList.stream().map(MenuDO::getPerms).distinct().collect(Collectors.joining(","));
+		userDTO.setPerms(permissions);
+
+		return userDTO;
+	}
+
+	/**
+	 * 根据用户id获取用户信息
+	 */
+	@Override
+	public SystemUserDTO getUserById(Long id) {
+		return UserConvert.INSTANCE.convert(userManager.getUserById(id));
 	}
 
 	/**
@@ -200,16 +265,6 @@ public class UserServiceImpl implements UserService {
 		userInfo.setPermissions(permissions);
 
 		return userInfo;
-	}
-
-	/**
-	 * 通过手机号查找用户信息
-	 * @param mobile 手机号
-	 * @return 用户信息
-	 */
-	@Override
-	public SystemUserDTO findByMobile(String mobile) {
-		return UserConvert.INSTANCE.convert(userManager.getUserByMobile(mobile));
 	}
 
 	/**
@@ -257,6 +312,11 @@ public class UserServiceImpl implements UserService {
 		}).collect(Collectors.toList());
 
 		userRoleManager.addUserRoles(list);
+	}
+
+	@Override
+	public IPage<SystemUserDTO> pageUser(SystemUserPageDTO userPageDTO) {
+		return userManager.pageUser(userPageDTO);
 	}
 
 }

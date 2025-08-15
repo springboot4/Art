@@ -48,7 +48,7 @@ public abstract class NodeData<C extends NodeConfig> {
 	/**
 	 * 执行节点逻辑
 	 */
-	public abstract List<NodeOutputVariable> process(WorkFlowContext workFlowContext, NodeState nodeState);
+	public abstract NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState);
 
 	// todo fxz 节点内变量定义只有变量名 没有nodeId
 	public Map<String, Object> initNodeInputsByReference(VariablePool variablePool, C nodeConfig) {
@@ -56,9 +56,11 @@ public abstract class NodeData<C extends NodeConfig> {
 		Map<String, Object> inputs = new HashMap<>();
 		referenceParameters.forEach(r -> {
 			String parameterName = r.parameterName();
+
 			VariableSelector variableSelector = VariableSelector.of(r.variableType(), r.nodeId(), parameterName);
 			VariableValue<?> variableValue = variablePool.get(variableSelector).orElseThrow(RuntimeException::new);
-			inputs.put(parameterName, variableValue.getValue());
+
+			inputs.put(r.formatVariableName(), variableValue.getValue());
 		});
 
 		return inputs;

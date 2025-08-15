@@ -19,14 +19,10 @@ package com.art.common.security.core.service.user;
 import com.art.core.common.constant.SecurityConstants;
 import com.art.core.common.exception.ArtException;
 import com.art.core.common.model.ResultOpt;
-import com.art.system.api.menu.MenuServiceApi;
 import com.art.system.api.user.UserServiceApi;
 import com.art.system.api.user.dto.SystemUserDTO;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 /**
  * @author Fxz
@@ -38,8 +34,6 @@ import java.util.Set;
 public class ArtUserManager {
 
 	private final UserServiceApi userService;
-
-	private final MenuServiceApi menuService;
 
 	public SystemUserDTO findByName(String username) {
 		// @formatter:off
@@ -55,16 +49,6 @@ public class ArtUserManager {
 				.assertSuccess(r -> new ArtException(String.format("根据手机号查询用户失败:%s,%s", mobile, r.getMsg())))
 				.peek().getData();
 		// @formatter:on
-	}
-
-	public String findUserPermissions(String username) {
-		// @formatter:off
-		Set<String> permissions = ResultOpt.ofNullable(menuService.findUserPermissions(username, SecurityConstants.FROM_IN))
-				.assertSuccess(r -> new ArtException(String.format("查询用户权限失败:%s,%s", username, r.getMsg())))
-				.peek().getData();
-		// @formatter:on
-
-		return String.join(StringPool.COMMA, permissions);
 	}
 
 }

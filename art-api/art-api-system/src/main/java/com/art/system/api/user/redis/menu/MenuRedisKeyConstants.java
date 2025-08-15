@@ -14,21 +14,21 @@
  *   limitations under the License.
  */
 
-package com.art.system.dao.redis.dept;
+package com.art.system.api.user.redis.menu;
 
 import com.art.core.common.constant.CacheConstants;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2022/11/23 10:49
+ * @date 2022/11/23 20:12
  */
-public interface DeptRedisKeyConstants {
+public interface MenuRedisKeyConstants {
 
-	String PREFIX = "dept:";
+	String PREFIX = "menu:";
 
 	String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
 
-	String DEPT_TREE_KEY = "'deptTree:'";
+	String USER = CACHE_NAMES + "user:";
 
 }

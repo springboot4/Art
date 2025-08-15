@@ -14,7 +14,7 @@
  *   limitations under the License.
  */
 
-package com.art.system.dao.redis.user;
+package com.art.system.api.user.redis.user;
 
 import com.art.core.common.constant.CacheConstants;
 
@@ -30,5 +30,7 @@ public interface UserRedisConstants {
 	String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
 
 	String USER_INFO = CACHE_NAMES + "info:";
+
+	String USER_DETAILS = CACHE_NAMES + "user_details:";
 
 }

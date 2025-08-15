@@ -23,7 +23,7 @@ public class SSEEmitterHelper {
 	public void startSse(SseEmitter sseEmitter, String data) {
 	}
 
-	public void sendComplete(SseEmitter sseEmitter, String msg) {
+	public static void sendComplete(SseEmitter sseEmitter, String msg) {
 		try {
 			sseEmitter.send(SseEmitter.event().name(SSEEventNameConstants.DONE).data(msg));
 		}
@@ -33,7 +33,7 @@ public class SSEEmitterHelper {
 		sseEmitter.complete();
 	}
 
-	public void sendComplete(SseEmitter sseEmitter) {
+	public static void sendComplete(SseEmitter sseEmitter) {
 		try {
 			sseEmitter.send(SseEmitter.event().name(SSEEventNameConstants.DONE));
 			sseEmitter.complete();
@@ -43,7 +43,16 @@ public class SSEEmitterHelper {
 		}
 	}
 
-	public void sendStartAndComplete(SseEmitter sseEmitter, String msg) {
+	public static void sendStart(SseEmitter sseEmitter) {
+		try {
+			sseEmitter.send(SseEmitter.event().name(SSEEventNameConstants.START));
+		}
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static void sendStartAndComplete(SseEmitter sseEmitter, String msg) {
 		try {
 			sseEmitter.send(SseEmitter.event().name(SSEEventNameConstants.START));
 			sseEmitter.send(SseEmitter.event().name(SSEEventNameConstants.DONE).data(msg));
@@ -54,7 +63,7 @@ public class SSEEmitterHelper {
 		sseEmitter.complete();
 	}
 
-	public void sendErrorAndComplete(SseEmitter sseEmitter, String errorMsg) {
+	public static void sendErrorAndComplete(SseEmitter sseEmitter, String errorMsg) {
 		try {
 			sseEmitter.send(SseEmitter.event().name(SSEEventNameConstants.ERROR).data(Objects.toString(errorMsg, "")));
 		}

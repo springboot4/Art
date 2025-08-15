@@ -32,7 +32,7 @@ import com.art.system.core.bo.RoleBO;
 import com.art.system.core.convert.RoleConvert;
 import com.art.system.dao.dataobject.RoleDO;
 import com.art.system.dao.dataobject.RoleMenuDO;
-import com.art.system.dao.redis.role.RoleRedisConstants;
+import com.art.system.api.user.redis.role.RoleRedisConstants;
 import com.art.system.manager.RoleManager;
 import com.art.system.manager.RoleMenuManager;
 import com.art.system.manager.UserRoleManager;
@@ -55,6 +55,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.art.system.api.user.redis.user.UserRedisConstants.USER_DETAILS;
 
 /**
  * @author Fxz
@@ -109,7 +111,6 @@ public class RoleServiceImpl implements RoleService {
 	/**
 	 * 根据id获取角色信息
 	 */
-	@Cacheable(value = RoleRedisConstants.CACHE_NAMES, key = "#id", unless = "#result==null")
 	@Override
 	public RoleDTO getRoleById(Long id) {
 		return RoleConvert.INSTANCE.convert(roleManager.getRoleById(id));
@@ -118,7 +119,7 @@ public class RoleServiceImpl implements RoleService {
 	/**
 	 * 修改角色信息
 	 */
-	@CacheEvict(value = RoleRedisConstants.CACHE_NAMES, allEntries = true)
+	@CacheEvict(value = { RoleRedisConstants.CACHE_NAMES, USER_DETAILS }, allEntries = true)
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Boolean editRole(RoleDTO roleDTO) {

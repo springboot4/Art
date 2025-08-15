@@ -1,13 +1,21 @@
 package com.art.ai.service.workflow.domain.node.code;
 
+import cn.hutool.script.JavaScriptEngine;
+import cn.hutool.script.ScriptUtil;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
 import com.art.ai.service.workflow.domain.node.NodeData;
 import com.art.ai.service.workflow.domain.node.NodeOutputVariable;
+import com.art.ai.service.workflow.domain.node.NodeProcessResult;
+import com.art.ai.service.workflow.domain.node.WorkflowNode;
+import com.art.ai.service.workflow.variable.VariableDataType;
+import com.art.ai.service.workflow.variable.VariableRenderUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.script.SimpleBindings;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author fxz
@@ -17,11 +25,27 @@ import java.util.List;
 @Data
 public class CodeNodeData extends NodeData<CodeNodeConfig> {
 
+	public static final JavaScriptEngine JAVA_SCRIPT_ENGINE = ScriptUtil.getJavaScriptEngine();
+
 	@Override
-	public List<NodeOutputVariable> process(WorkFlowContext workFlowContext, NodeState nodeState) {
-		log.info("code node process, config: {}, workFLowContext:{}, nodeState:{}", getConfig(), workFlowContext,
-				nodeState);
-		return List.of(new NodeOutputVariable("code", "string", "code"));
+	public NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState) {
+		Map<String, Object> inputs = initNodeInputsByReference(workFlowContext.getPool(), getConfig());
+		try {
+			SimpleBindings bindings = new SimpleBindings();
+			bindings.putAll(inputs);
+
+			String code = VariableRenderUtils.render(getConfig().getCode());
+			String result = String.valueOf(ScriptUtil.eval(code, bindings));
+			log.info("code node execute success, result: {}", result);
+
+			return NodeProcessResult.builder()
+				.outputVariables(List.of(new NodeOutputVariable(WorkflowNode.NodeOutputConstants.OUTPUT,
+						VariableDataType.STRING, result)))
+				.build();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

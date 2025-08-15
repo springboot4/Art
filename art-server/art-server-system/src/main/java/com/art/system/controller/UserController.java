@@ -71,7 +71,6 @@ public class UserController {
 	@GetMapping("/findByMobile/{mobile}")
 	public Result<SystemUserDTO> findByMobile(@PathVariable("mobile") String mobile) {
 		return Result.success(this.userService.findByMobile(mobile));
-
 	}
 
 	@Operation(summary = "获取当前用户全部信息")

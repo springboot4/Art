@@ -17,7 +17,9 @@
 package com.art.system.core.bo;
 
 import com.art.core.common.constant.RoleEnum;
+import com.art.json.sdk.util.JacksonUtil;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -72,6 +74,8 @@ public class RoleBO implements Serializable {
 	 */
 	private String menuId;
 
+	private String menuIds;
+
 	/**
 	 * 创建者
 	 */
@@ -91,5 +95,12 @@ public class RoleBO implements Serializable {
 	 * 更新时间
 	 */
 	private LocalDateTime updateTime;
+
+	public String getMenuId() {
+		if (StringUtils.isNoneBlank(menuIds)) {
+			return String.join(",", JacksonUtil.parseArray(menuIds, String.class));
+		}
+		return menuId;
+	}
 
 }

@@ -14,23 +14,21 @@
  *   limitations under the License.
  */
 
-package com.art.system.dao.redis.role;
+package com.art.system.api.user.redis.dept;
 
 import com.art.core.common.constant.CacheConstants;
 
 /**
  * @author Fxz
  * @version 0.0.1
- * @date 2022/11/26 12:00
+ * @date 2022/11/23 10:49
  */
-public interface RoleRedisConstants {
+public interface DeptRedisKeyConstants {
 
-	String PREFIX = "role:";
+	String PREFIX = "dept:";
 
 	String CACHE_NAMES = CacheConstants.GLOBALLY + PREFIX;
 
-	String IS_SUPER_ADMIN = CACHE_NAMES + "isSuperAdmin:";
-
-	String DATA_SCOPE = CACHE_NAMES + "dataScope:";
+	String DEPT_TREE_KEY = "'deptTree:'";
 
 }

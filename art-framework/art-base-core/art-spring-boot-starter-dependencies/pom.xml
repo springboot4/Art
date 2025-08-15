@@ -37,6 +37,8 @@
         <dynamic-ds.version>3.6.1</dynamic-ds.version>
         <aws.version>1.12.381</aws.version>
         <doc.version>2.0.0</doc.version>
+        <langgraph4j.version>1.5.3</langgraph4j.version>
+        <nashorn.engine.version>15.4</nashorn.engine.version>
         <swagger.version>2.2.2</swagger.version>
         <knife4j.version>3.0.3</knife4j.version>
         <captcha.version>1.3.0</captcha.version>
@@ -226,6 +228,23 @@
                 <groupId>com.aliyun</groupId>
                 <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
                 <version>${aliyun.java.sdk.dysmsapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bsc.langgraph4j</groupId>
+                <artifactId>langgraph4j-core</artifactId>
+                <version>${langgraph4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bsc.langgraph4j</groupId>
+                <artifactId>langgraph4j-langchain4j</artifactId>
+                <version>${langgraph4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjdk.nashorn</groupId>
+                <artifactId>nashorn-core</artifactId>
+                <version>${nashorn.engine.version}</version>
+                <scope>compile</scope>
             </dependency>
 
             <!--art框架自身依赖 -->

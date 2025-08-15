@@ -16,4 +16,19 @@ public record NodeReferenceParameter(String nodeId, String parameterName, Variab
 			throw new IllegalArgumentException("Parameter name cannot be null or blank");
 		}
 	}
+
+	/**
+	 * 格式化变量名
+	 */
+	public String formatVariableName() {
+		String type = variableType.getType();
+		String paramName = parameterName;
+		if (variableType == VariableType.NODE_OUTPUT) {
+			return String.format("%s_%s_%s", type, nodeId, paramName);
+		}
+		else {
+			return String.format("%s_%s_%s", type, type, paramName);
+		}
+	}
+
 }
