@@ -1,7 +1,10 @@
 package com.art.ai.service.workflow.domain.node.output;
 
 import com.art.ai.service.workflow.domain.node.NodeConfig;
+import com.art.ai.service.workflow.domain.node.NodeOutputVariable;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author fxz
@@ -9,5 +12,7 @@ import lombok.Data;
  */
 @Data
 public class OutputNodeConfig extends NodeConfig {
+
+	private List<NodeOutputVariable> outputVariables;
 
 }

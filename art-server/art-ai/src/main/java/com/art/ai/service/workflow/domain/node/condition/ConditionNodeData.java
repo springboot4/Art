@@ -4,7 +4,9 @@ import cn.hutool.script.ScriptUtil;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
 import com.art.ai.service.workflow.domain.node.NodeData;
+import com.art.ai.service.workflow.domain.node.NodeOutputVariable;
 import com.art.ai.service.workflow.domain.node.NodeProcessResult;
+import com.art.ai.service.workflow.variable.VariableDataType;
 import com.art.ai.service.workflow.variable.VariableRenderUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -43,14 +45,19 @@ public class ConditionNodeData extends NodeData<ConditionNodeConfig> {
 				log.info("condition node execute success, condition id: {}, result: {}", id, result);
 				return result;
 			}).findFirst();
+
+			String id = "else";
 			if (configOptional.isPresent()) {
-				return NodeProcessResult.builder().next(configOptional.get().getId()).build();
+				id = configOptional.get().getId();
 			}
+			return NodeProcessResult.builder()
+				.next(id)
+				.outputVariables(List.of(new NodeOutputVariable("分支", VariableDataType.STRING, id)))
+				.build();
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return NodeProcessResult.builder().next("else").build();
 	}
 
 }

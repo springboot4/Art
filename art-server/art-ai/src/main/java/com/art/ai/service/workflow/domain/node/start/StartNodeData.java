@@ -3,7 +3,6 @@ package com.art.ai.service.workflow.domain.node.start;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
 import com.art.ai.service.workflow.domain.node.NodeData;
-import com.art.ai.service.workflow.domain.node.NodeOutputVariable;
 import com.art.ai.service.workflow.domain.node.NodeProcessResult;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +19,7 @@ public class StartNodeData extends NodeData<StartNodeConfig> {
 
 	@Override
 	public NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState) {
-		log.info("start node process, config: {}, workFLowContext:{}, nodeState:{}", getConfig(), workFlowContext,
-				nodeState);
-		List<NodeOutputVariable> nodeOutputVariables = List.of(new NodeOutputVariable("s1", "string", "s1"));
-		return NodeProcessResult.builder().outputVariables(nodeOutputVariables).build();
+		return NodeProcessResult.builder().outputVariables(List.of()).build();
 	}
 
 }

@@ -19,3 +19,8 @@ spring:
       max-request-size: 100MB # 总文件上传大小
   main:
     allow-circular-references: true
+
+tmp:
+  open-ai:
+    base-url: ${OPEN_AI_BASE_URL:123456}
+    api-key: ${OPEN_AI_API_KEY:123456}

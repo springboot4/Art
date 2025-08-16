@@ -1,7 +1,13 @@
 package com.art.ai.service.workflow.variable;
 
+import cn.hutool.extra.template.Template;
+import cn.hutool.extra.template.TemplateConfig;
+import cn.hutool.extra.template.TemplateEngine;
+import cn.hutool.extra.template.TemplateUtil;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Map;
 
 /**
  * @author fxz
@@ -9,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
  */
 @UtilityClass
 public class VariableRenderUtils {
+
+	public static final TemplateEngine ENGINE = TemplateUtil.createEngine(new TemplateConfig());
 
 	/**
 	 * 渲染变量
@@ -18,6 +26,21 @@ public class VariableRenderUtils {
 			return "";
 		}
 		return text.replaceAll("\\$\\{(.+?)}", "$1").replace(".", "_");
+	}
+
+	/**
+	 * 格式化
+	 */
+	public String format(String text, Map<String, Object> args) {
+		if (StringUtils.isBlank(text)) {
+			return "";
+		}
+
+		text = text.replace(".", "_");
+
+		Template template = ENGINE.getTemplate(text);
+
+		return template.render(args);
 	}
 
 }

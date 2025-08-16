@@ -61,6 +61,10 @@ public class WorkflowNode<C extends NodeConfig> {
 
 		String OUTPUT = "output";
 
+		String HTTP_RESPONSE_STATUS = "status";
+
+		String HTTP_RESPONSE_BODY = "body";
+
 	}
 
 }

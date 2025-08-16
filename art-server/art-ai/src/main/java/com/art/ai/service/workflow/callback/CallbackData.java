@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
  * @author fxz
  */
@@ -20,48 +18,23 @@ public class CallbackData {
 	private String nodeStatus;
 
 	/**
-	 * 失败原因
-	 */
-	private String reason;
-
-	/**
-	 * 节点类型
-	 */
-	private String nodeType;
-
-	/**
 	 * 节点ID
 	 */
 	private String nodeId;
 
 	/**
-	 * 执行耗时 节点执行的时间（毫秒）
+	 * 节点名称
 	 */
-	private Long nodeDuration;
+	private String nodeName;
 
 	/**
-	 * 下一个节点ID
+	 * 节点输出
 	 */
-	private List<String> nextNodeIds;
+	private String outputs;
 
 	/**
-	 * Token使用情况
+	 * 分块内容
 	 */
-	private Object tokens;
-
-	/**
-	 * 是否结束
-	 */
-	private boolean flowEnd;
-
-	/**
-	 * 输出内容
-	 */
-	private String content;
-
-	/**
-	 * 是否思考中
-	 */
-	private Boolean isThinking;
+	private String chunk;
 
 }

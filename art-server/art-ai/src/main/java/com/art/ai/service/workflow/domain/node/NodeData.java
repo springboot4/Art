@@ -9,8 +9,6 @@ import com.art.ai.service.workflow.domain.node.knowledge.KnowledgeNodeData;
 import com.art.ai.service.workflow.domain.node.llm.LlmNodeData;
 import com.art.ai.service.workflow.domain.node.output.OutputNodeData;
 import com.art.ai.service.workflow.domain.node.start.StartNodeData;
-import com.art.ai.service.workflow.domain.node.template.TemplateRenderNodeData;
-import com.art.ai.service.workflow.domain.node.variable.VariableNodeData;
 import com.art.ai.service.workflow.variable.VariablePool;
 import com.art.ai.service.workflow.variable.VariableSelector;
 import com.art.ai.service.workflow.variable.VariableValue;
@@ -31,14 +29,12 @@ import java.util.Map;
 @FieldNameConstants
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = NodeData.Fields.nodeType)
 @JsonSubTypes({ @JsonSubTypes.Type(value = StartNodeData.class, name = NodeConstants.START_NODE),
-		@JsonSubTypes.Type(value = TemplateRenderNodeData.class, name = NodeConstants.TEMPLATE_RENDER_NODE),
 		@JsonSubTypes.Type(value = LlmNodeData.class, name = NodeConstants.LLM_NODE),
 		@JsonSubTypes.Type(value = CodeNodeData.class, name = NodeConstants.CODE_NODE),
 		@JsonSubTypes.Type(value = ConditionNodeData.class, name = NodeConstants.CONDITION_NODE),
 		@JsonSubTypes.Type(value = HttpNodeData.class, name = NodeConstants.HTTP_NODE),
 		@JsonSubTypes.Type(value = OutputNodeData.class, name = NodeConstants.OUTPUT_NODE),
-		@JsonSubTypes.Type(value = KnowledgeNodeData.class, name = NodeConstants.KNOWLEDGE_RETRIEVAL_NODE),
-		@JsonSubTypes.Type(value = VariableNodeData.class, name = NodeConstants.VARIABLE_REPLACE_NODE) })
+		@JsonSubTypes.Type(value = KnowledgeNodeData.class, name = NodeConstants.KNOWLEDGE_RETRIEVAL_NODE) })
 public abstract class NodeData<C extends NodeConfig> {
 
 	private String nodeType;
@@ -50,7 +46,6 @@ public abstract class NodeData<C extends NodeConfig> {
 	 */
 	public abstract NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState);
 
-	// todo fxz 节点内变量定义只有变量名 没有nodeId
 	public Map<String, Object> initNodeInputsByReference(VariablePool variablePool, C nodeConfig) {
 		List<NodeReferenceParameter> referenceParameters = nodeConfig.getReferenceParameters();
 		Map<String, Object> inputs = new HashMap<>();

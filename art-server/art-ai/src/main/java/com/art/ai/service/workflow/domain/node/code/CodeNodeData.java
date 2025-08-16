@@ -1,6 +1,5 @@
 package com.art.ai.service.workflow.domain.node.code;
 
-import cn.hutool.script.JavaScriptEngine;
 import cn.hutool.script.ScriptUtil;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
@@ -24,8 +23,6 @@ import java.util.Map;
 @Slf4j
 @Data
 public class CodeNodeData extends NodeData<CodeNodeConfig> {
-
-	public static final JavaScriptEngine JAVA_SCRIPT_ENGINE = ScriptUtil.getJavaScriptEngine();
 
 	@Override
 	public NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState) {
