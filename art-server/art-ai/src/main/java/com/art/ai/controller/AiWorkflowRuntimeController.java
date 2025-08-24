@@ -11,7 +11,6 @@ import com.art.core.common.model.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.bsc.langgraph4j.GraphStateException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,10 +45,9 @@ public class AiWorkflowRuntimeController {
 	/**
 	 * 运行工作流
 	 */
-	@Ojbk
 	@Operation(summary = "运行工作流")
 	@PostMapping(value = "/run")
-	public SseEmitter run(@RequestBody WorkflowRunDTO workflowRunDTO) throws GraphStateException, InterruptedException {
+	public SseEmitter run(@RequestBody WorkflowRunDTO workflowRunDTO) {
 		return workflowStarter.streaming(workflowRunDTO.getWorkflowId(), workflowRunDTO.getInputs(),
 				workflowRunDTO.getConversationId());
 

@@ -1,6 +1,5 @@
 package com.art.ai.service.workflow.variable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,10 +22,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 @Getter
 public class VariablePool implements Serializable {
 
-	@JsonIgnore
-	private final ReadWriteLock lock = new ReentrantReadWriteLock();
+	private transient final ReadWriteLock lock = new ReentrantReadWriteLock();
 
-	private final Map<String, Map<Integer, VariableValue<?>>> variableStorage = new ConcurrentHashMap<>();
+	private final Map<String, Map<String, VariableValue<?>>> variableStorage = new ConcurrentHashMap<>();
 
 	private final Map<SystemVariableKey, Object> systemVariables = new ConcurrentHashMap<>();
 
@@ -92,7 +90,7 @@ public class VariablePool implements Serializable {
 			if (nodeStorage == null) {
 				return Optional.empty();
 			}
-			return Optional.ofNullable(nodeStorage.get(selector.getHashKey()));
+			return Optional.ofNullable(nodeStorage.get(selector.getKey()));
 		}
 		finally {
 			lock.readLock().unlock();
@@ -131,7 +129,7 @@ public class VariablePool implements Serializable {
 		try {
 			var nodeStorage = variableStorage.computeIfAbsent(selector.nodeId(), k -> new ConcurrentHashMap<>());
 			var variableValue = createVariableValue(value, readOnly);
-			nodeStorage.put(selector.getHashKey(), variableValue);
+			nodeStorage.put(selector.getKey(), variableValue);
 		}
 		finally {
 			lock.writeLock().unlock();

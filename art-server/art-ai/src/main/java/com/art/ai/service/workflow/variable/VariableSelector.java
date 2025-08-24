@@ -1,5 +1,7 @@
 package com.art.ai.service.workflow.variable;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
 /**
@@ -7,7 +9,7 @@ import java.util.Objects;
  * @param nodeId
  * @param key
  */
-public record VariableSelector(String nodeId, String key) {
+public record VariableSelector(@Getter String nodeId, @Getter String key) {
 
 	public VariableSelector {
 		Objects.requireNonNull(nodeId, "nodeId不能为空");
@@ -57,10 +59,6 @@ public record VariableSelector(String nodeId, String key) {
 
 	public String getVariableName() {
 		return String.join(".", key);
-	}
-
-	public int getHashKey() {
-		return Objects.hash(key);
 	}
 
 }
