@@ -45,10 +45,6 @@ public class WorkflowEngine {
 
 	private final Workflow workflow;
 
-	private AiWorkflowRuntimeDTO runtime;
-
-	private AiWorkflowsDTO workflowsDefinition;
-
 	/**
 	 * 运行工作流
 	 * @param userInputs 用户输入数据
@@ -56,8 +52,8 @@ public class WorkflowEngine {
 	 */
 	public void run(Map<String, Object> userInputs, String conversationId) throws GraphStateException {
 		// 查询流程定义信息
-		this.workflowsDefinition = workflowsService.findById(Long.valueOf(workflow.workflowId()));
-		if (Objects.isNull(this.workflowsDefinition)) {
+		AiWorkflowsDTO workflowsDefinition = workflowsService.findById(Long.valueOf(workflow.workflowId()));
+		if (Objects.isNull(workflowsDefinition)) {
 			throw new IllegalArgumentException("工作流定义不存在");
 		}
 
@@ -66,7 +62,7 @@ public class WorkflowEngine {
 		runtimeCreateDTO.setWorkflowId(workflowsDefinition.getId());
 		runtimeCreateDTO.setAppId(workflowsDefinition.getAppId());
 		runtimeCreateDTO.setInput(JSONUtil.toJsonStr(userInputs));
-		this.runtime = workflowRuntimeService.addAiWorkflowRuntime(runtimeCreateDTO);
+		AiWorkflowRuntimeDTO runtime = workflowRuntimeService.addAiWorkflowRuntime(runtimeCreateDTO);
 
 		Map<SystemVariableKey, Object> systemVariables = new HashMap<>();
 		if (StringUtils.isNoneBlank(conversationId)) {
@@ -110,7 +106,7 @@ public class WorkflowEngine {
 		}
 
 		// 更新运行时变量
-		workflowRuntimeService.updateAiWorkflowRuntime(new AiWorkflowRuntimeDTO().setId(this.runtime.getId())
+		workflowRuntimeService.updateAiWorkflowRuntime(new AiWorkflowRuntimeDTO().setId(runtime.getId())
 			.setStatus(WORKFLOW_PROCESS_STATUS_SUCCESS)
 			.setOutput(JSONUtil.toJsonStr(variablePool)));
 	}

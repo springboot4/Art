@@ -1,13 +1,16 @@
 package com.art.ai.service.workflow;
 
-import cn.hutool.core.thread.ThreadUtil;
 import com.art.ai.core.sse.SSEEmitterHelper;
 import com.art.ai.service.workflow.callback.Callback;
 import com.art.ai.service.workflow.callback.CallbackData;
 import com.art.ai.service.workflow.definition.WorkflowsService;
 import com.art.ai.service.workflow.runtime.WorkflowRuntimeService;
+import com.art.common.security.core.utils.SecurityUtil;
+import com.art.common.tenant.context.TenantContextHolder;
+import com.art.core.common.util.AsyncUtil;
 import com.art.json.sdk.util.JacksonUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -62,12 +65,22 @@ public class WorkflowStarter {
 
 		WorkflowEngine workflowEngine = new WorkflowEngine(workflowRuntimeService, workflowsService, List.of(callback),
 				new Workflow(workflowId));
-		ThreadUtil.execAsync(() -> {
+
+		Long tenantId = TenantContextHolder.getTenantId();
+		Authentication authentication = SecurityUtil.getAuthentication();
+		AsyncUtil.run(() -> {
 			try {
+				TenantContextHolder.setTenantId(tenantId);
+				SecurityUtil.setAuthentication(authentication);
+
 				workflowEngine.run(userInputs, conversationId);
 			}
 			catch (Exception e) {
 				SSEEmitterHelper.sendComplete(sseEmitter);
+			}
+			finally {
+				TenantContextHolder.clear();
+				SecurityUtil.setAuthentication(null);
 			}
 		});
 

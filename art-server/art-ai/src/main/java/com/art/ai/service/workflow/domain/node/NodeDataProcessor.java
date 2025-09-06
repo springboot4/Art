@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
  * @author fxz
  * @since 2025/8/24 17:18
  */
-public interface NodeDataProcessor<C extends NodeConfig> {
+public abstract class NodeDataProcessor<C extends NodeConfig> extends NodeData<C> {
 
-	NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState);
+	public abstract NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState);
 
-	default Map<String, Object> initNodeInputsByReference(VariablePool variablePool, C nodeConfig) {
+	protected Map<String, Object> initNodeInputsByReference(VariablePool variablePool, C nodeConfig) {
 		List<NodeReferenceParameter> referenceParameters = nodeConfig.getReferenceParameters();
 		if (referenceParameters == null || referenceParameters.isEmpty()) {
 			return Map.of();

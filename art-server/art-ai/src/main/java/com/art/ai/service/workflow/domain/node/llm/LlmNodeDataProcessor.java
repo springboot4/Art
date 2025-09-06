@@ -3,7 +3,7 @@ package com.art.ai.service.workflow.domain.node.llm;
 import cn.hutool.core.collection.CollectionUtil;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
-import com.art.ai.service.workflow.domain.node.NodeData;
+import com.art.ai.service.workflow.domain.node.NodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.NodeOutputVariable;
 import com.art.ai.service.workflow.domain.node.NodeProcessResult;
 import com.art.ai.service.workflow.domain.node.WorkflowNode;
@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Slf4j
 @Data
-public class LlmNodeData extends NodeData<LlmNodeConfig> {
+public class LlmNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig> {
 
 	@Override
 	public NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState) {

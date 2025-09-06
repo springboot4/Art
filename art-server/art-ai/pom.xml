@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>art-ai</artifactId>
-    <description>乌托邦</description>
+    <description>ai开发平台</description>
 
     <dependencies>
 

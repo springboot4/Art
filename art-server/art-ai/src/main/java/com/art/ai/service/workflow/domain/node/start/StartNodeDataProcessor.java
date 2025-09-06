@@ -2,7 +2,7 @@ package com.art.ai.service.workflow.domain.node.start;
 
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
-import com.art.ai.service.workflow.domain.node.NodeData;
+import com.art.ai.service.workflow.domain.node.NodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.NodeProcessResult;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Slf4j
 @Data
-public class StartNodeData extends NodeData<StartNodeConfig> {
+public class StartNodeDataProcessor extends NodeDataProcessor<StartNodeConfig> {
 
 	@Override
 	public NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState) {

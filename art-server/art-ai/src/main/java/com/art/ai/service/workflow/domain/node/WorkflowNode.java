@@ -28,7 +28,7 @@ public class WorkflowNode<C extends NodeConfig> {
 
 	private String label;
 
-	private NodeData<C> data;
+	private NodeDataProcessor<C> data;
 
 	public Map<String, Object> run(WorkFlowContext workFlowContext, NodeState nodeState) {
 		NodeProcessResult process = data.process(workFlowContext, nodeState);

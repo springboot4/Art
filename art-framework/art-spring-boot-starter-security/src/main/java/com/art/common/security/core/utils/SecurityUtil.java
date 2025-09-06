@@ -49,6 +49,13 @@ public class SecurityUtil {
 	}
 
 	/**
+	 * 设置Authentication
+	 */
+	public void setAuthentication(Authentication authentication) {
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
+
+	/**
 	 * 获取当前用户权限
 	 * @return 用户权限
 	 */
@@ -93,7 +100,7 @@ public class SecurityUtil {
 	public String getClientId() {
 		jakarta.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
 			.getRequestAttributes()).getRequest();
-		;
+
 		BasicAuthenticationConverter converter = new BasicAuthenticationConverter();
 
 		return converter.convert(request).getName();

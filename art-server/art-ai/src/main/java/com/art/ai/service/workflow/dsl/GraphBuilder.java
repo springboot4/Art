@@ -4,7 +4,7 @@ import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
 import com.art.ai.service.workflow.domain.edge.EdgeValue;
 import com.art.ai.service.workflow.domain.node.WorkflowNode;
-import com.art.ai.service.workflow.domain.node.start.StartNodeData;
+import com.art.ai.service.workflow.domain.node.start.StartNodeDataProcessor;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.bsc.langgraph4j.GraphStateException;
@@ -36,7 +36,7 @@ public class GraphBuilder {
 		var stateGraph = new StateGraph<>(new ObjectStreamStateSerializer<>(NodeState::new));
 
 		WorkflowNode<?> startNode = nodes.stream()
-			.filter(n -> n.getData() instanceof StartNodeData)
+			.filter(n -> n.getData() instanceof StartNodeDataProcessor)
 			.findFirst()
 			.orElseThrow(() -> new IllegalStateException("图结构中未找到开始节点 (StartNodeData)"));
 		addEdgeToGraph(stateGraph, START, startNode.getId());

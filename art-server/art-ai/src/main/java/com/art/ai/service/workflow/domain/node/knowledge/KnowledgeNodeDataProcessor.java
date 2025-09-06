@@ -2,7 +2,7 @@ package com.art.ai.service.workflow.domain.node.knowledge;
 
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
-import com.art.ai.service.workflow.domain.node.NodeData;
+import com.art.ai.service.workflow.domain.node.NodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.NodeOutputVariable;
 import com.art.ai.service.workflow.domain.node.NodeProcessResult;
 import lombok.Data;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Slf4j
 @Data
-public class KnowledgeNodeData extends NodeData<KnowledgeNodeConfig> {
+public class KnowledgeNodeDataProcessor extends NodeDataProcessor<KnowledgeNodeConfig> {
 
 	@Override
 	public NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState) {
