@@ -22,6 +22,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,23 +40,22 @@ public class LlmNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig> {
 		Map<String, Object> inputs = initNodeInputsByReference(workFlowContext.getPool(), getConfig());
 		LlmNodeConfig nodeConfig = getConfig();
 
-		String model = nodeConfig.getModel();
 		List<LlmNodeConfig.Message> messages = nodeConfig.getMessages();
 		String systemPrompt = nodeConfig.getSystemPrompt();
-		Integer maxTokens = nodeConfig.getMaxTokens();
-		Double temperature = nodeConfig.getTemperature();
 
 		// todo fxz 模型管理tmp:
 		ChatModel chatModel = OpenAiChatModel.builder()
 			.baseUrl(SpringUtil.getProperty("tmp.open-ai.base-url"))
 			.apiKey(SpringUtil.getProperty("tmp.open-ai.api-key"))
 			.logRequests(true)
+			.timeout(Duration.ofSeconds(nodeConfig.getTimeout()))
+			.maxRetries(nodeConfig.getRetryCount())
 			.build();
 
 		ChatRequestParameters parameters = ChatRequestParameters.builder()
-			.modelName(model)
-			.temperature(temperature)
-			.maxOutputTokens(maxTokens)
+			.modelName(nodeConfig.getModel())
+			.temperature(nodeConfig.getTemperature())
+			.maxOutputTokens(nodeConfig.getMaxTokens())
 			.build();
 
 		List<ChatMessage> chatMessages = new ArrayList<>();
