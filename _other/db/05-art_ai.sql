@@ -63,4 +63,28 @@ CREATE TABLE `ai_workflows` (
   KEY `workflow_version_idx` (`app_id`,`version`,`tenant_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- ----------------------------
+-- Table structure for ai_datasets
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_datasets`;
+CREATE TABLE `ai_datasets` (
+                               `id` bigint NOT NULL,
+                               `tenant_id` bigint DEFAULT NULL,
+                               `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                               `description` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                               `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限(公开或者非公开)',
+                               `data_source_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据源类型(文件上传)',
+                               `indexing_technique` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '索引策略(高质量或经济)',
+                               `create_time` datetime DEFAULT NULL,
+                               `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                               `update_time` datetime DEFAULT NULL,
+                               `update_by` datetime DEFAULT NULL,
+                               `embedding_model` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                               `embedding_model_provider` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                               `collection_binding_id` bigint DEFAULT NULL COMMENT '关联的集合id',
+                               `retrieval_model` json DEFAULT NULL COMMENT '检索配置(混合检索或向量检索)',
+                               PRIMARY KEY (`id`),
+                               UNIQUE KEY `uni_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;
