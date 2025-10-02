@@ -21,7 +21,6 @@ import com.art.cache.sdk.support.CacheMessageConsumer;
 import com.art.cache.sdk.support.RedisCaffeineCacheManager;
 import com.art.mq.sdk.client.RedisMQTemplate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -51,8 +50,7 @@ public class CacheRedisCaffeineAutoConfiguration {
 	}
 
 	@Bean
-	public CacheMessageConsumer cacheMessageConsumer(
-			@Qualifier("redisCaffeineCacheManager") CacheManager cacheManager) {
+	public CacheMessageConsumer cacheMessageConsumer(CacheManager cacheManager) {
 		return new CacheMessageConsumer(cacheManager);
 	}
 

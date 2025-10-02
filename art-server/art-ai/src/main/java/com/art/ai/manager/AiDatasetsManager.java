@@ -1,15 +1,19 @@
 package com.art.ai.manager;
 
+import com.art.ai.core.constants.DatasetsDataSourceConstants;
+import com.art.ai.core.constants.DatasetsPermissionConstants;
 import com.art.ai.core.convert.AiDatasetsConvert;
-import com.art.ai.core.dto.AiDatasetsDTO;
-import com.art.ai.core.dto.AiDatasetsPageDTO;
+import com.art.ai.core.dto.dataset.AiDatasetsDTO;
+import com.art.ai.core.dto.dataset.AiDatasetsPageDTO;
 import com.art.ai.dao.dataobject.AiDatasetsDO;
 import com.art.ai.dao.mysql.AiDatasetsMapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -29,7 +33,9 @@ public class AiDatasetsManager {
 	 */
 	public Page<AiDatasetsDO> pageAiDatasets(AiDatasetsPageDTO aiDatasetsPageDTO) {
 		return aiDatasetsMapper.selectPage(Page.of(aiDatasetsPageDTO.getCurrent(), aiDatasetsPageDTO.getSize()),
-				Wrappers.emptyWrapper());
+				Wrappers.lambdaQuery(AiDatasetsDO.class)
+					.like(StringUtils.isNotBlank(aiDatasetsPageDTO.getName()), AiDatasetsDO::getName,
+							aiDatasetsPageDTO.getName()));
 	}
 
 	/**
@@ -60,11 +66,26 @@ public class AiDatasetsManager {
 
 	/**
 	 * 新增
-	 * @param aiDatasetsDTO aiDatasetsDTO
 	 * @return 影响条数
 	 */
-	public Integer addAiDatasets(AiDatasetsDTO aiDatasetsDTO) {
-		return aiDatasetsMapper.insert(AiDatasetsConvert.INSTANCE.convert(aiDatasetsDTO));
+	public AiDatasetsDTO addAiDatasets(AiDatasetsDTO aiDatasetsDTO) {
+		AiDatasetsDO datasetsDO = AiDatasetsConvert.INSTANCE.convert(aiDatasetsDTO);
+		if (StringUtils.isBlank(datasetsDO.getName())) {
+			datasetsDO.setName(AiDatasetsDO.newDefaultName());
+		}
+		if (StringUtils.isBlank(datasetsDO.getPermission())) {
+			datasetsDO.setPermission(DatasetsPermissionConstants.PUBLIC);
+		}
+		if (StringUtils.isBlank(datasetsDO.getDataSourceType())) {
+			datasetsDO.setDataSourceType(DatasetsDataSourceConstants.LOCAL);
+		}
+		if (StringUtils.isBlank(datasetsDO.getDescription())) {
+			datasetsDO.setDescription("知识库创建于" + LocalDateTime.now());
+		}
+
+		aiDatasetsMapper.insert(datasetsDO);
+
+		return AiDatasetsConvert.INSTANCE.convert(datasetsDO);
 	}
 
 	/**

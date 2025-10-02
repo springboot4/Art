@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  pgvector:
+    image: pgvector/pgvector:pg16
+    ports:
+     - 5432:5432
+    restart: always
+    environment:
+      - POSTGRES_DB=art
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=art-pgvector-password
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data

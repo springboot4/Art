@@ -28,11 +28,11 @@ import com.art.system.api.dept.dto.DeptDTO;
 import com.art.system.api.role.dto.RoleDTO;
 import com.art.system.api.role.dto.RolePageDTO;
 import com.art.system.api.user.dto.SystemUserDTO;
+import com.art.system.api.user.redis.role.RoleRedisConstants;
 import com.art.system.core.bo.RoleBO;
 import com.art.system.core.convert.RoleConvert;
 import com.art.system.dao.dataobject.RoleDO;
 import com.art.system.dao.dataobject.RoleMenuDO;
-import com.art.system.api.user.redis.role.RoleRedisConstants;
 import com.art.system.manager.RoleManager;
 import com.art.system.manager.RoleMenuManager;
 import com.art.system.manager.UserRoleManager;
@@ -45,6 +45,8 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -54,6 +56,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.art.system.api.user.redis.user.UserRedisConstants.USER_DETAILS;
@@ -81,6 +84,8 @@ public class RoleServiceImpl implements RoleService {
 
 	private final RedisTemplate redisTemplate;
 
+	private final CacheManager cacheManager;
+
 	/**
 	 * 分页查询角色信息
 	 */
@@ -92,7 +97,6 @@ public class RoleServiceImpl implements RoleService {
 	/**
 	 * 添加角色信息
 	 */
-	@CacheEvict(value = RoleRedisConstants.CACHE_NAMES, allEntries = true)
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public RoleDTO addRole(RoleDTO roleDTO) {
@@ -104,6 +108,8 @@ public class RoleServiceImpl implements RoleService {
 
 		// 保存角色菜单
 		saveRoleMenu(roleDTO.setRoleId(id));
+
+		Optional.ofNullable(cacheManager.getCache(RoleRedisConstants.CACHE_NAMES)).ifPresent(Cache::clear);
 
 		return roleDTO;
 	}
@@ -119,7 +125,6 @@ public class RoleServiceImpl implements RoleService {
 	/**
 	 * 修改角色信息
 	 */
-	@CacheEvict(value = { RoleRedisConstants.CACHE_NAMES, USER_DETAILS }, allEntries = true)
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Boolean editRole(RoleDTO roleDTO) {
@@ -130,6 +135,9 @@ public class RoleServiceImpl implements RoleService {
 
 		// 保存角色菜单
 		saveRoleMenu(roleDTO);
+
+		Optional.ofNullable(cacheManager.getCache(RoleRedisConstants.CACHE_NAMES)).ifPresent(Cache::clear);
+		Optional.ofNullable(cacheManager.getCache(USER_DETAILS)).ifPresent(Cache::clear);
 
 		return Boolean.TRUE;
 	}

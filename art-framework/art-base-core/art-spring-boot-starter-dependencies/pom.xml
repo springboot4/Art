@@ -37,6 +37,7 @@
         <dynamic-ds.version>3.6.1</dynamic-ds.version>
         <aws.version>1.12.381</aws.version>
         <doc.version>2.0.0</doc.version>
+        <community-langchain4j.version>1.2.0-beta8</community-langchain4j.version>
         <langgraph4j.version>1.5.3</langgraph4j.version>
         <nashorn.engine.version>15.4</nashorn.engine.version>
         <swagger.version>2.2.2</swagger.version>
@@ -60,11 +61,27 @@
         <aliyun.java.sdk.dysmsapi.version>2.1.0</aliyun.java.sdk.dysmsapi.version>
         <spring-authorization-server.version>1.0.2</spring-authorization-server.version>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+        <jodd.version>5.1.6</jodd.version>
     </properties>
 
     <!-- 定义全局jar版本-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.jodd</groupId>
+                <artifactId>jodd-bean</artifactId>
+                <version>${jodd.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-community-neo4j</artifactId>
+                <version>${community-langchain4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-community-neo4j-retriever</artifactId>
+                <version>${community-langchain4j.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>

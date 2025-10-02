@@ -17,8 +17,6 @@
 package com.art.common.tenant.security;
 
 import cn.hutool.core.collection.CollUtil;
-import com.art.common.security.core.model.ArtAuthUser;
-import com.art.common.security.core.utils.SecurityUtil;
 import com.art.common.tenant.config.ArtTenantProperties;
 import com.art.common.tenant.context.TenantContextHolder;
 import com.art.common.tenant.service.TenantValidService;
@@ -80,13 +78,6 @@ public class TenantSecurityWebFilter extends OncePerRequestFilter {
 			catch (Throwable ex) {
 				WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
 						Result.failed(ex.getLocalizedMessage()));
-				return;
-			}
-
-			ArtAuthUser user = SecurityUtil.getUser();
-			if (Objects.isNull(user.getTenantId()) || !Objects.equals(tenantId, user.getTenantId())) {
-				WebUtil.makeResponse(response, MediaType.APPLICATION_JSON_VALUE, HttpServletResponse.SC_FORBIDDEN,
-						Result.failed("无权访问该租户"));
 				return;
 			}
 		}

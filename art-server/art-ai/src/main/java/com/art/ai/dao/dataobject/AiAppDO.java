@@ -4,6 +4,8 @@ import com.art.mybatis.common.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serial;
+
 /**
  * @author fxz
  * @date 2025-07-25
@@ -12,9 +14,8 @@ import lombok.Data;
 @TableName("ai_app")
 public class AiAppDO extends BaseEntity {
 
+	@Serial
 	private static final long serialVersionUID = -1L;
-
-	private Long id;
 
 	private String name;
 

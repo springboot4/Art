@@ -1,6 +1,6 @@
 package com.art.ai.core.convert;
 
-import com.art.ai.core.dto.AiDatasetsDTO;
+import com.art.ai.core.dto.dataset.AiDatasetsDTO;
 import com.art.ai.dao.dataobject.AiDatasetsDO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.mapstruct.Mapper;

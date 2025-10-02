@@ -137,6 +137,7 @@ public class FileController {
 	/**
 	 * 获取文件临时外链
 	 */
+	@Ojbk
 	@Operation(summary = "获取文件临时外链")
 	@PostMapping(value = "/preSignUploadUrl")
 	public Result<String> preSignUploadUrl(@RequestBody FileDownloadDTO dto) {

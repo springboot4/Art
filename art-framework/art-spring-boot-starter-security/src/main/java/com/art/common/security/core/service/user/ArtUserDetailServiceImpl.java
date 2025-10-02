@@ -57,21 +57,18 @@ public class ArtUserDetailServiceImpl implements ArtUserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Cache cache = cacheManager.getCache(UserRedisConstants.USER_DETAILS);
 		if (Objects.nonNull(cache) && cache.get(username) != null) {
-			return (UserDetails) cache.get(username).get();
+			SystemUserDTO userDTO = (SystemUserDTO) cache.get(username).get();
+			return getUserDetails(userDTO);
 		}
 
 		if (OAuth2ResourceOwnerSmsAuthenticationConverter.SMS.getValue().equals(SecurityUtil.getGrantType())) {
-			UserDetails userDetails = this.loadUserByMobile(username);
-			if (cache != null && userDetails != null) {
-				cache.put(username, userDetails);
-			}
-			return userDetails;
+			return this.loadUserByMobile(username);
 		}
 		else {
 			SystemUserDTO userDTO = artUserManager.findByName(username);
 			UserDetails userDetails = getUserDetails(userDTO);
-			if (cache != null && userDetails != null) {
-				cache.put(username, userDetails);
+			if (cache != null && userDTO != null) {
+				cache.put(username, userDTO);
 			}
 			return userDetails;
 		}
@@ -81,13 +78,14 @@ public class ArtUserDetailServiceImpl implements ArtUserDetailsService {
 	public UserDetails loadUserByMobile(String mobile) {
 		Cache cache = cacheManager.getCache(UserRedisConstants.USER_DETAILS);
 		if (Objects.nonNull(cache) && cache.get(mobile) != null) {
-			return (UserDetails) cache.get(mobile).get();
+			SystemUserDTO userDTO = (SystemUserDTO) cache.get(mobile).get();
+			return getUserDetails(userDTO);
 		}
 
 		SystemUserDTO userDTO = artUserManager.findByMobile(mobile);
 		UserDetails userDetails = getUserDetails(userDTO);
-		if (cache != null && userDetails != null) {
-			cache.put(mobile, userDetails);
+		if (cache != null && userDTO != null) {
+			cache.put(mobile, userDTO);
 		}
 
 		return userDetails;

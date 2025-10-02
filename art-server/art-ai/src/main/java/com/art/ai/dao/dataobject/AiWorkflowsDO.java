@@ -19,9 +19,6 @@ public class AiWorkflowsDO extends BaseEntity {
 	@Serial
 	private static final long serialVersionUID = -1L;
 
-	/** 主键 */
-	private Long id;
-
 	/** 应用id */
 	private Long appId;
 

@@ -1,8 +1,9 @@
 package com.art.ai.controller;
 
-import com.art.ai.core.dto.AiDatasetsDTO;
-import com.art.ai.core.dto.AiDatasetsPageDTO;
-import com.art.ai.service.dataset.AiDatasetsService;
+import com.art.ai.core.dto.dataset.AiDatasetsDTO;
+import com.art.ai.core.dto.dataset.AiDatasetsPageDTO;
+import com.art.ai.core.dto.dataset.AiDatasetsUploadDocDTO;
+import com.art.ai.service.dataset.service.AiDatasetsService;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,19 +25,28 @@ import java.util.List;
  */
 @Tag(name = "")
 @RestController
-@RequestMapping("/aiDatasets")
+@RequestMapping("/ai/dataset")
 @RequiredArgsConstructor
 public class AiDatasetsController {
 
 	private final AiDatasetsService aiDatasetsService;
 
 	/**
-	 * 添加
+	 * 文档存储并索引
 	 */
-	@Operation(summary = "添加")
+	@Operation(summary = "文档存储并索引")
+	@PostMapping("/document")
+	public Result<Boolean> document(@RequestBody AiDatasetsUploadDocDTO uploadDoc) {
+		return Result.success(aiDatasetsService.uploadDoc(uploadDoc));
+	}
+
+	/**
+	 * 创建数据集
+	 */
+	@Operation(summary = "创建数据集")
 	@PostMapping(value = "/add")
-	@PreAuthorize("@ps.hasPermission('system:aiDatasets:add')")
-	public Result<Boolean> add(@RequestBody AiDatasetsDTO aiDatasetsDTO) {
+	@PreAuthorize("@ps.hasPermission('ai:aiDatasets:add')")
+	public Result<AiDatasetsDTO> add(@RequestBody AiDatasetsDTO aiDatasetsDTO) {
 		return Result.success(aiDatasetsService.addAiDatasets(aiDatasetsDTO));
 	}
 
@@ -45,7 +55,7 @@ public class AiDatasetsController {
 	 */
 	@Operation(summary = "修改")
 	@PostMapping(value = "/update")
-	@PreAuthorize("@ps.hasPermission('system:aiDatasets:update')")
+	@PreAuthorize("@ps.hasPermission('ai:aiDatasets:update')")
 	public Result<Boolean> update(@RequestBody AiDatasetsDTO aiDatasetsDTO) {
 		return Result.success(aiDatasetsService.updateAiDatasets(aiDatasetsDTO));
 	}
@@ -55,7 +65,7 @@ public class AiDatasetsController {
 	 */
 	@Operation(summary = "删除")
 	@DeleteMapping(value = "/delete")
-	@PreAuthorize("@ps.hasPermission('system:aiDatasets:delete')")
+	@PreAuthorize("@ps.hasPermission('ai:aiDatasets:delete')")
 	public Result<Boolean> delete(Long id) {
 		return Result.judge(aiDatasetsService.deleteAiDatasets(id));
 	}
@@ -65,7 +75,7 @@ public class AiDatasetsController {
 	 */
 	@Operation(summary = "获取单条")
 	@GetMapping(value = "/findById")
-	@PreAuthorize("@ps.hasPermission('system:aiDatasets:view')")
+	@PreAuthorize("@ps.hasPermission('ai:aiDatasets:view')")
 	public Result<AiDatasetsDTO> findById(Long id) {
 		return Result.success(aiDatasetsService.findById(id));
 	}
@@ -75,7 +85,7 @@ public class AiDatasetsController {
 	 */
 	@Operation(summary = "获取全部")
 	@GetMapping(value = "/findAll")
-	@PreAuthorize("@ps.hasPermission('system:aiDatasets:view')")
+	@PreAuthorize("@ps.hasPermission('ai:aiDatasets:view')")
 	public Result<List<AiDatasetsDTO>> findAll() {
 		return Result.success(aiDatasetsService.findAll());
 	}
@@ -85,7 +95,7 @@ public class AiDatasetsController {
 	 */
 	@Operation(summary = "分页")
 	@GetMapping(value = "/page")
-	@PreAuthorize("@ps.hasPermission('system:aiDatasets:view')")
+	@PreAuthorize("@ps.hasPermission('ai:aiDatasets:view')")
 	public Result<PageResult<AiDatasetsDTO>> pageAiDatasets(AiDatasetsPageDTO aiDatasetsPageDTO) {
 		return Result.success(PageResult.success(aiDatasetsService.pageAiDatasets(aiDatasetsPageDTO)));
 	}

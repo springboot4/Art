@@ -51,7 +51,6 @@ public class SecurityInnerAspect implements Ordered {
 	@SneakyThrows
 	@Before("@within(ojbk) || @annotation(ojbk)")
 	public void before(JoinPoint point, Ojbk ojbk) {
-		// 实际注入的Ojbk实体由表达式后一个注解决定 即取方法上的注解 若方法上无注解 则获取类上的
 		if (ojbk == null) {
 			Class<?> clazz = point.getTarget().getClass();
 			ojbk = AnnotationUtils.findAnnotation(clazz, Ojbk.class);

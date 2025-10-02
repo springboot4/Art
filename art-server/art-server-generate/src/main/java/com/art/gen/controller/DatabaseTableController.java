@@ -16,9 +16,9 @@
 
 package com.art.gen.controller;
 
-import com.art.core.common.model.PageParam;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
+import com.art.gen.core.dto.DataBaseTablePageDTO;
 import com.art.gen.dao.dataobject.DatabaseTableDO;
 import com.art.gen.service.impl.DatabaseTableServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -43,12 +43,12 @@ public class DatabaseTableController {
 	/**
 	 * 分页查询基础表信息
 	 * @param pageParam 分页参数
-	 * @param param 查询参数
 	 * @return 分页信息
 	 */
 	@GetMapping("/page")
-	public Result<PageResult<DatabaseTableDO>> page(PageParam pageParam, DatabaseTableDO param, String dsName) {
-		return Result.success(PageResult.success(databaseTableService.page(pageParam, param, dsName)));
+	public Result<PageResult<DatabaseTableDO>> page(DataBaseTablePageDTO pageParam) {
+		return Result.success(PageResult.success(databaseTableService.page(pageParam.getCurrent(), pageParam.getSize(),
+				pageParam.getTableName(), pageParam.getDsName())));
 	}
 
 }

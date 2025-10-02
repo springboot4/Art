@@ -86,6 +86,7 @@ public class ArtOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 		}
 		catch (Exception ex) {
 			log.error("资源服务器 introspect Token error {}", ex.getLocalizedMessage());
+			log.error("资源服务器 introspect Token error", ex);
 		}
 
 		ArtAuthUser user = (ArtAuthUser) userDetails;

@@ -16,7 +16,6 @@
 
 package com.art.gen.service.impl;
 
-import com.art.core.common.model.PageParam;
 import com.art.gen.dao.dataobject.DatabaseColumnDO;
 import com.art.gen.dao.dataobject.DatabaseTableDO;
 import com.art.gen.dao.mysql.DatabaseTableMapper;
@@ -65,20 +64,16 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
 
 	/**
 	 * 分页查询基础表信息
-	 * @param pageParam 分页参数
-	 * @param param 查询参数
 	 * @param dsName 查询的数据库
 	 * @return 分页信息
 	 */
 	@DS("#last")
-	public IPage<DatabaseTableDO> page(PageParam pageParam, DatabaseTableDO param, String dsName) {
-		Page<DatabaseTableDO> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
-		// 实体类entity及其字段没有缓存或者说指定字段没有缓存
-		// https://blog.csdn.net/qq_36491545/article/details/109091325
+	public IPage<DatabaseTableDO> page(Integer current, Integer size, String tableName, String dsName) {
+		Page<DatabaseTableDO> page = new Page<>(current, size);
 		TableInfoHelper.initTableInfo(new MapperBuilderAssistant(new MybatisConfiguration(), ""),
 				DatabaseTableDO.class);
 		return databaseTableMapper.page(page, Wrappers.<DatabaseTableDO>lambdaQuery()
-			.like(StringUtils.isNotEmpty(param.getTableName()), DatabaseTableDO::getTableName, param.getTableName()));
+			.like(StringUtils.isNotEmpty(tableName), DatabaseTableDO::getTableName, tableName));
 	}
 
 }

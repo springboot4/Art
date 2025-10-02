@@ -24,3 +24,19 @@ tmp:
   open-ai:
     base-url: ${OPEN_AI_BASE_URL:123456}
     api-key: ${OPEN_AI_API_KEY:123456}
+  embedding:
+    base-url: ${OPEN_AI_EMBEDDING_URL:123456}
+    host: ${PG_VECTOR_HOST:123456}
+    port: ${PG_VECTOR_HOST:5432}
+    database: ${PG_VECTOR_HOST:art}
+    user: ${PG_VECTOR_HOST:root}
+    password: ${PG_VECTOR_HOST:art-pgvector-password}
+    dimension: ${PG_VECTOR_HOST:1024}
+    table: ${PG_VECTOR_HOST:ai_vector_store}
+  graph:
+    neo4j:
+      user: ${GRAPH_USER:neo4j}
+      password: ${GRAPH_PASSWORD:art-neo4j-password}
+      host: ${GRAPH_HOST:127.0.0.1}
+      port: ${GRAPH_PORT:7687}
+
