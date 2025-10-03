@@ -1,21 +1,47 @@
 package com.art.ai.service.document.impl;
 
+import com.art.ai.core.constants.DatasetsIndexTypeConstants;
+import com.art.ai.core.convert.AiDatasetsConvert;
 import com.art.ai.core.convert.AiDocumentsConvert;
+import com.art.ai.core.dto.dataset.AiDatasetsDTO;
 import com.art.ai.core.dto.document.AiDocumentsDTO;
 import com.art.ai.core.dto.document.AiDocumentsPageDTO;
+import com.art.ai.manager.AiDatasetsManager;
 import com.art.ai.manager.AiDocumentsManager;
+import com.art.ai.service.dataset.rag.constant.EmbedStoreTypeConstants;
+import com.art.ai.service.dataset.rag.constant.EmbeddingStatusEnum;
+import com.art.ai.service.dataset.rag.constant.GraphStatusEnum;
+import com.art.ai.service.dataset.rag.constant.KnowledgeConstants;
+import com.art.ai.service.dataset.rag.embedding.entity.EmbeddingIngestParam;
+import com.art.ai.service.dataset.rag.embedding.entity.EmbeddingModelConfig;
+import com.art.ai.service.dataset.rag.embedding.entity.EmbeddingStoreConfig;
+import com.art.ai.service.dataset.rag.embedding.service.EmbeddingService;
+import com.art.ai.service.dataset.rag.graph.GraphService;
+import com.art.ai.service.dataset.rag.graph.cleanup.GraphDocumentCleanupService;
 import com.art.ai.service.dataset.rag.graph.entity.GraphEdge;
 import com.art.ai.service.dataset.rag.graph.entity.GraphEdgeSearch;
 import com.art.ai.service.dataset.rag.graph.entity.GraphSearchCondition;
 import com.art.ai.service.dataset.rag.graph.entity.GraphVertex;
 import com.art.ai.service.dataset.rag.graph.entity.GraphVertexSearch;
 import com.art.ai.service.dataset.rag.graph.store.GraphStore;
-import com.art.ai.service.dataset.rag.graph.cleanup.GraphDocumentCleanupService;
 import com.art.ai.service.dataset.service.AiDocumentSegmentService;
 import com.art.ai.service.document.AiDocumentsService;
+import com.art.common.security.core.utils.SecurityUtil;
+import com.art.common.tenant.context.TenantContextHolder;
+import com.art.core.common.exception.ArtException;
+import com.art.core.common.util.AsyncUtil;
 import com.art.core.common.util.SpringUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import dev.langchain4j.data.document.DefaultDocument;
+import dev.langchain4j.data.document.Document;
+import dev.langchain4j.data.document.DocumentSplitter;
+import dev.langchain4j.data.document.Metadata;
+import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.filter.Filter;
 import dev.langchain4j.store.embedding.filter.comparison.ContainsString;
@@ -24,8 +50,11 @@ import dev.langchain4j.store.embedding.pgvector.PgVectorEmbeddingStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Triple;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +74,17 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 
 	private final AiDocumentsManager aiDocumentsManager;
 
+	private final AiDatasetsManager aiDatasetsManager;
+
 	private final AiDocumentSegmentService aiDocumentSegmentService;
 
 	private final GraphStore graphStore;
 
 	private final GraphDocumentCleanupService graphDocumentCleanupService;
+
+	private final EmbeddingService embeddingService;
+
+	private final GraphService graphService;
 
 	/**
 	 * 添加
@@ -97,7 +132,7 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 	@Override
 	public Boolean deleteAiDocuments(Long id) {
 		// 删除向量
-		getEmbeddingStore().removeAll(new IsEqualTo(DOCUMENT_KEY, id));
+		getEmbeddingStore(null).removeAll(new IsEqualTo(DOCUMENT_KEY, id));
 
 		// 智能删除图信息 - 使用新的清理服务
 		graphDocumentCleanupService.cleanupDocumentGraphData(id);
@@ -134,7 +169,175 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 		return Map.of("node", graphVerticesRes, "edge", graphEdgeSet);
 	}
 
-	private EmbeddingStore<TextSegment> getEmbeddingStore() {
+	/**
+	 * 重新索引
+	 */
+	@Override
+	public Boolean reIndexDocument(Long documentId, String indexType) {
+		AiDocumentsDTO documentsDTO = AiDocumentsConvert.INSTANCE.convert(aiDocumentsManager.findById(documentId));
+		if (documentsDTO == null) {
+			throw new ArtException("文档不存在");
+		}
+
+		AiDatasetsDTO datasetsDTO = AiDatasetsConvert.INSTANCE
+			.convert(aiDatasetsManager.findById(documentsDTO.getDatasetId()));
+		if (datasetsDTO == null) {
+			throw new ArtException("数据集不存在");
+		}
+
+		removeIndex(documentsDTO, indexType);
+
+		asyncIndex(datasetsDTO, documentsDTO, indexType);
+
+		return Boolean.TRUE;
+	}
+
+	private void removeIndex(AiDocumentsDTO documentsDTO, String indexType) {
+		if (indexType.contains(DatasetsIndexTypeConstants.EMBEDDING)) {
+			try {
+				EmbeddingStore<TextSegment> embeddingStore = getEmbeddingStore(null);
+				embeddingStore.removeAll(new IsEqualTo(KnowledgeConstants.DOCUMENT_KEY, documentsDTO.getId()));
+			}
+			catch (Exception e) {
+				log.error("remove embedding index error", e);
+			}
+		}
+
+		if (indexType.contains(DatasetsIndexTypeConstants.GRAPH)) {
+			try {
+				graphDocumentCleanupService.cleanupDocumentGraphData(documentsDTO.getId());
+			}
+			catch (Exception e) {
+				log.error("remove graph index error", e);
+			}
+		}
+	}
+
+	public void asyncIndex(AiDatasetsDTO aiDatasetsDTO, AiDocumentsDTO documentsDTO, String indexTypes) {
+		Long tenantId = TenantContextHolder.getTenantId();
+		Authentication authentication = SecurityUtil.getAuthentication();
+
+		Metadata metadata = new Metadata();
+		metadata.put(KnowledgeConstants.DATASET_KEY, String.valueOf(documentsDTO.getDatasetId()));
+		metadata.put(KnowledgeConstants.DOCUMENT_KEY, String.valueOf(documentsDTO.getId()));
+		Document document = new DefaultDocument(documentsDTO.getContent(), metadata);
+
+		if (indexTypes.contains(DatasetsIndexTypeConstants.EMBEDDING)) {
+			AsyncUtil.run(() -> {
+				try {
+					TenantContextHolder.setTenantId(tenantId);
+					SecurityUtil.setAuthentication(authentication);
+
+					log.info("开始异步向量化索引，datasetsId={}, documentId={}", aiDatasetsDTO.getId(), documentsDTO.getId());
+					indexEmbedding(aiDatasetsDTO, documentsDTO, document);
+				}
+				catch (Exception e) {
+					log.error("asyncIndex error", e);
+				}
+				finally {
+					TenantContextHolder.clear();
+					SecurityUtil.setAuthentication(null);
+				}
+			});
+		}
+
+		if (indexTypes.contains(DatasetsIndexTypeConstants.GRAPH)) {
+			AsyncUtil.run(() -> {
+				try {
+					TenantContextHolder.setTenantId(tenantId);
+					SecurityUtil.setAuthentication(authentication);
+
+					log.info("开始异步图谱索引，datasetsId={}, documentId={}", aiDatasetsDTO.getId(), documentsDTO.getId());
+					indexGraph(aiDatasetsDTO, documentsDTO, document);
+				}
+				catch (Exception e) {
+					log.error("asyncIndex error", e);
+				}
+				finally {
+					TenantContextHolder.clear();
+					SecurityUtil.setAuthentication(null);
+				}
+			});
+		}
+	}
+
+	private void indexGraph(AiDatasetsDTO datasetsDTO, AiDocumentsDTO documentsDTO, Document document) {
+		try {
+			documentsDTO.setGraphicalStatusChangeTime(LocalDateTime.now());
+			documentsDTO.setGraphicalStatus(GraphStatusEnum.DOING);
+			aiDocumentsManager.updateAiDocumentsById(documentsDTO);
+
+			// todo fxz 模型管理tmp:
+			ChatModel chatModel = OpenAiChatModel.builder()
+				.baseUrl(SpringUtil.getProperty("tmp.open-ai.base-url"))
+				.apiKey(SpringUtil.getProperty("tmp.open-ai.api-key"))
+				.modelName(datasetsDTO.getGraphicModel())
+				.logRequests(true)
+				.timeout(Duration.ofSeconds(60))
+				.maxRetries(1)
+				.build();
+
+			graphService.ingest(document, chatModel);
+
+			documentsDTO.setGraphicalStatus(GraphStatusEnum.DONE);
+		}
+		catch (Exception e) {
+			log.error("初始化图谱模型失败", e);
+			documentsDTO.setGraphicalStatus(GraphStatusEnum.FAIL);
+		}
+		finally {
+			aiDocumentsManager.updateAiDocumentsById(documentsDTO);
+		}
+	}
+
+	private void indexEmbedding(AiDatasetsDTO datasetsDTO, AiDocumentsDTO documentsDTO, Document document) {
+		try {
+			documentsDTO.setEmbeddingStatusChangeTime(LocalDateTime.now());
+			documentsDTO.setEmbeddingStatus(EmbeddingStatusEnum.DOING);
+			aiDocumentsManager.updateAiDocumentsById(documentsDTO);
+
+			EmbeddingIngestParam embeddingIngestParam = EmbeddingIngestParam.builder()
+				.document(document)
+				.embeddingModel(
+						getEmbeddingModel(datasetsDTO.getEmbeddingModel(), datasetsDTO.getEmbeddingModelProvider()))
+				.embeddingStore(getEmbeddingStore(datasetsDTO.getCollectionBindingId()))
+				.documentSplitter(createDocumentSplitter())
+				.build();
+			embeddingService.ingest(embeddingIngestParam);
+
+			documentsDTO.setEmbeddingStatus(EmbeddingStatusEnum.DONE);
+		}
+		catch (Exception e) {
+			log.error("初始化向量化模型失败", e);
+			documentsDTO.setEmbeddingStatus(EmbeddingStatusEnum.FAIL);
+		}
+		finally {
+			aiDocumentsManager.updateAiDocumentsById(documentsDTO);
+		}
+	}
+
+	private DocumentSplitter createDocumentSplitter() {
+		return DocumentSplitters.recursive(KnowledgeConstants.MAX_SEGMENT_SIZE_IN_TOKENS,
+				KnowledgeConstants.MAX_OVERLAP_SIZE_IN_TOKENS);
+	}
+
+	private EmbeddingModel getEmbeddingModel(String embeddingModel, String embeddingModelProvider) {
+		EmbeddingModelConfig embeddingModelConfig = getEmbeddingModelConfig(embeddingModel, embeddingModelProvider);
+
+		return OpenAiEmbeddingModel.builder()
+			.apiKey(embeddingModelConfig.getApiKey())
+			.baseUrl(embeddingModelConfig.getBaseUrl())
+			.maxRetries(embeddingModelConfig.getMaxRetries())
+			.timeout(embeddingModelConfig.getTimeout())
+			.dimensions(embeddingModelConfig.getDimensions())
+			.modelName(embeddingModelConfig.getModelName())
+			.logRequests(true)
+			.build();
+	}
+
+	private EmbeddingStore<TextSegment> getEmbeddingStore(Long collectionBindingId) {
+		EmbeddingStoreConfig embeddingStoreConfig = getEmbeddingStoreConfig(collectionBindingId);
+
 		// todo fxz 向量库管理
 		return PgVectorEmbeddingStore.builder()
 			.host(SpringUtil.getProperty("tmp.embedding.host"))
@@ -146,6 +349,26 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 			.table(SpringUtil.getProperty("tmp.embedding.table"))
 			.createTable(true)
 			.dropTableFirst(false)
+			.build();
+	}
+
+	private EmbeddingModelConfig getEmbeddingModelConfig(String embeddingModel, String embeddingModelProvider) {
+		// todo fxz 模型管理
+		return EmbeddingModelConfig.builder()
+			.baseUrl(SpringUtil.getProperty("tmp.embedding.base-url"))
+			.apiKey(SpringUtil.getProperty("tmp.open-ai.api-key"))
+			.timeout(Duration.ofSeconds(30))
+			.maxRetries(0)
+			.dimensions(1024)
+			.modelName(embeddingModel)
+			.build();
+	}
+
+	private EmbeddingStoreConfig getEmbeddingStoreConfig(Long collectionBindingId) {
+		// todo fxz 根据集合id查询向量库存储配置 根据存储配置类型实例化不同的存储实现
+		return EmbeddingStoreConfig.builder()
+			.storeType(EmbedStoreTypeConstants.PGVECTOR)
+			.collectionId(collectionBindingId)
 			.build();
 	}
 

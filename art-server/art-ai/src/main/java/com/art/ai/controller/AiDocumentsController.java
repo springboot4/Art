@@ -1,9 +1,9 @@
 package com.art.ai.controller;
 
+import com.art.ai.core.dto.document.AiDocumentIndexDTO;
 import com.art.ai.core.dto.document.AiDocumentsDTO;
 import com.art.ai.core.dto.document.AiDocumentsPageDTO;
 import com.art.ai.service.document.AiDocumentsService;
-import com.art.common.security.core.annotation.Ojbk;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import io.swagger.v3.oas.annotations.Operation;
@@ -95,10 +95,17 @@ public class AiDocumentsController {
 	/**
 	 * 查询文档的图谱信息
 	 */
-	@Ojbk
 	@GetMapping(value = "/graph/info")
 	public Result<Map<String, Object>> getDocumentGraphInfo(Long documentId) {
 		return Result.success(aiDocumentsService.queryDocumentGraphInfo(documentId));
+	}
+
+	/**
+	 * 重新索引
+	 */
+	@PostMapping(value = "/reIndex")
+	public Result<Boolean> reIndex(@RequestBody AiDocumentIndexDTO indexDTO) {
+		return Result.success(aiDocumentsService.reIndexDocument(indexDTO.getDocumentId(), indexDTO.getIndexType()));
 	}
 
 }

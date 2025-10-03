@@ -1,5 +1,6 @@
 package com.art.ai.service.document;
 
+import com.art.ai.core.dto.dataset.AiDatasetsDTO;
 import com.art.ai.core.dto.document.AiDocumentsDTO;
 import com.art.ai.core.dto.document.AiDocumentsPageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -47,5 +48,15 @@ public interface AiDocumentsService {
 	 * 查询文档的图谱信息
 	 */
 	Map<String, Object> queryDocumentGraphInfo(Long documentId);
+
+	/**
+	 * 重新索引文档
+	 */
+	Boolean reIndexDocument(Long documentId, String indexType);
+
+	/**
+	 * 异步索引文档
+	 */
+	void asyncIndex(AiDatasetsDTO aiDatasetsDTO, AiDocumentsDTO documentsDTO, String indexTypes);
 
 }
