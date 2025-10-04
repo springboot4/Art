@@ -18,10 +18,10 @@ package com.art.system.manager;
 
 import com.art.system.api.user.dto.SystemUserDTO;
 import com.art.system.api.user.dto.SystemUserPageDTO;
+import com.art.system.api.user.redis.user.UserRedisConstants;
 import com.art.system.core.convert.UserConvert;
 import com.art.system.dao.dataobject.SystemUserDO;
 import com.art.system.dao.mysql.UserMapper;
-import com.art.system.api.user.redis.user.UserRedisConstants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +30,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static com.art.system.api.user.redis.user.UserRedisConstants.USER_DETAILS;
 
 /**
  * @author Fxz
@@ -70,7 +72,7 @@ public class UserManager {
 		return userDO.getUserId();
 	}
 
-	@CacheEvict(value = UserRedisConstants.USER_INFO, key = "#user.username")
+	@CacheEvict(value = { UserRedisConstants.USER_INFO, USER_DETAILS }, key = "#user.username")
 	public void updateUserById(SystemUserDTO user) {
 		userMapper.updateById(UserConvert.INSTANCE.convert(user));
 	}

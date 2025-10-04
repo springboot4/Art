@@ -39,7 +39,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -49,8 +48,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.art.system.api.user.redis.user.UserRedisConstants.USER_DETAILS;
 
 /**
  * @author fxz
@@ -122,7 +119,6 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@CacheEvict(cacheNames = USER_DETAILS, key = "#user.username")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void updateUserInfo(SystemUserDTO user) {
