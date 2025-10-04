@@ -3,6 +3,7 @@ package com.art.ai.service.dataset.service;
 import com.art.ai.core.dto.dataset.AiDocumentSegmentDTO;
 import com.art.ai.core.dto.document.AiDocumentSegmentPageDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import jakarta.annotation.Nullable;
 
 import java.util.List;
 
@@ -45,6 +46,6 @@ public interface AiDocumentSegmentService {
 	/**
 	 * 根据文档ID删除
 	 */
-	Boolean deleteByDocumentId(Long documentId);
+	Boolean deleteByDocumentId(Long documentId, @Nullable String segmentType);
 
 }

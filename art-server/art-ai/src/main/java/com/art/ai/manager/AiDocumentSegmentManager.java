@@ -5,6 +5,7 @@ import com.art.ai.core.dto.dataset.AiDocumentSegmentDTO;
 import com.art.ai.core.dto.document.AiDocumentSegmentPageDTO;
 import com.art.ai.dao.dataobject.AiDocumentSegmentDO;
 import com.art.ai.dao.mysql.AiDocumentSegmentMapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -86,7 +87,9 @@ public class AiDocumentSegmentManager {
 			.eq(aiDocumentSegmentDTO.getDocumentId() != null, AiDocumentSegmentDO::getDocumentId,
 					aiDocumentSegmentDTO.getDocumentId())
 			.eq(aiDocumentSegmentDTO.getDatasetId() != null, AiDocumentSegmentDO::getDatasetId,
-					aiDocumentSegmentDTO.getDatasetId()));
+					aiDocumentSegmentDTO.getDatasetId())
+			.eq(StringUtils.isNotBlank(aiDocumentSegmentDTO.getSegmentType()), AiDocumentSegmentDO::getSegmentType,
+					aiDocumentSegmentDTO.getSegmentType()));
 	}
 
 }

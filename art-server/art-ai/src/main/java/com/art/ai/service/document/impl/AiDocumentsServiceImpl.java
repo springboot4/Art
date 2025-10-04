@@ -1,6 +1,7 @@
 package com.art.ai.service.document.impl;
 
 import com.art.ai.core.constants.DatasetsIndexTypeConstants;
+import com.art.ai.core.constants.DocumentConstants;
 import com.art.ai.core.convert.AiDatasetsConvert;
 import com.art.ai.core.convert.AiDocumentsConvert;
 import com.art.ai.core.dto.dataset.AiDatasetsDTO;
@@ -138,7 +139,7 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 		graphDocumentCleanupService.cleanupDocumentGraphData(id);
 
 		// 删除分段信息
-		aiDocumentSegmentService.deleteByDocumentId(id);
+		aiDocumentSegmentService.deleteByDocumentId(id, null);
 
 		return aiDocumentsManager.deleteAiDocumentsById(id) > 0;
 	}
@@ -197,6 +198,9 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 			try {
 				EmbeddingStore<TextSegment> embeddingStore = getEmbeddingStore(null);
 				embeddingStore.removeAll(new IsEqualTo(KnowledgeConstants.DOCUMENT_KEY, documentsDTO.getId()));
+
+				aiDocumentSegmentService.deleteByDocumentId(documentsDTO.getId(),
+						DocumentConstants.VECTOR_STORE_SEGMENT);
 			}
 			catch (Exception e) {
 				log.error("remove embedding index error", e);
@@ -206,6 +210,8 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 		if (indexType.contains(DatasetsIndexTypeConstants.GRAPH)) {
 			try {
 				graphDocumentCleanupService.cleanupDocumentGraphData(documentsDTO.getId());
+
+				aiDocumentSegmentService.deleteByDocumentId(documentsDTO.getId(), DocumentConstants.GRAPH_SEGMENT);
 			}
 			catch (Exception e) {
 				log.error("remove graph index error", e);

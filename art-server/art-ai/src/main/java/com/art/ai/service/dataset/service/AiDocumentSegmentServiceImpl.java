@@ -5,6 +5,7 @@ import com.art.ai.core.dto.dataset.AiDocumentSegmentDTO;
 import com.art.ai.core.dto.document.AiDocumentSegmentPageDTO;
 import com.art.ai.manager.AiDocumentSegmentManager;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -75,9 +76,9 @@ public class AiDocumentSegmentServiceImpl implements AiDocumentSegmentService {
 	 * 根据文档ID删除
 	 */
 	@Override
-	public Boolean deleteByDocumentId(Long documentId) {
-		return aiDocumentSegmentManager
-			.deleteAiDocumentSegmentByWrapper(new AiDocumentSegmentDTO().setDocumentId(documentId)) > 0;
+	public Boolean deleteByDocumentId(Long documentId, @Nullable String segmentType) {
+		return aiDocumentSegmentManager.deleteAiDocumentSegmentByWrapper(
+				new AiDocumentSegmentDTO().setDocumentId(documentId).setSegmentType(segmentType)) > 0;
 	}
 
 }
