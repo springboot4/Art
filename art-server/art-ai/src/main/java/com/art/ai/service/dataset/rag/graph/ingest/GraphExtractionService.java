@@ -35,7 +35,7 @@ public class GraphExtractionService {
 		List<GraphExtraction> extract = segments.stream().map(segment -> {
 			AiDocumentSegmentDTO segmentDTO = createAndSaveGraphSegment(segment);
 
-			String response = getChatModelResponseIfExists(chatModel, segment);
+			String response = getChatModelResponseIfExists(chatModel, segment.text());
 
 			return new GraphExtraction(segment, segmentDTO.getId(), response);
 		}).collect(Collectors.toList());
@@ -44,13 +44,13 @@ public class GraphExtractionService {
 		return extract;
 	}
 
-	private String getChatModelResponseIfExists(ChatModel chatModel, TextSegment segment) {
-		if (StringUtils.isBlank(segment.text())) {
+	public String getChatModelResponseIfExists(ChatModel chatModel, String text) {
+		if (StringUtils.isBlank(text)) {
 			return "";
 		}
 
-		ChatResponse aiMessageResponse = chatModel.chat(
-				UserMessage.from(KnowledgePrompts.GRAPH_EXTRACTION_PROMPT_CN.replace("{input_text}", segment.text())));
+		ChatResponse aiMessageResponse = chatModel
+			.chat(UserMessage.from(KnowledgePrompts.GRAPH_EXTRACTION_PROMPT_CN.replace("{input_text}", text)));
 		return aiMessageResponse.aiMessage().text();
 	}
 

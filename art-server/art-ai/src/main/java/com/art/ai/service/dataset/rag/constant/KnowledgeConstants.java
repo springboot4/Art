@@ -20,7 +20,7 @@ public interface KnowledgeConstants {
 
 	String[] GRAPH_ENTITY_EXTRACTION_ENTITY_TYPES = { "organization", "person", "geo", "event" };
 
-	String GRAPH_TUPLE_DELIMITER = "<|>";
+	String TUPLE_DELIMITER = "<|>";
 
 	String GRAPH_RECORD_DELIMITER = "##";
 

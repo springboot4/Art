@@ -24,6 +24,8 @@ tmp:
   open-ai:
     base-url: ${OPEN_AI_BASE_URL:123456}
     api-key: ${OPEN_AI_API_KEY:123456}
+    chat-model: deepseek-ai/DeepSeek-V3.1
+    embedding-model: BAAI/bge-m3
   embedding:
     base-url: ${OPEN_AI_EMBEDDING_URL:123456}
     host: ${PG_VECTOR_HOST:123456}

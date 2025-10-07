@@ -175,20 +175,35 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 	 */
 	@Override
 	public Boolean reIndexDocument(Long documentId, String indexType) {
-		AiDocumentsDTO documentsDTO = AiDocumentsConvert.INSTANCE.convert(aiDocumentsManager.findById(documentId));
-		if (documentsDTO == null) {
-			throw new ArtException("文档不存在");
-		}
+		Long tenantId = TenantContextHolder.getTenantId();
+		Authentication authentication = SecurityUtil.getAuthentication();
 
-		AiDatasetsDTO datasetsDTO = AiDatasetsConvert.INSTANCE
-			.convert(aiDatasetsManager.findById(documentsDTO.getDatasetId()));
-		if (datasetsDTO == null) {
-			throw new ArtException("数据集不存在");
-		}
+		AsyncUtil.run(() -> {
+			try {
+				TenantContextHolder.setTenantId(tenantId);
+				SecurityUtil.setAuthentication(authentication);
 
-		removeIndex(documentsDTO, indexType);
+				AiDocumentsDTO documentsDTO = AiDocumentsConvert.INSTANCE
+					.convert(aiDocumentsManager.findById(documentId));
+				if (documentsDTO == null) {
+					throw new ArtException("文档不存在");
+				}
 
-		asyncIndex(datasetsDTO, documentsDTO, indexType);
+				AiDatasetsDTO datasetsDTO = AiDatasetsConvert.INSTANCE
+					.convert(aiDatasetsManager.findById(documentsDTO.getDatasetId()));
+				if (datasetsDTO == null) {
+					throw new ArtException("数据集不存在");
+				}
+
+				removeIndex(documentsDTO, indexType);
+
+				asyncIndex(datasetsDTO, documentsDTO, indexType);
+			}
+			finally {
+				TenantContextHolder.clear();
+				SecurityUtil.setAuthentication(null);
+			}
+		});
 
 		return Boolean.TRUE;
 	}
@@ -274,14 +289,7 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 			aiDocumentsManager.updateAiDocumentsById(documentsDTO);
 
 			// todo fxz 模型管理tmp:
-			ChatModel chatModel = OpenAiChatModel.builder()
-				.baseUrl(SpringUtil.getProperty("tmp.open-ai.base-url"))
-				.apiKey(SpringUtil.getProperty("tmp.open-ai.api-key"))
-				.modelName(datasetsDTO.getGraphicModel())
-				.logRequests(true)
-				.timeout(Duration.ofSeconds(60))
-				.maxRetries(1)
-				.build();
+			ChatModel chatModel = getChatModel(datasetsDTO.getGraphicModel());
 
 			graphService.ingest(document, chatModel);
 
@@ -327,7 +335,7 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 				KnowledgeConstants.MAX_OVERLAP_SIZE_IN_TOKENS);
 	}
 
-	private EmbeddingModel getEmbeddingModel(String embeddingModel, String embeddingModelProvider) {
+	public EmbeddingModel getEmbeddingModel(String embeddingModel, String embeddingModelProvider) {
 		EmbeddingModelConfig embeddingModelConfig = getEmbeddingModelConfig(embeddingModel, embeddingModelProvider);
 
 		return OpenAiEmbeddingModel.builder()
@@ -341,7 +349,18 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 			.build();
 	}
 
-	private EmbeddingStore<TextSegment> getEmbeddingStore(Long collectionBindingId) {
+	public ChatModel getChatModel(String modelName) {
+		return OpenAiChatModel.builder()
+			.baseUrl(SpringUtil.getProperty("tmp.open-ai.base-url"))
+			.apiKey(SpringUtil.getProperty("tmp.open-ai.api-key"))
+			.modelName(modelName)
+			.logRequests(true)
+			.timeout(Duration.ofSeconds(60))
+			.maxRetries(1)
+			.build();
+	}
+
+	public EmbeddingStore<TextSegment> getEmbeddingStore(Long collectionBindingId) {
 		EmbeddingStoreConfig embeddingStoreConfig = getEmbeddingStoreConfig(collectionBindingId);
 
 		// todo fxz 向量库管理

@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.art.ai.service.dataset.rag.constant.KnowledgeConstants.GRAPH_RECORD_DELIMITER;
-import static com.art.ai.service.dataset.rag.constant.KnowledgeConstants.GRAPH_TUPLE_DELIMITER;
+import static com.art.ai.service.dataset.rag.constant.KnowledgeConstants.TUPLE_DELIMITER;
 
 /**
  * @author fxz
@@ -34,8 +34,8 @@ public class GraphExtractionParser {
 		return Arrays.stream(rows).map(this::parseRow).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
-	private GraphExtractionInfo parseRow(String row) {
-		String[] recordAttributes = StringUtils.split(row, GRAPH_TUPLE_DELIMITER);
+	public GraphExtractionInfo parseRow(String row) {
+		String[] recordAttributes = StringUtils.split(row, TUPLE_DELIMITER);
 		boolean entityDesc = recordAttributes.length >= 4
 				&& (recordAttributes[0].contains("entity") || recordAttributes[0].contains("实体"));
 		if (entityDesc) {

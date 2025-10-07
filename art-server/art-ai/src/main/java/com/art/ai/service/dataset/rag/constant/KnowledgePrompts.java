@@ -3,7 +3,7 @@ package com.art.ai.service.dataset.rag.constant;
 import static com.art.ai.service.dataset.rag.constant.KnowledgeConstants.GRAPH_COMPLETION_DELIMITER;
 import static com.art.ai.service.dataset.rag.constant.KnowledgeConstants.GRAPH_ENTITY_EXTRACTION_ENTITY_TYPES;
 import static com.art.ai.service.dataset.rag.constant.KnowledgeConstants.GRAPH_RECORD_DELIMITER;
-import static com.art.ai.service.dataset.rag.constant.KnowledgeConstants.GRAPH_TUPLE_DELIMITER;
+import static com.art.ai.service.dataset.rag.constant.KnowledgeConstants.TUPLE_DELIMITER;
 
 /**
  * @author fxz
@@ -17,7 +17,7 @@ public interface KnowledgePrompts {
 
 			-步骤-
 			1. 识别所有实体。对于每个识别出的实体，提取以下信息：
-			- entity_name：实体的名称，首字母大写
+			- entity_name：实体的名称
 			- entity_type：以下类型之一：[{entity_types}]
 			- entity_description：实体的属性和活动的全面描述
 			将每个实体格式化为 ("entity"{tuple_delimiter}<entity_name>{tuple_delimiter}<entity_type>{tuple_delimiter}<entity_description>)
@@ -126,6 +126,24 @@ public interface KnowledgePrompts {
 			{completion_delimiter}
 
 			######################
+			示例 4:
+			Entity_types: ORGANIZATION,PERSON
+			文本:
+			星海集团年度股东大会定于下周三在北京总部举行，届时集团董事长李明博将发表重要讲话。大会将讨论公司未来五年的发展战略，并对上一财年的业绩进行审议。首席财务官张伟也将出席会议，并就公司的财务状况向股东作详细报告。
+			######################
+			输出:
+			("entity"{tuple_delimiter}星海集团{tuple_delimiter}ORGANIZATION{tuple_delimiter}星海集团是一家将举行年度股东大会的公司)
+			{record_delimiter}
+			("entity"{tuple_delimiter}李明博{tuple_delimiter}PERSON{tuple_delimiter}李明博是星海集团的董事长)
+			{record_delimiter}
+			("entity"{tuple_delimiter}张伟{tuple_delimiter}PERSON{tuple_delimiter}张伟是星海集团的首席财务官)
+			{record_delimiter}
+			("relationship"{tuple_delimiter}李明博{tuple_delimiter}星海集团{tuple_delimiter}李明博是星海集团的董事长，并将在年度股东大会上发表讲话{tuple_delimiter}5)
+			{record_delimiter}
+			("relationship"{tuple_delimiter}张伟{tuple_delimiter}星海集团{tuple_delimiter}张伟是星海集团的首席财务官，将报告公司财务状况{tuple_delimiter}8)
+			{completion_delimiter}
+
+			######################
 			-真实数据-
 			######################
 			Entity_types: {entity_types}
@@ -133,7 +151,7 @@ public interface KnowledgePrompts {
 			######################
 			输出:
 			"""
-		.replace("{tuple_delimiter}", GRAPH_TUPLE_DELIMITER)
+		.replace("{tuple_delimiter}", TUPLE_DELIMITER)
 		.replace("{entity_types}", String.join(",", GRAPH_ENTITY_EXTRACTION_ENTITY_TYPES))
 		.replace("{completion_delimiter}", GRAPH_COMPLETION_DELIMITER)
 		.replace("{record_delimiter}", GRAPH_RECORD_DELIMITER);
