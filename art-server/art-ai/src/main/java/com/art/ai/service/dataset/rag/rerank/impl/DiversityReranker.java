@@ -5,6 +5,7 @@ import com.art.ai.service.dataset.rag.rerank.RerankerConfig;
 import com.art.ai.service.dataset.rag.rerank.RerankerType;
 import com.art.ai.service.dataset.rag.retrieval.entity.RetrievalResult;
 import dev.langchain4j.data.embedding.Embedding;
+import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.store.embedding.CosineSimilarity;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -36,11 +34,6 @@ public class DiversityReranker implements Reranker {
 	 * Embedding缓存,避免重复计算 Key: 文本内容, Value: Embedding向量
 	 */
 	private Map<String, Embedding> embeddingCache = new ConcurrentHashMap<>();
-
-	/**
-	 * 是否使用Embedding相似度(自动检测)
-	 */
-	private Boolean useEmbeddingSimilarity;
 
 	/**
 	 * 用于计算文本Embedding的模型(可选)
@@ -75,55 +68,147 @@ public class DiversityReranker implements Reranker {
 	private List<RetrievalResult> performMMRReranking(String query, List<RetrievalResult> results,
 			RerankerConfig.DiversityRerankerConfig config, RerankerConfig globalConfig) {
 		double lambda = config.getLambda() != null ? config.getLambda() : 0.7;
-		int windowSize = config.getWindowSize() != null ? config.getWindowSize() : results.size();
 		int topK = globalConfig.getTopK() != null ? globalConfig.getTopK() : results.size();
 
-		List<RetrievalResult> selected = new ArrayList<>();
-		List<RetrievalResult> candidates = new ArrayList<>(results);
-
-		// 按原始相关性分数排序
-		candidates.sort((a, b) -> b.getScore().compareTo(a.getScore()));
-
-		// 选择第一个（最相关的）文档
-		if (!candidates.isEmpty()) {
-			RetrievalResult first = candidates.remove(0);
-			first.getMetadata().put("mmr_position", 1);
-			first.getMetadata().put("mmr_score", first.getScore().doubleValue());
-			selected.add(first);
+		if (results.isEmpty() || topK <= 0) {
+			return new ArrayList<>();
 		}
 
-		// MMR迭代选择
-		while (selected.size() < topK && !candidates.isEmpty()) {
-			RetrievalResult bestCandidate = null;
-			double bestScore = Double.NEGATIVE_INFINITY;
-			int bestIndex = -1;
+		long startTime = System.currentTimeMillis();
 
-			for (int i = 0; i < Math.min(candidates.size(), windowSize); i++) {
-				RetrievalResult candidate = candidates.get(i);
+		// 批量预计算所有Embedding
+		batchPrecomputeEmbeddings(results);
 
-				// 计算与查询的相关性分数
-				double relevanceScore = candidate.getScore().doubleValue();
+		// 预计算相似度矩阵
+		double[][] similarityMatrix = precomputeSimilarityMatrix(results);
+
+		long prepTime = System.currentTimeMillis() - startTime;
+		log.debug("相似度矩阵预计算完成: docs={}, time={}ms", results.size(), prepTime);
+
+		// MMR
+		List<RetrievalResult> selected = performMMRWithMatrix(results, similarityMatrix, lambda, topK);
+
+		long totalTime = System.currentTimeMillis() - startTime;
+		log.info("MMR重排序完成: input={}, output={}, duration={}ms", results.size(), selected.size(), totalTime);
+
+		return selected;
+	}
+
+	/**
+	 * 批量预计算所有文档的Embedding
+	 */
+	private void batchPrecomputeEmbeddings(List<RetrievalResult> results) {
+		if (embeddingModel == null) {
+			return;
+		}
+
+		// 筛选未缓存的内容
+		List<TextSegment> uncachedContents = results.stream()
+			.map(RetrievalResult::getContent)
+			.filter(content -> !embeddingCache.containsKey(content))
+			.distinct()
+			.map(TextSegment::from)
+			.toList();
+
+		if (uncachedContents.isEmpty()) {
+			log.debug("所有Embedding已缓存,无需重新计算");
+			return;
+		}
+
+		try {
+			long start = System.currentTimeMillis();
+			List<Embedding> embeddings = embeddingModel.embedAll(uncachedContents).content();
+
+			// 缓存结果
+			for (int i = 0; i < uncachedContents.size(); i++) {
+				embeddingCache.put(uncachedContents.get(i).text(), embeddings.get(i));
+			}
+
+			long duration = System.currentTimeMillis() - start;
+			log.debug("批量Embedding计算: count={}, duration={}ms", uncachedContents.size(), duration);
+		}
+		catch (Exception e) {
+			log.warn("批量Embedding计算失败,将逐个计算: {}", e.getMessage());
+		}
+	}
+
+	/**
+	 * 预计算相似度矩阵
+	 */
+	private double[][] precomputeSimilarityMatrix(List<RetrievalResult> results) {
+		int n = results.size();
+		double[][] matrix = new double[n][n];
+
+		for (int i = 0; i < n; i++) {
+			matrix[i][i] = 1.0;
+
+			for (int j = i + 1; j < n; j++) {
+				double similarity = calculateContentSimilarity(results.get(i).getContent(),
+						results.get(j).getContent());
+
+				matrix[i][j] = similarity;
+				matrix[j][i] = similarity;
+			}
+		}
+
+		return matrix;
+	}
+
+	/**
+	 * 使用预计算矩阵的MMR选择算法
+	 * </p>
+	 */
+	private List<RetrievalResult> performMMRWithMatrix(List<RetrievalResult> results, double[][] similarityMatrix,
+			double lambda, int topK) {
+
+		List<RetrievalResult> selected = new ArrayList<>();
+		boolean[] selectedFlags = new boolean[results.size()];
+
+		// 迭代选择topK个文档
+		for (int round = 0; round < topK && round < results.size(); round++) {
+			int bestIdx = -1;
+			double bestMmrScore = Double.NEGATIVE_INFINITY;
+
+			// 遍历所有未选中的候选
+			for (int i = 0; i < results.size(); i++) {
+				if (selectedFlags[i]) {
+					continue;
+				}
+
+				double relevance = results.get(i).getScore().doubleValue();
 
 				// 计算与已选文档的最大相似度
-				double maxSimilarity = calculateMaxSimilarity(candidate, selected);
+				double maxSimilarity = 0.0;
+				for (int j = 0; j < results.size(); j++) {
+					if (selectedFlags[j]) {
+						maxSimilarity = Math.max(maxSimilarity, similarityMatrix[i][j]);
+					}
+				}
 
-				// MMR分数：λ * 相关性 - (1-λ) * 最大相似度
-				double mmrScore = lambda * relevanceScore - (1 - lambda) * maxSimilarity;
+				// MMR分数: λ*相关性 - (1-λ)*最大相似度
+				double mmrScore = lambda * relevance - (1 - lambda) * maxSimilarity;
 
-				if (mmrScore > bestScore) {
-					bestScore = mmrScore;
-					bestCandidate = candidate;
-					bestIndex = i;
+				if (mmrScore > bestMmrScore) {
+					bestMmrScore = mmrScore;
+					bestIdx = i;
 				}
 			}
 
-			if (bestCandidate != null) {
-				candidates.remove(bestIndex);
-				bestCandidate.setScore(BigDecimal.valueOf(bestScore));
-				bestCandidate.getMetadata().put("mmr_position", selected.size() + 1);
-				bestCandidate.getMetadata().put("mmr_score", bestScore);
-				bestCandidate.getMetadata().put("original_relevance", bestCandidate.getScore().doubleValue());
-				selected.add(bestCandidate);
+			// 选中最佳候选
+			if (bestIdx != -1) {
+				selectedFlags[bestIdx] = true;
+				RetrievalResult selectedResult = results.get(bestIdx);
+
+				// 保存原始分数
+				double originalScore = selectedResult.getScore().doubleValue();
+
+				// 更新元数据
+				selectedResult.setScore(BigDecimal.valueOf(bestMmrScore));
+				selectedResult.getMetadata().put("mmr_position", selected.size() + 1);
+				selectedResult.getMetadata().put("mmr_score", bestMmrScore);
+				selectedResult.getMetadata().put("original_score", originalScore);
+
+				selected.add(selectedResult);
 			}
 		}
 
@@ -131,60 +216,18 @@ public class DiversityReranker implements Reranker {
 	}
 
 	/**
-	 * 计算候选文档与已选文档集合的最大相似度
-	 */
-	private double calculateMaxSimilarity(RetrievalResult candidate, List<RetrievalResult> selected) {
-		if (selected.isEmpty()) {
-			return 0.0;
-		}
-
-		double maxSim = 0.0;
-		String candidateContent = candidate.getContent();
-
-		for (RetrievalResult selectedDoc : selected) {
-			double similarity = calculateContentSimilarity(candidateContent, selectedDoc.getContent());
-			maxSim = Math.max(maxSim, similarity);
-		}
-
-		return maxSim;
-	}
-
-	/**
-	 * 计算内容相似度 (智能选择策略)
-	 * <p>
-	 * 优先使用Embedding余弦相似度(如果EmbeddingModel可用),否则降级为Jaccard相似度
-	 * </p>
+	 * 计算内容相似度
 	 */
 	private double calculateContentSimilarity(String content1, String content2) {
 		if (content1 == null || content2 == null) {
 			return 0.0;
 		}
 
-		// 初始化相似度计算策略(懒加载)
-		if (useEmbeddingSimilarity == null) {
-			useEmbeddingSimilarity = (embeddingModel != null);
-			if (useEmbeddingSimilarity) {
-				log.info("MMR多样性重排序: 使用Embedding余弦相似度(深度语义理解)");
-			}
-			else {
-				log.info("MMR多样性重排序: 使用Jaccard相似度(快速词汇匹配)");
-			}
-		}
-
-		// 根据策略计算相似度
-		if (useEmbeddingSimilarity) {
-			return calculateEmbeddingSimilarity(content1, content2);
-		}
-		else {
-			return calculateJaccardSimilarity(content1, content2);
-		}
+		return calculateEmbeddingSimilarity(content1, content2);
 	}
 
 	/**
-	 * 计算Embedding余弦相似度 (推荐方法)
-	 * <p>
-	 * 使用CosineSimilarity计算两个文本的语义相似度<br/>
-	 * 优点: 深度语义理解,支持同义词、近义词、跨语言<br/>
+	 * 计算Embedding余弦相似度
 	 */
 	private double calculateEmbeddingSimilarity(String content1, String content2) {
 		try {
@@ -197,8 +240,8 @@ public class DiversityReranker implements Reranker {
 			return (similarity + 1.0) / 2.0;
 		}
 		catch (Exception e) {
-			log.warn("Embedding相似度计算失败,降级为Jaccard相似度: {}", e.getMessage());
-			return calculateJaccardSimilarity(content1, content2);
+			log.warn("Embedding相似度计算失败: {}", e.getMessage());
+			return 0.0;
 		}
 	}
 
@@ -214,62 +257,6 @@ public class DiversityReranker implements Reranker {
 				throw new RuntimeException("Embedding计算失败: " + e.getMessage(), e);
 			}
 		});
-	}
-
-	/**
-	 * 计算Jaccard相似度 (备选方法)
-	 * <p>
-	 * 基于词袋模型的Jaccard相似度,计算词汇重叠度<br/>
-	 * 优点: 计算速度快,无外部依赖<br/>
-	 * 缺点: 无法理解语义,"汽车"和"car"被视为不同词
-	 * </p>
-	 */
-	private double calculateJaccardSimilarity(String content1, String content2) {
-		Set<String> words1 = tokenize(content1);
-		Set<String> words2 = tokenize(content2);
-
-		if (words1.isEmpty() && words2.isEmpty()) {
-			return 1.0;
-		}
-
-		Set<String> intersection = new HashSet<>(words1);
-		intersection.retainAll(words2);
-
-		Set<String> union = new HashSet<>(words1);
-		union.addAll(words2);
-
-		return union.isEmpty() ? 0.0 : (double) intersection.size() / union.size();
-	}
-
-	/**
-	 * 简单分词
-	 */
-	private Set<String> tokenize(String text) {
-		if (text == null || text.trim().isEmpty()) {
-			return Collections.emptySet();
-		}
-
-		// 简单的中英文分词
-		Set<String> tokens = new HashSet<>();
-
-		// 英文分词
-		String[] englishWords = text.toLowerCase().replaceAll("[^a-zA-Z\\u4e00-\\u9fa5\\s]", " ").split("\\s+");
-
-		for (String word : englishWords) {
-			if (word.length() > 1) {
-				tokens.add(word.trim());
-			}
-		}
-
-		// 中文字符级别的分词
-		for (char c : text.toCharArray()) {
-			// 中文字符范围
-			if (c >= 0x4e00 && c <= 0x9fa5) {
-				tokens.add(String.valueOf(c));
-			}
-		}
-
-		return tokens;
 	}
 
 	/**

@@ -14,8 +14,10 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * LLM重排序器 - 使用大语言模型对相关性进行评分
@@ -43,15 +45,20 @@ public class LlmReranker implements Reranker {
 			}
 			chatModel = llmConfig.getChatModel();
 
-			int batchSize = 10;
-			List<RetrievalResult> rerankedResults = new ArrayList<>();
+			int batchSize = 5;
+			List<List<RetrievalResult>> batches = splitIntoBatches(results, batchSize);
 
-			for (int i = 0; i < results.size(); i += batchSize) {
-				int endIndex = Math.min(i + batchSize, results.size());
-				List<RetrievalResult> batch = results.subList(i, endIndex);
+			if (batches.isEmpty()) {
+				return results;
+			}
 
-				List<RetrievalResult> batchResults = rerankBatch(query, batch, llmConfig);
-				rerankedResults.addAll(batchResults);
+			// 单批次直接处理,多批次并发处理
+			List<RetrievalResult> rerankedResults;
+			if (batches.size() == 1) {
+				rerankedResults = rerankBatch(query, batches.get(0), llmConfig);
+			}
+			else {
+				rerankedResults = rerankBatchesConcurrently(query, batches, llmConfig);
 			}
 
 			// 按新的相关性分数排序
@@ -65,6 +72,54 @@ public class LlmReranker implements Reranker {
 			log.error("LLM重排序失败", e);
 			return results;
 		}
+	}
+
+	/**
+	 * 并发处理多个批次
+	 */
+	private List<RetrievalResult> rerankBatchesConcurrently(String query, List<List<RetrievalResult>> batches,
+			RerankerConfig.LlmRerankerConfig llmConfig) {
+
+		long startTime = System.currentTimeMillis();
+
+		// 并发执行所有批次
+		List<CompletableFuture<List<RetrievalResult>>> futures = batches.stream()
+			.map(batch -> CompletableFuture.supplyAsync(() -> {
+				try {
+					return rerankBatch(query, batch, llmConfig);
+				}
+				catch (Exception e) {
+					log.warn("批次重排序失败,保留原排序: {}", e.getMessage());
+					return batch;
+				}
+			}))
+			.toList();
+
+		// 等待所有批次完成
+		CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+		// 收集结果
+		List<RetrievalResult> allResults = futures.stream()
+			.map(CompletableFuture::join)
+			.flatMap(List::stream)
+			.collect(Collectors.toList());
+
+		long duration = System.currentTimeMillis() - startTime;
+		log.info("LLM批次并发重排序完成: batches={}, totalDocs={}, duration={}ms", batches.size(), allResults.size(), duration);
+
+		return allResults;
+	}
+
+	/**
+	 * 将结果列表分割成批次
+	 */
+	private List<List<RetrievalResult>> splitIntoBatches(List<RetrievalResult> results, int batchSize) {
+		List<List<RetrievalResult>> batches = new ArrayList<>();
+		for (int i = 0; i < results.size(); i += batchSize) {
+			int endIndex = Math.min(i + batchSize, results.size());
+			batches.add(new ArrayList<>(results.subList(i, endIndex)));
+		}
+		return batches;
 	}
 
 	/**

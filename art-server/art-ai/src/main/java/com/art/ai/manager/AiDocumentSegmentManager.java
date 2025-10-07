@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -75,6 +76,7 @@ public class AiDocumentSegmentManager {
 	 * 根据id查询
 	 * @param id 主键
 	 */
+	@Cacheable(value = "ai:document:segment", key = "#id", unless = "#result == null")
 	public AiDocumentSegmentDO findById(Long id) {
 		return aiDocumentSegmentMapper.selectById(id);
 	}
