@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 知识库召回服务
  *
@@ -25,17 +27,25 @@ public class KnowledgeRetrievalService {
 	private final AiDatasetsService aiDatasetsService;
 
 	/**
-	 * 执行知识库召回测试 - 委托给Pipeline处理
+	 * 执行知识库召回
 	 */
 	public RetrievalResponse retrieve(RetrievalRequest request) {
 		validateRequest(request);
-
-		AiDatasetsDTO dataset = aiDatasetsService.findById(request.getDatasetId());
-		if (dataset == null) {
-			throw new IllegalArgumentException("数据集不存在: " + request.getDatasetId());
-		}
+		validateDatasets(request.getAllDatasetIds());
 
 		return retrievalPipeline.execute(request);
+	}
+
+	/**
+	 * 验证数据集存在性
+	 */
+	private void validateDatasets(List<Long> datasetIds) {
+		for (Long datasetId : datasetIds) {
+			AiDatasetsDTO dataset = aiDatasetsService.findById(datasetId);
+			if (dataset == null) {
+				throw new IllegalArgumentException("数据集不存在: " + datasetId);
+			}
+		}
 	}
 
 	/**
@@ -45,7 +55,9 @@ public class KnowledgeRetrievalService {
 		if (request.getQuery() == null || request.getQuery().trim().isEmpty()) {
 			throw new IllegalArgumentException("查询语句不能为空");
 		}
-		if (request.getDatasetId() == null) {
+
+		List<Long> datasetIds = request.getAllDatasetIds();
+		if (datasetIds.isEmpty()) {
 			throw new IllegalArgumentException("数据集ID不能为空");
 		}
 		if (request.getRetrievalTypes() == null || request.getRetrievalTypes().isEmpty()) {

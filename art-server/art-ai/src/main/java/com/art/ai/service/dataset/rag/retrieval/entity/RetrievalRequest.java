@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 
@@ -23,6 +24,23 @@ public class RetrievalRequest {
 
 	private Long datasetId;
 
+	private List<Long> datasetIds;
+
 	private List<RetrievalType> retrievalTypes;
+
+	/**
+	 * 获取所有数据集ID
+	 */
+	public List<Long> getAllDatasetIds() {
+		if (CollectionUtils.isNotEmpty(datasetIds)) {
+			return datasetIds;
+		}
+
+		if (datasetId != null) {
+			return List.of(datasetId);
+		}
+
+		return List.of();
+	}
 
 }

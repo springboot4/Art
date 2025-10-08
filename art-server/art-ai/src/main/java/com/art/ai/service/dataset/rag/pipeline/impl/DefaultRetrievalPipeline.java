@@ -195,23 +195,57 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	private List<RetrievalResult> executeRetriever(RetrievalType type, RetrievalRequest request,
 			PipelineConfig.RetrieverConfig retrieverConfig) {
 		try {
-			return switch (type) {
-				case VECTOR ->
-					vectorRetrievalService.retrieve(request.getQuery(), request.getDatasetId(), getEmbeddingModel(),
-							getEmbeddingStore(request.getDatasetId()), retrieverConfig.getVectorConfig());
+			List<Long> datasetIds = request.getAllDatasetIds();
+			if (datasetIds.isEmpty()) {
+				return Collections.emptyList();
+			}
 
-				case GRAPH -> graphRetrievalService.retrieve(request.getQuery(), request.getDatasetId(), getChatModel(),
-						retrieverConfig.getGraphConfig());
+			List<CompletableFuture<List<RetrievalResult>>> futures = datasetIds.stream()
+				.map(datasetId -> CompletableFuture.supplyAsync(() -> {
+					try {
+						return executeSingleDatasetRetriever(type, request.getQuery(), datasetId, retrieverConfig);
+					}
+					catch (Exception e) {
+						log.error("数据集召回失败: type={}, datasetId={}", type, datasetId, e);
+						return Collections.<RetrievalResult>emptyList();
+					}
+				}))
+				.toList();
 
-				case HYBRID ->
-					hybridRetrievalService.retrieve(request.getQuery(), request.getDatasetId(), getEmbeddingModel(),
-							getEmbeddingStore(request.getDatasetId()), getChatModel(), retrieverConfig);
-			};
+			List<RetrievalResult> allResults = new ArrayList<>();
+			try {
+				CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+				for (CompletableFuture<List<RetrievalResult>> future : futures) {
+					allResults.addAll(future.get());
+				}
+			}
+			catch (Exception e) {
+				log.error("并发召回失败,降级为串行执行: type={}", type, e);
+			}
+
+			return allResults;
 		}
 		catch (Exception e) {
 			log.error("召回器执行异常: type={}", type, e);
 			return Collections.emptyList();
 		}
+	}
+
+	/**
+	 * 执行召回
+	 */
+	private List<RetrievalResult> executeSingleDatasetRetriever(RetrievalType type, String query, Long datasetId,
+			PipelineConfig.RetrieverConfig retrieverConfig) {
+		return switch (type) {
+			case VECTOR -> vectorRetrievalService.retrieve(query, datasetId, getEmbeddingModel(),
+					getEmbeddingStore(datasetId), retrieverConfig.getVectorConfig());
+
+			case GRAPH ->
+				graphRetrievalService.retrieve(query, datasetId, getChatModel(), retrieverConfig.getGraphConfig());
+
+			case HYBRID -> hybridRetrievalService.retrieve(query, datasetId, getEmbeddingModel(),
+					getEmbeddingStore(datasetId), getChatModel(), retrieverConfig);
+		};
 	}
 
 	/**
@@ -353,13 +387,13 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	private PipelineConfig getDefaultConfig() {
 		PipelineConfig.VectorRetrievalConfig vectorRetrievalConfig = PipelineConfig.VectorRetrievalConfig.builder()
 			.embeddingModel(getEmbeddingModel())
-			.topK(20)
+			.topK(10)
 			.build();
 		PipelineConfig.GraphRetrievalConfig graphRetrievalConfig = PipelineConfig.GraphRetrievalConfig.builder()
 			.maxDepth(2)
 			.entityConfidenceThreshold(0.7)
 			.includeRelations(Boolean.TRUE)
-			.maxNodes(30)
+			.maxNodes(10)
 			.build();
 
 		return PipelineConfig.builder()
@@ -383,7 +417,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 							.graphConfig(graphRetrievalConfig)
 							.build())
 						.build()))
-			.fusionConfig(PipelineConfig.FusionConfig.builder().strategy("rrf").rrfK(60).maxResults(50).build())
+			.fusionConfig(PipelineConfig.FusionConfig.builder().strategy("rrf").rrfK(60).maxResults(30).build())
 			.rerankerConfigs(getDefaultRerankerConfigs())
 			.postProcessConfig(PipelineConfig.PostProcessConfig.builder()
 				.deduplicationStrategy("content")

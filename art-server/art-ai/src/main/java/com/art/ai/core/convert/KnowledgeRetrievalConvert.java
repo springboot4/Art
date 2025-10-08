@@ -24,6 +24,7 @@ public class KnowledgeRetrievalConvert {
 		return RetrievalRequest.builder()
 			.query(dto.getQuery())
 			.datasetId(dto.getDatasetId())
+			.datasetIds(dto.getDatasetIds())
 			.retrievalTypes(dto.getRetrievalTypes())
 			.build();
 	}

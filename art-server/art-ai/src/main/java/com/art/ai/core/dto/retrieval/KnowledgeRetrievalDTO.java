@@ -29,8 +29,10 @@ public class KnowledgeRetrievalDTO {
 	private String query;
 
 	@Schema(description = "数据集ID")
-	@NotNull(message = "数据集ID不能为空")
 	private Long datasetId;
+
+	@Schema(description = "数据集ID集合")
+	private List<Long> datasetIds;
 
 	@Schema(description = "召回类型列表")
 	@NotNull(message = "召回类型不能为空")
