@@ -32,6 +32,9 @@ public class AiDocumentsDTO extends BaseCreateEntity {
 	@Schema(description = "文件名")
 	private String fileName;
 
+	@Schema(description = "原始文件名")
+	private String originalFilename;
+
 	@Schema(description = "文档标题")
 	private String title;
 

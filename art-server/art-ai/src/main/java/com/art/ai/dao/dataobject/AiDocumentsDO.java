@@ -29,6 +29,9 @@ public class AiDocumentsDO extends BaseEntity {
 	/** 文件名 */
 	private String fileName;
 
+	/** 原始文件名 */
+	private String originalFilename;
+
 	/** 文档标题 */
 	private String title;
 

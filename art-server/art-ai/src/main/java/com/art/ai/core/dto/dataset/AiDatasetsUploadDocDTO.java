@@ -29,4 +29,7 @@ public class AiDatasetsUploadDocDTO {
 	@Schema(description = "桶名称")
 	private String bucketName;
 
+	@Schema(description = "原始文件名称")
+	private String originalFilename;
+
 }

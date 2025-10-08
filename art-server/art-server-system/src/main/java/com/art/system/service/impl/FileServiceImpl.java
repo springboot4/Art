@@ -74,6 +74,7 @@ public class FileServiceImpl implements FileService {
 		res.put("bucketName", bucketName);
 		res.put("fileName", fileName);
 		res.put("url", String.format("/system/file/download/%s/%s", bucketName, fileName));
+		res.put("originalFilename", file.getOriginalFilename());
 
 		File tempFile = FileUtil.createTempFile(FileUtil.getTmpDir());
 		try {

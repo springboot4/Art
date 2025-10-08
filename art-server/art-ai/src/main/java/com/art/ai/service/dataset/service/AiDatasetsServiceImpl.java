@@ -119,6 +119,7 @@ public class AiDatasetsServiceImpl implements AiDatasetsService {
 			documentsDTO.setFileName(uploadDoc.getFileName());
 			documentsDTO.setTitle(uploadDoc.getFileName());
 			documentsDTO.setBucketName(uploadDoc.getBucketName());
+			documentsDTO.setOriginalFilename(uploadDoc.getOriginalFilename());
 			documentsDTO.setGraphicalStatus(GraphStatusEnum.NONE);
 			documentsDTO.setEmbeddingStatus(EmbeddingStatusEnum.NONE);
 			documentsDTO = AiDocumentsConvert.INSTANCE.convert(aiDocumentsManager.addAiDocuments(documentsDTO));
