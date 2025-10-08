@@ -76,7 +76,7 @@
 
 我们热烈欢迎任何形式的贡献。
 
-1.  **发现和报告 Bug**: 提交 [Issues](https://github.com/YOUR_ORG/art/issues)。
+1.  **发现和报告 Bug**: 提交 Issues。
 2.  **提交代码**: Fork 项目，完成开发或修复后，提交 Pull Request。
 3.  **完善文档**: 帮助我们改进文档，让项目更容易被理解和使用。
 
