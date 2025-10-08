@@ -4,9 +4,11 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
+import com.art.json.sdk.util.JacksonUtil;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -40,7 +42,12 @@ public class VariableRenderUtils {
 
 		Template template = ENGINE.getTemplate(text);
 
-		return template.render(args);
+		HashMap<String, String> inputs = new HashMap<>();
+		args.forEach((k, v) -> {
+			inputs.put(k, JacksonUtil.toJsonString(v));
+		});
+
+		return template.render(inputs);
 	}
 
 }
