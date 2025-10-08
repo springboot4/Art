@@ -74,17 +74,59 @@ CREATE TABLE `ai_datasets` (
                                `description` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
                                `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限(公开或者非公开)',
                                `data_source_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据源类型(文件上传)',
-                               `indexing_technique` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '索引策略(高质量或经济)',
                                `create_time` datetime DEFAULT NULL,
                                `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
                                `update_time` datetime DEFAULT NULL,
-                               `update_by` datetime DEFAULT NULL,
+                               `update_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
                                `embedding_model` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
                                `embedding_model_provider` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
                                `collection_binding_id` bigint DEFAULT NULL COMMENT '关联的集合id',
                                `retrieval_model` json DEFAULT NULL COMMENT '检索配置(混合检索或向量检索)',
+                               `graphic_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                               `graphic_model_provider` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
                                PRIMARY KEY (`id`),
                                UNIQUE KEY `uni_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Table structure for ai_documents
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_documents`;
+CREATE TABLE `ai_documents` (
+                                `id` bigint DEFAULT NULL,
+                                `dataset_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据集主键',
+                                `bucket_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件桶名称',
+                                `file_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件名',
+                                `title` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文档标题',
+                                `brief` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文档摘要',
+                                `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '文档内容',
+                                `embedding_status` int DEFAULT NULL COMMENT '向量化状态',
+                                `embedding_status_change_time` datetime DEFAULT NULL COMMENT '向量化状态改变时间',
+                                `graphical_status` int DEFAULT NULL COMMENT '图谱化状态',
+                                `graphical_status_change_time` datetime DEFAULT NULL COMMENT '图谱状态改变时间',
+                                `update_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                                `update_time` datetime DEFAULT NULL,
+                                `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                                `create_time` datetime DEFAULT NULL,
+                                `original_filename` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Table structure for ai_document_segment
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_document_segment`;
+CREATE TABLE `ai_document_segment` (
+                                       `id` bigint NOT NULL,
+                                       `segment` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '分段内容',
+                                       `dataset_id` bigint DEFAULT NULL COMMENT '数据集id',
+                                       `document_id` bigint DEFAULT NULL COMMENT '文档id',
+                                       `tenant_id` bigint DEFAULT NULL,
+                                       `update_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                                       `update_time` datetime DEFAULT NULL,
+                                       `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                                       `create_time` datetime DEFAULT NULL,
+                                       `segment_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                                       PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;
