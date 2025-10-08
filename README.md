@@ -48,54 +48,6 @@
 *   **☁️ 模型无关 & 微服务架构**: 支持统一接入并管理多种模型服务商（OpenAI, Azure, 文心一言, 通义千问等）。项目基于高内聚、低耦合的微服务架构设计，所有模块皆可独立部署、弹性伸缩，并易于二次开发。
 *   **🌍 完全开源**: 遵循 Apache 2.0 协议，所有代码开源，社区驱动，透明可信。
 
-## 🏗️ 架构设计
-
-Art 采用现代化的微服务架构，确保了系统的水平扩展能力和高可用性。
-
-```mermaid
-graph TD
-    subgraph User Interface
-        A[Admin UI / App UI]
-    end
-
-    subgraph Core Services
-        B[art-gateway]
-        C[art-auth]
-        D[art-server-system]
-        E[art-ai]
-    end
-
-    subgraph AI Infrastructure
-        F[LLM Providers]
-        G[Vector Database]
-        H[Knowledge Graph]
-    end
-
-    subgraph Backend Infrastructure
-        I[Nacos]
-        J[Redis]
-        K[MySQL]
-        L[MQ]
-    end
-
-    A --> B
-    B --> C
-    B --> D
-    B --> E
-
-    E --> F
-    E --> G
-    E --> H
-
-    C -.-> I & J & K
-    D -.-> I & J & K
-    E -.-> I & J & K & L
-
-    style F fill:#f9f,stroke:#333,stroke-width:2px
-    style G fill:#ccf,stroke:#333,stroke-width:2px
-    style H fill:#cfc,stroke:#333,stroke-width:2px
-```
-
 ## 🗺️ 路线图 (Roadmap)
 
 我们正处于快速迭代中，致力于实现一个功能完备的 AI 应用开发平台。
