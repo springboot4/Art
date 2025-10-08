@@ -1,8 +1,13 @@
 package com.art.ai.controller;
 
+import com.art.ai.core.convert.KnowledgeRetrievalConvert;
 import com.art.ai.core.dto.dataset.AiDatasetsDTO;
 import com.art.ai.core.dto.dataset.AiDatasetsPageDTO;
 import com.art.ai.core.dto.dataset.AiDatasetsUploadDocDTO;
+import com.art.ai.core.dto.retrieval.KnowledgeRetrievalDTO;
+import com.art.ai.service.dataset.rag.retrieval.entity.RetrievalRequest;
+import com.art.ai.service.dataset.rag.retrieval.entity.RetrievalResponse;
+import com.art.ai.service.dataset.rag.retrieval.service.KnowledgeRetrievalService;
 import com.art.ai.service.dataset.service.AiDatasetsService;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
@@ -10,6 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +36,19 @@ import java.util.List;
 public class AiDatasetsController {
 
 	private final AiDatasetsService aiDatasetsService;
+
+	private final KnowledgeRetrievalService knowledgeRetrievalService;
+
+	/**
+	 * 知识库召回测试
+	 */
+	@Operation(summary = "知识库召回测试", description = "支持向量召回、图谱召回和混合召回，包含重排序和融合")
+	@PostMapping("/recall/test")
+	public Result<RetrievalResponse> testRetrieval(@RequestBody @Validated KnowledgeRetrievalDTO dto) {
+		RetrievalRequest request = KnowledgeRetrievalConvert.toRequest(dto);
+		RetrievalResponse response = knowledgeRetrievalService.retrieve(request);
+		return Result.success(response);
+	}
 
 	/**
 	 * 文档存储并索引

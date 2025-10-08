@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 混合召回服务 - 简化版，不再包含融合逻辑 职责：协调多个召回器执行，返回原始结果 融合逻辑统一由 RetrievalPipeline 处理
+ * 混合召回服务
  *
  * @author fxz
  * @since 2025/10/05
