@@ -1,6 +1,8 @@
 package com.art.ai.service.workflow.domain.node.llm;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.art.ai.core.model.AiModelInvokeOptions;
+import com.art.ai.service.model.runtime.AiModelRuntimeService;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
 import com.art.ai.service.workflow.domain.node.NodeDataProcessor;
@@ -17,7 +19,6 @@ import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import dev.langchain4j.model.chat.request.ChatRequestParameters;
 import dev.langchain4j.model.chat.response.ChatResponse;
-import dev.langchain4j.model.openai.OpenAiChatModel;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -43,17 +44,13 @@ public class LlmNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig> {
 		List<LlmNodeConfig.Message> messages = nodeConfig.getMessages();
 		String systemPrompt = nodeConfig.getSystemPrompt();
 
-		// todo fxz 模型管理tmp:
-		ChatModel chatModel = OpenAiChatModel.builder()
-			.baseUrl(SpringUtil.getProperty("tmp.open-ai.base-url"))
-			.apiKey(SpringUtil.getProperty("tmp.open-ai.api-key"))
-			.logRequests(true)
+		AiModelRuntimeService modelRuntimeService = SpringUtil.getBean(AiModelRuntimeService.class);
+		AiModelInvokeOptions options = AiModelInvokeOptions.builder()
 			.timeout(Duration.ofSeconds(nodeConfig.getTimeout()))
-			.maxRetries(nodeConfig.getRetryCount())
 			.build();
+		ChatModel chatModel = modelRuntimeService.acquireChatModel(null, Long.valueOf(nodeConfig.getModel()), options);
 
 		ChatRequestParameters parameters = ChatRequestParameters.builder()
-			.modelName(nodeConfig.getModel())
 			.temperature(nodeConfig.getTemperature())
 			.maxOutputTokens(nodeConfig.getMaxTokens())
 			.build();

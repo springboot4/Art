@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -51,6 +53,7 @@ public class AiDatasetsManager {
 	 * @param id 主键
 	 * @return 影响行数
 	 */
+	@CacheEvict(value = "ai_datasets", key = "#id")
 	public Integer deleteAiDatasetsById(Long id) {
 		return aiDatasetsMapper.deleteById(id);
 	}
@@ -60,6 +63,7 @@ public class AiDatasetsManager {
 	 * @param aiDatasetsDTO aiDatasetsDTO
 	 * @return 影响条数
 	 */
+	@CacheEvict(value = "ai_datasets", key = "#aiDatasetsDTO.id")
 	public Integer updateAiDatasetsById(AiDatasetsDTO aiDatasetsDTO) {
 		return aiDatasetsMapper.updateById(AiDatasetsConvert.INSTANCE.convert(aiDatasetsDTO));
 	}
@@ -93,6 +97,7 @@ public class AiDatasetsManager {
 	 * @param id 主键
 	 * @return AiDatasetsDO
 	 */
+	@Cacheable(value = "ai_datasets", key = "#id", unless = "#result == null")
 	public AiDatasetsDO findById(Long id) {
 		return aiDatasetsMapper.selectById(id);
 	}

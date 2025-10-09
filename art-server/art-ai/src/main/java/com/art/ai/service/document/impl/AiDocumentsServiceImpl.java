@@ -7,6 +7,7 @@ import com.art.ai.core.convert.AiDocumentsConvert;
 import com.art.ai.core.dto.dataset.AiDatasetsDTO;
 import com.art.ai.core.dto.document.AiDocumentsDTO;
 import com.art.ai.core.dto.document.AiDocumentsPageDTO;
+import com.art.ai.core.model.AiModelInvokeOptions;
 import com.art.ai.manager.AiDatasetsManager;
 import com.art.ai.manager.AiDocumentsManager;
 import com.art.ai.service.dataset.rag.constant.EmbedStoreTypeConstants;
@@ -14,7 +15,6 @@ import com.art.ai.service.dataset.rag.constant.EmbeddingStatusEnum;
 import com.art.ai.service.dataset.rag.constant.GraphStatusEnum;
 import com.art.ai.service.dataset.rag.constant.KnowledgeConstants;
 import com.art.ai.service.dataset.rag.embedding.entity.EmbeddingIngestParam;
-import com.art.ai.service.dataset.rag.embedding.entity.EmbeddingModelConfig;
 import com.art.ai.service.dataset.rag.embedding.entity.EmbeddingStoreConfig;
 import com.art.ai.service.dataset.rag.embedding.service.EmbeddingService;
 import com.art.ai.service.dataset.rag.graph.GraphService;
@@ -27,6 +27,7 @@ import com.art.ai.service.dataset.rag.graph.entity.GraphVertexSearch;
 import com.art.ai.service.dataset.rag.graph.store.GraphStore;
 import com.art.ai.service.dataset.service.AiDocumentSegmentService;
 import com.art.ai.service.document.AiDocumentsService;
+import com.art.ai.service.model.runtime.AiModelRuntimeService;
 import com.art.common.security.core.utils.SecurityUtil;
 import com.art.common.tenant.context.TenantContextHolder;
 import com.art.core.common.exception.ArtException;
@@ -41,8 +42,6 @@ import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
-import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.filter.Filter;
 import dev.langchain4j.store.embedding.filter.comparison.ContainsString;
@@ -86,6 +85,8 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 	private final EmbeddingService embeddingService;
 
 	private final GraphService graphService;
+
+	private final AiModelRuntimeService aiModelRuntimeService;
 
 	/**
 	 * 添加
@@ -336,28 +337,12 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 	}
 
 	public EmbeddingModel getEmbeddingModel(String embeddingModel, String embeddingModelProvider) {
-		EmbeddingModelConfig embeddingModelConfig = getEmbeddingModelConfig(embeddingModel, embeddingModelProvider);
-
-		return OpenAiEmbeddingModel.builder()
-			.apiKey(embeddingModelConfig.getApiKey())
-			.baseUrl(embeddingModelConfig.getBaseUrl())
-			.maxRetries(embeddingModelConfig.getMaxRetries())
-			.timeout(embeddingModelConfig.getTimeout())
-			.dimensions(embeddingModelConfig.getDimensions())
-			.modelName(embeddingModelConfig.getModelName())
-			.logRequests(true)
-			.build();
+		return aiModelRuntimeService.acquireEmbeddingModel(null, Long.valueOf(embeddingModel));
 	}
 
 	public ChatModel getChatModel(String modelName) {
-		return OpenAiChatModel.builder()
-			.baseUrl(SpringUtil.getProperty("tmp.open-ai.base-url"))
-			.apiKey(SpringUtil.getProperty("tmp.open-ai.api-key"))
-			.modelName(modelName)
-			.logRequests(true)
-			.timeout(Duration.ofSeconds(60))
-			.maxRetries(1)
-			.build();
+		AiModelInvokeOptions options = AiModelInvokeOptions.builder().timeout(Duration.ofSeconds(60)).build();
+		return aiModelRuntimeService.acquireChatModel(null, Long.valueOf(modelName), options);
 	}
 
 	public EmbeddingStore<TextSegment> getEmbeddingStore(Long collectionBindingId) {
@@ -374,18 +359,6 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 			.table(SpringUtil.getProperty("tmp.embedding.table"))
 			.createTable(true)
 			.dropTableFirst(false)
-			.build();
-	}
-
-	private EmbeddingModelConfig getEmbeddingModelConfig(String embeddingModel, String embeddingModelProvider) {
-		// todo fxz 模型管理
-		return EmbeddingModelConfig.builder()
-			.baseUrl(SpringUtil.getProperty("tmp.embedding.base-url"))
-			.apiKey(SpringUtil.getProperty("tmp.open-ai.api-key"))
-			.timeout(Duration.ofSeconds(30))
-			.maxRetries(0)
-			.dimensions(1024)
-			.modelName(embeddingModel)
 			.build();
 	}
 

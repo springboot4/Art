@@ -1,5 +1,6 @@
 package com.art.ai.service.dataset.rag.pipeline.impl;
 
+import com.art.ai.core.dto.dataset.AiDatasetsDTO;
 import com.art.ai.service.dataset.rag.fusion.FusionService;
 import com.art.ai.service.dataset.rag.pipeline.PipelineConfig;
 import com.art.ai.service.dataset.rag.pipeline.RetrievalPipeline;
@@ -14,8 +15,9 @@ import com.art.ai.service.dataset.rag.retrieval.entity.RetrievalType;
 import com.art.ai.service.dataset.rag.retrieval.service.GraphRetrievalService;
 import com.art.ai.service.dataset.rag.retrieval.service.HybridRetrievalService;
 import com.art.ai.service.dataset.rag.retrieval.service.VectorRetrievalService;
+import com.art.ai.service.dataset.service.AiDatasetsService;
 import com.art.ai.service.document.impl.AiDocumentsServiceImpl;
-import com.art.core.common.util.SpringUtil;
+import com.art.ai.service.model.runtime.AiModelRuntimeService;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -23,7 +25,6 @@ import dev.langchain4j.store.embedding.EmbeddingStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DefaultRetrievalPipeline implements RetrievalPipeline, InitializingBean {
+public class DefaultRetrievalPipeline implements RetrievalPipeline {
 
 	private final VectorRetrievalService vectorRetrievalService;
 
@@ -59,41 +60,45 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 
 	private final AiDocumentsServiceImpl aiDocumentsService;
 
-	private PipelineConfig config;
+	private final AiDatasetsService aiDatasetsService;
+
+	private final AiModelRuntimeService aiModelRuntimeService;
 
 	@Override
 	public RetrievalResponse execute(RetrievalRequest request) {
 		long startTime = System.currentTimeMillis();
 
 		try {
+			PipelineConfig config = getDefaultConfig(request.getAllDatasetIds().get(0));
+
 			Map<String, Object> debugInfo = new HashMap<>();
 			debugInfo.put("pipeline_start", startTime);
 			debugInfo.put("request", request);
 
 			// 1. 召回阶段 - 并行执行多个召回器
 			long retrievalStart = System.currentTimeMillis();
-			List<RetrievalResult> retrievalResults = performRetrieval(request);
+			List<RetrievalResult> retrievalResults = performRetrieval(request, config);
 			long retrievalTime = System.currentTimeMillis() - retrievalStart;
 			debugInfo.put("retrieval_time_ms", retrievalTime);
 			debugInfo.put("initial_results_count", retrievalResults.size());
 
 			// 2. 融合阶段 - 合并不同召回器的结果
 			long fusionStart = System.currentTimeMillis();
-			List<RetrievalResult> fusedResults = performFusion(retrievalResults);
+			List<RetrievalResult> fusedResults = performFusion(retrievalResults, config);
 			long fusionTime = System.currentTimeMillis() - fusionStart;
 			debugInfo.put("fusion_time_ms", fusionTime);
 			debugInfo.put("fused_results_count", fusedResults.size());
 
 			// 3. 重排序阶段 - 应用多种重排序策略
 			long rerankStart = System.currentTimeMillis();
-			List<RetrievalResult> rerankedResults = performReranking(request.getQuery(), fusedResults);
+			List<RetrievalResult> rerankedResults = performReranking(request.getQuery(), fusedResults, config);
 			long rerankTime = System.currentTimeMillis() - rerankStart;
 			debugInfo.put("rerank_time_ms", rerankTime);
 			debugInfo.put("reranked_results_count", rerankedResults.size());
 
 			// 4. 后处理阶段 - 去重、过滤、限制数量
 			long postProcessStart = System.currentTimeMillis();
-			List<RetrievalResult> finalResults = performPostProcessing(rerankedResults, request);
+			List<RetrievalResult> finalResults = performPostProcessing(rerankedResults, config);
 			long postProcessTime = System.currentTimeMillis() - postProcessStart;
 			debugInfo.put("post_process_time_ms", postProcessTime);
 			debugInfo.put("final_results_count", finalResults.size());
@@ -120,14 +125,14 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	/**
 	 * 执行召回阶段
 	 */
-	private List<RetrievalResult> performRetrieval(RetrievalRequest request) {
+	private List<RetrievalResult> performRetrieval(RetrievalRequest request, PipelineConfig config) {
 		List<RetrievalResult> allResults;
 
 		if (config.getEnableParallel() != null && config.getEnableParallel()) {
-			allResults = performParallelRetrieval(request);
+			allResults = performParallelRetrieval(request, config);
 		}
 		else {
-			allResults = performSequentialRetrieval(request);
+			allResults = performSequentialRetrieval(request, config);
 		}
 
 		return allResults;
@@ -136,11 +141,11 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	/**
 	 * 并行召回
 	 */
-	private List<RetrievalResult> performParallelRetrieval(RetrievalRequest request) {
+	private List<RetrievalResult> performParallelRetrieval(RetrievalRequest request, PipelineConfig config) {
 		List<CompletableFuture<List<RetrievalResult>>> futures = new ArrayList<>();
 
 		for (RetrievalType type : request.getRetrievalTypes()) {
-			PipelineConfig.RetrieverConfig retrieverConfig = getRetrieverConfig(type);
+			PipelineConfig.RetrieverConfig retrieverConfig = getRetrieverConfig(type, config);
 			if (retrieverConfig.getEnabled() != null && retrieverConfig.getEnabled()) {
 				CompletableFuture<List<RetrievalResult>> future = CompletableFuture
 					.supplyAsync(() -> executeRetriever(type, request, retrieverConfig));
@@ -161,7 +166,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 		}
 		catch (Exception e) {
 			log.error("并行召回失败", e);
-			return performSequentialRetrieval(request);
+			return performSequentialRetrieval(request, config);
 		}
 
 		return allResults;
@@ -170,11 +175,11 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	/**
 	 * 串行召回
 	 */
-	private List<RetrievalResult> performSequentialRetrieval(RetrievalRequest request) {
+	private List<RetrievalResult> performSequentialRetrieval(RetrievalRequest request, PipelineConfig config) {
 		List<RetrievalResult> allResults = new ArrayList<>();
 
 		for (RetrievalType type : request.getRetrievalTypes()) {
-			PipelineConfig.RetrieverConfig retrieverConfig = getRetrieverConfig(type);
+			PipelineConfig.RetrieverConfig retrieverConfig = getRetrieverConfig(type, config);
 			if (retrieverConfig.getEnabled() != null && retrieverConfig.getEnabled()) {
 				try {
 					List<RetrievalResult> typeResults = executeRetriever(type, request, retrieverConfig);
@@ -237,21 +242,21 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	private List<RetrievalResult> executeSingleDatasetRetriever(RetrievalType type, String query, Long datasetId,
 			PipelineConfig.RetrieverConfig retrieverConfig) {
 		return switch (type) {
-			case VECTOR -> vectorRetrievalService.retrieve(query, datasetId, getEmbeddingModel(),
+			case VECTOR -> vectorRetrievalService.retrieve(query, datasetId, getEmbeddingModel(datasetId),
 					getEmbeddingStore(datasetId), retrieverConfig.getVectorConfig());
 
-			case GRAPH ->
-				graphRetrievalService.retrieve(query, datasetId, getChatModel(), retrieverConfig.getGraphConfig());
+			case GRAPH -> graphRetrievalService.retrieve(query, datasetId, getChatModel(datasetId),
+					retrieverConfig.getGraphConfig());
 
-			case HYBRID -> hybridRetrievalService.retrieve(query, datasetId, getEmbeddingModel(),
-					getEmbeddingStore(datasetId), getChatModel(), retrieverConfig);
+			case HYBRID -> hybridRetrievalService.retrieve(query, datasetId, getEmbeddingModel(datasetId),
+					getEmbeddingStore(datasetId), getChatModel(datasetId), retrieverConfig);
 		};
 	}
 
 	/**
 	 * 执行融合阶段
 	 */
-	private List<RetrievalResult> performFusion(List<RetrievalResult> results) {
+	private List<RetrievalResult> performFusion(List<RetrievalResult> results, PipelineConfig config) {
 		PipelineConfig.FusionConfig fusionConfig = config.getFusionConfig();
 		if (fusionConfig == null) {
 			return results;
@@ -263,7 +268,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	/**
 	 * 执行重排序阶段
 	 */
-	private List<RetrievalResult> performReranking(String query, List<RetrievalResult> results) {
+	private List<RetrievalResult> performReranking(String query, List<RetrievalResult> results, PipelineConfig config) {
 		List<RerankerConfig> rerankerConfigs = config.getRerankerConfigs();
 		if (CollectionUtils.isEmpty(rerankerConfigs)) {
 			return results;
@@ -288,7 +293,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	/**
 	 * 执行后处理阶段
 	 */
-	private List<RetrievalResult> performPostProcessing(List<RetrievalResult> results, RetrievalRequest request) {
+	private List<RetrievalResult> performPostProcessing(List<RetrievalResult> results, PipelineConfig config) {
 		PipelineConfig.PostProcessConfig postConfig = config.getPostProcessConfig();
 		if (postConfig == null) {
 			return results;
@@ -364,7 +369,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	/**
 	 * 获取召回器配置
 	 */
-	private PipelineConfig.RetrieverConfig getRetrieverConfig(RetrievalType type) {
+	private PipelineConfig.RetrieverConfig getRetrieverConfig(RetrievalType type, PipelineConfig config) {
 		return config.getRetrieverConfigs()
 			.stream()
 			.filter(c -> c.getType() == type)
@@ -384,9 +389,9 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 	/**
 	 * todo fxz 配置化 获取默认管道配置
 	 */
-	private PipelineConfig getDefaultConfig() {
+	private PipelineConfig getDefaultConfig(Long datasetId) {
 		PipelineConfig.VectorRetrievalConfig vectorRetrievalConfig = PipelineConfig.VectorRetrievalConfig.builder()
-			.embeddingModel(getEmbeddingModel())
+			.embeddingModel(getEmbeddingModel(datasetId))
 			.topK(10)
 			.build();
 		PipelineConfig.GraphRetrievalConfig graphRetrievalConfig = PipelineConfig.GraphRetrievalConfig.builder()
@@ -418,7 +423,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 							.build())
 						.build()))
 			.fusionConfig(PipelineConfig.FusionConfig.builder().strategy("rrf").rrfK(60).maxResults(30).build())
-			.rerankerConfigs(getDefaultRerankerConfigs())
+			.rerankerConfigs(getDefaultRerankerConfigs(datasetId))
 			.postProcessConfig(PipelineConfig.PostProcessConfig.builder()
 				.deduplicationStrategy("content")
 				.finalTopK(10)
@@ -427,26 +432,29 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 			.build();
 	}
 
-	private List<RerankerConfig> getDefaultRerankerConfigs() {
-		return Arrays.asList(RerankerConfig.builder()
-			.type(RerankerType.DIVERSITY)
-			.enabled(true)
-			.topK(20)
-			.diversityRerankerConfig(
-					RerankerConfig.DiversityRerankerConfig.builder().embeddingModel(getEmbeddingModel()).build())
-			.build(),
+	private List<RerankerConfig> getDefaultRerankerConfigs(Long datasetId) {
+		return Arrays.asList(
+				RerankerConfig.builder()
+					.type(RerankerType.DIVERSITY)
+					.enabled(true)
+					.topK(20)
+					.diversityRerankerConfig(RerankerConfig.DiversityRerankerConfig.builder()
+						.embeddingModel(getEmbeddingModel(datasetId))
+						.build())
+					.build(),
 				RerankerConfig.builder()
 					.type(RerankerType.LLM_BASED)
 					.enabled(true)
 					.topK(10)
-					.llmRerankerConfig(RerankerConfig.LlmRerankerConfig.builder().chatModel(getChatModel()).build())
+					.llmRerankerConfig(
+							RerankerConfig.LlmRerankerConfig.builder().chatModel(getChatModel(datasetId)).build())
 					.build());
 	}
 
 	// 这些方法需要根据实际配置实现
-	private EmbeddingModel getEmbeddingModel() {
-		// todo fxz: 实现
-		return aiDocumentsService.getEmbeddingModel(SpringUtil.getProperty("tmp.open-ai.embedding-model"), null);
+	private EmbeddingModel getEmbeddingModel(Long datasetId) {
+		AiDatasetsDTO datasetsDTO = aiDatasetsService.findById(datasetId);
+		return aiModelRuntimeService.acquireEmbeddingModel(null, Long.valueOf(datasetsDTO.getEmbeddingModel()));
 	}
 
 	private EmbeddingStore<TextSegment> getEmbeddingStore(Long datasetId) {
@@ -454,14 +462,9 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline, Initializing
 		return aiDocumentsService.getEmbeddingStore(null);
 	}
 
-	private ChatModel getChatModel() {
-		// todo fxz
-		return aiDocumentsService.getChatModel(SpringUtil.getProperty("tmp.open-ai.chat-model"));
-	}
-
-	@Override
-	public void afterPropertiesSet() {
-		config = getDefaultConfig();
+	private ChatModel getChatModel(Long datasetId) {
+		AiDatasetsDTO datasetsDTO = aiDatasetsService.findById(datasetId);
+		return aiDocumentsService.getChatModel(datasetsDTO.getGraphicModel());
 	}
 
 }
