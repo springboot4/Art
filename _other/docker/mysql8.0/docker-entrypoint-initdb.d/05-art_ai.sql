@@ -1,4 +1,5 @@
 
+USE art_ai;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -127,6 +128,47 @@ CREATE TABLE `ai_document_segment` (
                                        `create_time` datetime DEFAULT NULL,
                                        `segment_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
                                        PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Table structure for ai_model_platform
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_model_platform`;
+CREATE TABLE `ai_model_platform` (
+                                     `id` bigint NOT NULL COMMENT '主键',
+                                     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '厂商名称',
+                                     `base_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'base_url',
+                                     `api_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'api_key',
+                                     `secret_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'secret_key',
+                                     `proxy_enable` int DEFAULT NULL COMMENT '是否启用代理',
+                                     `openai_api_compatible` int DEFAULT NULL COMMENT '是否兼容openapi协议',
+                                     `create_time` datetime DEFAULT NULL,
+                                     `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                                     `update_time` datetime DEFAULT NULL,
+                                     `update_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                                     `tenant_id` bigint DEFAULT NULL,
+                                     PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Table structure for ai_model
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_model`;
+CREATE TABLE `ai_model` (
+                            `id` bigint NOT NULL COMMENT '主键',
+                            `type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '模型类型（推理、chat等）',
+                            `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '模型名称',
+                            `platform` bigint DEFAULT NULL COMMENT '所属平台',
+                            `enable` int DEFAULT NULL COMMENT '是否启用',
+                            `max_input_tokens` bigint DEFAULT NULL COMMENT '最大输入长度',
+                            `max_output_tokens` bigint DEFAULT NULL COMMENT '最大输出长度',
+                            `config` json DEFAULT NULL COMMENT '模型配置',
+                            `create_time` datetime DEFAULT NULL,
+                            `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `update_time` datetime DEFAULT NULL,
+                            `update_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `tenant_id` bigint DEFAULT NULL,
+                            PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -22,3 +22,4 @@ create database `art_job` default character set utf8mb4 collate utf8mb4_general_
 
 create database `art_nacos` default character set utf8mb4 collate utf8mb4_general_ci;
 
+create database `art_ai` default character set utf8mb4 collate utf8mb4_general_ci;

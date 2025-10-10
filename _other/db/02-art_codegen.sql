@@ -13,6 +13,7 @@
 
  Date: 01/07/2023 15:31:19
 */
+USE art_codegen;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
