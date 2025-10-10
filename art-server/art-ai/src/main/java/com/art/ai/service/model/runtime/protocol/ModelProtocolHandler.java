@@ -1,8 +1,8 @@
 package com.art.ai.service.model.runtime.protocol;
 
 import com.art.ai.core.constants.AiModelCapability;
-import com.art.ai.core.model.AiModelInvokeOptions;
-import com.art.ai.core.model.AiModelRuntimeContext;
+import com.art.ai.service.model.support.AiModelInvokeOptions;
+import com.art.ai.service.model.support.AiModelRuntimeContext;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 

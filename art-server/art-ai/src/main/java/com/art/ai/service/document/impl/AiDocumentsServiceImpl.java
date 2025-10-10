@@ -7,7 +7,7 @@ import com.art.ai.core.convert.AiDocumentsConvert;
 import com.art.ai.core.dto.dataset.AiDatasetsDTO;
 import com.art.ai.core.dto.document.AiDocumentsDTO;
 import com.art.ai.core.dto.document.AiDocumentsPageDTO;
-import com.art.ai.core.model.AiModelInvokeOptions;
+import com.art.ai.service.model.support.AiModelInvokeOptions;
 import com.art.ai.manager.AiDatasetsManager;
 import com.art.ai.manager.AiDocumentsManager;
 import com.art.ai.service.dataset.rag.constant.EmbedStoreTypeConstants;

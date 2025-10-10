@@ -1,7 +1,7 @@
 package com.art.ai.service.model.runtime.protocol;
 
 import com.art.ai.core.constants.AiModelCapability;
-import com.art.ai.core.model.AiModelRuntimeContext;
+import com.art.ai.service.model.support.AiModelRuntimeContext;
 import com.art.core.common.exception.ArtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

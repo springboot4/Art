@@ -1,8 +1,8 @@
 package com.art.ai.dao.dataobject;
 
 import com.art.ai.core.constants.AiModelCapability;
-import com.art.ai.core.model.AiModelConfigurationParser;
-import com.art.ai.core.model.AiModelRuntimeConfig;
+import com.art.ai.service.model.support.AiModelConfigurationParser;
+import com.art.ai.service.model.support.AiModelRuntimeConfig;
 import com.art.mybatis.common.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

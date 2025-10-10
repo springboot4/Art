@@ -1,4 +1,4 @@
-package com.art.ai.core.model;
+package com.art.ai.service.model.support;
 
 import com.art.ai.dao.dataobject.AiModelDO;
 import com.fasterxml.jackson.core.JsonProcessingException;

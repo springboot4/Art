@@ -1,4 +1,4 @@
-package com.art.ai.core.model;
+package com.art.ai.service.model.support;
 
 import java.io.Serial;
 import java.io.Serializable;

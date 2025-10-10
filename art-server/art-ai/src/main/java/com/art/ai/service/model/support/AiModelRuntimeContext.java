@@ -1,4 +1,4 @@
-package com.art.ai.core.model;
+package com.art.ai.service.model.support;
 
 import com.art.ai.core.constants.AiModelCapability;
 import com.art.ai.core.constants.ModelProtocolType;

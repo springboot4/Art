@@ -1,9 +1,9 @@
 package com.art.ai.service.model.runtime.protocol;
 
 import com.art.ai.core.constants.AiModelCapability;
-import com.art.ai.core.model.AiModelInvokeOptions;
-import com.art.ai.core.model.AiModelRuntimeConfig;
-import com.art.ai.core.model.AiModelRuntimeContext;
+import com.art.ai.service.model.support.AiModelInvokeOptions;
+import com.art.ai.service.model.support.AiModelRuntimeConfig;
+import com.art.ai.service.model.support.AiModelRuntimeContext;
 import com.art.core.common.exception.ArtException;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -85,11 +85,8 @@ public class OpenAiCompatibleProtocolHandler implements ModelProtocolHandler {
 
 	private void applyDimensions(OpenAiEmbeddingModel.OpenAiEmbeddingModelBuilder builder,
 			AiModelRuntimeConfig config) {
-		Integer dimensions = intFrom(config.getParameter("dimensions"))
-			.orElseGet(() -> intFromValue(config.getMaxOutputTokens()));
-		if (dimensions != null) {
-			builder.dimensions(dimensions);
-		}
+		Integer dimensions = intFrom(config.getParameter("dimensions")).orElse(1024);
+		builder.dimensions(dimensions);
 	}
 
 	private void ensureCapability(AiModelRuntimeContext context, AiModelCapability expected) {

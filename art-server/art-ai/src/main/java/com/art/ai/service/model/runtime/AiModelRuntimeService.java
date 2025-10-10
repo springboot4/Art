@@ -2,8 +2,8 @@ package com.art.ai.service.model.runtime;
 
 import com.art.ai.core.constants.AiModelCapability;
 import com.art.ai.core.constants.ModelProtocolType;
-import com.art.ai.core.model.AiModelInvokeOptions;
-import com.art.ai.core.model.AiModelRuntimeContext;
+import com.art.ai.service.model.support.AiModelInvokeOptions;
+import com.art.ai.service.model.support.AiModelRuntimeContext;
 import com.art.ai.dao.dataobject.AiModelDO;
 import com.art.ai.dao.dataobject.AiModelPlatformDO;
 import com.art.ai.manager.AiModelManager;

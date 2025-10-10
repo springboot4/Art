@@ -1,7 +1,7 @@
 package com.art.ai.service.workflow.domain.node.llm;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.art.ai.core.model.AiModelInvokeOptions;
+import com.art.ai.service.model.support.AiModelInvokeOptions;
 import com.art.ai.service.model.runtime.AiModelRuntimeService;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
