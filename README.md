@@ -3,12 +3,19 @@
 <p align="center">
   <strong>An open-source, microservices-based platform inspired by Dify and Coze, built entirely for the Java world.</strong>
 </p>
-<a target="_blank" href="">
+<a target="_blank" href="https://gitee.com/fxzcloud/art">
   <img alt="Star" src="https://gitee.com/fxz-cloud/art/badge/star.svg?theme=dark">
 </a>
-<a target="_blank" href="">
+<a target="_blank" href="https://gitee.com/fxzcloud/art">
   <img alt="Fork" src="https://gitee.com/fxz-cloud/art/badge/fork.svg?theme=dark">
 </a>
+<a target="_blank" href="https://github.com/springboot4/Art">
+  <img alt="Fork" src="https://img.shields.io/github/stars/springboot4/Art">
+</a>
+<a target="_blank" href="https://gitcode.com/fxzcloud/art">
+  <img alt="Star" src="https://gitcode.com/fxzcloud/art/star/badge.svg">
+</a>
+
 <a target="_blank" href="">
   <img alt="Spring Boot " src="https://img.shields.io/static/v1?label=Spring Boot &message=3.0.6&color=blue">
 </a>
@@ -91,8 +98,3 @@
 ## 📄 开源许可
 
 本项目遵循 [Apache 2.0](LICENSE) 开源许可协议。
-
-##  项目链接
-![gitee](https://gitee.com/fxzcloud/art/badge/star.svg) 
-![gitee](https://img.shields.io/github/stars/springboot4/Art) 
-![gitcode](https://gitcode.com/fxzcloud/art/star/badge.svg)
