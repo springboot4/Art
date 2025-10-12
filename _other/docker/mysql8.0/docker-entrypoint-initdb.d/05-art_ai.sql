@@ -151,6 +151,69 @@ CREATE TABLE `ai_model_platform` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
+-- Table structure for ai_qa_pairs
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_qa_pairs`;
+CREATE TABLE `ai_qa_pairs` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `dataset_id` bigint NOT NULL COMMENT '所属数据集ID',
+  `question` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '问题',
+  `question_hash` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '问题Hash(MD5)',
+  `answer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '答案',
+  `priority` int DEFAULT 1 COMMENT '优先级(1-5)',
+  `enabled` tinyint(1) DEFAULT 1 COMMENT '是否启用',
+  `hit_count` int DEFAULT 0 COMMENT '命中次数',
+  `last_hit_time` datetime DEFAULT NULL COMMENT '最后命中时间',
+  `vector_indexed` tinyint(1) DEFAULT 0 COMMENT '是否已向量化',
+  `vector_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '向量ID',
+  `source_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'manual' COMMENT '来源类型(manual/llm/import)',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_question_hash` (`question_hash`),
+  KEY `idx_dataset_enabled` (`dataset_id`, `enabled`),
+  KEY `idx_priority` (`priority` DESC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='QA问答对主表';
+
+-- ----------------------------
+-- Table structure for ai_qa_similar_questions
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_qa_similar_questions`;
+CREATE TABLE `ai_qa_similar_questions` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `qa_pair_id` bigint NOT NULL COMMENT '关联的QA对ID',
+  `similar_question` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '相似问题',
+  `similar_hash` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '相似问题Hash',
+  `source_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'manual' COMMENT '来源类型(manual/auto)',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_similar_hash` (`similar_hash`),
+  KEY `idx_qa_pair` (`qa_pair_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='QA相似问题表';
+
+-- ----------------------------
+-- Table structure for ai_qa_hit_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_qa_hit_logs`;
+CREATE TABLE `ai_qa_hit_logs` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `qa_pair_id` bigint NOT NULL COMMENT '命中的QA对ID',
+  `user_query` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户查询',
+  `match_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '匹配类型(exact/semantic/keyword)',
+  `match_score` decimal(3,2) DEFAULT NULL COMMENT '匹配分数',
+  `user_feedback` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户反馈(positive/negative)',
+  `response_time_ms` int DEFAULT NULL COMMENT '响应时间(毫秒)',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_qa_pair_time` (`qa_pair_id`, `create_time`),
+  KEY `idx_match_type` (`match_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='QA命中日志表';
+
+-- ----------------------------
 -- Table structure for ai_model
 -- ----------------------------
 DROP TABLE IF EXISTS `ai_model`;

@@ -14,6 +14,7 @@ import com.art.ai.service.dataset.rag.retrieval.entity.RetrievalResult;
 import com.art.ai.service.dataset.rag.retrieval.entity.RetrievalType;
 import com.art.ai.service.dataset.rag.retrieval.service.GraphRetrievalService;
 import com.art.ai.service.dataset.rag.retrieval.service.HybridRetrievalService;
+import com.art.ai.service.dataset.rag.retrieval.service.QaRetrievalService;
 import com.art.ai.service.dataset.rag.retrieval.service.VectorRetrievalService;
 import com.art.ai.service.dataset.service.AiDatasetsService;
 import com.art.ai.service.document.impl.AiDocumentsServiceImpl;
@@ -48,6 +49,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DefaultRetrievalPipeline implements RetrievalPipeline {
 
+	private final QaRetrievalService qaRetrievalService;
+
 	private final VectorRetrievalService vectorRetrievalService;
 
 	private final GraphRetrievalService graphRetrievalService;
@@ -69,7 +72,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 		long startTime = System.currentTimeMillis();
 
 		try {
-			PipelineConfig config = getDefaultConfig(request.getAllDatasetIds().get(0));
+			PipelineConfig config = getPipelineConfig(request);
 
 			Map<String, Object> debugInfo = new HashMap<>();
 			debugInfo.put("pipeline_start", startTime);
@@ -120,6 +123,10 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 			log.error("召回管道执行失败", e);
 			throw new RuntimeException("召回管道执行失败: " + e.getMessage(), e);
 		}
+	}
+
+	private PipelineConfig getPipelineConfig(RetrievalRequest request) {
+        return getDefaultConfig(request.getAllDatasetIds().get(0));
 	}
 
 	/**
@@ -242,6 +249,9 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 	private List<RetrievalResult> executeSingleDatasetRetriever(RetrievalType type, String query, Long datasetId,
 			PipelineConfig.RetrieverConfig retrieverConfig) {
 		return switch (type) {
+			case QA -> qaRetrievalService.retrieve(query, datasetId, getEmbeddingModel(datasetId),
+					getEmbeddingStore(datasetId), retrieverConfig.getQaConfig());
+
 			case VECTOR -> vectorRetrievalService.retrieve(query, datasetId, getEmbeddingModel(datasetId),
 					getEmbeddingStore(datasetId), retrieverConfig.getVectorConfig());
 
@@ -392,13 +402,17 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 	private PipelineConfig getDefaultConfig(Long datasetId) {
 		PipelineConfig.VectorRetrievalConfig vectorRetrievalConfig = PipelineConfig.VectorRetrievalConfig.builder()
 			.embeddingModel(getEmbeddingModel(datasetId))
-			.topK(10)
+			.topK(5)
 			.build();
 		PipelineConfig.GraphRetrievalConfig graphRetrievalConfig = PipelineConfig.GraphRetrievalConfig.builder()
 			.maxDepth(2)
 			.entityConfidenceThreshold(0.7)
 			.includeRelations(Boolean.TRUE)
 			.maxNodes(10)
+			.build();
+		PipelineConfig.QaRetrievalConfig qaRetrievalConfig = PipelineConfig.QaRetrievalConfig.builder()
+			.minScore(0.7)
+			.topK(3)
 			.build();
 
 		return PipelineConfig.builder()
@@ -415,6 +429,11 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 						.graphConfig(graphRetrievalConfig)
 						.build(),
 					PipelineConfig.RetrieverConfig.builder()
+						.type(RetrievalType.QA)
+						.enabled(true)
+						.qaConfig(qaRetrievalConfig)
+						.build(),
+					PipelineConfig.RetrieverConfig.builder()
 						.type(RetrievalType.HYBRID)
 						.enabled(true)
 						.hybridConfig(PipelineConfig.HybridRetrievalConfig.builder()
@@ -422,12 +441,12 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 							.graphConfig(graphRetrievalConfig)
 							.build())
 						.build()))
-			.fusionConfig(PipelineConfig.FusionConfig.builder().strategy("rrf").rrfK(60).maxResults(30).build())
+			.fusionConfig(PipelineConfig.FusionConfig.builder().strategy("rrf").rrfK(60).maxResults(20).build())
 			.rerankerConfigs(getDefaultRerankerConfigs(datasetId))
 			.postProcessConfig(PipelineConfig.PostProcessConfig.builder()
 				.deduplicationStrategy("content")
 				.finalTopK(10)
-				.minScoreFilter(0.1)
+				.minScoreFilter(0.6)
 				.build())
 			.build();
 	}

@@ -12,6 +12,8 @@ import java.util.stream.Stream;
  */
 public enum RetrievalType {
 
+	QA("qa", "QA问答召回"),
+
 	VECTOR("vector", "向量召回"),
 
 	GRAPH("graph", "图谱召回"),

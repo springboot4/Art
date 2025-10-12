@@ -32,6 +32,8 @@ public class HybridRetrievalService {
 
 	private final GraphRetrievalService graphRetrievalService;
 
+	private final QaRetrievalService qaRetrievalService;
+
 	/**
 	 * 混合召回 - 返回多个召回器的原始结果 不进行融合，融合由上层Pipeline负责
 	 */
@@ -50,6 +52,10 @@ public class HybridRetrievalService {
 				List<RetrievalResult> graphResults = graphRetrievalService.retrieve(query, datasetId, chatModel,
 						retrieverConfig.getHybridConfig().getGraphConfig());
 				results.put(RetrievalType.GRAPH, graphResults);
+			}, () -> {
+				List<RetrievalResult> retrieve = qaRetrievalService.retrieve(query, datasetId, embeddingModel,
+						embeddingStore, retrieverConfig.getQaConfig());
+				results.put(RetrievalType.QA, retrieve);
 			});
 		}
 		catch (Exception e) {

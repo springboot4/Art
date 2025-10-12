@@ -78,6 +78,11 @@ public class PipelineConfig {
 		 */
 		private HybridRetrievalConfig hybridConfig;
 
+		/**
+		 * QA召回配置
+		 */
+		private QaRetrievalConfig qaConfig;
+
 	}
 
 	@Data
@@ -122,6 +127,18 @@ public class PipelineConfig {
 		private VectorRetrievalConfig vectorConfig;
 
 		private GraphRetrievalConfig graphConfig;
+
+	}
+
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class QaRetrievalConfig {
+
+		private Integer topK;
+
+		private Double minScore;
 
 	}
 
