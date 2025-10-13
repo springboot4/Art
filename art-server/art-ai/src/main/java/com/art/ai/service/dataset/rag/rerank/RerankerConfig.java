@@ -35,6 +35,11 @@ public class RerankerConfig {
 	private Boolean enabled;
 
 	/**
+	 * 是否对QA类型结果进行重排序
+	 */
+	private Boolean enableForQa;
+
+	/**
 	 * LLM重排序配置
 	 */
 	private LlmRerankerConfig llmRerankerConfig;

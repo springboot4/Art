@@ -77,7 +77,7 @@ public class DefaultFusionService implements FusionService {
 
 			RetrievalResult fusedResult = cloneResult(result);
 			fusedResult.setScore(BigDecimal.valueOf(score));
-			fusedResult.setRetrievalType(RetrievalType.HYBRID);
+			fusedResult.setRetrievalType(result.getRetrievalType());
 			fusedResult.getMetadata().put("fusion_method", "rrf");
 			fusedResult.getMetadata().put("original_type", result.getRetrievalType().getCode());
 			fusedResult.getMetadata().put("rrf_score", score);

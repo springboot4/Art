@@ -4,7 +4,6 @@ import com.art.ai.core.dto.dataset.AiDatasetsDTO;
 import com.art.ai.service.dataset.rag.fusion.FusionService;
 import com.art.ai.service.dataset.rag.pipeline.PipelineConfig;
 import com.art.ai.service.dataset.rag.pipeline.RetrievalPipeline;
-import com.art.ai.service.dataset.rag.rerank.Reranker;
 import com.art.ai.service.dataset.rag.rerank.RerankerConfig;
 import com.art.ai.service.dataset.rag.rerank.RerankerFactory;
 import com.art.ai.service.dataset.rag.rerank.RerankerType;
@@ -28,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 默认召回管道实现
@@ -126,7 +127,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 	}
 
 	private PipelineConfig getPipelineConfig(RetrievalRequest request) {
-        return getDefaultConfig(request.getAllDatasetIds().get(0));
+		return getDefaultConfig(request.getAllDatasetIds().get(0));
 	}
 
 	/**
@@ -286,10 +287,9 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 
 		List<RetrievalResult> currentResults = new ArrayList<>(results);
 		for (RerankerConfig rerankerConfig : rerankerConfigs) {
-			if (rerankerConfig.getEnabled() != null && rerankerConfig.getEnabled()) {
+			if (Boolean.TRUE.equals(rerankerConfig.getEnabled())) {
 				try {
-					Reranker reranker = rerankerFactory.getReranker(rerankerConfig);
-					currentResults = reranker.rerank(query, currentResults, rerankerConfig);
+					currentResults = applyReranker(query, currentResults, rerankerConfig);
 				}
 				catch (Exception e) {
 					log.error("重排序失败: type={}", rerankerConfig.getType(), e);
@@ -298,6 +298,34 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 		}
 
 		return currentResults;
+	}
+
+	/**
+	 * 应用单个重排序器
+	 */
+	private List<RetrievalResult> applyReranker(String query, List<RetrievalResult> results, RerankerConfig config) {
+		boolean enableForQa = Boolean.TRUE.equals(config.getEnableForQa());
+
+		if (enableForQa) {
+			return rerankerFactory.getReranker(config).rerank(query, results, config);
+		}
+
+		Map<Boolean, List<RetrievalResult>> partitioned = results.stream()
+			.collect(Collectors.partitioningBy(r -> r.getRetrievalType() == RetrievalType.QA));
+
+		List<RetrievalResult> qaResults = partitioned.get(true);
+		qaResults.forEach(qaResult -> {
+			double originalScore = (double) qaResult.getMetadata().get("original_score");
+			qaResult.setScore(BigDecimal.valueOf(originalScore));
+		});
+
+		List<RetrievalResult> nonQaResults = partitioned.get(false);
+
+		List<RetrievalResult> rerankedNonQa = nonQaResults.isEmpty() ? nonQaResults
+				: rerankerFactory.getReranker(config).rerank(query, nonQaResults, config);
+
+		return Stream.concat(qaResults.stream(), rerankedNonQa.stream())
+			.collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	/**
@@ -325,7 +353,10 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 
 		// 3. 限制数量
 		int finalTopK = postConfig.getFinalTopK() != null ? postConfig.getFinalTopK() : 10;
-		processedResults = processedResults.stream().limit(finalTopK).collect(Collectors.toList());
+		processedResults = processedResults.stream()
+			.sorted((a, b) -> b.getScore().compareTo(a.getScore()))
+			.limit(finalTopK)
+			.collect(Collectors.toList());
 
 		return processedResults;
 	}
@@ -456,6 +487,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 				RerankerConfig.builder()
 					.type(RerankerType.DIVERSITY)
 					.enabled(true)
+					.enableForQa(false)
 					.topK(20)
 					.diversityRerankerConfig(RerankerConfig.DiversityRerankerConfig.builder()
 						.embeddingModel(getEmbeddingModel(datasetId))
@@ -464,6 +496,7 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 				RerankerConfig.builder()
 					.type(RerankerType.LLM_BASED)
 					.enabled(true)
+					.enableForQa(false)
 					.topK(10)
 					.llmRerankerConfig(
 							RerankerConfig.LlmRerankerConfig.builder().chatModel(getChatModel(datasetId)).build())
