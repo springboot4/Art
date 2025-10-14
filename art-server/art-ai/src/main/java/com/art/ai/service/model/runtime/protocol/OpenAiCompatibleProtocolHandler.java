@@ -6,9 +6,11 @@ import com.art.ai.service.model.support.AiModelRuntimeConfig;
 import com.art.ai.service.model.support.AiModelRuntimeContext;
 import com.art.core.common.exception.ArtException;
 import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
+import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -22,7 +24,7 @@ import java.util.Optional;
  * @author fxz
  */
 @Component
-public class OpenAiCompatibleProtocolHandler implements ModelProtocolHandler {
+public class OpenAiCompatibleProtocolHandler implements ModelProtocolHandler, StreamingModelProtocolHandler {
 
 	@Override
 	public boolean supports(AiModelRuntimeContext context, AiModelCapability capability) {
@@ -45,6 +47,32 @@ public class OpenAiCompatibleProtocolHandler implements ModelProtocolHandler {
 		}
 
 		builder.maxRetries(intFrom(config.getParameter("maxRetries")).orElse(1));
+		builder.logRequests(booleanFrom(config.getParameter("logRequests")).orElse(Boolean.TRUE));
+		builder.logResponses(booleanFrom(config.getParameter("logResponses")).orElse(Boolean.TRUE));
+
+		applyTemperature(builder, config, invokeOptions);
+		applyTopP(builder, config, invokeOptions);
+		applyMaxTokens(builder, config, invokeOptions);
+		applyTimeout(builder, config, invokeOptions);
+
+		return builder.build();
+	}
+
+	@Override
+	public StreamingChatModel createStreamingChatModel(AiModelRuntimeContext context, AiModelInvokeOptions options) {
+		ensureCapability(context, AiModelCapability.CHAT);
+
+		AiModelRuntimeConfig config = context.getRuntimeConfig();
+		AiModelInvokeOptions invokeOptions = options == null ? AiModelInvokeOptions.empty() : options;
+
+		OpenAiStreamingChatModel.OpenAiStreamingChatModelBuilder builder = OpenAiStreamingChatModel.builder()
+			.apiKey(context.getPlatform().getApiKey())
+			.modelName(config.getModelIdentifier());
+
+		if (StringUtils.hasText(context.getPlatform().resolvedBaseUrl())) {
+			builder.baseUrl(context.getPlatform().resolvedBaseUrl());
+		}
+
 		builder.logRequests(booleanFrom(config.getParameter("logRequests")).orElse(Boolean.TRUE));
 		builder.logResponses(booleanFrom(config.getParameter("logResponses")).orElse(Boolean.TRUE));
 
@@ -107,8 +135,30 @@ public class OpenAiCompatibleProtocolHandler implements ModelProtocolHandler {
 		}
 	}
 
+	private void applyTemperature(OpenAiStreamingChatModel.OpenAiStreamingChatModelBuilder builder,
+			AiModelRuntimeConfig config, AiModelInvokeOptions options) {
+		BigDecimal temperature = options.getTemperature();
+		if (temperature == null) {
+			temperature = decimalFrom(config.getParameter("temperature")).orElse(null);
+		}
+		if (temperature != null) {
+			builder.temperature(temperature.doubleValue());
+		}
+	}
+
 	private void applyTopP(OpenAiChatModel.OpenAiChatModelBuilder builder, AiModelRuntimeConfig config,
 			AiModelInvokeOptions options) {
+		BigDecimal topP = options.getTopP();
+		if (topP == null) {
+			topP = decimalFrom(config.getParameter("topP")).orElse(null);
+		}
+		if (topP != null) {
+			builder.topP(topP.doubleValue());
+		}
+	}
+
+	private void applyTopP(OpenAiStreamingChatModel.OpenAiStreamingChatModelBuilder builder,
+			AiModelRuntimeConfig config, AiModelInvokeOptions options) {
 		BigDecimal topP = options.getTopP();
 		if (topP == null) {
 			topP = decimalFrom(config.getParameter("topP")).orElse(null);
@@ -130,8 +180,29 @@ public class OpenAiCompatibleProtocolHandler implements ModelProtocolHandler {
 		}
 	}
 
+	private void applyMaxTokens(OpenAiStreamingChatModel.OpenAiStreamingChatModelBuilder builder,
+			AiModelRuntimeConfig config, AiModelInvokeOptions options) {
+		Integer maxTokens = options.getMaxOutputTokens();
+		if (maxTokens == null) {
+			maxTokens = intFrom(config.getParameter("maxTokens"))
+				.orElseGet(() -> intFromValue(config.getMaxOutputTokens()));
+		}
+		if (maxTokens != null) {
+			builder.maxTokens(maxTokens);
+		}
+	}
+
 	private void applyTimeout(OpenAiChatModel.OpenAiChatModelBuilder builder, AiModelRuntimeConfig config,
 			AiModelInvokeOptions options) {
+		Duration timeout = options.getTimeout();
+		if (timeout == null) {
+			timeout = durationFrom(config.getParameter("timeoutSeconds")).orElse(Duration.ofSeconds(60));
+		}
+		builder.timeout(timeout);
+	}
+
+	private void applyTimeout(OpenAiStreamingChatModel.OpenAiStreamingChatModelBuilder builder,
+			AiModelRuntimeConfig config, AiModelInvokeOptions options) {
 		Duration timeout = options.getTimeout();
 		if (timeout == null) {
 			timeout = durationFrom(config.getParameter("timeoutSeconds")).orElse(Duration.ofSeconds(60));

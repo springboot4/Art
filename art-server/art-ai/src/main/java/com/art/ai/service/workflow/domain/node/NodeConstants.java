@@ -22,6 +22,11 @@ public interface NodeConstants {
 	String LLM_NODE = "llm";
 
 	/**
+	 * 大模型答案节点
+	 */
+	String LLM_ANSWER_NODE = "llm_answer";
+
+	/**
 	 * 代码执行节点
 	 */
 	String CODE_NODE = "code";

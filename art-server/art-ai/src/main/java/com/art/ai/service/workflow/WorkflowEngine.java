@@ -7,6 +7,7 @@ import com.art.ai.service.workflow.callback.Callback;
 import com.art.ai.service.workflow.callback.CallbackData;
 import com.art.ai.service.workflow.callback.CallbackResult;
 import com.art.ai.service.workflow.definition.WorkflowsService;
+import com.art.ai.service.workflow.domain.node.NodeStatus;
 import com.art.ai.service.workflow.dsl.GraphBuilder;
 import com.art.ai.service.workflow.dsl.GraphDSL;
 import com.art.ai.service.workflow.runtime.WorkflowRuntimeService;
@@ -84,25 +85,32 @@ public class WorkflowEngine {
 			.stream(userInputs);
 
 		for (NodeOutput<NodeState> out : stream) {
-			// todo fxz
 			if (out instanceof StreamingOutput<NodeState> streamingOutput) {
-				String node = streamingOutput.node();
+				String nodeId = streamingOutput.node();
 				String chunk = streamingOutput.chunk();
-				log.info("流式输出结果node：{},流式输出内容：{},{}", node, streamingOutput, chunk);
-			}
-			else {
-				String node = out.node();
-				Object outputs = out.state().data().get("outputs");
-				Object nodeName = out.state().data().get("nodeName");
 				CallbackResult callbackResult = CallbackResult.builder()
 					.data(CallbackData.builder()
-						.outputs(JacksonUtil.toJsonString(outputs))
-						.nodeName(String.valueOf(nodeName))
-						.nodeId(node)
+						.nodeId(nodeId)
+						.chunk(chunk)
+						.nodeStatus(NodeStatus.NODE_STATUS_RUNNING)
 						.build())
 					.build();
 				callbacks.forEach(c -> c.execute(callbackResult));
+				continue;
 			}
+
+			String node = out.node();
+			Object outputs = out.state().data().get("outputs");
+			Object nodeName = out.state().data().get("nodeName");
+			CallbackResult callbackResult = CallbackResult.builder()
+				.data(CallbackData.builder()
+					.nodeId(node)
+					.nodeName(String.valueOf(nodeName))
+					.outputs(JacksonUtil.toJsonString(outputs))
+					.nodeStatus(NodeStatus.NODE_STATUS_SUCCESS)
+					.build())
+				.build();
+			callbacks.forEach(c -> c.execute(callbackResult));
 		}
 
 		// 更新运行时变量

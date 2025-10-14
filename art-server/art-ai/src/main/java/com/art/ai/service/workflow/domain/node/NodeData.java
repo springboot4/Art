@@ -4,6 +4,7 @@ import com.art.ai.service.workflow.domain.node.code.CodeNodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.condition.ConditionNodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.http.HttpNodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.knowledge.KnowledgeNodeDataProcessor;
+import com.art.ai.service.workflow.domain.node.llm.LlmAnswerNodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.llm.LlmNodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.output.OutputNodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.start.StartNodeDataProcessor;
@@ -21,6 +22,7 @@ import lombok.experimental.FieldNameConstants;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = NodeData.Fields.nodeType)
 @JsonSubTypes({ @JsonSubTypes.Type(value = StartNodeDataProcessor.class, name = NodeConstants.START_NODE),
 		@JsonSubTypes.Type(value = LlmNodeDataProcessor.class, name = NodeConstants.LLM_NODE),
+		@JsonSubTypes.Type(value = LlmAnswerNodeDataProcessor.class, name = NodeConstants.LLM_ANSWER_NODE),
 		@JsonSubTypes.Type(value = CodeNodeDataProcessor.class, name = NodeConstants.CODE_NODE),
 		@JsonSubTypes.Type(value = ConditionNodeDataProcessor.class, name = NodeConstants.CONDITION_NODE),
 		@JsonSubTypes.Type(value = HttpNodeDataProcessor.class, name = NodeConstants.HTTP_NODE),

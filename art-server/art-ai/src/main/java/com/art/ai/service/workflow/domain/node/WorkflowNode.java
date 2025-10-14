@@ -1,7 +1,6 @@
 package com.art.ai.service.workflow.domain.node;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.map.MapUtil;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
 import com.art.ai.service.workflow.variable.VariablePoolManager;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author fxz
@@ -31,6 +31,8 @@ public class WorkflowNode<C extends NodeConfig> {
 	private NodeDataProcessor<C> data;
 
 	public Map<String, Object> run(WorkFlowContext workFlowContext, NodeState nodeState) {
+		workFlowContext.setCurrentNodeId(id).setCurrentNodeLabel(label);
+
 		NodeProcessResult process = data.process(workFlowContext, nodeState);
 		List<NodeOutputVariable> outputVariables = process.getOutputVariables();
 
@@ -44,8 +46,9 @@ public class WorkflowNode<C extends NodeConfig> {
 			});
 		}
 
-		if (MapUtil.isNotEmpty(process.getGeneratorMap()) && process.getGeneratorMap().containsKey(id)) {
-			res.put("_fxz_streaming_messages_", process.getGeneratorMap().get(id));
+		if (Objects.nonNull(process.getStreamingOutputs())) {
+			var generator = process.getStreamingOutputs();
+			res.put("_fxz_streaming_messages_", generator);
 		}
 
 		if (StringUtils.isNoneBlank(process.getNext())) {
@@ -53,6 +56,7 @@ public class WorkflowNode<C extends NodeConfig> {
 		}
 
 		res.put("nodeName", label);
+		res.put("nodeId", id);
 
 		return res;
 	}

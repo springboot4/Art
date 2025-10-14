@@ -8,7 +8,6 @@ import org.bsc.langgraph4j.langchain4j.generators.StreamingChatGenerator;
 import org.bsc.langgraph4j.state.AgentState;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author fxz
@@ -22,7 +21,7 @@ public class NodeProcessResult {
 
 	private List<NodeOutputVariable> outputVariables;
 
-	private Map<String, StreamingChatGenerator<AgentState>> generatorMap;
+	private StreamingChatGenerator<AgentState> streamingOutputs;
 
 	private String next;
 

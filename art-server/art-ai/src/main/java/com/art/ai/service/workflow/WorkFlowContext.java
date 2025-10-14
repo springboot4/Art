@@ -14,4 +14,14 @@ public class WorkFlowContext {
 
 	private VariablePool pool;
 
+	/**
+	 * 当前运行节点 ID
+	 */
+	private String currentNodeId;
+
+	/**
+	 * 当前运行节点名称
+	 */
+	private String currentNodeLabel;
+
 }

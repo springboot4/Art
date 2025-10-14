@@ -50,66 +50,6 @@ public class AiWorkflowRuntimeController {
 	public SseEmitter run(@RequestBody WorkflowRunDTO workflowRunDTO) {
 		return workflowStarter.streaming(workflowRunDTO.getWorkflowId(), workflowRunDTO.getInputs(),
 				workflowRunDTO.getConversationId());
-
-		// SseEmitter sseEmitter = new SseEmitter(150000L);
-		//
-		// ThreadUtil.execAsync(() -> {
-		// // 开始处理
-		// SSEEmitterHelper.sendStart(sseEmitter);
-		//
-		// Map<String, Object> map = new HashMap<>();
-		// List<NodeOutputVariable> list = List.of(new NodeOutputVariable("name",
-		// "string", "开始节点"));
-		// map.put("nodeId", "start-node");
-		// map.put("nodeName", "开始节点");
-		// map.put("outputs", JacksonUtil.toJsonString(list));
-		// SSEEmitterHelper.parseAndSendPartialMsg(sseEmitter,
-		// JacksonUtil.toJsonString(map));
-		//
-		// // 流式消息
-		// String msg = "我是付绪壮";
-		// HashMap<String, Object> tmap = new HashMap<>();
-		// for (int i = 0; i < msg.length(); i++) {
-		// tmap = new HashMap<>();
-		// tmap.put("nodeName", "大模型节点");
-		// tmap.put("nodeId", "node_1");
-		// tmap.put("chunk", msg.substring(i, i + 1));
-		// SSEEmitterHelper.parseAndSendPartialMsg(sseEmitter,
-		// JacksonUtil.toJsonString(tmap));
-		// try {
-		// TimeUnit.SECONDS.sleep(1);
-		// } catch (InterruptedException e) {
-		// throw new RuntimeException(e);
-		// }
-		// }
-		// tmap.remove("chunk");
-		// tmap.put("nodeId", "node_1");
-		// tmap.put("status", "completed");
-		// SSEEmitterHelper.parseAndSendPartialMsg(sseEmitter,
-		// JacksonUtil.toJsonString(tmap));
-		//
-		// // 纯文本消息
-		// map = new HashMap<>();
-		// list = List.of(new NodeOutputVariable("name", "string", "最终响应啊"));
-		// map.put("nodeId", "node_5");
-		// map.put("nodeName", "条件节点");
-		// map.put("outputs", JacksonUtil.toJsonString(list));
-		// SSEEmitterHelper.parseAndSendPartialMsg(sseEmitter,
-		// JacksonUtil.toJsonString(map));
-		//
-		// map = new HashMap<>();
-		// list = List.of(new NodeOutputVariable("age", "string", "18岁"));
-		// map.put("nodeId", "node_3");
-		// map.put("nodeName", "知识检索节点");
-		// map.put("outputs", JacksonUtil.toJsonString(list));
-		// SSEEmitterHelper.parseAndSendPartialMsg(sseEmitter,
-		// JacksonUtil.toJsonString(map));
-		//
-		// // 生成结束
-		// SSEEmitterHelper.sendComplete(sseEmitter);
-		// });
-		//
-		// return sseEmitter;
 	}
 
 	/**
