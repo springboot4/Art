@@ -92,6 +92,10 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig>
 		result.put("nodeName", nodeLabel);
 		result.put("nodeId", nodeId);
 		result.put("status", "completed");
+
+		outputs.forEach(variable -> VariablePoolManager.updateNodeOutputVariable(workFlowContext.getCurrentNodeId(),
+				variable.getName(), variable.getValue(), workFlowContext.getPool()));
+
 		return result;
 	}
 
