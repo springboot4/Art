@@ -17,7 +17,6 @@ import com.art.ai.service.workflow.variable.VariablePoolManager;
 import com.art.json.sdk.util.JacksonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.bsc.async.AsyncGenerator;
 import org.bsc.langgraph4j.GraphStateException;
 import org.bsc.langgraph4j.NodeOutput;
@@ -49,30 +48,36 @@ public class WorkflowEngine {
 	/**
 	 * 运行工作流
 	 * @param userInputs 用户输入数据
-	 * @param conversationId 会话id
+	 * @param systems 系统变量
 	 */
-	public void run(Map<String, Object> userInputs, String conversationId) throws GraphStateException {
+	public void run(Map<String, Object> userInputs, Map<String, Object> systems) throws GraphStateException {
 		// 查询流程定义信息
 		AiWorkflowsDTO workflowsDefinition = workflowsService.findById(Long.valueOf(workflow.workflowId()));
 		if (Objects.isNull(workflowsDefinition)) {
 			throw new IllegalArgumentException("工作流定义不存在");
 		}
 
-		// 创建工作流运行时
-		AiWorkflowRuntimeDTO runtimeCreateDTO = new AiWorkflowRuntimeDTO();
-		runtimeCreateDTO.setWorkflowId(workflowsDefinition.getId());
-		runtimeCreateDTO.setAppId(workflowsDefinition.getAppId());
-		runtimeCreateDTO.setInput(JSONUtil.toJsonStr(userInputs));
-		AiWorkflowRuntimeDTO runtime = workflowRuntimeService.addAiWorkflowRuntime(runtimeCreateDTO);
-
 		Map<SystemVariableKey, Object> systemVariables = new HashMap<>();
-		if (StringUtils.isNoneBlank(conversationId)) {
-			systemVariables = Map.of(SystemVariableKey.CONVERSATION_ID, conversationId);
+		for (Map.Entry<String, Object> e : systems.entrySet()) {
+			String key = e.getKey();
+			Object value = e.getValue();
+			SystemVariableKey systemVariableKey = SystemVariableKey.get(key);
+			if (Objects.nonNull(systemVariableKey)) {
+				systemVariables.put(systemVariableKey, value);
+			}
 		}
+
 		// 创建变量池
 		VariablePool variablePool = VariablePoolManager.createPool(systemVariables,
 				JacksonUtil.parseObject(workflowsDefinition.getEnvironmentVariables(), Map.class),
 				JacksonUtil.parseObject(workflowsDefinition.getConversationVariables(), Map.class), userInputs);
+
+		// 创建工作流运行时
+		AiWorkflowRuntimeDTO runtimeCreateDTO = new AiWorkflowRuntimeDTO();
+		runtimeCreateDTO.setWorkflowId(workflowsDefinition.getId());
+		runtimeCreateDTO.setAppId(workflowsDefinition.getAppId());
+		runtimeCreateDTO.setInput(JSONUtil.toJsonStr(variablePool));
+		AiWorkflowRuntimeDTO runtime = workflowRuntimeService.addAiWorkflowRuntime(runtimeCreateDTO);
 
 		// 创建工作流上下文
 		WorkFlowContext workFlowContext = new WorkFlowContext();

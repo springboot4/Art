@@ -40,7 +40,7 @@ public class WorkflowStarter {
 	 * @param userInputs 用户输入参数列表
 	 */
 	@Transactional
-	public SseEmitter streaming(String workflowId, Map<String, Object> userInputs, String conversationId) {
+	public SseEmitter streaming(String workflowId, Map<String, Object> userInputs, Map<String, Object> systems) {
 		SseEmitter sseEmitter = new SseEmitter(150000L);
 
 		Callback callback = callbackResult -> {
@@ -73,7 +73,7 @@ public class WorkflowStarter {
 				TenantContextHolder.setTenantId(tenantId);
 				SecurityUtil.setAuthentication(authentication);
 
-				workflowEngine.run(userInputs, conversationId);
+				workflowEngine.run(userInputs, systems);
 			}
 			catch (Exception e) {
 				SSEEmitterHelper.sendComplete(sseEmitter);

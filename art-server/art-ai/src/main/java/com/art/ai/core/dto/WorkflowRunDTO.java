@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * @author fxz
@@ -15,7 +14,7 @@ public class WorkflowRunDTO {
 
 	private Map<String, Object> inputs = new HashMap<>();
 
-	private String conversationId = UUID.randomUUID().toString();
+	private Map<String, Object> systems = new HashMap<>();
 
 	private String workflowId;
 

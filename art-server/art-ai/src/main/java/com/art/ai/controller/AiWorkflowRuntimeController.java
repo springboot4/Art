@@ -49,7 +49,7 @@ public class AiWorkflowRuntimeController {
 	@PostMapping(value = "/run")
 	public SseEmitter run(@RequestBody WorkflowRunDTO workflowRunDTO) {
 		return workflowStarter.streaming(workflowRunDTO.getWorkflowId(), workflowRunDTO.getInputs(),
-				workflowRunDTO.getConversationId());
+				workflowRunDTO.getSystems());
 	}
 
 	/**
