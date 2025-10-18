@@ -51,6 +51,16 @@ public class AiWorkflowsController {
 	}
 
 	/**
+	 * 保存草稿
+	 */
+	@Operation(summary = "保存草稿")
+	@PostMapping(value = "/draft")
+	@PreAuthorize("@ps.hasPermission('ai:aiWorkflows:add')")
+	public Result<Boolean> saveDraft(@RequestBody AiWorkflowsDTO aiWorkflowsDTO) {
+		return Result.success(workflowsService.draft(aiWorkflowsDTO));
+	}
+
+	/**
 	 * 添加
 	 */
 	@Operation(summary = "添加")

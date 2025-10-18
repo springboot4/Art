@@ -6,11 +6,16 @@ import com.art.ai.core.dto.AiWorkflowsPageDTO;
 import com.art.ai.dao.dataobject.AiWorkflowsDO;
 import com.art.ai.manager.AiWorkflowsManager;
 import com.art.ai.service.workflow.definition.WorkflowsService;
+import com.art.common.lock.core.constants.RedissonLockType;
+import com.art.common.lock.core.entity.LockEntity;
+import com.art.common.lock.core.factory.RedissonLockServiceFactory;
+import com.art.common.lock.core.service.RedissonService;
 import com.art.core.common.exception.ArtException;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +30,12 @@ import java.util.Objects;
 public class WorkflowsServiceImpl implements WorkflowsService {
 
 	private final AiWorkflowsManager aiWorkflowsManager;
+
+	private final RedissonService lockService = RedissonLockServiceFactory.getLock(RedissonLockType.REENTRANT);
+
+	private static final String WORKFLOW_DRAFT_VERSION = "draft";
+
+	private static final String WORKFLOW_DRAFT_LOCK_PREFIX = "ai:workflow:draft:";
 
 	/**
 	 * 添加
@@ -104,6 +115,47 @@ public class WorkflowsServiceImpl implements WorkflowsService {
 		workflowsDTO.setUpdateTime(null);
 		workflowsDTO.setVersion(AiWorkflowsDO.newVersion());
 		return addAiWorkflows(workflowsDTO);
+	}
+
+	/**
+	 * 保存草稿
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public Boolean draft(AiWorkflowsDTO aiWorkflowsDTO) {
+		if (Objects.isNull(aiWorkflowsDTO.getAppId())) {
+			throw new ArtException("应用ID不能为空");
+		}
+
+		LockEntity lockEntity = new LockEntity().setLockName(buildDraftLockName(aiWorkflowsDTO.getAppId()));
+		boolean locked = lockService.lock(lockEntity);
+		if (!locked) {
+			throw new ArtException("保存草稿频繁，请稍后再试");
+		}
+
+		try {
+			aiWorkflowsDTO.setVersion(WORKFLOW_DRAFT_VERSION);
+			aiWorkflowsDTO.setId(null);
+
+			AiWorkflowsDTO queryDTO = new AiWorkflowsDTO().setAppId(aiWorkflowsDTO.getAppId())
+				.setTenantId(aiWorkflowsDTO.getTenantId())
+				.setVersion(WORKFLOW_DRAFT_VERSION)
+				.setType(aiWorkflowsDTO.getType());
+			AiWorkflowsDO existed = aiWorkflowsManager.findByWrapper(queryDTO);
+			if (Objects.nonNull(existed)) {
+				aiWorkflowsDTO.setId(existed.getId());
+			}
+
+			return aiWorkflowsManager.saveOrUpdate(aiWorkflowsDTO) > 0;
+		}
+		finally {
+			lockService.unlock(lockEntity);
+			lockService.clearThreadLock();
+		}
+	}
+
+	private String buildDraftLockName(Long appId) {
+		return WORKFLOW_DRAFT_LOCK_PREFIX + appId;
 	}
 
 }

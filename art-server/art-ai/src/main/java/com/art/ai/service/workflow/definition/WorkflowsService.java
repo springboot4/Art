@@ -52,4 +52,9 @@ public interface WorkflowsService {
 	 */
 	Boolean publish(AiWorkflowsDTO aiWorkflowsDTO);
 
+	/**
+	 * 保存草稿
+	 */
+	Boolean draft(AiWorkflowsDTO aiWorkflowsDTO);
+
 }

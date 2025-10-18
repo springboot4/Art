@@ -85,9 +85,21 @@ public class AiWorkflowsManager {
 			.eq(StringUtils.isNotBlank(aiWorkflowsDTO.getType()), AiWorkflowsDO::getType, aiWorkflowsDTO.getType())
 			.eq(StringUtils.isNotBlank(aiWorkflowsDTO.getVersion()), AiWorkflowsDO::getVersion,
 					aiWorkflowsDTO.getVersion())
-			.orderByDesc(AiWorkflowsDO::getId)
+			.orderByDesc(AiWorkflowsDO::getUpdateTime)
 			.last("limit 1");
 		return aiWorkflowsMapper.selectOne(wrapper);
+	}
+
+	/**
+	 * 保存或者更新
+	 */
+	public Integer saveOrUpdate(AiWorkflowsDTO aiWorkflowsDTO) {
+		AiWorkflowsDO entity = AiWorkflowsConvert.INSTANCE.convert(aiWorkflowsDTO);
+		if (Objects.nonNull(entity.getId())) {
+			return aiWorkflowsMapper.updateById(entity);
+		}
+
+		return addAiWorkflows(aiWorkflowsDTO);
 	}
 
 }
