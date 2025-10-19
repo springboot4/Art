@@ -1,6 +1,7 @@
 package com.art.ai.service.workflow.domain.node.llm;
 
 import com.art.ai.service.workflow.domain.node.NodeConfig;
+import com.art.ai.service.workflow.domain.node.llm.config.MemoryConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,11 @@ public class LlmNodeConfig extends NodeConfig {
 	private Double temperature = 1.0;
 
 	private Integer maxTokens = 128;
+
+	/**
+	 * 记忆配置
+	 */
+	private MemoryConfig memory;
 
 	@NoArgsConstructor
 	@AllArgsConstructor

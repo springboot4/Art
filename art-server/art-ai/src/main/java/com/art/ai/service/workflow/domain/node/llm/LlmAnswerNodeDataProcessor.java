@@ -11,6 +11,7 @@ import com.art.ai.service.workflow.domain.node.NodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.NodeOutputVariable;
 import com.art.ai.service.workflow.domain.node.NodeProcessResult;
 import com.art.ai.service.workflow.domain.node.WorkflowNode;
+import com.art.ai.service.workflow.domain.node.llm.memory.ChatMemoryService;
 import com.art.ai.service.workflow.variable.SystemVariableKey;
 import com.art.ai.service.workflow.variable.VariablePoolManager;
 import com.art.ai.service.workflow.variable.VariableRenderUtils;
@@ -51,7 +52,7 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmAnswerNodeC
 		Map<String, Object> inputs = initNodeInputsByReference(workFlowContext.getPool(), getConfig());
 		LlmNodeConfig nodeConfig = getConfig();
 
-		List<ChatMessage> messages = buildMessages(nodeConfig, inputs);
+		List<ChatMessage> messages = buildMessages(nodeConfig, inputs, workFlowContext);
 		if (messages.isEmpty()) {
 			log.warn("LLM answer node [{}] 没有可用对话消息", workFlowContext.getCurrentNodeId());
 		}
@@ -231,13 +232,17 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmAnswerNodeC
 		return result;
 	}
 
-	private List<ChatMessage> buildMessages(LlmNodeConfig nodeConfig, Map<String, Object> inputs) {
+	private List<ChatMessage> buildMessages(LlmNodeConfig nodeConfig, Map<String, Object> inputs,
+			WorkFlowContext workFlowContext) {
 		List<ChatMessage> chatMessages = new ArrayList<>();
+
+		// 1. System Prompt
 		String systemPrompt = nodeConfig.getSystemPrompt();
 		if (StringUtils.isNotBlank(systemPrompt)) {
 			chatMessages.add(SystemMessage.from(VariableRenderUtils.format(systemPrompt, inputs)));
 		}
 
+		// 2. 手动插入的消息
 		if (CollectionUtil.isNotEmpty(nodeConfig.getMessages())) {
 			nodeConfig.getMessages().forEach(message -> {
 				String content = VariableRenderUtils.format(message.getContent(), inputs);
@@ -248,6 +253,17 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmAnswerNodeC
 					chatMessages.add(AiMessage.from(content));
 				}
 			});
+		}
+
+		// 3. 记忆消息（历史对话）
+		if (nodeConfig.getMemory() != null && Boolean.TRUE.equals(nodeConfig.getMemory().getEnabled())) {
+			Long conversationId = extractConversationId(workFlowContext);
+			if (conversationId != null) {
+				ChatMemoryService memoryService = new ChatMemoryService();
+				List<ChatMessage> memoryMessages = memoryService.getHistoryMessages(conversationId,
+						nodeConfig.getMemory());
+				chatMessages.addAll(memoryMessages);
+			}
 		}
 
 		return chatMessages;
