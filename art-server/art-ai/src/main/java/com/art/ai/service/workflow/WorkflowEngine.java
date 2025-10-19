@@ -6,6 +6,7 @@ import com.art.ai.core.dto.AiWorkflowsDTO;
 import com.art.ai.service.workflow.callback.Callback;
 import com.art.ai.service.workflow.callback.CallbackData;
 import com.art.ai.service.workflow.callback.CallbackResult;
+import com.art.ai.service.workflow.callback.MessageCompletionCallback;
 import com.art.ai.service.workflow.definition.WorkflowsService;
 import com.art.ai.service.workflow.domain.node.NodeStatus;
 import com.art.ai.service.workflow.dsl.GraphBuilder;
@@ -30,6 +31,8 @@ import java.util.Objects;
 import static com.art.ai.service.workflow.runtime.WorkFlowStatus.WORKFLOW_PROCESS_STATUS_SUCCESS;
 
 /**
+ * 工作流引擎
+ *
  * @author fxz
  * @since 2025/8/9 19:50
  */
@@ -42,6 +45,8 @@ public class WorkflowEngine {
 	private final WorkflowsService workflowsService;
 
 	private final List<Callback> callbacks;
+
+	private final MessageCompletionCallback messageCompletionCallback;
 
 	private final Workflow workflow;
 
@@ -82,6 +87,8 @@ public class WorkflowEngine {
 		// 创建工作流上下文
 		WorkFlowContext workFlowContext = new WorkFlowContext();
 		workFlowContext.setPool(variablePool);
+		workFlowContext.setRuntime(runtime);
+		workFlowContext.setMessageCompletionCallback(messageCompletionCallback);
 
 		AsyncGenerator<NodeOutput<NodeState>> stream = GraphBuilder
 			.buildGraph(Objects.requireNonNull(JacksonUtil.parseObject(workflowsDefinition.getGraph(), GraphDSL.class)),

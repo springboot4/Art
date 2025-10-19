@@ -5,7 +5,6 @@ import com.art.ai.core.dto.AiWorkflowRuntimePageDTO;
 import com.art.ai.core.dto.WorkflowRunDTO;
 import com.art.ai.service.workflow.WorkflowStarter;
 import com.art.ai.service.workflow.runtime.WorkflowRuntimeService;
-import com.art.common.security.core.annotation.Ojbk;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,12 +34,6 @@ public class AiWorkflowRuntimeController {
 	private final WorkflowRuntimeService aiWorkflowRuntimeService;
 
 	private final WorkflowStarter workflowStarter;
-
-	@Ojbk
-	@RequestMapping("/ping")
-	public Result<String> ping() {
-		return Result.success("pong");
-	}
 
 	/**
 	 * 运行工作流

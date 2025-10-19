@@ -35,14 +35,4 @@ public class LlmNodeConfig extends NodeConfig {
 
 	}
 
-	public interface MessageRole {
-
-		String USER = "user";
-
-		String ASSISTANT = "assistant";
-
-		String SYSTEM = "system";
-
-	}
-
 }

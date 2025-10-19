@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.art.ai.dao.mysql.AiConversationMapper">
+
+    <!-- 更新会话统计信息 -->
+    <update id="updateStats">
+        UPDATE ai_conversations
+        SET message_count = message_count + #{messageDelta},
+            total_tokens = total_tokens + #{tokensDelta},
+            total_cost = total_cost + #{costDelta},
+            last_message_at = NOW(),
+            update_time = NOW()
+        WHERE id = #{conversationId}
+    </update>
+
+</mapper>

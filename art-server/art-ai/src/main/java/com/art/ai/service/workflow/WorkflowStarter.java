@@ -1,14 +1,13 @@
 package com.art.ai.service.workflow;
 
 import com.art.ai.core.sse.SSEEmitterHelper;
-import com.art.ai.service.workflow.callback.Callback;
-import com.art.ai.service.workflow.callback.CallbackData;
+import com.art.ai.service.workflow.callback.DefaultMessageCompletionCallback;
+import com.art.ai.service.workflow.callback.SSEWorkflowCallback;
 import com.art.ai.service.workflow.definition.WorkflowsService;
 import com.art.ai.service.workflow.runtime.WorkflowRuntimeService;
 import com.art.common.security.core.utils.SecurityUtil;
 import com.art.common.tenant.context.TenantContextHolder;
 import com.art.core.common.util.AsyncUtil;
-import com.art.json.sdk.util.JacksonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -17,12 +16,10 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-
-import static org.bsc.langgraph4j.StateGraph.END;
-import static org.bsc.langgraph4j.StateGraph.START;
 
 /**
+ * 工作流启动器
+ *
  * @author fxz
  * @since 2025/8/9 19:30
  */
@@ -43,27 +40,8 @@ public class WorkflowStarter {
 	public SseEmitter streaming(String workflowId, Map<String, Object> userInputs, Map<String, Object> systems) {
 		SseEmitter sseEmitter = new SseEmitter(150000L);
 
-		Callback callback = callbackResult -> {
-			if (Objects.isNull(callbackResult)) {
-				return;
-			}
-			CallbackData data = callbackResult.getData();
-			if (Objects.isNull(data)) {
-				return;
-			}
-			if (data.getNodeId().equals(START)) {
-				SSEEmitterHelper.sendStart(sseEmitter);
-				return;
-			}
-			if (data.getNodeId().equals(END)) {
-				SSEEmitterHelper.sendComplete(sseEmitter);
-				return;
-			}
-
-			SSEEmitterHelper.parseAndSendPartialMsg(sseEmitter, JacksonUtil.toJsonString(data));
-		};
-
-		WorkflowEngine workflowEngine = new WorkflowEngine(workflowRuntimeService, workflowsService, List.of(callback),
+		WorkflowEngine workflowEngine = new WorkflowEngine(workflowRuntimeService, workflowsService,
+				List.of(new SSEWorkflowCallback(sseEmitter)), new DefaultMessageCompletionCallback(),
 				new Workflow(workflowId));
 
 		Long tenantId = TenantContextHolder.getTenantId();

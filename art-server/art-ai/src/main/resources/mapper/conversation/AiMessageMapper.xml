@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.art.ai.dao.mysql.AiMessageMapper">
+
+    <!-- 获取会话的最近N条消息（按时间正序） -->
+    <select id="selectRecentMessages" resultType="com.art.ai.dao.dataobject.AiMessageDO">
+        SELECT *
+        FROM (
+            SELECT *
+            FROM ai_messages
+            WHERE conversation_id = #{conversationId}
+            ORDER BY create_time DESC
+            LIMIT #{limit}
+        ) recent
+        ORDER BY create_time ASC
+    </select>
+
+</mapper>

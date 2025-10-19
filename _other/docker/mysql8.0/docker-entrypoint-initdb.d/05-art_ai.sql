@@ -234,4 +234,70 @@ CREATE TABLE `ai_model` (
                             PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+DROP TABLE IF EXISTS `ai_conversations`;
+CREATE TABLE `ai_conversations` (
+                                    `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                    `conversation_uuid` VARCHAR(36) NOT NULL COMMENT '会话UUID',
+
+                                    `tenant_id` BIGINT DEFAULT NULL COMMENT '租户ID（多租户隔离）',
+                                    `app_id` BIGINT NOT NULL COMMENT '应用ID（关联ai_app表）',
+                                    `end_user_id` BIGINT DEFAULT NULL COMMENT '终端用户ID',
+
+                                    `name` VARCHAR(255) DEFAULT NULL COMMENT '会话标题（自动生成或用户修改）',
+                                    `status` VARCHAR(20) DEFAULT 'active' COMMENT '会话状态：active-活跃, archived-已归档, deleted-已删除',
+
+                                    `message_count` INT DEFAULT 0 COMMENT '消息总数（包括用户和AI消息）',
+                                    `total_tokens` INT DEFAULT 0 COMMENT '总Token消耗（累计）',
+                                    `total_cost` DECIMAL(10, 6) DEFAULT 0.000000 COMMENT '总成本',
+
+                                    `first_message_at` DATETIME DEFAULT NULL COMMENT '首条消息时间（用于排序）',
+                                    `last_message_at` DATETIME DEFAULT NULL COMMENT '最后消息时间（用于超时判断）',
+                                    `archived_at` DATETIME DEFAULT NULL COMMENT '归档时间',
+                                    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                    `create_by` VARCHAR(64) DEFAULT NULL COMMENT '创建人',
+                                    `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                    `update_by` VARCHAR(64) DEFAULT NULL COMMENT '更新人',
+
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    UNIQUE KEY `uk_conversation_uuid` (`conversation_uuid`) COMMENT '会话UUID唯一索引',
+                                    KEY `idx_tenant_app` (`tenant_id`, `app_id`) COMMENT '租户+应用联合索引（常用查询）',
+                                    KEY `idx_end_user` (`end_user_id`) COMMENT '用户索引（按用户查询会话列表）',
+                                    KEY `idx_status` (`status`) COMMENT '状态索引（查询活跃/归档会话）',
+                                    KEY `idx_last_message` (`last_message_at`) COMMENT '最后消息时间索引（超时清理）'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI会话表';
+
+DROP TABLE IF EXISTS `ai_messages`;
+CREATE TABLE `ai_messages` (
+                               `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                               `message_uuid` VARCHAR(36) NOT NULL COMMENT '消息UUID',
+
+                               `conversation_id` BIGINT NOT NULL COMMENT '所属会话ID（外键关联ai_conversations）',
+                               `instance_id` BIGINT DEFAULT NULL COMMENT '实例ID（工作流或Agent实例，预留字段，后续集成使用）',
+                               `instance_type` VARCHAR(20) DEFAULT NULL COMMENT '实例类型：workflow-工作流, agent-智能体（预留字段，后续集成使用）',
+
+                               `role` VARCHAR(20) NOT NULL COMMENT '角色：user-用户, assistant-助手, system-系统',
+                               `message_type` VARCHAR(20) DEFAULT 'text' COMMENT '消息类型：text-文本, image-图片, file-文件, audio-音频, video-视频（当前仅支持text）',
+                               `content` LONGTEXT COMMENT '消息内容（支持大文本）',
+
+                               `model_provider` VARCHAR(50) DEFAULT NULL COMMENT '模型提供商（如openai、anthropic，仅用于计费审计）',
+                               `model_id` VARCHAR(100) DEFAULT NULL COMMENT '模型ID（如gpt-4、claude-3.5-sonnet，仅用于计费审计）',
+                               `prompt_tokens` INT DEFAULT 0 COMMENT '输入Token数（Prompt）',
+                               `completion_tokens` INT DEFAULT 0 COMMENT '输出Token数（Completion）',
+                               `total_tokens` INT DEFAULT 0 COMMENT '总Token数（prompt_tokens + completion_tokens）',
+                               `total_cost` DECIMAL(10, 6) DEFAULT 0.000000 COMMENT '总成本',
+
+                               `status` VARCHAR(20) DEFAULT 'completed' COMMENT '状态：pending-待处理, completed-已完成, failed-失败',
+                               `error_message` TEXT DEFAULT NULL COMMENT '错误信息（status=failed时记录）',
+
+                               `metadata` JSON DEFAULT NULL COMMENT '扩展元数据（JSON格式，预留扩展，如附件信息等）',
+
+                               `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `completed_at` DATETIME DEFAULT NULL COMMENT '完成时间',
+
+                               PRIMARY KEY (`id`) USING BTREE,
+                               UNIQUE KEY `uk_message_uuid` (`message_uuid`) COMMENT '消息UUID唯一索引',
+                               KEY `idx_conversation_time` (`conversation_id`, `create_time`) COMMENT '会话+时间联合索引（查询历史消息，最常用）',
+                               KEY `idx_instance` (`instance_id`, `instance_type`) COMMENT '实例索引（追溯执行上下文，预留）'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI消息表';
+
 SET FOREIGN_KEY_CHECKS = 1;

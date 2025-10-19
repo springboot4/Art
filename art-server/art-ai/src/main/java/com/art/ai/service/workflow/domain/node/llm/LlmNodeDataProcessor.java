@@ -1,8 +1,9 @@
 package com.art.ai.service.workflow.domain.node.llm;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.art.ai.service.model.support.AiModelInvokeOptions;
+import com.art.ai.core.enums.MessageRoleEnum;
 import com.art.ai.service.model.runtime.AiModelRuntimeService;
+import com.art.ai.service.model.support.AiModelInvokeOptions;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
 import com.art.ai.service.workflow.domain.node.NodeDataProcessor;
@@ -63,10 +64,10 @@ public class LlmNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig> {
 
 		if (CollectionUtil.isNotEmpty(messages)) {
 			messages.forEach(message -> {
-				if (StringUtils.equals(message.getRole(), LlmNodeConfig.MessageRole.USER)) {
+				if (StringUtils.equals(message.getRole(), MessageRoleEnum.USER.getCode())) {
 					chatMessages.add(UserMessage.from(VariableRenderUtils.format(message.getContent(), inputs)));
 				}
-				else if (StringUtils.equals(message.getRole(), LlmNodeConfig.MessageRole.ASSISTANT)) {
+				else if (StringUtils.equals(message.getRole(), MessageRoleEnum.ASSISTANT.getCode())) {
 					chatMessages.add(AiMessage.from(VariableRenderUtils.format(message.getContent(), inputs)));
 				}
 			});

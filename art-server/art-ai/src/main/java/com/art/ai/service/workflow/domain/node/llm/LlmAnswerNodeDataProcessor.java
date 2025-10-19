@@ -1,16 +1,21 @@
 package com.art.ai.service.workflow.domain.node.llm;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.art.ai.core.enums.MessageRoleEnum;
 import com.art.ai.service.model.runtime.AiStreamingModelRuntimeService;
 import com.art.ai.service.model.support.AiModelInvokeOptions;
 import com.art.ai.service.workflow.NodeState;
 import com.art.ai.service.workflow.WorkFlowContext;
+import com.art.ai.service.workflow.callback.MessageCompletionCallback;
 import com.art.ai.service.workflow.domain.node.NodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.NodeOutputVariable;
 import com.art.ai.service.workflow.domain.node.NodeProcessResult;
 import com.art.ai.service.workflow.domain.node.WorkflowNode;
+import com.art.ai.service.workflow.variable.SystemVariableKey;
 import com.art.ai.service.workflow.variable.VariablePoolManager;
 import com.art.ai.service.workflow.variable.VariableRenderUtils;
+import com.art.ai.service.workflow.variable.VariableSelector;
+import com.art.ai.service.workflow.variable.VariableValue;
 import com.art.core.common.util.SpringUtil;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
@@ -31,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 支持流式输出的大模型答案节点。
@@ -38,7 +44,7 @@ import java.util.Map;
  * @author fxz
  */
 @Slf4j
-public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig> {
+public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmAnswerNodeConfig> {
 
 	@Override
 	public NodeProcessResult process(WorkFlowContext workFlowContext, NodeState nodeState) {
@@ -53,7 +59,7 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig>
 		AiStreamingModelRuntimeService streamingRuntimeService = SpringUtil
 			.getBean(AiStreamingModelRuntimeService.class);
 		StreamingChatModel streamingChatModel = streamingRuntimeService.acquireStreamingChatModel(null,
-				parseModelId(nodeConfig.getModel()), buildInvokeOptions(nodeConfig));
+				Long.valueOf(nodeConfig.getModel()), buildInvokeOptions(nodeConfig));
 
 		ChatRequestParameters parameters = ChatRequestParameters.builder()
 			.temperature(nodeConfig.getTemperature())
@@ -78,24 +84,150 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig>
 
 	private Map<String, Object> onCompletion(ChatResponse response, String nodeId, String nodeLabel,
 			WorkFlowContext workFlowContext) {
-		String text = response.aiMessage().text();
-		log.debug("LLM answer node [{}] 完成生成: {}", nodeId, text);
+		if (response == null || response.aiMessage() == null) {
+			log.error("LLM answer node [{}] 响应为空", nodeId);
+			return buildErrorResult(nodeId, nodeLabel, "LLM响应为空");
+		}
 
+		String text = response.aiMessage().text();
+		log.debug("LLM answer node [{}] 完成生成，内容长度: {}", nodeId, text != null ? text.length() : 0);
+
+		// 输出变量
 		List<NodeOutputVariable> outputs = List
 			.of(new NodeOutputVariable(WorkflowNode.NodeOutputConstants.OUTPUT, "string", text));
 
-		VariablePoolManager.updateNodeOutputVariable(nodeId, WorkflowNode.NodeOutputConstants.OUTPUT, text,
-				workFlowContext.getPool());
-
+		// 构建结果
 		HashMap<String, Object> result = new HashMap<>();
 		result.put("outputs", outputs);
 		result.put("nodeName", nodeLabel);
 		result.put("nodeId", nodeId);
 		result.put("status", "completed");
 
-		outputs.forEach(variable -> VariablePoolManager.updateNodeOutputVariable(workFlowContext.getCurrentNodeId(),
-				variable.getName(), variable.getValue(), workFlowContext.getPool()));
+		// 更新变量池
+		try {
+			outputs.forEach(variable -> VariablePoolManager.updateNodeOutputVariable(workFlowContext.getCurrentNodeId(),
+					variable.getName(), variable.getValue(), workFlowContext.getPool()));
+		}
+		catch (Exception e) {
+			log.error("更新变量池失败，nodeId={}", nodeId, e);
+		}
 
+		// 触发消息完成回调
+		try {
+			triggerMessageCompletionCallback(workFlowContext, nodeId, nodeLabel, text, response);
+		}
+		catch (Exception e) {
+			log.error("触发消息完成回调失败，nodeId={}", nodeId, e);
+		}
+
+		return result;
+	}
+
+	/**
+	 * 触发消息完成回调
+	 * @param workFlowContext 工作流上下文
+	 * @param nodeId 节点ID
+	 * @param nodeLabel 节点名称
+	 * @param content 生成的内容
+	 * @param response LLM响应
+	 */
+	private void triggerMessageCompletionCallback(WorkFlowContext workFlowContext, String nodeId, String nodeLabel,
+			String content, ChatResponse response) {
+		if (workFlowContext == null) {
+			log.warn("WorkFlowContext为空，无法触发消息完成回调");
+			return;
+		}
+
+		// 获取回调
+		MessageCompletionCallback callback = workFlowContext.getMessageCompletionCallback();
+		if (callback == null) {
+			log.debug("未设置消息完成回调!");
+			return;
+		}
+
+		// 获取会话ID
+		Long conversationId = extractConversationId(workFlowContext);
+		if (conversationId == null) {
+			throw new IllegalStateException("无法获取会话ID");
+		}
+
+		// 获取实例ID
+		Long instanceId = workFlowContext.getRuntime() != null ? workFlowContext.getRuntime().getId() : null;
+
+		Integer promptTokens = null;
+		Integer completionTokens = null;
+		Integer totalTokens = null;
+		if (response.tokenUsage() != null) {
+			promptTokens = response.tokenUsage().inputTokenCount();
+			completionTokens = response.tokenUsage().outputTokenCount();
+			totalTokens = response.tokenUsage().totalTokenCount();
+		}
+
+		// 构建事件
+		MessageCompletionCallback.MessageCompletionEvent event = MessageCompletionCallback.MessageCompletionEvent
+			.builder()
+			.nodeId(nodeId)
+			.nodeLabel(nodeLabel)
+			.content(content)
+			.role(MessageRoleEnum.ASSISTANT)
+			.conversationId(conversationId)
+			.instanceId(instanceId)
+			.modelId(getConfig().getModel())
+			.modelProvider(getConfig().getModel())
+			.promptTokens(promptTokens)
+			.completionTokens(completionTokens)
+			.totalTokens(totalTokens)
+			.build();
+
+		// 调用回调
+		callback.onComplete(event);
+	}
+
+	/**
+	 * 从上下文中提取会话ID
+	 */
+	private Long extractConversationId(WorkFlowContext workFlowContext) {
+		try {
+			Optional<VariableValue<?>> variableValue = workFlowContext.getPool()
+				.get(VariableSelector.system(SystemVariableKey.CONVERSATION_ID));
+
+			if (variableValue.isEmpty()) {
+				log.warn("系统变量 CONVERSATION_ID 未找到");
+				return null;
+			}
+
+			VariableValue<?> conversationIdVariable = variableValue.get();
+			Object value = conversationIdVariable.getValue();
+
+			if (value instanceof String) {
+				return Long.valueOf((String) value);
+			}
+			else if (value instanceof Long) {
+				return (Long) value;
+			}
+			else if (value instanceof Number) {
+				return ((Number) value).longValue();
+			}
+			else {
+				log.warn("会话ID类型不支持: {}", value != null ? value.getClass() : null);
+				return null;
+			}
+		}
+		catch (Exception e) {
+			log.error("提取会话ID失败", e);
+			return null;
+		}
+	}
+
+	/**
+	 * 构建错误结果
+	 */
+	private Map<String, Object> buildErrorResult(String nodeId, String nodeLabel, String errorMessage) {
+		HashMap<String, Object> result = new HashMap<>();
+		result.put("nodeId", nodeId);
+		result.put("nodeName", nodeLabel);
+		result.put("status", "failed");
+		result.put("error", errorMessage);
 		return result;
 	}
 
@@ -109,10 +241,10 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig>
 		if (CollectionUtil.isNotEmpty(nodeConfig.getMessages())) {
 			nodeConfig.getMessages().forEach(message -> {
 				String content = VariableRenderUtils.format(message.getContent(), inputs);
-				if (StringUtils.equals(message.getRole(), LlmNodeConfig.MessageRole.USER)) {
+				if (StringUtils.equals(message.getRole(), MessageRoleEnum.USER.getCode())) {
 					chatMessages.add(UserMessage.from(content));
 				}
-				else if (StringUtils.equals(message.getRole(), LlmNodeConfig.MessageRole.ASSISTANT)) {
+				else if (StringUtils.equals(message.getRole(), MessageRoleEnum.ASSISTANT.getCode())) {
 					chatMessages.add(AiMessage.from(content));
 				}
 			});
@@ -133,15 +265,6 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig>
 			builder.maxOutputTokens(nodeConfig.getMaxTokens());
 		}
 		return builder.build();
-	}
-
-	private Long parseModelId(String modelId) {
-		try {
-			return Long.valueOf(modelId);
-		}
-		catch (NumberFormatException ex) {
-			throw new IllegalArgumentException("非法的模型 ID: " + modelId, ex);
-		}
 	}
 
 }

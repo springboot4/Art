@@ -21,6 +21,7 @@ import com.art.core.common.constant.SecurityConstants;
 import com.art.core.common.model.Result;
 import com.art.system.api.user.dto.SystemUserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -38,7 +39,7 @@ public interface UserServiceApi {
 	 * @param username 用户名
 	 * @return 用户信息
 	 */
-	@GetMapping("/user/findByName/{username}")
+	@GetMapping(value = "/user/findByName/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
 	Result<SystemUserDTO> findByName(@PathVariable("username") String username,
 			@RequestHeader(SecurityConstants.FROM) String from);
 
@@ -47,7 +48,7 @@ public interface UserServiceApi {
 	 * @param mobile 手机号
 	 * @return 用户信息
 	 */
-	@GetMapping("/user/findByMobile/{mobile}")
+	@GetMapping(value = "/user/findByMobile/{mobile}", produces = MediaType.APPLICATION_JSON_VALUE)
 	Result<SystemUserDTO> findByMobile(@PathVariable("mobile") String mobile,
 			@RequestHeader(SecurityConstants.FROM) String from);
 

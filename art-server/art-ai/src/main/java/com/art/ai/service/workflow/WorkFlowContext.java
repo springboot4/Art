@@ -1,10 +1,14 @@
 package com.art.ai.service.workflow;
 
+import com.art.ai.core.dto.AiWorkflowRuntimeDTO;
+import com.art.ai.service.workflow.callback.MessageCompletionCallback;
 import com.art.ai.service.workflow.variable.VariablePool;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
+ * 工作流上下文
+ *
  * @author fxz
  * @since 2025/8/10 17:11
  */
@@ -23,5 +27,15 @@ public class WorkFlowContext {
 	 * 当前运行节点名称
 	 */
 	private String currentNodeLabel;
+
+	/**
+	 * 工作流运行时
+	 */
+	private AiWorkflowRuntimeDTO runtime;
+
+	/**
+	 * 消息完成回调
+	 */
+	private MessageCompletionCallback messageCompletionCallback;
 
 }
