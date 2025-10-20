@@ -43,6 +43,7 @@
         <jasypt.version>3.0.5</jasypt.version>
         <lombok.version>1.18.26</lombok.version>
         <mapstruct.version>1.5.4.Final</mapstruct.version>
+        <log-trace.version>3.2.0</log-trace.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <spring-javaformat.version>0.0.38</spring-javaformat.version>
@@ -87,6 +88,12 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.pig4cloud.plugin</groupId>
+            <artifactId>log-trace-spring-boot3-starter</artifactId>
+            <version>${log-trace.version}</version>
         </dependency>
 
     </dependencies>

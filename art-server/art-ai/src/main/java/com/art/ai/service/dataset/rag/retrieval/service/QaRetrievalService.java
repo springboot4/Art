@@ -10,6 +10,7 @@ import com.art.ai.service.dataset.rag.qa.util.QaHashUtil;
 import com.art.ai.service.dataset.rag.retrieval.entity.RetrievalResult;
 import com.art.ai.service.dataset.rag.retrieval.entity.RetrievalType;
 import com.art.ai.service.qa.QaVectorizationService;
+import com.art.core.common.util.AsyncUtil;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -29,7 +30,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.art.ai.service.qa.QaVectorizationService.DATASET_ID_KEY;
@@ -244,7 +244,7 @@ public class QaRetrievalService {
 		metadata.put("dataset_id", qaPair.getDatasetId());
 
 		// 更新命中次数
-		CompletableFuture.runAsync(() -> updateHitCount(qaPair.getId()));
+		AsyncUtil.run(() -> updateHitCount(qaPair.getId()));
 
 		return RetrievalResult.builder()
 			.documentId(qaPair.getId().toString())

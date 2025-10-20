@@ -18,6 +18,7 @@ import com.art.ai.service.dataset.rag.retrieval.service.VectorRetrievalService;
 import com.art.ai.service.dataset.service.AiDatasetsService;
 import com.art.ai.service.document.impl.AiDocumentsServiceImpl;
 import com.art.ai.service.model.runtime.AiModelRuntimeService;
+import com.art.core.common.util.AsyncUtil;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -35,7 +36,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -150,34 +151,22 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 	 * 并行召回
 	 */
 	private List<RetrievalResult> performParallelRetrieval(RetrievalRequest request, PipelineConfig config) {
-		List<CompletableFuture<List<RetrievalResult>>> futures = new ArrayList<>();
+		List<Supplier<List<RetrievalResult>>> suppliers = new ArrayList<>();
 
 		for (RetrievalType type : request.getRetrievalTypes()) {
 			PipelineConfig.RetrieverConfig retrieverConfig = getRetrieverConfig(type, config);
 			if (retrieverConfig.getEnabled() != null && retrieverConfig.getEnabled()) {
-				CompletableFuture<List<RetrievalResult>> future = CompletableFuture
-					.supplyAsync(() -> executeRetriever(type, request, retrieverConfig));
-				futures.add(future);
+				suppliers.add(() -> executeRetriever(type, request, retrieverConfig));
 			}
 		}
 
-		// 等待所有召回完成
-		List<RetrievalResult> allResults = new ArrayList<>();
-
 		try {
-			CompletableFuture<Void> allOf = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
-			allOf.get();
-
-			for (CompletableFuture<List<RetrievalResult>> future : futures) {
-				allResults.addAll(future.get());
-			}
+			return executeParallelAndCollect(suppliers);
 		}
 		catch (Exception e) {
 			log.error("并行召回失败", e);
 			return performSequentialRetrieval(request, config);
 		}
-
-		return allResults;
 	}
 
 	/**
@@ -213,30 +202,25 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 				return Collections.emptyList();
 			}
 
-			List<CompletableFuture<List<RetrievalResult>>> futures = datasetIds.stream()
-				.map(datasetId -> CompletableFuture.supplyAsync(() -> {
+			List<Supplier<List<RetrievalResult>>> suppliers = datasetIds.stream()
+				.map(datasetId -> (Supplier<List<RetrievalResult>>) () -> {
 					try {
 						return executeSingleDatasetRetriever(type, request.getQuery(), datasetId, retrieverConfig);
 					}
 					catch (Exception e) {
 						log.error("数据集召回失败: type={}, datasetId={}", type, datasetId, e);
-						return Collections.<RetrievalResult>emptyList();
+						return Collections.emptyList();
 					}
-				}))
+				})
 				.toList();
 
-			List<RetrievalResult> allResults = new ArrayList<>();
 			try {
-				CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-				for (CompletableFuture<List<RetrievalResult>> future : futures) {
-					allResults.addAll(future.get());
-				}
+				return executeParallelAndCollect(suppliers);
 			}
 			catch (Exception e) {
 				log.error("并发召回失败,降级为串行执行: type={}", type, e);
+				return Collections.emptyList();
 			}
-
-			return allResults;
 		}
 		catch (Exception e) {
 			log.error("召回器执行异常: type={}", type, e);
@@ -517,6 +501,26 @@ public class DefaultRetrievalPipeline implements RetrievalPipeline {
 	private ChatModel getChatModel(Long datasetId) {
 		AiDatasetsDTO datasetsDTO = aiDatasetsService.findById(datasetId);
 		return aiDocumentsService.getChatModel(datasetsDTO.getGraphicModel());
+	}
+
+	/**
+	 * 并行执行并收集结果
+	 */
+	@SuppressWarnings("unchecked")
+	private List<RetrievalResult> executeParallelAndCollect(List<Supplier<List<RetrievalResult>>> suppliers) {
+		if (suppliers.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		Object[] results = AsyncUtil.parallel(suppliers.toArray(new Supplier[0]));
+
+		List<RetrievalResult> allResults = new ArrayList<>();
+		for (Object result : results) {
+			if (result instanceof List<?>) {
+				allResults.addAll((List<RetrievalResult>) result);
+			}
+		}
+		return allResults;
 	}
 
 }

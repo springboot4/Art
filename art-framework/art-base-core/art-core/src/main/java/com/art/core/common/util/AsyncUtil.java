@@ -16,8 +16,10 @@
 
 package com.art.core.common.util;
 
+import com.pig4cloud.trace.TraceContentFactory;
 import lombok.experimental.UtilityClass;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
@@ -69,12 +71,14 @@ public class AsyncUtil {
 
 	private static CompletableFuture[] warpCompletableFuture(Boolean ignoreException, Supplier... suppliers) {
 		CompletableFuture<Object>[] completableFutures = new CompletableFuture[suppliers.length];
+		Map<String, String> contentStatic = TraceContentFactory.assemblyTraceContentStatic();
 
 		for (int i = 0; i < suppliers.length; ++i) {
 			Supplier<Object> supplier = suppliers[i];
 			completableFutures[i] = CompletableFuture.supplyAsync(() -> {
 				Object res;
 				try {
+					TraceContentFactory.storageMDC(contentStatic);
 					res = supplier.get();
 					return res;
 				}
@@ -94,11 +98,12 @@ public class AsyncUtil {
 
 	private static CompletableFuture<Void>[] warpCompletableFuture(Boolean ignoreException, Runnable... runs) {
 		CompletableFuture<Void>[] completableFutures = new CompletableFuture[runs.length];
-
+		Map<String, String> contentStatic = TraceContentFactory.assemblyTraceContentStatic();
 		for (int i = 0; i < runs.length; ++i) {
 			Runnable runnable = runs[i];
 			completableFutures[i] = CompletableFuture.runAsync(() -> {
 				try {
+					TraceContentFactory.storageMDC(contentStatic);
 					runnable.run();
 				}
 				catch (Exception e) {

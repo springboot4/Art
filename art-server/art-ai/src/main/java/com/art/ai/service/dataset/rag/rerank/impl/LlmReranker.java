@@ -4,6 +4,7 @@ import com.art.ai.service.dataset.rag.rerank.Reranker;
 import com.art.ai.service.dataset.rag.rerank.RerankerConfig;
 import com.art.ai.service.dataset.rag.rerank.RerankerType;
 import com.art.ai.service.dataset.rag.retrieval.entity.RetrievalResult;
+import com.art.core.common.util.AsyncUtil;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
@@ -14,10 +15,11 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * LLM重排序器 - 使用大语言模型对相关性进行评分
@@ -82,9 +84,9 @@ public class LlmReranker implements Reranker {
 
 		long startTime = System.currentTimeMillis();
 
-		// 并发执行所有批次
-		List<CompletableFuture<List<RetrievalResult>>> futures = batches.stream()
-			.map(batch -> CompletableFuture.supplyAsync(() -> {
+		// 构建并发任务
+		List<Supplier<List<RetrievalResult>>> suppliers = batches.stream()
+			.map(batch -> (Supplier<List<RetrievalResult>>) () -> {
 				try {
 					return rerankBatch(query, batch, llmConfig);
 				}
@@ -92,17 +94,11 @@ public class LlmReranker implements Reranker {
 					log.warn("批次重排序失败,保留原排序: {}", e.getMessage());
 					return batch;
 				}
-			}))
+			})
 			.toList();
 
-		// 等待所有批次完成
-		CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-
-		// 收集结果
-		List<RetrievalResult> allResults = futures.stream()
-			.map(CompletableFuture::join)
-			.flatMap(List::stream)
-			.collect(Collectors.toList());
+		// 并发执行并收集结果
+		List<RetrievalResult> allResults = executeParallelAndCollect(suppliers);
 
 		long duration = System.currentTimeMillis() - startTime;
 		log.info("LLM批次并发重排序完成: batches={}, totalDocs={}, duration={}ms", batches.size(), allResults.size(), duration);
@@ -248,6 +244,23 @@ public class LlmReranker implements Reranker {
 	@Override
 	public boolean supports(RerankerConfig config) {
 		return config.getType() == RerankerType.LLM_BASED && config.getLlmRerankerConfig() != null;
+	}
+
+	/**
+	 * 并行执行并收集结果
+	 */
+	@SuppressWarnings("unchecked")
+	private List<RetrievalResult> executeParallelAndCollect(List<Supplier<List<RetrievalResult>>> suppliers) {
+		if (suppliers.isEmpty()) {
+			return List.of();
+		}
+
+		Object[] results = AsyncUtil.parallel(suppliers.toArray(new Supplier[0]));
+
+		return Stream.of(results)
+			.filter(result -> result instanceof List<?>)
+			.flatMap(result -> ((List<RetrievalResult>) result).stream())
+			.collect(Collectors.toList());
 	}
 
 }
