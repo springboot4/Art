@@ -1,13 +1,19 @@
 package com.art.ai.dao.dataobject;
 
 import com.art.ai.core.constants.AiModelCapability;
+import com.art.ai.core.constants.ModelFeature;
 import com.art.ai.service.model.support.AiModelConfigurationParser;
 import com.art.ai.service.model.support.AiModelRuntimeConfig;
 import com.art.mybatis.common.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author fxz
@@ -60,6 +66,51 @@ public class AiModelDO extends BaseEntity {
 
 	public Map<String, Object> configAsMap() {
 		return AiModelConfigurationParser.readConfig(config);
+	}
+
+	/**
+	 * 获取模型支持的特性集合
+	 * @return 特性集合
+	 */
+	public Set<ModelFeature> getFeatures() {
+		Map<String, Object> configMap = configAsMap();
+		Object featuresObj = configMap.get("features");
+
+		if (featuresObj == null) {
+			return Collections.emptySet();
+		}
+
+		if (featuresObj instanceof List<?> featuresList) {
+			return featuresList.stream()
+				.filter(item -> item instanceof String)
+				.map(Object::toString)
+				.map(this::parseFeature)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toSet());
+		}
+
+		return Collections.emptySet();
+	}
+
+	/**
+	 * 判断模型是否支持某个特性
+	 * @param feature 特性
+	 * @return 是否支持
+	 */
+	public boolean hasFeature(ModelFeature feature) {
+		return getFeatures().contains(feature);
+	}
+
+	/**
+	 * 解析特性字符串
+	 */
+	private ModelFeature parseFeature(String featureStr) {
+		try {
+			return ModelFeature.valueOf(featureStr);
+		}
+		catch (IllegalArgumentException e) {
+			return null;
+		}
 	}
 
 }

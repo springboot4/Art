@@ -2,6 +2,7 @@ package com.art.ai.service.workflow.domain.node.llm;
 
 import com.art.ai.service.workflow.domain.node.NodeConfig;
 import com.art.ai.service.workflow.domain.node.llm.config.MemoryConfig;
+import com.art.ai.service.workflow.domain.node.llm.config.StructuredOutputConfig;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,11 @@ public class LlmNodeConfig extends NodeConfig {
 	 * 记忆配置
 	 */
 	private MemoryConfig memory;
+
+	/**
+	 * 结构化输出配置
+	 */
+	private StructuredOutputConfig structuredOutput;
 
 	@NoArgsConstructor
 	@AllArgsConstructor

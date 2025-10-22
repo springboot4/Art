@@ -45,7 +45,7 @@ public class AiDatasetsController {
 	@Operation(summary = "知识库召回测试", description = "支持向量召回、图谱召回和混合召回，包含重排序和融合")
 	@PostMapping("/recall/test")
 	public Result<RetrievalResponse> testRetrieval(@RequestBody @Validated KnowledgeRetrievalDTO dto) {
-		RetrievalRequest request = KnowledgeRetrievalConvert.toRequest(dto);
+		RetrievalRequest request = KnowledgeRetrievalConvert.INSTANCE.toRequest(dto);
 		RetrievalResponse response = knowledgeRetrievalService.retrieve(request);
 		return Result.success(response);
 	}

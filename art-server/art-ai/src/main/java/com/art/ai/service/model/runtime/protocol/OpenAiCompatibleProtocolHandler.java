@@ -49,6 +49,7 @@ public class OpenAiCompatibleProtocolHandler implements ModelProtocolHandler, St
 		builder.maxRetries(intFrom(config.getParameter("maxRetries")).orElse(1));
 		builder.logRequests(booleanFrom(config.getParameter("logRequests")).orElse(Boolean.TRUE));
 		builder.logResponses(booleanFrom(config.getParameter("logResponses")).orElse(Boolean.TRUE));
+		builder.strictJsonSchema(true);
 
 		applyTemperature(builder, config, invokeOptions);
 		applyTopP(builder, config, invokeOptions);
