@@ -244,7 +244,7 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmAnswerNodeC
 
 		// 2. 手动插入的消息
 		if (CollectionUtil.isNotEmpty(nodeConfig.getMessages())) {
-			nodeConfig.getMessages().forEach(message -> {
+			nodeConfig.getMessages().stream().filter(m -> StringUtils.isNoneBlank(m.getContent())).forEach(message -> {
 				String content = VariableRenderUtils.format(message.getContent(), inputs);
 				if (StringUtils.equals(message.getRole(), MessageRoleEnum.USER.getCode())) {
 					chatMessages.add(UserMessage.from(content));
