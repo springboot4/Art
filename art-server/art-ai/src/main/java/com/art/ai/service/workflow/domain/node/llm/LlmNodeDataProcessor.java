@@ -19,10 +19,7 @@ import com.art.ai.service.workflow.domain.node.llm.extractor.JsonExtractor;
 import com.art.ai.service.workflow.domain.node.llm.memory.ChatMemoryService;
 import com.art.ai.service.workflow.domain.node.llm.strategy.StructuredOutputStrategy;
 import com.art.ai.service.workflow.domain.node.llm.strategy.StructuredOutputStrategySelector;
-import com.art.ai.service.workflow.variable.SystemVariableKey;
 import com.art.ai.service.workflow.variable.VariableRenderUtils;
-import com.art.ai.service.workflow.variable.VariableSelector;
-import com.art.ai.service.workflow.variable.VariableValue;
 import com.art.core.common.exception.ArtException;
 import com.art.core.common.util.SpringUtil;
 import dev.langchain4j.data.message.AiMessage;
@@ -44,7 +41,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static dev.langchain4j.model.chat.request.ResponseFormatType.JSON;
 
@@ -279,41 +275,6 @@ public class LlmNodeDataProcessor extends NodeDataProcessor<LlmNodeConfig> {
 	private boolean isStructuredOutputEnabled(LlmNodeConfig config) {
 		StructuredOutputConfig structuredConfig = config.getStructuredOutput();
 		return structuredConfig != null && Boolean.TRUE.equals(structuredConfig.getEnabled());
-	}
-
-	/**
-	 * 从上下文中提取会话ID
-	 */
-	private Long extractConversationId(WorkFlowContext workFlowContext) {
-		try {
-			Optional<VariableValue<?>> variableValue = workFlowContext.getPool()
-				.get(VariableSelector.system(SystemVariableKey.CONVERSATION_ID));
-
-			if (variableValue.isEmpty()) {
-				log.warn("系统变量 CONVERSATION_ID 未找到");
-				return null;
-			}
-
-			Object value = variableValue.get().getValue();
-
-			if (value instanceof String) {
-				return Long.valueOf((String) value);
-			}
-			else if (value instanceof Long) {
-				return (Long) value;
-			}
-			else if (value instanceof Number) {
-				return ((Number) value).longValue();
-			}
-			else {
-				log.warn("会话ID类型不支持: {}", value != null ? value.getClass() : null);
-				return null;
-			}
-		}
-		catch (Exception e) {
-			log.error("提取会话ID失败", e);
-			return null;
-		}
 	}
 
 }

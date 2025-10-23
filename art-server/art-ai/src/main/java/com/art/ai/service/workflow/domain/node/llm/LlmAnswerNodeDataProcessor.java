@@ -12,11 +12,8 @@ import com.art.ai.service.workflow.domain.node.NodeOutputVariable;
 import com.art.ai.service.workflow.domain.node.NodeProcessResult;
 import com.art.ai.service.workflow.domain.node.WorkflowNode;
 import com.art.ai.service.workflow.domain.node.llm.memory.ChatMemoryService;
-import com.art.ai.service.workflow.variable.SystemVariableKey;
 import com.art.ai.service.workflow.variable.VariablePoolManager;
 import com.art.ai.service.workflow.variable.VariableRenderUtils;
-import com.art.ai.service.workflow.variable.VariableSelector;
-import com.art.ai.service.workflow.variable.VariableValue;
 import com.art.core.common.util.SpringUtil;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
@@ -37,7 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * 支持流式输出的大模型答案节点。
@@ -125,102 +121,6 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmAnswerNodeC
 	}
 
 	/**
-	 * 触发消息完成回调
-	 * @param workFlowContext 工作流上下文
-	 * @param nodeId 节点ID
-	 * @param nodeLabel 节点名称
-	 * @param content 生成的内容
-	 * @param response LLM响应
-	 */
-	private void triggerMessageCompletionCallback(WorkFlowContext workFlowContext, String nodeId, String nodeLabel,
-			String content, ChatResponse response) {
-		if (workFlowContext == null) {
-			log.warn("WorkFlowContext为空，无法触发消息完成回调");
-			return;
-		}
-
-		// 获取回调
-		MessageCompletionCallback callback = workFlowContext.getMessageCompletionCallback();
-		if (callback == null) {
-			log.debug("未设置消息完成回调!");
-			return;
-		}
-
-		// 获取会话ID
-		Long conversationId = extractConversationId(workFlowContext);
-		if (conversationId == null) {
-			throw new IllegalStateException("无法获取会话ID");
-		}
-
-		// 获取实例ID
-		Long instanceId = workFlowContext.getRuntime() != null ? workFlowContext.getRuntime().getId() : null;
-
-		Integer promptTokens = null;
-		Integer completionTokens = null;
-		Integer totalTokens = null;
-		if (response.tokenUsage() != null) {
-			promptTokens = response.tokenUsage().inputTokenCount();
-			completionTokens = response.tokenUsage().outputTokenCount();
-			totalTokens = response.tokenUsage().totalTokenCount();
-		}
-
-		// 构建事件
-		MessageCompletionCallback.MessageCompletionEvent event = MessageCompletionCallback.MessageCompletionEvent
-			.builder()
-			.nodeId(nodeId)
-			.nodeLabel(nodeLabel)
-			.content(content)
-			.role(MessageRoleEnum.ASSISTANT)
-			.conversationId(conversationId)
-			.instanceId(instanceId)
-			.modelId(getConfig().getModel())
-			.modelProvider(getConfig().getModel())
-			.promptTokens(promptTokens)
-			.completionTokens(completionTokens)
-			.totalTokens(totalTokens)
-			.build();
-
-		// 调用回调
-		callback.onComplete(event);
-	}
-
-	/**
-	 * 从上下文中提取会话ID
-	 */
-	private Long extractConversationId(WorkFlowContext workFlowContext) {
-		try {
-			Optional<VariableValue<?>> variableValue = workFlowContext.getPool()
-				.get(VariableSelector.system(SystemVariableKey.CONVERSATION_ID));
-
-			if (variableValue.isEmpty()) {
-				log.warn("系统变量 CONVERSATION_ID 未找到");
-				return null;
-			}
-
-			VariableValue<?> conversationIdVariable = variableValue.get();
-			Object value = conversationIdVariable.getValue();
-
-			if (value instanceof String) {
-				return Long.valueOf((String) value);
-			}
-			else if (value instanceof Long) {
-				return (Long) value;
-			}
-			else if (value instanceof Number) {
-				return ((Number) value).longValue();
-			}
-			else {
-				log.warn("会话ID类型不支持: {}", value != null ? value.getClass() : null);
-				return null;
-			}
-		}
-		catch (Exception e) {
-			log.error("提取会话ID失败", e);
-			return null;
-		}
-	}
-
-	/**
 	 * 构建错误结果
 	 */
 	private Map<String, Object> buildErrorResult(String nodeId, String nodeLabel, String errorMessage) {
@@ -281,6 +181,25 @@ public class LlmAnswerNodeDataProcessor extends NodeDataProcessor<LlmAnswerNodeC
 			builder.maxOutputTokens(nodeConfig.getMaxTokens());
 		}
 		return builder.build();
+	}
+
+	@Override
+	protected MessageCompletionCallback.MessageCompletionEvent getMessageCompletionEvent(String nodeId,
+			String nodeLabel, String content, Long conversationId, Long instanceId, Integer promptTokens,
+			Integer completionTokens, Integer totalTokens) {
+		return MessageCompletionCallback.MessageCompletionEvent.builder()
+			.nodeId(nodeId)
+			.nodeLabel(nodeLabel)
+			.content(content)
+			.role(MessageRoleEnum.ASSISTANT)
+			.conversationId(conversationId)
+			.instanceId(instanceId)
+			.modelId(getConfig().getModel())
+			.modelProvider(getConfig().getModel())
+			.promptTokens(promptTokens)
+			.completionTokens(completionTokens)
+			.totalTokens(totalTokens)
+			.build();
 	}
 
 }

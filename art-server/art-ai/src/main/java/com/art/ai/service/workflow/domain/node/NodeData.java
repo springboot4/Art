@@ -7,6 +7,7 @@ import com.art.ai.service.workflow.domain.node.knowledge.KnowledgeNodeDataProces
 import com.art.ai.service.workflow.domain.node.llm.LlmAnswerNodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.llm.LlmNodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.output.OutputNodeDataProcessor;
+import com.art.ai.service.workflow.domain.node.reply.DirectReplyNodeDataProcessor;
 import com.art.ai.service.workflow.domain.node.start.StartNodeDataProcessor;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -27,10 +28,11 @@ import lombok.experimental.FieldNameConstants;
 		@JsonSubTypes.Type(value = ConditionNodeDataProcessor.class, name = NodeConstants.CONDITION_NODE),
 		@JsonSubTypes.Type(value = HttpNodeDataProcessor.class, name = NodeConstants.HTTP_NODE),
 		@JsonSubTypes.Type(value = OutputNodeDataProcessor.class, name = NodeConstants.OUTPUT_NODE),
+		@JsonSubTypes.Type(value = DirectReplyNodeDataProcessor.class, name = NodeConstants.DIRECT_REPLY),
 		@JsonSubTypes.Type(value = KnowledgeNodeDataProcessor.class, name = NodeConstants.KNOWLEDGE_RETRIEVAL_NODE) })
 public abstract class NodeData<C extends NodeConfig> {
 
-	private String nodeType;
+	protected String nodeType;
 
 	protected C config;
 

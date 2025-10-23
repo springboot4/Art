@@ -42,6 +42,11 @@ public interface NodeConstants {
 	String OUTPUT_NODE = "output";
 
 	/**
+	 * 直接回复节点
+	 */
+	String DIRECT_REPLY = "direct_reply";
+
+	/**
 	 * HTTP 请求节点
 	 */
 	String HTTP_NODE = "http";
