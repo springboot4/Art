@@ -1,4 +1,4 @@
-package com.art.ai.controller.conversation;
+package com.art.ai.controller;
 
 import com.art.ai.core.dto.conversation.AiConversationDTO;
 import com.art.ai.core.dto.conversation.ConversationCreateDTO;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/ai/conversation")
 @RequiredArgsConstructor
-public class ConversationController {
+public class AiConversationController {
 
 	private final ConversationService conversationService;
 

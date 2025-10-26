@@ -289,7 +289,6 @@ public class AiDocumentsServiceImpl implements AiDocumentsService {
 			documentsDTO.setGraphicalStatus(GraphStatusEnum.DOING);
 			aiDocumentsManager.updateAiDocumentsById(documentsDTO);
 
-			// todo fxz 模型管理tmp:
 			ChatModel chatModel = getChatModel(datasetsDTO.getGraphicModel());
 
 			graphService.ingest(document, chatModel);

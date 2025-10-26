@@ -13,6 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import static com.art.ai.service.workflow.variable.VariableType.CONVERSATION;
+
 /**
  * @author fxz
  */
@@ -26,14 +28,6 @@ public class VariablePool implements Serializable {
 
 	private final Map<String, Map<String, VariableValue<?>>> variableStorage = new ConcurrentHashMap<>();
 
-	private final Map<SystemVariableKey, Object> systemVariables = new ConcurrentHashMap<>();
-
-	private final Map<String, Object> environmentVariables = new ConcurrentHashMap<>();
-
-	private final Map<String, Object> conversationVariables = new ConcurrentHashMap<>();
-
-	private final Map<String, Object> userInputs = new ConcurrentHashMap<>();
-
 	/**
 	 * 初始化变量池
 	 */
@@ -43,28 +37,24 @@ public class VariablePool implements Serializable {
 
 		if (systemVars != null) {
 			systemVars.forEach((key, value) -> {
-				pool.systemVariables.put(key, value);
 				pool.addInternal(VariableSelector.system(key), value, true);
 			});
 		}
 
 		if (envVars != null) {
 			envVars.forEach((name, value) -> {
-				pool.environmentVariables.put(name, value);
 				pool.addInternal(VariableSelector.environment(name), value, true);
 			});
 		}
 
 		if (conversationVars != null) {
 			conversationVars.forEach((name, value) -> {
-				pool.conversationVariables.put(name, value);
 				pool.addInternal(VariableSelector.conversation(name), value, false);
 			});
 		}
 
 		if (userInputs != null) {
 			userInputs.forEach((name, value) -> {
-				pool.userInputs.put(name, value);
 				pool.addInternal(VariableSelector.of(VariableType.USER_INPUT.getType(), name), value, true);
 			});
 		}
@@ -105,13 +95,6 @@ public class VariablePool implements Serializable {
 	}
 
 	/**
-	 * 获取变量文本值
-	 */
-	public String getAsText(VariableSelector selector) {
-		return get(selector).map(VariableValue::asText).orElse("");
-	}
-
-	/**
 	 * 更新变量（仅可写变量）
 	 */
 	public void update(VariableSelector selector, Object newValue) {
@@ -133,6 +116,18 @@ public class VariablePool implements Serializable {
 		}
 		finally {
 			lock.writeLock().unlock();
+		}
+	}
+
+	public Map<String, Object> snapshotConversationVariables() {
+		lock.readLock().lock();
+		try {
+			var conversationVariables = variableStorage.computeIfAbsent(CONVERSATION.getType(),
+					k -> new ConcurrentHashMap<>());
+			return new ConcurrentHashMap<>(conversationVariables);
+		}
+		finally {
+			lock.readLock().unlock();
 		}
 	}
 

@@ -1,4 +1,4 @@
-package com.art.ai.controller.conversation;
+package com.art.ai.controller;
 
 import com.art.ai.core.dto.conversation.AiMessageDTO;
 import com.art.ai.core.dto.conversation.MessageQueryDTO;
@@ -30,7 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/ai/message")
 @RequiredArgsConstructor
-public class MessageController {
+public class AiMessageController {
 
 	private final MessageService messageService;
 

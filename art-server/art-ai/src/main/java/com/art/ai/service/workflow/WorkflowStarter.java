@@ -1,6 +1,7 @@
 package com.art.ai.service.workflow;
 
 import com.art.ai.core.sse.SSEEmitterHelper;
+import com.art.ai.service.conversation.variable.ConversationVariableService;
 import com.art.ai.service.workflow.callback.DefaultMessageCompletionCallback;
 import com.art.ai.service.workflow.callback.SSEWorkflowCallback;
 import com.art.ai.service.workflow.definition.WorkflowsService;
@@ -31,6 +32,8 @@ public class WorkflowStarter {
 
 	private final WorkflowsService workflowsService;
 
+	private final ConversationVariableService conversationVariableService;
+
 	/**
 	 * 启动工作流,流式执行
 	 * @param workflowId 工作流 ID
@@ -41,8 +44,8 @@ public class WorkflowStarter {
 		SseEmitter sseEmitter = new SseEmitter(150000L);
 
 		WorkflowEngine workflowEngine = new WorkflowEngine(workflowRuntimeService, workflowsService,
-				List.of(new SSEWorkflowCallback(sseEmitter)), new DefaultMessageCompletionCallback(),
-				new Workflow(workflowId));
+				conversationVariableService, List.of(new SSEWorkflowCallback(sseEmitter)),
+				new DefaultMessageCompletionCallback(), new Workflow(workflowId));
 
 		Long tenantId = TenantContextHolder.getTenantId();
 		Authentication authentication = SecurityUtil.getAuthentication();

@@ -3,6 +3,8 @@ package com.art.ai.service.workflow;
 import cn.hutool.json.JSONUtil;
 import com.art.ai.core.dto.AiWorkflowRuntimeDTO;
 import com.art.ai.core.dto.AiWorkflowsDTO;
+import com.art.ai.service.conversation.variable.ConversationVariableService;
+import com.art.ai.service.conversation.variable.ConversationVariableSnapshot;
 import com.art.ai.service.workflow.callback.Callback;
 import com.art.ai.service.workflow.callback.CallbackData;
 import com.art.ai.service.workflow.callback.CallbackResult;
@@ -29,6 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.art.ai.service.workflow.runtime.WorkFlowStatus.WORKFLOW_PROCESS_STATUS_SUCCESS;
+import static com.art.core.common.util.CollectionUtil.safeMap;
 
 /**
  * 工作流引擎
@@ -43,6 +46,8 @@ public class WorkflowEngine {
 	private final WorkflowRuntimeService workflowRuntimeService;
 
 	private final WorkflowsService workflowsService;
+
+	private final ConversationVariableService conversationVariableService;
 
 	private final List<Callback> callbacks;
 
@@ -72,10 +77,18 @@ public class WorkflowEngine {
 			}
 		}
 
+		Map<String, Object> environmentVariables = safeMap(
+				JacksonUtil.parseObject(workflowsDefinition.getEnvironmentVariables(), Map.class));
+		Map<String, Object> conversationDeclaration = safeMap(
+				JacksonUtil.parseObject(workflowsDefinition.getConversationVariables(), Map.class));
+		Long conversationId = resolveConversationId(systemVariables);
+		ConversationVariableSnapshot snapshot = conversationVariableService.initialize(conversationId,
+				workflowsDefinition.getAppId(), conversationDeclaration);
+		Map<String, Object> conversationVariables = snapshot.variables();
+
 		// 创建变量池
-		VariablePool variablePool = VariablePoolManager.createPool(systemVariables,
-				JacksonUtil.parseObject(workflowsDefinition.getEnvironmentVariables(), Map.class),
-				JacksonUtil.parseObject(workflowsDefinition.getConversationVariables(), Map.class), userInputs);
+		VariablePool variablePool = VariablePoolManager.createPool(systemVariables, environmentVariables,
+				conversationVariables, userInputs);
 
 		// 创建工作流运行时
 		AiWorkflowRuntimeDTO runtimeCreateDTO = new AiWorkflowRuntimeDTO();
@@ -89,13 +102,13 @@ public class WorkflowEngine {
 		workFlowContext.setPool(variablePool);
 		workFlowContext.setRuntime(runtime);
 		workFlowContext.setMessageCompletionCallback(messageCompletionCallback);
+		workFlowContext.setConversationVariableDeclaration(conversationDeclaration);
 
 		AsyncGenerator<NodeOutput<NodeState>> stream = GraphBuilder
 			.buildGraph(Objects.requireNonNull(JacksonUtil.parseObject(workflowsDefinition.getGraph(), GraphDSL.class)),
 					workFlowContext)
 			.compile()
 			.stream(userInputs);
-
 		for (NodeOutput<NodeState> out : stream) {
 			if (out instanceof StreamingOutput<NodeState> streamingOutput) {
 				String nodeId = streamingOutput.node();
@@ -125,10 +138,38 @@ public class WorkflowEngine {
 			callbacks.forEach(c -> c.execute(callbackResult));
 		}
 
+		if (conversationId != null) {
+			try {
+				Map<String, Object> snapshotToPersist = conversationVariableService
+					.filterByDeclaration(conversationDeclaration, variablePool.snapshotConversationVariables());
+				conversationVariableService.persist(conversationId, workflowsDefinition.getAppId(), snapshotToPersist);
+			}
+			catch (Exception e) {
+				log.error("持久化会话变量失败，conversationId={}", conversationId, e);
+			}
+		}
+
 		// 更新运行时变量
 		workflowRuntimeService.updateAiWorkflowRuntime(new AiWorkflowRuntimeDTO().setId(runtime.getId())
 			.setStatus(WORKFLOW_PROCESS_STATUS_SUCCESS)
 			.setOutput(JSONUtil.toJsonStr(variablePool)));
+	}
+
+	private Long resolveConversationId(Map<SystemVariableKey, Object> systemVariables) {
+		Object conversationId = systemVariables.get(SystemVariableKey.CONVERSATION_ID);
+		if (conversationId == null) {
+			return null;
+		}
+		if (conversationId instanceof Number number) {
+			return number.longValue();
+		}
+		try {
+			return Long.valueOf(String.valueOf(conversationId));
+		}
+		catch (NumberFormatException ex) {
+			log.warn("无法解析会话ID: {}", conversationId, ex);
+			return null;
+		}
 	}
 
 	/**

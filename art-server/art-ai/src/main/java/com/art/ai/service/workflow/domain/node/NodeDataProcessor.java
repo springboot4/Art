@@ -12,10 +12,10 @@ import dev.langchain4j.model.chat.response.ChatResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author fxz
@@ -33,11 +33,16 @@ public abstract class NodeDataProcessor<C extends NodeConfig> extends NodeData<C
 			return Map.of();
 		}
 
-		return referenceParameters.stream()
-			.collect(Collectors.toMap(NodeReferenceParameter::formatVariableName,
-					r -> variablePool.get(VariableSelector.of(r.variableType(), r.nodeId(), r.parameterName()))
-						.orElseThrow(() -> new RuntimeException("Variable not found for " + r.parameterName()))
-						.getValue()));
+		HashMap<String, Object> map = new HashMap<>();
+		for (NodeReferenceParameter referenceParameter : referenceParameters) {
+			Object variableValue = variablePool
+				.get(VariableSelector.of(referenceParameter.variableType(), referenceParameter.nodeId(),
+						referenceParameter.parameterName()))
+				.map(VariableValue::getValue)
+				.orElse(null);
+			map.put(referenceParameter.formatVariableName(), variableValue);
+		}
+		return map;
 	}
 
 	/**

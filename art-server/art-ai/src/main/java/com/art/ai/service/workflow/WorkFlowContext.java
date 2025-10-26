@@ -6,6 +6,8 @@ import com.art.ai.service.workflow.variable.VariablePool;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Map;
+
 /**
  * 工作流上下文
  *
@@ -37,5 +39,10 @@ public class WorkFlowContext {
 	 * 消息完成回调
 	 */
 	private MessageCompletionCallback messageCompletionCallback;
+
+	/**
+	 * 会话变量声明
+	 */
+	private Map<String, Object> conversationVariableDeclaration;
 
 }

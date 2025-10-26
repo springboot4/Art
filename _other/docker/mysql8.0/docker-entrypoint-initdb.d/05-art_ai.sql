@@ -300,4 +300,19 @@ CREATE TABLE `ai_messages` (
                                KEY `idx_instance` (`instance_id`, `instance_type`) COMMENT '实例索引（追溯执行上下文，预留）'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI消息表';
 
+DROP TABLE IF EXISTS `ai_conversation_state`;
+CREATE TABLE `ai_conversation_state` (
+                               `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                               `conversation_id` BIGINT NOT NULL COMMENT '会话ID（关联 ai_conversations.id）',
+                               `app_id` BIGINT DEFAULT NULL COMMENT '应用ID（关联 ai_app.id）',
+                               `vars_json` JSON DEFAULT NULL COMMENT '会话变量快照（JSON）',
+                               `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `create_by` VARCHAR(64) DEFAULT NULL COMMENT '创建人',
+                               `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                               `update_by` VARCHAR(64) DEFAULT NULL COMMENT '更新人',
+
+                               PRIMARY KEY (`id`) USING BTREE,
+                               UNIQUE KEY `uk_conversation` (`conversation_id`) COMMENT '会话唯一索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='会话变量状态表';
+
 SET FOREIGN_KEY_CHECKS = 1;

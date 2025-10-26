@@ -10,8 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 public enum SystemVariableKey {
 
-	USER_ID("userId"), QUERY("query"), CONVERSATION_ID("sessionId"), WORKFLOW_ID("workflowId"),
-	WORKFLOW_RUN_ID("workflowRunId");
+	QUERY("query"), CONVERSATION_ID("sessionId");
 
 	private final String key;
 
