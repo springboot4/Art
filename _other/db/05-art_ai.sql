@@ -315,4 +315,20 @@ CREATE TABLE `ai_conversation_state` (
                                UNIQUE KEY `uk_conversation` (`conversation_id`) COMMENT '会话唯一索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='会话变量状态表';
 
+DROP TABLE IF EXISTS `ai_agent`;
+CREATE TABLE `ai_agent` (
+                            `id` bigint NOT NULL COMMENT '主键',
+                            `app_id` bigint NOT NULL COMMENT '所属应用ID',
+                            `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Agent名称',
+                            `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'draft' COMMENT '状态(draft/published)',
+                            `spec_json` json NOT NULL COMMENT 'Agent 配置',
+                            `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+                            `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+                            `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                            PRIMARY KEY (`id`) USING BTREE,
+                            KEY `idx_app_status` (`app_id`,`status`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;
