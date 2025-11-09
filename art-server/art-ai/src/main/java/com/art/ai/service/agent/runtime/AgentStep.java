@@ -29,8 +29,6 @@ public class AgentStep {
 
 	private final long elapsedMs;
 
-	private final String thought;
-
 	private final String errorMessage;
 
 	private final String summary;

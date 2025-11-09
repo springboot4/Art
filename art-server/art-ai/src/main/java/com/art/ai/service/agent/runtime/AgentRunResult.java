@@ -21,9 +21,6 @@ public class AgentRunResult {
 	private final String output;
 
 	@Builder.Default
-	private final List<String> citations = Collections.emptyList();
-
-	@Builder.Default
 	private final List<AgentStep> steps = Collections.emptyList();
 
 	private final String finishReason;

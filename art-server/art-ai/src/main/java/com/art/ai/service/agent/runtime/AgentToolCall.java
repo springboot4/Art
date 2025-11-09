@@ -6,16 +6,13 @@ import lombok.Data;
 
 /**
  * Agent 工具调用描述
- *
- * @author fxz
- * @since 2025-11-01
  */
 @Data
-@Builder
+@Builder(toBuilder = true)
 public class AgentToolCall {
 
-	private final String name;
+	private String name;
 
-	private final JsonNode arguments;
+	private JsonNode arguments;
 
 }

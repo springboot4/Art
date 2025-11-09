@@ -132,9 +132,6 @@ public class AgentSpec {
 		@JsonProperty("plan_execute")
 		PLAN_EXECUTE,
 
-		@JsonProperty("router")
-		ROUTER
-
 	}
 
 	public enum ToolOutputMode {

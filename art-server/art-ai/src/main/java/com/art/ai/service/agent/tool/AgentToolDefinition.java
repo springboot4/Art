@@ -1,5 +1,6 @@
 package com.art.ai.service.agent.tool;
 
+import dev.langchain4j.model.chat.request.json.JsonObjectSchema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -25,5 +26,17 @@ public class AgentToolDefinition {
 
 	@Builder.Default
 	private List<ToolArgumentDescriptor> arguments = Collections.emptyList();
+
+	/**
+	 * tool function 的 JSON Schema 定义
+	 */
+	private JsonObjectSchema parametersSchema;
+
+	public JsonObjectSchema parametersSchemaOrDefault() {
+		if (parametersSchema != null) {
+			return parametersSchema;
+		}
+		return ToolSchemaBuilder.fromArguments(arguments);
+	}
 
 }

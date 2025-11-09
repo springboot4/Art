@@ -1,7 +1,13 @@
-package com.art.ai.service.agent.runtime;
+package com.art.ai.service.agent.runtime.strategy.plan;
 
-import com.art.ai.core.dto.AiAgentDTO;
 import com.art.ai.core.dto.conversation.AiMessageDTO;
+import com.art.ai.service.agent.runtime.AgentPlanItem;
+import com.art.ai.service.agent.runtime.AgentPlanItemStatus;
+import com.art.ai.service.agent.runtime.AgentPlanItemType;
+import com.art.ai.service.agent.runtime.AgentPlanSnapshot;
+import com.art.ai.service.agent.runtime.AgentPlanStatus;
+import com.art.ai.service.agent.runtime.AgentStep;
+import com.art.ai.service.agent.runtime.AgentToolCall;
 import com.art.ai.service.agent.spec.AgentSpec;
 import com.art.ai.service.workflow.variable.SystemVariableKey;
 import com.art.ai.service.workflow.variable.VariablePool;
@@ -20,20 +26,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Agent 运行状态
+ * Plan-Execute Agent 运行时状态 包含计划管理相关的所有字段和逻辑
  *
  * @author fxz
- * @since 2025-11-01
  */
 @Slf4j
 @Getter
-public class AgentRuntimeState {
+public class PlanRuntimeState {
 
 	private final String runId;
 
-	private final AgentSpec spec;
+	private final Long agentId;
 
-	private final AiAgentDTO agent;
+	private final AgentSpec spec;
 
 	private final String userInput;
 
@@ -53,7 +58,6 @@ public class AgentRuntimeState {
 
 	private final List<AgentPlanItem> plan = new ArrayList<>();
 
-	// 维护 stepId 到索引的映射，加速执行阶段的指针计算
 	private final Map<String, Integer> planIndexById = new HashMap<>();
 
 	private int stepCounter = 0;
@@ -65,22 +69,20 @@ public class AgentRuntimeState {
 	@Setter
 	private AgentPlanStatus planStatus;
 
-	// 当前计划执行指针，指向下一待执行的步骤
 	private int activePlanIndex = 0;
 
-	// 当计划挂起等待用户时，记录等待的步骤信息
 	private Integer waitingPlanIndex;
 
 	private String waitingPlanStepId;
 
 	private String waitingMessage;
 
-	public AgentRuntimeState(String runId, AgentSpec spec, AiAgentDTO agent, String userInput, Long conversationId,
+	public PlanRuntimeState(String runId, Long agentId, AgentSpec spec, String userInput, Long conversationId,
 			List<AiMessageDTO> memory, Map<String, Object> variables, Map<String, Object> conversationVariables,
 			Instant startTime) {
 		this.runId = runId;
+		this.agentId = agentId;
 		this.spec = spec;
-		this.agent = agent;
 		this.userInput = userInput;
 		this.conversationId = conversationId;
 		this.memory = memory == null ? Collections.emptyList() : List.copyOf(memory);
@@ -93,7 +95,6 @@ public class AgentRuntimeState {
 		this.conversationVariables = Collections.unmodifiableMap(safeConversationVars);
 
 		this.variablePool = buildVariablePool(userInput, conversationId, safeConversationVars, safeVariables);
-
 		this.startTime = startTime;
 	}
 
@@ -117,7 +118,7 @@ public class AgentRuntimeState {
 		if (planItems != null) {
 			int fallback = 1;
 			for (AgentPlanItem item : planItems) {
-				AgentPlanItem normalized = normalizePlanItem(item, fallback, true);
+				AgentPlanItem normalized = normalizePlanItem(item, fallback);
 				plan.add(normalized);
 				planIndexById.put(normalized.getStepId(), plan.size() - 1);
 				fallback = Math.max(fallback, normalized.getStep() + 1);
@@ -130,6 +131,9 @@ public class AgentRuntimeState {
 		}
 	}
 
+	/**
+	 * 从快照恢复计划状态
+	 */
 	public void restorePlan(AgentPlanSnapshot snapshot) {
 		if (snapshot == null) {
 			return;
@@ -141,7 +145,7 @@ public class AgentRuntimeState {
 		if (snapshot.getPlan() != null) {
 			int fallback = 1;
 			for (AgentPlanItem item : snapshot.getPlan()) {
-				AgentPlanItem normalized = normalizePlanItem(item, fallback, false);
+				AgentPlanItem normalized = normalizePlanItem(item, fallback);
 				plan.add(normalized);
 				planIndexById.put(normalized.getStepId(), plan.size() - 1);
 				fallback = Math.max(fallback, normalized.getStep() + 1);
@@ -189,31 +193,22 @@ public class AgentRuntimeState {
 		return plan.get(activePlanIndex);
 	}
 
-	/**
-	 * 系统自动推进计划索引（核心方法） 根据实际执行的工具调用，判断当前步骤是否完成并推进
-	 * @param executedCalls 本轮执行的工具调用
-	 * @return 是否成功推进
-	 */
 	public boolean autoAdvancePlan(List<AgentToolCall> executedCalls) {
 		if (!planEstablished || activePlanIndex >= plan.size()) {
 			return false;
 		}
 
 		AgentPlanItem currentStep = plan.get(activePlanIndex);
-
-		// 检查当前步骤是否完成
 		boolean stepCompleted = isStepCompleted(currentStep, executedCalls);
 
 		if (stepCompleted) {
 			currentStep.setStatus(AgentPlanItemStatus.DONE);
 			activePlanIndex++;
 
-			// 更新下一个步骤的状态
 			if (activePlanIndex < plan.size()) {
 				plan.get(activePlanIndex).setStatus(AgentPlanItemStatus.IN_PROGRESS);
 			}
 			else {
-				// 计划全部完成
 				planStatus = AgentPlanStatus.COMPLETED;
 			}
 
@@ -224,31 +219,6 @@ public class AgentRuntimeState {
 		return false;
 	}
 
-	/**
-	 * 判断步骤是否完成
-	 */
-	private boolean isStepCompleted(AgentPlanItem step, List<AgentToolCall> executedCalls) {
-		if (executedCalls == null || executedCalls.isEmpty()) {
-			return false;
-		}
-
-		// 如果计划指定了工具，检查是否调用了该工具
-		if (StringUtils.isNotBlank(step.getTool())) {
-			return executedCalls.stream().anyMatch(call -> call.getName().equals(step.getTool()));
-		}
-
-		// 如果是工具类型的步骤，任意工具调用都算完成
-		if (step.getType() == AgentPlanItemType.TOOL) {
-			return true;
-		}
-
-		// 其他情况认为未完成（需要额外判断）
-		return false;
-	}
-
-	/**
-	 * 标记计划步骤为失败
-	 */
 	public void markCurrentStepFailed(String errorMessage) {
 		if (!planEstablished || activePlanIndex >= plan.size()) {
 			return;
@@ -259,9 +229,6 @@ public class AgentRuntimeState {
 		log.warn("计划步骤 {} 失败: {}", currentStep.getStep(), errorMessage);
 	}
 
-	/**
-	 * 标记等待用户输入
-	 */
 	public void markWaitingForUser(String message) {
 		waitingMessage = message;
 		if (!planEstablished || plan.isEmpty()) {
@@ -277,9 +244,6 @@ public class AgentRuntimeState {
 		rebuildPlanStatuses();
 	}
 
-	/**
-	 * 清除等待状态，恢复执行
-	 */
 	public void clearWaitingUser() {
 		if (waitingPlanIndex != null && waitingPlanIndex >= 0 && waitingPlanIndex < plan.size()) {
 			AgentPlanItem item = plan.get(waitingPlanIndex);
@@ -298,6 +262,22 @@ public class AgentRuntimeState {
 		rebuildPlanStatuses();
 	}
 
+	private boolean isStepCompleted(AgentPlanItem step, List<AgentToolCall> executedCalls) {
+		if (executedCalls == null || executedCalls.isEmpty()) {
+			return false;
+		}
+
+		if (StringUtils.isNotBlank(step.getTool())) {
+			return executedCalls.stream().anyMatch(call -> call.getName().equals(step.getTool()));
+		}
+
+		if (step.getType() == AgentPlanItemType.TOOL) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private VariablePool buildVariablePool(String userInput, Long conversationId, Map<String, Object> conversationVars,
 			Map<String, Object> userInputs) {
 		EnumMap<SystemVariableKey, Object> systemVars = new EnumMap<>(SystemVariableKey.class);
@@ -310,27 +290,23 @@ public class AgentRuntimeState {
 		return VariablePool.create(systemVars, Collections.emptyMap(), conversationVars, userInputs);
 	}
 
-	private AgentPlanItem normalizePlanItem(AgentPlanItem source, int defaultStep, boolean resetStatus) {
+	private AgentPlanItem normalizePlanItem(AgentPlanItem source, int defaultStep) {
 		if (source == null) {
 			throw new IllegalArgumentException("计划项不能为空");
 		}
 
 		int step = source.getStep() > 0 ? source.getStep() : defaultStep;
 		String stepId = StringUtils.defaultIfBlank(source.getStepId(), "step-" + step);
-		AgentPlanItemType type = source.getType() != null ? source.getType() : AgentPlanItemType.UNKNOWN;
+		AgentPlanItemType type = source.getType() != null ? source.getType() : inferPlanType(source);
+
 		AgentPlanItem normalized = source.toBuilder()
 			.step(step)
 			.stepId(stepId)
 			.type(type)
 			.requiresUser(source.getRequiresUser())
+			.status(AgentPlanItemStatus.PENDING)
 			.build();
 
-		if (resetStatus || normalized.getStatus() == null) {
-			normalized.setStatus(AgentPlanItemStatus.PENDING);
-		}
-		if (normalized.getType() == AgentPlanItemType.UNKNOWN) {
-			normalized.setType(inferPlanType(normalized));
-		}
 		return normalized;
 	}
 
@@ -348,7 +324,6 @@ public class AgentRuntimeState {
 
 		for (int i = 0; i < plan.size(); i++) {
 			AgentPlanItem item = plan.get(i);
-			// 保留已设置的失败、跳过状态
 			if (item.getStatus() == AgentPlanItemStatus.FAILED || item.getStatus() == AgentPlanItemStatus.SKIPPED) {
 				continue;
 			}
@@ -376,7 +351,6 @@ public class AgentRuntimeState {
 		if (pointer == null || pointer < 0) {
 			return 0;
 		}
-
 		return Math.min(pointer, plan.size());
 	}
 

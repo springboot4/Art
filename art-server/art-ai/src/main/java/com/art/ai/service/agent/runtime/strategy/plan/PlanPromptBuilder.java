@@ -1,7 +1,9 @@
-package com.art.ai.service.agent.runtime;
+package com.art.ai.service.agent.runtime.strategy.plan;
 
 import com.art.ai.core.dto.conversation.AiMessageDTO;
 import com.art.ai.core.enums.MessageRoleEnum;
+import com.art.ai.service.agent.runtime.AgentPlanItem;
+import com.art.ai.service.agent.runtime.AgentResponseRoute;
 import com.art.ai.service.agent.spec.AgentSpec;
 import com.art.ai.service.agent.tool.AgentToolDefinition;
 import com.art.ai.service.agent.tool.ToolArgumentDescriptor;
@@ -17,129 +19,57 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Agent Prompt 构建器
- *
- * @author fxz
- * @since 2025-11-01
+ * Plan-Execute模式Prompt构建器
  */
 @Component
-public class AgentPromptBuilder {
+public class PlanPromptBuilder {
 
-	public List<ChatMessage> buildPrompt(AgentRuntimeState state, List<AgentToolDefinition> toolDefinitions,
+	public List<ChatMessage> buildPrompt(PlanRuntimeState state, List<AgentToolDefinition> toolDefinitions,
 			AgentResponseRoute route) {
 		List<ChatMessage> messages = new ArrayList<>();
+		boolean expectPlan = !state.isPlanEstablished();
 
-		boolean isPlanMode = state.getSpec().getStrategy().getType() == AgentSpec.StrategyType.PLAN_EXECUTE;
-		boolean expectPlan = isPlanMode && !state.isPlanEstablished();
-
-		SystemMessage systemMessage = SystemMessage
-			.from(buildSystemPrompt(state.getSpec(), toolDefinitions, isPlanMode, expectPlan, route));
-		messages.add(systemMessage);
-
+		messages.add(SystemMessage.from(buildSystemPrompt(state.getSpec(), toolDefinitions, expectPlan, route)));
 		messages.addAll(buildMemoryMessages(state.getMemory()));
-
-		String userContent = buildUserBlock(state, isPlanMode, expectPlan);
-		messages.add(UserMessage.from(userContent));
+		messages.add(UserMessage.from(buildUserBlock(state, expectPlan)));
 
 		return messages;
 	}
 
-	private String buildSystemPrompt(AgentSpec spec, List<AgentToolDefinition> toolDefinitions, boolean isPlanMode,
-			boolean expectPlan, AgentResponseRoute route) {
+	private String buildSystemPrompt(AgentSpec spec, List<AgentToolDefinition> toolDefinitions, boolean expectPlan,
+			AgentResponseRoute route) {
 		List<String> sections = new ArrayList<>();
 
-		// 用户自定义系统提示
 		if (StringUtils.isNotBlank(spec.getSystemPrompt())) {
 			sections.add(spec.getSystemPrompt().trim());
 		}
 
-		// 工具列表
 		sections.add(buildToolCatalog(toolDefinitions));
-
-		// 决策格式说明
-		sections.add(buildDecisionFormat(isPlanMode, expectPlan, route));
-
-		// 规则说明
-		sections.add(buildRules(isPlanMode, expectPlan, route));
+		sections.add(buildDecisionFormat(expectPlan, route));
+		sections.add(buildRules(expectPlan));
 
 		return sections.stream().filter(StringUtils::isNotBlank).collect(Collectors.joining("\n\n"));
 	}
 
-	private String buildDecisionFormat(boolean isPlanMode, boolean expectPlan, AgentResponseRoute route) {
+	private String buildDecisionFormat(boolean expectPlan, AgentResponseRoute route) {
 		if (route == AgentResponseRoute.FUNCTION_CALL) {
-			return buildFunctionCallFormat(isPlanMode, expectPlan);
-		}
-		return buildJsonFormat(isPlanMode, expectPlan);
-	}
-
-	private String buildFunctionCallFormat(boolean isPlanMode, boolean expectPlan) {
-		List<String> lines = new ArrayList<>();
-		lines.add("可用控制函数：");
-
-		if (isPlanMode) {
 			if (expectPlan) {
-				lines.add("- agent_plan: 生成执行计划");
-				lines.add("  参数: { items: [{ step: 步骤序号, goal: 目标描述, tool?: 工具名称 }] }");
+				return "可用控制函数：\n- agent_plan: 生成执行计划\n  参数: { items: [{ step: 步骤序号, goal: 目标描述, tool?: 工具名称 }] }";
 			}
-			else {
-				lines.add("- agent_final: 返回最终结果");
-				lines.add("  参数: { message: 回复内容, requiresUserInput?: 是否需要用户输入 }");
-			}
+			return "可用控制函数：\n- agent_final: 返回最终结果\n  参数: { message: 回复内容, requiresUserInput?: 是否需要用户输入 }";
 		}
-		else {
-			lines.add("- agent_final: 返回最终结果");
-			lines.add("  参数: { message: 回复内容 }");
-		}
-
-		return String.join("\n", lines);
-	}
-
-	private String buildJsonFormat(boolean isPlanMode, boolean expectPlan) {
-		List<String> lines = new ArrayList<>();
-		lines.add("以JSON格式返回决策：");
 
 		if (expectPlan) {
-			lines.add("{ \"kind\": \"plan\", \"plan\": [{ \"step\": 1, \"goal\": \"...\", \"tool\": \"...\" }] }");
+			return "以JSON格式返回决策：\n{ \"kind\": \"plan\", \"plan\": [{ \"step\": 1, \"goal\": \"...\", \"tool\": \"...\" }] }";
 		}
-		else if (isPlanMode) {
-			lines.add("{ \"kind\": \"tool_calls\", \"toolCalls\": [{ \"name\": \"...\", \"args\": {...} }] }");
-			lines.add("或");
-			lines.add("{ \"kind\": \"final\", \"message\": \"...\", \"requiresUserInput\": false }");
-		}
-		else {
-			// REACT模式
-			lines.add("{ \"kind\": \"tool_calls\", \"toolCalls\": [{ \"name\": \"...\", \"args\": {...} }] }");
-			lines.add("或");
-			lines.add("{ \"kind\": \"final\", \"message\": \"...\" }");
-		}
-
-		return String.join("\n", lines);
+		return "以JSON格式返回决策：\n{ \"kind\": \"tool_calls\", \"toolCalls\": [{ \"name\": \"...\", \"args\": {...} }] }\n或\n{ \"kind\": \"final\", \"message\": \"...\", \"requiresUserInput\": false }";
 	}
 
-	private String buildRules(boolean isPlanMode, boolean expectPlan, AgentResponseRoute route) {
-		List<String> lines = new ArrayList<>();
-
+	private String buildRules(boolean expectPlan) {
 		if (expectPlan) {
-			lines.add("规则：");
-			lines.add("1. 当前阶段生成计划，不调用工具");
-			lines.add("2. 计划应包含明确的步骤和目标");
-			lines.add("3. 每个步骤的goal描述该步骤要达成什么");
+			return "规则：\n1. 当前阶段生成计划，不调用工具\n2. 计划应包含明确的步骤和目标\n3. 每个步骤的goal描述该步骤要达成什么";
 		}
-		else if (isPlanMode) {
-			lines.add("规则：");
-			lines.add("1. 根据计划执行当前步骤");
-			lines.add("2. 工具调用失败时可重试或跳过");
-			lines.add("3. 需要用户输入时设置requiresUserInput=true");
-		}
-		else {
-			// REACT模式
-			lines.add("规则：");
-			lines.add("1. 需要外部信息时调用工具");
-			lines.add("2. 工具返回结果后继续推理");
-			lines.add("3. 能够回答用户时返回final");
-		}
-
-		return String.join("\n", lines);
+		return "规则：\n1. 根据计划执行当前步骤\n2. 工具调用失败时可重试或跳过\n3. 需要用户输入时设置requiresUserInput=true";
 	}
 
 	private String buildToolCatalog(List<AgentToolDefinition> toolDefinitions) {
@@ -152,7 +82,6 @@ public class AgentPromptBuilder {
 		}
 
 		toolDefinitions.forEach(def -> lines.addAll(describeTool(def)));
-
 		return String.join("\n", lines);
 	}
 
@@ -203,13 +132,12 @@ public class AgentPromptBuilder {
 		return messages;
 	}
 
-	private String buildUserBlock(AgentRuntimeState state, boolean isPlanMode, boolean expectPlan) {
+	private String buildUserBlock(PlanRuntimeState state, boolean expectPlan) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("用户请求：\n").append(state.getUserInput()).append("\n\n");
 
-		// 仅PLAN模式显示计划信息
-		if (isPlanMode && state.isPlanEstablished()) {
+		if (state.isPlanEstablished()) {
 			sb.append("执行计划：\n");
 			sb.append(state.unmodifiablePlan()
 				.stream()
@@ -225,28 +153,24 @@ public class AgentPromptBuilder {
 			}
 		}
 
-		// 历史步骤
 		if (!state.getSteps().isEmpty()) {
 			sb.append("历史执行：\n");
 			state.getSteps().forEach(step -> {
 				if (!step.getToolCalls().isEmpty()) {
-					step.getToolCalls()
-						.forEach(call -> sb.append("工具: ")
-							.append(call.getName())
-							.append("\n结果: ")
-							.append(step.getObservation().getOrDefault(call.getName(), ""))
-							.append("\n"));
+					step.getToolCalls().forEach(call -> {
+						sb.append("工具: ").append(call.getName());
+						Object result = step.getObservation().get(call.getName());
+						if (result != null) {
+							sb.append("\n结果: ").append(result);
+						}
+						sb.append("\n");
+					});
 				}
 			});
 			sb.append("\n");
 		}
 
-		if (expectPlan) {
-			sb.append("请生成执行计划");
-		}
-		else {
-			sb.append("请继续执行");
-		}
+		sb.append(expectPlan ? "请生成执行计划" : "请继续执行");
 
 		return sb.toString();
 	}

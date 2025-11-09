@@ -16,6 +16,8 @@ import java.util.Map;
 @Builder
 public class AgentRunRequest {
 
+	private final String runId;
+
 	private final Long agentId;
 
 	private final Long conversationId;

@@ -6,9 +6,9 @@ import com.art.ai.core.dto.conversation.SaveMessageDTO;
 import com.art.ai.core.enums.MessageRoleEnum;
 import com.art.ai.core.sse.SSEEmitterHelper;
 import com.art.ai.service.agent.runtime.AgentExecutor;
+import com.art.ai.service.agent.runtime.AgentProgressMessage;
 import com.art.ai.service.agent.runtime.AgentRunRequest;
 import com.art.ai.service.agent.runtime.AgentRunResult;
-import com.art.ai.service.agent.runtime.AgentRuntimeException;
 import com.art.ai.service.message.MessageService;
 import com.art.ai.service.workflow.callback.CallbackData;
 import com.art.ai.service.workflow.domain.node.NodeStatus;
@@ -64,23 +64,26 @@ public class AgentApplicationService {
 
 				AgentRunRequest runRequest = AgentRunRequest.builder()
 					.agentId(dto.getAgentId())
+					.runId(dto.getRunId())
 					.conversationId(dto.getConversationId())
 					.input(dto.getUserQuery())
 					.variables(dto.getVariables() != null ? dto.getVariables() : Collections.emptyMap())
 					.build();
 
-				AgentRunResult result = agentExecutor.run(agent, runRequest);
-				String output = StringUtils.defaultString(result.getOutput());
-				String outputData = JacksonUtil.toJsonString(
-						CallbackData.builder().chunk(output).nodeStatus(NodeStatus.NODE_STATUS_RUNNING).build());
+				AgentRunResult result = agentExecutor.run(agent, runRequest, (type, data) -> {
+					// 推送中间过程信息
+					String progressData = JacksonUtil.toJsonString(AgentProgressMessage.of(type, data));
+					SSEEmitterHelper.parseAndSendPartialMsg(emitter, progressData);
+				});
+				String outputData = JacksonUtil.toJsonString(CallbackData.builder()
+					.nodeId(result.getRunId())
+					.chunk(StringUtils.defaultString(result.getOutput()))
+					.nodeStatus(NodeStatus.NODE_STATUS_RUNNING)
+					.build());
 				SSEEmitterHelper.parseAndSendPartialMsg(emitter, outputData);
 				SSEEmitterHelper.sendComplete(emitter);
 
 				saveAssistantMessage(dto, agent, result);
-			}
-			catch (AgentRuntimeException ex) {
-				log.error("Agent 运行失败", ex);
-				SSEEmitterHelper.sendErrorAndComplete(emitter, ex.getMessage());
 			}
 			catch (Exception ex) {
 				log.error("Agent 执行异常", ex);

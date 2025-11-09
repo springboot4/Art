@@ -25,20 +25,41 @@ public class AgentDecision {
 	private final String message;
 
 	@Builder.Default
-	private final List<String> citations = Collections.emptyList();
-
-	@Builder.Default
 	private final List<AgentPlanItem> plan = Collections.emptyList();
-
-	private final String thought;
-
-	private final String stopReason;
 
 	private final JsonNode raw;
 
+	/**
+	 * 是否需要等待用户输入（仅PLAN模式的final决策需要）
+	 */
+	private final Boolean requiresUserInput;
+
 	public enum DecisionKind {
 
-		TOOL_CALLS, FINAL, PLAN, ASK_USER, HALT, ERROR
+		/**
+		 * 工具调用
+		 */
+		TOOL_CALLS,
+
+		/**
+		 * 最终响应
+		 */
+		FINAL,
+
+		/**
+		 * 规划
+		 */
+		PLAN,
+
+		/**
+		 * 重新规划
+		 */
+		REPLAN,
+
+		/**
+		 * ERROR
+		 */
+		ERROR
 
 	}
 

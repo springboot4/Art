@@ -6,17 +6,26 @@ import lombok.Data;
 /**
  * Agent 计划条目
  *
- * @author fxz
- * @since 2025-11-01
+ * 包含步骤的类型、状态以及执行所需的附加信息。
  */
 @Data
-@Builder
+@Builder(toBuilder = true)
 public class AgentPlanItem {
 
-	private final int step;
+	private int step;
 
-	private final String goal;
+	private String stepId;
 
-	private final String tool;
+	private String goal;
+
+	private String tool;
+
+	private Boolean requiresUser;
+
+	@Builder.Default
+	private AgentPlanItemType type = AgentPlanItemType.UNKNOWN;
+
+	@Builder.Default
+	private AgentPlanItemStatus status = AgentPlanItemStatus.PENDING;
 
 }

@@ -22,6 +22,9 @@ public class AgentRunDTO implements Serializable {
 	@Schema(description = "Agent ID", required = true)
 	private Long agentId;
 
+	@Schema(description = "运行 ID", required = false)
+	private String runId;
+
 	@Schema(description = "会话 ID", required = true)
 	private Long conversationId;
 
