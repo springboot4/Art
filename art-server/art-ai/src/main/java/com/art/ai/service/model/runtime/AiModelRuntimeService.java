@@ -69,13 +69,19 @@ public class AiModelRuntimeService {
 
 	public ChatModel acquireChatModel(Long platformId, Long modelId, AiModelInvokeOptions options) {
 		AiModelRuntimeContext context = resolveContext(platformId, modelId);
-		if (context.getCapability() != AiModelCapability.CHAT) {
-			throw new ArtException(String.format("模型 %s 类型 %s 不支持 Chat 能力", modelId, context.getCapability()));
-		}
+		return acquireChatModel(context, options);
+	}
 
+	public ChatModel acquireChatModel(AiModelRuntimeContext context, AiModelInvokeOptions options) {
+		if (context == null) {
+			throw new ArtException("模型上下文不能为空");
+		}
+		if (context.getCapability() != AiModelCapability.CHAT) {
+			throw new ArtException(
+					String.format("模型 %s 类型 %s 不支持 Chat 能力", context.getModel().getId(), context.getCapability()));
+		}
 		ModelProtocolHandler handler = modelProtocolRegistry.resolve(context, AiModelCapability.CHAT);
 		AiModelInvokeOptions effectiveOptions = options == null ? AiModelInvokeOptions.empty() : options;
-
 		return handler.createChatModel(context, effectiveOptions);
 	}
 

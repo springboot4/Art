@@ -15,6 +15,11 @@ public enum ModelFeature {
 	/**
 	 * 支持 JSON Mode
 	 */
-	JSON_MODE;
+	JSON_MODE,
+
+	/**
+	 * 支持 Function Call / 工具调用
+	 */
+	FUNCTION_CALL;
 
 }
