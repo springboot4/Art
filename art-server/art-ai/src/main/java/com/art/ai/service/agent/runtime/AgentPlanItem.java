@@ -7,6 +7,8 @@ import lombok.Data;
  * Agent 计划条目
  *
  * 包含步骤的类型、状态以及执行所需的附加信息。
+ *
+ * @author fxz
  */
 @Data
 @Builder(toBuilder = true)

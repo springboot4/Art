@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * kind = plan 时的模型输出。
+ *
+ * @author fxz
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -85,22 +85,24 @@ public class AgentPlanCacheService {
 	}
 
 	/**
-	 * 持久化计划状态（PlanRuntimeState重载）
+	 * 持久化计划状态
 	 */
 	public void persist(PlanRuntimeState state, AgentPlanStatus status) {
 		if (state == null || state.unmodifiablePlan().isEmpty()) {
 			return;
 		}
+
 		persist(buildPayloadFromPlanState(state, status));
 	}
 
 	/**
-	 * 标记等待用户（PlanRuntimeState重载）
+	 * 标记等待用户
 	 */
 	public void markWaiting(PlanRuntimeState state) {
 		if (state == null || state.unmodifiablePlan().isEmpty()) {
 			return;
 		}
+
 		persist(buildPayloadFromPlanState(state, AgentPlanStatus.WAITING_USER));
 	}
 

@@ -5,6 +5,8 @@ import lombok.Data;
 
 /**
  * agent_final 控制函数的参数
+ *
+ * @author fxz
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

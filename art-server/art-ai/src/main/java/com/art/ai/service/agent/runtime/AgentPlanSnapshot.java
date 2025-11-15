@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * Redis 缓存中计划对象的快照表示，用于在内存与持久层之间传递。
+ *
+ * @author fxz
  */
 @Data
 @Builder

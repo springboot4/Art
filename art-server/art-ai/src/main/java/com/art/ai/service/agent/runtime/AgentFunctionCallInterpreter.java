@@ -24,7 +24,7 @@ public class AgentFunctionCallInterpreter {
 	private final AgentDecisionParser decisionParser;
 
 	/**
-	 * 解析Function Call响应（REACT模式）
+	 * 解析Function Call响应
 	 */
 	public AgentDecision interpretReactFunctionCall(ChatResponse response)
 			throws AgentToolException, AgentRuntimeException {
@@ -76,7 +76,7 @@ public class AgentFunctionCallInterpreter {
 	}
 
 	/**
-	 * 解析Function Call响应（PLAN模式）
+	 * 解析Function Call响应
 	 */
 	public AgentDecision interpretPlanFunctionCall(ChatResponse response, boolean expectPlan)
 			throws AgentToolException, AgentRuntimeException {

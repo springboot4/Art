@@ -104,25 +104,24 @@ public class HttpRequestTool implements AgentTool {
 		if (args == null || !args.hasNonNull("url")) {
 			throw new AgentToolException("http_request 缺少 url 参数");
 		}
+
 		String url = args.get("url").asText();
 		String methodStr = args.hasNonNull("method") ? args.get("method").asText() : "GET";
-		HttpMethod method = HttpMethod.resolve(methodStr.toUpperCase(Locale.ROOT));
-		if (method == null) {
-			throw new AgentToolException("不支持的 HTTP 方法: " + methodStr);
-		}
-
+		HttpMethod method = HttpMethod.valueOf(methodStr.toUpperCase(Locale.ROOT));
 		HttpHeaders headers = buildHeaders(args);
 		String body = extractBody(args);
 
 		try {
 			RequestEntity<String> requestEntity = new RequestEntity<>(body, headers, method, URI.create(url));
 			ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
+
 			Map<String, Object> data = new HashMap<>();
 			data.put("status", response.getStatusCode().value());
 			data.put("headers", sanitizeHeaders(response.getHeaders()));
-			String truncatedBody = truncateBody(response.getBody());
+			String truncatedBody = response.getBody();
 			data.put("body", truncatedBody);
 			long elapsed = (System.nanoTime() - start) / 1_000_000;
+
 			return AgentToolResult.builder()
 				.ok(true)
 				.data(data)
@@ -135,7 +134,7 @@ public class HttpRequestTool implements AgentTool {
 			Map<String, Object> data = new HashMap<>();
 			data.put("status", ex.getStatusCode().value());
 			data.put("headers", sanitizeHeaders(ex.getResponseHeaders()));
-			data.put("body", truncateBody(ex.getResponseBodyAsString()));
+			data.put("body", ex.getResponseBodyAsString());
 			return AgentToolResult.builder()
 				.ok(false)
 				.data(data)

@@ -75,6 +75,7 @@ public class AgentApplicationService {
 					String progressData = JacksonUtil.toJsonString(AgentProgressMessage.of(type, data));
 					SSEEmitterHelper.parseAndSendPartialMsg(emitter, progressData);
 				});
+
 				String outputData = JacksonUtil.toJsonString(CallbackData.builder()
 					.nodeId(result.getRunId())
 					.chunk(StringUtils.defaultString(result.getOutput()))
@@ -116,9 +117,9 @@ public class AgentApplicationService {
 			.content(StringUtils.defaultString(result.getOutput()))
 			.instanceId(agent.getId())
 			.instanceType("agent")
-			.promptTokens(asInt(result.getPromptTokens()))
-			.completionTokens(asInt(result.getCompletionTokens()))
-			.totalTokens(asInt(result.getTotalTokens()))
+			.promptTokens(Math.toIntExact(result.getPromptTokens()))
+			.completionTokens(Math.toIntExact(result.getCompletionTokens()))
+			.totalTokens(Math.toIntExact(result.getTotalTokens()))
 			.totalCost(BigDecimal.ZERO)
 			.build();
 		messageService.saveMessage(assistantMessage);

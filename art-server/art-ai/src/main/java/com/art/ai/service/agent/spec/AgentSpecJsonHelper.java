@@ -117,10 +117,11 @@ public final class AgentSpecJsonHelper {
 			spec.setMetadata(Collections.emptyMap());
 		}
 
-		// 兜底工具列表确保 knowledge_search 在配置数据集时存在
+		// 兜底工具列表确保 knowledge_search
 		if (Objects.nonNull(spec.getKnowledge()) && !spec.getKnowledge().getDatasetIds().isEmpty()) {
 			spec.getTools().add("knowledge_search");
 		}
+		spec.setTools(spec.getTools().stream().distinct().toList());
 
 		return spec;
 	}

@@ -1,10 +1,11 @@
 package com.art.ai.service.agent.runtime.strategy;
 
 import com.art.ai.service.agent.runtime.AgentRunResult;
+import com.art.ai.service.agent.spec.AgentSpec;
 import com.art.ai.service.agent.tool.AgentToolException;
 
 /**
- * Agent 执行策略接口 不同的策略类型（REACT、PLAN_EXECUTE）有不同的实现
+ * Agent 执行策略
  *
  * @author fxz
  */
@@ -21,6 +22,6 @@ public interface AgentStrategy {
 	/**
 	 * 获取策略类型
 	 */
-	String getStrategyType();
+	AgentSpec.StrategyType getStrategyType();
 
 }

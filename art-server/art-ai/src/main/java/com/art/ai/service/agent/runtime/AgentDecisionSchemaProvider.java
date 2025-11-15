@@ -4,6 +4,7 @@ import com.art.ai.service.workflow.domain.node.llm.config.JsonSchemaConfig;
 import com.art.ai.service.workflow.domain.node.llm.config.JsonSchemaProperty;
 import com.art.ai.service.workflow.domain.node.llm.converter.JsonSchemaConverter;
 import dev.langchain4j.model.chat.request.json.JsonSchema;
+import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,10 @@ import java.util.Map;
 
 /**
  * Agent 决策结构的 JSON Schema 提供器 根据agent策略类型和阶段动态生成schema
+ *
+ * @author fxz
  */
+@UtilityClass
 public final class AgentDecisionSchemaProvider {
 
 	private AgentDecisionSchemaProvider() {

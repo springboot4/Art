@@ -15,6 +15,8 @@ import java.util.Locale;
 
 /**
  * 将工具参数描述转换为 JSON Schema（LangChain4j）
+ *
+ * @author fxz
  */
 public final class ToolSchemaBuilder {
 

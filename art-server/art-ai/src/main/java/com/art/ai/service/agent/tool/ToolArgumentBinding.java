@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 /**
  * 工具参数绑定
+ *
+ * @author fxz
  */
 @NoArgsConstructor
 @AllArgsConstructor

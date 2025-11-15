@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * kind = tool_calls 时的模型输出。
+ *
+ * @author fxz
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

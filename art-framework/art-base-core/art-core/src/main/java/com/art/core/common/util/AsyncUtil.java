@@ -18,6 +18,7 @@ package com.art.core.common.util;
 
 import com.pig4cloud.trace.TraceContentFactory;
 import lombok.experimental.UtilityClass;
+import org.slf4j.MDC;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -86,10 +87,11 @@ public class AsyncUtil {
 					if (!ignoreException) {
 						throw new RuntimeException(e.getMessage());
 					}
-
-					res = null;
 				}
-				return res;
+				finally {
+					MDC.clear();
+				}
+				return null;
 			});
 		}
 
@@ -110,6 +112,9 @@ public class AsyncUtil {
 					if (!ignoreException) {
 						throw new RuntimeException(e.getMessage());
 					}
+				}
+				finally {
+					MDC.clear();
 				}
 			});
 		}

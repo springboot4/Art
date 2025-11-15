@@ -5,6 +5,8 @@ import lombok.Data;
 
 /**
  * 模型需填写的工具参数描述
+ *
+ * @author fxz
  */
 @Data
 @Builder

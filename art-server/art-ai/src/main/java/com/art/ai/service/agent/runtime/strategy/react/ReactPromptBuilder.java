@@ -2,14 +2,17 @@ package com.art.ai.service.agent.runtime.strategy.react;
 
 import com.art.ai.core.dto.conversation.AiMessageDTO;
 import com.art.ai.core.enums.MessageRoleEnum;
+import com.art.ai.service.agent.runtime.AgentPromptRenderer;
 import com.art.ai.service.agent.runtime.AgentResponseRoute;
 import com.art.ai.service.agent.spec.AgentSpec;
 import com.art.ai.service.agent.tool.AgentToolDefinition;
 import com.art.ai.service.agent.tool.ToolArgumentDescriptor;
+import com.art.core.common.util.CollectionUtil;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -18,18 +21,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * REACT模式Prompt构建器 纯ReAct逻辑，无任何plan概念
+ * REACT模式Prompt构建器
  *
  * @author fxz
  */
 @Component
+@RequiredArgsConstructor
 public class ReactPromptBuilder {
+
+	private final AgentPromptRenderer promptRenderer;
 
 	public List<ChatMessage> buildPrompt(ReactRuntimeState state, List<AgentToolDefinition> toolDefinitions,
 			AgentResponseRoute route) {
 		List<ChatMessage> messages = new ArrayList<>();
 
-		SystemMessage systemMessage = SystemMessage.from(buildSystemPrompt(state.getSpec(), toolDefinitions, route));
+		SystemMessage systemMessage = SystemMessage
+			.from(buildSystemPrompt(state.getSpec(), toolDefinitions, route, state));
 		messages.add(systemMessage);
 
 		messages.addAll(buildMemoryMessages(state.getMemory()));
@@ -41,11 +48,13 @@ public class ReactPromptBuilder {
 	}
 
 	private String buildSystemPrompt(AgentSpec spec, List<AgentToolDefinition> toolDefinitions,
-			AgentResponseRoute route) {
+			AgentResponseRoute route, ReactRuntimeState state) {
 		List<String> sections = new ArrayList<>();
 
 		if (StringUtils.isNotBlank(spec.getSystemPrompt())) {
-			sections.add(spec.getSystemPrompt().trim());
+			String renderedPrompt = promptRenderer.renderSystemPrompt(spec.getSystemPrompt(), state.getVariablePool(),
+					spec);
+			sections.add(renderedPrompt.trim());
 		}
 
 		sections.add(buildToolCatalog(toolDefinitions));
@@ -146,10 +155,10 @@ public class ReactPromptBuilder {
 
 		sb.append("用户请求：\n").append(state.getUserInput()).append("\n\n");
 
-		if (!state.getSteps().isEmpty()) {
+		if (CollectionUtil.isNotEmpty(state.getSteps())) {
 			sb.append("历史执行：\n");
 			state.getSteps().forEach(step -> {
-				if (!step.getToolCalls().isEmpty()) {
+				if (CollectionUtil.isNotEmpty(step.getToolCalls())) {
 					step.getToolCalls().forEach(call -> {
 						sb.append("工具: ").append(call.getName());
 						Object result = step.getObservation().get(call.getName());

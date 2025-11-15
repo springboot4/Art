@@ -1,16 +1,35 @@
 package com.art.ai.service.agent.runtime.strategy.plan;
 
 import com.art.ai.service.agent.runtime.*;
+import com.art.ai.service.agent.runtime.AgentDecision;
+import com.art.ai.service.agent.runtime.AgentDecisionSchemaProvider;
+import com.art.ai.service.agent.runtime.AgentPlanCacheService;
+import com.art.ai.service.agent.runtime.AgentPlanStatus;
+import com.art.ai.service.agent.runtime.AgentResponseRoute;
+import com.art.ai.service.agent.runtime.AgentRunResult;
+import com.art.ai.service.agent.runtime.AgentRuntimeException;
+import com.art.ai.service.agent.runtime.AgentStep;
+import com.art.ai.service.agent.runtime.AgentToolCall;
 import com.art.ai.service.agent.runtime.strategy.AgentStrategy;
 import com.art.ai.service.agent.runtime.strategy.AgentStrategyContext;
 import com.art.ai.service.agent.spec.AgentSpec;
 import com.art.ai.service.agent.tool.*;
+import com.art.ai.service.agent.tool.AgentTool;
+import com.art.ai.service.agent.tool.AgentToolContext;
+import com.art.ai.service.agent.tool.AgentToolException;
+import com.art.ai.service.agent.tool.AgentToolRequest;
+import com.art.ai.service.agent.tool.AgentToolResult;
 import com.art.ai.service.workflow.variable.SystemVariableKey;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.model.chat.request.*;
+import dev.langchain4j.model.chat.request.ChatRequest;
+import dev.langchain4j.model.chat.request.ChatRequestParameters;
+import dev.langchain4j.model.chat.request.DefaultChatRequestParameters;
+import dev.langchain4j.model.chat.request.ResponseFormat;
+import dev.langchain4j.model.chat.request.ToolChoice;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.output.TokenUsage;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +40,18 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static dev.langchain4j.model.chat.request.ResponseFormatType.JSON;
 
+/**
+ * @author fxz
+ */
 @Slf4j
-@Component("planExecuteAgentStrategy")
+@Component
 @RequiredArgsConstructor
 public class PlanExecuteAgentStrategy implements AgentStrategy {
 
@@ -36,8 +62,8 @@ public class PlanExecuteAgentStrategy implements AgentStrategy {
 	@Override
 	public AgentRunResult execute(AgentStrategyContext context) throws AgentToolException {
 		PlanRuntimeState state = new PlanRuntimeState(context.getRunId(), context.getAgent().getId(), context.getSpec(),
-				context.getUserInput(), context.getConversationId(), context.getMemory(), context.getVariables(),
-				context.getConversationVariables(), Instant.now());
+				context.getUserInput(), context.getConversationId(), context.getMemory(), context.getVariablePool(),
+				Instant.now());
 
 		planCacheService.load(context.getRunId(), context.getAgent().getId()).ifPresent(snapshot -> {
 			state.restorePlan(snapshot);
@@ -169,8 +195,8 @@ public class PlanExecuteAgentStrategy implements AgentStrategy {
 	}
 
 	@Override
-	public String getStrategyType() {
-		return "PLAN_EXECUTE";
+	public AgentSpec.StrategyType getStrategyType() {
+		return AgentSpec.StrategyType.PLAN_EXECUTE;
 	}
 
 	private ChatRequestParameters buildParameters(AgentStrategyContext context, boolean expectPlan) {

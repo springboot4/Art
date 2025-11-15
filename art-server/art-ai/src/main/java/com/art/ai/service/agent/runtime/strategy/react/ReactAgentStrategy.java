@@ -41,12 +41,13 @@ import java.util.Map;
 import static dev.langchain4j.model.chat.request.ResponseFormatType.JSON;
 
 /**
- * ReAct Agent策略实现 纯粹的Reasoning and Acting模式
+ * ReAct Agent策略实现 <br/>
+ * Reasoning and Acting模式
  *
  * @author fxz
  */
 @Slf4j
-@Component("reactAgentStrategy")
+@Component
 @RequiredArgsConstructor
 public class ReactAgentStrategy implements AgentStrategy {
 
@@ -55,8 +56,7 @@ public class ReactAgentStrategy implements AgentStrategy {
 	@Override
 	public AgentRunResult execute(AgentStrategyContext context) throws AgentToolException {
 		ReactRuntimeState state = new ReactRuntimeState(context.getRunId(), context.getSpec(), context.getUserInput(),
-				context.getConversationId(), context.getMemory(), context.getVariables(),
-				context.getConversationVariables(), Instant.now());
+				context.getConversationId(), context.getMemory(), context.getVariablePool(), Instant.now());
 
 		AgentSpec.Budgets budgets = context.getSpec().getBudgets();
 		TokenUsage lastUsage = null;
@@ -133,8 +133,8 @@ public class ReactAgentStrategy implements AgentStrategy {
 	}
 
 	@Override
-	public String getStrategyType() {
-		return "REACT";
+	public AgentSpec.StrategyType getStrategyType() {
+		return AgentSpec.StrategyType.REACT;
 	}
 
 	private ChatRequestParameters buildParameters(AgentStrategyContext context) {

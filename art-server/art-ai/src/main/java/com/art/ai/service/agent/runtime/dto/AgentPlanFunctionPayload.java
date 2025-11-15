@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author fxz
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AgentPlanFunctionPayload implements AgentControlPayload {

@@ -1,6 +1,7 @@
 package com.art.ai.service.agent.spec;
 
 import com.art.ai.service.agent.tool.ToolArgumentBinding;
+import com.art.ai.service.workflow.domain.node.NodeInputVariable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -88,6 +89,13 @@ public class AgentSpec {
 	@JsonProperty("metadata")
 	@Builder.Default
 	private Map<String, Object> metadata = new HashMap<>();
+
+	/**
+	 * 用户输入变量定义 定义 Agent 运行时需要从用户获取的输入变量
+	 */
+	@JsonProperty("userInputs")
+	@Builder.Default
+	private List<NodeInputVariable> userInputs = new ArrayList<>();
 
 	@JsonIgnore
 	public List<ToolArgumentBinding> bindingsFor(String toolName) {

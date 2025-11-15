@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 
 /**
  * kind = final 时的模型输出。
+ *
+ * @author fxz
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

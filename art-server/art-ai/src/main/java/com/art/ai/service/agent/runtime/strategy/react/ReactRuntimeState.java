@@ -44,27 +44,24 @@ public class ReactRuntimeState {
 
 	private final List<AgentStep> steps = new ArrayList<>();
 
+	/**
+	 * 执行步数
+	 */
 	private int stepCounter = 0;
 
+	/**
+	 * 工具调用次数
+	 */
 	private int toolCallCounter = 0;
 
 	public ReactRuntimeState(String runId, AgentSpec spec, String userInput, Long conversationId,
-			List<AiMessageDTO> memory, Map<String, Object> variables, Map<String, Object> conversationVariables,
-			Instant startTime) {
+			List<AiMessageDTO> memory, VariablePool variablePool, Instant startTime) {
 		this.runId = runId;
 		this.spec = spec;
 		this.userInput = userInput;
 		this.conversationId = conversationId;
 		this.memory = memory == null ? Collections.emptyList() : List.copyOf(memory);
-
-		Map<String, Object> safeVariables = variables == null ? Collections.emptyMap() : new HashMap<>(variables);
-		this.variables = Collections.unmodifiableMap(safeVariables);
-
-		Map<String, Object> safeConversationVars = conversationVariables == null ? Collections.emptyMap()
-				: new HashMap<>(conversationVariables);
-		this.conversationVariables = Collections.unmodifiableMap(safeConversationVars);
-
-		this.variablePool = buildVariablePool(userInput, conversationId, safeConversationVars, safeVariables);
+		this.variablePool = variablePool;
 		this.startTime = startTime;
 	}
 

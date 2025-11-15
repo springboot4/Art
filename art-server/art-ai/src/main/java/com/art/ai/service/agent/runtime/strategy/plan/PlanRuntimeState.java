@@ -78,23 +78,14 @@ public class PlanRuntimeState {
 	private String waitingMessage;
 
 	public PlanRuntimeState(String runId, Long agentId, AgentSpec spec, String userInput, Long conversationId,
-			List<AiMessageDTO> memory, Map<String, Object> variables, Map<String, Object> conversationVariables,
-			Instant startTime) {
+			List<AiMessageDTO> memory, VariablePool variablePool, Instant startTime) {
 		this.runId = runId;
 		this.agentId = agentId;
 		this.spec = spec;
 		this.userInput = userInput;
 		this.conversationId = conversationId;
 		this.memory = memory == null ? Collections.emptyList() : List.copyOf(memory);
-
-		Map<String, Object> safeVariables = variables == null ? Collections.emptyMap() : new HashMap<>(variables);
-		this.variables = Collections.unmodifiableMap(safeVariables);
-
-		Map<String, Object> safeConversationVars = conversationVariables == null ? Collections.emptyMap()
-				: new HashMap<>(conversationVariables);
-		this.conversationVariables = Collections.unmodifiableMap(safeConversationVars);
-
-		this.variablePool = buildVariablePool(userInput, conversationId, safeConversationVars, safeVariables);
+		this.variablePool = variablePool;
 		this.startTime = startTime;
 	}
 
@@ -299,7 +290,7 @@ public class PlanRuntimeState {
 		String stepId = StringUtils.defaultIfBlank(source.getStepId(), "step-" + step);
 		AgentPlanItemType type = source.getType() != null ? source.getType() : inferPlanType(source);
 
-		AgentPlanItem normalized = source.toBuilder()
+		return source.toBuilder()
 			.step(step)
 			.stepId(stepId)
 			.type(type)
