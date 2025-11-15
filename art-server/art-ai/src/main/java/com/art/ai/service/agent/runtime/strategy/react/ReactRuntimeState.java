@@ -2,7 +2,6 @@ package com.art.ai.service.agent.runtime.strategy.react;
 
 import com.art.ai.core.dto.conversation.AiMessageDTO;
 import com.art.ai.service.agent.runtime.AgentStep;
-import com.art.ai.service.agent.runtime.AgentToolCall;
 import com.art.ai.service.agent.spec.AgentSpec;
 import com.art.ai.service.workflow.variable.SystemVariableKey;
 import com.art.ai.service.workflow.variable.VariablePool;
@@ -12,7 +11,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,10 +31,6 @@ public class ReactRuntimeState {
 	private final Long conversationId;
 
 	private final List<AiMessageDTO> memory;
-
-	private final Map<String, Object> variables;
-
-	private final Map<String, Object> conversationVariables;
 
 	private final VariablePool variablePool;
 

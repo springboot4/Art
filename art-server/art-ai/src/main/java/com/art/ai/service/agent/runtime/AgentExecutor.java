@@ -103,11 +103,6 @@ public class AgentExecutor {
 		// 加载记忆
 		List<AiMessageDTO> memory = loadMemory(spec, request.getConversationId());
 
-		// 加载变量
-		Map<String, Object> variables = request.getVariables() == null ? Collections.emptyMap()
-				: request.getVariables();
-		Map<String, Object> conversationVars = loadConversationVariables(request.getConversationId(), agent.getAppId());
-
 		// 加载工具
 		Map<String, AgentTool> enabledTools = resolveEnabledTools(spec.getTools());
 		List<AgentToolDefinition> toolDefinitions = enabledTools.values().stream().map(AgentTool::definition).toList();

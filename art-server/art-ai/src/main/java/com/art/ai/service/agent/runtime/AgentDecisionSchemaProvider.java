@@ -18,9 +18,6 @@ import java.util.Map;
 @UtilityClass
 public final class AgentDecisionSchemaProvider {
 
-	private AgentDecisionSchemaProvider() {
-	}
-
 	/**
 	 * 获取决策schema
 	 * @param isPlanMode 是否是PLAN模式

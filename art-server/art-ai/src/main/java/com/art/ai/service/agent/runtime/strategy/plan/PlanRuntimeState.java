@@ -9,7 +9,6 @@ import com.art.ai.service.agent.runtime.AgentPlanStatus;
 import com.art.ai.service.agent.runtime.AgentStep;
 import com.art.ai.service.agent.runtime.AgentToolCall;
 import com.art.ai.service.agent.spec.AgentSpec;
-import com.art.ai.service.workflow.variable.SystemVariableKey;
 import com.art.ai.service.workflow.variable.VariablePool;
 import com.art.core.common.util.CollectionUtil;
 import lombok.Getter;
@@ -20,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +43,6 @@ public class PlanRuntimeState {
 	private final Long conversationId;
 
 	private final List<AiMessageDTO> memory;
-
-	private final Map<String, Object> variables;
-
-	private final Map<String, Object> conversationVariables;
 
 	private final VariablePool variablePool;
 
@@ -269,18 +263,6 @@ public class PlanRuntimeState {
 		return false;
 	}
 
-	private VariablePool buildVariablePool(String userInput, Long conversationId, Map<String, Object> conversationVars,
-			Map<String, Object> userInputs) {
-		EnumMap<SystemVariableKey, Object> systemVars = new EnumMap<>(SystemVariableKey.class);
-		if (conversationId != null) {
-			systemVars.put(SystemVariableKey.CONVERSATION_ID, conversationId);
-		}
-		if (userInput != null) {
-			systemVars.put(SystemVariableKey.QUERY, userInput);
-		}
-		return VariablePool.create(systemVars, Collections.emptyMap(), conversationVars, userInputs);
-	}
-
 	private AgentPlanItem normalizePlanItem(AgentPlanItem source, int defaultStep) {
 		if (source == null) {
 			throw new IllegalArgumentException("计划项不能为空");
@@ -297,8 +279,6 @@ public class PlanRuntimeState {
 			.requiresUser(source.getRequiresUser())
 			.status(AgentPlanItemStatus.PENDING)
 			.build();
-
-		return normalized;
 	}
 
 	private AgentPlanItemType inferPlanType(AgentPlanItem item) {
