@@ -10,11 +10,12 @@ import com.art.ai.service.agent.tool.AgentTool;
 import com.art.ai.service.agent.tool.AgentToolDefinition;
 import com.art.ai.service.agent.tool.AgentToolException;
 import com.art.ai.service.agent.tool.AgentToolRegistry;
-import com.art.ai.service.conversation.variable.ConversationVariableService;
 import com.art.ai.service.message.MessageService;
 import com.art.ai.service.model.runtime.AiModelRuntimeService;
 import com.art.ai.service.model.support.AiModelInvokeOptions;
 import com.art.ai.service.model.support.AiModelRuntimeContext;
+import com.art.ai.service.workflow.variable.SystemVariableKey;
+import com.art.ai.service.workflow.variable.VariablePool;
 import com.art.core.common.exception.ArtException;
 import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.model.chat.ChatModel;
@@ -53,11 +54,11 @@ public class AgentExecutor {
 
 	private final AgentDecisionParser decisionParser;
 
-	private final ConversationVariableService conversationVariableService;
-
 	private final AgentToolArgumentBinder argumentBinder;
 
 	private final AgentFunctionCallInterpreter functionCallInterpreter;
+
+	private final AgentUserInputValidator userInputValidator;
 
 	/**
 	 * 执行Agent
@@ -99,11 +100,6 @@ public class AgentExecutor {
 		// 加载记忆
 		List<AiMessageDTO> memory = loadMemory(spec, request.getConversationId());
 
-		// 加载变量
-		Map<String, Object> variables = request.getVariables() == null ? Collections.emptyMap()
-				: request.getVariables();
-		Map<String, Object> conversationVars = loadConversationVariables(request.getConversationId(), agent.getAppId());
-
 		// 加载工具
 		Map<String, AgentTool> enabledTools = resolveEnabledTools(spec.getTools());
 		List<AgentToolDefinition> toolDefinitions = enabledTools.values().stream().map(AgentTool::definition).toList();
@@ -120,6 +116,9 @@ public class AgentExecutor {
 		List<ToolSpecification> functionToolSpecs = responseRoute == AgentResponseRoute.FUNCTION_CALL
 				? buildFunctionCallToolSpecs(toolDefinitions, isPlanStrategy) : Collections.emptyList();
 
+		// 构建变量池
+		VariablePool variablePool = buildVariablePool(spec, request, agent.getAppId());
+
 		return AgentStrategyContext.builder()
 			.runId(runId)
 			.agent(agent)
@@ -127,8 +126,7 @@ public class AgentExecutor {
 			.userInput(request.getInput())
 			.conversationId(request.getConversationId())
 			.memory(memory)
-			.variables(variables)
-			.conversationVariables(conversationVars)
+			.variablePool(variablePool)
 			.enabledTools(enabledTools)
 			.toolDefinitions(toolDefinitions)
 			.chatModel(chatModel)
@@ -195,14 +193,31 @@ public class AgentExecutor {
 	}
 
 	/**
-	 * 加载会话变量
+	 * 构建变量池 管理所有类型的变量：系统变量、环境变量、会话变量、用户输入变量
+	 * @param spec Agent 规格
+	 * @param request 运行请求
+	 * @param appId 应用 ID
+	 * @return 变量池
 	 */
-	private Map<String, Object> loadConversationVariables(Long conversationId, Long appId) {
-		if (conversationId == null) {
-			return Collections.emptyMap();
-		}
+	private VariablePool buildVariablePool(AgentSpec spec, AgentRunRequest request, Long appId) {
+		// 1. 系统变量
+		Map<SystemVariableKey, Object> systemVars = Collections.emptyMap();
 
-		return conversationVariableService.initialize(conversationId, appId, Collections.emptyMap()).variables();
+		// 2. 环境变量
+		Map<String, Object> envVars = Collections.emptyMap();
+
+		// 3. 会话变量
+		Map<String, Object> conversationVars = Collections.emptyMap();
+
+		// 4. 用户输入
+		Map<String, Object> userInputs = request.getVariables() == null ? Collections.emptyMap()
+				: new HashMap<>(request.getVariables());
+
+		// 验证用户输入
+		userInputValidator.validate(spec, userInputs);
+
+		// 5. 创建变量池
+		return VariablePool.create(systemVars, envVars, conversationVars, userInputs);
 	}
 
 	/**

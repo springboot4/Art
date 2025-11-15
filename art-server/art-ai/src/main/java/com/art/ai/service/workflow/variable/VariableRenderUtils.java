@@ -63,9 +63,7 @@ public class VariableRenderUtils {
 		Template template = ENGINE.getTemplate(normalized);
 
 		HashMap<String, String> inputs = new HashMap<>();
-		args.forEach((k, v) -> {
-			inputs.put(k, JacksonUtil.toJsonString(v));
-		});
+		args.forEach((k, v) -> inputs.put(k, JacksonUtil.toJsonString(v)));
 
 		return template.render(inputs);
 	}

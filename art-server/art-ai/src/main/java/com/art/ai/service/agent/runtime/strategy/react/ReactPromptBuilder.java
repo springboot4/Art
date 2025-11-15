@@ -2,6 +2,7 @@ package com.art.ai.service.agent.runtime.strategy.react;
 
 import com.art.ai.core.dto.conversation.AiMessageDTO;
 import com.art.ai.core.enums.MessageRoleEnum;
+import com.art.ai.service.agent.runtime.AgentPromptRenderer;
 import com.art.ai.service.agent.runtime.AgentResponseRoute;
 import com.art.ai.service.agent.spec.AgentSpec;
 import com.art.ai.service.agent.tool.AgentToolDefinition;
@@ -11,6 +12,7 @@ import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -24,13 +26,17 @@ import java.util.stream.Collectors;
  * @author fxz
  */
 @Component
+@RequiredArgsConstructor
 public class ReactPromptBuilder {
+
+	private final AgentPromptRenderer promptRenderer;
 
 	public List<ChatMessage> buildPrompt(ReactRuntimeState state, List<AgentToolDefinition> toolDefinitions,
 			AgentResponseRoute route) {
 		List<ChatMessage> messages = new ArrayList<>();
 
-		SystemMessage systemMessage = SystemMessage.from(buildSystemPrompt(state.getSpec(), toolDefinitions, route));
+		SystemMessage systemMessage = SystemMessage
+			.from(buildSystemPrompt(state.getSpec(), toolDefinitions, route, state));
 		messages.add(systemMessage);
 
 		messages.addAll(buildMemoryMessages(state.getMemory()));
@@ -42,11 +48,13 @@ public class ReactPromptBuilder {
 	}
 
 	private String buildSystemPrompt(AgentSpec spec, List<AgentToolDefinition> toolDefinitions,
-			AgentResponseRoute route) {
+			AgentResponseRoute route, ReactRuntimeState state) {
 		List<String> sections = new ArrayList<>();
 
 		if (StringUtils.isNotBlank(spec.getSystemPrompt())) {
-			sections.add(spec.getSystemPrompt().trim());
+			String renderedPrompt = promptRenderer.renderSystemPrompt(spec.getSystemPrompt(), state.getVariablePool(),
+					spec);
+			sections.add(renderedPrompt.trim());
 		}
 
 		sections.add(buildToolCatalog(toolDefinitions));

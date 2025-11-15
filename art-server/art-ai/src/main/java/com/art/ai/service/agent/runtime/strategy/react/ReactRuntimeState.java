@@ -33,10 +33,6 @@ public class ReactRuntimeState {
 
 	private final List<AiMessageDTO> memory;
 
-	private final Map<String, Object> variables;
-
-	private final Map<String, Object> conversationVariables;
-
 	private final VariablePool variablePool;
 
 	private final Instant startTime;
@@ -54,22 +50,13 @@ public class ReactRuntimeState {
 	private int toolCallCounter = 0;
 
 	public ReactRuntimeState(String runId, AgentSpec spec, String userInput, Long conversationId,
-			List<AiMessageDTO> memory, Map<String, Object> variables, Map<String, Object> conversationVariables,
-			Instant startTime) {
+			List<AiMessageDTO> memory, VariablePool variablePool, Instant startTime) {
 		this.runId = runId;
 		this.spec = spec;
 		this.userInput = userInput;
 		this.conversationId = conversationId;
 		this.memory = memory == null ? Collections.emptyList() : List.copyOf(memory);
-
-		Map<String, Object> safeVariables = variables == null ? Collections.emptyMap() : new HashMap<>(variables);
-		this.variables = Collections.unmodifiableMap(safeVariables);
-
-		Map<String, Object> safeConversationVars = conversationVariables == null ? Collections.emptyMap()
-				: new HashMap<>(conversationVariables);
-		this.conversationVariables = Collections.unmodifiableMap(safeConversationVars);
-
-		this.variablePool = buildVariablePool(userInput, conversationId, safeConversationVars, safeVariables);
+		this.variablePool = variablePool;
 		this.startTime = startTime;
 	}
 
@@ -83,18 +70,6 @@ public class ReactRuntimeState {
 
 	public List<AgentStep> unmodifiableSteps() {
 		return Collections.unmodifiableList(steps);
-	}
-
-	private VariablePool buildVariablePool(String userInput, Long conversationId, Map<String, Object> conversationVars,
-			Map<String, Object> userInputs) {
-		EnumMap<SystemVariableKey, Object> systemVars = new EnumMap<>(SystemVariableKey.class);
-		if (conversationId != null) {
-			systemVars.put(SystemVariableKey.CONVERSATION_ID, conversationId);
-		}
-		if (userInput != null) {
-			systemVars.put(SystemVariableKey.QUERY, userInput);
-		}
-		return VariablePool.create(systemVars, Collections.emptyMap(), conversationVars, userInputs);
 	}
 
 }

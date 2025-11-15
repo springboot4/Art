@@ -58,8 +58,8 @@ public class PlanExecuteAgentStrategy implements AgentStrategy {
 	@Override
 	public AgentRunResult execute(AgentStrategyContext context) throws AgentToolException {
 		PlanRuntimeState state = new PlanRuntimeState(context.getRunId(), context.getAgent().getId(), context.getSpec(),
-				context.getUserInput(), context.getConversationId(), context.getMemory(), context.getVariables(),
-				context.getConversationVariables(), Instant.now());
+				context.getUserInput(), context.getConversationId(), context.getMemory(), context.getVariablePool(),
+				Instant.now());
 
 		planCacheService.load(context.getRunId(), context.getAgent().getId()).ifPresent(snapshot -> {
 			state.restorePlan(snapshot);

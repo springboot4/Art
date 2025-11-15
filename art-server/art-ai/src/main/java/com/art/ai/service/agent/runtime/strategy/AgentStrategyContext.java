@@ -10,6 +10,7 @@ import com.art.ai.service.agent.runtime.AgentToolArgumentBinder;
 import com.art.ai.service.agent.spec.AgentSpec;
 import com.art.ai.service.agent.tool.AgentTool;
 import com.art.ai.service.agent.tool.AgentToolDefinition;
+import com.art.ai.service.workflow.variable.VariablePool;
 import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.model.chat.ChatModel;
 import lombok.Builder;
@@ -60,14 +61,9 @@ public class AgentStrategyContext {
 	private final List<AiMessageDTO> memory;
 
 	/**
-	 * 用户变量
+	 * 统一的变量池 管理所有类型的变量：系统变量、环境变量、会话变量、用户输入变量
 	 */
-	private final Map<String, Object> variables;
-
-	/**
-	 * 会话变量
-	 */
-	private final Map<String, Object> conversationVariables;
+	private final VariablePool variablePool;
 
 	/**
 	 * 可用工具映射

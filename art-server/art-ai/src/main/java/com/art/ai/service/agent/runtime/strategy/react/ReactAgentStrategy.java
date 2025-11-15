@@ -56,8 +56,7 @@ public class ReactAgentStrategy implements AgentStrategy {
 	@Override
 	public AgentRunResult execute(AgentStrategyContext context) throws AgentToolException {
 		ReactRuntimeState state = new ReactRuntimeState(context.getRunId(), context.getSpec(), context.getUserInput(),
-				context.getConversationId(), context.getMemory(), context.getVariables(),
-				context.getConversationVariables(), Instant.now());
+				context.getConversationId(), context.getMemory(), context.getVariablePool(), Instant.now());
 
 		AgentSpec.Budgets budgets = context.getSpec().getBudgets();
 		TokenUsage lastUsage = null;

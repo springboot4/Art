@@ -9,7 +9,6 @@ import com.art.ai.service.agent.runtime.AgentPlanStatus;
 import com.art.ai.service.agent.runtime.AgentStep;
 import com.art.ai.service.agent.runtime.AgentToolCall;
 import com.art.ai.service.agent.spec.AgentSpec;
-import com.art.ai.service.workflow.variable.SystemVariableKey;
 import com.art.ai.service.workflow.variable.VariablePool;
 import com.art.core.common.util.CollectionUtil;
 import lombok.Getter;
@@ -20,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +43,6 @@ public class PlanRuntimeState {
 	private final Long conversationId;
 
 	private final List<AiMessageDTO> memory;
-
-	private final Map<String, Object> variables;
-
-	private final Map<String, Object> conversationVariables;
 
 	private final VariablePool variablePool;
 
@@ -78,23 +72,14 @@ public class PlanRuntimeState {
 	private String waitingMessage;
 
 	public PlanRuntimeState(String runId, Long agentId, AgentSpec spec, String userInput, Long conversationId,
-			List<AiMessageDTO> memory, Map<String, Object> variables, Map<String, Object> conversationVariables,
-			Instant startTime) {
+			List<AiMessageDTO> memory, VariablePool variablePool, Instant startTime) {
 		this.runId = runId;
 		this.agentId = agentId;
 		this.spec = spec;
 		this.userInput = userInput;
 		this.conversationId = conversationId;
 		this.memory = memory == null ? Collections.emptyList() : List.copyOf(memory);
-
-		Map<String, Object> safeVariables = variables == null ? Collections.emptyMap() : new HashMap<>(variables);
-		this.variables = Collections.unmodifiableMap(safeVariables);
-
-		Map<String, Object> safeConversationVars = conversationVariables == null ? Collections.emptyMap()
-				: new HashMap<>(conversationVariables);
-		this.conversationVariables = Collections.unmodifiableMap(safeConversationVars);
-
-		this.variablePool = buildVariablePool(userInput, conversationId, safeConversationVars, safeVariables);
+		this.variablePool = variablePool;
 		this.startTime = startTime;
 	}
 
@@ -276,18 +261,6 @@ public class PlanRuntimeState {
 		}
 
 		return false;
-	}
-
-	private VariablePool buildVariablePool(String userInput, Long conversationId, Map<String, Object> conversationVars,
-			Map<String, Object> userInputs) {
-		EnumMap<SystemVariableKey, Object> systemVars = new EnumMap<>(SystemVariableKey.class);
-		if (conversationId != null) {
-			systemVars.put(SystemVariableKey.CONVERSATION_ID, conversationId);
-		}
-		if (userInput != null) {
-			systemVars.put(SystemVariableKey.QUERY, userInput);
-		}
-		return VariablePool.create(systemVars, Collections.emptyMap(), conversationVars, userInputs);
 	}
 
 	private AgentPlanItem normalizePlanItem(AgentPlanItem source, int defaultStep) {
