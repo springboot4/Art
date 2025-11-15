@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -209,7 +210,7 @@ public class AgentExecutor {
 	 */
 	private List<ToolSpecification> buildFunctionCallToolSpecs(List<AgentToolDefinition> definitions,
 			boolean isPlanStrategy) {
-		List<ToolSpecification> specs = new java.util.ArrayList<>();
+		List<ToolSpecification> specs = new ArrayList<>();
 		if (definitions != null) {
 			definitions.forEach(definition -> specs.add(AgentToolSpecificationMapper.toSpecification(definition)));
 		}
