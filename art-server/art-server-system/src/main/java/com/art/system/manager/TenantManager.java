@@ -21,6 +21,7 @@ import com.art.system.api.tenant.dto.TenantPageDTO;
 import com.art.system.core.convert.TenantConvert;
 import com.art.system.dao.dataobject.TenantDO;
 import com.art.system.dao.mysql.TenantMapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -74,7 +75,9 @@ public class TenantManager {
 	}
 
 	public Page<TenantDO> pageTenant(TenantPageDTO pageDTO) {
-		return tenantMapper.selectPage(Page.of(pageDTO.getCurrent(), pageDTO.getSize()), Wrappers.emptyWrapper());
+		return tenantMapper.selectPage(Page.of(pageDTO.getCurrent(), pageDTO.getSize()),
+				Wrappers.<TenantDO>lambdaQuery()
+					.like(StringUtils.isNotBlank(pageDTO.getName()), TenantDO::getName, pageDTO.getName()));
 	}
 
 	public List<TenantDO> getTenantListByPackageId(Long packageId) {
