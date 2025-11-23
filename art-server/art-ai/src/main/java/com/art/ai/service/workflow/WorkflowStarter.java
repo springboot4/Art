@@ -68,12 +68,4 @@ public class WorkflowStarter {
 		return sseEmitter;
 	}
 
-	/**
-	 * 恢复工作流
-	 * @param runtimeUuid 工作流运行时唯一标识符
-	 * @param userInput 用户输入参数
-	 */
-	public void resumeFlow(String runtimeUuid, String userInput) {
-	}
-
 }

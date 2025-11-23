@@ -172,11 +172,4 @@ public class WorkflowEngine {
 		}
 	}
 
-	/**
-	 * 恢复工作流并继续执行
-	 * @param userInput 用户输入数据
-	 */
-	public void resume(String userInput) {
-	}
-
 }

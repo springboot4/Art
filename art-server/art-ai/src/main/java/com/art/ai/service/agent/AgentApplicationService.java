@@ -125,8 +125,4 @@ public class AgentApplicationService {
 		messageService.saveMessage(assistantMessage);
 	}
 
-	private Integer asInt(Long value) {
-		return value == null ? null : value.intValue();
-	}
-
 }
