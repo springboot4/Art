@@ -36,12 +36,12 @@
         <myabtis-plus.version>3.5.3.1</myabtis-plus.version>
         <dynamic-ds.version>3.6.1</dynamic-ds.version>
         <aws.version>1.12.381</aws.version>
-        <doc.version>2.0.0</doc.version>
+        <doc.version>2.8.3</doc.version>
         <community-langchain4j.version>1.2.0-beta8</community-langchain4j.version>
         <langgraph4j.version>1.5.3</langgraph4j.version>
         <nashorn.engine.version>15.4</nashorn.engine.version>
-        <swagger.version>2.2.2</swagger.version>
-        <knife4j.version>3.0.3</knife4j.version>
+        <swagger.version>2.2.28</swagger.version>
+        <knife4j.version>4.5.0</knife4j.version>
         <captcha.version>1.3.0</captcha.version>
         <commons-io.version>1.3.2</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
@@ -114,7 +114,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-springdoc-ui</artifactId>
+                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
             <dependency>

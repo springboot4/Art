@@ -76,6 +76,12 @@
             <artifactId>velocity-engine-core</artifactId>
         </dependency>
 
+        <!--接口文档-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-doc</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

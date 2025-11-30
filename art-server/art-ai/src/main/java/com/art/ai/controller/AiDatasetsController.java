@@ -29,7 +29,7 @@ import java.util.List;
  * @author fxz
  * @date 2025-09-07
  */
-@Tag(name = "")
+@Tag(name = "数据集管理")
 @RestController
 @RequestMapping("/ai/dataset")
 @RequiredArgsConstructor

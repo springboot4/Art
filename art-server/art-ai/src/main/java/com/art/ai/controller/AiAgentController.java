@@ -5,7 +5,6 @@ import com.art.ai.core.dto.AiAgentPageDTO;
 import com.art.ai.core.dto.conversation.AgentRunDTO;
 import com.art.ai.service.agent.AgentApplicationService;
 import com.art.ai.service.agent.AgentService;
-import com.art.common.security.core.annotation.Ojbk;
 import com.art.core.common.model.PageResult;
 import com.art.core.common.model.Result;
 import io.swagger.v3.oas.annotations.Operation;
@@ -116,7 +115,6 @@ public class AiAgentController {
 		return Result.success(PageResult.success(agentService.page(pageDTO)));
 	}
 
-	@Ojbk
 	@Operation(summary = "运行Agent")
 	@PostMapping("/run")
 	public SseEmitter run(@RequestBody AgentRunDTO dto) {

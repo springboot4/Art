@@ -25,7 +25,7 @@ import java.util.List;
  * @author fxz
  * @date 2025-08-09
  */
-@Tag(name = "")
+@Tag(name = "工作流运行时")
 @RestController
 @RequestMapping("/ai/workflows/runtime")
 @RequiredArgsConstructor

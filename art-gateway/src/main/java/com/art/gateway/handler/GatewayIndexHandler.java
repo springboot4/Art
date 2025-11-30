@@ -48,8 +48,7 @@ public class GatewayIndexHandler implements HandlerFunction<ServerResponse> {
 		String sb = "<div style='color: red'>" + name + " gateway started!</div>" + "<br/>" + "author: " + author
 				+ "<br/>" + "version: " + version + "<br/>" + "<div><ul>"
 				+ "<li>Knife4j: <a href='doc.html' target='_blank'>Knife4j</a></li>"
-				+ "<li>Document: <a href='https://fxzcloud.gitee.io/docs/' target='_blank'>Document</a></li>"
-				+ "</ul></div>";
+				+ "<li>Document: <a href='javaai.art' target='_blank'>Document</a></li>" + "</ul></div>";
 
 		return ServerResponse.status(HttpStatus.OK)
 			.contentType(MediaType.valueOf(String.valueOf(MediaType.TEXT_HTML)))

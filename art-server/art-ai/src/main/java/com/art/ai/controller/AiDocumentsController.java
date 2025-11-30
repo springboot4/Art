@@ -24,7 +24,7 @@ import java.util.Map;
  * @author fxz
  * @date 2025-09-09
  */
-@Tag(name = "")
+@Tag(name = "文档管理")
 @RestController
 @RequestMapping("/ai/document")
 @RequiredArgsConstructor

@@ -21,7 +21,7 @@ import java.util.List;
  * @author fxz
  * @date 2025-10-02
  */
-@Tag(name = "")
+@Tag(name = "文档分块管理")
 @RestController
 @RequestMapping("/ai/document/segment")
 @RequiredArgsConstructor

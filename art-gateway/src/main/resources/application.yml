@@ -13,3 +13,10 @@ spring:
     import:
       - optional:nacos:${spring.application.name}.yaml
       - optional:nacos:art-common.yaml
+knife4j:
+  gateway:
+    enabled: true
+    strategy: discover
+    discover:
+      enabled: true
+      version: openapi3

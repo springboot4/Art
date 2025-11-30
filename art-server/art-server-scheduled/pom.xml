@@ -79,6 +79,12 @@
             <artifactId>art-spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!--接口文档-->
+        <dependency>
+            <groupId>com.art</groupId>
+            <artifactId>art-spring-boot-starter-doc</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

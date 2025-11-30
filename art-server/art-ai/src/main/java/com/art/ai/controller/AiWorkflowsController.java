@@ -22,7 +22,7 @@ import java.util.List;
  * @author fxz
  * @date 2025-07-31
  */
-@Tag(name = "")
+@Tag(name = "工作流管理")
 @RestController
 @RequestMapping("/ai/workflows")
 @RequiredArgsConstructor
