@@ -122,7 +122,7 @@ public class WorkflowEngine {
 		AiWorkflowRuntimeDTO runtime = createRuntimeRecord(workflowDef, variablePool);
 
 		// 构建上下文
-		return buildContext(variablePool, runtime, conversationDecl);
+		return buildContext(workflowDef, variablePool, runtime, conversationDecl);
 	}
 
 	/**
@@ -189,9 +189,10 @@ public class WorkflowEngine {
 	/**
 	 * 构建工作流上下文
 	 */
-	private WorkFlowContext buildContext(VariablePool variablePool, AiWorkflowRuntimeDTO runtime,
-			Map<String, Object> conversationDecl) {
+	private WorkFlowContext buildContext(AiWorkflowsDTO workflowDef, VariablePool variablePool,
+			AiWorkflowRuntimeDTO runtime, Map<String, Object> conversationDecl) {
 		WorkFlowContext context = new WorkFlowContext();
+		context.setWorkflowDefinition(workflowDef);
 		context.setPool(variablePool);
 		context.setRuntime(runtime);
 		context.setMessageCompletionCallback(messageCompletionCallback);
@@ -207,7 +208,7 @@ public class WorkflowEngine {
 	 * 构建图结构并执行节点，通过回调通知执行进度
 	 */
 	private void executeWorkflow(WorkFlowContext context) throws GraphStateException {
-		AiWorkflowsDTO workflowDef = loadWorkflowDefinition();
+		AiWorkflowsDTO workflowDef = context.getWorkflowDefinition();
 		GraphDSL graphDSL = parseGraphDSL(workflowDef);
 
 		AsyncGenerator<NodeOutput<NodeState>> stream = GraphBuilder
