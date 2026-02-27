@@ -14,6 +14,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import static com.art.ai.service.workflow.variable.VariableType.CONVERSATION;
+import static com.art.ai.service.workflow.variable.VariableType.SYSTEM;
+import static com.art.ai.service.workflow.variable.VariableType.USER_INPUT;
 
 /**
  * @author fxz
@@ -125,6 +127,47 @@ public class VariablePool implements Serializable {
 			var conversationVariables = variableStorage.computeIfAbsent(CONVERSATION.getType(),
 					k -> new ConcurrentHashMap<>());
 			return new ConcurrentHashMap<>(conversationVariables);
+		}
+		finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/**
+	 * 获取系统变量快照
+	 */
+	public Map<SystemVariableKey, Object> getSystemVariables() {
+		lock.readLock().lock();
+		try {
+			Map<SystemVariableKey, Object> result = new ConcurrentHashMap<>();
+			var systemStorage = variableStorage.get(SYSTEM.getType());
+			if (systemStorage != null) {
+				systemStorage.forEach((key, value) -> {
+					SystemVariableKey systemKey = SystemVariableKey.get(key);
+					if (systemKey != null) {
+						result.put(systemKey, value.getValue());
+					}
+				});
+			}
+			return result;
+		}
+		finally {
+			lock.readLock().unlock();
+		}
+	}
+
+	/**
+	 * 获取用户输入变量快照
+	 */
+	public Map<String, Object> snapshotUserInputVariables() {
+		lock.readLock().lock();
+		try {
+			Map<String, Object> result = new ConcurrentHashMap<>();
+			var userInputStorage = variableStorage.get(USER_INPUT.getType());
+			if (userInputStorage != null) {
+				userInputStorage.forEach((key, value) -> result.put(key, value.getValue()));
+			}
+			return result;
 		}
 		finally {
 			lock.readLock().unlock();
