@@ -9,7 +9,6 @@ import com.art.ai.service.agent.tool.ToolArgumentDescriptor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -187,16 +186,6 @@ public class HttpRequestTool implements AgentTool {
 		headers
 			.forEach((key, value) -> sanitized.put(key, value != null ? value.stream().limit(5).toList() : List.of()));
 		return sanitized;
-	}
-
-	private String truncateBody(String body) {
-		if (StringUtils.isBlank(body)) {
-			return body;
-		}
-		if (body.length() <= BODY_LIMIT) {
-			return body;
-		}
-		return body.substring(0, BODY_LIMIT);
 	}
 
 	private String buildPreview(HttpMethod method, String url, ResponseEntity<String> response) {

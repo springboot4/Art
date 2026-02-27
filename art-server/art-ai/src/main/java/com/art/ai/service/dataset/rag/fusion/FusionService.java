@@ -21,9 +21,4 @@ public interface FusionService {
 	 */
 	List<RetrievalResult> fuse(List<RetrievalResult> results, PipelineConfig.FusionConfig config);
 
-	/**
-	 * 获取支持的融合策略
-	 */
-	List<String> getSupportedStrategies();
-
 }

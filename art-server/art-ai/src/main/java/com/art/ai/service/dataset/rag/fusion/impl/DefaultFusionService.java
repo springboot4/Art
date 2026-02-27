@@ -36,11 +36,6 @@ public class DefaultFusionService implements FusionService {
 		return fusedResults.stream().limit(maxResults).collect(Collectors.toList());
 	}
 
-	@Override
-	public List<String> getSupportedStrategies() {
-		return List.of("rrf");
-	}
-
 	/**
 	 * 多来源结果RRF融合
 	 * <p/>
