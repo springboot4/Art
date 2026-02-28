@@ -38,8 +38,7 @@ import static com.art.core.common.util.CollectionUtil.safeMap;
 /**
  * 工作流引擎
  * <p>
- * 负责协调工作流的初始化、执行和持久化。采用方法级职责分离，
- * 保持代码简洁的同时确保可读性和可维护性。
+ * 负责协调工作流的初始化、执行和持久化。采用方法级职责分离， 保持代码简洁的同时确保可读性和可维护性。
  *
  * @author fxz
  * @since 2025/8/9 19:50
@@ -111,12 +110,10 @@ public class WorkflowEngine {
 		Long conversationId = resolveConversationId(systemVars);
 
 		// 初始化会话变量
-		Map<String, Object> conversationVars = initializeConversationVariables(
-				conversationId, appId, conversationDecl);
+		Map<String, Object> conversationVars = initializeConversationVariables(conversationId, appId, conversationDecl);
 
 		// 创建变量池
-		VariablePool variablePool = VariablePoolManager.createPool(
-				systemVars, envVars, conversationVars, userInputs);
+		VariablePool variablePool = VariablePoolManager.createPool(systemVars, envVars, conversationVars, userInputs);
 
 		// 创建运行时记录
 		AiWorkflowRuntimeDTO runtime = createRuntimeRecord(workflowDef, variablePool);
@@ -131,8 +128,7 @@ public class WorkflowEngine {
 	private AiWorkflowsDTO loadWorkflowDefinition() {
 		AiWorkflowsDTO workflowDef = workflowsService.findById(Long.valueOf(workflow.workflowId()));
 		if (Objects.isNull(workflowDef)) {
-			throw new WorkflowException(WorkflowErrorCode.WORKFLOW_NOT_FOUND,
-					"工作流定义不存在: " + workflow.workflowId());
+			throw new WorkflowException(WorkflowErrorCode.WORKFLOW_NOT_FOUND, "工作流定义不存在: " + workflow.workflowId());
 		}
 		return workflowDef;
 	}
@@ -168,10 +164,10 @@ public class WorkflowEngine {
 	/**
 	 * 初始化会话变量
 	 */
-	private Map<String, Object> initializeConversationVariables(
-			Long conversationId, Long appId, Map<String, Object> declaration) {
-		ConversationVariableSnapshot snapshot = conversationVariableService.initialize(
-				conversationId, appId, declaration);
+	private Map<String, Object> initializeConversationVariables(Long conversationId, Long appId,
+			Map<String, Object> declaration) {
+		ConversationVariableSnapshot snapshot = conversationVariableService.initialize(conversationId, appId,
+				declaration);
 		return snapshot.variables();
 	}
 
@@ -211,10 +207,9 @@ public class WorkflowEngine {
 		AiWorkflowsDTO workflowDef = context.getWorkflowDefinition();
 		GraphDSL graphDSL = parseGraphDSL(workflowDef);
 
-		AsyncGenerator<NodeOutput<NodeState>> stream = GraphBuilder
-				.buildGraph(graphDSL, context)
-				.compile()
-				.stream(context.getPool().snapshotUserInputVariables());
+		AsyncGenerator<NodeOutput<NodeState>> stream = GraphBuilder.buildGraph(graphDSL, context)
+			.compile()
+			.stream(context.getPool().snapshotUserInputVariables());
 
 		processNodeOutputs(stream);
 	}
@@ -237,7 +232,8 @@ public class WorkflowEngine {
 		for (NodeOutput<NodeState> out : stream) {
 			if (out instanceof StreamingOutput<NodeState> streamingOutput) {
 				dispatchStreamingCallback(streamingOutput);
-			} else {
+			}
+			else {
 				dispatchCompletionCallback(out);
 			}
 		}
@@ -248,12 +244,12 @@ public class WorkflowEngine {
 	 */
 	private void dispatchStreamingCallback(StreamingOutput<NodeState> streamingOutput) {
 		CallbackResult result = CallbackResult.builder()
-				.data(CallbackData.builder()
-						.nodeId(streamingOutput.node())
-						.chunk(streamingOutput.chunk())
-						.nodeStatus(NodeStatus.NODE_STATUS_RUNNING)
-						.build())
-				.build();
+			.data(CallbackData.builder()
+				.nodeId(streamingOutput.node())
+				.chunk(streamingOutput.chunk())
+				.nodeStatus(NodeStatus.NODE_STATUS_RUNNING)
+				.build())
+			.build();
 		callbacks.forEach(c -> c.execute(result));
 	}
 
@@ -263,13 +259,13 @@ public class WorkflowEngine {
 	private void dispatchCompletionCallback(NodeOutput<NodeState> out) {
 		Map<String, Object> data = out.state().data();
 		CallbackResult result = CallbackResult.builder()
-				.data(CallbackData.builder()
-						.nodeId(out.node())
-						.nodeName(String.valueOf(data.get(STATE_KEY_NODE_NAME)))
-						.outputs(JacksonUtil.toJsonString(data.get(STATE_KEY_OUTPUTS)))
-						.nodeStatus(NodeStatus.NODE_STATUS_SUCCESS)
-						.build())
-				.build();
+			.data(CallbackData.builder()
+				.nodeId(out.node())
+				.nodeName(String.valueOf(data.get(STATE_KEY_NODE_NAME)))
+				.outputs(JacksonUtil.toJsonString(data.get(STATE_KEY_OUTPUTS)))
+				.nodeStatus(NodeStatus.NODE_STATUS_SUCCESS)
+				.build())
+			.build();
 		callbacks.forEach(c -> c.execute(result));
 	}
 
@@ -308,7 +304,8 @@ public class WorkflowEngine {
 
 			Long appId = context.getRuntime().getAppId();
 			conversationVariableService.persist(conversationId, appId, filtered);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error("持久化会话变量失败, conversationId={}", conversationId, e);
 			// 不抛出异常，避免影响主流程
 		}
@@ -321,10 +318,9 @@ public class WorkflowEngine {
 		VariablePool pool = context.getPool();
 		AiWorkflowRuntimeDTO runtime = context.getRuntime();
 
-		workflowRuntimeService.updateAiWorkflowRuntime(new AiWorkflowRuntimeDTO()
-				.setId(runtime.getId())
-				.setStatus(WORKFLOW_PROCESS_STATUS_SUCCESS)
-				.setOutput(JSONUtil.toJsonStr(pool)));
+		workflowRuntimeService.updateAiWorkflowRuntime(new AiWorkflowRuntimeDTO().setId(runtime.getId())
+			.setStatus(WORKFLOW_PROCESS_STATUS_SUCCESS)
+			.setOutput(JSONUtil.toJsonStr(pool)));
 	}
 
 	// ==================== 工具方法 ====================
@@ -342,7 +338,8 @@ public class WorkflowEngine {
 		}
 		try {
 			return Long.valueOf(String.valueOf(conversationId));
-		} catch (NumberFormatException ex) {
+		}
+		catch (NumberFormatException ex) {
 			log.warn("无法解析会话ID: {}", conversationId, ex);
 			return null;
 		}
