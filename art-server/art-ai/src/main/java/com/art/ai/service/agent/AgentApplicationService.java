@@ -67,7 +67,6 @@ public class AgentApplicationService {
 
 	/**
 	 * 运行 Agent
-	 *
 	 * @param dto 运行请求
 	 * @return SSE 发射器
 	 */
@@ -119,12 +118,15 @@ public class AgentApplicationService {
 	/**
 	 * 在正确的上下文中执行 Agent
 	 */
-	private void executeWithContext(AiAgentDTO agent, AgentRunDTO dto, SseEmitter emitter,
-			Long tenantId, Authentication authentication) {
+	private void executeWithContext(AiAgentDTO agent, AgentRunDTO dto, SseEmitter emitter, Long tenantId,
+			Authentication authentication) {
 		try {
 			// 设置上下文
 			TenantContextHolder.setTenantId(tenantId);
 			SecurityUtil.setAuthentication(authentication);
+
+			// 保存用户消息
+			saveUserMessage(dto);
 
 			// 执行 Agent
 			AgentRunResult result = executeAgent(agent, dto, emitter);
@@ -132,12 +134,14 @@ public class AgentApplicationService {
 			// 发送最终结果
 			sendFinalOutput(emitter, result);
 
-			// 保存消息
-			saveMessages(dto, agent, result);
+			// 保存ai消息
+			saveAssistantMessage(dto, agent, result);
 
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			handleExecutionError(emitter, ex);
-		} finally {
+		}
+		finally {
 			clearContext();
 		}
 	}
@@ -156,12 +160,12 @@ public class AgentApplicationService {
 	 */
 	private AgentRunRequest buildRunRequest(AgentRunDTO dto) {
 		return AgentRunRequest.builder()
-				.agentId(dto.getAgentId())
-				.runId(dto.getRunId())
-				.conversationId(dto.getConversationId())
-				.input(dto.getUserQuery())
-				.variables(dto.getVariables() != null ? dto.getVariables() : Collections.emptyMap())
-				.build();
+			.agentId(dto.getAgentId())
+			.runId(dto.getRunId())
+			.conversationId(dto.getConversationId())
+			.input(dto.getUserQuery())
+			.variables(dto.getVariables() != null ? dto.getVariables() : Collections.emptyMap())
+			.build();
 	}
 
 	/**
@@ -177,20 +181,12 @@ public class AgentApplicationService {
 	 */
 	private void sendFinalOutput(SseEmitter emitter, AgentRunResult result) {
 		String outputData = JacksonUtil.toJsonString(CallbackData.builder()
-				.nodeId(result.getRunId())
-				.chunk(StringUtils.defaultString(result.getOutput()))
-				.nodeStatus(NodeStatus.NODE_STATUS_RUNNING)
-				.build());
+			.nodeId(result.getRunId())
+			.chunk(StringUtils.defaultString(result.getOutput()))
+			.nodeStatus(NodeStatus.NODE_STATUS_RUNNING)
+			.build());
 		SSEEmitterHelper.parseAndSendPartialMsg(emitter, outputData);
 		SSEEmitterHelper.sendComplete(emitter);
-	}
-
-	/**
-	 * 保存用户和助手消息
-	 */
-	private void saveMessages(AgentRunDTO dto, AiAgentDTO agent, AgentRunResult result) {
-		saveUserMessage(dto);
-		saveAssistantMessage(dto, agent, result);
 	}
 
 	/**
@@ -216,12 +212,12 @@ public class AgentApplicationService {
 	 */
 	private void saveUserMessage(AgentRunDTO dto) {
 		SaveMessageDTO userMessage = SaveMessageDTO.builder()
-				.conversationId(dto.getConversationId())
-				.role(MessageRoleEnum.USER.getCode())
-				.content(dto.getUserQuery())
-				.instanceId(dto.getAgentId())
-				.instanceType(INSTANCE_TYPE_AGENT)
-				.build();
+			.conversationId(dto.getConversationId())
+			.role(MessageRoleEnum.USER.getCode())
+			.content(dto.getUserQuery())
+			.instanceId(dto.getAgentId())
+			.instanceType(INSTANCE_TYPE_AGENT)
+			.build();
 		messageService.saveMessage(userMessage);
 	}
 
@@ -230,16 +226,16 @@ public class AgentApplicationService {
 	 */
 	private void saveAssistantMessage(AgentRunDTO dto, AiAgentDTO agent, AgentRunResult result) {
 		SaveMessageDTO assistantMessage = SaveMessageDTO.builder()
-				.conversationId(dto.getConversationId())
-				.role(MessageRoleEnum.ASSISTANT.getCode())
-				.content(StringUtils.defaultString(result.getOutput()))
-				.instanceId(agent.getId())
-				.instanceType(INSTANCE_TYPE_AGENT)
-				.promptTokens(Math.toIntExact(result.getPromptTokens()))
-				.completionTokens(Math.toIntExact(result.getCompletionTokens()))
-				.totalTokens(Math.toIntExact(result.getTotalTokens()))
-				.totalCost(BigDecimal.ZERO)
-				.build();
+			.conversationId(dto.getConversationId())
+			.role(MessageRoleEnum.ASSISTANT.getCode())
+			.content(StringUtils.defaultString(result.getOutput()))
+			.instanceId(agent.getId())
+			.instanceType(INSTANCE_TYPE_AGENT)
+			.promptTokens(Math.toIntExact(result.getPromptTokens()))
+			.completionTokens(Math.toIntExact(result.getCompletionTokens()))
+			.totalTokens(Math.toIntExact(result.getTotalTokens()))
+			.totalCost(BigDecimal.ZERO)
+			.build();
 		messageService.saveMessage(assistantMessage);
 	}
 
