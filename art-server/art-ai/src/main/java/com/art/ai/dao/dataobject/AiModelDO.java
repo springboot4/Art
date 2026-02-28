@@ -113,4 +113,17 @@ public class AiModelDO extends BaseEntity {
 		}
 	}
 
+	/**
+	 * 获取 TTS 默认音色
+	 * @return 默认音色，如果没有配置则返回 null
+	 */
+	public String getDefaultVoice() {
+		Map<String, Object> configMap = configAsMap();
+		Object voiceObj = configMap.get("defaultVoice");
+		if (voiceObj instanceof String voice && !voice.isEmpty()) {
+			return voice;
+		}
+		return null;
+	}
+
 }

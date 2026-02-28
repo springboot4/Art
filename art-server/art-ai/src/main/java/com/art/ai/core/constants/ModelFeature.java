@@ -20,6 +20,16 @@ public enum ModelFeature {
 	/**
 	 * 支持 Function Call / 工具调用
 	 */
-	FUNCTION_CALL;
+	FUNCTION_CALL,
+
+	/**
+	 * 支持语音转文字 (Speech-to-Text / STT)
+	 */
+	SPEECH_TO_TEXT,
+
+	/**
+	 * 支持文字转语音 (Text-to-Speech / TTS)
+	 */
+	TEXT_TO_SPEECH
 
 }
