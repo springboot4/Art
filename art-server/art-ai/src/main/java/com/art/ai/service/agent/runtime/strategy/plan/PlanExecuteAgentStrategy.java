@@ -1,6 +1,5 @@
 package com.art.ai.service.agent.runtime.strategy.plan;
 
-import com.art.ai.service.agent.runtime.*;
 import com.art.ai.service.agent.runtime.AgentDecision;
 import com.art.ai.service.agent.runtime.AgentDecisionSchemaProvider;
 import com.art.ai.service.agent.runtime.AgentPlanCacheService;
@@ -13,7 +12,6 @@ import com.art.ai.service.agent.runtime.AgentToolCall;
 import com.art.ai.service.agent.runtime.strategy.AgentStrategy;
 import com.art.ai.service.agent.runtime.strategy.AgentStrategyContext;
 import com.art.ai.service.agent.spec.AgentSpec;
-import com.art.ai.service.agent.tool.*;
 import com.art.ai.service.agent.tool.AgentTool;
 import com.art.ai.service.agent.tool.AgentToolContext;
 import com.art.ai.service.agent.tool.AgentToolException;
@@ -24,13 +22,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import dev.langchain4j.data.message.ChatMessage;
-import dev.langchain4j.model.chat.request.*;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import dev.langchain4j.model.chat.request.ChatRequestParameters;
-import dev.langchain4j.model.chat.request.DefaultChatRequestParameters;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.chat.request.ToolChoice;
 import dev.langchain4j.model.chat.response.ChatResponse;
+import dev.langchain4j.model.openai.OpenAiChatRequestParameters;
 import dev.langchain4j.model.output.TokenUsage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +36,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -200,8 +196,11 @@ public class PlanExecuteAgentStrategy implements AgentStrategy {
 	}
 
 	private ChatRequestParameters buildParameters(AgentStrategyContext context, boolean expectPlan) {
-		DefaultChatRequestParameters.Builder builder = ChatRequestParameters.builder()
+		Map<String, Object> customParameters = Map.of("enable_thinking", false);
+
+		OpenAiChatRequestParameters.Builder builder = OpenAiChatRequestParameters.builder()
 			.temperature(context.getSpec().getTemperature())
+			.customParameters(customParameters)
 			.maxOutputTokens(context.getSpec().getMaxTokens());
 
 		switch (context.getResponseRoute()) {

@@ -126,7 +126,7 @@ public class KnowledgeSearchTool implements AgentTool {
 
 	private List<Long> resolveDatasetIds(AgentSpec spec, JsonNode args) {
 		List<Long> datasetIds = new ArrayList<>();
-		if (args != null && args.has("datasetIds")) {
+		if (args != null && args.has("datasetIds") && args.get("datasetIds").isArray()) {
 			ArrayNode array = (ArrayNode) args.get("datasetIds");
 			array.forEach(node -> datasetIds.add(node.asLong()));
 		}
