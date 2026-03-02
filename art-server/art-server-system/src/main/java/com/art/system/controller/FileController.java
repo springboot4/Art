@@ -86,6 +86,14 @@ public class FileController {
 	@GetMapping("/download/{bucket}/{fileName}")
 	public void download(@PathVariable("bucket") String bucket, @PathVariable("fileName") String fileName,
 			HttpServletResponse response) {
+        if (fileName == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (fileName.contains("../")){
+            return ResponseEntity.badRequest().build();
+        }
+
 		fileService.getFile(bucket, fileName, response);
 	}
 
