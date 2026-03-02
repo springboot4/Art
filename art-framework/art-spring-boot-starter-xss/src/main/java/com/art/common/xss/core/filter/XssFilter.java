@@ -39,6 +39,8 @@ public class XssFilter extends OncePerRequestFilter {
 
 	private final PathMatcher pathMatcher;
 
+	private final XssCleaner xssCleaner;
+
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
 		if (!xssProperties.isEnable()) {
@@ -58,9 +60,9 @@ public class XssFilter extends OncePerRequestFilter {
 	 * @throws IOException
 	 */
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain, XssCleaner xssCleaner)
 			throws ServletException, IOException {
-		filterChain.doFilter(new XssRequestWrapper(request), response);
+		filterChain.doFilter(new XssRequestWrapper(request,xssCleaner), response);
 	}
 
 }
